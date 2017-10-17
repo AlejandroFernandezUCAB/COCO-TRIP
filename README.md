@@ -1,5 +1,4 @@
 # COCO-TRIP
+Repositorio dedicado a la sección 2 de Desarrollo de Software semestre Septiembre-Enero 
 
-# MÓDULO DE CHAT ENTRE AMISTADES Y GRUPOS (6)
-
-El usuario podrá chatear con sus grupos y/o amigos, se deberá presentar igual que WhatsApp el mensaje, destinatario(s) y la hora.
+PRUEBA MÓDULO 6 - THIS IS A TEST
