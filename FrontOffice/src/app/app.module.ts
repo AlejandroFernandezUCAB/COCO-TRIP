@@ -11,6 +11,8 @@ import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos'
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
+import { Facebook } from '@ionic-native/facebook'
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -46,7 +48,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Facebook
   ]
 })
 export class AppModule {}

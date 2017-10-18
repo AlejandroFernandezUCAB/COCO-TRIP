@@ -7,13 +7,23 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>login</ion-title>
+    <ion-title>Bienvenido</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <button ion-button (click)="continuar()">Continuar</button>
+  <ion-card *ngIf="userData">
+    <ion-card-header>{{ userData.username }}</ion-card-header>
+    <img [src]="userData.picture" />
+    <ion-card-content>
+      <p>Email: {{ userData.email }}</p>
+      <p>First Name: {{ userData.first_name }}</p>
+    </ion-card-content>
+  </ion-card>
+  
+  <button ion-button (click)="facebookLogin()">Iniciar Sesion</button>
+  
 
 </ion-content>
