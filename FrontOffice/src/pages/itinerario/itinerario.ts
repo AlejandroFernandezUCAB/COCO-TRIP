@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CalendarioPage } from '../calendario/calendario';
 
 /**
  * Generated class for the ItinerarioPage page.
@@ -18,6 +19,9 @@ export class ItinerarioPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  calendar() {
+    this.navCtrl.push(CalendarioPage);
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ItinerarioPage');
   }
