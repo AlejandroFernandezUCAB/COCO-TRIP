@@ -93,3 +93,40 @@ $tabs-md-tab-color-inactive: #fff;
 
 @import "roboto";
 @import "noto-sans";
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../assets/fonts/open-sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: semi-bold;
+  font-weight: 600;
+  src: url('../assets/fonts/open-sans/OpenSans-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: bold;
+  font-weight: 700;
+  src: url('../assets/fonts/open-sans/OpenSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: extra-bold;
+  font-weight: 900;
+  src: url('../assets/fonts/open-sans/OpenSans-ExtraBold.ttf');
+}
+
+$font-family-base: "Open Sans", sans-serif !default;
+body{
+font-family: "Open Sans" !important;
+font-weight: 300 !important;
+}
+
+h1, h2, h3, h4, p, ion-title, button, title {
+font-family: "Open Sans" !important;
+}
