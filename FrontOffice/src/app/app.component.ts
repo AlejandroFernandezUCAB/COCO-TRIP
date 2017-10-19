@@ -15,7 +15,7 @@ import { ChatPage } from '../pages/chat/chat';
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class CocoTrip {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = LoginPage;
@@ -42,7 +42,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString("#002d46");
       this.splashScreen.hide();
     });
   }
