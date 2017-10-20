@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { Facebook } from '@ionic-native/facebook';
 import { FacebookLoginResponse } from "@ionic-native/facebook";
 import { HomePage } from '../home/home';
+import { GoogleAuth, User } from '@ionic/cloud-angular';
 /**
  * Generated class for the LoginPage page.
  *
@@ -18,7 +19,7 @@ import { HomePage } from '../home/home';
 })
 export class LoginPage {
   userData: any;
-  constructor(public navCtrl: NavController,public facebook: Facebook, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,public navParams: NavParams) {
     
   }
 
@@ -28,12 +29,22 @@ export class LoginPage {
   continuar(){
     this.navCtrl.push(HomePage);
   }
+  
+  Login(){
 
+    
+  }
   facebookLogin() {
+    
     this.facebook.login(['email', 'public_profile']).then((response: FacebookLoginResponse) => {
       this.facebook.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
         this.userData = {email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name']}
       });
     });
+  }
+
+  googleLogin(){
+    this.googleAuth.login();
+
   }
 }

@@ -12,10 +12,23 @@ import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-act
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { Facebook } from '@ionic-native/facebook'
-
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': 'abd7650b'
+  },
+  'auth': {
+    'google': {
+      'webClientId': '383153901052-cr1p712s23p1ddej9ibhjmh17mnud0ff.apps.googleusercontent.com',
+      'scope': ['permission1', 'permission2']
+    }
+  }
+}
 
 @NgModule({
   declarations: [
@@ -32,6 +45,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings),
   ],
   bootstrap: [IonicApp],
   entryComponents: [

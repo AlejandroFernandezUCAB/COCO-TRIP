@@ -12,18 +12,33 @@
 
 </ion-header>
 
+<ion-content>
+  <ion-list>
+<ion-item>
+  <ion-input type="text"></ion-input>
+</ion-item>
+  <ion-item>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+  </ion-list>
+<ion-row> 
+  <button ion-button full icon-left  (click)="Login()">  
+     Iniciar sesión
+  </button> 
+</ion-row>
+<ion-row> 
+  <button ion-button full icon-left  (click)="facebookLogin()"> 
+  <ion-icon name="logo-facebook"></ion-icon> 
+     Iniciar sesión con facebook 
+  </button>
+</ion-row> 
+  <ion-row> 
+    <button ion-button full icon-left  (click)="googleLogin()"> 
+    <ion-icon name="logo-google"></ion-icon> 
+       Iniciar sesión con Google 
+    </button> 
+  </ion-row> 
 
-<ion-content padding>
-  <ion-card *ngIf="userData">
-    <ion-card-header>{{ userData.username }}</ion-card-header>
-    <img [src]="userData.picture" />
-    <ion-card-content>
-      <p>Email: {{ userData.email }}</p>
-      <p>First Name: {{ userData.first_name }}</p>
-    </ion-card-content>
-  </ion-card>
-  
-  <button ion-button (click)="facebookLogin()">Iniciar Sesion</button>
   
 
 </ion-content>
