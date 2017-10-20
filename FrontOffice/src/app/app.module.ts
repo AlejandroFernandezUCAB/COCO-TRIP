@@ -15,6 +15,10 @@ import { ChatPage } from '../pages/chat/chat';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { AmigosPage } from '../pages/amistades-grupos/amigos/amigos';
+import { GruposPage } from '../pages/amistades-grupos/grupos/grupos';
+import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/notificaciones';
+
 @NgModule({
   declarations: [
     CocoTrip,
@@ -25,7 +29,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage
+    ChatPage,
+    AmigosPage,
+    GruposPage,
+    NotificacionesPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage
+    ChatPage,
+    AmigosPage,
+    GruposPage,
+    NotificacionesPage
   ],
   providers: [
     StatusBar,

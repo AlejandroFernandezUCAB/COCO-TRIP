@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+      <ion-title>
+        Notificaciones
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list >
+      <ion-item *ngFor="let item of lista">
+        <ion-avatar item-left>
+            <img src="{{item.img}}">
+        </ion-avatar>
+        <h2>{{item.nick_name}}</h2>
+        <h3>{{item.texto}}</h3>
+  
+        <button ion-button >Aceptar</button>
+          
+        <button ion-button color="danger">Eliminar</button>
+              
+      </ion-item>
+      
+    </ion-list>
+  </ion-content>
