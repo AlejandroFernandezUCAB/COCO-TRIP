@@ -1,3 +1,4 @@
+import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import { Component } from '@angular/core';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
@@ -32,6 +33,7 @@ export class AmigosPage {
           icon: !this.platform.is('ios') ? 'eye' : null,
           handler: () => {
             console.log('profile clicked');
+            this.navCtrl.push(VisualizarPerfilPage);
           }
         },
         {
