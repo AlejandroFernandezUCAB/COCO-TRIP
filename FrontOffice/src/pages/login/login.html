@@ -15,32 +15,42 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label >Usuario/Correo</ion-label>
+      <ion-label>Usuario/Correo</ion-label>
       <ion-input type="text"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label >Contraseña</ion-label>
+      <ion-label>Contraseña</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <ion-row>
-    <button ion-button full round icon-left (click)="login()">
+  </ion-list>
+  <ion-row>
+    <button ion-button full icon-left (click)="login()">
       Iniciar sesión
     </button>
   </ion-row>
+  <ion-grid>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+        <ion-col>
+            <ion-icon color="primary" name="arrow-down" (click)="Otros()"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
   <ion-row>
-    <button ion-button full round icon-left (click)="facebookLogin()">
-      <ion-icon name="logo-facebook"></ion-icon>
-      Iniciar sesión con facebook
+    <button ion-button full icon-left *ngIf="getVista()" (click)="googleLogin()">
+      <ion-icon name="logo-google"></ion-icon> Iniciar Sesion con Google
+    </button>
+    <button ion-button full icon-left *ngIf="getVista()" (click)="facebookLogin()">
+      <ion-icon name="logo-facebook"></ion-icon> Iniciar Sesion con Facebook
     </button>
   </ion-row>
-  <ion-row>
-    <button ion-button full round icon-left (click)="googleLogin()">
-      <ion-icon name="logo-google"></ion-icon>
-      Iniciar sesión con Google
-    </button>
-  </ion-row>
-  <ion-item  no-lines (click)="registrar()">
-      Si no te has registrado, presiona <a>aquí</a>
-   </ion-item>
-</ion-list>
+  <ion-list>
+    <ion-item no-lines></ion-item>
+    <ion-item no-lines (click)="registrar()">
+      Si no te has registrado, presiona
+      <a>aquí</a>
+    </ion-item>
+  </ion-list>
 </ion-content>

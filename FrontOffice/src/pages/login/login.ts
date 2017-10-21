@@ -6,6 +6,7 @@ import { FacebookLoginResponse } from "@ionic-native/facebook";
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 import { GoogleAuth, User } from '@ionic/cloud-angular';
+import { LoadingController } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
  *
@@ -20,8 +21,9 @@ import { GoogleAuth, User } from '@ionic/cloud-angular';
 })
 export class LoginPage {
   userData: any;
-  constructor(public navCtrl: NavController,public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,public navParams: NavParams) {
-    
+  vista: boolean;
+  constructor(public navCtrl: NavController,public loadingCtrl: LoadingController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,public navParams: NavParams) {
+    this.vista=false;
   }
 
   ionViewDidLoad() {
@@ -29,8 +31,7 @@ export class LoginPage {
   }
   
   login(){
-
-    this.navCtrl.setRoot(HomePage);
+    this.presentLoadingDefault();
   }
   facebookLogin() {
     
@@ -45,10 +46,30 @@ export class LoginPage {
   googleLogin(){
     this.googleAuth.login();
     this.navCtrl.setRoot(HomePage);
-
   }
 
   registrar(){
     this.navCtrl.push(RegisterPage);
   }
+
+  presentLoadingDefault() {
+    const loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      duration: 5000
+    });
+    loading.onDidDismiss(() => {
+      this.navCtrl.setRoot(HomePage);
+    });
+    loading.present();
+  }
+  Otros(){
+    if(this.vista == true)
+      this.vista=false;
+      else
+      this.vista=true;    
+  }
+  getVista(){
+    return(this.vista);
+  }
+  
 }
