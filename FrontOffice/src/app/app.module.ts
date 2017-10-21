@@ -45,7 +45,6 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(CocoTrip),
-    IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
   ],
   bootstrap: [IonicApp],
