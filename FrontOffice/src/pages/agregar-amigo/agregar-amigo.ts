@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform, ActionSheetController,AlertController } from 'ionic-angular';
+import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
 
 /**
  * Generated class for the AgregarAmigoPage page.
@@ -54,7 +55,7 @@ export class AgregarAmigoPage {
       }  
   }
 
-  pressEvent() {
+  /*pressEvent() {
       let actionSheet = this.actionsheetCtrl.create({
         title: '¿Que deseas hacer?',
         cssClass: 'action-sheets-basic-page',
@@ -93,7 +94,12 @@ export class AgregarAmigoPage {
         ]
       });
       actionSheet.present();
-  }
+  }*/
+
+  Visualizarpublico(){
+    
+        this.navCtrl.push(VisualizarPerfilPublicoPage);
+      }
 
   doConfirm() {
       let confirm = this.alerCtrl.create({
