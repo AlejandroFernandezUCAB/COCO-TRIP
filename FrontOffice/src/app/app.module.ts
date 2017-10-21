@@ -22,6 +22,12 @@ import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/not
 import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
 import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
 
+import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
+
+import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
+import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
+import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
+
 @NgModule({
   declarations: [
     CocoTrip,
@@ -37,7 +43,11 @@ import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/vi
     GruposPage,
     NotificacionesPage,
     VisualizarPerfilPage,
-    VisualizarPerfilPublicoPage
+    VisualizarPerfilPublicoPage,
+    CrearGrupoPage,
+    CrearGrupo2Page,
+    DetalleGrupoPage,
+    AgregarAmigoPage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +68,11 @@ import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/vi
     GruposPage,
     NotificacionesPage,
     VisualizarPerfilPage,
-    VisualizarPerfilPublicoPage
+    VisualizarPerfilPublicoPage,
+    CrearGrupoPage,
+    CrearGrupo2Page,
+    DetalleGrupoPage,
+    AgregarAmigoPage
   ],
   providers: [
     StatusBar,

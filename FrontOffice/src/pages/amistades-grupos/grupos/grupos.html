@@ -1,16 +1,23 @@
 <ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-          </button>
-      <ion-title>
-        Grupos
-      </ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
-    Los grupos mas AWESOME DE LA HISTORIA.
-    
-  </ion-content>
-  
+  <ion-navbar >
+    <ion-title>
+      Grupos
+    </ion-title>
+    <ion-buttons end>
+    <button ion-button icon-only (click)="CrearGrupo()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+</ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item *ngFor="let item of Grupo" (press)="pressEvent($event)">
+          <ion-avatar item-start>
+            <img src={{item.img}}>
+          </ion-avatar>
+          <h2>{{item.nombre}}</h2>
+        </ion-item>
+      </ion-list>
+</ion-content>

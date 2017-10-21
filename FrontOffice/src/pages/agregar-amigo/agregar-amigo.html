@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar >
+      <button *ngIf="!toggled" ion-button icon-only menuToggle><ion-icon name="menu"></ion-icon></button>
+      <!-- Title -->
+      <ion-title *ngIf="!toggled">Agregar Amigo</ion-title>
+      <!-- Search Bar -->
+      <ion-searchbar *ngIf="toggled" [(ngModel)]="searchTerm" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionInput)="triggerInput($event)"></ion-searchbar>
+      <!-- Search Icon -->    
+      <ion-buttons end *ngIf="!toggled">
+        <button ion-button icon-only (click)="toggleSearch()"><ion-icon name="search"></ion-icon></button>
+      </ion-buttons> 
+      <ion-buttons end>
+          <button ion-button icon-only (click)="CrearGrupo()">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+          </ion-buttons>
+           
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-list>
+        <ion-item (press)="pressEvent($event)">
+          <ion-label>Mariangel Perez</ion-label>
+          <ion-avatar item-left>
+              <img src='https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg'>
+        </ion-avatar>
+        </ion-item>
+        <ion-item (press)="pressEvent($event)">
+            <ion-label>Oswaldo Lopez</ion-label>
+            <ion-avatar item-left>
+                <img src='https://pbs.twimg.com/profile_images/501872189436866560/IR71NKjR_400x400.jpeg'>
+          </ion-avatar>
+          </ion-item>
+          <ion-item (press)="pressEventFacebook($event)">
+              <ion-label>Aquiles Pulido</ion-label>
+              <ion-avatar item-left>
+                  <img src='https://scontent-mia3-2.xx.fbcdn.net/v/t1.0-9/15055703_10210361491814247_7941784320471131940_n.jpg?oh=de1951a0057f57fde8ac45593b5fd6e8&oe=5A740E18'>
+            </ion-avatar>
+            </ion-item>
+      
+      </ion-list>
+
+
+
+</ion-content>
