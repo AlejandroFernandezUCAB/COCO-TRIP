@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { Facebook } from '@ionic-native/facebook';
 import { FacebookLoginResponse } from "@ionic-native/facebook";
 import { HomePage } from '../home/home';
+import { RegisterPage } from '../register/register';
 import { GoogleAuth, User } from '@ionic/cloud-angular';
 /**
  * Generated class for the LoginPage page.
@@ -46,5 +47,9 @@ export class LoginPage {
   googleLogin(){
     this.googleAuth.login();
 
+  }
+
+  registrar(){
+    this.navCtrl.push(RegisterPage);
   }
 }

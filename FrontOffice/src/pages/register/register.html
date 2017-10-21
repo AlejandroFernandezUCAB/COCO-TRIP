@@ -1,0 +1,70 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Register</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="myForm" (ngSubmit)="saveData()">
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        <ion-label stacked>Nombre de usuario:</ion-label>
+        <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail" item-left></ion-icon>
+        <ion-label stacked>Correo electronico:</ion-label>
+        <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
+      </ion-item>
+      <div formGroupName="passwordRetry">
+          <ion-item>
+              <ion-icon name="eye" item-left></ion-icon>
+              <ion-label stacked>Contraseña:</ion-label>
+              <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="eye" item-left></ion-icon>
+              <ion-label stacked>Confirmar contraseña:</ion-label>
+              <ion-input formControlName="passwordConfirmation" type="password" placeholder="Confirmar contraseña"></ion-input>
+            </ion-item>
+      </div>
+      <ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        <ion-label stacked>Nombre:</ion-label>
+        <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        <ion-label stacked>Apellido:</ion-label>
+        <ion-input formControlName="lastName" type="text" placeholder="Apellidos"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="calendar" item-left></ion-icon>
+        <ion-label stacked>Fecha de nacimiento:</ion-label>
+        <ion-datetime formControlName="dateBirth" displayFormat="MM-DD-YYYY" placeholder="MM-DD-YYY"></ion-datetime>
+      </ion-item>
+      <ion-row radio-group formControlName="gender">
+          <ion-item>
+            <ion-icon name="woman" item-left></ion-icon>
+            <ion-label>Mujer</ion-label>
+            <ion-radio value="2"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="man" item-left></ion-icon>
+            <ion-label>Hombre</ion-label>
+            <ion-radio value="1"></ion-radio>
+          </ion-item>
+        </ion-row>
+    </ion-list>
+  </form>    
+</ion-content>

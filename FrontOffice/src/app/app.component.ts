@@ -11,7 +11,7 @@ import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos'
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
-
+import { RegisterPage } from '../pages/register/register';
 @Component({
   templateUrl: 'app.html'
 })
@@ -28,12 +28,13 @@ export class CocoTrip {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'Login', component: LoginPage },
+      //{ title: 'Login', component: LoginPage },
       { title: 'Perfil', component: PerfilPage },
       { title: 'Eventos y Actividades', component: EventosActividadesPage },
       { title: 'Itinerario', component: ItinerarioPage },
       { title: 'Amistades y Grupos', component: AmistadesGruposPage },
-      { title: 'Chat', component: ChatPage }
+      { title: 'Chat', component: ChatPage },
+      {title: 'Salir',component: LoginPage}
     ];
 
   }
