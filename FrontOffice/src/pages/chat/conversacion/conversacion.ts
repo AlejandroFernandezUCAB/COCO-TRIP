@@ -18,4 +18,21 @@ constructor(public navCtrl: NavController, public navParams: NavParams, public a
 
 }
 
+tapEvent1(){
+  let alert = this.alertCtrl.create({
+    title: 'Ver Perfil',
+    message: 'Pronto visualizarás perfiles por aquí',
+    buttons: [
+      {
+        text:'Dismiss',
+        role: 'dismiss',
+        handler: () => {
+          console.log('Alerta visualizada');
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+
 }
