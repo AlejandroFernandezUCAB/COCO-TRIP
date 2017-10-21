@@ -1,19 +1,10 @@
-<!--
-  Generated template for the AmistadesGruposPage page.
+<!-- pages/tabs/tabs.html -->
+<ion-tabs>
+  <!-- Indicates with tabsPage should handle each tab here -->
+  <ion-tab [root]="tab3Root" tabTitle="Amigos" tabIcon="person"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Grupos" tabIcon="people"></ion-tab>
+  <ion-tab [root]="tab1Root" tabTitle="Notificaciones" tabIcon="notifications" ></ion-tab>
+  
+</ion-tabs>
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Amistades y Grupos</ion-title>
-  </ion-navbar>
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+<!-- tabBadge="4" tabBadgeStyle="danger" -->
