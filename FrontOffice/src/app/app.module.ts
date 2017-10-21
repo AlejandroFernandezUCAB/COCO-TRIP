@@ -11,6 +11,7 @@ import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos'
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
+import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -25,7 +26,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage
+    ChatPage,
+    ConversacionPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage
+    ChatPage,
+    ConversacionPage
   ],
   providers: [
     StatusBar,
