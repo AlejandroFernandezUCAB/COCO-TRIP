@@ -63,8 +63,8 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage
-    RegisterPage
+    AgregarAmigoPage,
+    RegisterPage,
   ],
   imports: [
     BrowserModule,
@@ -90,8 +90,8 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage
-    RegisterPage
+    AgregarAmigoPage,
+    RegisterPage,
   ],
   providers: [
     StatusBar,
