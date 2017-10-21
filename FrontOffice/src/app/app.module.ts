@@ -13,6 +13,7 @@ import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { Facebook } from '@ionic-native/facebook'
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { RegisterPage } from '../pages/register/register';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -40,7 +41,8 @@ const cloudSettings: CloudSettings = {
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage
+    ChatPage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,8 @@ const cloudSettings: CloudSettings = {
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage
+    ChatPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
