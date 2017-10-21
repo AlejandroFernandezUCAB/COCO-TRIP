@@ -15,29 +15,32 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label floating>Usuario/Correo</ion-label>
+      <ion-label >Usuario/Correo</ion-label>
       <ion-input type="text"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating>Contraseña</ion-label>
+      <ion-label >Contraseña</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-  <ion-row>
-    <button ion-button round icon-left (click)="Login()">
+    <ion-row>
+    <button ion-button full round icon-left (click)="login()">
       Iniciar sesión
     </button>
   </ion-row>
   <ion-row>
-    <button ion-button round icon-left (click)="facebookLogin()">
+    <button ion-button full round icon-left (click)="facebookLogin()">
       <ion-icon name="logo-facebook"></ion-icon>
       Iniciar sesión con facebook
     </button>
   </ion-row>
   <ion-row>
-    <button ion-button round icon-left (click)="googleLogin()">
+    <button ion-button full round icon-left (click)="googleLogin()">
       <ion-icon name="logo-google"></ion-icon>
       Iniciar sesión con Google
     </button>
   </ion-row>
+  <ion-item  no-lines (click)="registrar()">
+      Si no te has registrado, presiona aquí
+   </ion-item>
 </ion-list>
 </ion-content>
