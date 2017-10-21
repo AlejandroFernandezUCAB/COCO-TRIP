@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-import { MyApp } from './app.component';
+import { CocoTrip } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
@@ -32,7 +32,7 @@ const cloudSettings: CloudSettings = {
 
 @NgModule({
   declarations: [
-    MyApp,
+    CocoTrip,
     HomePage,
     ListPage,
     LoginPage,
@@ -44,12 +44,13 @@ const cloudSettings: CloudSettings = {
   ],
   imports: [
     BrowserModule,
+    IonicModule.forRoot(CocoTrip),
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    CocoTrip,
     HomePage,
     ListPage,
     LoginPage,

@@ -34,7 +34,7 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    #0B486B,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -51,6 +51,13 @@ $colors: (
 
 // App Material Design Variables
 // --------------------------------------------------
+$toolbar-background    : #0B486B;
+$toolbar-md-title-text-color:#CFF09E;
+$toolbar-ios-title-text-color:#CFF09E;
+$tabs-background:    #0B486B;
+$tabs-tab-color-active: #CFF09E;
+$tabs-tab-color-inactive: #fff;
+$tabs-md-tab-color-inactive: #fff;
 // Material Design only Sass variables can go here
 
 
@@ -86,3 +93,40 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../assets/fonts/open-sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: semi-bold;
+  font-weight: 600;
+  src: url('../assets/fonts/open-sans/OpenSans-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: bold;
+  font-weight: 700;
+  src: url('../assets/fonts/open-sans/OpenSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: extra-bold;
+  font-weight: 900;
+  src: url('../assets/fonts/open-sans/OpenSans-ExtraBold.ttf');
+}
+
+$font-family-base: "Open Sans", sans-serif !default;
+body{
+font-family: "Open Sans" !important;
+font-weight: 300 !important;
+}
+
+h1, h2, h3, h4, p, ion-title, button, title {
+font-family: "Open Sans" !important;
+}
