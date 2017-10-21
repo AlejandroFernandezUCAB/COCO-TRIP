@@ -10,12 +10,45 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Itinerario</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="calendar()">
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
+<ion-content>
+    <ion-fab bottom right>
+      <button ion-fab style="color: white;" color="twcs">
+        <ion-icon name="more"></ion-icon>
+      </button>
+      <ion-fab-list side="top">
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="crear()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
+          <ion-icon name="create"></ion-icon>
+        </button>
+      </ion-fab-list>
+    </ion-fab>
 
-<ion-content padding>
-  <button ion-button primary full icon-left (click)="calendar()">
-    <ion-icon name="calendar"></ion-icon>
-  </button>
+
+<ion-slides loop="true" style="height: auto;">
+<ion-slide *ngFor="let itinerario of itinerarios">
+  <ion-list>
+    <ion-list-header><p style="font-size:20px; margin-top: 20px;">{{itinerario.nombre}}</p></ion-list-header>
+      <ion-item-group reorder="true">
+        <ion-item *ngFor="let evento of itinerario.eventos">
+          <ion-avatar item-start>
+            <img [src]="evento.imagen">
+          </ion-avatar>
+          <p style="font-weight:semibold">{{evento.titulo}}</p>
+          <p><small>{{evento.startTime}} - {{evento.endTime}}</small></p>
+          <p><small>{{evento.tipo}}</small></p>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+  </ion-slide>
+</ion-slides>
 </ion-content>

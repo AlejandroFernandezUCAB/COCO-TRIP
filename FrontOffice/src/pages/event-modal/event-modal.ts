@@ -1,4 +1,4 @@
-import { Component, NgModel } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import * as moment from 'moment';
 /**
@@ -22,7 +22,6 @@ export class EventModalPage {
     this.event.startTime = preselectedDate;
     this.event.endTime = preselectedDate;
   }
-
 
   save() {
     this.viewCtrl.dismiss(this.event)
