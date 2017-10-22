@@ -13,6 +13,8 @@ import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 
+import { ConfigPage } from '../pages/config/config';
+
 @Component({
   templateUrl: 'app.html'
 })

@@ -1,32 +1,25 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import {EditProfilePage} from '../edit-profile/edit-profile';
-import {ConfigPage} from '../config/config';
 /**
- * Generated class for the PerfilPage page.
+ * Generated class for the ConfigPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
- * 
  */
 
 @IonicPage()
 @Component({
-  selector: 'page-perfil',
-  templateUrl: 'perfil.html',
+  selector: 'page-config',
+  templateUrl: 'config.html',
 })
-export class PerfilPage {
-
-  editProfile = EditProfilePage;
-  configureProfile = ConfigPage;
+export class ConfigPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PerfilPage');
+    console.log('ionViewDidLoad ConfigPage');
   }
-
 
 }

@@ -16,6 +16,8 @@ import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { ConfigPage } from '../pages/config/config';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -27,7 +29,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     EventosActividadesPage,
     ItinerarioPage,
     ChatPage,
-    EditProfilePage
+    EditProfilePage,
+    ConfigPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     EventosActividadesPage,
     ItinerarioPage,
     ChatPage,
-    EditProfilePage
+    EditProfilePage,
+    ConfigPage
   ],
   providers: [
     StatusBar,
