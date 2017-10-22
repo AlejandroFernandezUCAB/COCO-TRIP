@@ -22,7 +22,33 @@ export class CalendarioPage {
     mode: 'month',
     currentDate: this.selectedDay
   };
-  constructor(public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) { }
+  constructor(public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController,  public navParams: NavParams) {
+    let eventData = Array();
+    eventData.itinerarios = this.navParams.get('itinerarios');
+    eventData.events = Array();
+    //eventData.endTime = new Date(this.navCtrl.get('endTime'));
+     //moment(this.navParams.get('selectedDay')).format();
+    console.log(eventData.itinerarios);
+     let events = Array();
+     for(var i = 0;i< eventData.itinerarios.length ;i++) {
+       console.log("hola");
+       for (var j = 0; j< eventData.itinerarios[i].eventos.length ;j++){
+         console.log(eventData.itinerarios[i].eventos[j]);
+         events.push(moment(eventData.itinerarios[i].eventos[j]).format());
+       }
+       //events.push(eventData.itinerario[i].eventos);
+     }
+     console.log(events);
+     this.eventSource = [];
+     setTimeout(() => {
+       this.eventSource = events;
+     });
+     //events.push(eventData.itinerarios.eventos);
+    // this.eventSource = [];
+    setTimeout(() => {
+      this.eventSource = events;
+    });
+  }
 
 
 

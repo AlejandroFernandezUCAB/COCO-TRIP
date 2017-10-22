@@ -10,9 +10,19 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Itinerario</ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="!edit&&!delete">
       <button ion-button icon-only (click)="calendar()">
         <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="edit">
+      <button ion-button (click)="done()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="delete">
+      <button ion-button (click)="doneDeleting()">
+        <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -30,22 +40,44 @@
         <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
           <ion-icon name="create"></ion-icon>
         </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
+          <ion-icon name="trash"></ion-icon>
+        </button>
       </ion-fab-list>
     </ion-fab>
 
 
 <ion-slides loop="true" style="height: auto;">
-<ion-slide *ngFor="let itinerario of itinerarios">
+<ion-slide *ngFor="let itinerario of its; let i= index">
   <ion-list>
-    <ion-list-header><p style="font-size:20px; margin-top: 20px;">{{itinerario.nombre}}</p></ion-list-header>
-      <ion-item-group reorder="true">
-        <ion-item *ngFor="let evento of itinerario.eventos">
-          <ion-avatar item-start>
-            <img [src]="evento.imagen">
-          </ion-avatar>
-          <p style="font-weight:semibold">{{evento.titulo}}</p>
-          <p><small>{{evento.startTime}} - {{evento.endTime}}</small></p>
-          <p><small>{{evento.tipo}}</small></p>
+    <ion-list-header style="margin-bottom: 0px; display: block" text-wrap>
+      <p text-uppercase *ngIf="!edit" style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box;">
+        {{itinerario.nombre}}</p>
+        <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(itinerario.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar itinerario</p>
+        </button>
+        <!-- (ionChange)="pre-delete(itinerario.nombre)" -->
+      <button ion-button small icon-only clear *ngIf="!edit&&!delete" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario.nombre)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">Agregar items</p>
+      </button>
+      <ion-input #input *ngIf="edit" text-uppercase [(ngModel)]="itinerario.nombre" style="font-family: 'Open Sans', sans-serif;
+    font-size:17px; margin-top: 20px; color: #3B8686; border-bottom: solid 1px #3B8686; margin-bottom:40px;"></ion-input>
+
+    </ion-list-header>
+      <ion-item-group reorder="true" (ionItemReorder)="$event.applyTo(itinerario.eventos)">
+        <ion-item *ngFor="let evento of itinerario.eventos; let i=index" (click) ="verItem(evento, itinerario)" text-wrap>
+          <section>
+            <ion-buttons start *ngIf="delete">
+              <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirmItem(itinerario.id, evento.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar</p>
+              </button>
+            </ion-buttons>
+          </section>
+          <section>
+            <ion-avatar item-start>
+              <img *ngIf="evento.imagen" [src]="evento.imagen">
+            </ion-avatar>
+            <p style="font-weight:semibold">{{evento.titulo}}</p>
+            <p><small>{{evento.startTime | date: 'dd/MM/yyyy' }}  -  {{evento.endTime | date: 'dd/MM/yyyy' }}</small></p>
+            <p style="color: #3B8686" text-capitalize><small>{{evento.tipo}}</small></p>
+          </section>
         </ion-item>
       </ion-item-group>
     </ion-list>
