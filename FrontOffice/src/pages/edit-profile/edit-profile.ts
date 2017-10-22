@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import {  IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+
+import {ChangepassPage} from '../changepass/changepass';
 
 @IonicPage()
 @Component({
@@ -12,7 +14,17 @@ export class EditProfilePage {
     month: '1993-02-27'
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  change = ChangepassPage;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  }
+  showToastWithCloseButton() {
+    const toast = this.toastCtrl.create({
+      message: 'Se guardaron tus cambios',
+      showCloseButton: true,
+      closeButtonText: 'Ok'
+    });
+    toast.present();
   }
 
   ionViewDidLoad() {

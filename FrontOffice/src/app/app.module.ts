@@ -13,11 +13,13 @@ import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
+import { ChangepassPage } from '../pages/changepass/changepass';
 
 @NgModule({
   declarations: [
@@ -31,8 +33,10 @@ import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
     ItinerarioPage,
     ChatPage,
     EditProfilePage,
+    ChangepassPage,
     ConfigPage,
     BorrarCuentaPage
+    
   ],
   imports: [
     BrowserModule,
@@ -50,8 +54,10 @@ import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
     ItinerarioPage,
     ChatPage,
     EditProfilePage,
+    ChangepassPage,
     ConfigPage,
     BorrarCuentaPage
+    
   ],
   providers: [
     StatusBar,
