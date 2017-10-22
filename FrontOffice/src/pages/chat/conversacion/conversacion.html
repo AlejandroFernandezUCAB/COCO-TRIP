@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+    <ion-title class="test" (tap)="tapEvent1($event)" item-start>
+      <img src="https://pbs.twimg.com/profile_images/854769171326017536/dwsgeSUR_400x400.jpg" height="45px" width="45px">
+      Ana
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+</ion-content>
+
+<ion-footer>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10>
+        <ion-textarea placeholder="Escribe tu mensaje"
+                      [(ngModel)]="editorMsg">
+                      <!-- (keyup.enter)="enviar()" -->
+        </ion-textarea>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button icon-only item-right menuToggle>
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-footer>

@@ -216,33 +216,33 @@ export class ItinerarioPage {
 
   ordenar(){
     this.nuevoViejo = !this.nuevoViejo;
-    if (this.nuevoViejo == true){
-      for(var i = 0;i< this.its.length;i++) {
-        this.its[i].eventos.sort(function(a,b){
-        return new Date(b.startTime) - new Date(a.startTime);
-      });
-      }
-    }else{
-      for(var i = 0;i< this.its.length;i++) {
-        this.its[i].eventos.sort(function(a,b){
-        return new Date(a.startTime) - new Date(b.startTime);
-      });
-      }
-    }
+    // if (this.nuevoViejo == true){
+    //   for(var i = 0;i< this.its.length;i++) {
+    //     this.its[i].eventos.sort(function(a,b){
+    //     return new Date(b.startTime) - new Date(a.startTime);
+    //   });
+    //   }
+    // }else{
+    //   for(var i = 0;i< this.its.length;i++) {
+    //     this.its[i].eventos.sort(function(a,b){
+    //     return new Date(a.startTime) - new Date(b.startTime);
+    //   });
+    //   }
+    // }
   }
 
   ordenarIt(){
     this.nuevoViejo = !this.nuevoViejo;
-    if (this.nuevoViejo == true){
-        this.its.sort(function(a,b){
-          return new Date(b.fechaInicio) - new Date(a.fechaInicio);
-        });
-
-    }else{
-      this.its.sort(function(a,b){
-        return new Date(a.fechaInicio) - new Date(b.fechaInicio);
-      });
-    }
+    // if (this.nuevoViejo == true){
+    //     this.its.sort(function(a,b){
+    //       return new Date(b.fechaInicio) - new Date(a.fechaInicio);
+    //     });
+    //
+    // }else{
+    //   this.its.sort(function(a,b){
+    //     return new Date(a.fechaInicio) - new Date(b.fechaInicio);
+    //   });
+    // }
   }
 
   agregarItem(iti){
