@@ -15,9 +15,16 @@ import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
 import { Facebook } from '@ionic-native/facebook'
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { RegisterPage } from '../pages/register/register';
+import { EditProfilePage } from '../pages/edit-profile/edit-profile';
+import { PreferenciasPage } from "../pages/preferencias/preferencias";
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { ConfigPage } from '../pages/config/config';
+import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
+import { ChangepassPage } from '../pages/changepass/changepass';
 
 
 const cloudSettings: CloudSettings = {
@@ -67,6 +74,12 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     DetalleGrupoPage,
     AgregarAmigoPage,
     RegisterPage,
+    ChatPage,
+    EditProfilePage,
+    ChangepassPage,
+    ConfigPage,
+    BorrarCuentaPage,
+    PreferenciasPage
   ],
   imports: [
     BrowserModule,
@@ -95,6 +108,11 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     DetalleGrupoPage,
     AgregarAmigoPage,
     RegisterPage,
+    EditProfilePage,
+    ChangepassPage,
+    ConfigPage,
+    BorrarCuentaPage,
+    PreferenciasPage
   ],
   providers: [
     StatusBar,
