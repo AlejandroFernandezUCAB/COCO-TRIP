@@ -37,4 +37,21 @@ tapEvent1(){
   this.navCtrl.push(VisualizarPerfilPage); //PERMITE VER EL PERFIL DEL AMIGO
 }
 
+tapEvent2(){
+  let alert = this.alertCtrl.create({ //ESTA ES UNA ALERTA DE FUNCIONALIDAD
+    title: 'Enviar Mensaje',
+    message: 'Pronto enviarás mensajes por aquí',
+    buttons: [
+      {
+        text:'Dismiss',
+        role: 'dismiss',
+        handler: () => {
+          console.log('Alerta visualizada');
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+
 }

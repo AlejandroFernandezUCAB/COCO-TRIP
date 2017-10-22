@@ -16,11 +16,16 @@
   }
 
 .nomargin {
-  margin: 0px;
+  margin-top: 0px;
 }
 
 .sendbutton{
   min-width: 45px;
   min-height: 40px;
   border-radius: 1px;
+  background-color: #CFF09E;
+}
+
+.msgcontent{
+  width: 100%;
 }
