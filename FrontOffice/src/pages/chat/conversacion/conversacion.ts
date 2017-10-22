@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 
 @IonicPage()
 @Component({
@@ -19,20 +20,21 @@ constructor(public navCtrl: NavController, public navParams: NavParams, public a
 }
 
 tapEvent1(){
-  let alert = this.alertCtrl.create({
-    title: 'Ver Perfil',
-    message: 'Pronto visualizarás perfiles por aquí',
-    buttons: [
-      {
-        text:'Dismiss',
-        role: 'dismiss',
-        handler: () => {
-          console.log('Alerta visualizada');
-        }
-      }
-    ]
-  });
-  alert.present();
+  //let alert = this.alertCtrl.create({ ESTA ERA UNA ALERTA DE FUNCIONALIDAD
+    //title: 'Ver Perfil',
+    //message: 'Pronto visualizarás perfiles por aquí',
+    //buttons: [
+      //{
+        //text:'Dismiss',
+        //role: 'dismiss',
+        //handler: () => {
+          //console.log('Alerta visualizada');
+        //}
+      //}
+    //]
+  //});
+  //alert.present();
+  this.navCtrl.push(VisualizarPerfilPage); //PERMITE VER EL PERFIL DEL AMIGO
 }
 
 }
