@@ -7,13 +7,68 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon name="arrow-back"></ion-icon>
     </button>
-    <ion-title>Chat</ion-title>
+
+    <ion-title>Chats</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="lista">
+
+  <!-- lista de chats -->
+  <ion-list>
+
+    <ion-list-header>
+      Conversaciones Recientes
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of listachatRec" (press)="pressEvent($event)" (tap)="tapEvent($event)">
+      <ion-avatar item-start class="test2">
+        <img src="{{item.img}}">
+      </ion-avatar>
+      <h2>{{item.nombre}}</h2>
+      <p>{{item.msg}}</p>
+      <ion-note item-end>12:34 pm</ion-note>
+
+     <!-- <ion-item-options> ESTO ES PARA EL SLIDE ESTILO WHATSAPP PARA ELIMINAR EL CHAT
+        <button ion-button icon-only (tap)="deleteConvo(item)" danger>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options> -->
+
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list>
+
+    <ion-list-header>
+      En línea
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of listachatOn" (press)="pressEvent($event)" (tap)="tapEvent($event)">
+      <ion-avatar item-start class="test2">
+        <img src="{{item.img}}">
+      </ion-avatar>
+      <h2>{{item.nombre}}</h2>
+      <p>{{item.msg}}</p>
+      <ion-note item-end>12:34 pm</ion-note>
+
+     <!-- <ion-item-options> ESTO ES PARA EL SLIDE ESTILO WHATSAPP PARA ELIMINAR EL CHAT
+        <button ion-button icon-only (tap)="deleteConvo(item)" danger>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options> -->
+
+    </ion-item>
+
+  </ion-list>
+
 
 </ion-content>
+
+<ion-footer>
+
+</ion-footer>
