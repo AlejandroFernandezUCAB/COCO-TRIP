@@ -14,6 +14,7 @@ import { ChatPage } from '../pages/chat/chat';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 
 import { ConfigPage } from '../pages/config/config';
+import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 
 @Component({
   templateUrl: 'app.html'

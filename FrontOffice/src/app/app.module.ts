@@ -17,6 +17,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ConfigPage } from '../pages/config/config';
+import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ConfigPage } from '../pages/config/config';
     ItinerarioPage,
     ChatPage,
     EditProfilePage,
-    ConfigPage
+    ConfigPage,
+    BorrarCuentaPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { ConfigPage } from '../pages/config/config';
     ItinerarioPage,
     ChatPage,
     EditProfilePage,
-    ConfigPage
+    ConfigPage,
+    BorrarCuentaPage
   ],
   providers: [
     StatusBar,

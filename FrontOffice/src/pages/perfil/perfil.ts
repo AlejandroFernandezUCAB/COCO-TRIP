@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import {EditProfilePage} from '../edit-profile/edit-profile';
-import {ConfigPage} from '../config/config';
+import { EditProfilePage } from '../edit-profile/edit-profile';
+import { ConfigPage } from '../config/config';
+import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
+
 /**
  * Generated class for the PerfilPage page.
  *
@@ -20,6 +22,7 @@ export class PerfilPage {
 
   editProfile = EditProfilePage;
   configureProfile = ConfigPage;
+  deleteAccount = BorrarCuentaPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
