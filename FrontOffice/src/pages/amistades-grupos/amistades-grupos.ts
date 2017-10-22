@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AmigosPage } from '../amistades-grupos/amigos/amigos';
+import { GruposPage } from '../amistades-grupos/grupos/grupos';
+import { NotificacionesPage } from '../amistades-grupos/notificaciones/notificaciones';
 
 /**
  * Generated class for the AmistadesGruposPage page.
@@ -15,11 +18,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AmistadesGruposPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AmistadesGruposPage');
+  // this tells the tabs component which Pages
+  // should be each tab's root Page
+  tab1Root: any = NotificacionesPage;
+  tab2Root: any = GruposPage;
+  tab3Root: any = AmigosPage;
+ 
+  constructor() {
+ 
   }
 
 }
