@@ -23,31 +23,66 @@ export class CalendarioPage {
     currentDate: this.selectedDay
   };
   constructor(public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController,  public navParams: NavParams) {
-    let eventData = Array();
-    eventData.itinerarios = this.navParams.get('itinerarios');
-    eventData.events = Array();
-    //eventData.endTime = new Date(this.navCtrl.get('endTime'));
-     //moment(this.navParams.get('selectedDay')).format();
-    console.log(eventData.itinerarios);
-     let events = Array();
-     for(var i = 0;i< eventData.itinerarios.length ;i++) {
-       console.log("hola");
-       for (var j = 0; j< eventData.itinerarios[i].eventos.length ;j++){
-         console.log(eventData.itinerarios[i].eventos[j]);
-         events.push(moment(eventData.itinerarios[i].eventos[j]).format());
-       }
-       //events.push(eventData.itinerario[i].eventos);
-     }
-     console.log(events);
-     this.eventSource = [];
-     setTimeout(() => {
-       this.eventSource = events;
-     });
+    let itinerarios = this.navParams.get('itinerarios');
+    let eventData = {};
+    let events= [{}];
+    for(var i = 0;i< itinerarios.length ;i++) {
+      for (var j = 0; j< itinerarios[i].eventos.length ;j++){
+        // eventData.push({
+        //   title: itinerarios[i].eventos[j].titulo,
+        //   startTime: new Date(itinerarios[i].eventos[j].startTime),
+        //   endTime: new Date(itinerarios[i].eventos[j].endTime)
+        // });
+        eventData.title = itinerarios[i].eventos[j].titulo;
+        eventData.startTime= new Date(itinerarios[i].eventos[j].startTime);
+        eventData.endTime= new Date(itinerarios[i].eventos[j].endTime);
+        events = this.eventSource;
+        events.push(eventData);
+        this.eventSource = [];
+        setTimeout(() => {
+          this.eventSource = events;
+        });
+      }
+    }
+    // eventData.startTime= new Date('01/01/2018');
+    // eventData.endTime= new Date('01/04/2018');
+    // // eventData.itinerarios = this.navParams.get('itinerarios');
+    // // eventData.events = Array();
+    // //eventData.endTime = new Date(this.navCtrl.get('endTime'));
+    //  //moment(this.navParams.get('selectedDay')).format();
+    // console.log(eventData.itinerarios);
+    //  let events = this.eventSource;
+    //  //let prueba = this.eventSource;
+    // //  for(var i = 0;i< eventData.itinerarios.length ;i++) {
+    // //    console.log("hola");
+    // //    for (var j = 0; j< eventData.itinerarios[i].eventos.length ;j++){
+    // //      console.log(eventData.itinerarios[i].eventos[j].titulo);
+    // //      console.log(eventData.itinerarios[i].eventos[j].startTime);
+    // //      console.log(eventData.itinerarios[i].eventos[j].endTime);
+    // //      if (j==0){
+    // //        prueba.title= eventData.itinerarios[i].eventos[j].titulo;
+    // //        prueba.startTime = eventData.itinerarios[i].eventos[j].startTime;
+    // //        prueba.endTime = eventData.itinerarios[i].eventos[j].endTime;
+    // //      }
+    // //     //  events.push({
+    // //     //    title: eventData.itinerarios[i].eventos[j].titulo,
+    // //     //    startTime: new Date(eventData.itinerarios[i].eventos[j].startTime),
+    // //     //    endTime: new Date(eventData.itinerarios[i].eventos[j].endTime)
+    // //     //  });
+    // //    }
+    // //    //events.push(eventData.itinerario[i].eventos);
+    // //  }
+    //  events.push(eventData)
+    //  console.log(events);
+    //  this.eventSource = [];
+    //  setTimeout(() => {
+    //    this.eventSource = events;
+    //  });
      //events.push(eventData.itinerarios.eventos);
     // this.eventSource = [];
-    setTimeout(() => {
-      this.eventSource = events;
-    });
+    // setTimeout(() => {
+    //   this.eventSource = events;
+    // });
   }
 
 

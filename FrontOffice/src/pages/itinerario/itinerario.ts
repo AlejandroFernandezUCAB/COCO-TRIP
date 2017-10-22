@@ -15,7 +15,7 @@ import * as moment from 'moment';
   templateUrl: 'itinerario.html',
 })
 export class ItinerarioPage {
-  @ViewChild('slider') slider: Slides;
+  // @ViewChild('slider') slider: Slides;
   //****************** DECLARACION DE VARIABLES *********************
   base_url = '../assets/images/';
   items = [];
@@ -30,6 +30,7 @@ export class ItinerarioPage {
     initialSlide: 0,
     loop: true
   };
+  noIts = false;
   //************** fFIN DE DECLARACION DE VARIABLES *****************
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, public alertCtrl: AlertController) {
     //this.its = Array();
@@ -37,11 +38,16 @@ export class ItinerarioPage {
     for (let x = 0; x < 5; x++) {
       this.items.push(x);
     }
+
+    if (this.its == undefined){
+      this.noIts = true;
+    }
   }
 
-  goToSlide(index) {
-    this.slides.slideTo(1 ,500);
-  }
+
+  // goToSlide(index) {
+  //   this.slides.slideTo(1 ,500);
+  // }
   calendar() {
     this.navCtrl.push(CalendarioPage, {itinerarios: this.its});
   }
@@ -71,6 +77,7 @@ export class ItinerarioPage {
           text: 'Crear',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
+              if (this.its == undefined) this.its=Array();
               this.its.push({nombre: data.Nombre});
             } else {
               // invalid login
@@ -138,6 +145,10 @@ export class ItinerarioPage {
   eliminarItinerario(id, index){
      let eliminado = this.its.filter(item => item.id === id)[0];
      var removed_elements = this.its.splice(index, 1);
+     if (this.its.length == 0){
+       this.noIts = true;
+       console.log("no its")
+     }
    }
 
   eliminarItem(id_itinerario, id_evento, index){
@@ -161,7 +172,8 @@ export class ItinerarioPage {
   }
 
   cargarItinerarios(){
-    this.its.push({
+    if (this.its.length == 0){
+      this.its.push({
         id: 1,
         nombre: 'Disney World',
         eventos:
@@ -170,19 +182,19 @@ export class ItinerarioPage {
           tipo: 'evento',
           imagen: '../assets/images/epcot.jpg',
           titulo: 'Epcot International Festival of the Arts',
-          startTime: new Date('01/01/2018'),
-          endTime: new Date('03/01/2018'),
+          startTime: moment('01/01/2018').format(),
+          endTime: moment('01/04/2018').format(),
         },
         {
           id: 2,
           tipo: 'evento',
           imagen: '../assets/images/disney-maraton.jpg',
           titulo: 'Walt Disney World Marathon Weekend',
-          startTime: new Date('03/01/2018'),
-          endTime: new Date('03/01/2018'),
+          startTime: moment('01/01/2018').format(),
+          endTime: moment('01/06/2018').format(),
         }),
-        fechaInicio: moment('03/01/2018').format(),
-        fechaFin: moment('03/01/2018').format()
+        fechaInicio: moment('02/01/2018').format(),
+        fechaFin: moment('02/02/2018').format()
       },
       { id: 2,
         nombre: 'Viaje a Paris',
@@ -192,13 +204,14 @@ export class ItinerarioPage {
           tipo: 'actividad',
           imagen: '../assets/images/default-avatar1.svg',
           titulo: 'Comer croissants en la Torre Eiffel',
-          startTime: new Date('03/01/2018'),
-          endTime: new Date('03/01/2018'),
+          //***************MM/DD/YYYY************
+          startTime: moment('03/01/2018').format(),
+          endTime: moment('03/03/2018').format(),
         }),
         fechaInicio: moment('03/01/2018').format(),
         fechaFin: moment('04/01/2018').format()
       });
-
+    }
   }
 
   ordenar(){
@@ -272,6 +285,12 @@ export class ItinerarioPage {
   }
 
   listar(){
+    for(var i = 0;i< this.its.length;i++) {
+      if (this.its[i].eventos == undefined){
+        this.its[i].eventos = Array();
+      }
+    }
+
     if(this.list==true){
       this.list = false;
     }
@@ -282,6 +301,7 @@ export class ItinerarioPage {
 
   ionViewWillEnter(){
     this.cargarItinerarios();
+
   }
 
   ionViewDidLoad() {

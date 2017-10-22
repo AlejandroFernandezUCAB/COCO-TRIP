@@ -50,7 +50,10 @@
       </ion-fab-list>
     </ion-fab>
 
-
+    <ion-label text-wrap text-center>
+      <p text-uppercase *ngIf="noIts&&!list" style="font-size:17px; margin-top: 50px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box; justify-content:space-between;">
+      - No posee ningún itinerario -</p>
+    </ion-label>
 <ion-slides *ngIf="!list" loop="true" style="height: auto;" #slider>
 <ion-slide *ngFor="let itinerario of its; let i= index">
   <ion-list>
@@ -116,18 +119,31 @@
   <ion-list-header style="margin-bottom: 0px; display: block">
     <p text-uppercase *ngIf="!edit" style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box;">
       Mis Itinerarios</p>
-      <button ion-button small icon-only clear *ngIf="nuevoViejo" (click)="ordenarIt()">
-        <ion-icon name="arrow-down"></ion-icon>
-      </button>
-      <button ion-button small icon-only clear *ngIf="!nuevoViejo" (click)="ordenarIt()">
-        <ion-icon name="arrow-up"></ion-icon>
-      </button>
+    <ion-item text-center>
+      <div style="justify-content:space-between;">
+        <button ion-button small icon-only clear *ngIf="!edit&&!delete&&!list" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario.nombre)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">Agregar items</p>
+        </button>
+        <button ion-button small icon-only clear *ngIf="nuevoViejo" (click)="ordenarIt()">
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+        <button ion-button small icon-only clear *ngIf="!nuevoViejo" (click)="ordenarIt()">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+    </ion-item>
   </ion-list-header>
   <ion-item-group reorder="true" (ionItemReorder)="$event.applyTo(its)">
-    <ion-item *ngFor="let itinerario of its; let i= index" (click)="list=false;">
+    <ion-item *ngFor="let itinerario of its; let i= index" (click)="list=false;" >
       <p style="color: #3B8686;"><strong>{{itinerario.nombre}}</strong> - {{itinerario.eventos.length}} eventos</p>
       <p>{{itinerario.fechaInicio | date: 'dd/MM/yyyy'}} - {{itinerario.fechaFin | date: 'dd/MM/yyyy'}}</p>
     </ion-item>
+    <ion-label text-wrap text-center>
+      <p text-uppercase *ngIf="noIts&&list" style="font-size:17px; margin-top: 50px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box; justify-content:space-between;">
+      - No posee ningún itinerario -</p>
+    </ion-label>
+      <!-- <ion-item-options side="left">
+        <button ion-button expandable (click)="presentConfirm(itinerario.id, i)">Delete</button>
+     </ion-item-options> -->
   </ion-item-group>
 </ion-list>
 </ion-content>
