@@ -12,6 +12,13 @@ import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-act
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { RegisterPage } from '../pages/register/register';
+import { EditProfilePage } from '../pages/edit-profile/edit-profile';
+import { PreferenciasPage } from '../pages/preferencias/preferencias';
+import { ConfigPage } from '../pages/config/config';
+import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
+
+import { ChangepassPage } from '../pages/changepass/changepass';
+
 @Component({
   templateUrl: 'app.html'
 })
