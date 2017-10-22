@@ -24,26 +24,18 @@ export class PreferenciasPage {
   }
 
   aviso( str ){
-
-    if( str == "agregado" )
-    {
+    if(str == "agregado"){
         const toast = this.toastCtrl.create({
-
           message: 'Tu categoría fue agregada exitosamente',
           showCloseButton: true,
           closeButtonText: 'Ok'
-          
         });
         toast.present();
-
     }else{
-
       const toast = this.toastCtrl.create({
-
         message: 'Tu categoría fue eliminada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
-
       });
       toast.present();
     }
