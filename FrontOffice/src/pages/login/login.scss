@@ -1,3 +1,56 @@
 page-login {
 
+    .login-content {
+        background: rgb(255, 255, 255);
+     
+        .logo-row {
+          padding-top: 50px;
+          padding-bottom: 20px;
+        }
+     
+        .login-box {
+          background: #0B486B;
+          padding: 20px 20px 0px 20px;
+          margin-top: 30px;
+        }
+     
+        ion-row {
+           align-items: center;
+           text-align: center;
+           color: rgb(255, 255, 255);
+         }
+     
+         ion-item {
+             
+             padding-left: 30px !important;
+             font-size: 0.9em;
+             margin-bottom: 10px;
+             border: 1px solid rgb(236, 216, 177);
+             border-bottom: 0px !important;
+             box-shadow: none !important;
+         }
+     
+         .signup-col {
+           margin: 0px 16px 0px 16px;
+           padding-bottom: 20px;
+         }
+     
+         .item-inner {
+           border-bottom-color: #ffffff !important;
+           box-shadow: none !important;
+         }
+     
+         .submit-btn {
+           background: #3B8686;
+         }
+     
+         .register-btn {
+           color: rgb(255, 255, 255);
+         }
+         .recuperar {
+            color: rgb(0, 0, 0);
+            padding-left: 90px !important;
+          }
+      }
+     
 }
