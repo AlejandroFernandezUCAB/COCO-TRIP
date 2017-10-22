@@ -12,6 +12,7 @@ import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-act
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
+import { PreferenciasPage } from "../pages/preferencias/preferencias";
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -35,8 +36,8 @@ import { ChangepassPage } from '../pages/changepass/changepass';
     EditProfilePage,
     ChangepassPage,
     ConfigPage,
-    BorrarCuentaPage
-    
+    BorrarCuentaPage,
+    PreferenciasPage
   ],
   imports: [
     BrowserModule,
@@ -56,8 +57,8 @@ import { ChangepassPage } from '../pages/changepass/changepass';
     EditProfilePage,
     ChangepassPage,
     ConfigPage,
-    BorrarCuentaPage
-    
+    BorrarCuentaPage,
+    PreferenciasPage
   ],
   providers: [
     StatusBar,
