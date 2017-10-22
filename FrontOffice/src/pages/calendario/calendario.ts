@@ -26,8 +26,8 @@ export class CalendarioPage {
     let itinerarios = this.navParams.get('itinerarios');
     let eventData = {
       title: '',
-      startTime: '',
-      endTime: ''
+      startTime: new Date(),
+      endTime: new Date()
     };
     let events= [{}];
     for(var i = 0;i< itinerarios.length ;i++) {
