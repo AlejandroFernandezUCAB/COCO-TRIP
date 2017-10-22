@@ -11,6 +11,7 @@ import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos'
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
+import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
 import { Facebook } from '@ionic-native/facebook'
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { RegisterPage } from '../pages/register/register';
@@ -55,6 +56,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     EventosActividadesPage,
     ItinerarioPage,
     ChatPage,
+    ConversacionPage,
     AmigosPage,
     GruposPage,
     NotificacionesPage,
@@ -82,6 +84,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     EventosActividadesPage,
     ItinerarioPage,
     ChatPage,
+    ConversacionPage,
     AmigosPage,
     GruposPage,
     NotificacionesPage,
