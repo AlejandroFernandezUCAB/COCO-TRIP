@@ -24,7 +24,11 @@ export class CalendarioPage {
   };
   constructor(public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController,  public navParams: NavParams) {
     let itinerarios = this.navParams.get('itinerarios');
-    let eventData = {};
+    let eventData = {
+      title: '',
+      startTime: '',
+      endTime: ''
+    };
     let events= [{}];
     for(var i = 0;i< itinerarios.length ;i++) {
       for (var j = 0; j< itinerarios[i].eventos.length ;j++){
