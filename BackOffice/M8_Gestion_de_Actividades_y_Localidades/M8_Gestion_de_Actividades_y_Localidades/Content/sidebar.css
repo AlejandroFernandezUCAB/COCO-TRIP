@@ -1,0 +1,61 @@
+.navbar-side {
+    border: none;
+    background-color: #3B8686;
+    height: 1100px;
+}
+
+.logo-sidebar{
+	margin-bottom: 7%;
+    margin-top: -13%;
+}
+
+.active-link {
+    background-color: #A8DBA8;
+}
+
+.sidebar-collapse > .nav > li > a {
+    padding: 15px 10px;
+    color: #0B486B;
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.sidebar-collapse .nav > li > a:hover, .sidebar-collapse .nav > li > a:focus {
+    background: #A8DBA8;
+    outline: 0;
+    font-size: 15px;
+}
+
+#products{
+	list-style-type: none;
+}
+
+#products li > a{
+	color: #A8DBA8;
+	font-weight: bold;
+}
+
+#products li > a:hover{
+	text-decoration: none;
+	font-size: 16px;
+}
+
+#products li.active > a{
+	text-decoration: none;
+}
+
+#products li.active > a:hover{
+	text-decoration: none;
+}
+
+#products li > a > i {
+    margin-right: 10px;
+}
+
+.icon-add-sidebar{
+	color: #0B486B;
+}
+
+.icon-see-sidebar{
+	color: #0B486B;
+}
