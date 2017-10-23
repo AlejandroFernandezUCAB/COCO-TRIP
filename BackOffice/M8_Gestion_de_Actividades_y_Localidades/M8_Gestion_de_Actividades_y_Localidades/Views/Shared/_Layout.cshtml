@@ -32,26 +32,38 @@
 
                     <li data-toggle="collapse" data-target="#products" class="collapsed active">
                       <a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> Lugar Turístico <span class="arrow"></span></a>
-                    </li>
-                    <ul class="sub-menu collapse" id="products">
-                      <li class="active"><a href="#"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
-                      <li><a href="#"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
-                    </ul>
+                      <ul class="sub-menu collapse" id="products">
+                        <li class="active"><a href="#"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
+                        <li><a href="#"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
+                      </ul>
 
-                    <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                    </li>
+                    
+
+                    <li data-toggle="collapse" data-target="#localidades" class="collapsed active">
+
                       <a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> Localidades <span class="arrow"></span></a>
+                      <ul class="sub-menu collapse" id="localidades">
+                        <li class="active">
+                        
+
+                        @Html.ActionLink("Ver todos", "ConsultarLocalidad", "Localidad")
+                        <li>
+                          @Html.ActionLink("Agregar", "CrearLocalidad", "Localidad")
+                        </li>
+                      </ul>
+
                     </li>
-                        <ul class="sub-menu collapse" id="products">
-                          <li class="active"><a href="#"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
-                          <li><a href="#"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
-                        </ul>
-                    <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                        
+                    <li data-toggle="collapse" data-target="#eventos" class="collapsed active">
                       <a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> Eventos <span class="arrow"></span></a>
+                      <ul class="sub-menu collapse" id="eventos">
+                        <li class="active"><a href="#"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
+                        <li><a href="#"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
+                      </ul>
+
                     </li>
-                        <ul class="sub-menu collapse" id="products">
-                          <li class="active"><a href="#"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
-                          <li><a href="#"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
-                        </ul>
+                        
                     
                   </ul>
                 </div>

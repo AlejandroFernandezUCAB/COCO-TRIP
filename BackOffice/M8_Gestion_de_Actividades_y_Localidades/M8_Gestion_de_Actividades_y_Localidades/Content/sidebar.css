@@ -26,30 +26,30 @@
     font-size: 15px;
 }
 
-#products{
+#products #eventos #localidades{
 	list-style-type: none;
 }
 
-#products li > a{
-	color: #A8DBA8;
-	font-weight: bold;
+#products #eventos #localidades li > a {
+  color: #A8DBA8;
+  font-weight: bold;
 }
 
-#products li > a:hover{
-	text-decoration: none;
-	font-size: 16px;
+#products #eventos #localidades li > a:hover {
+  text-decoration: none;
+  font-size: 16px;
 }
 
-#products li.active > a{
-	text-decoration: none;
+#products #eventos #localidades li.active > a {
+  text-decoration: none;
 }
 
-#products li.active > a:hover{
-	text-decoration: none;
-}
+#products #eventos #localidades li.active > a:hover {
+    text-decoration: none;
+  }
 
-#products li > a > i {
-    margin-right: 10px;
+#products #eventos #localidades li > a > i {
+  margin-right: 10px;
 }
 
 .icon-add-sidebar{

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M8_Gestion_de_Actividades_y_Localidades", "M8_Gestion_de_Actividades_y_Localidades\M8_Gestion_de_Actividades_y_Localidades.csproj", "{20A575D7-6437-4103-88E1-052DF32B01DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOffice", "M8_Gestion_de_Actividades_y_Localidades\BackOffice.csproj", "{20A575D7-6437-4103-88E1-052DF32B01DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

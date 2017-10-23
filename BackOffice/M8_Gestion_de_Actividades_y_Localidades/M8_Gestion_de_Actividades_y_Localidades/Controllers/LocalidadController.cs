@@ -32,6 +32,12 @@ namespace M8_Gestion_de_Actividades_y_Localidades.Controllers
           return View();
         }
 
-        
+        // GET: Localidad
+        public ActionResult MostrarLocalidad()
+        {
+          return View();
+        }
+
+
   }
 }

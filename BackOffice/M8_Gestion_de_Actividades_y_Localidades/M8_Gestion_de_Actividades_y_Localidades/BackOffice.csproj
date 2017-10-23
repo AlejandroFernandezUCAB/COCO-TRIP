@@ -207,6 +207,7 @@
     <Content Include="Views\Localidad\ConsultarLocalidad.cshtml" />
     <Content Include="Views\Localidad\ActualizarLocalidad.cshtml" />
     <Content Include="Views\Localidad\EliminarLocalidad.cshtml" />
+    <Content Include="Views\Localidad\MostrarLocalidad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
