@@ -15,5 +15,31 @@
 
 
 <ion-content padding>
+  
+  <ion-title text-center><img alt="logo" src="assets/images/ron.jpeg" class="imagen-perfil"></ion-title>
+  <h2 class="titulo">
+    Ronald Navas
+  </h2>
+  <p class="centrado">  <ion-icon name="ios-mail"></ion-icon>  rn2702@gmail.com</p>
+  <p class="centrado">  <ion-icon name="ios-pin"></ion-icon>  Venezuela</p>
+  <br>
+  <ion-list>
+    <button [navPush]="editProfile" ion-item>
+      <ion-icon name="md-person"></ion-icon>
+      Editar Datos Personales
+    </button>
+    <button ion-item  [navPush]="editarPreferences">
+      <ion-icon name="md-brush"></ion-icon>
+      Editar Preferencias
+    </button>
+    <button [navPush]="configureProfile" ion-item>
+      <ion-icon name="md-settings"></ion-icon>
+      Configuracion del sistema
+    </button>
+    <button [navPush]="deleteAccount" ion-item>
+      <ion-icon name="md-trash"></ion-icon>
+      Borrar Cuenta
+    </button>
+  </ion-list>
 
 </ion-content>

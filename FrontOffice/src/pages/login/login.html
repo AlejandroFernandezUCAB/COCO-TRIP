@@ -1,19 +1,45 @@
-<!--
-  Generated template for the LoginPage page.
+<ion-content class="login-content" padding>
+  <ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col width-67>
+      <img src="assets/logo/logo300.jpg" />
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <div class="login-box">
+    <form>
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
+            <ion-item>
+              <ion-input type="text" placeholder="Correo o Usuario" name="text" required></ion-input>
+            </ion-item>
 
-  <ion-navbar>
-    <ion-title>login</ion-title>
-  </ion-navbar>
+            <ion-item>
+              <ion-input type="password" placeholder="Contraseña" name="password" required></ion-input>
+            </ion-item>
 
-</ion-header>
+          </ion-list>
+        </ion-col>
+      </ion-row>
 
-
-<ion-content padding>
-  <button ion-button (click)="continuar()">Continuar</button>
-
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button full class="submit-btn" (click)="login()">Iniciar Sesión</button>
+          <ion-icon color="light" name="arrow-down" (click)="Otros()"></ion-icon>
+          <button ion-button full icon-left class="submit-btn" *ngIf="getVista()" (click)="googleLogin()">
+            <ion-icon name="logo-google"></ion-icon> Con Google
+          </button>
+          <button ion-button full icon-left class="submit-btn" *ngIf="getVista()" (click)="facebookLogin()">
+            <ion-icon name="logo-facebook"></ion-icon> Con Facebook
+          </button>
+          <button ion-button class="register-btn" block clear (click)="registrar()">Registrarse</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+  <ion-row class="recuperar">
+    <a>¿Olvidaste tu contraseña?</a>
+  </ion-row>
 </ion-content>
