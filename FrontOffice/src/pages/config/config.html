@@ -17,17 +17,17 @@
   
         <ion-list inset>
             <ion-item>
-                <ion-label><ion-icon name="notifications"></ion-icon> Recibir Notificaciones</ion-label>
-                <ion-toggle checked="false"></ion-toggle>
+                <ion-label><ion-icon name="notifications" ></ion-icon> Recibir Notificaciones</ion-label>
+                <ion-toggle checked="false" (ionChange)="toggleToast()" ></ion-toggle>
               </ion-item>
               <ion-item>
                 <ion-label>Eventos</ion-label>
-                <ion-checkbox [(ngModel)]="eventos"></ion-checkbox>
+                <ion-checkbox [(ngModel)]="eventos" (click)="toast()"></ion-checkbox>
               </ion-item>
             
               <ion-item>
                 <ion-label>Chat</ion-label>
-                <ion-checkbox [(ngModel)]="chat" ></ion-checkbox>
+                <ion-checkbox [(ngModel)]="chat" (click)="toast()"></ion-checkbox>
               </ion-item>
         </ion-list>
   
@@ -38,11 +38,11 @@
               </ion-item>
               <ion-item>
                   <ion-label>Facebook</ion-label>
-                  <ion-checkbox [(ngModel)]="facebook" ></ion-checkbox>
+                  <ion-checkbox [(ngModel)]="facebook" (click)="toast()"></ion-checkbox>
                 </ion-item>
                 <ion-item>
                     <ion-label>Google</ion-label>
-                    <ion-checkbox [(ngModel)]="google" ></ion-checkbox>
+                    <ion-checkbox [(ngModel)]="google" (click)="toast()"></ion-checkbox>
                   </ion-item>              
         </ion-list>
   
