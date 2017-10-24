@@ -22,6 +22,33 @@
         <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>
       </ion-item>
       <ion-item>
+          <ion-icon name="" item-left></ion-icon>
+          <ion-label stacked>Nombres:</ion-label>
+          <ion-input formControlName="name" type="text" placeholder="Nombres"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="" item-left></ion-icon>
+          <ion-label stacked>Apellidos:</ion-label>
+          <ion-input formControlName="lastName" type="text" placeholder="Apellidos"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="calendar" item-left></ion-icon>
+            <ion-label stacked>Fecha de nacimiento:</ion-label>
+            <ion-datetime formControlName="dateBirth" displayFormat="MM-DD-YYYY" placeholder="MM-DD-YYY"></ion-datetime>
+          </ion-item>
+          <ion-row radio-group formControlName="gender">
+              <ion-item>
+                <ion-icon name="woman" item-left></ion-icon>
+                <ion-label>Mujer</ion-label>
+                <ion-radio value="2"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="man" item-left></ion-icon>
+                <ion-label>Hombre</ion-label>
+                <ion-radio value="1"></ion-radio>
+              </ion-item>
+            </ion-row>
+      <ion-item>
         <ion-icon name="mail" item-left></ion-icon>
         <ion-label stacked>Correo electronico:</ion-label>
         <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
@@ -33,39 +60,12 @@
               <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-icon name="eye" item-left></ion-icon>
+              <ion-icon name="" item-left></ion-icon>
               <ion-label stacked>Confirmar contraseña:</ion-label>
               <ion-input formControlName="passwordConfirmation" type="password" placeholder="Confirmar contraseña"></ion-input>
             </ion-item>
       </div>
-      <ion-item>
-        <ion-icon name="person" item-left></ion-icon>
-        <ion-label stacked>Nombre:</ion-label>
-        <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="person" item-left></ion-icon>
-        <ion-label stacked>Apellido:</ion-label>
-        <ion-input formControlName="lastName" type="text" placeholder="Apellidos"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="calendar" item-left></ion-icon>
-        <ion-label stacked>Fecha de nacimiento:</ion-label>
-        <ion-datetime formControlName="dateBirth" displayFormat="MM-DD-YYYY" placeholder="MM-DD-YYY"></ion-datetime>
-      </ion-item>
-      <ion-row radio-group formControlName="gender">
-          <ion-item>
-            <ion-icon name="woman" item-left></ion-icon>
-            <ion-label>Mujer</ion-label>
-            <ion-radio value="2"></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="man" item-left></ion-icon>
-            <ion-label>Hombre</ion-label>
-            <ion-radio value="1"></ion-radio>
-          </ion-item>
-        </ion-row>
-        <ion-row>
+      <ion-row>
           <ion-col class="signup-col">
             <button ion-button full icon-left class="submit-btn" (click)="registrar()">Registrarse</button><!-- Arreglar despues-->
           </ion-col>
