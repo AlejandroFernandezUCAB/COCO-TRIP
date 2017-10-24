@@ -34,7 +34,7 @@ export class CocoTrip {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
+      { title: 'Inicio', component: HomePage },
       //{ title: 'Login', component: LoginPage },
       { title: 'Perfil', component: PerfilPage },
       { title: 'Eventos y Actividades', component: EventosActividadesPage },
