@@ -10,27 +10,28 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
+
+  <ion-list no-lines>
+    <ion-item *ngFor = "let msg of mensajes" (press)="pressEvent1($event)">
+      <p class="triangle-right left">{{msg.contenido}}</p>
+      <ion-note class ="time" item-end>{{msg.tiempo}}</ion-note>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
 
 <ion-footer>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-10>
-        <ion-textarea placeholder="Escribe tu mensaje"
-                      [(ngModel)]="editorMsg">
-                      <!-- (keyup.enter)="enviar()" -->
-        </ion-textarea>
-      </ion-col>
-      <ion-col col-2>
-        <button ion-button icon-only item-right menuToggle>
-          <ion-icon name="send"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
+  <ion-toolbar>
+    <ion-item>
+     <!-- <ion-label class="nomargin"></ion-label> -->
+    <ion-textarea placeholder="Escribe tu mensaje" class="msgcontent"></ion-textarea>
+    </ion-item>
+    <ion-buttons right large>
+      <button class="sendbutton" (tap)="tapEvent2($event)">
+        <ion-icon name="send" color="light" class="resized"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>
