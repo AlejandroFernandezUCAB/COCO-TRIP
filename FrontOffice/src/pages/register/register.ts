@@ -31,6 +31,10 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
 
+  registrar() {
+    this.navCtrl.push(RegisterPage);
+  }
+
   private createMyForm(){
     return this.formBuilder.group({
       name: ['', Validators.required],

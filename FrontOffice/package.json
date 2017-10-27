@@ -30,7 +30,7 @@
     "angularfire2": "^5.0.0-rc.3",
     "cordova": "7.1.0",
     "cordova-android": "6.3.0",
-    "cordova-ios": "4.5.2",
+    "cordova-ios": "^4.5.2",
     "cordova-plugin-device": "^1.1.6",
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-firebase": "^0.1.24",

@@ -1,3 +1,26 @@
 page-edit-profile {
 
+    .imagen-perfil{
+        display: inline-block;
+        max-width:90vw;
+        max-height:50vh;
+        width: auto;
+        height: auto;
+        border-radius: 10%;
+    }
+    .action-sheets-basic-page {
+        .action-sheet-cancel ion-icon,
+        .action-sheet-destructive ion-icon {
+          color: #757575;
+        }
+      }
+
+    .centrado{
+        text-align: center;
+    }
+
+    .color-tittle{
+      color: #0B486B
+    }
+
 }
