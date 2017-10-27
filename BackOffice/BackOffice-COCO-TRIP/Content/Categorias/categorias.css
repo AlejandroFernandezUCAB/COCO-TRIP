@@ -1,0 +1,8 @@
+﻿.circle {
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 7px 2px 9px -1px rgba(0,0,0,0.33);
+    -moz-box-shadow: 7px 2px 9px -1px rgba(0,0,0,0.33);
+    box-shadow: 7px 2px 9px -1px rgba(0,0,0,0.33);
+}
