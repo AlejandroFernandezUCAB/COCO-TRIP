@@ -1,0 +1,38 @@
+﻿@Styles.Render("~/bundles/categoriesCSS")
+<div class="card color-texto">
+    <div class="container-fluid pad-top">
+        <div><h4>Ingrese los datos:</h4></div>
+        <hr>
+        <form class="form-horizontal">
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 control-label">Nombre</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="NombreCategoriaCrear" placeholder="Categoría">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 control-label">Descripción</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="DescripcionCategoriaCrear" placeholder="Descripción">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputCategorie" class="col-sm-2 control-label">Categoría Superior</label>
+                <div class="col-sm-10">
+                    <select id="CategoriaSuperiorCrear" class="form-control">
+                        <option selected>Elegir</option>
+                        <option>Evento</option>
+                        <option>Lugar</option>
+                        <option>Turista</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary pull-right">Agregar Categoría</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
