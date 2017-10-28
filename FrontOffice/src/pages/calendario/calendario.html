@@ -16,7 +16,7 @@
 </ion-header>
 
 
-<ion-content>
+<!-- <ion-content>
   <calendar [eventSource]="eventSource"
           [calendarMode]="calendar.mode"
           [currentDate]="calendar.currentDate"
@@ -26,4 +26,15 @@
           step="30"
           class="calendar">
   </calendar>
+</ion-content> -->
+<ion-content padding>
+  <ion-calendar [(ngModel)]="date"
+              (onChange)="onChange($event)"
+              [type]="type"
+              [options]="options"
+              [format]="'YYYY-MM-DD'">
+</ion-calendar>
+<button icon-only (click)="openCalendar()">
+  <ion-icon name="calendar"></ion-icon>
+</button>
 </ion-content>
