@@ -17,8 +17,9 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { RegisterPage } from '../pages/register/register';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { PreferenciasPage } from "../pages/preferencias/preferencias";
+import { CalendarioPage } from '../pages/calendario/calendario';
 
-
+import { NgCalendarModule } from 'ionic2-calendar';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -79,9 +80,11 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     ChangepassPage,
     ConfigPage,
     BorrarCuentaPage,
-    PreferenciasPage
+    PreferenciasPage,
+    CalendarioPage
   ],
   imports: [
+    NgCalendarModule,
     BrowserModule,
     IonicModule.forRoot(CocoTrip),
     CloudModule.forRoot(cloudSettings),
@@ -112,7 +115,8 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     ChangepassPage,
     ConfigPage,
     BorrarCuentaPage,
-    PreferenciasPage
+    PreferenciasPage,
+    CalendarioPage
   ],
   providers: [
     StatusBar,

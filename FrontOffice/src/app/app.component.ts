@@ -16,8 +16,8 @@ import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { PreferenciasPage } from '../pages/preferencias/preferencias';
 import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
-
 import { ChangepassPage } from '../pages/changepass/changepass';
+import {CalendarioPage } from '../pages/calendario/calendario';
 
 @Component({
   templateUrl: 'app.html'
@@ -34,7 +34,7 @@ export class CocoTrip {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
+      { title: 'Inicio', component: HomePage },
       //{ title: 'Login', component: LoginPage },
       { title: 'Perfil', component: PerfilPage },
       { title: 'Eventos y Actividades', component: EventosActividadesPage },

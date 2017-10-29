@@ -10,10 +10,140 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Itinerario</ion-title>
+    <ion-buttons end *ngIf="!edit&&!delete">
+      <button ion-button icon-only (click)="calendar()">
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="edit">
+      <button ion-button (click)="done()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="delete">
+      <button ion-button (click)="doneDeleting()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
+<ion-content>
 
-<ion-content padding>
+    <ion-fab bottom right>
+      <button ion-fab style="color: white;" color="primary">
+        <ion-icon name="more"></ion-icon>
+      </button>
+      <ion-fab-list side="top">
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="twcs" (click)="listar()">
+          <ion-icon name="list"></ion-icon>
+        </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="crear()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-fab-list>
+    </ion-fab>
 
+    <ion-label text-wrap text-center>
+      <p text-uppercase *ngIf="noIts&&!list" style="font-size:17px; margin-top: 50px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box; justify-content:space-between;">
+      - No posee ningún itinerario -</p>
+    </ion-label>
+<ion-slides *ngIf="!list" loop="true" style="height: auto;" #slider>
+<ion-slide *ngFor="let itinerario of its; let i= index">
+  <ion-list>
+    <ion-list-header style="margin-bottom: 0px; display: block" text-wrap>
+      <p text-uppercase *ngIf="!edit" style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box; justify-content:space-between;">
+        {{itinerario.nombre}}</p>
+        <p *ngIf="!edit" style="font-size: smaller; color: #3B8686;" text-left text-uppercase>
+          Comienza: {{itinerario.fechaInicio | date: 'dd/MM/yyyy - HH:mm'}}
+        </p>
+        <p *ngIf="!edit" style="font-size: smaller; color: #3B8686;" text-left text-uppercase>
+          Termina: {{itinerario.fechaFin | date: 'dd/MM/yyyy - HH:mm'}}
+        </p>
+        <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(itinerario.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar itinerario</p>
+        </button>
+        <!-- (ionChange)="pre-delete(itinerario.nombre)" -->
+      <div style="justify-content:space-between;">
+        <button ion-button small icon-only clear *ngIf="!edit&&!delete" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario.nombre)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">Agregar items</p>
+        </button>
+        <button ion-button small icon-only clear *ngIf="nuevoViejo" (click)="ordenar()">
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+        <button ion-button small icon-only clear *ngIf="!nuevoViejo" (click)="ordenar()">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+      <ion-item *ngIf="edit">
+        <ion-input #input *ngIf="edit" text-uppercase [(ngModel)]="itinerario.nombre" style="font-family: 'Open Sans', sans-serif;
+        font-size:17px; margin-top: 9px; color: #3B8686;"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="edit">
+        <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">Start</ion-label>
+        <ion-datetime *ngIf="edit" style="font-family: 'Open Sans', sans-serif;
+        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="itinerario.fechaInicio" [min]="minDate"></ion-datetime>
+      </ion-item>
+      <ion-item *ngIf="edit">
+        <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">End</ion-label>
+        <ion-datetime *ngIf="edit" style="font-family: 'Open Sans', sans-serif;
+        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="itinerario.fechaFin" [min]="minDate"></ion-datetime>
+      </ion-item>
+    </ion-list-header>
+      <ion-item-group reorder="true" (ionItemReorder)="$event.applyTo(itinerario.eventos)">
+        <ion-item *ngFor="let evento of itinerario.eventos; let i=index" (click) ="verItem(evento, itinerario)" text-wrap>
+          <section>
+            <ion-buttons start *ngIf="delete">
+              <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirmItem(itinerario.id, evento.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar</p>
+              </button>
+            </ion-buttons>
+          </section>
+            <ion-avatar item-start>
+              <img *ngIf="evento.imagen" [src]="evento.imagen">
+            </ion-avatar>
+            <p style="font-weight:semibold">{{evento.titulo}}</p>
+            <p><small>{{evento.startTime | date: 'dd/MM/yyyy' }}  -  {{evento.endTime | date: 'dd/MM/yyyy' }}</small></p>
+            <p style="color: #3B8686" text-capitalize><small>{{evento.tipo}}</small></p>
+
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+  </ion-slide>
+</ion-slides>
+
+<ion-list *ngIf="list">
+  <ion-list-header style="margin-bottom: 0px; display: block">
+    <p text-uppercase *ngIf="!edit" style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box;">
+      Mis Itinerarios</p>
+    <ion-item text-center>
+      <div style="justify-content:space-between;">
+        <button ion-button small icon-only clear *ngIf="!edit&&!delete&&!list" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario.nombre)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">Agregar items</p>
+        </button>
+        <button ion-button small icon-only clear *ngIf="nuevoViejo" (click)="ordenarIt()">
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+        <button ion-button small icon-only clear *ngIf="!nuevoViejo" (click)="ordenarIt()">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+    </ion-item>
+  </ion-list-header>
+  <ion-item-group reorder="true" (ionItemReorder)="$event.applyTo(its)">
+    <ion-item *ngFor="let itinerario of its; let i= index" (click)="list=false;" >
+      <p style="color: #3B8686;"><strong>{{itinerario.nombre}}</strong> - {{itinerario.eventos.length}} eventos</p>
+      <p>{{itinerario.fechaInicio | date: 'dd/MM/yyyy'}} - {{itinerario.fechaFin | date: 'dd/MM/yyyy'}}</p>
+    </ion-item>
+    <ion-label text-wrap text-center>
+      <p text-uppercase *ngIf="noIts&&list" style="font-size:17px; margin-top: 50px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box; justify-content:space-between;">
+      - No posee ningún itinerario -</p>
+    </ion-label>
+      <!-- <ion-item-options side="left">
+        <button ion-button expandable (click)="presentConfirm(itinerario.id, i)">Delete</button>
+     </ion-item-options> -->
+  </ion-item-group>
+</ion-list>
 </ion-content>
