@@ -1,0 +1,37 @@
+<!--
+  Generated template for the ItemModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{itinerario}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon item-right name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+  <ion-label>Tipo</ion-label>
+  <ion-select [(ngModel)]="tipo_item">
+    <ion-option value="evento">Evento</ion-option>
+    <ion-option value="lugar">Lugar Turístico</ion-option>
+    <ion-option value="actividad">Mis actividades</ion-option>
+  </ion-select>
+</ion-item>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-list>
+        <ion-item *ngFor="let item of items" (click)="verItems(item.id)">
+          <ion-avatar item-start>
+            <img *ngIf="item.imagen" [src]="item.imagen">
+          </ion-avatar>
+            {{item.titulo}}
+        </ion-item>
+    </ion-list>
+</ion-content>

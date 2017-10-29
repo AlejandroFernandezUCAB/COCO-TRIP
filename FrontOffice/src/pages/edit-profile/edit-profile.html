@@ -1,0 +1,72 @@
+<!--
+  Generated template for the EditProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Editar Datos Personales</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding class="action-sheets-basic-page">
+  <form>
+    <ion-list>
+
+        <ion-title text-center><img alt="logo" src="assets/images/ron.jpeg" class="imagen-perfil"></ion-title>
+        <h2 text-center (click)="openMenu()" class="color-tittle">
+            Cambiar Foto
+        </h2>
+    
+      <ion-item>
+        <ion-label floating>Nombre</ion-label>
+        <ion-input type="text" name="nombre" clearInput="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label floating>Apellido</ion-label>
+          <ion-input type="text" name="apellido" clearInput="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label floating>Fecha de Nacimiento</ion-label>
+          <ion-datetime name="fechanac" displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
+      </ion-item>
+
+      <!-- <ion-item>
+          <ion-label fixed >Ubicacion</ion-label>
+          <ion-select name="ubicacion" [(ngModel)]="place">
+            <ion-option value="vzla">Venezuela</ion-option>
+            <ion-option value="jpn">Japon</ion-option>
+            <ion-option value="usa">USA</ion-option>
+            <ion-option value="Fra">Francia</ion-option>
+            <ion-option value="Ale">Alemania</ion-option>
+            <ion-option value="col">Colombia</ion-option>
+          </ion-select>
+      </ion-item> -->
+
+      <!-- <ion-item>
+          <ion-label>Numero Telefonico</ion-label>
+          <ion-input type="number" name="telf" clearInput="true"></ion-input>
+      </ion-item> -->
+
+      <ion-item>
+          <ion-label floating >Sexo</ion-label>
+          <ion-select name="sexo" [(ngModel)]="gender">
+            <ion-option value="hom">Hombre</ion-option>
+            <ion-option value="muj">Mujer</ion-option>
+          </ion-select>
+      </ion-item>
+        
+    </ion-list>
+
+    <button ion-button block [navPush]="change">Cambiar Contraseña</button>
+    <button ion-button type="submit" block (click)="showToastWithCloseButton()">Guardar Cambios</button>
+
+  </form>
+
+  
+</ion-content>

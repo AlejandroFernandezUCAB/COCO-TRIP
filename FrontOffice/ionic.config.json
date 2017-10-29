@@ -1,6 +1,6 @@
 {
   "name": "coco-trip-app",
-  "app_id": "",
+  "app_id": "abd7650b",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
