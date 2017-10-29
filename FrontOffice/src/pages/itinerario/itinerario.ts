@@ -33,7 +33,7 @@ export class ItinerarioPage {
   originalEventDates = Array();
   eventDatesAsInt = Array();
   noIts = false;
-  //************** fFIN DE DECLARACION DE VARIABLES *****************
+  //************** FIN DE DECLARACION DE VARIABLES *****************
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, public alertCtrl: AlertController) {
     //this.its = Array();
     //this.its.eventos=Array();
@@ -43,7 +43,7 @@ export class ItinerarioPage {
 
     if (this.its == undefined){
       this.noIts = true;
-    }
+      }
   }
 
 
@@ -79,8 +79,13 @@ export class ItinerarioPage {
           text: 'Crear',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
+              console.log(data);
               if (this.its == undefined) this.its=Array();
-              this.its.push({nombre: data.Nombre});
+              this.its.push({
+                nombre: data.Nombre,
+                eventos: Array()
+              });
+              //this.its[this.its.length].eventos = Array();
             } else {
               // invalid login
               return false;
@@ -331,8 +336,8 @@ export class ItinerarioPage {
   }
 
   parseDateStrToInt(input) {
-  var parts = input.split('/');
-  // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+    var parts = input.split('/');
+    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
       return new Date(parts[0], parts[1]-1, parts[2]).getTime(); // Note: months are 0-based
   }
 

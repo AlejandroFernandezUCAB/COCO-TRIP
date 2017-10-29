@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Eventos del Dia</ion-title>
+    <ion-title>{{date}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="closeModal()">
         <ion-icon item-right name="close"></ion-icon>
@@ -16,5 +16,13 @@
 </ion-header>
 
 <ion-content padding>
-
+<ion-list>
+  <ion-item-group>
+    <ion-item *ngFor="let evento of eventos">
+      <p>{{evento.titulo}}</p>
+      <!-- luego cambiar a que muestre las horas -->
+      <p>Comienza: {{evento.startTime}} | Termina: {{evento.startTime}}</p>
+    </ion-item>
+  </ion-item-group>
+</ion-list>
 </ion-content>

@@ -160,6 +160,7 @@ import { IonicPage, NavController, NavParams, ModalController, AlertController }
 import { CalendarModal, CalendarModalOptions, DayConfig } from "ion2-calendar";
 import { CalendarComponentOptions } from 'ion2-calendar';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -174,7 +175,7 @@ export class CalendarioPage {
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
   _daysConfig= this.eventos.getEventosItinerario();
   options: CalendarComponentOptions = {
-    color: 'secondary',
+    color: 'primary',
     daysConfig: this._daysConfig
   };
   constructor(
@@ -313,7 +314,7 @@ export class CalendarioPage {
           titulo: 'Aventuras en Paris',
           tipo: 'evento',
           imagen:  'paris.jpg',
-          startTime: '01/01/2018',
+          startTime: '01/01/2018 3:45 a',
           endTime:'01/01/2018'
         },
         {
@@ -411,7 +412,6 @@ export class CalendarioPage {
           endTime: '05/02/2018'
         },
       ];
-      console.log(this.items);
         for (let i= 0 ; i < this.items.length; i++){
         this._daysConfig.push({
           date: new Date(this.items[i].startTime),
@@ -424,10 +424,12 @@ export class CalendarioPage {
     }
 
     onChange($event) {
-      // let eventos = this.items.filter(item => {
-      //
-      // })
-      let modal = this.modalCtrl.create('DetalleDiaPage', {date: $event});
+      console.log($event._d);
+       let eventos = this.items.filter(item => {
+         return (item.startTime == moment($event._d).format('DD/MM/YYYY'))
+       })
+       console.log(eventos);
+      let modal = this.modalCtrl.create('DetalleDiaPage', {date: $event , eventos: eventos});
       modal.present();
       modal.onDidDismiss(data => {
         console.log(data);
