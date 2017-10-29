@@ -1,8 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { NgCalendarModule } from 'ionic2-calendar';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { Facebook } from '@ionic-native/facebook'
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { CocoTrip } from './app.component';
+
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
@@ -12,20 +17,22 @@ import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-act
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
 import { ChatPage } from '../pages/chat/chat';
 import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
-import { Facebook } from '@ionic-native/facebook'
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { RegisterPage } from '../pages/register/register';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { PreferenciasPage } from "../pages/preferencias/preferencias";
 import { CalendarioPage } from '../pages/calendario/calendario';
-
-import { NgCalendarModule } from 'ionic2-calendar';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 import { ChangepassPage } from '../pages/changepass/changepass';
+import { AmigosPage } from '../pages/amistades-grupos/amigos/amigos';
+import { GruposPage } from '../pages/amistades-grupos/grupos/grupos';
+import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/notificaciones';
+import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
+import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
+import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
+import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
+import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
+import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
 
 
 const cloudSettings: CloudSettings = {
@@ -39,19 +46,6 @@ const cloudSettings: CloudSettings = {
     }
   }
 }
-
-import { AmigosPage } from '../pages/amistades-grupos/amigos/amigos';
-import { GruposPage } from '../pages/amistades-grupos/grupos/grupos';
-import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/notificaciones';
-
-import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
-import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
-
-import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
-
-import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
-import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
-import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
 
 @NgModule({
   declarations: [
@@ -122,7 +116,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Facebook
+    Facebook,
   ]
 })
 export class AppModule {}
