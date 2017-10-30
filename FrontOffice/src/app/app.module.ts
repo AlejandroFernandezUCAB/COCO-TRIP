@@ -54,6 +54,7 @@ import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
 import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
 import { CalendarModule } from "ion2-calendar";
 import { EventosCalendarioService } from '../services/eventoscalendario'
+import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { EventosCalendarioService } from '../services/eventoscalendario'
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     ChatPage,
     EditProfilePage,
@@ -112,7 +113,7 @@ import { EventosCalendarioService } from '../services/eventoscalendario'
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     EditProfilePage,
     ChangepassPage,
