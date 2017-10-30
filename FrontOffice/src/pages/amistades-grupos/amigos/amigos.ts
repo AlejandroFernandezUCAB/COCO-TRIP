@@ -1,5 +1,5 @@
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
-import { AgregarAmigoPage } from '../../agregar-amigo/agregar-amigo';
+import { BuscarAmigoPage } from '../../buscar-amigo/buscar-amigo';
 import { Component } from '@angular/core';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
@@ -82,7 +82,7 @@ export class AmigosPage {
     //AQUI SE COLOCAN LAS LLAMADAS PARA ABRIR EL CHAT 
   agregaramigo()
 {
-  this.navCtrl.push(AgregarAmigoPage);
+  this.navCtrl.push(BuscarAmigoPage);
 
 }
 

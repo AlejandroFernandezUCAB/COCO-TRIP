@@ -51,7 +51,7 @@ import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
 
 import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
 import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
-import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
+import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 
 @NgModule({
   declarations: [
@@ -73,7 +73,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     ChatPage,
     EditProfilePage,
@@ -109,7 +109,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     EditProfilePage,
     ChangepassPage,

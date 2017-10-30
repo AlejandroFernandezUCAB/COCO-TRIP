@@ -11,10 +11,10 @@ import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualiz
 
 @IonicPage()
 @Component({
-  selector: 'page-agregar-amigo',
-  templateUrl: 'agregar-amigo.html',
+  selector: 'page-buscar-amigo',
+  templateUrl: 'buscar-amigo.html',
 })
-export class AgregarAmigoPage {
+export class BuscarAmigoPage {
 
   toggled: boolean;
   searchTerm: String = '';

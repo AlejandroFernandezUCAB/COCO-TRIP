@@ -12,10 +12,15 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="action-sheets-basic-page">
   <form>
     <ion-list>
 
+        <ion-title text-center><img alt="logo" src="assets/images/ron.jpeg" class="imagen-perfil"></ion-title>
+        <h2 text-center (click)="openMenu()" class="color-tittle">
+            Cambiar Foto
+        </h2>
+    
       <ion-item>
         <ion-label floating>Nombre</ion-label>
         <ion-input type="text" name="nombre" clearInput="true"></ion-input>
