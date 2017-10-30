@@ -30,8 +30,10 @@ export class ItinerarioPage {
     initialSlide: 0,
     loop: true
   };
+  originalEventDates = Array();
+  eventDatesAsInt = Array();
   noIts = false;
-  //************** fFIN DE DECLARACION DE VARIABLES *****************
+  //************** FIN DE DECLARACION DE VARIABLES *****************
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, public alertCtrl: AlertController) {
     //this.its = Array();
     //this.its.eventos=Array();
@@ -41,7 +43,7 @@ export class ItinerarioPage {
 
     if (this.its == undefined){
       this.noIts = true;
-    }
+      }
   }
 
 
@@ -77,8 +79,13 @@ export class ItinerarioPage {
           text: 'Crear',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
+              console.log(data);
               if (this.its == undefined) this.its=Array();
-              this.its.push({nombre: data.Nombre});
+              this.its.push({
+                nombre: data.Nombre,
+                eventos: Array()
+              });
+              //this.its[this.its.length].eventos = Array();
             } else {
               // invalid login
               return false;
@@ -182,19 +189,19 @@ export class ItinerarioPage {
           tipo: 'evento',
           imagen: '../assets/images/epcot.jpg',
           titulo: 'Epcot International Festival of the Arts',
-          startTime: moment('01/01/2018').format(),
-          endTime: moment('01/04/2018').format(),
+          startTime: '2018/01/01',
+          endTime: '2018/01/01',
         },
         {
           id: 2,
           tipo: 'evento',
           imagen: '../assets/images/disney-maraton.jpg',
           titulo: 'Walt Disney World Marathon Weekend',
-          startTime: moment('01/01/2018').format(),
-          endTime: moment('01/06/2018').format(),
+          startTime: '2018/02/01',
+          endTime: '2018/02/01',
         }),
-        fechaInicio: moment('02/01/2018').format(),
-        fechaFin: moment('02/02/2018').format()
+        fechaInicio: '2018/02/01',
+        fechaFin: '2018/02/01'
       },
       { id: 2,
         nombre: 'Viaje a Paris',
@@ -205,17 +212,34 @@ export class ItinerarioPage {
           imagen: '../assets/images/default-avatar1.svg',
           titulo: 'Comer croissants en la Torre Eiffel',
           //***************MM/DD/YYYY************
-          startTime: moment('03/01/2018').format(),
-          endTime: moment('03/03/2018').format(),
+          startTime: '2018/03/01',
+          endTime: '2018/03/01',
         }),
-        fechaInicio: moment('03/01/2018').format(),
-        fechaFin: moment('04/01/2018').format()
+        fechaInicio: '2018/01/01',
+        fechaFin: '2018/01/01'
       });
     }
   }
 
   ordenar(){
     this.nuevoViejo = !this.nuevoViejo;
+    var dates = Array();
+    if (this.nuevoViejo == true){
+     for(var i = 0;i< this.its.length;i++) {
+       this.its[i].eventos.sort(function(a,b){
+            return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
+         });
+       }
+    }else{
+      for(var i = 0;i< this.its.length;i++) {
+        this.its[i].eventos.sort(function(a,b){
+             return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+          });
+        }
+    }
+    // var dates = dates_as_int.map(function(dateStr) {
+    // return new Date(dateStr).getTime();
+    // });
     // if (this.nuevoViejo == true){
     //   for(var i = 0;i< this.its.length;i++) {
     //     this.its[i].eventos.sort(function(a,b){
@@ -233,16 +257,16 @@ export class ItinerarioPage {
 
   ordenarIt(){
     this.nuevoViejo = !this.nuevoViejo;
-    // if (this.nuevoViejo == true){
-    //     this.its.sort(function(a,b){
-    //       return new Date(b.fechaInicio) - new Date(a.fechaInicio);
-    //     });
-    //
-    // }else{
-    //   this.its.sort(function(a,b){
-    //     return new Date(a.fechaInicio) - new Date(b.fechaInicio);
-    //   });
-    // }
+    if (this.nuevoViejo == true){
+        this.its.sort(function(a,b){
+          return new Date(b.fechaInicio).getTime() - new Date(a.fechaInicio).getTime();
+        });
+
+    }else{
+      this.its.sort(function(a,b){
+        return new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime();
+      });
+    }
   }
 
   agregarItem(iti){
@@ -301,7 +325,20 @@ export class ItinerarioPage {
 
   ionViewWillEnter(){
     this.cargarItinerarios();
+    var dates
+    for(var i = 0;i< this.its.length;i++) {
+      // dates = new Date(this.its[i].fechaInicio).getTime();
+      // var dates_as_int = dates.map(Date.parse);
+      // console.log("antes > "+ this.its[i].fechaInicio+" despues > " + dates);
+      dates = this.parseDateStrToInt(this.its[i].fechaInicio);
+      console.log(dates);
+    }
+  }
 
+  parseDateStrToInt(input) {
+    var parts = input.split('/');
+    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+      return new Date(parts[0], parts[1]-1, parts[2]).getTime(); // Note: months are 0-based
   }
 
   ionViewDidLoad() {
