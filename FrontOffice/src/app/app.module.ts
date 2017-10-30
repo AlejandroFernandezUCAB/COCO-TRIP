@@ -52,6 +52,9 @@ import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
 import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
 import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
 import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
+import { CalendarModule } from "ion2-calendar";
+import { EventosCalendarioService } from '../services/eventoscalendario'
+import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     ChatPage,
     EditProfilePage,
@@ -88,6 +91,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     BrowserModule,
     IonicModule.forRoot(CocoTrip),
     CloudModule.forRoot(cloudSettings),
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -109,7 +113,7 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     CrearGrupoPage,
     CrearGrupo2Page,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     EditProfilePage,
     ChangepassPage,
@@ -122,7 +126,8 @@ import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Facebook
+    Facebook,
+    EventosCalendarioService
   ]
 })
 export class AppModule {}
