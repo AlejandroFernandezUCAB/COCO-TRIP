@@ -113,7 +113,7 @@ export class ItemModalPage {
       }
     }
 
-    verItems(item_id){
+  verItems(item_id){
         let vlista= this.items.filter(function(e,i){ return e.id==item_id})[0];
         let alert = this.alertCtrl.create({
           title: 'Por favor, confirmar',
