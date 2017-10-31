@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -51,6 +52,22 @@
                                     <li><a href="@Url.Action("Create", "Categories")"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
                                     <li class="active"><a href="@Url.Action("Index", "Categories")"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Categorías</a></li>
                                 </ul>
+
+                              <li data-toggle="collapse" data-target="#localidadesEventosOption" class="collapsed active">
+                                <a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i>Localidades Eventos</a>
+                              </li>
+                              <ul class="sub-menu collapse sideItem" id="localidadesEventosOption">
+                                <li><a href="@Url.Action("CreateLocationEvent", "Locations")"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
+                                <li class="active"><a href="@Url.Action("ListLocationEvent", "Locations")"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
+                              </ul>
+
+                              <li data-toggle="collapse" data-target="#eventsOption" class="collapsed active">
+                                <a href="#"><i class="fa fa-star" aria-hidden="true"></i>Eventos</a>
+                              </li>
+                              <ul class="sub-menu collapse sideItem" id="eventsOption">
+                                <li><a href="@Url.Action("CreateEvent", "Events")"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
+                                <li class="active"><a href="@Url.Action("FilterEvent", "Events")"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
+                              </ul>
                             </ul>
                         </div>
 
