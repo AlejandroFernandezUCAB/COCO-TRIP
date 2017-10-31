@@ -5,78 +5,158 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import { DayConfig } from 'ion2-calendar';
+import * as moment from 'moment';
 
 @Injectable()
 
 export class EventosCalendarioService {
-  eventos = [];
+  _eventos = [];
+  _itinerarios = [];
   _daysConfig: DayConfig[] = [];
+  _base_url = '../assets/images/';
+  _notificaciones = Object();
   constructor(){
 
-  }
+    this._notificaciones = {
+      correo: true,
+      push: false
+    }
 
-  public getEventosItinerario() {
-    this.eventos = [
+    this._eventos = [
       {
         id: 4,
         titulo: 'Aventuras en Paris',
         tipo: 'evento',
-        imagen: 'paris.jpg',
+        imagen: this._base_url+'paris.jpg',
         startTime: '01/01/2018',
-        endTime:'01/01/2018'
+        horaInicio: '2:30 PM',
+        endTime:'01/01/2018',
+        horaFin: '3:30 PM'
       },
       {
         id: 5,
         titulo: 'Amsterdam Sightseeing',
         tipo: 'lugar',
-        imagen: 'Amsterdam.jpg',
-        startTime: '02/02/2018',
-        endTime: '02/03/2018'
+        imagen: this._base_url+'Amsterdam.jpg',
+        startTime: '01/01/2018',
+        horaInicio: '2:00 PM',
+        endTime: '01/01/2018',
+        horaFin: '3:00 PM'
       },
       {
         id: 6,
         titulo: 'Aventuras Divertidas',
         tipo: 'actividad',
-        imagen: 'default-avatar1.svg',
-        startTime:'01/02/2018',
-        endTime: '01/02/2018'
+        imagen: this._base_url + 'default-avatar1.svg',
+        startTime:'01/01/2018',
+        horaInicio: '4:00 PM',
+        endTime: '01/01/2018',
+        horaFin: '4:30 PM'
       },
       {
         id: 7,
         titulo: 'Un Lugar',
         tipo: 'lugar',
-        imagen: 'default-avatar1.svg',
-        startTime: new Date(),
-        endTime: new Date()
+        imagen: this._base_url + 'default-avatar1.svg',
+        startTime: '',
+        horaInicio: '',
+        endTime: '',
+        horaFin: ''
       },
       {
         id: 8,
         titulo: 'Un evento',
         tipo: 'lugar',
-        imagen: 'default-avatar1.svg',
+        imagen: this._base_url + 'default-avatar1.svg',
         startTime: '04/02/2018',
-        endTime: '04/02/2018'
+        horaInicio: '4:30 PM',
+        endTime: '04/02/2018',
+        horaFin: '5:30 PM'
       },
       {
         id: 9,
         titulo: 'Una de tus actividades',
         tipo: 'actividad',
-        imagen: 'default-avatar1.svg',
+        imagen: this._base_url + 'default-avatar1.svg',
         startTime: '05/02/2018',
-        endTime: '05/02/2018'
+        horaInicio: '1:00 PM',
+        endTime: '05/02/2018',
+        horaFin: '2:00 PM'
       },
     ];
 
-    console.log(this.eventos);
-      for (let i= 0 ; i < this.eventos.length; i++){
-      this._daysConfig.push({
-        date: new Date(this.eventos[i].startTime),
-        subTitle: '*',
-        marked: true,
+    this._itinerarios.push({
+      id: 1,
+      nombre: 'Disney World',
+      eventos:
+      Array({
+        id: 1,
+        tipo: 'evento',
+        imagen: '../assets/images/epcot.jpg',
+        titulo: 'Epcot International Festival of the Arts',
+        startTime: '01/01/2018',
+        horaInicio: '03:08PM',
+        endTime: '01/01/2018',
+        horaFin: '05:00PM'
+        },
+        {
+        id: 2,
+        tipo: 'evento',
+        imagen: '../assets/images/disney-maraton.jpg',
+        titulo: 'Walt Disney World Marathon Weekend',
+        startTime: '01/02/2018',
+        horaInicio: '01:00 PM',
+        endTime: '01/02/2018',
+        horaFin: '05:00 PM'
+        }),
+      fechaInicio: '01/02/2018',
+      fechaFin: '01/02/2018'
+      },
+      {
+      id: 2,
+      nombre: 'Viaje a Paris',
+      eventos:
+      Array({
+        id: 3,
+        tipo: 'actividad',
+        imagen: '../assets/images/default-avatar1.svg',
+        titulo: 'Comer croissants en la Torre Eiffel',
+        //***************MM/DD/YYYY************
+        startTime: '01/02/2018',
+        horaInicio: '03:00 PM',
+        endTime: '01/02/2018',
+        horaFin: '05:00 PM'
+        }),
+      fechaInicio: '01/02/2018',
+      fechaFin: '01/02/2018'
       });
+
+  }
+
+  public getEventosItinerario() {
+      for (let i= 0 ; i < this._itinerarios.length; i++){
+        for (let j =0;  j< this._itinerarios[i].eventos.length; j++)
+        {
+          this._daysConfig.push({
+            date: new Date(this._itinerarios[i].eventos[j].startTime),
+            subTitle: '*',
+            marked: true,
+          });
+        }
     }
-    console.log(this._daysConfig);
     return this._daysConfig;
+  }
+
+  public getItinerarios() {
+    return this._itinerarios;
+  }
+
+  public getEventosGlobales(){
+    return this._eventos;
+  }
+
+  public getNotifcacionesConfig(){
+    return this._notificaciones;
   }
 
 }

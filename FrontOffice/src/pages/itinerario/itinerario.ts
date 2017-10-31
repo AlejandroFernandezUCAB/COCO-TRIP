@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ModalController } from 'ionic-angular';
 import { CalendarioPage } from '../calendario/calendario';
 import * as moment from 'moment';
+import { EventosCalendarioService } from '../../services/eventoscalendario';
 /**
  * Generated class for the ItinerarioPage page.
  *
@@ -34,7 +35,13 @@ export class ItinerarioPage {
   eventDatesAsInt = Array();
   noIts = false;
   //************** FIN DE DECLARACION DE VARIABLES *****************
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, public alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public itinerarios: EventosCalendarioService
+  ) {
     //this.its = Array();
     //this.its.eventos=Array();
     for (let x = 0; x < 5; x++) {
@@ -178,48 +185,6 @@ export class ItinerarioPage {
     this.delete = false;
   }
 
-  cargarItinerarios(){
-    if (this.its.length == 0){
-      this.its.push({
-        id: 1,
-        nombre: 'Disney World',
-        eventos:
-        Array({
-          id: 1,
-          tipo: 'evento',
-          imagen: '../assets/images/epcot.jpg',
-          titulo: 'Epcot International Festival of the Arts',
-          startTime: '2018/01/01',
-          endTime: '2018/01/01',
-        },
-        {
-          id: 2,
-          tipo: 'evento',
-          imagen: '../assets/images/disney-maraton.jpg',
-          titulo: 'Walt Disney World Marathon Weekend',
-          startTime: '2018/02/01',
-          endTime: '2018/02/01',
-        }),
-        fechaInicio: '2018/02/01',
-        fechaFin: '2018/02/01'
-      },
-      { id: 2,
-        nombre: 'Viaje a Paris',
-        eventos:
-        Array({
-          id: 3,
-          tipo: 'actividad',
-          imagen: '../assets/images/default-avatar1.svg',
-          titulo: 'Comer croissants en la Torre Eiffel',
-          //***************MM/DD/YYYY************
-          startTime: '2018/03/01',
-          endTime: '2018/03/01',
-        }),
-        fechaInicio: '2018/01/01',
-        fechaFin: '2018/01/01'
-      });
-    }
-  }
 
   ordenar(){
     this.nuevoViejo = !this.nuevoViejo;
@@ -324,15 +289,7 @@ export class ItinerarioPage {
   }
 
   ionViewWillEnter(){
-    this.cargarItinerarios();
-    var dates
-    for(var i = 0;i< this.its.length;i++) {
-      // dates = new Date(this.its[i].fechaInicio).getTime();
-      // var dates_as_int = dates.map(Date.parse);
-      // console.log("antes > "+ this.its[i].fechaInicio+" despues > " + dates);
-      dates = this.parseDateStrToInt(this.its[i].fechaInicio);
-      console.log(dates);
-    }
+    this.its = this.itinerarios.getItinerarios();
   }
 
   parseDateStrToInt(input) {
@@ -341,9 +298,14 @@ export class ItinerarioPage {
       return new Date(parts[0], parts[1]-1, parts[2]).getTime(); // Note: months are 0-based
   }
 
-  ionViewDidLoad() {
-    console.log('yujule');
+  configurarNotificaciones() {
+    let modal = this.modalCtrl.create('ConfigNotificacionesItiPage');
+    modal.present();
+    modal.onDidDismiss(data => {
+      if (data) {
+        console.log(data);
+      }
+    })
   }
-
 
 }
