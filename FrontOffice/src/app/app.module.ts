@@ -24,16 +24,6 @@ import { CalendarioPage } from '../pages/calendario/calendario';
 import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 import { ChangepassPage } from '../pages/changepass/changepass';
-import { AmigosPage } from '../pages/amistades-grupos/amigos/amigos';
-import { GruposPage } from '../pages/amistades-grupos/grupos/grupos';
-import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/notificaciones';
-import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
-import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
-import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
-import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
-import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
-import { AgregarAmigoPage } from '../pages/agregar-amigo/agregar-amigo';
-
 
 const cloudSettings: CloudSettings = {
   'core': {
