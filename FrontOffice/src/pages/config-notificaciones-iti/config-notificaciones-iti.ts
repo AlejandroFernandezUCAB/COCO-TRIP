@@ -12,8 +12,9 @@ export class ConfigNotificacionesItiPage {
     correo: false,
     push: false
   };
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public notificaciones: EventosCalendarioService) {
+  _itinerarios = Array();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public servicio: EventosCalendarioService) {
+    this._itinerarios= this.servicio.getItinerarios();
   }
 
   closeModal() {
@@ -24,7 +25,12 @@ export class ConfigNotificacionesItiPage {
     console.log(tipo + " " + valor);
   }
 
+  updateVisible(itinerario){
+    console.log(itinerario);
+    this.servicio.updateItinerarioVisible(itinerario);
+  }
+
   ionViewWillEnter(){
-    this._notif = this.notificaciones.getNotifcacionesConfig(); 
+    this._notif = this.servicio.getNotifcacionesConfig();
   }
 }
