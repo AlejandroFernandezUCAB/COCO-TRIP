@@ -96,10 +96,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\M5\Actividad.cs" />
+    <Compile Include="Models\M5\Agenda.cs" />
+    <Compile Include="Models\M5\Amigo.cs" />
+    <Compile Include="Models\M5\Evento.cs" />
+    <Compile Include="Models\M5\Grupo.cs" />
+    <Compile Include="Models\M5\Itinerario.cs" />
+    <Compile Include="Models\M5\LocalidadDeEventos.cs" />
+    <Compile Include="Models\M5\LT_Foto.cs" />
+    <Compile Include="Models\M5\LugarTuristico.cs" />
+    <Compile Include="Models\M5\Notificacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,7 +129,6 @@
     <Folder Include="Models\M2\" />
     <Folder Include="Models\M3\" />
     <Folder Include="Models\M4\" />
-    <Folder Include="Models\M5\" />
     <Folder Include="Models\M6\" />
     <Folder Include="Models\M7\" />
     <Folder Include="Models\M8\" />
