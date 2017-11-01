@@ -2,7 +2,7 @@
   <ion-navbar >
       <button *ngIf="!toggled" ion-button icon-only menuToggle><ion-icon name="menu"></ion-icon></button>
       <!-- Title -->
-      <ion-title *ngIf="!toggled">Agregar Amigo</ion-title>
+      <ion-title *ngIf="!toggled">Buscar Amigo</ion-title>
       <!-- Search Bar -->
       <ion-searchbar *ngIf="toggled" [(ngModel)]="searchTerm" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionInput)="triggerInput($event)"></ion-searchbar>
       <!-- Search Icon -->    
