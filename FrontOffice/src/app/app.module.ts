@@ -49,7 +49,7 @@ import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/vi
 
 import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
 
-import { CrearGrupo2Page } from '../pages/crear-grupo2/crear-grupo2';
+import { SeleccionarIntegrantesPage } from '../pages/seleccionar-integrantes/seleccionar-integrantes';
 import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
 import { CalendarModule } from "ion2-calendar";
 import { EventosCalendarioService } from '../services/eventoscalendario'
@@ -73,7 +73,7 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
     VisualizarPerfilPage,
     VisualizarPerfilPublicoPage,
     CrearGrupoPage,
-    CrearGrupo2Page,
+    SeleccionarIntegrantesPage,
     DetalleGrupoPage,
     BuscarAmigoPage,
     RegisterPage,
@@ -110,7 +110,7 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
     VisualizarPerfilPage,
     VisualizarPerfilPublicoPage,
     CrearGrupoPage,
-    CrearGrupo2Page,
+    SeleccionarIntegrantesPage,
     DetalleGrupoPage,
     BuscarAmigoPage,
     RegisterPage,
