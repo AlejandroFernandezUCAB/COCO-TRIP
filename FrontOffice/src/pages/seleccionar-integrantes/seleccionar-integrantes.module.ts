@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { CrearGrupo2Page } from './crear-grupo2';
+import { SeleccionarIntegrantesPage } from './seleccionar-integrantes';
 
 @NgModule({
   declarations: [
-    CrearGrupo2Page,
+    SeleccionarIntegrantesPage,
   ],
   imports: [
-    IonicPageModule.forChild(CrearGrupo2Page),
+    IonicPageModule.forChild(SeleccionarIntegrantesPage),
   ],
 })
 export class CrearGrupo2PageModule {}
