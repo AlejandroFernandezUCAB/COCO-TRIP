@@ -22,7 +22,7 @@ export class DetalleGrupoPage {
     [
      {
  
-         img: 'https://pbs.twimg.com/media/DLty-BkUIAE9LRJ.jpg',nombre: 'Informatica'
+         img: 'https://pbs.twimg.com/media/DL9S8ZhUIAE_jZt.jpg',nombre: 'Desarrollo'
  
      }
  

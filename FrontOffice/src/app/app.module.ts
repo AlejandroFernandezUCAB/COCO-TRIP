@@ -46,6 +46,21 @@ const cloudSettings: CloudSettings = {
   }
 }
 
+import { AmigosPage } from '../pages/amistades-grupos/amigos/amigos';
+import { GruposPage } from '../pages/amistades-grupos/grupos/grupos';
+import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/notificaciones';
+
+import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
+import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
+
+import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
+
+import { SeleccionarIntegrantesPage } from '../pages/seleccionar-integrantes/seleccionar-integrantes';
+import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
+import { CalendarModule } from "ion2-calendar";
+import { EventosCalendarioService } from '../services/eventoscalendario'
+import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
+
 @NgModule({
   declarations: [
     CocoTrip,
@@ -64,9 +79,9 @@ const cloudSettings: CloudSettings = {
     VisualizarPerfilPage,
     VisualizarPerfilPublicoPage,
     CrearGrupoPage,
-    CrearGrupo2Page,
+    SeleccionarIntegrantesPage,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     ChatPage,
     EditProfilePage,
@@ -81,6 +96,7 @@ const cloudSettings: CloudSettings = {
     BrowserModule,
     IonicModule.forRoot(CocoTrip),
     CloudModule.forRoot(cloudSettings),
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -100,9 +116,9 @@ const cloudSettings: CloudSettings = {
     VisualizarPerfilPage,
     VisualizarPerfilPublicoPage,
     CrearGrupoPage,
-    CrearGrupo2Page,
+    SeleccionarIntegrantesPage,
     DetalleGrupoPage,
-    AgregarAmigoPage,
+    BuscarAmigoPage,
     RegisterPage,
     EditProfilePage,
     ChangepassPage,
@@ -116,6 +132,7 @@ const cloudSettings: CloudSettings = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Facebook,
+    EventosCalendarioService
   ]
 })
 export class AppModule {}
