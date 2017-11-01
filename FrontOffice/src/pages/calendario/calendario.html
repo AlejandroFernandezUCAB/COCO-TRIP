@@ -6,19 +6,21 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>{{viewTitle}}</ion-title>
+    <ion-title>Calendario</ion-title>
   </ion-navbar>
 </ion-header>
 
+<ion-content padding>
+  <ion-calendar [(ngModel)]="date"
+              (onChange)="onChange($event)"
+              [type]="type"
+              [options]="options"
+              [format]="'YYYY-MM-DD'">
+</ion-calendar>
 
-<ion-content>
-  <calendar [eventSource]="eventSource"
-          [calendarMode]="calendar.mode"
-          [currentDate]="calendar.currentDate"
-          (onEventSelected)="onEventSelected($event)"
-          (onTitleChanged)="onViewTitleChanged($event)"
-          (onTimeSelected)="onTimeSelected($event)"
-          step="30"
-          class="calendar">
-  </calendar>
+<!-- <ion-fab bottom right>
+  <button ion-fab style="color: white;" color="primary" (click)="openCalendarConfig()">
+    <ion-icon name="cog"></ion-icon>
+  </button>
+</ion-fab> -->
 </ion-content>

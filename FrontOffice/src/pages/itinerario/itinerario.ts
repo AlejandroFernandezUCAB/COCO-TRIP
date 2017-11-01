@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ModalController } from 'ionic-angular';
 import { CalendarioPage } from '../calendario/calendario';
 import * as moment from 'moment';
+import { EventosCalendarioService } from '../../services/eventoscalendario';
 /**
  * Generated class for the ItinerarioPage page.
  *
@@ -30,9 +31,17 @@ export class ItinerarioPage {
     initialSlide: 0,
     loop: true
   };
+  originalEventDates = Array();
+  eventDatesAsInt = Array();
   noIts = false;
-  //************** fFIN DE DECLARACION DE VARIABLES *****************
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, public alertCtrl: AlertController) {
+  //************** FIN DE DECLARACION DE VARIABLES *****************
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public itinerarios: EventosCalendarioService
+  ) {
     //this.its = Array();
     //this.its.eventos=Array();
     for (let x = 0; x < 5; x++) {
@@ -41,7 +50,7 @@ export class ItinerarioPage {
 
     if (this.its == undefined){
       this.noIts = true;
-    }
+      }
   }
 
 
@@ -77,8 +86,13 @@ export class ItinerarioPage {
           text: 'Crear',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
+              console.log(data);
               if (this.its == undefined) this.its=Array();
-              this.its.push({nombre: data.Nombre});
+              this.its.push({
+                nombre: data.Nombre,
+                eventos: Array()
+              });
+              //this.its[this.its.length].eventos = Array();
             } else {
               // invalid login
               return false;
@@ -171,51 +185,26 @@ export class ItinerarioPage {
     this.delete = false;
   }
 
-  cargarItinerarios(){
-    if (this.its.length == 0){
-      this.its.push({
-        id: 1,
-        nombre: 'Disney World',
-        eventos:
-        Array({
-          id: 1,
-          tipo: 'evento',
-          imagen: '../assets/images/epcot.jpg',
-          titulo: 'Epcot International Festival of the Arts',
-          startTime: moment('01/01/2018').format(),
-          endTime: moment('01/04/2018').format(),
-        },
-        {
-          id: 2,
-          tipo: 'evento',
-          imagen: '../assets/images/disney-maraton.jpg',
-          titulo: 'Walt Disney World Marathon Weekend',
-          startTime: moment('01/01/2018').format(),
-          endTime: moment('01/06/2018').format(),
-        }),
-        fechaInicio: moment('02/01/2018').format(),
-        fechaFin: moment('02/02/2018').format()
-      },
-      { id: 2,
-        nombre: 'Viaje a Paris',
-        eventos:
-        Array({
-          id: 3,
-          tipo: 'actividad',
-          imagen: '../assets/images/default-avatar1.svg',
-          titulo: 'Comer croissants en la Torre Eiffel',
-          //***************MM/DD/YYYY************
-          startTime: moment('03/01/2018').format(),
-          endTime: moment('03/03/2018').format(),
-        }),
-        fechaInicio: moment('03/01/2018').format(),
-        fechaFin: moment('04/01/2018').format()
-      });
-    }
-  }
 
   ordenar(){
     this.nuevoViejo = !this.nuevoViejo;
+    var dates = Array();
+    if (this.nuevoViejo == true){
+     for(var i = 0;i< this.its.length;i++) {
+       this.its[i].eventos.sort(function(a,b){
+            return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
+         });
+       }
+    }else{
+      for(var i = 0;i< this.its.length;i++) {
+        this.its[i].eventos.sort(function(a,b){
+             return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+          });
+        }
+    }
+    // var dates = dates_as_int.map(function(dateStr) {
+    // return new Date(dateStr).getTime();
+    // });
     // if (this.nuevoViejo == true){
     //   for(var i = 0;i< this.its.length;i++) {
     //     this.its[i].eventos.sort(function(a,b){
@@ -233,16 +222,16 @@ export class ItinerarioPage {
 
   ordenarIt(){
     this.nuevoViejo = !this.nuevoViejo;
-    // if (this.nuevoViejo == true){
-    //     this.its.sort(function(a,b){
-    //       return new Date(b.fechaInicio) - new Date(a.fechaInicio);
-    //     });
-    //
-    // }else{
-    //   this.its.sort(function(a,b){
-    //     return new Date(a.fechaInicio) - new Date(b.fechaInicio);
-    //   });
-    // }
+    if (this.nuevoViejo == true){
+        this.its.sort(function(a,b){
+          return new Date(b.fechaInicio).getTime() - new Date(a.fechaInicio).getTime();
+        });
+
+    }else{
+      this.its.sort(function(a,b){
+        return new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime();
+      });
+    }
   }
 
   agregarItem(iti){
@@ -300,13 +289,23 @@ export class ItinerarioPage {
   }
 
   ionViewWillEnter(){
-    this.cargarItinerarios();
-
+    this.its = this.itinerarios.getItinerarios();
   }
 
-  ionViewDidLoad() {
-    console.log('yujule');
+  parseDateStrToInt(input) {
+    var parts = input.split('/');
+    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+      return new Date(parts[0], parts[1]-1, parts[2]).getTime(); // Note: months are 0-based
   }
 
+  configurarNotificaciones() {
+    let modal = this.modalCtrl.create('ConfigNotificacionesItiPage');
+    modal.present();
+    modal.onDidDismiss(data => {
+      if (data) {
+        console.log(data);
+      }
+    })
+  }
 
 }

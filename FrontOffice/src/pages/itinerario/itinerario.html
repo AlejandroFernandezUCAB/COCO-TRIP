@@ -47,6 +47,9 @@
         <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
           <ion-icon name="trash"></ion-icon>
         </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="configurarNotificaciones()">
+          <ion-icon name="cog"></ion-icon>
+        </button>
       </ion-fab-list>
     </ion-fab>
 
@@ -61,10 +64,10 @@
       <p text-uppercase *ngIf="!edit" style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px; display: -webkit-box; justify-content:space-between;">
         {{itinerario.nombre}}</p>
         <p *ngIf="!edit" style="font-size: smaller; color: #3B8686;" text-left text-uppercase>
-          Comienza: {{itinerario.fechaInicio | date: 'dd/MM/yyyy - HH:mm'}}
+          Comienza: {{itinerario.fechaInicio | date: 'dd/MM/yyyy'}}
         </p>
         <p *ngIf="!edit" style="font-size: smaller; color: #3B8686;" text-left text-uppercase>
-          Termina: {{itinerario.fechaFin | date: 'dd/MM/yyyy - HH:mm'}}
+          Termina: {{itinerario.fechaFin | date: 'dd/MM/yyyy'}}
         </p>
         <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(itinerario.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar itinerario</p>
         </button>
