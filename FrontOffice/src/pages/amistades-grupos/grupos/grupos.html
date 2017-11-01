@@ -7,7 +7,7 @@
       Grupos
     </ion-title>
     <ion-buttons end>
-    <button ion-button icon-only (click)="CrearGrupo()">
+    <button ion-button icon-only (click)="crearGrupo()">
     <ion-icon name="add"></ion-icon>
   </button>
 </ion-buttons>
@@ -16,11 +16,38 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngFor="let item of Grupo" (press)="pressEvent($event)">
+        <ion-item *ngFor="let item of Grupo; let i= index" (press)="pressEvent($event)">
           <ion-avatar item-start>
             <img src={{item.img}}>
           </ion-avatar>
           <h2>{{item.nombre}}</h2>
+          <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar Grupo</p>
+          </button>
+          <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Modificar Grupo</p>
+          </button>
+          <button ion-button small icon-only clear *ngIf="detail" style="width:auto; display: flex; margin-top: 0px;" (click)="verDetalleGrupo()"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Ver Detalle Grupo</p>
+          </button>
         </ion-item>
       </ion-list>
+
+      <ion-fab bottom right>
+        <button ion-fab style="color: white;" color="primary">
+          <ion-icon name="more"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+          
+          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="crearGrupo()">
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="twcs" (click)="detallegrupo()">
+            <ion-icon name="eye"></ion-icon>
+          </button>
+          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
+            <ion-icon name="create"></ion-icon>
+          </button>
+          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-fab-list>
+      </ion-fab>
 </ion-content>
