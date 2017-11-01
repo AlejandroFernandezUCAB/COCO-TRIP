@@ -14,7 +14,7 @@ export class NotificacionesPage {
   constructor(public navCtrl: NavController) {
    
   }
-
+//comentario
   onLink(url: string) {
     window.open(url);
 }
