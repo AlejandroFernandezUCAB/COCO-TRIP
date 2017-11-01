@@ -7,8 +7,8 @@ using System.Web.Http;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
-  public class M5_Controller : ApiController
+  public class M5Controller : ApiController
   {
-    
-  }
+      
+    }
 }
