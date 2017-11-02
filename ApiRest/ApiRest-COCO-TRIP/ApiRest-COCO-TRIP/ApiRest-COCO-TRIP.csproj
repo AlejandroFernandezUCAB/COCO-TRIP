@@ -102,6 +102,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\M1\Usuario.cs" />
     <Compile Include="Models\M5\Actividad.cs" />
     <Compile Include="Models\M5\Agenda.cs" />
     <Compile Include="Models\M5\Amigo.cs" />
@@ -128,7 +129,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\Exceptions\" />
-    <Folder Include="Models\M1\" />
     <Folder Include="Models\M2\" />
     <Folder Include="Models\M3\" />
     <Folder Include="Models\M4\" />
