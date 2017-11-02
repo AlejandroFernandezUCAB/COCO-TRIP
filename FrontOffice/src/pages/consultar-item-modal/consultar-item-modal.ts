@@ -36,8 +36,4 @@ export class ConsultarItemModalPage {
         this.navCtrl.pop();
     }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ConsultarItemModalPage');
-  }
-
 }

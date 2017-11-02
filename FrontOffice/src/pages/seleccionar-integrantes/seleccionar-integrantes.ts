@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the CrearGrupo2Page page.
+ * Generated class for the SeleccionarIntegrantesPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,16 +10,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-crear-grupo2',
-  templateUrl: 'crear-grupo2.html',
+  selector: 'page-seleccionar-integrantes',
+  templateUrl: 'seleccionar-integrantes.html',
 })
-export class CrearGrupo2Page {
+export class SeleccionarIntegrantesPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CrearGrupo2Page');
+    console.log('ionViewDidLoad SeleccionarIntegrantesPage');
   }
 
 }
