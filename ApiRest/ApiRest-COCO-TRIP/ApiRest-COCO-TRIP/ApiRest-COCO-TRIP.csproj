@@ -97,11 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Models\M1\Usuario.cs" />
     <Compile Include="Models\M5\Actividad.cs" />
     <Compile Include="Models\M5\Agenda.cs" />
     <Compile Include="Models\M5\Amigo.cs" />
@@ -116,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -125,8 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Library\Exceptions\" />
-    <Folder Include="Models\M1\" />
+    <Folder Include="Library\" />
     <Folder Include="Models\M2\" />
     <Folder Include="Models\M3\" />
     <Folder Include="Models\M4\" />
