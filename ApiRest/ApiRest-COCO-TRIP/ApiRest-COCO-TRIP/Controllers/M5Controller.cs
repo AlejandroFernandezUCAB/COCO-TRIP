@@ -8,9 +8,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M5Controller : ApiController
   {
-    string stringcon;
-    NpgsqlConnection conn;
-
+  
     [HttpGet]
     public Boolean AgregarItinerario(Itinerario it)
     {
