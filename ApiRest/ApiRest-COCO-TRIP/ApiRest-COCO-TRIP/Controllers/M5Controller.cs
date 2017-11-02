@@ -7,14 +7,16 @@ namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M5Controller : ApiController
   {
-    
+    string stringcon;
+    NpgsqlConnection conn;
+
     [HttpGet]
     public Boolean AgregarItinerario(Itinerario it)
     {
       try
       {
-        string stringcon = "Server=127.0.0.1;User Id=postgres; " + "Password=20977974pg;Database=cocotrip;";
-        NpgsqlConnection conn = new NpgsqlConnection(stringcon);
+        stringcon = "Server=127.0.0.1;User Id=postgres; " + "Password=20977974pg;Database=cocotrip;";
+        conn = new NpgsqlConnection(stringcon);
         conn.Open();
         NpgsqlCommand comm = new NpgsqlCommand("add_itinerario", conn);
         comm.CommandType = CommandType.StoredProcedure;
@@ -24,14 +26,15 @@ namespace ApiRest_COCO_TRIP.Controllers
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_idUsuario);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
-        return pgread.GetBoolean(0);
+        Boolean resp = pgread.GetBoolean(0);
         conn.Close();
+        return resp;
       }
-      catch(NpgsqlException e)
+      catch (NpgsqlException e)
       {
         return false;
       }
-      
+
     }
   }
 }
