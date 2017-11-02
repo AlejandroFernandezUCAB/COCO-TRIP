@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ApiRest_COCO_TRIP.Models.M1;
+using ApiRest_COCO_TRIP.Models;
 namespace ApiRest_COCO_TRIP.Controllers
 {
   public class  M1_LoginController : ApiController
@@ -27,7 +28,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       Usuario usuario = new Usuario();
       usuario.Correo = "prueba@gmail.com";
       usuario.NombreUsuario = "prueba";
-
+      ConexionBase conexion = new ConexionBase();
+      conexion.Sqlconexion.Open();
+      conexion.Cmd.Connection = conexion.Sqlconexion;
+      conexion.Cmd.CommandText = "CREATE TABLE PRUEBA (idprueba integer CONSTRAINT firstkey PRIMARY KEY)";
+      conexion.Cmd.ExecuteNonQuery();
       return usuario;
     }
 
