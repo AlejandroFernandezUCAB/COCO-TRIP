@@ -50,10 +50,8 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Npgsql.3.2.5\lib\net451\Npgsql.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -96,11 +94,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Models\M1\Usuario.cs" />
     <Compile Include="Models\M5\Actividad.cs" />
     <Compile Include="Models\M5\Agenda.cs" />
     <Compile Include="Models\M5\Amigo.cs" />
@@ -115,6 +117,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -124,8 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Library\Exceptions\" />
-    <Folder Include="Models\M1\" />
+    <Folder Include="Library\" />
     <Folder Include="Models\M2\" />
     <Folder Include="Models\M3\" />
     <Folder Include="Models\M4\" />
