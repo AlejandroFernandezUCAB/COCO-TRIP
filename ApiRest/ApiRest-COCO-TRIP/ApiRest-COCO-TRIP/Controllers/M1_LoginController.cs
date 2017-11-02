@@ -29,26 +29,13 @@ namespace ApiRest_COCO_TRIP.Controllers
       usuario.Correo = "prueba@gmail.com";
       usuario.NombreUsuario = "prueba";
       ConexionBase conexion = new ConexionBase();
-      conexion.Sqlconexion.Open();
-      conexion.Cmd.Connection = conexion.Sqlconexion;
-      conexion.Cmd.CommandText = "CREATE TABLE PRUEBA (idprueba integer CONSTRAINT firstkey PRIMARY KEY)";
-      conexion.Cmd.ExecuteNonQuery();
+      conexion.SqlConexion.Open();
+      conexion.Comando.Connection = conexion.SqlConexion;
+      conexion.Comando.CommandText = "CREATE TABLE PRUEBA (idprueba integer CONSTRAINT firstkey PRIMARY KEY)";
+      conexion.Comando.ExecuteNonQuery();
       return usuario;
     }
 
-    // POST api/<controller>
-    public void Post([FromBody]string value)
-    {
-    }
-
-    // PUT api/<controller>/5
-    public void Put(int id, [FromBody]string value)
-    {
-    }
-
-    // DELETE api/<controller>/5
-    public void Delete(int id)
-    {
-    }
+  
   }
 }
