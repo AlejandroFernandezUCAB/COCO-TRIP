@@ -110,7 +110,8 @@ export class EventosCalendarioService {
         horaFin: '05:00 PM'
         }),
       fechaInicio: '01/02/2018',
-      fechaFin: '01/02/2018'
+      fechaFin: '01/02/2018',
+      visible: true
       },
       {
       id: 2,
@@ -128,22 +129,25 @@ export class EventosCalendarioService {
         horaFin: '05:00 PM'
         }),
       fechaInicio: '01/02/2018',
-      fechaFin: '01/02/2018'
+      fechaFin: '01/02/2018',
+      visible: true
       });
 
   }
 
   public getEventosItinerario() {
       for (let i= 0 ; i < this._itinerarios.length; i++){
-        for (let j =0;  j< this._itinerarios[i].eventos.length; j++)
-        {
-          this._daysConfig.push({
-            date: new Date(this._itinerarios[i].eventos[j].startTime),
-            subTitle: '*',
-            marked: true,
-          });
+        if (this._itinerarios[i].visible == true){
+          for (let j =0;  j< this._itinerarios[i].eventos.length; j++)
+          { console.log(this._itinerarios[i].eventos[j].titulo)
+            this._daysConfig.push({
+              date: new Date(this._itinerarios[i].eventos[j].startTime),
+              subTitle: '*',
+              marked: true,
+            });
+          }
         }
-    }
+      }
     return this._daysConfig;
   }
 
@@ -159,4 +163,14 @@ export class EventosCalendarioService {
     return this._notificaciones;
   }
 
+  public updateItinerarioVisible(visible){
+    let up_itinerario = Array();
+    this._itinerarios.forEach(iti => {
+      if (iti.id == visible.id){
+       iti.visible = visible.visible;
+      }
+    })
+    console.log(this._itinerarios);
+    return true;
+  }
 }
