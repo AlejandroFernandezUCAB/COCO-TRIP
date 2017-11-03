@@ -66,16 +66,10 @@ namespace ApiRest_COCO_TRIP.Tests.M7.Base
     /// Test del metodo InsertarLugarTuristico de la clase Peticion
     /// </summary>
     [Test]
-    [Category("Peticion.Insertar")]
+    [Ignore("Evaluar si vale la pena")]
     public void TestInsertarLugarTuristico()
     {
       Assert.AreEqual(lugar.Id, peticion.InsertarLugarTuristico(lugar));
     }
-
-    //Evaluar si vale la pena continuar realizando PU de peticion
-    //o pasar de una vez a crear el controlador del modulo
-
-        //Basicamente esta clase prueba lo que ya se probó antes
-        //en PruebaConexion, lo que genera redundancia...
   }
 }

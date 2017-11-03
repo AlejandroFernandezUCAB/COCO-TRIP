@@ -73,5 +73,14 @@ namespace ApiRest_COCO_TRIP.Models.M7.Dato
         return (false);
       }
     }
+
+    /// <summary>
+    /// Sobreescritura recomendada del metodo GetHashCode
+    /// </summary>
+    /// <returns>ID del objeto</returns>
+    public override int GetHashCode()
+    {
+      return base.GetHashCode();
+    }
   }
 }
