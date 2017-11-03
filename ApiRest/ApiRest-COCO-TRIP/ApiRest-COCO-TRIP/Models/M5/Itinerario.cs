@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 
-namespace ApiRest_COCO_TRIP.Models.M5
+namespace ApiRest_COCO_TRIP.Models
 {
    public class Itinerario
    {

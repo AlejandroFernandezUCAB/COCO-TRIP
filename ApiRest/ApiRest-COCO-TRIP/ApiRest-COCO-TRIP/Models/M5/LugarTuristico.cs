@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 
 
-namespace Service1.Models
+namespace ApiRest_COCO_TRIP.Models
 {
    public class LugarTuristico
    {
+    int id;
     string nombre;
     string descripcion;
     string direccion;
@@ -25,5 +26,11 @@ namespace Service1.Models
     public float Precio { get => precio; set => precio = value; }
     public List<string> Categorias { get => categorias; set => categorias = value; }
     public List<string> Subcategorias { get => subcategorias; set => subcategorias = value; }
+    public int Id { get => id; set => id = value; }
+
+    public LugarTuristico(int id)
+    {
+      this.id = id;
+    }
   }
 }

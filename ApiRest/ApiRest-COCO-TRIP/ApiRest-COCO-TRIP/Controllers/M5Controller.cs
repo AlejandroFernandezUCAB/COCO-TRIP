@@ -2,7 +2,6 @@ using System;
 using System.Web.Http;
 using Npgsql;
 using System.Data;
-using ApiRest_COCO_TRIP.Models.M5;
 using ApiRest_COCO_TRIP.Models;
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -101,8 +100,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Metodo que agrega un evento existente a un itinerario existente
     /// </summary>
-    /// <param name="it"></param>
-    /// <returns></returns>
+    /// <param name="it">itinerario al cual se le agrega el evento</param>
+    /// <param name="ev">evento a agregar en el itinerario</param>
+    /// <returns>true si se agrego el evento exitosamente, false en caso de error</returns>
     [HttpGet]
     public Boolean AgregarEvento_It(Itinerario it,Evento ev)
     {
@@ -112,8 +112,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         con.Conectar();
         NpgsqlCommand comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -125,7 +125,156 @@ namespace ApiRest_COCO_TRIP.Controllers
         return false;
       }
 
-    }//incompleto
+    }
 
+    /// <summary>
+    /// Metodo que agrega una actividad existente a un itinerario existente
+    /// </summary>
+    /// <param name="it">itinerario al cual se le agrega la actividad</param>
+    /// <param name="ac">actividad a agregar en el itinerario</param>
+    /// <returns>true si se agrego la actividad exitosamente, false en caso de error</returns>
+    [HttpGet]
+    public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
+    {
+      try
+      {
+        ConexionBase con = new ConexionBase();
+        con.Conectar();
+        NpgsqlCommand comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        return false;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que agrega un lugar turistico existente a un itinerario existente
+    /// </summary>
+    /// <param name="it">itinerario al cual se le agrega el lugar turistico</param>
+    /// <param name="lt">lugar turistico a agregar en el itinerario</param>
+    /// <returns>true si se agrego el lugar turistico exitosamente, false en caso de error</returns>
+    [HttpGet]
+    public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
+    {
+      try
+      {
+        ConexionBase con = new ConexionBase();
+        con.Conectar();
+        NpgsqlCommand comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        return false;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que elimina un evento existente de un itinerario existente
+    /// </summary>
+    /// <param name="it">itinerario del cual se elimina el evento</param>
+    /// <param name="ev">evento a eliminar del itinerario</param>
+    /// <returns>true si se elimino el evento exitosamente, false en caso de error</returns>
+    [HttpGet]
+    public Boolean EliminarEvento_It(Itinerario it, Evento ev)
+    {
+      try
+      {
+        ConexionBase con = new ConexionBase();
+        con.Conectar();
+        NpgsqlCommand comm = new NpgsqlCommand("del_evento_it", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        return false;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que elimina una actividad existente de un itinerario existente
+    /// </summary>
+    /// <param name="it">itinerario del cual se elimina la actividad</param>
+    /// <param name="ac">actividad a eliminar del itinerario</param>
+    /// <returns>true si se elimino la actividad exitosamente, false en caso de error</returns>
+    [HttpGet]
+    public Boolean EliminarActividad_It(Itinerario it, Actividad ac)
+    {
+      try
+      {
+        ConexionBase con = new ConexionBase();
+        con.Conectar();
+        NpgsqlCommand comm = new NpgsqlCommand("del_actividad_it", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        return false;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que elimina un lugar turistico existente de un itinerario existente
+    /// </summary>
+    /// <param name="it">itinerario del cual se elimina el lugar turistico</param>
+    /// <param name="lt">lugar turistico a eliminar del itinerario</param>
+    /// <returns>true si se elimino el lugar turistico exitosamente, false en caso de error</returns>
+    [HttpGet]
+    public Boolean EliminarLugar_It(Itinerario it, LugarTuristico lt)
+    {
+      try
+      {
+        ConexionBase con = new ConexionBase();
+        con.Conectar();
+        NpgsqlCommand comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        return false;
+      }
+
+    }
   }
 }
