@@ -15,8 +15,8 @@ namespace ApiRest_COCO_TRIP.Tests
       DateTime fechafin = new DateTime(2019,05,28);
       Itinerario itinerario = new Itinerario("Michel",fechaini,fechafin,1);
       M5Controller controller = new M5Controller();
-      Boolean x = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(true,x);
+      itinerario = controller.AgregarItinerario(itinerario);
+      Assert.AreEqual(50,itinerario.Id);//siempre poner el numero del id que se va a agregar para esta pruba
     }
 
     [TestCase]

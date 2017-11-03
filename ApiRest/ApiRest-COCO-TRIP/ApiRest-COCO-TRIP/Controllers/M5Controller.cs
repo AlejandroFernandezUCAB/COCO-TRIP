@@ -13,7 +13,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="it">el itinerario a agregar</param>
     /// <returns>true si agrega existosamente, false en caso de error</returns>
     [HttpGet]
-    public Boolean AgregarItinerario(Itinerario it)
+    public Itinerario AgregarItinerario(Itinerario it)
     {
       try
       {
@@ -21,19 +21,23 @@ namespace ApiRest_COCO_TRIP.Controllers
         con.Conectar();
         NpgsqlCommand comm = new NpgsqlCommand("add_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.It_nombre);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.It_fechaInicio);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.It_fechaFin);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_idUsuario);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaInicio);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaFin);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.IdUsuario);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
-        Boolean resp = pgread.GetBoolean(0);
+        it.Id = pgread.GetInt16(0);
         con.Desconectar();
-        return resp;
+        return it;
       }
       catch (NpgsqlException e)
       {
-        return false;
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
       }
 
     }
@@ -52,7 +56,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         con.Conectar();
         NpgsqlCommand comm = new NpgsqlCommand("del_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -80,10 +84,10 @@ namespace ApiRest_COCO_TRIP.Controllers
         con.Conectar();
         NpgsqlCommand comm = new NpgsqlCommand("mod_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.It_nombre);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.It_fechaInicio);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.It_fechaFin);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaInicio);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaFin);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -113,7 +117,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         NpgsqlCommand comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -143,7 +147,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         NpgsqlCommand comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -173,7 +177,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         NpgsqlCommand comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -203,7 +207,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         NpgsqlCommand comm = new NpgsqlCommand("del_evento_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -233,7 +237,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         NpgsqlCommand comm = new NpgsqlCommand("del_actividad_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
@@ -263,7 +267,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         NpgsqlCommand comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.It_id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
