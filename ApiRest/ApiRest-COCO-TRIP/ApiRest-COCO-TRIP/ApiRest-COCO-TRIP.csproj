@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
+    <Compile Include="Controllers\M2_PreferenciasController.cs" />
     <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Global.asax.cs">
