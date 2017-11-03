@@ -18,13 +18,6 @@ namespace ApiRest_COCO_TRIP.Models.M5
     public DateTime It_fechaFin { get => it_fechaFin; set => it_fechaFin = value; }
     public int It_idUsuario { get => it_idUsuario; set => it_idUsuario = value; }
 
-    public Itinerario(string nombre, DateTime fechainicio, DateTime fechafin, int idusuario)
-    {
-      it_nombre = nombre;
-      it_fechaInicio = fechainicio;
-      it_fechaFin = fechafin;
-      it_idUsuario = idusuario;
-    }
     public Itinerario(int id, string nombre, DateTime fechainicio, DateTime fechafin, int idusuario)
     {
       it_id = id;
@@ -32,6 +25,18 @@ namespace ApiRest_COCO_TRIP.Models.M5
       it_fechaInicio = fechainicio;
       it_fechaFin = fechafin;
       it_idUsuario = idusuario;
+    }
+
+    public Itinerario(string nombre, DateTime fechainicio, DateTime fechafin, int idusuario)
+    {
+      it_nombre = nombre;
+      it_fechaInicio = fechainicio;
+      it_fechaFin = fechafin;
+      it_idUsuario = idusuario;
+    }
+    public Itinerario(int id)
+    {
+      it_id = id;
     }
   }
 
