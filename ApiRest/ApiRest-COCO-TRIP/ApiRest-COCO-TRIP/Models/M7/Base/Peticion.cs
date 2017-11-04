@@ -69,7 +69,82 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
-    //Falta agregar actividad, agregar horario, agregar fotos... Activar/desactigar lugar turistico, activar/desactivar actividad.
+    /// <summary>
+    /// Inserta una actividad asociada a un lugar turistico en la base de datos
+    /// </summary>
+    /// <param name="actividad">Objeto Actividad</param>
+    /// <param name="idLugarTuristico">ID del lugar turistico</param>
+    /// <returns>ID de la actividad insertada</returns>
+    public int InsertarActividad (Actividad actividad, int idLugarTuristico)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        actividad.Id = conexion.InsertarActividad(actividad, idLugarTuristico);
+
+        conexion.Desconectar();
+
+        return actividad.Id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Inserta un horario asociado a un lugar turistico en la base de datos
+    /// </summary>
+    /// <param name="horario">Objeto Horario</param>
+    /// <param name="idLugarTuristico">ID del horario </param>
+    /// <returns>ID del horario insertado</returns>
+    public int InsertarHorario (Horario horario, int idLugarTuristico)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        horario.Id = conexion.InsertarHorario(horario, idLugarTuristico);
+
+        conexion.Desconectar();
+
+        return horario.Id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Inserta una foto asociada a un lugar turistico en la base de datos
+    /// </summary>
+    /// <param name="foto">Objeto Foto</param>
+    /// <param name="idLugarTuristico">ID del horario </param>
+    /// <returns>ID de la foto insertada</returns>
+    public int InsertarFoto(Foto foto, int idLugarTuristico)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        foto.Id = conexion.InsertarFoto(foto, idLugarTuristico);
+
+        conexion.Desconectar();
+
+        return foto.Id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    //Falta activar/desactivar lugar turistico, activar/desactivar actividad.
 
     /// <summary>
     /// Actualiza toda la data asociada a un lugar turistico en la base de datos.

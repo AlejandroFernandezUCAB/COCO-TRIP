@@ -177,7 +177,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
         }
 
-        //Falta agregar actividad, agregar horario, agregar fotos... Activar/desactigar lugar turistico, activar/desactivar actividad.
+        //Falta agregar actividad, agregar horario, agregar fotos, activar/desactivar lugar turistico, activar/desactivar actividad.
 
         //PUT
 
