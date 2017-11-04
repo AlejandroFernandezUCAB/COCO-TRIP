@@ -1,8 +1,31 @@
 CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
 CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
+--DROPS
+--Modulo 3
+Drop table Grupo;
+Drop table Miembro;
+Drop table Amigo;
 
+Drop SEQUENCE SEQ_Grupo;
+Drop SEQUENCE SEQ_Miembro;
+Drop SEQUENCE SEQ_Amigo;
+--Fin de modulo
 --Creates Tables
 --Modulo 1
+CREATE TABLE USUARIO (
+    us_id		integer,
+    us_nombreUsuario 	varchar(20),
+    us_nombre         	varchar(30) NOT NULL,
+    us_apellido        	varchar(30) NOT NULL,
+    us_fechaNacimiento  date NOT NULL,
+    us_genero		varchar(1) CHECK (us_genero ='M' OR us_genero='F'),
+    us_email	        varchar(30),
+    us_password         varchar(20),
+    us_foto		bytea,
+    us_validacion	boolean,
+    CONSTRAINT primaria_usuario PRIMARY KEY(us_id,us_nombreUsuario,us_email)
+    
+);
 --Fin de modulo 
 --Modulo 2
 CREATE TABLE Preferencia(
@@ -12,6 +35,38 @@ CREATE TABLE Preferencia(
 );
 --Fin de modulo 
 --Modulo 3
+Create Table Grupo
+(
+gr_id int NOT NULL,
+gr_nombre varchar(100) NOT NULL,
+gr_foto bytea NOT NULL,
+fk_usuario int NOT NULL,
+
+CONSTRAINT pk_grupo PRIMARY KEY (gr_id)
+CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
+);
+
+Create Table Miembro
+(
+mi_id int NOT NULL,
+fk_grupo int NOT NULL,
+fk_usuario int NOT NULL
+
+CONSTRAINT pk_miembro, PRIMARY KEY (mi_id)
+CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id),
+CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
+);
+
+Create Table Amigo
+(
+am_id int NOT NULL,
+fk_usuario_conoce int NOT NULL,
+fk_usuario_posee int NOT NULL
+
+CONSTRAINT pk_amigo, PRIMARY KEY (am_id)
+CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id),
+CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id)
+);
 --Fin de modulo 
 --Modulo 4
 --Fin de modulo 
@@ -104,10 +159,14 @@ CREATE TABLE LT_Foto
 
 --SEQUENCES
 --Modulo 1
+CREATE SEQUENCE SEQ_Usuario;
 --Fin de modulo
 --Modulo 2
 --Fin de modulo 
 --Modulo 3
+CREATE SEQUENCE SEQ_Grupo;
+CREATE SEQUENCE SEQ_Miembro;
+CREATE SEQUENCE SEQ_Amigo;
 --Fin de modulo 
 --Modulo 4
 --Fin de modulo 
