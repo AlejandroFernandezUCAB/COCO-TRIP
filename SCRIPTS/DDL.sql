@@ -3,6 +3,20 @@ CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
 
 --Creates Tables
 --Modulo 1
+CREATE TABLE USUARIO (
+    us_id		integer,
+    us_nombreUsuario 	varchar(20),
+    us_nombre         	varchar(30) NOT NULL,
+    us_apellido        	varchar(30) NOT NULL,
+    us_fechaNacimiento  date NOT NULL,
+    us_genero		varchar(1) CHECK (us_genero ='M' OR us_genero='F'),
+    us_email	        varchar(30),
+    us_password         varchar(20),
+    us_foto		bytea,
+    us_validacion	boolean,
+    CONSTRAINT primaria_usuario PRIMARY KEY(us_id,us_nombreUsuario,us_email)
+    
+);
 --Fin de modulo 
 --Modulo 2
 CREATE TABLE Preferencia(
@@ -104,6 +118,7 @@ CREATE TABLE LT_Foto
 
 --SEQUENCES
 --Modulo 1
+CREATE SEQUENCE SEQ_Usuario;
 --Fin de modulo
 --Modulo 2
 --Fin de modulo 
