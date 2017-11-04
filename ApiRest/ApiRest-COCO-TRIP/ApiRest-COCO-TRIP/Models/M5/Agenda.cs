@@ -1,5 +1,5 @@
 
-namespace ApiRest_COCO_TRIP.Models.M5
+namespace ApiRest_COCO_TRIP.Models
 {
   public class Agenda
   {
@@ -14,5 +14,13 @@ namespace ApiRest_COCO_TRIP.Models.M5
     public int Ag_idActividad { get => ag_idActividad; set => ag_idActividad = value; }
     public int Ag_idEvento { get => ag_idEvento; set => ag_idEvento = value; }
     public int Ag_id { get => ag_id; set => ag_id = value; }
+
+    public Agenda(int id_it,int id_lt,int id_ac,int id_ev)
+    {
+      ag_idItinerario = id_it;
+      ag_idLugarTuristico = id_lt;
+      ag_idActividad = id_ac;
+      ag_idEvento = id_ev;
+    }
   }
 }
