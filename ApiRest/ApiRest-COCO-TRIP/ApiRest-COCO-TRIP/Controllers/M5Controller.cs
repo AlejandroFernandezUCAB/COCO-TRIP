@@ -3,16 +3,17 @@ using System.Web.Http;
 using Npgsql;
 using System.Data;
 using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Models.M7.Dato;
 namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M5Controller : ApiController
   {
-    /// <summary>
+    /// <summary>returns
     /// Metodo que agrega en la base de datos un nuevo itinerario
     /// </summary>
     /// <param name="it">el itinerario a agregar</param>
-    /// <returns>true si agrega existosamente, false en caso de error</returns>
-    [HttpGet]
+    /// <returns>true si agrega existosamente, false en caso de error</>
+    [HttpPost]
     public Itinerario AgregarItinerario(Itinerario it)
     {
       try
