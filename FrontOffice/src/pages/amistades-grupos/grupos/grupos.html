@@ -6,24 +6,19 @@
     <ion-title>
       Grupos
     </ion-title>
-    <ion-buttons end>
-    <button ion-button icon-only (click)="crearGrupo()">
-    <ion-icon name="add"></ion-icon>
-  </button>
-</ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngFor="let item of Grupo; let i= index" (press)="pressEvent($event)">
+        <ion-item *ngFor="let item of Grupo; let i= index">
           <ion-avatar item-start>
             <img src={{item.img}}>
           </ion-avatar>
           <h2>{{item.nombre}}</h2>
           <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar Grupo</p>
           </button>
-          <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Modificar Grupo</p>
+          <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="modificarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Modificar Grupo</p>
           </button>
           <button ion-button small icon-only clear *ngIf="detail" style="width:auto; display: flex; margin-top: 0px;" (click)="verDetalleGrupo()"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Ver Detalle Grupo</p>
           </button>
@@ -36,10 +31,10 @@
         </button>
         <ion-fab-list side="top">
           
-          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="crearGrupo()">
+          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="twcs" (click)="crearGrupo()">
             <ion-icon name="add"></ion-icon>
           </button>
-          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="twcs" (click)="detallegrupo()">
+          <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="detallegrupo()">
             <ion-icon name="eye"></ion-icon>
           </button>
           <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">

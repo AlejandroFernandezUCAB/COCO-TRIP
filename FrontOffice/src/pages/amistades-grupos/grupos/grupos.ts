@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController,Platform, ActionSheetController, AlertController} from 'ionic-angular';
 import{CrearGrupoPage} from '../../crear-grupo/crear-grupo';
 import{DetalleGrupoPage} from '../../detalle-grupo/detalle-grupo';
+import{ModificarGrupoPage} from '../../modificar-grupo/modificar-grupo';
 
 @Component({
   selector: 'page-grupos',
@@ -12,8 +13,6 @@ export class GruposPage {
   edit= false;
   detail=false;
   Grupo=[];
-  its= Array();
-  noIts = false;
   
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController) {
@@ -91,7 +90,13 @@ export class GruposPage {
     
   }
 
-  
+  modificarGrupo(id, index){
+    this.edit=false;
+    this.detail=false;
+    this.delete=false;
+
+    this.navCtrl.push(ModificarGrupoPage);
+  }
 
   eliminarGrupo(id, index) {
     const alert = this.alertCtrl.create({
@@ -120,74 +125,5 @@ export class GruposPage {
     this.navCtrl.push(DetalleGrupoPage);
   
   }
-
-  eliminarItinerario(id, index){
-    let eliminado = this.its.filter(item => item.id === id)[0];
-    var removed_elements = this.its.splice(index, 1);
-    if (this.its.length == 0){
-      this.noIts = true;
-      console.log("no its")
-    }
-  }
   
-
-  pressEvent() {
-    let actionSheet = this.actionsheetCtrl.create({
-      title: '¿Que deseas hacer?',
-      cssClass: 'action-sheets-basic-page',
-      buttons: [
-        {
-          text: 'Ver Detalle',
-          icon: !this.platform.is('ios') ? 'eye' : null,
-          handler: () => {
-           this.navCtrl.push(DetalleGrupoPage);
-            //console.log('Detalle clicked');
-          }
-        },{
-          text: 'Modificar Grupo',
-          icon: !this.platform.is('ios') ? 'create' : null,
-          handler: () => {
-            console.log('Modificar clicked');
-          }
-        },
-        {
-          text: 'Eliminar Grupo',
-          role: 'destructive',
-          icon: !this.platform.is('ios') ? 'trash' : null,
-          handler: () => {
-            let confirm = this.alertCtrl.create({
-              title: 'Eliminar Grupo',
-              message: '¿Seguro que deseas eliminar a este grupo?',
-              buttons: [
-                {
-                  text: 'No',
-                  handler: () => {
-                    console.log('Disagree clicked');
-                  }
-                },
-                {
-                  text: 'Si',
-                  handler: () => {
-                    console.log('Agree clicked');
-                  }
-                }
-              ]
-            });
-            confirm.present()
-          }
-        },
-        
-        {
-          text: 'Cancelar',
-          role: 'cancel', // will always sort to be on the bottom
-          icon: !this.platform.is('ios') ? 'close' : null,
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
-
 }

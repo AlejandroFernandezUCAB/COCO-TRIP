@@ -1,3 +1,145 @@
+
+
+/**
+Procedimientos del Modulo (1) de Login de Uusario, Registro de Usuario y Home
+
+Autores:
+  Carlos Valero
+  Pedro Garcia
+  Homero Manrique
+**/
+
+/*INSERT*/
+-- Inserta el Usuario
+-- devuelve el id del usuario
+CREATE OR REPLACE FUNCTION InsertarUsuario
+(_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
+ _apellido VARCHAR(30), _fechaNacimiento date,
+ _genero VARCHAR(1), _correo VARCHAR(30),
+ _clave VARCHAR(20), _foto bytea)
+RETURNS integer AS
+$$
+BEGIN
+
+   INSERT INTO usuario VALUES
+    (nextval('seq_Usuario'), _nombreUsuario, _nombre, _apellido, _fechaNacimiento, _genero, _correo, _clave, _foto, false);
+
+   RETURN currval('seq_Usuario');
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- Inserta el usuario con los datos de Facebook
+-- Devuelve el id del usuario
+CREATE OR REPLACE FUNCTION InsertarUsuarioFacebook
+(_nombre VARCHAR(30), _apellido VARCHAR(30), _fechaNacimiento date, _correo VARCHAR(30),
+ _foto bytea)
+RETURNS integer AS
+$$
+BEGIN
+
+   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_fechanacimiento, us_email, us_foto, us_validacion) VALUES
+    (nextval('seq_Usuario'), _nombre, _apellido, _fechaNacimiento, _correo, _foto, false);
+
+   RETURN currval('seq_Usuario');
+
+END;
+$$ LANGUAGE plpgsql;
+/*SELECT*/
+
+-- Consulta un usuario por su nombre de usuario y clave
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarUsuarioNombre(_nombreUusario varchar, _clave varchar)
+RETURNS TABLE
+  (id integer,
+   nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	FROM usuario
+	WHERE us_nombreusuario=_nombreUsuario AND _clave = us_clave AND us_validacion=true;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta un usuario por su correo y clave
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarUsuarioCorreo(_correo varchar, _clave varchar)
+RETURNS TABLE
+  (id integer,
+   nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	FROM usuario
+	WHERE us_email=_correo AND _clave = us_clave AND us_validacion= true;
+END;
+$$ LANGUAGE plpgsql;
+
+--Consulta un usuario por su correo, esta funcion es para iniciar sesion con la red social
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarUsuarioSocial(_correo varchar)
+RETURNS TABLE
+  (id integer,
+   nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	FROM usuario
+	WHERE us_email=_correo AND us_validacion=false;
+END;
+$$ LANGUAGE plpgsql;
+
+--Recupera la contrasena de un usuario con su correo
+-- devuelve la clave del usuario
+CREATE OR REPLACE FUNCTION RecuperarContrasena(_correo varchar)
+RETURNS varchar AS $$
+DECLARE clave VARCHAR(20);
+BEGIN
+
+
+	SELECT us_password
+	INTO clave 
+	FROM usuario WHERE us_email = _correo;
+
+	RETURN clave;
+
+END;
+$$ LANGUAGE plpgsql;
+
+/*UPDATES*/
+CREATE OR REPLACE FUNCTION ValidarUsuario(_correo varchar, _id integer)
+RETURNS void AS
+$$
+BEGIN
+	UPDATE usuario SET us_validacion=true
+	WHERE us_email=_correo AND us_id = id;
+END;
+$$ LANGUAGE plpgsql;
+
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos
@@ -9,7 +151,6 @@ Autores:
 **/
 
 /*INSERT*/
-
 -- Insertar datos en la tabla lugar_turistico
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarLugarTuristico
