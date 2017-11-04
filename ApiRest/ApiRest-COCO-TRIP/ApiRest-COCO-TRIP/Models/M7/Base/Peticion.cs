@@ -69,6 +69,8 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
+    //Falta agregar actividad, agregar horario, agregar fotos... Activar/desactigar lugar turistico, activar/desactivar actividad.
+
     /// <summary>
     /// Actualiza toda la data asociada a un lugar turistico en la base de datos.
     /// </summary>
