@@ -36,28 +36,34 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
-      <HintPath>..\packages\MSTest.TestFramework.1.1.17\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    <Reference Include="Moq">
+      <HintPath>..\ApiRest-COCO-TRIP\Library\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
-      <HintPath>..\packages\MSTest.TestFramework.1.1.17\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\ApiRest-COCO-TRIP\bin\System.Web.Http.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <Compile Include="M7\Base\PruebaConexion.cs" />
+    <Compile Include="M7\Base\PruebaPeticion.cs" />
+    <Compile Include="M7\Dato\PruebaActividad.cs" />
+    <Compile Include="M7\Dato\PruebaFoto.cs" />
+    <Compile Include="M7\Dato\PruebaHorario.cs" />
+    <Compile Include="M7\Dato\PruebaLugarTuristico.cs" />
     <Compile Include="UnitTest1.cs" />
+>>>>>>> e047a34267ab279a2f5af6af848a3031f6aff2fd
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests_M5.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -67,6 +73,9 @@
       <Project>{2B0950D9-DF8D-460C-A46D-D9BE5EC9D6CE}</Project>
       <Name>ApiRest-COCO-TRIP</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Library\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
