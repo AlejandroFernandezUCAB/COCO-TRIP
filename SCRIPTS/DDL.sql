@@ -203,4 +203,3 @@ CREATE INDEX IX_LT_FOTO ON lt_foto (fk_fo_lugar_turistico, fo_id);
 --Fin de modulo 
 
 --Fin Creates tables
-=======

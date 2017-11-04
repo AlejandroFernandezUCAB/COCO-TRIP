@@ -30,8 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ApiRest-COCO-TRIP">
+      <HintPath>..\ApiRest-COCO-TRIP\bin\ApiRest-COCO-TRIP.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+      <HintPath>Library\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="M1\PruebasM1.cs" />
+    <Compile Include="M7\Base\PruebaConexion.cs" />
+    <Compile Include="M7\Base\PruebaPeticion.cs" />
+    <Compile Include="M7\Dato\PruebaActividad.cs" />
+    <Compile Include="M7\Dato\PruebaFoto.cs" />
+    <Compile Include="M7\Dato\PruebaHorario.cs" />
+    <Compile Include="M7\Dato\PruebaLugarTuristico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,12 +62,12 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Library\" />
     <Folder Include="M2\" />
     <Folder Include="M3\" />
     <Folder Include="M4\" />
     <Folder Include="M5\" />
     <Folder Include="M6\" />
-    <Folder Include="M7\" />
     <Folder Include="M8\" />
     <Folder Include="M9\" />
   </ItemGroup>
