@@ -10,27 +10,31 @@
 </ion-header>
 
 <ion-content padding style="background-color:#f4f4f4">
+<ion-list>
   <ion-list >
-    <ion-row class="logo-row">
-      <ion-col></ion-col>
-      <ion-col>
-        <img src="assets/logo/logo.png" width="150px" />
-      </ion-col>
-      <ion-col></ion-col>
-    </ion-row>
-    <h1> Bienvenido</h1>
-    <ion-item color="ssg">
-      <h3>Evento proximo:</h3>
-      <h3> Electro Madness </h3>
-      <h3>fecha:</h3>
-      <h3> 12/12/2017 </h3>
-    </ion-item>
-    <ion-item color="twcs">
-      <h3>Cerca de ti:</h3>
-      <h3>Parque del Este</h3>
-      <h3>Direccion:</h3>
-      <h3>Avenida Francisco de Miranda</h3>
-    </ion-item>
+    <ion-slides pager style="font-family: 'Open Sans'">
+      <ion-slide  *ngFor="let eventos of its1">
+        <h2> {{eventos.nombre}} </h2>
+        <h2> {{eventos.tipo}} </h2>
+        <img src="{{eventos.imagen}}" alt="">
+        <h2> {{eventos.titulo}} </h2>
+        <h2> {{eventos.fecha}} </h2>
+        <br>
+      </ion-slide>
+    </ion-slides>
   </ion-list>
+  <ion-list>
+    <ion-slides pager>
+      <ion-slide  *ngFor="let lugares of its2">
+          <h2> {{lugares.nombre}} </h2>
+          <h2> {{lugares.tipo}} </h2>
+          <img src="{{lugares.imagen}}" alt="">
+          <h2> {{lugares.titulo}} </h2>
+          <h2> {{lugares.distancia}} </h2>
+          <br>
+      </ion-slide>
+    </ion-slides>
+  </ion-list>
+</ion-list>
 </ion-content>
  
