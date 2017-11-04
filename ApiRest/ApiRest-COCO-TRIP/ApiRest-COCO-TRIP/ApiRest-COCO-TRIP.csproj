@@ -104,7 +104,7 @@
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />
-    <Compile Include="Models\M1\Usuario.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\M5\Agenda.cs" />
     <Compile Include="Models\M5\Amigo.cs" />
     <Compile Include="Models\M5\Evento.cs" />
@@ -134,12 +134,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
-    <Folder Include="Models\M2\" />
-    <Folder Include="Models\M3\" />
-    <Folder Include="Models\M4\" />
-    <Folder Include="Models\M6\" />
-    <Folder Include="Models\M8\" />
-    <Folder Include="Models\M9\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
