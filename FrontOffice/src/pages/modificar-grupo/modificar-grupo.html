@@ -1,0 +1,47 @@
+<ion-header>
+        <ion-navbar>
+            <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+              </button>
+              <ion-buttons end>
+                    <button ion-button icon-only (click)="Integrantes()">
+                    <ion-icon name="add"></ion-icon>
+                  </button>
+                 </ion-buttons> 
+          <ion-title>
+            Modificar Grupo
+          </ion-title>
+        </ion-navbar>
+      </ion-header>
+              
+<ion-content padding class="card-background-page"> 
+    <ion-card *ngFor="let item of Grupo" class ="item-borderless"  >
+        <img src={{item.img}}/>
+        <div class="card-title">{{item.nombre}}</div>
+        <div class="card-subtitle">3 Integrantes</div>
+    </ion-card>
+
+    
+    <ion-list>
+        <ion-list-header>
+        Integrantes
+        </ion-list-header>
+        <ion-item-sliding *ngFor="let item of Amigo">
+        <ion-item>
+        <ion-label>{{item.nombre}}</ion-label>
+        <ion-avatar item-left>
+            <img src={{item.img}}>
+        </ion-avatar>
+        </ion-item>
+        </ion-item-sliding>
+        <ion-item-options side="right">
+        <button ion-button color="danger" icon-start>
+            <ion-icon name="close"></ion-icon>
+            Declinar
+        </button>
+        </ion-item-options>   
+    
+    </ion-list>
+
+
+</ion-content>    

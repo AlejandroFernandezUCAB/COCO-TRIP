@@ -50,6 +50,8 @@ import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
 import { CalendarModule } from "ion2-calendar";
 import { EventosCalendarioService } from '../services/eventoscalendario'
 import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
+import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
+import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
     ConfigPage,
     BorrarCuentaPage,
     PreferenciasPage,
-    CalendarioPage
+    CalendarioPage,
+    ModificarGrupoPage,
+    NuevosIntegrantesPage
   ],
   imports: [
     NgCalendarModule,
@@ -115,7 +119,9 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
     ConfigPage,
     BorrarCuentaPage,
     PreferenciasPage,
-    CalendarioPage
+    CalendarioPage,
+    ModificarGrupoPage,
+    NuevosIntegrantesPage
   ],
   providers: [
     StatusBar,
