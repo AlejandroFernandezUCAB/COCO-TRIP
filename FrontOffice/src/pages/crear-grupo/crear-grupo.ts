@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import{CrearGrupo2Page} from '../crear-grupo2/crear-grupo2';
+import{SeleccionarIntegrantesPage} from '../seleccionar-integrantes/seleccionar-integrantes';
 /**
  * Generated class for the CrearGrupoPage page.
  *
@@ -67,7 +67,7 @@ triggerInput( ev: any ) {
 
   CrearGrupo(){
     
-       this.navCtrl.push(CrearGrupo2Page);
+       this.navCtrl.push(SeleccionarIntegrantesPage);
       }
 
 }
