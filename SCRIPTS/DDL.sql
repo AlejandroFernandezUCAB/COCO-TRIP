@@ -9,7 +9,7 @@ CREATE TABLE Preferencia(
    pr_usuario   int not null,
     pr_categoria int not null,
     CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria) 
-)
+);
 --Fin de modulo 
 --Modulo 3
 --Fin de modulo 
