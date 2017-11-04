@@ -1,4 +1,5 @@
-﻿using System;
+using BackOffice_COCO_TRIP.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,12 +26,13 @@ namespace BackOffice_COCO_TRIP.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "Crear Categoría";
+            //buscar categorias para el select
             return View();
         }
 
         // POST: Categories/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Categories categories)
         {
             try
             {
