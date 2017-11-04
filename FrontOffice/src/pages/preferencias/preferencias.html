@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Preferencias</ion-title>
+    <ion-title>{{ 'Preferencias' | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -20,7 +20,7 @@
       </ion-searchbar>
       
       <ion-list>
-          <ion-item-divider color="light">Búsqueda de categorías</ion-item-divider>
+          <ion-item-divider color="light">{{ 'Búsqueda de categorías' | translate }}</ion-item-divider>
         <ion-item> 
           <h2>Concierto</h2>
           <button ion-button clear item-end (click)="aviso('agregado')"><ion-icon name="add"></ion-icon></button>
@@ -36,7 +36,7 @@
       </ion-list>
 
       <ion-list>
-        <ion-item-divider color="light">Categorías seleccionadas</ion-item-divider>
+        <ion-item-divider color="light">{{ 'Categorías seleccionadas' | translate }}</ion-item-divider>
         <ion-item>
           <h2>Futbol</h2>
           <button ion-button clear item-end (click)="aviso('borrado')"><ion-icon name="close"></ion-icon></button>
