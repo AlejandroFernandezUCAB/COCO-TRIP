@@ -14,18 +14,7 @@ export class PreferenciasPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
 
-    this.preferenciasEnBusqueda = [
-      'Concierto',
-      'Relajate',
-      'Parque de Diversiones',
-      'Disney'
-    ];
-
-    this.preferenciasEnLista = [
-      'Beisbol',
-      'Futbol',
-      'Deportes'
-    ];
+    this.inicializarListas(0);
 
   }
 
@@ -64,6 +53,40 @@ export class PreferenciasPage {
 
     }
   }
+
+    inicializarListas( vez ){
+
+      this.preferenciasEnBusqueda = [
+        'Concierto',
+        'Relajate',
+        'Parque de Diversiones',
+        'Disney'
+      ];
+
+      if ( vez == 0){
+
+          this.preferenciasEnLista = [
+            'Beisbol',
+            'Futbol',
+            'Deportes'
+          ];
+
+        }
+
+    }
+
+    buscarPreferencias(ev: any) {
+        this.inicializarListas(1);
+        // set val to the value of the searchbar
+        let val = ev.target.value;
+
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+          this.preferenciasEnBusqueda = this.preferenciasEnBusqueda.filter((item) => {
+            return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          })
+        }
+      }
 
 
 }

@@ -8,7 +8,7 @@
 
 
 <ion-content padding>
-      <ion-searchbar
+      <ion-searchbar (ionInput)="buscarPreferencias($event)"
         [animated]=true
         [showCancelButton]="shouldShowCancel">
       </ion-searchbar>
