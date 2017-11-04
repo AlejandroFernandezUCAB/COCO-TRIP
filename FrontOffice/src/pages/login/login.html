@@ -42,4 +42,12 @@
   <ion-row class="recuperar" (click) = "presentPrompt()">
     <a>¿Olvidaste tu contraseña?</a>
   </ion-row>
+
+  <ion-item *ngIf="userProfile">
+    <ion-avatar item-left>
+      <img [src]="userProfile.photoURL">
+    </ion-avatar>
+    <h2>{{ userProfile.displayName }}</h2>
+    <h3>{{ userProfile.email }}</h3>
+  </ion-item>
 </ion-content>
