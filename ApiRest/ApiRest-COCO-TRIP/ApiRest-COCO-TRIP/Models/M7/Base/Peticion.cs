@@ -207,7 +207,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     /// <param name="id">ID del lugar turistico</param>
     /// <returns>Objeto Lugar Turistico con todos los campos obligatorios y los nombres de las actividades</returns>
     /// /// Faltan excepciones y robustecer el metodo. ¿Si no hay actividades?
-    public LugarTuristico ConsultaLugarTuristicoSinActividades(int id)
+    public LugarTuristico ConsultarLugarTuristico(int id)
     {
       try
       {
@@ -232,7 +232,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     /// <param name="id">ID del lugar turistico</param>
     /// <returns>Objeto Lugar Turistico con todos los campos obligatorios y campos de actividades</returns>
     /// Faltan excepciones y robustecer el metodo. ¿Si no hay actividades?
-    public LugarTuristico ConsultaLugarTuristicoConActividades(int id)
+    public LugarTuristico ConsultarLugarTuristicoConActividades(int id)
     {
       try
       {
