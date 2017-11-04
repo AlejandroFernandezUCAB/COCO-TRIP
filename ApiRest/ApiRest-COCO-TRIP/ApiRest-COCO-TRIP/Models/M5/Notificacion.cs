@@ -1,6 +1,6 @@
 
 
-namespace Service1.Models
+namespace ApiRest_COCO_TRIP.Models
 {
     public class Notificacion
     {
