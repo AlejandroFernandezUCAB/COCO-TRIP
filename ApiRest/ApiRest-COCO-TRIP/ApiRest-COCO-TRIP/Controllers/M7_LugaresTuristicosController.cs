@@ -145,6 +145,37 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta la actividad
+        /// </summary>
+        /// <param name="id">ID de la actividad</param>
+        /// <returns>Objeto Actividad. Formato JSON</returns>
+        public Actividad GetActividad(int id)
+        {
+          peticion = new Peticion();
+
+          try
+          {
+            var actividad = peticion.ConsultarActividad(id);
+
+            if (actividad.Equals( new Actividad() ))
+            {
+              throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            else
+            {
+              return actividad;
+            }
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+        }
+
         //POST
 
         /// <summary>
