@@ -1,0 +1,98 @@
+.second-row-lugares{
+	margin-top: 5%;
+}
+
+.content-box-info{
+	padding: 5px 30px;
+}
+
+.name-lugar-turistico{
+	color: #0B486B;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.subtitle-lugar-turistico{
+	color: #3B8686;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.text-info-lugar-turistico{
+	color: #7f8c8d;
+	font-size: 13px;
+	text-align: justify;
+}
+
+.text-descripcion-lugar-turistico{
+	color: #7f8c8d;
+	font-size: 13px;
+	text-align: left;
+	margin-left: 5%;
+}
+
+/* ICONOS */
+
+.icon-add-lugar{
+	color: #A8DBA8;
+	font-size: 25px;
+	position: absolute;
+	top: 10%;
+    right: 60%;
+}
+
+.icon-detail, .fa-circle{
+	color: black;
+	font-size: 20px;
+}
+
+.fa-circle{
+	color: #029a73;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.fa-circle:active{
+	color: #fe1132;
+}
+
+.fa-pencil-square-o{
+	color: black;
+	font-size: 19px;
+}
+
+.icon-detail:hover, .fa-pencil-square-o:hover{
+	color: #A8DBA8;
+}
+
+/* ***** */
+
+.list-inline > li {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.list-inline{
+	text-align: center;
+}
+
+/* paginacion */
+
+.pagination > li > a, .pagination > li > span {
+    color: #0B486B;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    color: #0B486B;
+    background-color: #A8DBA8;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #3B8686;
+    border-color: #428bca;
+}
+
+/* altura sidebar */
+.navbar-side {
+    height: 1609px;
+}
