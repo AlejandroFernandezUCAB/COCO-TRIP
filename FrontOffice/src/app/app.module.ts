@@ -25,6 +25,10 @@ import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 import { ChangepassPage } from '../pages/changepass/changepass';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'abd7650b'
@@ -52,6 +56,10 @@ import { EventosCalendarioService } from '../services/eventoscalendario'
 import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -87,8 +95,16 @@ import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integr
   ],
   imports: [
     NgCalendarModule,
+    HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(CocoTrip),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
     CloudModule.forRoot(cloudSettings),
     CalendarModule
   ],

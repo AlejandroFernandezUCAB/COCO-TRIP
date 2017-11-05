@@ -1,0 +1,40 @@
+{
+
+    "Inicio":"Inicio",
+    "Eventos y Actividades":"Eventos y Actividades",
+    "Itinerario": "Itinerario",
+    "Amistades y Grupos":"Amistades y Grupos",
+    "Salir":"Salir",
+
+    "Configuracion": "Configuracion",
+    "Eventos": "Eventos",
+    "Chat": "Chat",
+    "Cuentas Vinculadas": "Cuentas Vinculadas",
+    "Recibir Notificaciones": "Recibir Notificaciones",
+    "Idioma":"Idioma",
+    "Idioma Seleccionado": "Idioma Seleccionado",
+    "Español":"Español",
+    "Ingles":"Ingles",
+    
+    "Editar Datos Personales": "Editar Datos Personales",
+    "Cambiar Foto": "Cambiar Foto",
+    "Nombre":"Nombre",
+    "Apellido": "Apellido",
+    "Fecha de Nacimiento": "Fecha de Nacimiento",
+    "Sexo": "Sexo",
+    "Hombre": "Hombre",
+    "Mujer": "Mujer",
+    "Cambiar Contraseña": "Cambiar Contraseña",
+    "Guardar Cambios": "Guardar Cambios",
+
+    "Perfil":"Perfil",
+    "Editar Preferencias":"Editar Preferencias",
+    "Borrar Cuenta":"Borrar Cuenta",
+
+    "Preferencias":"Preferencias",
+    "Búsqueda de categorías":"Búsqueda de categorías",
+    "Categorías seleccionadas":"Categorías seleccionadas",
+    
+    "Introduzca su contraseña":"Introduzca su contraseña",
+    "Confirmar":"Confirmar"
+}
