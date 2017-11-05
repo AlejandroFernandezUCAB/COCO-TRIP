@@ -4,10 +4,18 @@ using Npgsql;
 using System.Data;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
+using System.Collections.Generic;
+using System.Web;
+using System.Net;
+
 namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M5Controller : ApiController
   {
+    List<Itinerario> itinerarios = new List<Itinerario>();
+    
+    Itinerario itinerario = new Itinerario();
+
     /// <summary>returns
     /// Metodo que agrega en la base de datos un nuevo itinerario
     /// </summary>
@@ -281,5 +289,17 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
 
     }
+
+
+
+    [HttpGet]
+    public List<Itinerario> ConsultarItinerarios(int id_usuario)
+    {
+        return itinerario.ConsultarItinerarios(id_usuario);
+    }
+
+
+
+
   }
 }
