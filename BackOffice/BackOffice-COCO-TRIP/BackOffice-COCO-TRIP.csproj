@@ -143,6 +143,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\LugaresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -154,6 +155,11 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Categorias\categorias.css" />
+    <Content Include="Content\Lugares\add.css" />
+    <Content Include="Content\Lugares\modify.css" />
+    <Content Include="Content\Lugares\activity.css" />
+    <Content Include="Content\Lugares\detail.css" />
+    <Content Include="Content\Lugares\view_all.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\global.css" />
@@ -208,6 +214,11 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Lugares\Create.cshtml" />
+    <Content Include="Views\Lugares\ViewAll.cshtml" />
+    <Content Include="Views\Lugares\ActivityDetail.cshtml" />
+    <Content Include="Views\Lugares\Modify.cshtml" />
+    <Content Include="Views\Lugares\LugarDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

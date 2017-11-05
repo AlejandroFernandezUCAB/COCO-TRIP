@@ -23,13 +23,13 @@ namespace ApiRestPruebas.M7.Dato
     {
       horario = new Horario();
       horario.Id = 1;
-      horario.DiaSemana = (int)Horario.Dia.Sabado;
+      horario.DiaSemana = (int) DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(1, 0, 0);
       horario.HoraCierre = new TimeSpan(2, 0, 0);
 
       pruebaHorario = new Horario();
       pruebaHorario.Id = 1;
-      pruebaHorario.DiaSemana = (int)Horario.Dia.Sabado;
+      pruebaHorario.DiaSemana = (int) DateTime.Now.DayOfWeek;
       pruebaHorario.HoraApertura = new TimeSpan(1, 0, 0);
       pruebaHorario.HoraCierre = new TimeSpan(2, 0, 0);
     }
@@ -52,9 +52,9 @@ namespace ApiRestPruebas.M7.Dato
       Assert.AreEqual(true, horario.Equals(pruebaHorario));
 
       //Prueba DiaSemana del Horario
-      pruebaHorario.DiaSemana = (int)Horario.Dia.Domingo;
+      pruebaHorario.DiaSemana = (int) DateTime.Now.DayOfWeek + 1;
       Assert.AreEqual(false, horario.Equals(pruebaHorario));
-      horario.DiaSemana = (int)Horario.Dia.Domingo;
+      horario.DiaSemana = (int) DateTime.Now.DayOfWeek + 1;
       Assert.AreEqual(true, horario.Equals(pruebaHorario));
 
       //Prueba HoraApertura que tambien aplica para el atributo HoraCierre del Horario

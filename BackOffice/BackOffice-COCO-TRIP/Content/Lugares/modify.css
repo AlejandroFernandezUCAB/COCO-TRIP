@@ -1,0 +1,18 @@
+.btn-lugar-turistico-modificar{
+  background-color: #CFF09E;
+  color: #0B486B;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
+.img-actividad{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+}
+
+.imagen-actividad-modificar{
+	cursor: pointer;
+}

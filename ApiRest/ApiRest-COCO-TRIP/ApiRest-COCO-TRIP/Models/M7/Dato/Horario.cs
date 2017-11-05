@@ -7,8 +7,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Dato
   /// </summary>
   public class Horario
   {
-    public enum Dia { Sabado, Domingo, Lunes, Martes, Miercoles, Jueves, Viernes };
-
     private int id; //Identificador unico del horario
     private int diaSemana; //Dia de la semana a la que pertenece el horario 
     private TimeSpan horaApertura; //Hora de apertura del lugar turistico
