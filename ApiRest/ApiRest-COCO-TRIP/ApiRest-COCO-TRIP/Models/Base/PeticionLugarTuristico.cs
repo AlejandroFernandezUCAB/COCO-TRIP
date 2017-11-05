@@ -1,25 +1,25 @@
 using System.Reflection;
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Models.Exceptions;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.Dato;
 using System;
 
-namespace ApiRest_COCO_TRIP.Models.M7.Base
+namespace ApiRest_COCO_TRIP.Models.Base
 {
   /// <summary>
   /// Clase que realiza peticiones a la base de datos a traves de la clase Conexion
   /// </summary>
-  public class Peticion
+  public class PeticionLugarTuristico
   {
-    private Conexion conexion;
+    private ConexionLugarTuristico conexion;
 
     /// <summary>
     /// El constructor instancia la clase Conexion introduciendo las credenciales 
     /// de la base de datos para conectarse a ella posteriormente
     /// </summary>
-    public Peticion()
+    public PeticionLugarTuristico()
     {
-      conexion = new Conexion();
+      conexion = new ConexionLugarTuristico();
     }
 
     /// <summary>

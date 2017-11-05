@@ -1,6 +1,6 @@
 using Npgsql;
 using System.Reflection;
-using ApiRest_COCO_TRIP.Models.Exceptions;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Models
 {
