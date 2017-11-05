@@ -6,12 +6,9 @@ import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
 import { LoadingController } from 'ionic-angular';
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { TranslateService } from '@ngx-translate/core'
+
+
 
 @IonicPage()
 @Component({
@@ -21,17 +18,26 @@ import { LoadingController } from 'ionic-angular';
 export class LoginPage {
   userData: any;
   vista: boolean;
+  idioms: any[] = [];
+  
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
      public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
-      public navParams: NavParams) {
+      private translateService: TranslateService, public navParams: NavParams) {
     this.vista = false;
-
+    this.idioms = [
+      {
+        value: 'es',
+        label: 'Español'
+      },
+      {
+        value: 'en',
+        label: 'Ingles'
+      }];
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+  choose(lang) {
+    this.translateService.use(lang);
   }
-
+  
   login() {
     this.presentLoadingDefault();
   }
