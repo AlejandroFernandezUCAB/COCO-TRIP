@@ -1,0 +1,32 @@
+<ion-header>
+    
+      <ion-navbar >
+        <ion-title>Agregar Integrante</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="AgregarIntegrantes()">
+                <ion-icon name="checkmark-circle"></ion-icon>
+          </button>
+            </ion-buttons>
+        
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content padding>
+        <ion-list>
+            <ion-list-header>
+              Amigos
+            </ion-list-header>
+            <ion-item *ngFor="let item of Amigo">
+              <ion-label>{{item.nombre}}</ion-label>
+              
+              <ion-checkbox item-left checked="false"   ></ion-checkbox> 
+              <ion-avatar item-left>
+                  <img src={{item.img}}>
+            </ion-avatar>
+            </ion-item>
+          
+          </ion-list>
+          
+    </ion-content>

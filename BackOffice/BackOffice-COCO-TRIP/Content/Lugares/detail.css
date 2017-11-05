@@ -1,0 +1,83 @@
+.navbar-side {
+    height: 1641px;
+}
+
+.content-info-detalle{
+	padding: 5px 30px;
+	margin-top: 5%;
+}
+
+.list-subcategory{
+	list-style-type: circle;
+}
+
+a.title-category-collapse{
+	color: black;
+    font-size: 13px;
+}
+
+h4{
+	line-height: 0;
+}
+
+.title-detalle{
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+	margin-left: 2%;
+	margin-top: 2%;
+}
+
+.name-lugar-turistico{
+	color: #0B486B;
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.subtitle-detalle{
+	color: #3B8686;
+	font-size: 14px;
+	font-weight: bold;
+	margin-left: 2%;
+}
+
+.list-category{
+	list-style-type: square;
+	color: #0B486B;
+}
+
+ul.list-category > li{
+	font-size: 13px;
+	color: black;
+}
+
+
+.icon-see-detalle{
+	font-size: 16px;
+	color: black;
+}
+
+.icon-see-detalle:hover{
+	color: #CFF09E;
+}
+
+.text-descripcion-detalle{
+	margin-left: 2%;
+}
+
+.address-detalle{
+	margin-left: 2%;
+}
+
+.subtittle-direccion{
+	margin-top: 23%;
+}
+
+.btn-lugar-turistico-actividad{
+  background-color: #CFF09E;
+  color: #0B486B;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}

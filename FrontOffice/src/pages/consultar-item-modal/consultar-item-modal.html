@@ -33,8 +33,8 @@
         {{evento.tipo}}
       </ion-item>
       <ion-item text-wrap>
-        <ion-label><p>Comienza:</p> {{evento.startTime | date : 'dd/MM/yyyy HH:mm'}}</ion-label>
-        <ion-label><p>Termina:</p> {{evento.endTime | date : 'dd/MM/yyyy HH:mm'}}</ion-label>
+        <ion-label><p>Comienza:</p> {{evento.startTime | date : 'dd/MM/yyyy'}} - {{evento.horaInicio}}</ion-label>
+        <ion-label><p>Termina:</p> {{evento.endTime | date : 'dd/MM/yyyy'}} - {{evento.horaFin}}</ion-label>
       </ion-item>
       <ion-item text-wrap text-justify>
         <ion-label><p style="margin-bottom: 7px">Descripción: </p>

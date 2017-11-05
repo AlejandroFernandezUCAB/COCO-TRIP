@@ -1,0 +1,49 @@
+{
+    "Registrarse":"Register",
+    "Iniciar Sesión": "Login",
+    "Con Google":"With Google",
+    "Con Facebook": "With Facebook",
+    "¿Olvidaste tu contraseña?": "Forgot your password?",
+    "Correo o Usuario":"Email or Username",
+
+
+    "Inicio":"Home",
+    "Eventos y Actividades":"Events and Activities",
+    "Itinerario": "Itinerary",
+    "Amistades y Grupos":"Friends and Groups",
+    "Salir":"Log Out",
+  
+
+    "Configuración": "Settings",
+    "Eventos": "Events",
+    "Chat": "Chat",
+    "Cuentas Vinculadas": "Linked Accounts",
+    "Recibir Notificaciones": "Receive Notifications",
+    "Idioma":"Language",
+    "Idioma Seleccionado": "Selected Language",
+    "Español":"Spanish",
+    "Ingles":"English",
+
+    "Editar Datos Personales": "Edit Personal Data",
+    "Cambiar Foto": "Change Photo",
+    "Nombre":"Name",
+    "Apellido": "Last Name",
+    "Fecha de Nacimiento": "Birth Date",
+    "Sexo": "Gender",
+    "Hombre": "Male",
+    "Mujer": "Female",
+    "Cambiar Contraseña": "Change Password",
+    "Guardar Cambios": "Save Changes",
+
+    "Perfil":"Profile",
+    "Editar Preferencias":"Edit Preferences",
+    "Borrar Cuenta":"Delete Account",
+
+    "Preferencias":"Preferences",
+    "Búsqueda de categorías":"Search of categories",
+    "Categorías seleccionadas":"Selected categories",
+
+    "Introduzca su contraseña":"Enter your password",
+    "Confirmar":"Confirm"
+
+}

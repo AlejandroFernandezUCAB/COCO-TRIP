@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Generated class for the ConfigPage page.
@@ -16,7 +17,24 @@ import { ToastController } from 'ionic-angular';
 })
 export class ConfigPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  idioms: any[] = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private translateService: TranslateService)
+  {
+    this.idioms = [
+      {
+        value: 'es',
+        label: 'Español'
+      },
+      {
+        value: 'en',
+        label: 'Ingles'
+      }
+    ];
+  }
+
+  choose(lang) {
+    this.translateService.use(lang);
   }
 
   ionViewDidLoad() {
