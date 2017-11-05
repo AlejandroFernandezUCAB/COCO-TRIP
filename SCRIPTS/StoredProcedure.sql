@@ -65,7 +65,7 @@ BEGIN
 	RETURN QUERY SELECT
 	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
 	FROM usuario
-	WHERE us_nombreusuario=_nombreUsuario AND _clave = us_clave AND us_validacion=true;
+	WHERE us_nombreusuario=_nombreUsuario AND _clave = us_password AND us_validacion=true;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -87,7 +87,7 @@ BEGIN
 	RETURN QUERY SELECT
 	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
 	FROM usuario
-	WHERE us_email=_correo AND _clave = us_clave AND us_validacion= true;
+	WHERE us_email=_correo AND _clave = us_password AND us_validacion= true;
 END;
 $$ LANGUAGE plpgsql;
 

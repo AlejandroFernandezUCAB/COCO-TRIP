@@ -4,38 +4,27 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using ApiRest_COCO_TRIP.Models.M1;
 using ApiRest_COCO_TRIP.Models;
+using Npgsql;
+using System.Data;
+using Newtonsoft.Json;
+
 namespace ApiRest_COCO_TRIP.Controllers
 {
-  public class  M1_LoginController : ApiController
+  public class M1_LoginController : ApiController
   {
-    // GET api/<controller>
-    public IEnumerable<string> Get()
-    {
-      return new string[] { "value1", "value2" };
-    }
 
-    // GET api/<controller>/5
-    public string Get(int id)
-    {
-      return "value";
-    }
+
+
     // GET api/<controller>/<action>/id
     [HttpGet]
-    public Usuario IniciarSesion(int id)
+    public int IniciarSesionCorreo(String datos)
     {
-      Usuario usuario = new Usuario();
-      usuario.Correo = "prueba@gmail.com";
-      usuario.NombreUsuario = "prueba";
-      ConexionBase conexion = new ConexionBase();
-      conexion.SqlConexion.Open();
-      conexion.Comando.Connection = conexion.SqlConexion;
-      conexion.Comando.CommandText = "CREATE TABLE PRUEBA (idprueba integer CONSTRAINT firstkey PRIMARY KEY)";
-      conexion.Comando.ExecuteNonQuery();
-      return usuario;
-    }
+      Usuario usuario = JsonConvert.DeserializeObject<Usuario>(datos);
+        PeticionLogin peticion = new PeticionLogin();
+        return peticion.ConsultarUsuarioCorreo(usuario);
+     }
 
-  
+
   }
 }
