@@ -136,7 +136,7 @@ RETURNS void AS
 $$
 BEGIN
 	UPDATE usuario SET us_validacion=true
-	WHERE us_email=_correo AND us_id = id;
+	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 
