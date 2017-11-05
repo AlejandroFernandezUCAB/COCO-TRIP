@@ -135,7 +135,6 @@
     <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
-    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\M7\Base\Conexion.cs" />
     <Compile Include="Models\M7\Base\Peticion.cs" />
     <Compile Include="Models\M7\Dato\Actividad.cs" />
