@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.Http;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Controllers;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRestPruebas.M7
 {
