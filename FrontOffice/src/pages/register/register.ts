@@ -20,11 +20,21 @@ export class RegisterPage {
   myForm: FormGroup;
   //constructor(public navCtrl: NavController, public navParams: NavParams)
   constructor(public navCtrl: NavController,public formBuilder: FormBuilder) {
-    this.myForm = this.createMyForm();
+    this.myForm = this.formBuilder.group({
+      userName: ['', [Validators.required,Validators.pattern(/^([A-Za-z]{1}[A-Za-z0-9_-])+$/)]],
+      name: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/)]],
+      lastName: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      dateBirth: ['', Validators.required],
+      password: ['', [Validators.required, Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
+      passwordConfirmation: ['', [Validators.required, Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
+      gender: ['', Validators.required],
+    });
   }
 
   saveData(){
-    console.log(this.myForm.value);
+    //console.log(this.myForm.value);
+    alert(JSON.stringify(this.myForm.value));
   }
 
   ionViewDidLoad() {
@@ -35,19 +45,6 @@ export class RegisterPage {
     this.navCtrl.push(RegisterPage);
   }
 
-  private createMyForm(){
-    return this.formBuilder.group({
-      name: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      dateBirth: ['', Validators.required],
-      passwordRetry: this.formBuilder.group({
-        password: ['', Validators.required],
-        passwordConfirmation: ['', Validators.required]
-      }),
-      gender: ['', Validators.required],
-    });
-  }
   
   
 
