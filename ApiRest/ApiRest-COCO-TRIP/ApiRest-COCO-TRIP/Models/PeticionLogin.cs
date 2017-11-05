@@ -13,7 +13,8 @@ namespace ApiRest_COCO_TRIP.Models
     private ConexionBase conexion;
     private NpgsqlDataReader leerDatos;
 
-    public PeticionLogin() {
+    public PeticionLogin()
+    {
       conexion = new ConexionBase();
     }
 
@@ -26,7 +27,8 @@ namespace ApiRest_COCO_TRIP.Models
 
       return parametro;
     }
-    public int ConsultarUsuarioCorreo(Usuario usuario) {
+    public int ConsultarUsuarioCorreo(Usuario usuario)
+    {
       try
       {
         conexion.Conectar();
@@ -40,11 +42,11 @@ namespace ApiRest_COCO_TRIP.Models
         if (leerDatos.Read())
         {
           usuario.Id = leerDatos.GetInt32(0);
-          
+
         }
 
         leerDatos.Close();
-        conexion.Desconectar();  
+        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -55,6 +57,159 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
       return usuario.Id;
+    }
+
+    public int ConsultarUsuarioNombre(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarUsuarioNombre";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.NombreUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Clave));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          usuario.Id = leerDatos.GetInt32(0);
+
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return usuario.Id;
+    }
+
+    public int ConsultarUsuarioSocial(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarUsuarioSocial";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          usuario.Id = leerDatos.GetInt32(0);
+
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return usuario.Id;
+    }
+
+    public int InsertarUsuarioFacebook(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "InsertarUsuarioFacebook";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Nombre));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Apellido));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Date, usuario.FechaNacimiento));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, usuario.Foto));
+
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          usuario.Id = leerDatos.GetInt32(0);
+          leerDatos.Close();
+        }
+
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
+      return usuario.Id;
+    }
+
+    public string RecuperarContrasena(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "RecuperarContrasena";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          usuario.Clave = leerDatos.GetString(0);
+
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return usuario.Clave;
+    }
+
+    public void ValidarUsuario(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ValidarUsuario";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, usuario.Id));
+        conexion.Comando.ExecuteNonQuery();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
     }
   }
 }
