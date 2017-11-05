@@ -61,7 +61,7 @@ namespace ApiRestPruebas.M7.Base
       foto.Contenido = imagen;
     }
 
-    //Insert 
+    //Insert
 
     /// <summary>
     /// Test del metodo InsertarLugarTuristico de la clase Conexion
@@ -154,6 +154,18 @@ namespace ApiRestPruebas.M7.Base
     {
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id).Contains(actividad));
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Test del metodo ConsultarActividad de la clase Conexion
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestConsultarActividad()
+    {
+      conexion.Conectar();
+      Assert.AreEqual(true, actividad.Equals(conexion.ConsultarActividad(actividad.Id)));
       conexion.Desconectar();
     }
 
@@ -262,7 +274,7 @@ namespace ApiRestPruebas.M7.Base
     [Category("Actualizar")]
     public void TestActualizarHorario()
     {
-      horario.DiaSemana = (int)DateTime.Now.DayOfWeek + 1;
+      horario.DiaSemana = (int) DateTime.Now.DayOfWeek + 1;
       horario.HoraApertura = new TimeSpan(22, 0, 0);
       horario.HoraCierre = new TimeSpan(24, 0, 0);
 
