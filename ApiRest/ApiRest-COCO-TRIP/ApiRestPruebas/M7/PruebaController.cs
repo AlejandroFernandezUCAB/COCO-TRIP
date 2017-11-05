@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.Http;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Controllers;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRestPruebas.M7
 {
@@ -251,21 +251,15 @@ namespace ApiRestPruebas.M7
     public void TestDeleteActividad()
     {
       controlador.DeleteActividad(actividad.Id);
+      Assert.Catch<HttpResponseException>(DeleteActividad);
+    }
 
-      try
-      {
-        Assert.AreEqual(true, controlador.GetActividad(actividad.Id));
-      }
-      catch (HttpResponseException e)
-      {
-        var error = e.Response;
-
-        if ((int) error.StatusCode != (int) HttpStatusCode.NotFound)
-        {
-          Assert.Fail("La excepcion retornada no coincide con HTTP404");
-        }
-
-      }
+    /// <summary>
+    /// Metodo que permite testear la excepcion retornada por un elemento no encontrado en GetActividad
+    /// </summary>
+    private void DeleteActividad()
+    {
+      Assert.AreEqual(false, controlador.GetActividad(actividad.Id));
     }
 
     /// <summary>
