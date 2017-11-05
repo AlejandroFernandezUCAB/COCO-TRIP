@@ -2,10 +2,10 @@ CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
 CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
 --DROPS
 --Modulo 3
-Drop table Grupo;
 Drop table Miembro;
 Drop table Amigo;
-
+Drop table Grupo;
+Drop table Usuario;
 Drop SEQUENCE SEQ_Grupo;
 Drop SEQUENCE SEQ_Miembro;
 Drop SEQUENCE SEQ_Amigo;
@@ -40,7 +40,7 @@ Create Table Grupo
 (
 gr_id int NOT NULL,
 gr_nombre varchar(100) NOT NULL,
-gr_foto bytea NOT NULL,
+gr_foto bytea,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
