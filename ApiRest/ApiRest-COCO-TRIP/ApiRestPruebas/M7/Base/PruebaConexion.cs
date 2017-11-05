@@ -52,7 +52,7 @@ namespace ApiRestPruebas.M7.Base
 
       horario = new Horario();
       horario.Id = 1;
-      horario.DiaSemana = (int)Horario.Dia.Domingo;
+      horario.DiaSemana = (int)DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(8, 0, 0);
       horario.HoraCierre = new TimeSpan(17, 0, 0);
 
@@ -195,7 +195,7 @@ namespace ApiRestPruebas.M7.Base
       horario.DiaSemana = 0;
 
       conexion.Conectar();
-      Assert.AreEqual(true, horario.Equals(conexion.ConsultarDiaHorario(lugar.Id, (int)Horario.Dia.Domingo)));
+      Assert.AreEqual(true, horario.Equals(conexion.ConsultarDiaHorario(lugar.Id, (int)DateTime.Now.DayOfWeek)));
       conexion.Desconectar();
     }
 
@@ -262,7 +262,7 @@ namespace ApiRestPruebas.M7.Base
     [Category("Actualizar")]
     public void TestActualizarHorario()
     {
-      horario.DiaSemana = (int)Horario.Dia.Lunes;
+      horario.DiaSemana = (int)DateTime.Now.DayOfWeek + 1;
       horario.HoraApertura = new TimeSpan(22, 0, 0);
       horario.HoraCierre = new TimeSpan(24, 0, 0);
 

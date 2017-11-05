@@ -1,0 +1,411 @@
+@Styles.Render("~/bundles/lugares_addCSS")
+@Styles.Render("~/bundles/lugares_modifyCSS")
+
+<div class="row">
+  <div class="content-form card">
+    <br><br>
+
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;genes del lugar</label>
+        
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <figure class="imagen-actividad-modificar">
+              <img class="img-actividad" src="assets/img/barco_colon.jpg" alt="">
+            </figure>
+          </li>
+          <li class="list-inline-item">
+            <figure class="imagen-actividad-modificar">
+              <img class="img-actividad" src="assets/img/areas_verdes.jpg" alt="">
+            </figure>
+          </li>
+          <li class="list-inline-item">
+            <figure class="imagen-actividad-modificar">
+              <img class="img-actividad" src="assets/img/property_detail.jpg" alt="">
+            </figure>
+          </li>
+          <li class="list-inline-item">
+            <figure class="imagen-actividad-modificar">
+              <img class="img-actividad" src="assets/img/canchas.jpg" alt="">
+            </figure>
+          </li>
+        </ul>
+        <p class="help-block col-sm-9 text-center">Click sobre la imagen para cambiarla!</p>
+      </div>
+      
+      <div class="row row-nombre-costo-estado">
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name" class="col-sm-2 control-label" style="margin-left: -3%; margin-right: 3%;">Nombre</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="name" placeholder="Nombre lugar turístico..." value="Parque del este">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="number" class="col-sm-2 control-label">Costo</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="telefono" placeholder="ej. 120" value="120">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="category" class="col-sm-4 control-label">Estado</label>
+            <div class="col-sm-8">
+              <select class="form-control" id="category">
+                <option>Elige una estado</option>
+                <option selected="true">Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel">
+              <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+
+                  <div class="title-actividades text-center" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    Categor&iacute;as y Subcategor&iacute;as
+                  </div>
+
+                </h4>
+              </div>
+              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+
+                  <div class="row">
+
+                    <div class="col-md-5">
+                      <div class="form-group ">
+                        <label for="category" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="category">
+                            <option>Elige una categor&iacute;a</option>
+                            <option>Zoologico</option>
+                            <option>Parque tem&aacute;tico</option>
+                            <option>Parque infantil</option>
+                            <option>Otro</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="category" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="category">
+                            <option>Elige una sub-categor&iacute;a</option>
+                            <option>Para mayores de 18 a&ntilde;os</option>
+                            <option>Para todas las edades</option>
+                            <option>Edad 5+</option>
+                            <option>No apto para cardiacos</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="col-sm-12" align="center">
+                          <a href="#">
+                            <i class="fa fa-plus-circle icon-add-category" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel">
+              <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+
+                  <div class="title-actividades text-center" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    Horarios
+                    <i class="fa fa-calendar icon-horario-actividad" aria-hidden="true"></i>
+                  </div>
+
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control">
+                          <option selected="true">Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="name" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="name" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="name" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="name" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="col-sm-12" align="center">
+                          <a href="#">
+                            <i class="fa fa-plus-circle icon-add-horario" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  
+                    <div class="title-actividades text-center" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Actividades
+                      <i class="fa fa-pencil icon-add-actividad" aria-hidden="true"></i>
+                    </div>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <form class="form-inline">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
+                          <figure class="imagen-actividad-modificar">
+                            <img class="img-actividad" src="assets/img/areas_verdes.jpg" alt="">
+                          </figure>
+                          <div class="text-imagen-actividad">
+                            Para cambiar la im&aacute;gen dar click sobre ella.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label for="exampleInputName2">Nombre</label>
+                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. Disneyland" value="Paseo por el parque">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad-descripcion">
+                          <label for="exampleInput">Descripci&oacute;n</label>
+                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
+                          <figure class="imagen-actividad-modificar">
+                            <img class="img-actividad" src="assets/img/barco_colon.jpg" alt="">
+                          </figure>
+                          <div class="text-imagen-actividad">
+                            Para cambiar la im&aacute;gen dar click sobre ella.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label for="exampleInputName3">Nombre</label>
+                          <input type="text" class="form-control" id="exampleInputName3" placeholder="ej. Disneyland"  value="Visita barco de colón">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad-descripcion">
+                          <label for="exampleInput2">Descripci&oacute;n</label>
+                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
+                          <figure class="imagen-actividad-modificar">
+                            <img class="img-actividad" src="assets/img/lanchitas.jpg" alt="">
+                          </figure>
+                          <div class="text-imagen-actividad">
+                            Para cambiar la im&aacute;gen dar click sobre ella.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label for="exampleInputName4">Nombre</label>
+                          <input type="text" class="form-control" id="exampleInputName4" placeholder="ej. Disneyland"  value="Paseo en lanchas a pedal">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad-descripcion">
+                          <label for="exampleInput3">Descripci&oacute;n</label>
+                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
+                          <figure class="imagen-actividad-modificar">
+                            <img class="img-actividad" src="assets/img/canchas.jpg" alt="">
+                          </figure>
+                          <div class="text-imagen-actividad">
+                            Para cambiar la im&aacute;gen dar click sobre ella.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad">
+                          <label for="exampleInputName5">Nombre</label>
+                          <input type="text" class="form-control" id="exampleInputName5" placeholder="ej. Disneyland"  value="Juegos multiples en canchas">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group form-group-actividad-descripcion">
+                          <label for="exampleInput4">Descripci&oacute;n</label>
+                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
+                        </div>
+                      </div>
+                    </div> 
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="title-direccion">Contacto</div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">Direcci&oacute;n</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="name" placeholder="Ingrese direcci&oacute;n..." value="avenida principal las palmas calle barquisimeto">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 col-md-offset-1">
+            <div class="form-group form-group-correo">
+              <label for="email" class="col-sm-2 control-label">Correo</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com" value="ejemplo@gmail.com">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group form-group-telefono">
+              <label for="telefono" class="col-sm-2 control-label">Tel&eacute;fono</label>
+              <div class="col-sm-9">
+                <input type="tel" class="form-control" id="telefono" placeholder="N&uacute;mero de tel&eacute;fono..." value="02127941343">
+              </div>
+            </div>  
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="category" class="col-sm-2 control-label">Descripci&oacute;n</label>
+            <div class="col-sm-9">
+              <textarea class="form-control" rows="4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam quam praesentium possimus. Omnis numquam sed vitae assumenda, accusantium debitis voluptas doloribus facere dolor harum facilis atque velit ducimus deserunt blanditiis!</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12" align="center">
+            <a href="index.html">
+              <button class="btn btn-lugar-turistico-add">Guardar Cambios</button>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      
+        
+    </form>
+  </div>
+</div>
