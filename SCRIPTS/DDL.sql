@@ -138,7 +138,16 @@ CREATE TABLE LT_Foto
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
---Fin de modulo  
+CREATE TABLE categoria 
+(
+  ca_id integer NOT NULL,
+  ca_nombre character varying(20) not null,
+  ca_descripcion character varying(100) not null,
+  ca_status boolean not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+--Fin de modulo 9
 
 --ALTERS
 --Modulo 1
@@ -158,6 +167,10 @@ CREATE TABLE LT_Foto
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
+
+ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
+ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
+
 --Fin de modulo
 
 --SEQUENCES
@@ -190,6 +203,13 @@ CREATE SEQUENCE SEQ_LT_Foto;
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
+CREATE SEQUENCE SEQ_Categoria
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 --Fin de modulo 
 
 --INDEX

@@ -1,5 +1,5 @@
 using System;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;

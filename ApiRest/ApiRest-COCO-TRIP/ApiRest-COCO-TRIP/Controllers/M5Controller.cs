@@ -3,7 +3,7 @@ using System.Web.Http;
 using Npgsql;
 using System.Data;
 using ApiRest_COCO_TRIP.Models;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
 using System.Web;
 using System.Net;

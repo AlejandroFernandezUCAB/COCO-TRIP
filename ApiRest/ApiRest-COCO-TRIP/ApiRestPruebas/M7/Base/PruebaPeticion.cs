@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
-using ApiRest_COCO_TRIP.Models.M7.Base;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Base;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRestPruebas.M7.Base
 {
@@ -11,7 +11,7 @@ namespace ApiRestPruebas.M7.Base
   [TestFixture]
   public class PruebaPeticion
   {
-    private Peticion peticion;
+    private PeticionLugarTuristico peticion;
     private LugarTuristico lugar;
     private Actividad actividad;
     private Horario horario;
@@ -23,10 +23,10 @@ namespace ApiRestPruebas.M7.Base
     [SetUp]
     public void SetPeticion()
     {
-      peticion = new Peticion();
+      peticion = new PeticionLugarTuristico();
 
       lugar = new LugarTuristico();
-      lugar.Id = 2;
+      lugar.Id = 1;
       lugar.Nombre = "Parque Generalisimo de Miranda";
       lugar.Costo = 0;
       lugar.Descripcion = "Lugar al aire libre";
@@ -40,7 +40,7 @@ namespace ApiRestPruebas.M7.Base
       byte[] imagen = new byte[28480];
 
       actividad = new Actividad();
-      actividad.Id = 2;
+      actividad.Id = 1;
       actividad.Nombre = "Parque Generalisimo de Miranda";
       actividad.Duracion = new TimeSpan(2, 0, 0);
       actividad.Descripcion = "Lugar al aire libre";
@@ -48,13 +48,13 @@ namespace ApiRestPruebas.M7.Base
       actividad.Activar = true;
 
       horario = new Horario();
-      horario.Id = 2;
+      horario.Id = 1;
       horario.DiaSemana = (int) DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(8, 0, 0);
       horario.HoraCierre = new TimeSpan(17, 0, 0);
 
       foto = new Foto();
-      foto.Id = 2;
+      foto.Id = 1;
       foto.Contenido = imagen;
 
       lugar.Actividad.Add(actividad);
