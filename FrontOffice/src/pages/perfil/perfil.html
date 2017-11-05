@@ -9,7 +9,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Perfil</ion-title>
+    <ion-title>{{ 'Perfil' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -26,19 +26,19 @@
   <ion-list>
     <button [navPush]="editProfile" ion-item>
       <ion-icon name="md-person"></ion-icon>
-      Editar Datos Personales
+      {{ 'Editar Datos Personales' | translate }}
     </button>
     <button ion-item  [navPush]="editarPreferences">
       <ion-icon name="md-brush"></ion-icon>
-      Editar Preferencias
+      {{ 'Editar Preferencias' | translate }}
     </button>
     <button [navPush]="configureProfile" ion-item>
       <ion-icon name="md-settings"></ion-icon>
-      Configuracion del sistema
+      {{ 'Configuración' | translate }}
     </button>
     <button [navPush]="deleteAccount" ion-item>
       <ion-icon name="md-trash"></ion-icon>
-      Borrar Cuenta
+      {{ 'Borrar Cuenta' | translate }}
     </button>
   </ion-list>
 

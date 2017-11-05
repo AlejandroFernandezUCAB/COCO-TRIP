@@ -36,8 +36,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Web.Http">
+      <HintPath>Library\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="M1\PruebasLogin.cs" />
+    <Compile Include="M5\M5UnitTests.cs" />
     <Compile Include="M7\Base\PruebaConexion.cs" />
     <Compile Include="M7\Base\PruebaPeticion.cs" />
     <Compile Include="M7\Dato\PruebaActividad.cs" />
@@ -68,7 +69,6 @@
     <Folder Include="M2\" />
     <Folder Include="M3\" />
     <Folder Include="M4\" />
-    <Folder Include="M5\" />
     <Folder Include="M6\" />
     <Folder Include="M8\" />
     <Folder Include="M9\" />

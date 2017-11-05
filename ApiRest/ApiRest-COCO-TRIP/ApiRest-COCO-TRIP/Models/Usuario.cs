@@ -16,6 +16,7 @@ namespace ApiRest_COCO_TRIP.Models
     private DateTime fechaNacimiento;
     private byte[] foto;
     private string clave;
+    //private List<Categoria> preferencias;
 
 
     public Usuario()
@@ -31,5 +32,20 @@ namespace ApiRest_COCO_TRIP.Models
     public byte[] Foto { get => foto; set => foto = value; }
     public string Clave { get => clave; set => clave = value; }
     public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
+    //public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
+
+    /*
+    public List<Categoria> agregarPreferencia ( Categoria nuevaCategoria ){
+      
+      preferencias.add( nuevaCategoria );
+    }
+     */
+
+    /*
+
+    public List<Categoria> eliminarPreferencia(){
+
+    }
+     */
   }
 }

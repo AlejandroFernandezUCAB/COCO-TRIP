@@ -4,7 +4,6 @@ using System.Data;
 using System.Reflection;
 using Npgsql;
 using NpgsqlTypes;
-using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Exceptions;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
 
@@ -123,23 +122,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
-    private string DocumentarErrorLugarTuristico(LugarTuristico lugarTuristico)
-    {
-      return
-          (
-              "Datos: " +
-              "Nombre " + lugarTuristico.Nombre + " " +
-              "Costo " + lugarTuristico.Costo + " " +
-              "Descripcion " + lugarTuristico.Descripcion + " " +
-              "Direccion " + lugarTuristico.Direccion + " " +
-              "Correo " + lugarTuristico.Correo + " " +
-              "Telefono " + lugarTuristico.Telefono + " " +
-              "Latitud " + lugarTuristico.Latitud + " " +
-              "Longitud " + lugarTuristico.Longitud + " " +
-              "Activar " + lugarTuristico.Activar
-          );
-    }
-
     /// <summary>
     /// Inserta en la base de datos los datos de 
     /// la actividad perteneciente a un lugar turistico
@@ -193,19 +175,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
-    private string DocumentarErrorActividad(Actividad actividad)
-    {
-      return
-          (
-              "Datos: " +
-              "Foto (size) " + actividad.Foto.Contenido.Length + " " +
-              "Nombre " + actividad.Nombre + " " +
-              "Duracion " + actividad.Duracion.ToString() + " " +
-              "Descripcion " + actividad.Descripcion + " " +
-              "Activar " + actividad.Activar
-          );
-    }
-
     /// <summary>
     /// Inserta en la base de datos el horario
     /// perteneciente a un lugar turistico y
@@ -255,17 +224,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
 
         throw excepcion;
       }
-    }
-
-    private string DocumentarErrorHorario(Horario horario)
-    {
-      return
-          (
-              "Datos: " +
-              "DiaSemana " + horario.DiaSemana + " " +
-              "HoraApertura " + horario.HoraApertura + " " +
-              "HoraCierre " + horario.HoraCierre
-          );
     }
 
     /// <summary>
@@ -984,6 +942,47 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       parametro.Value = valor;
 
       return parametro;
+    }
+
+    private string DocumentarErrorLugarTuristico(LugarTuristico lugarTuristico)
+    {
+      return
+          (
+              "Datos: " +
+              "Nombre " + lugarTuristico.Nombre + " " +
+              "Costo " + lugarTuristico.Costo + " " +
+              "Descripcion " + lugarTuristico.Descripcion + " " +
+              "Direccion " + lugarTuristico.Direccion + " " +
+              "Correo " + lugarTuristico.Correo + " " +
+              "Telefono " + lugarTuristico.Telefono + " " +
+              "Latitud " + lugarTuristico.Latitud + " " +
+              "Longitud " + lugarTuristico.Longitud + " " +
+              "Activar " + lugarTuristico.Activar
+          );
+    }
+
+    private string DocumentarErrorActividad(Actividad actividad)
+    {
+      return
+          (
+              "Datos: " +
+              "Foto (size) " + actividad.Foto.Contenido.Length + " " +
+              "Nombre " + actividad.Nombre + " " +
+              "Duracion " + actividad.Duracion.ToString() + " " +
+              "Descripcion " + actividad.Descripcion + " " +
+              "Activar " + actividad.Activar
+          );
+    }
+
+    private string DocumentarErrorHorario(Horario horario)
+    {
+      return
+          (
+              "Datos: " +
+              "DiaSemana " + horario.DiaSemana + " " +
+              "HoraApertura " + horario.HoraApertura + " " +
+              "HoraCierre " + horario.HoraCierre
+          );
     }
   }
 }
