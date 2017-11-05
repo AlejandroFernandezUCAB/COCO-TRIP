@@ -1,9 +1,9 @@
+using System;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models.M7.Base;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
-using System;
 
-namespace ApiRest_COCO_TRIP.Tests.M7.Base
+namespace ApiRestPruebas.M7.Base
 {
   /// <summary>
   /// Pruebas Unitarias de la clase Peticion

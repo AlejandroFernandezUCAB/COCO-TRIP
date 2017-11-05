@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
 
-namespace ApiRest_COCO_TRIP.Tests.M7.Dato
+namespace ApiRestPruebas.M7.Dato
 {
   /// <summary>
   /// Pruebas unitarias de la clase Foto
