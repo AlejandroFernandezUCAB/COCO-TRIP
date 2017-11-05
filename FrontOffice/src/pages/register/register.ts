@@ -21,13 +21,13 @@ export class RegisterPage {
   //constructor(public navCtrl: NavController, public navParams: NavParams)
   constructor(public navCtrl: NavController,public formBuilder: FormBuilder) {
     this.myForm = this.formBuilder.group({
-      userName: ['', [Validators.required,Validators.pattern(/^([A-Za-z]{1}[A-Za-z0-9_-])+$/)]],
-      name: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/)]],
-      lastName: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/)]],
-      email: ['', [Validators.required, Validators.email]],
+      userName: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚa-zñáéíóú0-9])+$/),Validators.minLength(5), Validators.maxLength(20)]],
+      name: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚa-zñáéíóú])+$/),Validators.minLength(5), Validators.maxLength(30)]],
+      lastName: ['', [Validators.required,Validators.pattern(/^([A-ZÁÉÍÓÚa-zñáéíóú])+$/),Validators.minLength(5), Validators.maxLength(30)]],
+      email: ['', [Validators.required, Validators.email,Validators.maxLength(30)]],
       dateBirth: ['', Validators.required],
-      password: ['', [Validators.required, Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
-      passwordConfirmation: ['', [Validators.required, Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
+      password: ['', [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚa-zñáéíóú0-9.,$@$!%*?&_-]+$/),Validators.minLength(5), Validators.maxLength(20)]],
+      passwordConfirmation: ['', [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚa-zñáéíóú0-9.,$@$!%*?&_-]+$/),Validators.minLength(5), Validators.maxLength(20)]],
       gender: ['', Validators.required],
     });
   }

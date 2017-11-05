@@ -24,6 +24,8 @@
       <ion-item *ngIf="myForm.get('userName').errors && myForm.get('userName').dirty">
         <p color="danger" ion-text *ngIf="myForm.get('userName').hasError('required')">El campo es requerido</p>
         <p color="danger" ion-text *ngIf="myForm.get('userName').hasError('pattern')">el campo no cumple con los caracteres permitidos</p>
+        <p color="danger" ion-text *ngIf="myForm.get('userName').hasError('minlength')">la minima cantidad de caracteres es 5</p>
+        <p color="danger" ion-text *ngIf="myForm.get('userName').hasError('maxlength')">la maxima cantidad de caracteres es 30</p>
       </ion-item>
       <ion-item>
           <ion-icon name="" item-left></ion-icon>
@@ -33,6 +35,8 @@
       <ion-item *ngIf="myForm.get('name').errors && myForm.get('name').dirty">
         <p color="danger" ion-text *ngIf="myForm.get('name').hasError('required')">El campo es requerido</p>
         <p color="danger" ion-text *ngIf="myForm.get('name').hasError('pattern')">el campo no cumple con los caracteres permitidos</p>
+        <p color="danger" ion-text *ngIf="myForm.get('name').hasError('minlength')">la minima cantidad de caracteres es 5</p>
+        <p color="danger" ion-text *ngIf="myForm.get('name').hasError('maxlength')">la maxima cantidad de caracteres es 30</p>
       </ion-item>
       <ion-item>
           <ion-icon name="" item-left></ion-icon>
@@ -42,6 +46,8 @@
       <ion-item *ngIf="myForm.get('lastName').errors && myForm.get('lastName').dirty">
         <p color="danger" ion-text *ngIf="myForm.get('lastName').hasError('required')">El campo es requerido</p>
         <p color="danger" ion-text *ngIf="myForm.get('lastName').hasError('pattern')">el campo no cumple con los caracteres permitidos</p>
+        <p color="danger" ion-text *ngIf="myForm.get('lastName').hasError('minlength')">la minima cantidad de caracteres es 5</p>
+        <p color="danger" ion-text *ngIf="myForm.get('lastName').hasError('maxlength')">la maxima cantidad de caracteres es 30</p>
       </ion-item>
       <ion-item>
             <ion-icon name="calendar" item-left></ion-icon>
@@ -74,6 +80,7 @@
       <ion-item *ngIf="myForm.get('email').errors && myForm.get('email').dirty">
           <p color="danger" ion-text *ngIf="myForm.get('email').hasError('required')">El campo es requerido</p>
           <p color="danger" ion-text *ngIf="myForm.get('email').hasError('email')">el campo no cumple con los caracteres permitidos</p>
+          <p color="danger" ion-text *ngIf="myForm.get('email').hasError('maxlength')">la maxima cantidad de caracteres es 30</p>
         </ion-item>
 
           <ion-item>
@@ -84,6 +91,8 @@
             <ion-item *ngIf="myForm.get('password').errors && myForm.get('password').dirty">
                 <p color="danger" ion-text *ngIf="myForm.get('password').hasError('required')">El campo es requerido</p>
                 <p color="danger" ion-text *ngIf="myForm.get('password').hasError('pattern')">el campo no cumple con los caracteres permitidos</p>
+                <p color="danger" ion-text *ngIf="myForm.get('password').hasError('minlength')">la minima cantidad de caracteres es 5</p>
+                <p color="danger" ion-text *ngIf="myForm.get('password').hasError('maxlength')">la maxima cantidad de caracteres es 20</p>        
             </ion-item>
             <ion-item>
               <ion-icon name="" item-left></ion-icon>
@@ -93,6 +102,8 @@
             <ion-item *ngIf="myForm.get('passwordConfirmation').errors && myForm.get('passwordConfirmation').dirty">
                 <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('required')">El campo es requerido</p>
                 <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('pattern')">el campo no cumple con los caracteres permitidos</p>
+                <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('minlength')">la minima cantidad de caracteres es 5</p>
+                <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('maxlength')">la maxima cantidad de caracteres es 20</p>        
             </ion-item>
 
       <ion-row>
