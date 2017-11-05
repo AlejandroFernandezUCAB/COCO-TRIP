@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Models.Exceptions;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
+using System;
 
 namespace ApiRest_COCO_TRIP.Models.M7.Base
 {
@@ -307,7 +308,14 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       try
       {
         conexion.Conectar();
+
         var listaLugarTuristico = conexion.ConsultarListaLugarTuristico(desde, hasta);
+
+        foreach(LugarTuristico elemento in listaLugarTuristico)
+        {
+          elemento.Horario.Add(conexion.ConsultarDiaHorario(elemento.Id, (int) DateTime.Now.DayOfWeek));
+        }
+
         conexion.Desconectar();
 
         return listaLugarTuristico;
