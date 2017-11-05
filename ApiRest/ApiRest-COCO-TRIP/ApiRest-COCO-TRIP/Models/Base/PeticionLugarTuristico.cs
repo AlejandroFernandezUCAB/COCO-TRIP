@@ -1,25 +1,25 @@
 using System.Reflection;
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Models.Exceptions;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.Dato;
 using System;
 
-namespace ApiRest_COCO_TRIP.Models.M7.Base
+namespace ApiRest_COCO_TRIP.Models.Base
 {
   /// <summary>
   /// Clase que realiza peticiones a la base de datos a traves de la clase Conexion
   /// </summary>
-  public class Peticion
+  public class PeticionLugarTuristico
   {
-    private Conexion conexion;
+    private ConexionLugarTuristico conexion;
 
     /// <summary>
     /// El constructor instancia la clase Conexion introduciendo las credenciales 
     /// de la base de datos para conectarse a ella posteriormente
     /// </summary>
-    public Peticion()
+    public PeticionLugarTuristico()
     {
-      conexion = new Conexion();
+      conexion = new ConexionLugarTuristico();
     }
 
     /// <summary>
@@ -296,8 +296,8 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     /// </summary>
     /// <param name="desde">limite inferior</param>
     /// <param name="hasta">limite superior</param>
-    /// <returns>(List<LugarTuristico>) Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
-    /// de cada lugar turistico</returns>
+    /// <returns>(List<LugarTuristico>) Lista de lugares turisticos con ID, nombre, costo, descripcion, estado, el horario del dia actual
+    /// y las fotos</returns>
     public List<LugarTuristico> ConsultarListaLugarTuristico(int desde, int hasta)
     {
       try
@@ -309,6 +309,11 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
         foreach(LugarTuristico elemento in listaLugarTuristico)
         {
           elemento.Horario.Add(conexion.ConsultarDiaHorario(elemento.Id, (int) DateTime.Now.DayOfWeek));
+        }
+
+        foreach (LugarTuristico elemento in listaLugarTuristico)
+        {
+          elemento.Foto = conexion.ConsultarFotos(elemento.Id);
         }
 
         conexion.Desconectar();
@@ -333,8 +338,13 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       try
       {
         conexion.Conectar();
+
         var lugarTuristico = conexion.ConsultarLugarTuristico(id);
+
         lugarTuristico.Actividad = conexion.ConsultarNombreActividades(lugarTuristico.Id);
+        lugarTuristico.Horario = conexion.ConsultarHorarios(lugarTuristico.Id);
+        lugarTuristico.Foto = conexion.ConsultarFotos(lugarTuristico.Id);
+
         conexion.Desconectar();
 
         return lugarTuristico;
@@ -357,8 +367,13 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       try
       {
         conexion.Conectar();
+
         var lugarTuristico = conexion.ConsultarLugarTuristico(id);
+
         lugarTuristico.Actividad = conexion.ConsultarActividades(lugarTuristico.Id);
+        lugarTuristico.Horario = conexion.ConsultarHorarios(lugarTuristico.Id);
+        lugarTuristico.Foto = conexion.ConsultarFotos(lugarTuristico.Id);
+
         conexion.Desconectar();
 
         return lugarTuristico;
@@ -380,7 +395,9 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       try
       {
         conexion.Conectar();
+
         var listaActividades = conexion.ConsultarActividades(idLugarTuristico);
+
         conexion.Desconectar();
 
         return listaActividades;
@@ -402,7 +419,9 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       try
       {
         conexion.Conectar();
+
         var actividad = conexion.ConsultarActividad(id);
+
         conexion.Desconectar();
 
         return actividad;

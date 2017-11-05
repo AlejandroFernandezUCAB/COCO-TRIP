@@ -2,9 +2,9 @@ using System.Net;
 using System.Web.Http;
 using System.Reflection;
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Models.M7.Base;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
-using ApiRest_COCO_TRIP.Models.Exceptions;
+using ApiRest_COCO_TRIP.Models.Base;
+using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -13,7 +13,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     public class M7_LugaresTuristicosController : ApiController
     {
-        private Peticion peticion; //Clase que interactua con la clase Conexion
+        private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion
         //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
 
         //GET
@@ -27,7 +27,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// de cada lugar turistico. Formato JSON</returns>
         public List<LugarTuristico> GetLista (int desde, int hasta)
         {
-            peticion = new Peticion();
+            peticion = new PeticionLugarTuristico();
 
             try
             {
@@ -59,7 +59,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>Datos del lugar turistico y nombre de las actividades. Formato JSON</returns>
         public LugarTuristico GetLugar (int id)
         {
-            peticion = new Peticion();
+            peticion = new PeticionLugarTuristico();
 
             try
             {
@@ -90,7 +90,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>Datos del lugar turistico y datos de las actividades. Formato JSON</returns>
         public LugarTuristico GetLugarActividades (int id)
         {
-            peticion = new Peticion();
+            peticion = new PeticionLugarTuristico();
 
             try
             {
@@ -121,7 +121,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>Lista de actividades asociadas al lugar turistico. Formato JSON</returns>
         public List<Actividad> GetActividades (int id)
         {
-            peticion = new Peticion();
+            peticion = new PeticionLugarTuristico();
 
             try
             {
@@ -152,7 +152,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>Objeto Actividad. Formato JSON</returns>
         public Actividad GetActividad(int id)
         {
-          peticion = new Peticion();
+          peticion = new PeticionLugarTuristico();
 
           try
           {
@@ -185,7 +185,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns></returns>
         public int PostLugar(LugarTuristico lugar)
         {
-          peticion = new Peticion();
+          peticion = new PeticionLugarTuristico();
 
           try
           {
@@ -215,7 +215,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID de la actividad insertada</returns>
         public int PostActividad(Actividad actividad, int id)
         {
-          peticion = new Peticion();
+          peticion = new PeticionLugarTuristico();
 
           try
           {
@@ -245,7 +245,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID del horario insertado</returns>
         public int PostHorario(Horario horario, int id)
         {
-          peticion = new Peticion();
+          peticion = new PeticionLugarTuristico();
 
           try
           {
@@ -275,7 +275,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID de la foto insertada</returns>
         public int PostFoto(Foto foto, int id)
         {
-          peticion = new Peticion();
+          peticion = new PeticionLugarTuristico();
 
           try
           {
@@ -305,6 +305,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
         public void PutLugar(LugarTuristico lugar)
         {
+          peticion = new PeticionLugarTuristico();
+
             try
             {
                 peticion.ActualizarLugarTuristico(lugar);
@@ -332,6 +334,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="activar">true para activar, false para desactivar</param>
         public void PutActivarLugar(int id, bool activar)
         {
+          peticion = new PeticionLugarTuristico();
+
           try
           {
             peticion.ActivarLugarTuristico(id, activar);
@@ -359,6 +363,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="activar">true para activar, false para desactivar</param>
         public void PutActivarActividad(int id, bool activar)
         {
+          peticion = new PeticionLugarTuristico();
+
           try
           {
             peticion.ActivarActividad(id, activar);
@@ -387,6 +393,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID de la actividad</param>
         public void DeleteActividad (int id)
         {
+          peticion = new PeticionLugarTuristico();
+
               try
               {
                 peticion.EliminarActividad(id);
@@ -406,6 +414,9 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID de la foto</param>
         public void DeleteFoto (int id)
         {
+
+          peticion = new PeticionLugarTuristico();
+
           try
           {
             peticion.EliminarFoto(id);
@@ -425,6 +436,9 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID del horario</param>
         public void DeleteHorario(int id)
         {
+
+          peticion = new PeticionLugarTuristico();
+
           try
           {
             peticion.EliminarHorario(id);

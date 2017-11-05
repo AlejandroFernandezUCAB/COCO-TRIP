@@ -112,6 +112,26 @@ BEGIN
 	WHERE us_email=_correo AND us_validacion=false;
 END;
 $$ LANGUAGE plpgsql;
+--Consulta el usuario por su nombre de usuario sin clave
+CREATE OR REPLACE FUNCTION ConsultarUsuarioSoloNombre(_nombreUsuario varchar)
+RETURNS TABLE
+  (id integer,
+   nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	FROM usuario
+	WHERE us_nombreUsuario=_nombreUsuario AND us_validacion=true;
+END;
+$$ LANGUAGE plpgsql;
 
 --Recupera la contrasena de un usuario con su correo
 -- devuelve la clave del usuario

@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRestPruebas.M7.Dato
 {
