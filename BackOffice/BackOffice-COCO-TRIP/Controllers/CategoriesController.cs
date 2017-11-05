@@ -34,16 +34,16 @@ namespace BackOffice_COCO_TRIP.Controllers
         [HttpPost]
         public ActionResult Create(Categories categories)
         {
-            try
+            
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+
+            return View(categories);
+        
+
         }
 
         // GET: Categories/Edit/5
@@ -55,25 +55,23 @@ namespace BackOffice_COCO_TRIP.Controllers
 
         // POST: Categories/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Categories categories)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+              return RedirectToAction("Index");
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+
+            return View(categories);
+    }
 
         // GET: Categories/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
+
 
         // POST: Categories/Delete/5
         [HttpPost]
