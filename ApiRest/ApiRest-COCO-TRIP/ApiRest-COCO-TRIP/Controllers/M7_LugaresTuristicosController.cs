@@ -2,7 +2,6 @@ using System.Net;
 using System.Web.Http;
 using System.Reflection;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Models.M7.Base;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
 using ApiRest_COCO_TRIP.Models.Exceptions;
@@ -177,7 +176,95 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
         }
 
-        //Falta agregar actividad, agregar horario, agregar fotos, activar/desactivar lugar turistico, activar/desactivar actividad.
+        /// <summary>
+        /// Inserta una actividad asociada a un lugar turistico
+        /// </summary>
+        /// <param name="actividad">Objeto Actividad</param>
+        /// <param name="id">ID del lugar turistico</param>
+        /// <returns>ID de la actividad insertada</returns>
+        public int PostActividad(Actividad actividad, int id)
+        {
+          peticion = new Peticion();
+
+          try
+          {
+            return peticion.InsertarActividad(actividad, id);
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+          catch (CasteoInvalidoExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        /// <summary>
+        /// Inserta un horario asociado a un lugar turistico
+        /// </summary>
+        /// <param name="horario">Objeto Horario</param>
+        /// <param name="id">ID del lugar turistico</param>
+        /// <returns>ID del horario insertado</returns>
+        public int PostHorario(Horario horario, int id)
+        {
+          peticion = new Peticion();
+
+          try
+          {
+            return peticion.InsertarHorario(horario, id);
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+          catch (CasteoInvalidoExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        /// <summary>
+        /// Inserta una foto asociada a un lugar turistico
+        /// </summary>
+        /// <param name="foto">Objeto Foto</param>
+        /// <param name="id">ID del lugar turistico</param>
+        /// <returns>ID de la foto insertada</returns>
+        public int PostFoto(Foto foto, int id)
+        {
+          peticion = new Peticion();
+
+          try
+          {
+           return peticion.InsertarFoto(foto, id);
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+          catch (CasteoInvalidoExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
 
         //PUT
 
@@ -207,17 +294,16 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
         }
 
-        //DELETE
-
         /// <summary>
-        /// Eliminar actividad
+        /// Activa o desactiva el lugar turistico
         /// </summary>
-        /// <param name="id">ID de la actividad</param>
-        public void DeleteActividad (int id)
+        /// <param name="id">ID del lugar turistico</param>
+        /// <param name="activar">true para activar, false para desactivar</param>
+        public void PutActivarLugar(int id, bool activar)
         {
           try
           {
-            peticion.EliminarActividad(id);
+            peticion.ActivarLugarTuristico(id, activar);
           }
           catch (BaseDeDatosExcepcion e)
           {
@@ -226,6 +312,61 @@ namespace ApiRest_COCO_TRIP.Controllers
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
           }
+          catch (CasteoInvalidoExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        /// <summary>
+        /// Activa o desactiva la actividad
+        /// </summary>
+        /// <param name="id">ID de la actividad</param>
+        /// <param name="activar">true para activar, false para desactivar</param>
+        public void PutActivarActividad(int id, bool activar)
+        {
+          try
+          {
+            peticion.ActivarActividad(id, activar);
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+          catch (CasteoInvalidoExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        //DELETE
+
+        /// <summary>
+        /// Eliminar actividad
+        /// </summary>
+        /// <param name="id">ID de la actividad</param>
+        public void DeleteActividad (int id)
+        {
+              try
+              {
+                peticion.EliminarActividad(id);
+              }
+              catch (BaseDeDatosExcepcion e)
+              {
+                e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+                //RegistrarExcepcion(e); NLog
+
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+              }
         }
 
         /// <summary>

@@ -144,8 +144,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
-    //Falta activar/desactivar lugar turistico, activar/desactivar actividad.
-
     /// <summary>
     /// Actualiza toda la data asociada a un lugar turistico en la base de datos.
     /// </summary>
@@ -186,6 +184,50 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
         throw e;
       }
       catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Activa o desactiva un lugar turistico
+    /// </summary>
+    /// <param name="id">ID del lugar turistico</param>
+    /// <param name="activar">true para activar, false para desactivar</param>
+    public void ActivarLugarTuristico (int id, bool activar)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        conexion.ActivarLugarTuristico(id, activar);
+
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Activa o desactiva una actividad
+    /// </summary>
+    /// <param name="id">ID de la actividad</param>
+    /// <param name="activar">true para activar, false para desactivar</param>
+    public void ActivarActividad(int id, bool activar)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        conexion.ActivarActividad(id, activar);
+
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;

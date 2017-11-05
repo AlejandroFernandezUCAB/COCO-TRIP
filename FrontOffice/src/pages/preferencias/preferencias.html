@@ -1,49 +1,31 @@
-<!--
-  Generated template for the PreferenciasPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Preferencias</ion-title>
+    <ion-title>{{ 'Preferencias' | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-      <ion-searchbar
+      <ion-searchbar (ionInput)="buscarPreferencias($event)"
         [animated]=true
         [showCancelButton]="shouldShowCancel">
       </ion-searchbar>
       
       <ion-list>
-          <ion-item-divider color="light">Búsqueda de categorías</ion-item-divider>
-        <ion-item> 
-          <h2>Concierto</h2>
-          <button ion-button clear item-end (click)="aviso('agregado')"><ion-icon name="add"></ion-icon></button>
-        </ion-item>
-        <ion-item>
-          <h2>Deportes</h2>
-          <button ion-button clear item-end (click)="aviso('agregado')"><ion-icon name="add"></ion-icon></button>
-        </ion-item>
-        <ion-item>
-          <h2>Tranquilidad</h2>
-          <button ion-button clear item-end (click)="aviso('agregado')"><ion-icon name="add"></ion-icon></button>
+          <ion-item-divider color="light">{{ 'Búsqueda de categorías' | translate }}</ion-item-divider>
+        <ion-item *ngFor="let preferencias of preferenciasEnBusqueda"> 
+          <h2>{{ preferencias }}</h2>
+          <button ion-button clear item-end (click)="aviso('agregado',  preferencias )"><ion-icon name="add"></ion-icon></button>
         </ion-item>
       </ion-list>
 
       <ion-list>
-        <ion-item-divider color="light">Categorías seleccionadas</ion-item-divider>
-        <ion-item>
-          <h2>Futbol</h2>
-          <button ion-button clear item-end (click)="aviso('borrado')"><ion-icon name="close"></ion-icon></button>
-        </ion-item>
-        <ion-item>
-          <h2>Beisbol</h2>
-          <button ion-button clear item-end (click)="aviso('borrado')"><ion-icon name="close"></ion-icon></button>
+        <ion-item-divider color="light">{{ 'Categorías seleccionadas' | translate }}</ion-item-divider>
+        <ion-item *ngFor="let preferencias of preferenciasEnLista"> 
+          <h2>{{ preferencias }}</h2>
+          <button ion-button clear item-end (click)="aviso('eliminar',  preferencias )"><ion-icon name="close"></ion-icon></button>
         </ion-item>
       </ion-list>
 </ion-content>
