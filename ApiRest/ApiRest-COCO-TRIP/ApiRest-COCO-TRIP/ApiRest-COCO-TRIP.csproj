@@ -109,7 +109,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Agenda.cs" />
+    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />

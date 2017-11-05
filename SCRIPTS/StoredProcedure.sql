@@ -122,7 +122,7 @@ BEGIN
 
 
 	SELECT us_password
-	INTO clave 
+	INTO clave
 	FROM usuario WHERE us_email = _correo;
 
 	RETURN clave;
@@ -295,6 +295,24 @@ BEGIN
 			    ac_nombre, ac_duracion,
 			    ac_descripcion, ac_activar
 	FROM actividad WHERE fk_ac_lugar_turistico = _fk;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consultar la tabla actividad por ID
+CREATE OR REPLACE FUNCTION ConsultarActividad (_id integer)
+RETURNS TABLE
+  (foto bytea,
+   nombre varchar,
+   duracion time,
+   descripcion varchar,
+   activar boolean)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT ac_foto,
+			    ac_nombre, ac_duracion,
+			    ac_descripcion, ac_activar
+	FROM actividad WHERE ac_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 
