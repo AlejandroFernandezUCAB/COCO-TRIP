@@ -1,4 +1,4 @@
-
+﻿
 
 /**
 Procedimientos del Modulo (1) de Login de Uusario, Registro de Usuario y Home
@@ -139,7 +139,29 @@ BEGIN
 	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+/**
+Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
 
+Autores:
+  Fernández Pedro
+  Navas Ronald
+  Verrocchi Gianfranco
+**/
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION InsertarPreferencia
+(_nombreUsuario VARCHAR(20), _nombreCategoria VARCHAR(20))
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+   
+	INSERT INTO preferencia VALUES
+	( idUsuario, 1 /*idCategoria */);
+
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos

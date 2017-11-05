@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Npgsql;
+using System.Data;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -46,7 +48,22 @@ namespace ApiRest_COCO_TRIP.Models
     {
       
       preferencias.Add( nuevaCategoria );
-      
+      /*Esto va en la clase de peticion
+      //A partir de aquí se agregará en base de datos
+      ConexionBase conexion = new ConexionBase();
+      conexion.Conectar();
+      ConexionBase con = new ConexionBase();
+      con.Conectar();
+      NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", con.SqlConexion);
+      comm.CommandType = CommandType.StoredProcedure;
+      comm.Parameters.AddWithValue( NpgsqlTypes.NpgsqlDbType.Varchar , nombreUsuario );
+      NpgsqlDataReader pgread = comm.ExecuteReader();
+      while (pgread.Read()) {
+        Id = pgread.GetInt32(0);
+      }
+      conexion.Desconectar();
+      //Fin de metodos de Bdd
+      */
     }
      
 
