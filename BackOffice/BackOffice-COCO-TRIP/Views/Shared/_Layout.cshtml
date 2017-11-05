@@ -1,8 +1,8 @@
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="@Url.Content("~/Images/logo_cocotrip.png")"  />
@@ -39,14 +39,14 @@
                                 </li>
 
                                 <li data-toggle="collapse" data-target="#products" class="collapsed active">
-                                    <a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> Lugar Turístico <span class="arrow"></span></a>
+                                    <a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> Lugar Tur&iacute;stico <span class="arrow"></span></a>
                                 </li>
                                 <ul class="sub-menu collapse" id="products">
-                                    <li class="active"><a href="#"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
-                                    <li><a href="#"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
+                                    <li class="active"><a href="@Url.Action("ViewAll", "Lugares")"><i class="fa fa-eye icon-see-sidebar" aria-hidden="true"></i>Ver Todos</a></li>
+                                    <li><a href="@Url.Action("Create", "Lugares")"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
                                 </ul>
                                 <li data-toggle="collapse" data-target="#categoriesOption" class="collapsed active">
-                                    <a  href="#"><i class="fa fa-desktop"  aria-hidden="true"></i>Categorías</a>
+                                    <a  href="#"><i class="fa fa-desktop"  aria-hidden="true"></i>Categor&iacute;as</a>
                                 </li>
                                 <ul class="sub-menu collapse sideItem" id="categoriesOption">
                                     <li><a href="@Url.Action("Create", "Categories")"><i class="fa fa-plus icon-add-sidebar" aria-hidden="true"></i>Agregar</a></li>
