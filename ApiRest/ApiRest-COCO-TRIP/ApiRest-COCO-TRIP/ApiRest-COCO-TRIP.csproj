@@ -101,17 +101,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Agenda.cs" />
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Itinerario.cs" />
     <Compile Include="Models\Usuario.cs" />
-    <Compile Include="Models\M5\Agenda.cs" />
-    <Compile Include="Models\M5\Amigo.cs" />
-    <Compile Include="Models\M5\Evento.cs" />
-    <Compile Include="Models\M5\Grupo.cs" />
-    <Compile Include="Models\M5\Itinerario.cs" />
-    <Compile Include="Models\M5\LocalidadDeEventos.cs" />
-    <Compile Include="Models\M5\Notificacion.cs" />
     <Compile Include="Models\M7\Base\Conexion.cs" />
     <Compile Include="Models\M7\Base\Peticion.cs" />
     <Compile Include="Models\M7\Dato\Actividad.cs" />
