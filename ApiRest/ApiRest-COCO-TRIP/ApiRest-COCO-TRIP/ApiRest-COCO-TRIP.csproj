@@ -45,10 +45,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\Npgsql.dll</HintPath>
@@ -73,11 +80,11 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -97,31 +104,30 @@
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PreferenciasController.cs" />
     <Compile Include="Controllers\M5Controller.cs" />
+    <Compile Include="Controllers\M7_LugaresTuristicosController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />
-    <Compile Include="Models\M1\Usuario.cs" />
-    <Compile Include="Models\M5\Agenda.cs" />
-    <Compile Include="Models\M5\Amigo.cs" />
-    <Compile Include="Models\M5\Evento.cs" />
-    <Compile Include="Models\M5\Grupo.cs" />
-    <Compile Include="Models\M5\Itinerario.cs" />
-    <Compile Include="Models\M5\LocalidadDeEventos.cs" />
-    <Compile Include="Models\M5\Notificacion.cs" />
+    <Compile Include="Models\Itinerario.cs" />
     <Compile Include="Models\M7\Base\Conexion.cs" />
     <Compile Include="Models\M7\Base\Peticion.cs" />
     <Compile Include="Models\M7\Dato\Actividad.cs" />
     <Compile Include="Models\M7\Dato\Foto.cs" />
     <Compile Include="Models\M7\Dato\Horario.cs" />
     <Compile Include="Models\M7\Dato\LugarTuristico.cs" />
+    <Compile Include="Models\PeticionLogin.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Web.Debug.config">
@@ -134,12 +140,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
-    <Folder Include="Models\M2\" />
-    <Folder Include="Models\M3\" />
-    <Folder Include="Models\M4\" />
-    <Folder Include="Models\M6\" />
-    <Folder Include="Models\M8\" />
-    <Folder Include="Models\M9\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,45 @@
+.navbar-side {
+    height: 1781px;
+}
+
+.content-page-actividad{
+	margin-top: 5%;
+	padding: 10px 30px;
+}
+
+.title-actividad{
+	color: #3B8686;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 3%;
+}
+
+.title-descripcion-actividad{
+	color: #79BD9A;
+	font-weight: bold;
+	font-size: 15px;
+	margin-top: 0;
+}
+
+.title-duracion-actividad{
+	color: #79BD9A;
+	font-weight: bold;
+	font-size: 15px;
+	margin-top: 0;
+	margin-left: -28%;
+}
+
+.text-descripcion-actividad{
+	color: #7f8c8d;
+	font-size: 13px;
+	font-weight: normal;
+}
+
+.btn-lugar-turistico-actividad{
+  background-color: #CFF09E;
+  color: #0B486B;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}

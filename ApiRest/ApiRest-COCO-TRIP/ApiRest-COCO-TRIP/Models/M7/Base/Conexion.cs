@@ -4,7 +4,6 @@ using System.Data;
 using System.Reflection;
 using Npgsql;
 using NpgsqlTypes;
-using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Exceptions;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
 
@@ -18,8 +17,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     private ConexionBase conexion; //Conexion con la base de datos PostgreSQL
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
     private NpgsqlDataReader leerDatos; //Lee la respuesta de la instruccion SQL ejecutada
-
-    //Faltan excepciones y documentar sobre eso
 
     /// <summary>
     /// Constructor de la clase
@@ -123,25 +120,8 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
-    private string DocumentarErrorLugarTuristico(LugarTuristico lugarTuristico)
-    {
-      return
-          (
-              "Datos: " +
-              "Nombre " + lugarTuristico.Nombre + " " +
-              "Costo " + lugarTuristico.Costo + " " +
-              "Descripcion " + lugarTuristico.Descripcion + " " +
-              "Direccion " + lugarTuristico.Direccion + " " +
-              "Correo " + lugarTuristico.Correo + " " +
-              "Telefono " + lugarTuristico.Telefono + " " +
-              "Latitud " + lugarTuristico.Latitud + " " +
-              "Longitud " + lugarTuristico.Longitud + " " +
-              "Activar " + lugarTuristico.Activar
-          );
-    }
-
     /// <summary>
-    /// Inserta en la base de datos los datos de 
+    /// Inserta en la base de datos los datos de
     /// la actividad perteneciente a un lugar turistico
     /// y retorna el ID de la actividad insertada
     /// </summary>
@@ -193,19 +173,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       }
     }
 
-    private string DocumentarErrorActividad(Actividad actividad)
-    {
-      return
-          (
-              "Datos: " +
-              "Foto (size) " + actividad.Foto.Contenido.Length + " " +
-              "Nombre " + actividad.Nombre + " " +
-              "Duracion " + actividad.Duracion.ToString() + " " +
-              "Descripcion " + actividad.Descripcion + " " +
-              "Activar " + actividad.Activar
-          );
-    }
-
     /// <summary>
     /// Inserta en la base de datos el horario
     /// perteneciente a un lugar turistico y
@@ -255,17 +222,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
 
         throw excepcion;
       }
-    }
-
-    private string DocumentarErrorHorario(Horario horario)
-    {
-      return
-          (
-              "Datos: " +
-              "DiaSemana " + horario.DiaSemana + " " +
-              "HoraApertura " + horario.HoraApertura + " " +
-              "HoraCierre " + horario.HoraCierre
-          );
     }
 
     /// <summary>
@@ -689,7 +645,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
 
     /// <summary>
     /// Consulta la informacion minima requerida de los lugares turisticos
-    /// dentro de un rango de ID. Retorna el ID, nombre, costo, descripcion y estado 
+    /// dentro de un rango de ID. Retorna el ID, nombre, costo, descripcion y estado
     /// de cada lugar turistico
     /// </summary>
     /// <param name="desde">ID desde el cual se consultan los lugares turisticos</param>
@@ -783,6 +739,50 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = "Datos: ";
         excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico;
+
+        throw excepcion;
+      }
+    }
+
+    /// <summary>
+    /// Consulta en la base de datos la informacion de la actividad
+    /// </summary>
+    /// <param name="id">ID de la activdad</param>
+    /// <returns>Objeto actividad</returns>
+    public Actividad ConsultarActividad (int id)
+    {
+      var actividad = new Actividad ();
+
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "ConsultarActividad";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
+
+        leerDatos = comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          actividad.Id = id;
+          actividad.Foto.Contenido = (byte[])leerDatos[0]; //Simplificacion de GetBytes. TESTEAR!
+          actividad.Nombre = leerDatos.GetString(1);
+          actividad.Duracion = leerDatos.GetTimeSpan(2);
+          actividad.Descripcion = leerDatos.GetString(3);
+          actividad.Activar = leerDatos.GetBoolean(4);
+        }
+
+        leerDatos.Close();
+
+        return actividad;
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        excepcion.DatosAsociados = "Datos: ";
+        excepcion.DatosAsociados += "id " + id;
 
         throw excepcion;
       }
@@ -984,6 +984,47 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       parametro.Value = valor;
 
       return parametro;
+    }
+
+    private string DocumentarErrorLugarTuristico(LugarTuristico lugarTuristico)
+    {
+      return
+          (
+              "Datos: " +
+              "Nombre " + lugarTuristico.Nombre + " " +
+              "Costo " + lugarTuristico.Costo + " " +
+              "Descripcion " + lugarTuristico.Descripcion + " " +
+              "Direccion " + lugarTuristico.Direccion + " " +
+              "Correo " + lugarTuristico.Correo + " " +
+              "Telefono " + lugarTuristico.Telefono + " " +
+              "Latitud " + lugarTuristico.Latitud + " " +
+              "Longitud " + lugarTuristico.Longitud + " " +
+              "Activar " + lugarTuristico.Activar
+          );
+    }
+
+    private string DocumentarErrorActividad(Actividad actividad)
+    {
+      return
+          (
+              "Datos: " +
+              "Foto (size) " + actividad.Foto.Contenido.Length + " " +
+              "Nombre " + actividad.Nombre + " " +
+              "Duracion " + actividad.Duracion.ToString() + " " +
+              "Descripcion " + actividad.Descripcion + " " +
+              "Activar " + actividad.Activar
+          );
+    }
+
+    private string DocumentarErrorHorario(Horario horario)
+    {
+      return
+          (
+              "Datos: " +
+              "DiaSemana " + horario.DiaSemana + " " +
+              "HoraApertura " + horario.HoraApertura + " " +
+              "HoraCierre " + horario.HoraCierre
+          );
     }
   }
 }
