@@ -19,9 +19,9 @@
 <ion-list>
   <ion-item-group>
     <ion-item *ngFor="let evento of eventos">
-      <p>{{evento.titulo}}</p>
-      <!-- luego cambiar a que muestre las horas -->
-      <p>Comienza: {{evento.startTime}} | Termina: {{evento.startTime}}</p>
+      <p><strong>{{evento.titulo}}</strong></p>
+      <p>Comienza: {{evento.horaInicio}} | Termina: {{evento.horaFin}}</p>
+      <p>Itinerario: <em>{{evento.itinerario}}</em></p>
     </ion-item>
   </ion-item-group>
 </ion-list>

@@ -1,0 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NUnit.Framework;
+namespace ApiRestPruebas
+{
+    [TestFixture]
+    public class PruebasM1
+    {
+    [Test]
+    public void pruebaLogin() {
+
+    }
+    }
+}

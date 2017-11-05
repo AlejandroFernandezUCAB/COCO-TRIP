@@ -50,14 +50,12 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Npgsql.3.2.5\lib\net451\Npgsql.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>Library\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -96,14 +94,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\M1_LoginController.cs" />
+    <Compile Include="Controllers\M2_PreferenciasController.cs" />
+    <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\M5\Agenda.cs" />
+    <Compile Include="Models\M5\Amigo.cs" />
+    <Compile Include="Models\M5\Evento.cs" />
+    <Compile Include="Models\M5\Grupo.cs" />
+    <Compile Include="Models\M5\Itinerario.cs" />
+    <Compile Include="Models\M5\LocalidadDeEventos.cs" />
+    <Compile Include="Models\M5\Notificacion.cs" />
+    <Compile Include="Models\M7\Base\Conexion.cs" />
+    <Compile Include="Models\M7\Base\Peticion.cs" />
+    <Compile Include="Models\M7\Dato\Actividad.cs" />
+    <Compile Include="Models\M7\Dato\Foto.cs" />
+    <Compile Include="Models\M7\Dato\Horario.cs" />
+    <Compile Include="Models\M7\Dato\LugarTuristico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -113,16 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Library\Exceptions\" />
-    <Folder Include="Models\M1\" />
-    <Folder Include="Models\M2\" />
-    <Folder Include="Models\M3\" />
-    <Folder Include="Models\M4\" />
-    <Folder Include="Models\M5\" />
-    <Folder Include="Models\M6\" />
-    <Folder Include="Models\M7\" />
-    <Folder Include="Models\M8\" />
-    <Folder Include="Models\M9\" />
+    <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
