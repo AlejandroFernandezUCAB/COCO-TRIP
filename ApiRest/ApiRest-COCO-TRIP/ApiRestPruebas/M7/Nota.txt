@@ -1,0 +1,2 @@
+Falta forzar la excepcion InvalidCastException en las PU Actualizar,
+Insertar, POST y PUT.
