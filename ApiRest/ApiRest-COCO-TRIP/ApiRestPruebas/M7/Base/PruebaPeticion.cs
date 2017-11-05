@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
-using ApiRest_COCO_TRIP.Models.M7.Base;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Base;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRestPruebas.M7.Base
 {
@@ -11,7 +11,7 @@ namespace ApiRestPruebas.M7.Base
   [TestFixture]
   public class PruebaPeticion
   {
-    private Peticion peticion;
+    private PeticionLugarTuristico peticion;
     private LugarTuristico lugar;
     private Actividad actividad;
     private Horario horario;
@@ -23,7 +23,7 @@ namespace ApiRestPruebas.M7.Base
     [SetUp]
     public void SetPeticion()
     {
-      peticion = new Peticion();
+      peticion = new PeticionLugarTuristico();
 
       lugar = new LugarTuristico();
       lugar.Id = 1;
