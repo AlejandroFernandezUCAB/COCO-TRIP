@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -16,12 +14,17 @@ namespace ApiRest_COCO_TRIP.Models
     private DateTime fechaNacimiento;
     private byte[] foto;
     private string clave;
-    //private List<Categoria> preferencias;
+    private List<Categoria> preferencias;
 
 
     public Usuario()
     {
+
+      preferencias = new List<Categoria>();
+
     }
+
+
 
     public string Correo { get => correo; set => correo = value; }
     public int Id { get => id; set => id = value; }
@@ -32,20 +35,55 @@ namespace ApiRest_COCO_TRIP.Models
     public byte[] Foto { get => foto; set => foto = value; }
     public string Clave { get => clave; set => clave = value; }
     public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
-    //public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
+    public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
 
-    /*
-    public List<Categoria> agregarPreferencia ( Categoria nuevaCategoria ){
+    /// <summary>
+    /// Metodo que agrega a la lista de categoria (Es decir agrega una preferencia) una nueva categoría
+    /// </summary>
+    /// <param name="nuevaCategoria"> Categoría nueva a agregar en el objeto </param>
+    /// 
+    public void AgregarPreferencia ( Categoria nuevaCategoria )
+    {
       
-      preferencias.add( nuevaCategoria );
+      preferencias.Add( nuevaCategoria );
+      
     }
-     */
+     
 
-    /*
 
-    public List<Categoria> eliminarPreferencia(){
+    public void EliminarPreferencia( Categoria categoriaAEliminar )
+    {
+
+      int elementoAEliminar;
+      elementoAEliminar = BusquedaDePreferencia( categoriaAEliminar );
+      preferencias.RemoveAt( elementoAEliminar );
 
     }
-     */
+
+    /// <summary>
+    /// Busqueda de la posicion a borrar
+    /// </summary>
+    /// <param name="categoriaABuscar">Categoria con que queremos comparar</param>
+    /// <returns>La posicion donde se encuertra el elemento a eliminar</returns>
+    public int BusquedaDePreferencia( Categoria categoriaABuscar )
+    {
+
+      int retorno;
+      retorno = preferencias.FindIndex(
+        o =>
+        o.Id == categoriaABuscar.Id &&
+        o.Nombre == categoriaABuscar.Nombre &&
+        o.Descripcion == categoriaABuscar.Descripcion &&
+        o.Estatus == categoriaABuscar.Estatus &&
+        o.Nivel == categoriaABuscar.Nivel
+        );
+
+      if (retorno == null)
+        return retorno = -1;
+      else
+        return retorno ;
+
+    }
+    
   }
 }

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="M1\PruebasLogin.cs" />
+    <Compile Include="M2\M2UnitTest.cs" />
     <Compile Include="M5\M5UnitTests.cs" />
     <Compile Include="M7\Base\PruebaConexion.cs" />
     <Compile Include="M7\Base\PruebaPeticion.cs" />
@@ -66,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Library\" />
-    <Folder Include="M2\" />
     <Folder Include="M3\" />
     <Folder Include="M4\" />
     <Folder Include="M6\" />
