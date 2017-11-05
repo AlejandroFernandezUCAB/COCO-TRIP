@@ -65,7 +65,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo GetLista
     /// </summary>
-    [Category("GET")]
+    [Category("Get")]
     [Test]
     public void TestGetLista()
     {
@@ -88,7 +88,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo GetLugar
     /// </summary>
-    [Category("GET")]
+    [Category("Get")]
     [Test]
     public void TestGetLugar()
     {
@@ -105,7 +105,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo GetLugarActividades
     /// </summary>
-    [Category("GET")]
+    [Category("Get")]
     [Test]
     public void TestGetLugarActividades()
     {
@@ -119,7 +119,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo GetActividades
     /// </summary>
-    [Category("GET")]
+    [Category("Get")]
     [Test]
     public void TestGetActividades()
     {
@@ -129,7 +129,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo GetActividad
     /// </summary>
-    [Category("GET")]
+    [Category("Get")]
     [Test]
     public void TestGetActividad()
     {
@@ -141,7 +141,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PostLugar
     /// </summary>
-    [Category("POST")]
+    [Category("Post")]
     [Test]
     public void TestPostLugar()
     {
@@ -157,7 +157,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PostActividad
     /// </summary>
-    [Category("POST")]
+    [Category("Post")]
     [Test]
     public void TestPostActividad()
     {
@@ -168,7 +168,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PostHorario
     /// </summary>
-    [Category("POST")]
+    [Category("Post")]
     [Test]
     public void TestPostHorario()
     {
@@ -179,7 +179,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PostFoto
     /// </summary>
-    [Category("POST")]
+    [Category("Post")]
     [Test]
     public void TestPostFoto()
     {
@@ -192,7 +192,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PutLugar
     /// </summary>
-    [Category("PUT")]
+    [Category("Put")]
     [Test]
     public void TestPutLugar()
     {
@@ -210,7 +210,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PutActivarLugar
     /// </summary>
-    [Category("PUT")]
+    [Category("Put")]
     [Test]
     public void TestPutActivarLugar()
     {
@@ -230,7 +230,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo PutActivarActividad
     /// </summary>
-    [Category("PUT")]
+    [Category("Put")]
     [Test]
     public void TestPutActivarActividad()
     {
@@ -246,7 +246,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo DeleteActividad
     /// </summary>
-    [Category("DELETE")]
+    [Category("Delete")]
     [Test]
     public void TestDeleteActividad()
     {
@@ -271,7 +271,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo DeleteFoto
     /// </summary>
-    [Category("DELETE")]
+    [Category("Delete")]
     [Test]
     public void TestDeleteFoto()
     {
@@ -282,7 +282,7 @@ namespace ApiRestPruebas.M7
     /// <summary>
     /// Test del metodo DeleteHorario
     /// </summary>
-    [Category("DELETE")]
+    [Category("Delete")]
     [Test]
     public void TestDeleteHorario()
     {
