@@ -7,86 +7,123 @@ using System.Web.Mvc;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
-    public class CategoriesController : Controller
+  public class CategoriesController : Controller
+  {
+    // GET: Categories
+    public ActionResult Index(int id = 0)
     {
-        // GET: Categories
-        public ActionResult Index()
-        {
-            ViewBag.Title = "Categorías";
-            return View();
-        }
+      ViewBag.Title = "Categorías";
+      IList<Categories> listCategories = null;
 
-        // GET: Categories/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+      if (id == 0)
+      {
+        listCategories = new List<Categories>
+      {
+        new Categories() { Id = 1, Name = "Evento", Description = "Se registran eventos", Status = true, UpperCategories = null },
+        new Categories() { Id = 2, Name = "Lugar", Description = "Se registran lugares", Status = false, UpperCategories = null },
+        new Categories() { Id = 3, Name = "Turista", Description = "Se registran turistas", Status = true, UpperCategories = null }
+      };
 
-        // GET: Categories/Create
-        public ActionResult Create()
-        {
-            ViewBag.Title = "Crear Categoría";
-            //buscar categorias para el select
-            return View();
-        }
+      } else {
 
-        // POST: Categories/Create
-        [HttpPost]
-        public ActionResult Create(Categories categories)
-        {
-            
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
+        listCategories = new List<Categories>
+      {
+        new Categories() { Id = 1, Name = "Evento 2", Description = "Se registran eventos 2", Status = false, UpperCategories = null },
+        new Categories() { Id = 2, Name = "Lugar 2", Description = "Se registran lugares 2", Status = true, UpperCategories = null },
+        new Categories() { Id = 3, Name = "Turista 2", Description = "Se registran turistas 2", Status = false, UpperCategories = null }
+      };
 
+      }
+      TempData["listaCategorias"] = listCategories;
+      return View(listCategories);
 
-            return View(categories);
-        
-
-        }
-
-        // GET: Categories/Edit/5
-        public ActionResult Edit(int id)
-        {
-            ViewBag.Title = "Editar Categoría";
-            return View();
-        }
-
-        // POST: Categories/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Categories categories)
-        {
-            if (ModelState.IsValid)
-            {
-              return RedirectToAction("Index");
-            }
-
-
-            return View(categories);
     }
 
-        // GET: Categories/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+    // GET: Categories/Create
+    public ActionResult Create()
+    {
+      ViewBag.Title = "Crear Categoría";
+      //buscar categorias para el select
+      IList<Categories> MyList = new List<Categories>(){
+            new Categories(){Id=1, Name="UK"},
+            new Categories(){Id=2, Name="VE"}
+      };
 
-
-        // POST: Categories/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      ViewBag.MyList = MyList;
+      return View();
     }
+
+    // POST: Categories/Create
+    [HttpPost]
+    public ActionResult Create(Categories categories)
+    {
+      ModelState.Remove("UpperCategories");
+      if (ModelState.IsValid)
+      {
+        categories.UpperCategories = new Categories() { Id = Int32.Parse(Request["categoria superior"]) };
+        return RedirectToAction("Index");
+      }
+
+      return View(categories);
+
+    }
+
+    // GET: Categories/Edit/5
+    public ActionResult Edit(int id)
+    {
+      ViewBag.Title = "Editar Categoría";
+      IList<Categories> MyList = new List<Categories>(){
+            new Categories(){Id=1, Name="UK"},
+            new Categories(){Id=2, Name="VE"}
+      };
+
+      ViewBag.MyList = MyList;
+      Categories categories = null;
+      if (TempData["listaCategorias"] != null)
+      {
+        IList<Categories> listaCategorias = TempData["listaCategorias"] as IList<Categories>;
+        categories = listaCategorias.Where(s => s.Id == id).First();
+      }
+
+      else
+      {
+        categories = new Categories() { Id = 4, Name = "Sin data", Description = "Sin data", Status = false, UpperCategories = null };
+      }
+      
+      return View(categories);
+      
+    }
+
+    // POST: Categories/Edit/5
+    [HttpPost]
+    public ActionResult Edit(int id, Categories categories)
+    {
+      ModelState.Remove("Id");
+      ModelState.Remove("UpperCategories");
+      if (ModelState.IsValid)
+      {
+        categories.UpperCategories = new Categories() { Id = Int32.Parse(Request["categoria superior"]) };
+        return RedirectToAction("Index");
+      }
+
+
+      return View(categories);
+    }
+
+    // POST: Categories/Delete/5
+    [HttpPost]
+    public ActionResult Delete(int id, FormCollection collection)
+    {
+      try
+      {
+        // TODO: Add delete logic here
+
+        return RedirectToAction("Index");
+      }
+      catch
+      {
+        return View();
+      }
+    }
+  }
 }

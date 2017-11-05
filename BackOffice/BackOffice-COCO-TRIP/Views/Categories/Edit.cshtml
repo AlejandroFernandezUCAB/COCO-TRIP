@@ -4,14 +4,6 @@
     <div class="container-fluid pad-top">
         <h4>Ingrese los datos:</h4>
         <hr>
-         @{
-
-          var MyList = new List<BackOffice_COCO_TRIP.Models.Categories>(){
-            new BackOffice_COCO_TRIP.Models.Categories(){Id=1, Name="UK"},
-            new BackOffice_COCO_TRIP.Models.Categories(){Id=2, Name="VE"}
-
-        };
-      }
 
       @using (Html.BeginForm("Edit", "Categories", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
       {
@@ -36,7 +28,7 @@
         <div class="form-group row">
           @Html.Label("Mover a la categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
           <div class="col-sm-10">
-            @Html.DropDownList("Mover a la categoria", MyList , htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("Mover a la categoria", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Models.Categories> , htmlAttributes: new { @class = "form-control" })
           </div>
         </div>
 

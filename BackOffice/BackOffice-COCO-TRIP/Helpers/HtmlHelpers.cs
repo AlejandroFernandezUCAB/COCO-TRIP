@@ -18,7 +18,7 @@ namespace BackOffice_COCO_TRIP.Helpers
       dropdown.Attributes.Add("name", name);
       dropdown.Attributes.Add("id", name);
       StringBuilder options = new StringBuilder();
-      options = options.Append("<option> Ninguno - Categoria Principal </option>");
+      options = options.Append("<option value='0'> Ninguno - Categoria Principal </option>");
       foreach (var item in list)
       {
         options = options.Append("<option value='" + item.Id + "'>" + item.Name + "</option>");
