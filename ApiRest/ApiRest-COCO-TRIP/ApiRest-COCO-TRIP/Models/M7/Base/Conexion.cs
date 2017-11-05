@@ -18,8 +18,6 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
     private NpgsqlDataReader leerDatos; //Lee la respuesta de la instruccion SQL ejecutada
 
-    //Faltan excepciones y documentar sobre eso
-
     /// <summary>
     /// Constructor de la clase
     /// </summary>
@@ -123,7 +121,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     }
 
     /// <summary>
-    /// Inserta en la base de datos los datos de 
+    /// Inserta en la base de datos los datos de
     /// la actividad perteneciente a un lugar turistico
     /// y retorna el ID de la actividad insertada
     /// </summary>
@@ -647,7 +645,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
 
     /// <summary>
     /// Consulta la informacion minima requerida de los lugares turisticos
-    /// dentro de un rango de ID. Retorna el ID, nombre, costo, descripcion y estado 
+    /// dentro de un rango de ID. Retorna el ID, nombre, costo, descripcion y estado
     /// de cada lugar turistico
     /// </summary>
     /// <param name="desde">ID desde el cual se consultan los lugares turisticos</param>
@@ -741,6 +739,50 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = "Datos: ";
         excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico;
+
+        throw excepcion;
+      }
+    }
+
+    /// <summary>
+    /// Consulta en la base de datos la informacion de la actividad
+    /// </summary>
+    /// <param name="id">ID de la activdad</param>
+    /// <returns>Objeto actividad</returns>
+    public Actividad ConsultarActividad (int id)
+    {
+      var actividad = new Actividad ();
+
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "ConsultarActividad";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
+
+        leerDatos = comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          actividad.Id = id;
+          actividad.Foto.Contenido = (byte[])leerDatos[0]; //Simplificacion de GetBytes. TESTEAR!
+          actividad.Nombre = leerDatos.GetString(1);
+          actividad.Duracion = leerDatos.GetTimeSpan(2);
+          actividad.Descripcion = leerDatos.GetString(3);
+          actividad.Activar = leerDatos.GetBoolean(4);
+        }
+
+        leerDatos.Close();
+
+        return actividad;
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        excepcion.DatosAsociados = "Datos: ";
+        excepcion.DatosAsociados += "id " + id;
 
         throw excepcion;
       }

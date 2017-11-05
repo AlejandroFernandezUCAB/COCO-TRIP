@@ -145,6 +145,37 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta la actividad
+        /// </summary>
+        /// <param name="id">ID de la actividad</param>
+        /// <returns>Objeto Actividad. Formato JSON</returns>
+        public Actividad GetActividad(int id)
+        {
+          peticion = new Peticion();
+
+          try
+          {
+            var actividad = peticion.ConsultarActividad(id);
+
+            if (actividad.Equals( new Actividad() ))
+            {
+              throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            else
+            {
+              return actividad;
+            }
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+        }
+
         //POST
 
         /// <summary>
@@ -274,6 +305,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
         public void PutLugar(LugarTuristico lugar)
         {
+          peticion = new Peticion();
+
             try
             {
                 peticion.ActualizarLugarTuristico(lugar);
@@ -301,6 +334,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="activar">true para activar, false para desactivar</param>
         public void PutActivarLugar(int id, bool activar)
         {
+          peticion = new Peticion();
+
           try
           {
             peticion.ActivarLugarTuristico(id, activar);
@@ -328,6 +363,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="activar">true para activar, false para desactivar</param>
         public void PutActivarActividad(int id, bool activar)
         {
+          peticion = new Peticion();
+
           try
           {
             peticion.ActivarActividad(id, activar);
@@ -356,6 +393,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID de la actividad</param>
         public void DeleteActividad (int id)
         {
+          peticion = new Peticion();
+
               try
               {
                 peticion.EliminarActividad(id);
@@ -375,6 +414,9 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID de la foto</param>
         public void DeleteFoto (int id)
         {
+
+          peticion = new Peticion();
+
           try
           {
             peticion.EliminarFoto(id);
@@ -394,6 +436,9 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID del horario</param>
         public void DeleteHorario(int id)
         {
+
+          peticion = new Peticion();
+
           try
           {
             peticion.EliminarHorario(id);

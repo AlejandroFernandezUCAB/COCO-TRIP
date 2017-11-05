@@ -112,6 +112,26 @@ BEGIN
 	WHERE us_email=_correo AND us_validacion=false;
 END;
 $$ LANGUAGE plpgsql;
+--Consulta el usuario por su nombre de usuario sin clave
+CREATE OR REPLACE FUNCTION ConsultarUsuarioSoloNombre(_nombreUsuario varchar)
+RETURNS TABLE
+  (id integer,
+   nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	FROM usuario
+	WHERE us_nombreUsuario=_nombreUsuario AND us_validacion=true;
+END;
+$$ LANGUAGE plpgsql;
 
 --Recupera la contrasena de un usuario con su correo
 -- devuelve la clave del usuario
@@ -122,7 +142,7 @@ BEGIN
 
 
 	SELECT us_password
-	INTO clave 
+	INTO clave
 	FROM usuario WHERE us_email = _correo;
 
 	RETURN clave;
@@ -136,7 +156,7 @@ RETURNS void AS
 $$
 BEGIN
 	UPDATE usuario SET us_validacion=true
-	WHERE us_email=_correo AND us_id = id;
+	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -295,6 +315,24 @@ BEGIN
 			    ac_nombre, ac_duracion,
 			    ac_descripcion, ac_activar
 	FROM actividad WHERE fk_ac_lugar_turistico = _fk;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consultar la tabla actividad por ID
+CREATE OR REPLACE FUNCTION ConsultarActividad (_id integer)
+RETURNS TABLE
+  (foto bytea,
+   nombre varchar,
+   duracion time,
+   descripcion varchar,
+   activar boolean)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT ac_foto,
+			    ac_nombre, ac_duracion,
+			    ac_descripcion, ac_activar
+	FROM actividad WHERE ac_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 

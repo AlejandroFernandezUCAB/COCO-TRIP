@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Optimization;
 
 namespace BackOffice_COCO_TRIP
@@ -61,6 +61,12 @@ namespace BackOffice_COCO_TRIP
             bundles.Add(new StyleBundle("~/bundles/lugares_viewallCSS").Include(
                     "~/Content/Lugares/view_all.css"
                     ));
-        }
+            bundles.Add(new StyleBundle("~/bundles/sweetAlertCSS").Include(
+                    "~/Content/sweetalert2.min.css"
+                    ));
+            bundles.Add(new ScriptBundle("~/bundles/sweetAlertJS").Include(
+                    "~/Scripts/sweetalert2.min.js"
+                   ));
+    }
     }
 }
