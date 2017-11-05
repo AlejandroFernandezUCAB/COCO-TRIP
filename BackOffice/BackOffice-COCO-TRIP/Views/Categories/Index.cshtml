@@ -14,7 +14,7 @@
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Descripción</th>
+          <th>Descripci&oacute;n</th>
           <th>Opciones</th>
           <th>Estatus</th>
         </tr>
@@ -32,7 +32,7 @@
                 <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
               </a>
               <button type="button" class="btn btn-default circle ver-categoria" aria-label="Left Align" data-toggle="tooltip" data-placement="top"
-                      title="Ver mas">
+                      title="Ver mas" data-name="@item.Name" data-description="@item.Description">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
               </button>
 
@@ -42,7 +42,7 @@
               </a>
 
             </td>
-            <td>@Html.CheckBoxFor(modelItem => item.Status) Activado</td>
+            <td>@Html.CheckBoxFor(modelItem => item.Status, new { @data_categoria_id = item.Id, @data_categoria_name = item.Name}) Activado</td>
 
           </tr>
         }
@@ -65,11 +65,11 @@
         <form>
           <div class="form-group">
             <label for="nombre" class="col-form-label">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" value="Evento" readonly>
+            <input type="text" class="form-control" id="categories-name-details" readonly>
           </div>
           <div class="form-group">
             <label for="descripcion" class="col-form-label">Descripcion:</label>
-            <textarea class="form-control" id="descripcion" readonly>Base sobre la cual surgiran la categorias</textarea>
+            <textarea class="form-control" id="categories-description-details" readonly></textarea>
           </div>
         </form>
       </div>
