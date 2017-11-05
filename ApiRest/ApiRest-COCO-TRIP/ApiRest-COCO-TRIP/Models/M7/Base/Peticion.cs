@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Models.Exceptions;
 using ApiRest_COCO_TRIP.Models.M7.Dato;
+using System;
 
 namespace ApiRest_COCO_TRIP.Models.M7.Base
 {
@@ -70,6 +71,81 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     }
 
     /// <summary>
+    /// Inserta una actividad asociada a un lugar turistico en la base de datos
+    /// </summary>
+    /// <param name="actividad">Objeto Actividad</param>
+    /// <param name="idLugarTuristico">ID del lugar turistico</param>
+    /// <returns>ID de la actividad insertada</returns>
+    public int InsertarActividad (Actividad actividad, int idLugarTuristico)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        actividad.Id = conexion.InsertarActividad(actividad, idLugarTuristico);
+
+        conexion.Desconectar();
+
+        return actividad.Id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Inserta un horario asociado a un lugar turistico en la base de datos
+    /// </summary>
+    /// <param name="horario">Objeto Horario</param>
+    /// <param name="idLugarTuristico">ID del horario </param>
+    /// <returns>ID del horario insertado</returns>
+    public int InsertarHorario (Horario horario, int idLugarTuristico)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        horario.Id = conexion.InsertarHorario(horario, idLugarTuristico);
+
+        conexion.Desconectar();
+
+        return horario.Id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Inserta una foto asociada a un lugar turistico en la base de datos
+    /// </summary>
+    /// <param name="foto">Objeto Foto</param>
+    /// <param name="idLugarTuristico">ID del horario </param>
+    /// <returns>ID de la foto insertada</returns>
+    public int InsertarFoto(Foto foto, int idLugarTuristico)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        foto.Id = conexion.InsertarFoto(foto, idLugarTuristico);
+
+        conexion.Desconectar();
+
+        return foto.Id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
     /// Actualiza toda la data asociada a un lugar turistico en la base de datos.
     /// </summary>
     /// <param name="lugarTuristico">Objeto lugar turistico con todos los campos obligatorios llenos
@@ -109,6 +185,50 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
         throw e;
       }
       catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Activa o desactiva un lugar turistico
+    /// </summary>
+    /// <param name="id">ID del lugar turistico</param>
+    /// <param name="activar">true para activar, false para desactivar</param>
+    public void ActivarLugarTuristico (int id, bool activar)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        conexion.ActivarLugarTuristico(id, activar);
+
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Activa o desactiva una actividad
+    /// </summary>
+    /// <param name="id">ID de la actividad</param>
+    /// <param name="activar">true para activar, false para desactivar</param>
+    public void ActivarActividad(int id, bool activar)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        conexion.ActivarActividad(id, activar);
+
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
@@ -188,7 +308,14 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
       try
       {
         conexion.Conectar();
+
         var listaLugarTuristico = conexion.ConsultarListaLugarTuristico(desde, hasta);
+
+        foreach(LugarTuristico elemento in listaLugarTuristico)
+        {
+          elemento.Horario.Add(conexion.ConsultarDiaHorario(elemento.Id, (int) DateTime.Now.DayOfWeek));
+        }
+
         conexion.Desconectar();
 
         return listaLugarTuristico;
@@ -207,7 +334,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     /// <param name="id">ID del lugar turistico</param>
     /// <returns>Objeto Lugar Turistico con todos los campos obligatorios y los nombres de las actividades</returns>
     /// /// Faltan excepciones y robustecer el metodo. ¿Si no hay actividades?
-    public LugarTuristico ConsultaLugarTuristicoSinActividades(int id)
+    public LugarTuristico ConsultarLugarTuristico(int id)
     {
       try
       {
@@ -232,7 +359,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     /// <param name="id">ID del lugar turistico</param>
     /// <returns>Objeto Lugar Turistico con todos los campos obligatorios y campos de actividades</returns>
     /// Faltan excepciones y robustecer el metodo. ¿Si no hay actividades?
-    public LugarTuristico ConsultaLugarTuristicoConActividades(int id)
+    public LugarTuristico ConsultarLugarTuristicoConActividades(int id)
     {
       try
       {

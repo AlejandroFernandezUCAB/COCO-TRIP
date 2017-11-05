@@ -30,14 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApiRest-COCO-TRIP">
-      <HintPath>..\ApiRest-COCO-TRIP\bin\ApiRest-COCO-TRIP.dll</HintPath>
-    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>Library\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Http">
+      <HintPath>Library\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="M1\PruebasM1.cs" />
+    <Compile Include="M1\PruebasLogin.cs" />
+    <Compile Include="M5\M5UnitTests.cs" />
     <Compile Include="M7\Base\PruebaConexion.cs" />
     <Compile Include="M7\Base\PruebaPeticion.cs" />
     <Compile Include="M7\Dato\PruebaActividad.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -66,10 +69,15 @@
     <Folder Include="M2\" />
     <Folder Include="M3\" />
     <Folder Include="M4\" />
-    <Folder Include="M5\" />
     <Folder Include="M6\" />
     <Folder Include="M8\" />
     <Folder Include="M9\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApiRest-COCO-TRIP\ApiRest-COCO-TRIP.csproj">
+      <Project>{2b0950d9-df8d-460c-a46d-d9be5ec9d6ce}</Project>
+      <Name>ApiRest-COCO-TRIP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

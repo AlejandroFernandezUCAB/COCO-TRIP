@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {  IonicPage, NavController, NavParams, ToastController, Platform, ActionSheetController } from 'ionic-angular';
 
 import {ChangepassPage} from '../changepass/changepass';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,7 @@ export class EditProfilePage {
   change = ChangepassPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
-    public actionsheetCtrl: ActionSheetController ){
+    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService ){
   }
   showToastWithCloseButton() {
     const toast = this.toastCtrl.create({

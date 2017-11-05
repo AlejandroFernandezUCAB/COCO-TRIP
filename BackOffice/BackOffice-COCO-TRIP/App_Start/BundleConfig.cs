@@ -41,6 +41,26 @@ namespace BackOffice_COCO_TRIP
             bundles.Add(new StyleBundle("~/bundles/categoriesCSS").Include(
                     "~/Content/Categorias/categorias.css"
                     ));
+
+            bundles.Add(new StyleBundle("~/bundles/lugares_addCSS").Include(
+                    "~/Content/Lugares/add.css"
+                    ));
+
+            bundles.Add(new StyleBundle("~/bundles/lugares_modifyCSS").Include(
+                    "~/Content/Lugares/modify.css"
+                    ));
+
+            bundles.Add(new StyleBundle("~/bundles/lugares_activityCSS").Include(
+                    "~/Content/Lugares/activity.css"
+                    ));
+
+            bundles.Add(new StyleBundle("~/bundles/lugares_detailCSS").Include(
+                    "~/Content/Lugares/detail.css"
+                    ));
+
+            bundles.Add(new StyleBundle("~/bundles/lugares_viewallCSS").Include(
+                    "~/Content/Lugares/view_all.css"
+                    ));
         }
     }
 }

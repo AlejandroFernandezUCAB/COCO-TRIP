@@ -6,23 +6,53 @@
       <ion-title>
         Mis Amigos
       </ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only (click)='agregaramigo()'>
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
     </ion-navbar>
   </ion-header>
   
   <ion-content padding>
     <ion-list >
-      <ion-item *ngFor="let item of lista" (press)="pressEvent($event)" (tap)="tapEvent($event)">
+      <ion-item *ngFor="let item of lista" (tap)="tapEvent($event)">
         <ion-avatar item-left>
             <img src="{{item.img}}">
         </ion-avatar>
         <h2>{{item.nick_name}}</h2>
         <h3>{{item.texto}}</h3>
+         
+      <button ion-button small icon-only clear *ngIf="delete" 
+      style="width:auto; display: flex; margin-top: 0px;" 
+      (click)="eliminarAmigo(item.id, i)"> 
+      <ion-icon name="remove" style="width:100%" color="danger">
+      </ion-icon>
+      <p style="color: red; font-size: smaller;">
+        Eliminar Amigo</p>
+      </button>
+      <button ion-button small icon-only clear *ngIf="detail" 
+      style="width:auto; display: flex; margin-top: 0px;" 
+      (click)="verPerfil()"> 
+      <ion-icon name="remove" style="width:100%" color="blue">
+      </ion-icon>
+      <p style="color: blue; font-size: smaller;">
+        Ver Perfil</p>
+      </button>
       </ion-item>
     </ion-list>
+
+    <ion-fab bottom right>
+      <button ion-fab style="color: white;" color="primary">
+        <ion-icon name="more"></ion-icon>
+      </button>
+      <ion-fab-list side="top">
+        
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="twcs" (click)="agregarAmigo()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="perfil()">
+          <ion-icon name="eye"></ion-icon>
+        </button>
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf" style="color: white" (click)="eliminar()">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-fab-list>
+    </ion-fab>
   </ion-content>
   

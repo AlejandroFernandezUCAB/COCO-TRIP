@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Borrar Cuenta</ion-title>
+    <ion-title>{{ 'Borrar Cuenta' | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -18,16 +18,16 @@
   <ion-grid>
     <ion-row>
       <ion-item>
-        <ion-label>Introduzca su contraseña</ion-label>
+        <ion-label>{{ 'Introduzca su contraseña' | translate }}</ion-label>
       </ion-item>
     </ion-row>
     <ion-row>
         <ion-item>
-            <ion-input placeholder="Contraseña" clearInput required></ion-input>
+            <ion-input clearInput required></ion-input>
           </ion-item>
     </ion-row>
     <ion-row>
-        <button full ion-button (click)="presentConfirm()">Confirmar</button>
+        <button full ion-button (click)="presentConfirm()">{{ 'Confirmar' | translate }}</button>
     </ion-row>
   </ion-grid>
   

@@ -7,7 +7,8 @@ namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M2_PreferenciasController : ApiController
   {
-  
+
+    // GET api/<controller>/<action>/id
     [HttpGet]
     public Boolean Prueba()
     {     
