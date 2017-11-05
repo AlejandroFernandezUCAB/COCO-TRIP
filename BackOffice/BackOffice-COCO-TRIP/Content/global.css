@@ -33,3 +33,43 @@ body{
 .color-texto {
     color: #0B486B;
 }
+
+.loader {
+  position: fixed;
+  display: none;
+  z-index: 9999;
+  top: 35%;
+  left: 50%;
+  right: 0px;
+  bottom: 0px;
+  border: 16px solid #0B486B;
+  border-top: 16px solid #3b8686;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.fondo-opaco {
+  position: fixed;
+  display: none;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #292929;
+  z-index: 9998 !important;
+  will-change: opacity;
+  opacity: 0.7;
+}
