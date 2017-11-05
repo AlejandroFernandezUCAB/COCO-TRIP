@@ -77,10 +77,10 @@ export class PreferenciasPage {
 
     buscarPreferencias(ev: any) {
         this.inicializarListas(1);
-        // set val to the value of the searchbar
+        //Este será el valor que uno escribe en el search bar
         let val = ev.target.value;
 
-        // if the value is an empty string don't filter the items
+        // Si está vació no va a filtrar.
         if (val && val.trim() != '') {
           this.preferenciasEnBusqueda = this.preferenciasEnBusqueda.filter((item) => {
             return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);

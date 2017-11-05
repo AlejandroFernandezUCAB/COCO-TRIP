@@ -305,6 +305,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
         public void PutLugar(LugarTuristico lugar)
         {
+          peticion = new Peticion();
+
             try
             {
                 peticion.ActualizarLugarTuristico(lugar);
@@ -332,6 +334,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="activar">true para activar, false para desactivar</param>
         public void PutActivarLugar(int id, bool activar)
         {
+          peticion = new Peticion();
+
           try
           {
             peticion.ActivarLugarTuristico(id, activar);
@@ -359,6 +363,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="activar">true para activar, false para desactivar</param>
         public void PutActivarActividad(int id, bool activar)
         {
+          peticion = new Peticion();
+
           try
           {
             peticion.ActivarActividad(id, activar);
@@ -387,6 +393,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID de la actividad</param>
         public void DeleteActividad (int id)
         {
+          peticion = new Peticion();
+
               try
               {
                 peticion.EliminarActividad(id);
@@ -406,6 +414,9 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID de la foto</param>
         public void DeleteFoto (int id)
         {
+
+          peticion = new Peticion();
+
           try
           {
             peticion.EliminarFoto(id);
@@ -425,6 +436,9 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="id">ID del horario</param>
         public void DeleteHorario(int id)
         {
+
+          peticion = new Peticion();
+
           try
           {
             peticion.EliminarHorario(id);
