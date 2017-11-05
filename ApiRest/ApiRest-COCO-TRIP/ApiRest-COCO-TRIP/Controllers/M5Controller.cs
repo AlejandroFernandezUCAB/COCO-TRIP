@@ -108,7 +108,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="it">itinerario al cual se le agrega el evento</param>
     /// <param name="ev">evento a agregar en el itinerario</param>
     /// <returns>true si se agrego el evento exitosamente, false en caso de error</returns>
-    [HttpGet]
+ /* [HttpGet]
     public Boolean AgregarEvento_It(Itinerario it,Evento ev)
     {
       try
@@ -130,7 +130,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         return false;
       }
 
-    }
+    }*/
 
     /// <summary>
     /// Metodo que agrega una actividad existente a un itinerario existente
@@ -138,7 +138,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="it">itinerario al cual se le agrega la actividad</param>
     /// <param name="ac">actividad a agregar en el itinerario</param>
     /// <returns>true si se agrego la actividad exitosamente, false en caso de error</returns>
-    [HttpGet]
+   [HttpGet]
     public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
     {
       try
@@ -198,7 +198,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="it">itinerario del cual se elimina el evento</param>
     /// <param name="ev">evento a eliminar del itinerario</param>
     /// <returns>true si se elimino el evento exitosamente, false en caso de error</returns>
-    [HttpGet]
+ /*   [HttpGet]
     public Boolean EliminarEvento_It(Itinerario it, Evento ev)
     {
       try
@@ -220,7 +220,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         return false;
       }
 
-    }
+    }*/
 
     /// <summary>
     /// Metodo que elimina una actividad existente de un itinerario existente
