@@ -49,7 +49,7 @@ namespace ApiRestPruebas.M7.Base
 
       horario = new Horario();
       horario.Id = 2;
-      horario.DiaSemana = (int)Horario.Dia.Domingo;
+      horario.DiaSemana = (int) DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(8, 0, 0);
       horario.HoraCierre = new TimeSpan(17, 0, 0);
 

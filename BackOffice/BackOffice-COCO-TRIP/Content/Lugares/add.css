@@ -1,0 +1,139 @@
+body{
+	overflow-x: hidden;
+}
+
+#map {
+	width: 100%;
+	height: 80%;
+}
+
+#coords{
+	width: 500px;
+}
+
+.content-form{
+	width: 97%;
+	margin-left: 1.5%;
+}
+
+.btn-lugar-turistico-add{
+  background-color: #CFF09E;
+  color: #0B486B;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
+.row-horarios{
+	margin-left: 6%;
+}
+
+.row-info-actividades{
+	padding: 0 75px;
+	color: #95a5a6;
+	font-size: 15px;
+}
+
+.row-checkbox{
+	padding: 0 75px;
+}
+
+label{
+  color: #0B486B;
+}
+
+.title-actividades{
+	color: #0B486B;
+	font-size: 17px;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.title-fotos-add{
+	color: #A8DBA8;
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.row-fotos-add{
+	padding: 0 0 0 98px;
+}
+
+.icon-add-actividad, .icon-horario-actividad{
+	color: #A8DBA8;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.icon-add-category{
+	color: #CFF09E;
+	font-size: 27px;
+}
+
+.icon-add-horario{
+	color: #CFF09E;
+	font-size: 27px;
+	margin-top: 31%;
+}
+
+.form-group-actividad{
+	padding: 0 75px;
+}
+
+.form-group-nombre {
+    padding: 0 11px 0 97px;
+}
+
+.form-group-imagen-lugar {
+    padding: 0 11px 0 64px;
+}
+
+.form-group-costo {
+    padding: 0 63px 0 0;
+}
+
+.form-group-horario-dia{
+	padding: 0 0 0 70px;
+}
+
+.form-group-horario{
+	padding: 0 20px 0 20px;
+}
+
+.form-group-correo{
+	padding: 0 0 0 6px;
+}
+
+.form-horizontal .form-group-telefono{
+	margin-right: -16.5%;
+}
+
+.form-group-actividad-descripcion{
+	padding: 0 96px 0 20px;
+}
+
+.text-horario{
+	font-size: 14px;
+	color: #95a5a6;
+	padding: 0 75px;
+}
+
+.title-direccion{
+	color: #0B486B;
+	font-size: 17px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 2%;
+}
+
+.text-horario-second{
+	font-size: 14px;
+	color: #95a5a6;
+	padding: 0 90px;
+}
+
+.row-nombre-costo-estado{
+	padding: 0 71px 0 58px;
+}
