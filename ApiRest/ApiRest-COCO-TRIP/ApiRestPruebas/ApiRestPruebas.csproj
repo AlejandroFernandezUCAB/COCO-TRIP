@@ -84,8 +84,5 @@
       <Name>ApiRest-COCO-TRIP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="M7\Nota.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
