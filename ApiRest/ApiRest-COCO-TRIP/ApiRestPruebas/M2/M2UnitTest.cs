@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models;
 using System.Collections.Generic;
+using ApiRest_COCO_TRIP.Controllers;
+using Npgsql;
 
 namespace ApiRestPruebas.M2
 {
@@ -11,6 +13,7 @@ namespace ApiRestPruebas.M2
     private Usuario usuario;
     private Categoria categoria, categoria2;
     private int posicionDelElemento;
+    private M2_PreferenciasController apiRest;
 
     [SetUp]
     public void SetUp() {
@@ -97,7 +100,16 @@ namespace ApiRestPruebas.M2
     public void AgregarPreferencia()
     {
 
-      usuario.AgregarPreferencia( categoria );
+      ConexionBase conexion = new ConexionBase();
+
+      conexion.Conectar();
+      apiRest.AgregarPreferencia(1, "Deporte", "El deporte es bonito", true, 1, "conexion");
+      NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) " +
+                    "FROM preferencias where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
+      int count = command.ExecuteNonQuery();
+
+      Assert.AreEqual(1, count);
+      conexion.Desconectar();
 
     }
 

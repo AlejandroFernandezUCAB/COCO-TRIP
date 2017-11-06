@@ -121,6 +121,7 @@
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
+    <Compile Include="Models\PeticionPerfil.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

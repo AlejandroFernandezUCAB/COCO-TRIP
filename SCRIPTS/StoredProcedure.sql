@@ -169,19 +169,20 @@ Autores:
 **/
 --Agregar Preferencia (Insert)
 CREATE OR REPLACE FUNCTION InsertarPreferencia
-(_nombreUsuario VARCHAR(20), _nombreCategoria VARCHAR(20))
+( _idUsuario int , _idCategoria int )
 RETURNS integer AS $$
 DECLARE idUsuario int;
 DECLARE idCategoria int;
 BEGIN
    
 	INSERT INTO preferencia VALUES
-	( idUsuario, 1 /*idCategoria */);
+	( _idUsuario, _idCategoria);
 
    return 1;
    
 END;
 $$ LANGUAGE plpgsql;
+
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos
