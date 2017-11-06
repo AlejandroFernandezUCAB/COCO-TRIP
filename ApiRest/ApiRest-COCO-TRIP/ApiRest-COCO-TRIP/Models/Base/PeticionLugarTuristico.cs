@@ -66,10 +66,8 @@ namespace ApiRest_COCO_TRIP.Models.Base
       }
       catch (ReferenciaNulaExcepcion e)
       {
-        var excepcion = new ReferenciaNulaExcepcion(e);
-        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-
-        throw excepcion;
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
       }
     }
 
@@ -92,6 +90,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         return actividad.Id;
       }
       catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
@@ -121,6 +129,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
     }
 
     /// <summary>
@@ -142,6 +160,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         return foto.Id;
       }
       catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
@@ -187,6 +215,11 @@ namespace ApiRest_COCO_TRIP.Models.Base
         throw e;
       }
       catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
