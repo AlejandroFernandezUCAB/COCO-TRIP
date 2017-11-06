@@ -55,6 +55,7 @@ import { EventosCalendarioService } from '../services/eventoscalendario'
 import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
+import { Firebase } from '@ionic-native/firebase';
 import { HttpCProvider } from '../providers/http-c/http-c';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -144,6 +145,7 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Facebook,
     EventosCalendarioService,
+    Firebase,
     HttpCProvider
   ]
 })
