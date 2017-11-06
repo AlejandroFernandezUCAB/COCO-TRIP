@@ -83,26 +83,16 @@ namespace ApiRestPruebas.M7.Base
     public void TestExcepcionInsertarLugarTuristico()
     {
       lugar.Nombre = null;
-      Assert.Catch<CasteoInvalidoExcepcion>(CasteoInvalidoInsertarLugarTuristico);
+      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarLugarTuristico);
 
       lugar = null;
-      Assert.Catch<ReferenciaNulaExcepcion>(ReferenciaNulaInsertarLugarTuristico);
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarLugarTuristico);
     }
 
     /// <summary>
-    /// Metodo que permite testear la excepcion ReferenciaNula
+    /// Metodo que permite testear las excepciones
     /// </summary>
-    private void ReferenciaNulaInsertarLugarTuristico()
-    {
-      conexion.Conectar();
-      conexion.InsertarLugarTuristico(lugar);
-      conexion.Desconectar();
-    }
-
-    /// <summary>
-    /// Metodo que permite testear la excepcion CasteoInvalido
-    /// </summary>
-    private void CasteoInvalidoInsertarLugarTuristico()
+    private void ExcepcionInsertarLugarTuristico()
     {
       conexion.Conectar();
       conexion.InsertarLugarTuristico(lugar);
@@ -121,6 +111,33 @@ namespace ApiRestPruebas.M7.Base
       conexion.Desconectar();
     }
 
+    /// <summary>
+    /// Test de excepciones del metodo InsertarActividad
+    /// </summary>
+    [Test]
+    [Category("Insertar")]
+    public void TestExcepcionInsertarActividad()
+    {
+      lugar.Id = 0;
+      Assert.Catch<BaseDeDatosExcepcion>(ExcepcionInsertarActividad);
+
+      lugar.Id = 1;
+      actividad.Nombre = null;
+      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarActividad);
+
+      actividad = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarActividad);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear las excepciones
+    /// </summary>
+    private void ExcepcionInsertarActividad()
+    {
+      conexion.Conectar();
+      conexion.InsertarActividad(actividad, lugar.Id);
+      conexion.Desconectar();
+    }
 
     /// <summary>
     /// Test del metodo InsertarHorario de la clase Conexion
@@ -135,6 +152,35 @@ namespace ApiRestPruebas.M7.Base
     }
 
     /// <summary>
+    /// Test de excepciones del metodo InsertarHorario
+    /// </summary>
+    [Test]
+    [Category("Insertar")]
+    public void TestExcepcionInsertarHorario()
+    {
+      lugar.Id = 0;
+      Assert.Catch<BaseDeDatosExcepcion>(ExcepcionInsertarHorario);
+
+      lugar.Id = 1;
+      horario.HoraApertura = TimeSpan.Zero;
+      horario.HoraCierre = TimeSpan.Zero;
+      Assert.DoesNotThrow(ExcepcionInsertarHorario);
+
+      horario = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarHorario);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear las excepciones
+    /// </summary>
+    private void ExcepcionInsertarHorario()
+    {
+      conexion.Conectar();
+      conexion.InsertarHorario(horario, lugar.Id);
+      conexion.Desconectar();
+    }
+
+    /// <summary>
     /// Test del metodo InsertarFoto de la clase Conexion
     /// </summary>
     [Test]
@@ -143,6 +189,34 @@ namespace ApiRestPruebas.M7.Base
     {
       conexion.Conectar();
       Assert.AreEqual(true, conexion.InsertarFoto(foto, lugar.Id) > 0);
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Test de excepciones del metodo InsertarFoto
+    /// </summary>
+    [Test]
+    [Category("Insertar")]
+    public void TestExcepcionInsertarFoto()
+    {
+      lugar.Id = 0;
+      Assert.Catch<BaseDeDatosExcepcion>(ExcepcionInsertarFoto);
+
+      lugar.Id = 1;
+      foto.Contenido = null;
+      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarFoto);
+
+      foto = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarFoto);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear las excepciones
+    /// </summary>
+    private void ExcepcionInsertarFoto()
+    {
+      conexion.Conectar();
+      conexion.InsertarFoto(foto, lugar.Id);
       conexion.Desconectar();
     }
 

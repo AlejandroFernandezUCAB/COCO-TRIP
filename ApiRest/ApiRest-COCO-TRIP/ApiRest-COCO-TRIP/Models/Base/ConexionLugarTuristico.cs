@@ -300,7 +300,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = "Datos: ";
         excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico + " ";
-        excepcion.DatosAsociados += "Foto (size) " + foto.Contenido.Length;
+        //excepcion.DatosAsociados += "Foto (size) " + foto.Contenido.Length;
 
         throw excepcion;
       }
