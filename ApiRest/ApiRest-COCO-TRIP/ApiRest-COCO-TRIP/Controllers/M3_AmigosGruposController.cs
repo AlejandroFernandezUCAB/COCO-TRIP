@@ -34,14 +34,27 @@ namespace ApiRest_COCO_TRIP.Controllers
       return peticion.VisualizarPerfilAmigoBD(nombreUsuario);
     }
 
+
+    /// <summary>
+    /// Buscar amigo en la aplicacion
+    /// </summary>
+    /// <param name="nombre">nombre del amigo a buscar</param>
+    /// <returns></returns>
     [HttpGet]
-    public Usuario BuscarAmigo(string nombre)
+    public List<Usuario> BuscarAmigo(string nombre)
     {
       peticion = new PeticionAmigoGrupo();
       return peticion.BuscarAmigo(nombre);
 
     }
 
+    /// <summary>
+    /// Procedimiento para agregar un grupo
+    /// </summary>
+    /// <param name="nombre">Nombre del grupo</param>
+    /// <param name="foto">Foto del grupo</param>
+    /// <param name="usuario">Lider del grupo(creador)</param>
+    /// <returns></returns>
     [HttpGet]
     public string AgregarGrupo(String nombre, String foto, String usuario)
     {
@@ -116,6 +129,34 @@ namespace ApiRest_COCO_TRIP.Controllers
       peticion = new PeticionAmigoGrupo();
       return peticion.ModificarGrupoBD(nombreGrupo,nombreUsuario, /*foto, */idGrupo);
     }
+
+    /// <summary>
+    /// Consultar lista de grupo del usuario
+    /// </summary>
+    /// <param name="id">id del usuario</param>
+    /// <returns></returns>
+    [HttpGet]
+    public List<Grupo> ConsultarListaGrupos(string id)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.Listagrupo(Convert.ToInt32(id));
+
+    }
+    
+
+    /// <summary>
+    /// Procedimiento para visualizar el perfil del grupo
+    /// </summary>
+    /// <param name="id">Es el de id del grupo por el cual se buscara</param>
+    /// <returns></returns>
+    [HttpGet]
+    public Grupo ConsultarPerfilGrupos(string id)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.ConsultarPerfilGrupo(Convert.ToInt32(id));
+
+    }
+
   }
 
 
