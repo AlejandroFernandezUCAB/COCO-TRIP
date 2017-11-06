@@ -357,6 +357,30 @@ namespace ApiRestPruebas.M7.Base
     }
 
     /// <summary>
+    /// Test de excepciones del metodo ActualizarLugarTuristico
+    /// </summary>
+    [Test]
+    [Category("Actualizar")]
+    public void TestExcepcionActualizarLugarTuristico()
+    {
+      lugar.Nombre = null;
+      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionActualizarLugarTuristico);
+
+      lugar = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionActualizarLugarTuristico);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear excepciones
+    /// </summary>
+    private void ExcepcionActualizarLugarTuristico()
+    {
+      conexion.Conectar();
+      conexion.ActualizarLugarTuristico(lugar);
+      conexion.Desconectar();
+    }
+
+    /// <summary>
     /// Test del metodo ActualizarActividad de la clase Conexion
     /// </summary>
     [Test]
@@ -372,6 +396,30 @@ namespace ApiRestPruebas.M7.Base
       conexion.Conectar();
       conexion.ActualizarActividad(actividad);
       Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id).Contains(actividad));
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Test de excepciones del metodo ActualizarActividad
+    /// </summary>
+    [Test]
+    [Category("Actualizar")]
+    public void TestExcepcionActualizarActividad()
+    {
+      actividad.Nombre = null;
+      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionActualizarActividad);
+
+      actividad = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionActualizarActividad);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear excepciones
+    /// </summary>
+    private void ExcepcionActualizarActividad()
+    {
+      conexion.Conectar();
+      conexion.ActualizarActividad(actividad);
       conexion.Desconectar();
     }
 
@@ -393,6 +441,31 @@ namespace ApiRestPruebas.M7.Base
     }
 
     /// <summary>
+    /// Test de excepciones del metodo ActualizarHorario
+    /// </summary>
+    [Test]
+    [Category("Actualizar")]
+    public void TestExcepcionActualizarHorario()
+    {
+      horario.HoraApertura = TimeSpan.Zero;
+      horario.HoraCierre = TimeSpan.Zero;
+      Assert.DoesNotThrow(ExcepcionActualizarHorario);
+
+      horario = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionActualizarHorario);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear excepciones
+    /// </summary>
+    private void ExcepcionActualizarHorario()
+    {
+      conexion.Conectar();
+      conexion.ActualizarHorario(horario);
+      conexion.Desconectar();
+    }
+
+    /// <summary>
     /// Test del metodo ActualizarFoto de la clase Conexion
     /// </summary>
     [Test]
@@ -404,6 +477,30 @@ namespace ApiRestPruebas.M7.Base
       conexion.Conectar();
       conexion.ActualizarFoto(foto);
       Assert.AreEqual(true, conexion.ConsultarFotos(lugar.Id).Contains(foto));
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Test de excepciones del metodo ActualizarFoto
+    /// </summary>
+    [Test]
+    [Category("Actualizar")]
+    public void TestExcepcionActualizarFoto()
+    {
+      foto.Contenido = null;
+      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionActualizarFoto);
+
+      foto = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionActualizarFoto);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear excepciones
+    /// </summary>
+    private void ExcepcionActualizarFoto()
+    {
+      conexion.Conectar();
+      conexion.ActualizarFoto(foto);
       conexion.Desconectar();
     }
 
