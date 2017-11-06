@@ -185,8 +185,6 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns></returns>
         public int PostLugar(LugarTuristico lugar)
         {
-          if (lugar != null)
-          {
             peticion = new PeticionLugarTuristico();
 
             try
@@ -207,11 +205,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-          }
-          else
-          {
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
+            catch (ReferenciaNulaExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
         }
 
         /// <summary>
@@ -222,8 +222,6 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID de la actividad insertada</returns>
         public int PostActividad(Actividad actividad, int id)
         {
-          if (actividad != null)
-          {
             peticion = new PeticionLugarTuristico();
 
             try
@@ -244,11 +242,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-          }
-          else
-          {
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
+            catch (ReferenciaNulaExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
         }
 
         /// <summary>
@@ -259,8 +259,6 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID del horario insertado</returns>
         public int PostHorario(Horario horario, int id)
         {
-          if (horario != null)
-          {
             peticion = new PeticionLugarTuristico();
 
             try
@@ -281,12 +279,14 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-          }
-          else
-          {
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
-        }
+            catch (ReferenciaNulaExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+        } 
 
         /// <summary>
         /// Inserta una foto asociada a un lugar turistico
@@ -296,8 +296,6 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID de la foto insertada</returns>
         public int PostFoto(Foto foto, int id)
         {
-          if (foto != null)
-          {
             peticion = new PeticionLugarTuristico();
 
             try
@@ -318,11 +316,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-          }
-          else
-          {
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
+            catch (ReferenciaNulaExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
         }
 
         //PUT
@@ -333,8 +333,6 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
         public void PutLugar(LugarTuristico lugar)
         {
-          if (lugar != null)
-          {
             peticion = new PeticionLugarTuristico();
 
             try
@@ -355,11 +353,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-          }
-          else
-          {
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
+            catch (ReferenciaNulaExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
         }
 
         /// <summary>
@@ -382,13 +382,6 @@ namespace ApiRest_COCO_TRIP.Controllers
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
           }
-          catch (CasteoInvalidoExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
         }
 
         /// <summary>
@@ -410,13 +403,6 @@ namespace ApiRest_COCO_TRIP.Controllers
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-          catch (CasteoInvalidoExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
           }
         }
 
