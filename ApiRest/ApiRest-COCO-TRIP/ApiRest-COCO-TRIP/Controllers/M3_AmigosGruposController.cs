@@ -18,7 +18,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     Usuario usuario;
     PeticionAmigoGrupo peticion;
 
-    // GET api/<controller>/<action>/id  http://localhost:51049/api/M2_Preferencias/AgregarPreferencia/?id=1&nombre=hola&descripcion=hola&estatus=true&nivel=1&nombreUsuario=Hola
+    // GET api/<controller>/<action>/id 
     [HttpGet]
     public string AgregarAmigo(String idUsuario1, String idUsuario2)
     {
