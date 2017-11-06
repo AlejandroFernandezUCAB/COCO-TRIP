@@ -31,7 +31,7 @@ namespace ApiRest_COCO_TRIP.Models
       return parametro;
     }
 
-    public void AgregarAmigosBD(int idUsuario1 , int idUsuario2)
+    public void AgregarAmigosBD(int idUsuario1, int idUsuario2)
     {
       try
       {
@@ -52,6 +52,30 @@ namespace ApiRest_COCO_TRIP.Models
       {
         throw e;
       }
+    }
+
+    public bool SalirGrupoBD(int idGrupo, int idUsuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "SalirDeGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        conexion.Comando.ExecuteReader();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return true;
     }
 
     public Usuario VisualizarPerfilAmigoBD(string nombreUsuario)
@@ -91,6 +115,9 @@ namespace ApiRest_COCO_TRIP.Models
 
       return usuario;
     }
+
+
+
 
    public Usuario BuscarAmigo(string dato)
     {
