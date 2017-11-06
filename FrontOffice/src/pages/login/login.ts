@@ -38,24 +38,72 @@ export class LoginPage {
   login() {
     this.userData={correo: this.usuario, clave: this.clave};
     console.log("JSON ES: "+JSON.stringify(this.userData));
-    this.restapiService.getUser(this.userData)
+    //if( usuario tiene @)
+    this.restapiService.iniciarSesion(this.userData)
     .then(data => {
-      this.userData = data;
       console.log("RESULTADO: "+this.userData);
+      if(data==0)
+      {
+      const toast = this.toastCtrl.create({
+        message: 'Error, datos incorrectos',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    }
+    else
+    {
+      this.navCtrl.setRoot(HomePage);
+    }
+      
     });
-    
-    this.navCtrl.setRoot(HomePage);
+    /*else
+      this.restapiService.iniciarSesion(this.userData)
+    .then(data => {
+      console.log("RESULTADO: "+this.userData);
+      if(data==0)
+      {
+      const toast = this.toastCtrl.create({
+        message: 'Error, datos incorrectos',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    }
+    else
+    {
+      this.navCtrl.setRoot(HomePage);
+    }
+      
+    });*/
   }
   
   facebookLogin() {
 
     this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
       this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
-        this.userData = { correo: profile['email'], pnombre: profile['first_name'], 
-        papellido: profile['last_name'], cumple :profile['birthday'],
-         foto: profile['picture_large']['data']['url'], usuario: profile['name'] };
-
-        this.navCtrl.setRoot(HomePage);
+        this.userData = { correo: profile['email'], nombre: profile['first_name'], 
+        apellido: profile['last_name'], fechaNacimiento :profile['birthday'],
+         foto: profile['picture_large']['data']['url']};
+         console.log("JSON ES: "+JSON.stringify(this.userData));
+         this.restapiService.iniciarSesion(this.userData)
+         .then(data => {
+           console.log("RESULTADO: "+this.userData);
+           if(data==0)
+           {
+           const toast = this.toastCtrl.create({
+             message: 'Error, datos incorrectos',
+             duration: 3000,
+             position: 'top'
+           });
+           toast.present();
+         }
+         else
+         {
+           this.navCtrl.setRoot(HomePage);
+         }
+           
+         });
       });
     },
       (resultNegativoFacebook: FacebookLoginResponse) => {
@@ -70,7 +118,8 @@ export class LoginPage {
     );
   }
 
-  googleLogin() {
+  googleLogin() 
+  {
     this.googleAuth.login().then(
       (resultPositivoGoogle: AuthLoginResult) => this.navCtrl.setRoot(HomePage),
       (resultNegativoGoogle: AuthLoginResult) => {
@@ -83,11 +132,13 @@ export class LoginPage {
       });
   }
 
-  registrar() {
+  registrar() 
+  {
     this.navCtrl.push(RegisterPage);
   }
 
-  presentLoadingDefault() {
+  presentLoadingDefault()
+   {
     const loading = this.loadingCtrl.create({
       content: 'Por favor, espere...',
       duration: 5000
@@ -97,17 +148,20 @@ export class LoginPage {
     });
     loading.present();
   }
-  Otros() {
+  Otros()
+   {
     if (this.vista == true)
       this.vista = false;
     else
       this.vista = true;
   }
-  getVista() {
+  getVista() 
+  {
     return (this.vista);
   }
 
-  presentPrompt() {
+  presentPrompt() 
+  {
     const alert = this.alertCtrl.create({
       title: 'Recuperar clave',
       message: 'Introduza su correo para recuperar su clave',

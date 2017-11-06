@@ -12,14 +12,12 @@ import 'rxjs/add/operator/map';
 export class RestapiService {
   apiUrl = 'http://localhost:8091/api';
   data : any;
+  Origin: 'http://clientecocotrip.com';
   constructor(public http: Http) {
     console.log('Hello Restapi Provider');
   }
-  getUser(usuario) {
-    if (this.data) {
-      return Promise.resolve(this.data);
-    }
-  
+  iniciarSesion(usuario) 
+  {  
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M1_Login/iniciarsesioncorreo/?datos='+JSON.stringify(usuario))
         .map(res => res.json())
@@ -29,4 +27,18 @@ export class RestapiService {
         });
     });
   }
+
+  iniciarSesionFacebook(usuario)
+  {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M1_Login/iniciarsesionsocial/?datos='+JSON.stringify(usuario))
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        });
+    });
+  }
+
+
 }
