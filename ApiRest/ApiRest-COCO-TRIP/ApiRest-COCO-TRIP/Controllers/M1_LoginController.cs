@@ -9,9 +9,11 @@ using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using System.Web.Http.Cors;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
+  [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M1_LoginController : ApiController
   {
     private Usuario usuario;

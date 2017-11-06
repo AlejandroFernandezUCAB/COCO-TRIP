@@ -10,10 +10,12 @@ namespace ApiRest_COCO_TRIP
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuración y servicios de API web
+      // Configuración y servicios de API web
 
-            // Rutas de API web
-            config.MapHttpAttributeRoutes();
+      // Rutas de API
+
+      config.EnableCors();
+      config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -22,6 +24,7 @@ namespace ApiRest_COCO_TRIP
             );
       config.Formatters.JsonFormatter.SupportedMediaTypes
     .Add(new MediaTypeHeaderValue("text/html"));
+
     }
     }
 }
