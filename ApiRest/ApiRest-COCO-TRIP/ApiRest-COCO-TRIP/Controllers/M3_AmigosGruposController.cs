@@ -74,18 +74,27 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
 
+
+    /// <summary>
+    /// Buscar amigo en la aplicacion
+    /// </summary>
+    /// <param name="nombre">nombre del amigo a buscar</param>
+    /// <returns></returns>
     [HttpGet]
-    public Usuario BuscarAmigo(string nombre)
+    public List<Usuario> BuscarAmigo(string nombre)
     {
       peticion = new PeticionAmigoGrupo();
       return peticion.BuscarAmigo(nombre);
 
     }
 
-
-
-    
-
+    /// <summary>
+    /// Procedimiento para agregar un grupo
+    /// </summary>
+    /// <param name="nombre">Nombre del grupo</param>
+    /// <param name="foto">Foto del grupo</param>
+    /// <param name="usuario">Lider del grupo(creador)</param>
+    /// <returns></returns>
     [HttpGet]
     public string AgregarGrupo(String nombre, String foto, String usuario)
     {
@@ -103,11 +112,91 @@ namespace ApiRest_COCO_TRIP.Controllers
       return "1";
     }
 
-
-
-
     
+    /// <summary>
+    /// Procedimiento que se encarga de recoger los datos de
+    /// la base de datos para visualizar la lista de amigos
+    /// </summary>
+    /// <param name="nombreUsuario"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public List<Usuario> VisualizarListaAmigos(string nombreUsuario)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.VisualizarListaAmigoBD(nombreUsuario);
+    }
+
+    /// <summary>
+    /// Procemiento que se encarga de hacer la peticion para
+    /// eliminar un amigo de la base de datos
+    /// </summary>
+    /// <param name="nombreAmigo"></param>
+    /// <param name="nombreUsuario"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public int EliminarAmigo(string nombreAmigo, string nombreUsuario)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.EliminarAmigoBD(nombreAmigo, nombreUsuario);
+    }
+
+    /// <summary>
+    /// Procedimiento que se encarga de hacer la peticion para
+    /// eliminar un grupo de la base de datos
+    /// </summary>
+    /// <param name="nombreUsuario"></param>
+    /// <param name="idGrupo"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public int EliminarGrupo(string nombreUsuario, int idGrupo)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.EliminarGrupoBD(nombreUsuario, idGrupo);
+    }
+    /// <summary>
+    /// Procedimiento que se encarga de hacer la peticion para
+    /// modificar los datos de un grupo
+    /// </summary>
+    /// <param name="nombreGrupo">Nombre del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario que esta modificando</param>
+    /// <param name="foto">Foto del grupo</param>
+    /// <param name="idGrupo">El identificador del grupo</param>
+    /// <returns></returns>
+    [HttpGet]
+    public int ModificarGrupo(string nombreGrupo, string nombreUsuario, /*byte foto,*/ int idGrupo)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.ModificarGrupoBD(nombreGrupo,nombreUsuario, /*foto, */idGrupo);
+    }
+
+    /// <summary>
+    /// Consultar lista de grupo del usuario
+    /// </summary>
+    /// <param name="id">id del usuario</param>
+    /// <returns></returns>
+    [HttpGet]
+    public List<Grupo> ConsultarListaGrupos(string id)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.Listagrupo(Convert.ToInt32(id));
+
+    }
     
-    
+
+    /// <summary>
+    /// Procedimiento para visualizar el perfil del grupo
+    /// </summary>
+    /// <param name="id">Es el de id del grupo por el cual se buscara</param>
+    /// <returns></returns>
+    [HttpGet]
+    public Grupo ConsultarPerfilGrupos(string id)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.ConsultarPerfilGrupo(Convert.ToInt32(id));
+
+    }
+
   }
+
+
 }
