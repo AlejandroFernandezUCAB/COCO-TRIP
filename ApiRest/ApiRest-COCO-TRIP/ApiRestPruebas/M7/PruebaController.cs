@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Web.Http;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Controllers;
