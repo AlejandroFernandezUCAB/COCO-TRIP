@@ -45,12 +45,9 @@ namespace ApiRest_COCO_TRIP.Models.Base
           conexion.InsertarFoto(elemento, lugarTuristico.Id);
         }
 
-        if (lugarTuristico.Actividad != null)
+        foreach (Actividad elemento in lugarTuristico.Actividad)
         {
-          foreach (Actividad elemento in lugarTuristico.Actividad)
-          {
-            conexion.InsertarActividad(elemento, lugarTuristico.Id);
-          }
+          conexion.InsertarActividad(elemento, lugarTuristico.Id);
         }
 
         conexion.Desconectar();
