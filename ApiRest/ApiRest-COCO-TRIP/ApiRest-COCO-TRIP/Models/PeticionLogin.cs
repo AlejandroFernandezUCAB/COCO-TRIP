@@ -27,6 +27,7 @@ namespace ApiRest_COCO_TRIP.Models
 
       return parametro;
     }
+
     public int ConsultarUsuarioCorreo(Usuario usuario)
     {
       try
@@ -43,6 +44,9 @@ namespace ApiRest_COCO_TRIP.Models
         {
           usuario.Id = leerDatos.GetInt32(0);
 
+        }
+        else {
+          usuario.Id = 0;
         }
 
         leerDatos.Close();
@@ -76,6 +80,10 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.Id = leerDatos.GetInt32(0);
 
         }
+        else
+        {
+          usuario.Id = 0;
+        }
 
         leerDatos.Close();
         conexion.Desconectar();
@@ -105,9 +113,11 @@ namespace ApiRest_COCO_TRIP.Models
         if (leerDatos.Read())
         {
           usuario.Id = leerDatos.GetInt32(0);
-
         }
-
+        else
+        {
+          usuario.Id = 0;
+        }
         leerDatos.Close();
         conexion.Desconectar();
       }
@@ -145,7 +155,7 @@ namespace ApiRest_COCO_TRIP.Models
           leerDatos.Close();
         }
 
-
+        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -173,6 +183,10 @@ namespace ApiRest_COCO_TRIP.Models
         {
           usuario.Clave = leerDatos.GetString(0);
 
+        }
+        else
+        {
+          usuario.Clave = "";
         }
 
         leerDatos.Close();
@@ -211,5 +225,40 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
     }
+
+    public int ConsultarUsuarioSoloNombre(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarUsuarioSoloNombre";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.NombreUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          usuario.Id = leerDatos.GetInt32(0);
+        }
+        else
+        {
+          usuario.Id = 0;
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return usuario.Id;
+    }
   }
+
+  
 }
