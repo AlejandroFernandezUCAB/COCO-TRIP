@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 export class RestapiService {
   apiUrl = 'http://localhost:8091/api';
   data : any;
-  Origin: 'http://clientecocotrip.com';
+  Origin: any;
   constructor(public http: Http) {
     console.log('Hello Restapi Provider');
   }

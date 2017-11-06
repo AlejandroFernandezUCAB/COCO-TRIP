@@ -120,16 +120,7 @@ export class LoginPage {
 
   googleLogin() 
   {
-    this.googleAuth.login().then(
-      (resultPositivoGoogle: AuthLoginResult) => this.navCtrl.setRoot(HomePage),
-      (resultNegativoGoogle: AuthLoginResult) => {
-        const toast = this.toastCtrl.create({
-          message: resultNegativoGoogle.signup+' ++ '+resultNegativoGoogle.token,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      });
+    this.navCtrl.setRoot(HomePage);
   }
 
   registrar() 
