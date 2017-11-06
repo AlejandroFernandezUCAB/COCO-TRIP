@@ -111,15 +111,15 @@
     </Compile>
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
-    <Compile Include="Models\Exceptions\BaseDeDatosExcepcion.cs" />
-    <Compile Include="Models\Exceptions\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
-    <Compile Include="Models\M7\Base\Conexion.cs" />
-    <Compile Include="Models\M7\Base\Peticion.cs" />
-    <Compile Include="Models\M7\Dato\Actividad.cs" />
-    <Compile Include="Models\M7\Dato\Foto.cs" />
-    <Compile Include="Models\M7\Dato\Horario.cs" />
-    <Compile Include="Models\M7\Dato\LugarTuristico.cs" />
+    <Compile Include="Models\Base\ConexionLugarTuristico.cs" />
+    <Compile Include="Models\Base\PeticionLugarTuristico.cs" />
+    <Compile Include="Models\Dato\Actividad.cs" />
+    <Compile Include="Models\Dato\Foto.cs" />
+    <Compile Include="Models\Dato\Horario.cs" />
+    <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

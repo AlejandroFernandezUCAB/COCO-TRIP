@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApiRest_COCO_TRIP.Models.M7.Dato
+namespace ApiRest_COCO_TRIP.Models.Dato
 {
   /// <summary>
   /// Clase que contiene los datos de lugar turistico

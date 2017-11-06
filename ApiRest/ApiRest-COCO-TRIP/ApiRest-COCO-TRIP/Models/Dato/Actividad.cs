@@ -1,6 +1,6 @@
 using System;
 
-namespace ApiRest_COCO_TRIP.Models.M7.Dato
+namespace ApiRest_COCO_TRIP.Models.Dato
 {
   /// <summary>
   /// Clase que contiene los datos asociados a la actividades de los lugares turisticos
