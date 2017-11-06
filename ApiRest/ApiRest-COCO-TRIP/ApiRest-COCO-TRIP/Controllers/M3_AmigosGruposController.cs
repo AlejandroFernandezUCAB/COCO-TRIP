@@ -34,7 +34,32 @@ namespace ApiRest_COCO_TRIP.Controllers
       return peticion.VisualizarPerfilAmigoBD(nombreUsuario);
     }
 
+    [HttpGet]
+    public Usuario BuscarAmigo(string nombre)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.BuscarAmigo(nombre);
 
+    }
 
+    [HttpGet]
+    public string AgregarGrupo(String nombre, String foto, String usuario)
+    {
+      peticion = new PeticionAmigoGrupo();
+
+      if (foto != "null")
+
+      { peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto),Convert.ToInt32(usuario));
+      }
+
+      else
+      {
+        peticion.AgregarGrupoBD(nombre, Convert.ToInt32(usuario));
+      }
+      
+      
+      return "1";
+    }
+    
   }
 }
