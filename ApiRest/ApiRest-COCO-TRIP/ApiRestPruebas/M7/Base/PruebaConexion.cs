@@ -1,8 +1,8 @@
 using System;
-using System.Linq;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models.Base;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 
 namespace ApiRestPruebas.M7.Base
 {
@@ -72,6 +72,40 @@ namespace ApiRestPruebas.M7.Base
     {
       conexion.Conectar();
       Assert.AreEqual(true, conexion.InsertarLugarTuristico(lugar) > 0);
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Test de excepciones del metodo InsertarLugarTuristico
+    /// </summary>
+    [Test]
+    [Category("Insertar")]
+    public void TestExcepcionInsertarLugarTuristico()
+    {
+      lugar.Nombre = null;
+      Assert.Catch<CasteoInvalidoExcepcion>(CasteoInvalidoInsertarLugarTuristico);
+
+      lugar = null;
+      Assert.Catch<ReferenciaNulaExcepcion>(ReferenciaNulaInsertarLugarTuristico);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear la excepcion ReferenciaNula
+    /// </summary>
+    private void ReferenciaNulaInsertarLugarTuristico()
+    {
+      conexion.Conectar();
+      conexion.InsertarLugarTuristico(lugar);
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Metodo que permite testear la excepcion CasteoInvalido
+    /// </summary>
+    private void CasteoInvalidoInsertarLugarTuristico()
+    {
+      conexion.Conectar();
+      conexion.InsertarLugarTuristico(lugar);
       conexion.Desconectar();
     }
 
