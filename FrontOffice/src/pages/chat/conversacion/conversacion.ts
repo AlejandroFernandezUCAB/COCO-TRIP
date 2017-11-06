@@ -4,6 +4,7 @@ import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -18,9 +19,14 @@ export class ConversacionPage {
     {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
   ];
 
-constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform) {
+constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase) {
 
-//this.lista = navParams.get("let item of listachatRec");
+  this.firebase.getToken()
+    .then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
+    .catch(error => console.log('Error obteniendo el token', error));
+
+  this.firebase.onTokenRefresh()
+    .subscribe((token: string) => console.log(`He obtenido un nuevo token ${token}`));
 
 }
 
