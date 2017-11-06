@@ -119,6 +119,7 @@
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
     <Compile Include="Models\Base\ConexionLugarTuristico.cs" />
     <Compile Include="Models\Base\PeticionLugarTuristico.cs" />
