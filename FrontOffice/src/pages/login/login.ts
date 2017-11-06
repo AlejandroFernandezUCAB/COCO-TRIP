@@ -6,9 +6,13 @@ import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
 import { LoadingController } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core'
-
-
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
+/**
+ * Generated class for the LoginPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
@@ -17,30 +21,32 @@ import { TranslateService } from '@ngx-translate/core'
 })
 export class LoginPage {
   userData: any;
+  usuario: string;
+  clave: string;
   vista: boolean;
-  idioms: any[] = [];
-  
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
      public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
-      private translateService: TranslateService, public navParams: NavParams) {
+     public restapiService: RestapiService, public navParams: NavParams) {
     this.vista = false;
-    this.idioms = [
-      {
-        value: 'es',
-        label: 'Español'
-      },
-      {
-        value: 'en',
-        label: 'Ingles'
-      }];
+    //this.getUser();
   }
-  choose(lang) {
-    this.translateService.use(lang);
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LoginPage');
+  }
+
+  login() {
+    this.userData={correo: this.usuario, clave: this.clave};
+    console.log("JSON ES: "+JSON.stringify(this.userData));
+    this.restapiService.getUser(this.userData)
+    .then(data => {
+      this.userData = data;
+      console.log("RESULTADO: "+this.userData);
+    });
+    
+    this.navCtrl.setRoot(HomePage);
   }
   
-  login() {
-    this.presentLoadingDefault();
-  }
   facebookLogin() {
 
     this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
