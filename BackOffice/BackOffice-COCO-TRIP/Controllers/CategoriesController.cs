@@ -110,19 +110,18 @@ namespace BackOffice_COCO_TRIP.Controllers
       return View(categories);
     }
 
-    // POST: Categories/Delete/5
     [HttpPost]
-    public ActionResult Delete(int id, FormCollection collection)
+    public ActionResult ChangeStatus(Categories categories)
     {
       try
       {
         // TODO: Add delete logic here
 
-        return RedirectToAction("Index");
+        return Json(data: categories);
       }
       catch
       {
-        return View();
+        return Json(data: "error");
       }
     }
   }

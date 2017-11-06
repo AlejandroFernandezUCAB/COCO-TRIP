@@ -1,10 +1,18 @@
 {
+    "Registrarse":"Register",
+    "Iniciar Sesión": "Login",
+    "Con Google":"With Google",
+    "Con Facebook": "With Facebook",
+    "¿Olvidaste tu contraseña?": "Forgot your password?",
+    "Correo o Usuario":"Email or Username",
+
 
     "Inicio":"Home",
     "Eventos y Actividades":"Events and Activities",
     "Itinerario": "Itinerary",
     "Amistades y Grupos":"Friends and Groups",
     "Salir":"Log Out",
+  
 
     "Configuración": "Settings",
     "Eventos": "Events",

@@ -1,4 +1,4 @@
-CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
+﻿CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
 CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
 --DROPS
 --Modulo 3
@@ -31,9 +31,10 @@ CREATE TABLE USUARIO (
 --Fin de modulo 
 --Modulo 2
 CREATE TABLE Preferencia(
-   pr_usuario   int not null,
-    pr_categoria int not null,
-    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria) 
+    pr_usuario   int NOT NULL,
+    pr_categoria int NOT NULL,
+    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria) ,
+    CONSTRAINT fk_usuario FOREIGN KEY (pr_usuario) REFERENCES USUARIO (us_id)
 );
 --Fin de modulo 
 --Modulo 3
@@ -137,7 +138,16 @@ CREATE TABLE LT_Foto
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
---Fin de modulo  
+CREATE TABLE categoria 
+(
+  ca_id integer NOT NULL,
+  ca_nombre character varying(20) not null,
+  ca_descripcion character varying(100) not null,
+  ca_status boolean not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+--Fin de modulo 9
 
 --ALTERS
 --Modulo 1
@@ -157,6 +167,10 @@ CREATE TABLE LT_Foto
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
+
+ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
+ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
+
 --Fin de modulo
 
 --SEQUENCES
@@ -189,6 +203,13 @@ CREATE SEQUENCE SEQ_LT_Foto;
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
+CREATE SEQUENCE SEQ_Categoria
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 --Fin de modulo 
 
 --INDEX

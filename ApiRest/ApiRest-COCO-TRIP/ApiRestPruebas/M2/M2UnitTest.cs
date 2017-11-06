@@ -20,6 +20,7 @@ namespace ApiRestPruebas.M2
       categoria = new Categoria();
       categoria2 = new Categoria();
 
+     
       //Inicializando categoria
       categoria.Id = 1;
       categoria.Nombre = "Deportes";
@@ -32,6 +33,8 @@ namespace ApiRestPruebas.M2
       categoria2.Descripcion = "Los deportes son geniales";
       categoria2.Nivel = 2;
       categoria2.Estatus = true;
+
+      usuario.NombreUsuario = "Hola";
 
     }
 
@@ -86,6 +89,15 @@ namespace ApiRestPruebas.M2
 
       Assert.IsNotEmpty( usuario.Preferencias     );
       Assert.AreEqual  ( -1, posicionDelElemento  );
+
+    }
+
+    [Test]
+    [Category("Insert")]
+    public void AgregarPreferencia()
+    {
+
+      usuario.AgregarPreferencia( categoria );
 
     }
 

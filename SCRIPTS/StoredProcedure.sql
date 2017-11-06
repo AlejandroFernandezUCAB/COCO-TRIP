@@ -1,4 +1,4 @@
-
+﻿
 
 /**
 Procedimientos del Modulo (1) de Login de Uusario, Registro de Usuario y Home
@@ -112,6 +112,26 @@ BEGIN
 	WHERE us_email=_correo AND us_validacion=false;
 END;
 $$ LANGUAGE plpgsql;
+--Consulta el usuario por su nombre de usuario sin clave
+CREATE OR REPLACE FUNCTION ConsultarUsuarioSoloNombre(_nombreUsuario varchar)
+RETURNS TABLE
+  (id integer,
+   nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	FROM usuario
+	WHERE us_nombreUsuario=_nombreUsuario AND us_validacion=true;
+END;
+$$ LANGUAGE plpgsql;
 
 --Recupera la contrasena de un usuario con su correo
 -- devuelve la clave del usuario
@@ -139,7 +159,29 @@ BEGIN
 	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+/**
+Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
 
+Autores:
+  Fernández Pedro
+  Navas Ronald
+  Verrocchi Gianfranco
+**/
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION InsertarPreferencia
+(_nombreUsuario VARCHAR(20), _nombreCategoria VARCHAR(20))
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+   
+	INSERT INTO preferencia VALUES
+	( idUsuario, 1 /*idCategoria */);
+
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos
@@ -487,3 +529,30 @@ BEGIN
   DELETE FROM lt_horario WHERE ho_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS) 
+          VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
+    END; $$;
+
+CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+        INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR) 
+              VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
+    END; $$;
+
+
+
+CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescripcion character varying, categoriapadre integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+        /*UPDATE TABLE CATEGORIA  */
+    END; $$;

@@ -4,15 +4,15 @@ using System.Data;
 using System.Reflection;
 using Npgsql;
 using NpgsqlTypes;
-using ApiRest_COCO_TRIP.Models.Exceptions;
-using ApiRest_COCO_TRIP.Models.M7.Dato;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.Dato;
 
-namespace ApiRest_COCO_TRIP.Models.M7.Base
+namespace ApiRest_COCO_TRIP.Models.Base
 {
   /// <summary>
   /// Clase que gestiona la conexion entre la base de datos y la logica de negocios del modulo 7
   /// </summary>
-  public class Conexion
+  public class ConexionLugarTuristico
   {
     private ConexionBase conexion; //Conexion con la base de datos PostgreSQL
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
@@ -21,7 +21,7 @@ namespace ApiRest_COCO_TRIP.Models.M7.Base
     /// <summary>
     /// Constructor de la clase
     /// </summary>
-    public Conexion()
+    public ConexionLugarTuristico()
     {
       conexion = new ConexionBase();
       comando = new NpgsqlCommand();
