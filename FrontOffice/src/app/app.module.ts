@@ -56,6 +56,7 @@ import { EventosCalendarioService } from '../services/eventoscalendario'
 import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
+import { Firebase } from '@ionic-native/firebase';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -144,7 +145,8 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Facebook,
-    EventosCalendarioService
+    EventosCalendarioService,
+    Firebase
   ]
 })
 export class AppModule {}

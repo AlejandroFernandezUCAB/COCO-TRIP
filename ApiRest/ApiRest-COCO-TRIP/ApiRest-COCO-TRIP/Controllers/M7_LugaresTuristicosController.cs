@@ -185,131 +185,13 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns></returns>
         public int PostLugar(LugarTuristico lugar)
         {
-          peticion = new PeticionLugarTuristico();
-
-          try
+          if (lugar != null)
           {
-            return peticion.InsertarLugarTuristico(lugar);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-          catch (CasteoInvalidoExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
-        }
-
-        /// <summary>
-        /// Inserta una actividad asociada a un lugar turistico
-        /// </summary>
-        /// <param name="actividad">Objeto Actividad</param>
-        /// <param name="id">ID del lugar turistico</param>
-        /// <returns>ID de la actividad insertada</returns>
-        public int PostActividad(Actividad actividad, int id)
-        {
-          peticion = new PeticionLugarTuristico();
-
-          try
-          {
-            return peticion.InsertarActividad(actividad, id);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-          catch (CasteoInvalidoExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
-        }
-
-        /// <summary>
-        /// Inserta un horario asociado a un lugar turistico
-        /// </summary>
-        /// <param name="horario">Objeto Horario</param>
-        /// <param name="id">ID del lugar turistico</param>
-        /// <returns>ID del horario insertado</returns>
-        public int PostHorario(Horario horario, int id)
-        {
-          peticion = new PeticionLugarTuristico();
-
-          try
-          {
-            return peticion.InsertarHorario(horario, id);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-          catch (CasteoInvalidoExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
-        }
-
-        /// <summary>
-        /// Inserta una foto asociada a un lugar turistico
-        /// </summary>
-        /// <param name="foto">Objeto Foto</param>
-        /// <param name="id">ID del lugar turistico</param>
-        /// <returns>ID de la foto insertada</returns>
-        public int PostFoto(Foto foto, int id)
-        {
-          peticion = new PeticionLugarTuristico();
-
-          try
-          {
-           return peticion.InsertarFoto(foto, id);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-          catch (CasteoInvalidoExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-          }
-        }
-
-        //PUT
-
-        /// <summary>
-        /// Actualiza los datos del lugar turistico
-        /// </summary>
-        /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
-        public void PutLugar(LugarTuristico lugar)
-        {
-          peticion = new PeticionLugarTuristico();
+            peticion = new PeticionLugarTuristico();
 
             try
             {
-                peticion.ActualizarLugarTuristico(lugar);
+              return peticion.InsertarLugarTuristico(lugar);
             }
             catch (BaseDeDatosExcepcion e)
             {
@@ -325,6 +207,159 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+          }
+          else
+          {
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        /// <summary>
+        /// Inserta una actividad asociada a un lugar turistico
+        /// </summary>
+        /// <param name="actividad">Objeto Actividad</param>
+        /// <param name="id">ID del lugar turistico</param>
+        /// <returns>ID de la actividad insertada</returns>
+        public int PostActividad(Actividad actividad, int id)
+        {
+          if (actividad != null)
+          {
+            peticion = new PeticionLugarTuristico();
+
+            try
+            {
+              return peticion.InsertarActividad(actividad, id);
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+          }
+          else
+          {
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        /// <summary>
+        /// Inserta un horario asociado a un lugar turistico
+        /// </summary>
+        /// <param name="horario">Objeto Horario</param>
+        /// <param name="id">ID del lugar turistico</param>
+        /// <returns>ID del horario insertado</returns>
+        public int PostHorario(Horario horario, int id)
+        {
+          if (horario != null)
+          {
+            peticion = new PeticionLugarTuristico();
+
+            try
+            {
+              return peticion.InsertarHorario(horario, id);
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+          }
+          else
+          {
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        /// <summary>
+        /// Inserta una foto asociada a un lugar turistico
+        /// </summary>
+        /// <param name="foto">Objeto Foto</param>
+        /// <param name="id">ID del lugar turistico</param>
+        /// <returns>ID de la foto insertada</returns>
+        public int PostFoto(Foto foto, int id)
+        {
+          if (foto != null)
+          {
+            peticion = new PeticionLugarTuristico();
+
+            try
+            {
+              return peticion.InsertarFoto(foto, id);
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+          }
+          else
+          {
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
+        }
+
+        //PUT
+
+        /// <summary>
+        /// Actualiza los datos del lugar turistico
+        /// </summary>
+        /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
+        public void PutLugar(LugarTuristico lugar)
+        {
+          if (lugar != null)
+          {
+            peticion = new PeticionLugarTuristico();
+
+            try
+            {
+              peticion.ActualizarLugarTuristico(lugar);
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+          }
+          else
+          {
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
+          }
         }
 
         /// <summary>
