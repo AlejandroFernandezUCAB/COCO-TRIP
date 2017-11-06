@@ -118,7 +118,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -179,7 +179,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -238,7 +238,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -298,7 +298,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -358,7 +358,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -409,7 +409,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -458,7 +458,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
@@ -506,7 +506,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
         var excepcion = new ReferenciaNulaExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);

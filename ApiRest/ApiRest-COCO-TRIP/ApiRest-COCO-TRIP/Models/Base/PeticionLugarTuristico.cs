@@ -64,6 +64,13 @@ namespace ApiRest_COCO_TRIP.Models.Base
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ReferenciaNulaExcepcion e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+        throw excepcion;
+      }
     }
 
     /// <summary>
