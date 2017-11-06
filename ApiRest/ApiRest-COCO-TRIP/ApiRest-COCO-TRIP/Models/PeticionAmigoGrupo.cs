@@ -92,25 +92,28 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-   public Usuario BuscarAmigo(string dato)
+   public List<Usuario> BuscarAmigo(string dato)
     {
-      Usuario usuario = new Usuario();
+      var listausuarios = new List<Usuario>();
       try
       {
         conexion.Conectar();
         conexion.Comando = conexion.SqlConexion.CreateCommand();
-        conexion.Comando.CommandText = "ConsultarListaAmigos";
+        conexion.Comando.CommandText = "BuscarAmigos";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, dato));
         leerDatos = conexion.Comando.ExecuteReader();
-        if (leerDatos.Read())
+        while (leerDatos.Read())
         {
+          var usuario = new Usuario();
           usuario.Nombre = leerDatos.GetString(0);
           usuario.NombreUsuario = leerDatos.GetString(1);
           if (!leerDatos.IsDBNull(2))
           {
             usuario.Foto[0] = leerDatos.GetByte(3);
           }
+
+          listausuarios.Add(usuario);
          
         }
 
@@ -126,7 +129,86 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
 
-      return usuario;
+      return listausuarios;
+    }
+
+    public List<Grupo> Listagrupo(int dato)
+    {
+      var listagrupos = new List<Grupo>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarListaGrupos";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, dato));
+        leerDatos = conexion.Comando.ExecuteReader();
+        while (leerDatos.Read())
+        {
+          var grupo = new Grupo();
+          grupo.Nombre = leerDatos.GetString(0);
+          if (!leerDatos.IsDBNull(1))
+          {
+            grupo.Foto[0] = leerDatos.GetByte(1);
+          }
+
+          listagrupos.Add(grupo);
+
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return listagrupos;
+    }
+
+
+    public Grupo ConsultarPerfilGrupo(int dato)
+    {
+      
+      var grupo = new Grupo();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarPerfilGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, dato));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          
+          grupo.Nombre = leerDatos.GetString(0);
+          if (!leerDatos.IsDBNull(1))
+          {
+            grupo.Foto[0] = leerDatos.GetByte(3);
+          }
+
+         
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return grupo;
     }
 
 
