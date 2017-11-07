@@ -129,7 +129,7 @@ BEGIN
 	RETURN QUERY SELECT
 	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
 	FROM usuario
-	WHERE us_nombreUsuario=_nombreUsuario AND us_validacion=true;
+	WHERE us_nombreUsuario=_nombreUsuario;
 END;
 $$ LANGUAGE plpgsql;
 

@@ -20,7 +20,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     private PeticionLogin peticion;
 
     // GET api/<controller>/<action>/id
-    [HttpGet]
+    [HttpPost]
     public int IniciarSesionCorreo(String datos)
     {
         usuario = JsonConvert.DeserializeObject<Usuario>(datos);
@@ -39,7 +39,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return usuario.Id;
      }
-    [HttpGet]
+    [HttpPost]
     public int IniciarSesionUsuario(String datos)
     {
         usuario = JsonConvert.DeserializeObject<Usuario>(datos);
@@ -58,7 +58,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return usuario.Id;
     }
-    [HttpGet]
+    [HttpPost]
     public int IniciarSesionSocial(String datos)
     {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
@@ -80,7 +80,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       return usuario.Id;
 
     }
-    [HttpGet]
+    [HttpPost]
     public HttpStatusCode CorreoRecuperar(String datos) {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
       peticion = new PeticionLogin();
@@ -89,15 +89,19 @@ namespace ApiRest_COCO_TRIP.Controllers
         usuario.Clave = peticion.RecuperarContrasena(usuario);
         if (usuario.Clave.Equals(""))
           throw new HttpResponseException(HttpStatusCode.NoContent);
-        MailMessage mail = new MailMessage("cocoSupport@cocotrip.com", usuario.Correo);
-        SmtpClient client = new SmtpClient();
-        client.Port = 25;
-        client.DeliveryMethod = SmtpDeliveryMethod.Network;
-        client.UseDefaultCredentials = false;
-        client.Host = "smtp.google.com";
-        mail.Subject = "Recuperacion de clave";
-        mail.Body = "Hemos recibido una solicitud de recuperacion de clave para tu correo en la aplicacion COCOTRIP. Su clave es : "+usuario.Clave;
-        client.Send(mail);
+        MailMessage mail = new MailMessage();
+        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+        mail.From = new MailAddress("cocotrip17@gmail.com");
+        mail.To.Add(usuario.Correo);
+        mail.Subject = "Recuperar contrasena";
+        mail.Body = "Querido Usuario, hemos recibido una solicitud para recuperar la contrasena de tu cuenta en cocotrip, esta es: "+usuario.Clave;
+
+        SmtpServer.Port = 587;
+        SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+        SmtpServer.EnableSsl = true;
+
+        SmtpServer.Send(mail);
 
       }
       catch (NpgsqlException)
@@ -107,6 +111,16 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (InvalidCastException)
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return HttpStatusCode.OK;
 

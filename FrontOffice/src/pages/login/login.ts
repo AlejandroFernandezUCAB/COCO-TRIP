@@ -7,6 +7,7 @@ import { RegisterPage } from '../register/register';
 import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
 import { LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { MenuController } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
  *
@@ -20,139 +21,106 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  userData: any;
   usuario: string;
   clave: string;
   vista: boolean;
+  toast: any;
+  userData: any;
+  alert: any;
+  loading : any;
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
-     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
-     public restapiService: RestapiService, public navParams: NavParams) {
+    public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
+    public restapiService: RestapiService,public menu: MenuController, public navParams: NavParams) {
     this.vista = false;
-    //this.getUser();
+   this.menu.enable(false);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
 
   login() {
-    this.userData={correo: this.usuario, clave: this.clave};
-    console.log("JSON ES: "+JSON.stringify(this.userData));
-    //if( usuario tiene @)
-    this.restapiService.iniciarSesion(this.userData)
-    .then(data => {
-      console.log("RESULTADO: "+this.userData);
-      if(data==0)
-      {
-      const toast = this.toastCtrl.create({
-        message: 'Error, datos incorrectos',
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-    }
-    else
-    {
-      this.navCtrl.setRoot(HomePage);
-    }
-      
-    });
-    /*else
-      this.restapiService.iniciarSesion(this.userData)
-    .then(data => {
-      console.log("RESULTADO: "+this.userData);
-      if(data==0)
-      {
-      const toast = this.toastCtrl.create({
-        message: 'Error, datos incorrectos',
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-    }
-    else
-    {
-      this.navCtrl.setRoot(HomePage);
-    }
-      
-    });*/
-  }
-  
-  facebookLogin() {
+    this.realizarLoading();
+    this.restapiService.iniciarSesion(this.usuario, this.clave)
+      .then(data => {
+        if (data == 0 || data == -1) {
+          this.loading.dismiss();
+          this.realizarToast('Error, datos incorrectos');
+          
+        }
+        else {
+          this.navCtrl.setRoot(HomePage);
+        }
 
+      });
+      //this.loading.dismiss();
+  }
+
+  realizarToast(mensaje){
+    this.toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    this.toast.present();
+  }
+  realizarLoading(){
+      this.loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      dismissOnPageChange: true
+    });
+  
+    this.loading.present();
+  
+  }
+  facebookLogin() {
+    this.realizarLoading();
     this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
       this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
-        this.userData = { correo: profile['email'], nombre: profile['first_name'], 
-        apellido: profile['last_name'], fechaNacimiento :profile['birthday'],
-         foto: profile['picture_large']['data']['url']};
-         console.log("JSON ES: "+JSON.stringify(this.userData));
-         this.restapiService.iniciarSesion(this.userData)
-         .then(data => {
-           console.log("RESULTADO: "+this.userData);
-           if(data==0)
-           {
-           const toast = this.toastCtrl.create({
-             message: 'Error, datos incorrectos',
-             duration: 3000,
-             position: 'top'
-           });
-           toast.present();
-         }
-         else
-         {
-           this.navCtrl.setRoot(HomePage);
-         }
-           
-         });
+        this.userData = {
+          correo: profile['email'], nombre: profile['first_name'],
+          apellido: profile['last_name'], fechaNacimiento: profile['birthday'],
+          foto: profile['picture_large']['data']['url']
+        };
+        console.log("JSON ES: " + JSON.stringify(this.userData));
+        this.restapiService.iniciarSesionFacebook(this.userData)
+          .then(data => {
+            if (data == 0 || data == -1) {
+              this.realizarToast('Error con Facebook');
+              this.loading.dismiss();
+            }
+            else {
+              this.navCtrl.setRoot(HomePage);
+            }
+
+          });
       });
     },
       (resultNegativoFacebook: FacebookLoginResponse) => {
-        const toast = this.toastCtrl.create({
-          message: 'Error, por favor intente de nuevo',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
+        this.toast.setMessage('Error, por favor intente de nuevo');
+        this.toast.present();
 
       }
     );
   }
 
-  googleLogin() 
-  {
+  googleLogin() {
     this.navCtrl.setRoot(HomePage);
   }
 
-  registrar() 
-  {
+  registrar() {
     this.navCtrl.push(RegisterPage);
   }
 
-  presentLoadingDefault()
-   {
-    const loading = this.loadingCtrl.create({
-      content: 'Por favor, espere...',
-      duration: 5000
-    });
-    loading.onDidDismiss(() => {
-      this.navCtrl.setRoot(HomePage);
-    });
-    loading.present();
-  }
-  Otros()
-   {
+  
+  Otros() {
     if (this.vista == true)
       this.vista = false;
     else
       this.vista = true;
   }
-  getVista() 
-  {
+  getVista() {
     return (this.vista);
   }
 
-  presentPrompt() 
-  {
+  presentPrompt() {
     const alert = this.alertCtrl.create({
       title: 'Recuperar clave',
       message: 'Introduza su correo para recuperar su clave',
@@ -166,27 +134,19 @@ export class LoginPage {
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          role: 'cancel'
         },
         {
           text: 'Enviar',
           handler: data => {
-            const toast = this.toastCtrl.create({
-              duration: 5000,
-              position: 'top'
-            });
-            if (data.correo) {
-              toast.setMessage('Se le ha enviado un correo para recuperar la clave');
-              toast.present();
+            if (data.correo.includes("@") )
+            {
+              this.realizarToast('Se le ha enviado un correo para recuperar la clave');
             }
-            else{
-              toast.setMessage('Por favor, escriba un correo valido');
-              toast.present();
+            else 
+            {
+              this.realizarToast('Por favor, escriba un correo valido');
               return false;
-
             }
           }
         }
