@@ -135,9 +135,41 @@ CREATE TABLE LT_Foto
 );
 --Fin de modulo 
 --Modulo 8
+create table evento
+(
+	ev_id int primary key,
+	ev_nombre varchar(100) not null,
+	ev_descripcion varchar(500),
+	ev_precio int,
+	ev_fecha_inicio timestamp,
+	ev_fecha_fin timestamp,
+	ev_hora_inicio time,
+	ev_hora_fin time,
+	ev_foto bytea,
+	ev_localidad int,
+	ev_categoria int
+);
+
+
+create table localidad
+(
+	lo_id int primary key,
+	lo_nombre varchar(200),
+	lo_descripcion varchar(500),
+	lo_lugar varchar (500)
+);
 --Fin de modulo 
 --Modulo 9
---Fin de modulo  
+CREATE TABLE categoria 
+(
+  ca_id integer NOT NULL,
+  ca_nombre character varying(20) not null,
+  ca_descripcion character varying(100) not null,
+  ca_status boolean not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+--Fin de modulo 9
 
 --ALTERS
 --Modulo 1
@@ -155,8 +187,14 @@ CREATE TABLE LT_Foto
 --Modulo 7
 --Fin de modulo 
 --Modulo 8
+alter table evento add constraint fk_categoria foreign key (ev_categoria) references categoria (ca_id);
+alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id);
 --Fin de modulo 
 --Modulo 9
+
+ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
+ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
+
 --Fin de modulo
 
 --SEQUENCES
@@ -189,6 +227,13 @@ CREATE SEQUENCE SEQ_LT_Foto;
 --Modulo 8
 --Fin de modulo 
 --Modulo 9
+CREATE SEQUENCE SEQ_Categoria
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 --Fin de modulo 
 
 --INDEX
@@ -215,6 +260,28 @@ CREATE INDEX IX_LT_HORARIO ON lt_horario (fk_ho_lugar_turistico, ho_id);
 CREATE INDEX IX_LT_FOTO ON lt_foto (fk_fo_lugar_turistico, fo_id);
 --Fin de modulo 
 --Modulo 8
+CREATE SEQUENCE SEQ_Evento
+
+	START WITH 1
+
+	INCREMENT BY 1
+
+	NO MINVALUE
+
+	NO MAXVALUE
+
+	CACHE 1;
+
+
+CREATE SEQUENCE SEQ_Localidad
+
+	START WITH 1
+
+	INCREMENT BY 1
+
+	NO MINVALUE
+	NO MAXVALUE
+	CACHE 1;
 --Fin de modulo 
 --Modulo 9
 --Fin de modulo 

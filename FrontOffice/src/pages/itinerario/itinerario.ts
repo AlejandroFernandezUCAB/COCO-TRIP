@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertControl
 import { CalendarioPage } from '../calendario/calendario';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
+import { HttpCProvider } from '../../providers/http-c/http-c';
 /**
  * Generated class for the ItinerarioPage page.
  *
@@ -25,6 +26,7 @@ export class ItinerarioPage {
   count = 0;
   minDate= new Date().toISOString();
   its= Array();
+  users: any;
   list = false;
   nuevoViejo = true;
   mySlideOptions = {
@@ -40,23 +42,29 @@ export class ItinerarioPage {
     public navParams: NavParams,
     private modalCtrl: ModalController,
     public alertCtrl: AlertController,
-    public itinerarios: EventosCalendarioService
+    public itinerarios: EventosCalendarioService,
+    public httpc: HttpCProvider
   ) {
     //this.its = Array();
     //this.its.eventos=Array();
     for (let x = 0; x < 5; x++) {
       this.items.push(x);
     }
-
+    this.loadItinerarios();
     if (this.its == undefined){
       this.noIts = true;
       }
   }
 
 
-  // goToSlide(index) {
-  //   this.slides.slideTo(1 ,500);
-  // }
+  loadItinerarios() {
+    this.httpc.loadItinerarios(2)
+    .then(data => {
+      this.users = data;
+      console.log(this.users);
+    });
+  }
+
   calendar() {
     this.navCtrl.push(CalendarioPage, {itinerarios: this.its});
   }
