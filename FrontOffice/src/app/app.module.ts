@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { NgCalendarModule } from 'ionic2-calendar';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook'
@@ -59,6 +58,7 @@ import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
 import { Firebase } from '@ionic-native/firebase';
 import { RestapiService } from '../providers/restapi-service/restapi-service';
+import { HttpCProvider } from '../providers/http-c/http-c';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -97,7 +97,6 @@ export function createTranslateLoader(http: HttpClient) {
     NuevosIntegrantesPage
   ],
   imports: [
-    NgCalendarModule,
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(CocoTrip),
@@ -150,7 +149,8 @@ export function createTranslateLoader(http: HttpClient) {
     Facebook,
     EventosCalendarioService,
     Firebase,
-    RestapiService
+    RestapiService,
+    HttpCProvider
   ]
 })
 export class AppModule {}

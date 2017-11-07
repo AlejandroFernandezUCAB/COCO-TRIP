@@ -7,7 +7,7 @@ using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
 
-namespace ApiRest_COCO_TRIP.Models.Base
+namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   /// <summary>
   /// Clase que gestiona la conexion entre la base de datos y la logica de negocios del modulo 7

@@ -4,7 +4,7 @@ using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System;
 
-namespace ApiRest_COCO_TRIP.Models.Base
+namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   /// <summary>
   /// Clase que realiza peticiones a la base de datos a traves de la clase Conexion

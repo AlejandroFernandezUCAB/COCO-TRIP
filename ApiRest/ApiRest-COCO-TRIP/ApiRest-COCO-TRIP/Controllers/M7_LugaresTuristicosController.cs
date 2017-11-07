@@ -2,9 +2,9 @@ using System.Net;
 using System.Web.Http;
 using System.Reflection;
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Models.Base;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
