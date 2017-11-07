@@ -4,7 +4,7 @@ using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System;
 
-namespace ApiRest_COCO_TRIP.Models.Base
+namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   /// <summary>
   /// Clase que realiza peticiones a la base de datos a traves de la clase Conexion
@@ -45,12 +45,9 @@ namespace ApiRest_COCO_TRIP.Models.Base
           conexion.InsertarFoto(elemento, lugarTuristico.Id);
         }
 
-        if (lugarTuristico.Actividad != null)
+        foreach (Actividad elemento in lugarTuristico.Actividad)
         {
-          foreach (Actividad elemento in lugarTuristico.Actividad)
-          {
-            conexion.InsertarActividad(elemento, lugarTuristico.Id);
-          }
+          conexion.InsertarActividad(elemento, lugarTuristico.Id);
         }
 
         conexion.Desconectar();
@@ -63,6 +60,11 @@ namespace ApiRest_COCO_TRIP.Models.Base
         throw e;
       }
       catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
@@ -92,6 +94,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
     }
 
     /// <summary>
@@ -117,6 +129,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
     }
 
     /// <summary>
@@ -138,6 +160,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         return foto.Id;
       }
       catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
@@ -183,6 +215,11 @@ namespace ApiRest_COCO_TRIP.Models.Base
         throw e;
       }
       catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;

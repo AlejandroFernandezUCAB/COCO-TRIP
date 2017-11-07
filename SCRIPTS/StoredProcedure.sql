@@ -49,7 +49,7 @@ $$ LANGUAGE plpgsql;
 
 -- Consulta un usuario por su nombre de usuario y clave
 -- devuelve los datos del usuario
-CREATE OR REPLACE FUNCTION ConsultarUsuarioNombre(_nombreUusario varchar, _clave varchar)
+CREATE OR REPLACE FUNCTION ConsultarUsuarioNombre(_nombreUsuario varchar, _clave varchar)
 RETURNS TABLE
   (id integer,
    nombreUsuario varchar,
@@ -109,7 +109,7 @@ BEGIN
 	RETURN QUERY SELECT
 	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
 	FROM usuario
-	WHERE us_email=_correo AND us_validacion=false;
+	WHERE us_email=_correo;
 END;
 $$ LANGUAGE plpgsql;
 --Consulta el usuario por su nombre de usuario sin clave
@@ -136,16 +136,14 @@ $$ LANGUAGE plpgsql;
 --Recupera la contrasena de un usuario con su correo
 -- devuelve la clave del usuario
 CREATE OR REPLACE FUNCTION RecuperarContrasena(_correo varchar)
-RETURNS varchar AS $$
+RETURNS TABLE(clave varchar)
+AS $$
 DECLARE clave VARCHAR(20);
 BEGIN
 
-
-	SELECT us_password
-	INTO clave
-	FROM usuario WHERE us_email = _correo;
-
-	RETURN clave;
+	RETURN QUERY SELECT
+  us_password
+	FROM usuario WHERE us_email = _correo AND us_validacion=true;
 
 END;
 $$ LANGUAGE plpgsql;

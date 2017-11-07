@@ -27,6 +27,7 @@ import { ChangepassPage } from '../pages/changepass/changepass';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -56,6 +57,7 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
 import { Firebase } from '@ionic-native/firebase';
+import { RestapiService } from '../providers/restapi-service/restapi-service';
 import { HttpCProvider } from '../providers/http-c/http-c';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -106,7 +108,8 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     CloudModule.forRoot(cloudSettings),
-    CalendarModule
+    CalendarModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -146,6 +149,7 @@ export function createTranslateLoader(http: HttpClient) {
     Facebook,
     EventosCalendarioService,
     Firebase,
+    RestapiService,
     HttpCProvider
   ]
 })

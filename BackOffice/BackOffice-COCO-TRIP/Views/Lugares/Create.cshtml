@@ -107,6 +107,34 @@
 
                   </div>
 
+                  <div class="row row-table">
+                    <table class="table table-hover table-responsive">
+                      <thead>
+                        <tr>
+                          <th>Nombre Categor&iacute;a</th>
+                          <th>Nombre Subcategor&iacute;a</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Parque</td>
+                          <td>Zool&oacute;gico</td>
+                          <td>
+                            <a class="btn btn-danger borrar">Eliminar</a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Todas las edades</td>
+                          <td>mayores de 9 a&ntilde;os</td>
+                          <td>
+                            <a class="btn btn-danger borrar">Eliminar</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
 
                 </div>
               </div>
@@ -179,6 +207,37 @@
                     </div>
                   </div>
 
+                  <div class="row row-table">
+                    <table class="table table-hover table-responsive">
+                      <thead>
+                        <tr>
+                          <th>D&iacute;a</th>
+                          <th>Hora Apertura</th>
+                          <th>Hora Cierre</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Lunes</td>
+                          <td>8:00 a.m.</td>
+                          <td>7:00 p.m.</td>
+                          <td>
+                            <a class="btn btn-danger borrar">Eliminar</a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Domingo</td>
+                          <td>7:00 a.m.</td>
+                          <td>8:00 p.m.</td>
+                          <td>
+                            <a class="btn btn-danger borrar">Eliminar</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -218,7 +277,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInputName2">Duración(min)</label>
+                          <label for="exampleInputName2">Duraci&oacute;n(min)</label>
                           <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
                         </div>
                       </div>
@@ -240,7 +299,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput">Descripción</label>
+                          <label for="exampleInput">Descripci&oacute;n</label>
                           <textarea class="form-control"></textarea>
                         </div>
                       </div>
@@ -258,7 +317,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInputName2">Duración(min)</label>
+                          <label for="exampleInputName2">Duraci&oacute;n(min)</label>
                           <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
                         </div>
                       </div>
@@ -279,7 +338,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput2">Descripción</label>
+                          <label for="exampleInput2">Descripci&oacute;n</label>
                           <textarea class="form-control"></textarea>
                         </div>
                       </div>
@@ -297,7 +356,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInputName2">Duración(min)</label>
+                          <label for="exampleInputName2">Duraci&oacute;n(min)</label>
                           <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
                         </div>
                       </div>
@@ -318,7 +377,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput3">Descripción</label>
+                          <label for="exampleInput3">Descripci&oacute;n</label>
                           <textarea class="form-control"></textarea>
                         </div>
                       </div>
@@ -336,7 +395,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInputName2">Duración(min)</label>
+                          <label for="exampleInputName2">Duraci&oacute;n(min)</label>
                           <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
                         </div>
                       </div>
@@ -357,7 +416,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput4">Descripción</label>
+                          <label for="exampleInput4">Descripci&oacute;n</label>
                           <textarea class="form-control"></textarea>
                         </div>
                       </div>
@@ -427,3 +486,7 @@
     </form>
   </div>
 </div>
+
+@section scripts {
+  @Scripts.Render("~/bundles/Lugares_delete-line-tableJS")
+}
