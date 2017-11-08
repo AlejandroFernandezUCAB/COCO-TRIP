@@ -27,10 +27,10 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
     [HttpGet]
-    public string AgregarAmigo(String idUsuario1, String idUsuario2)
+    public string AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
     {
       peticion = new PeticionAmigoGrupo();
-      peticion.AgregarAmigosBD(Convert.ToInt32(idUsuario1), Convert.ToInt32(idUsuario2));
+      peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);//acomodar
       return "1";
     }
 
@@ -66,10 +66,10 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     [HttpDelete]
-    public bool SalirGrupo(string idGrupo, string idUsuario)
+    public bool SalirGrupo(string idGrupo, string nombreUsuario)
     {
       peticion = new PeticionAmigoGrupo();
-      return peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
+      return peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
 
     }
 
@@ -194,6 +194,32 @@ namespace ApiRest_COCO_TRIP.Controllers
       peticion = new PeticionAmigoGrupo();
       return peticion.ConsultarPerfilGrupo(Convert.ToInt32(id));
 
+    }
+
+    /// <summary>
+    /// Procedimiento para agregar un integrante al modificar el grupo
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
+    /// <returns></returns>
+    [HttpGet]
+    public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.AgregarIntegranteModificarBD(idGrupo, nombreUsuario);
+    }
+
+    /// <summary>
+    /// Procedimiento para eliminar un integrante del grupo al modificar
+    /// </summary>
+    /// <param name="nombreUsuario"></param>
+    /// <param name="idGrupo"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public int EliminarIntegranteModificar(string nombreUsuario, int idGrupo)
+    {
+      peticion = new PeticionAmigoGrupo();
+      return peticion.EliminarIntegranteModificarBD(nombreUsuario, idGrupo);
     }
 
   }
