@@ -31,17 +31,25 @@ namespace ApiRest_COCO_TRIP.Models
       return parametro;
     }
 
-    public void AgregarAmigosBD(int idUsuario1, int idUsuario2)
+    public int AgregarAmigosBD(string nobmreUsuario, string nombreAmigo)
     {
+      int respuesta = 0;
+      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
+      int idAmigo = ObtenerIdUsuario(nombreAmigo);
       try
       {
         conexion.Conectar();
+        
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandText = "AgregarAmigo";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario1));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario2));
-        conexion.Comando.ExecuteReader();
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idAmigo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          respuesta = leerDatos.GetInt32(0);
+        }
         conexion.Desconectar();
       }
       catch (NpgsqlException e)
@@ -52,10 +60,13 @@ namespace ApiRest_COCO_TRIP.Models
       {
         throw e;
       }
+      return respuesta;
     }
 
-    public bool SalirGrupoBD(int idGrupo, int idUsuario)
+    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
     {
+
+      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
       try
       {
         conexion.Conectar();
@@ -445,6 +456,13 @@ namespace ApiRest_COCO_TRIP.Models
       return id;
     }
 
+    /// <summary>
+    /// Metodo para modificar los atributos de un grupo
+    /// </summary>
+    /// <param name="nombreGrupo">El nombre del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario que modificara el grupo</param>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <returns></returns>
     public int ModificarGrupoBD(string nombreGrupo, string nombreUsuario, /*byte foto,*/ int idGrupo)
     {
       int result = 0;
@@ -477,5 +495,84 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return result;
     }
+
+    /// <summary>
+    /// Metodo para eliminar un integrante de un grupo al modificar
+    /// </summary>
+    /// <param name="nombreUsuario">Nombre del usuario a eliminar</param>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <returns></returns>
+    public int EliminarIntegranteModificarBD(string nombreUsuario, int idGrupo)
+    {
+      int result = 0;
+      int idUsuario = ObtenerIdUsuario(nombreUsuario);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "eliminarintegrante";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          result = leerDatos.GetInt32(0);
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return result;
+    }
+
+    /// <summary>
+    /// Metodo que se encarga de agregar un integrante al grupo
+    /// cuando se va a modificar
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
+    /// <returns></returns>
+    public int AgregarIntegranteModificarBD(int idGrupo, string nombreUsuario)
+    {
+      int result = 0;
+      int idUsuario = ObtenerIdUsuario(nombreUsuario);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "agregarIntegrante";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          result = leerDatos.GetInt32(0);
+          
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return result;
+    }
+
+
   }
 }
