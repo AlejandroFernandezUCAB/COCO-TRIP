@@ -11,20 +11,17 @@ namespace ApiRestPruebas
     [TestCase]
     public void Prueba_AgregarItinerario()
     {
-      DateTime fechaini = new DateTime(2017, 05, 28);
-      DateTime fechafin = new DateTime(2019, 05, 28);
-      Itinerario itinerario = new Itinerario("Michel", fechaini, fechafin, 1);
+      string itinerario = @"{""Nombre"":""Michel"",""IdUsuario"":""1""}";
       M5Controller controller = new M5Controller();
-      itinerario = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(50, itinerario.Id);//siempre poner el numero del id que se va a agregar para esta pruba
+      Itinerario it= controller.AgregarItinerario(itinerario);
+      Assert.AreEqual(14, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
     }
 
     [TestCase]
     public void Prueba_EliminarItinerario()
     {
-      Itinerario itinerario = new Itinerario(10);
       M5Controller controller = new M5Controller();
-      Boolean x = controller.EliminarItinerario(itinerario);
+      Boolean x = controller.EliminarItinerario(9);
       Assert.AreEqual(true, x);
     }
 

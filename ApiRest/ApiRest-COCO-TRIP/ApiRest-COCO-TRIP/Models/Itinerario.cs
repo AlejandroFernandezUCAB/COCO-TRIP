@@ -48,6 +48,12 @@ namespace ApiRest_COCO_TRIP.Models
       fechaFin = fechafin;
       idUsuario = idusuario;
     }
+    public Itinerario(string nombre, int idusuario)
+    {
+      this.nombre = nombre;
+      this.idUsuario = idusuario;
+    }
+
     public Itinerario(int id)
     {
       this.id = id;
@@ -298,8 +304,6 @@ namespace ApiRest_COCO_TRIP.Models
         NpgsqlCommand comm = new NpgsqlCommand("add_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaInicio);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaFin);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.IdUsuario);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
@@ -323,7 +327,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="it">el itinerario a eliminar</param>
     /// <returns>true si elimina existosamente, false en caso de error</returns>
-    public Boolean EliminarItinerario(Itinerario it)
+    public Boolean EliminarItinerario(int id)
     {
       try
       {
@@ -331,7 +335,7 @@ namespace ApiRest_COCO_TRIP.Models
         con.Conectar();
         NpgsqlCommand comm = new NpgsqlCommand("del_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);

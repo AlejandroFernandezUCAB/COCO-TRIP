@@ -40,5 +40,20 @@ loadItinerarios(id_usuario) {
 //   });
 // }
 
+agregarItinerario(itinerario){
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });  
+}
+
+eliminarItinerario(itinerario,usuario){
+
+
+  
+}
 
 }

@@ -26,6 +26,7 @@ export class ItinerarioPage {
   count = 0;
   minDate= new Date().toISOString();
   its= Array();
+  newitinerario: any;
   users: any;
   list = false;
   nuevoViejo = true;
@@ -58,7 +59,7 @@ export class ItinerarioPage {
 
 
   loadItinerarios() {
-    this.httpc.loadItinerarios(2)
+    this.httpc.loadItinerarios(1)
     .then(data => {
       this.users = data;
       console.log(this.users);
@@ -99,7 +100,9 @@ export class ItinerarioPage {
               this.its.push({
                 nombre: data.Nombre,
                 eventos: Array()
-              });
+              });                
+              let newitinerario ={ Nombre:data.Nombre,IdUsuario:1 } 
+              this.httpc.agregarItinerario(newitinerario)                 
               //this.its[this.its.length].eventos = Array();
             } else {
               // invalid login
@@ -128,6 +131,7 @@ export class ItinerarioPage {
         text: 'Aceptar',
         handler: () => {
           this.eliminarItinerario(id, index);
+          
           }
         }
       ]
@@ -170,6 +174,7 @@ export class ItinerarioPage {
      if (this.its.length == 0){
        this.noIts = true;
        console.log("no its")
+    
      }
    }
 

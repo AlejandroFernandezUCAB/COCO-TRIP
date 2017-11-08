@@ -8,27 +8,30 @@ using System.Collections.Generic;
 using System.Web;
 using System.Net;
 using System.Web.Http.Cors;
+using Newtonsoft.Json;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
+  [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M5Controller : ApiController
   {
-    List<Itinerario> itinerarios = new List<Itinerario>();
-    
+
+    List<Itinerario> itinerarios = new List<Itinerario>();  
     Itinerario itinerario = new Itinerario();
 
    
-    [HttpPost]
+    [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
+      //Itinerario itinerarios = JsonConvert.DeserializeObject<Itinerario>(it);
       return itinerario.AgregarItinerario(it);
     }
 
    
     [HttpDelete]
-    public Boolean EliminarItinerario(Itinerario it)
+    public Boolean EliminarItinerario(int id)
     {
-      return itinerario.EliminarItinerario(it);
+      return itinerario.EliminarItinerario(id);
     }
 
     [HttpPost]
