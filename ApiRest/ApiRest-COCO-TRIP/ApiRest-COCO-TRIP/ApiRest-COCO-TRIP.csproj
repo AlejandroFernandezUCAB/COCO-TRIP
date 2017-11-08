@@ -109,6 +109,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PreferenciasController.cs" />
+    <Compile Include="Controllers\M3_AmigosGruposController.cs" />
     <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M7_LugaresTuristicosController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
+    <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\Itinerario.cs" />
     <Compile Include="Models\BaseDeDatos\ConexionLugarTuristico.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionLugarTuristico.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Models\Dato\Foto.cs" />
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
+    <Compile Include="Models\PeticionAmigoGrupo.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
