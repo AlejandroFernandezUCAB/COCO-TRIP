@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Controllers;
 using Npgsql;
 using Newtonsoft.Json;
 using System.Web.Http;
+using System.Net;
 
 namespace ApiRestPruebas
 {
@@ -29,7 +30,7 @@ namespace ApiRestPruebas
         Genero = "M",
         NombreUsuario = "pepo",
         FechaNacimiento = new DateTime(2017, 03, 09),
-        Correo = "pepo@gmail.com",
+        Correo = "kilordpepo@gmail.com",
         Clave = "pruebaclave",
         Foto = new byte[28480]
       };
@@ -136,7 +137,7 @@ namespace ApiRestPruebas
     //TERMINAR, FALTA PROBAR NpgsqlException
     [Test]
     [Category("Controlador")]
-    public void TestIniciarSesion()
+    public void TestIniciarSesionCorreo()
     {
 
       Assert.AreEqual(1, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
@@ -144,6 +145,66 @@ namespace ApiRestPruebas
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
       });
+      usuario.Correo = "kilordpepo@gmail.com";
+      usuario.Clave = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
+      });
+    }
+
+    [Test]
+    [Category("Controlador")]
+    public void TestIniciarSesionUsuario()
+    {
+
+      Assert.AreEqual(1, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
+      usuario.NombreUsuario = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.NombreUsuario = "pepo";
+      usuario.Clave = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
+      });
+    }
+
+    [Test]
+    [Category("Controlador")]
+    public void TestIniciarSesionSocial()
+    {
+
+      Assert.AreEqual(1, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+  
+    }
+    [Test]
+    [Category("Controlador")]
+    public void TestCorreoRecuperar()
+    {
+      Assert.AreEqual(HttpStatusCode.OK, controlador.CorreoRecuperar(JsonConvert.SerializeObject(usuario)));
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+     
+    }
+    //CORRER SOLO CUANDO NO TIENES CONEXION
+    [Test]
+    [Category("Controlador")]
+    public void TestCorreoRecuperarSinConexion()
+    {
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+
+      /*Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+      */
     }
 
   }
