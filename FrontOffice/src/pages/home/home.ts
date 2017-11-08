@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import * as moment from 'moment';
+import { MenuController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -56,8 +57,9 @@ its2: Array<any> = [{
   distancia: '3 km'
 }];
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,public menu: MenuController) {
     //console.log(this.its2);
+    this.menu.enable(true);
   }
  
 

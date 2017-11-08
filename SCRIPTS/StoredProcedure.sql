@@ -1,7 +1,7 @@
 
 
 /**
-Procedimientos del Modulo (1) de Login de Uusario, Registro de Usuario y Home
+Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
 
 Autores:
   Carlos Valero
