@@ -50,6 +50,19 @@ namespace ApiRestPruebas
         });
      
     }
+    [Test]
+    [Category("Insertar")]
+    public void TestInsertarUsuario()
+    {
+      Assert.AreEqual(1, peticion.InsertarUsuario(usuario));
+      Assert.Throws<PostgresException>(() => {
+        peticion.InsertarUsuario(usuario);
+      });
+      Assert.Throws<InvalidCastException>(() => {
+        usuario.Nombre = null;
+        peticion.InsertarUsuario(usuario);
+      });
+    }
 
     [Test]
     [Category("Consultar")]

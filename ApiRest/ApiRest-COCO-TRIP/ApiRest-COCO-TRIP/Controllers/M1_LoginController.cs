@@ -81,6 +81,35 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
     [HttpPost]
+    public int RegistrarUsuario(String datos)
+    {
+      usuario = JsonConvert.DeserializeObject<Usuario>(datos);
+      peticion = new PeticionLogin();
+      try
+      {
+        usuario.Id = peticion.ConsultarUsuarioSocial(usuario);
+        if (usuario.Id == 0)
+        {
+          usuario.Id = peticion.ConsultarUsuarioSoloNombre(usuario);
+          if (usuario.Id == 0)
+          { usuario.Id = peticion.InsertarUsuario(usuario); }
+          else
+          { usuario.Id = -2; }
+        }
+        else
+        { usuario.Id = -1; }
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      return usuario.Id;
+    }
+    [HttpPost]
     public HttpStatusCode CorreoRecuperar(String datos) {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
       peticion = new PeticionLogin();
