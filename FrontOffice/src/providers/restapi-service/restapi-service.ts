@@ -12,20 +12,42 @@ import 'rxjs/add/operator/map';
 export class RestapiService {
   apiUrl = 'http://localhost:8091/api';
   data : any;
-  Origin: any;
+  userData: any;
   constructor(public http: Http) {
-    console.log('Hello Restapi Provider');
   }
-  iniciarSesion(usuario) 
+  iniciarSesion(usuario,clave) 
   {  
+
+    if(usuario.includes("@")){
+      this.userData={correo : usuario, clave : clave};
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/M1_Login/iniciarsesioncorreo/?datos='+JSON.stringify(usuario))
+      this.http.post(this.apiUrl+'/M1_Login/iniciarsesioncorreo/?datos='+JSON.stringify(this.userData),"")
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
           resolve(this.data);
+        },error=>{
+          resolve(-1);
+
         });
     });
+    }
+    else
+    {
+      this.userData={nombreUsuario : usuario, clave : clave};
+      return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M1_Login/iniciarsesionusuario/?datos='+JSON.stringify(this.userData),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+
+      });
+     });
+
+    }
   }
 
   iniciarSesionFacebook(usuario)
@@ -36,6 +58,9 @@ export class RestapiService {
         .subscribe(data => {
           this.data = data;
           resolve(this.data);
+        },error=>{
+          resolve(-1);
+
         });
     });
   }
