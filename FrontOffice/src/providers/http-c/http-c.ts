@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:8091/api';
+apiUrl = 'http://localhost:51049/api';
   constructor(public http: HttpClient) {
   console.log('Hello RestServiceProvider Provider');
 }
@@ -50,10 +50,6 @@ agregarItinerario(itinerario){
   });  
 }
 
-eliminarItinerario(itinerario,usuario){
 
-
-  
-}
 
 }

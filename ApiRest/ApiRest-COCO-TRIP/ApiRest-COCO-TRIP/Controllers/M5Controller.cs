@@ -23,7 +23,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-      //Itinerario itinerarios = JsonConvert.DeserializeObject<Itinerario>(it);
       return itinerario.AgregarItinerario(it);
     }
 
