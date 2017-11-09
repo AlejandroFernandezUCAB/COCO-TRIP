@@ -16,27 +16,27 @@ namespace ApiRest_COCO_TRIP.Controllers
   public class M5Controller : ApiController
   {
 
-    List<Itinerario> itinerarios = new List<Itinerario>();  
-    Itinerario itinerario = new Itinerario();
+    List<Itinerario> itinerarios = new List<Itinerario>();
+    private PeticionItinerario peti = new PeticionItinerario(); //preguntar
 
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-      return itinerario.AgregarItinerario(it);
+      return peti.AgregarItinerario(it);
     }
 
    
     [HttpDelete]
     public Boolean EliminarItinerario(int id)
     {
-      return itinerario.EliminarItinerario(id);
+      return peti.EliminarItinerario(id);
     }
 
     [HttpPost]
     public Boolean ModificarItinerario(Itinerario it)
     {
-      return itinerario.ModificarItinerario(it);
+      return peti.ModificarItinerario(it);
     }
 
  /* [HttpGet]
@@ -49,14 +49,14 @@ namespace ApiRest_COCO_TRIP.Controllers
    [HttpPost]
     public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
     {
-      return itinerario.AgregarActividad_It(it, ac);
+      return peti.AgregarActividad_It(it, ac);
     }
 
     
     [HttpPost]
     public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
     {
-      return itinerario.AgregarLugar_It(it, lt);
+      return peti.AgregarLugar_It(it, lt);
     }
 
   /*[HttpDelete]
@@ -69,7 +69,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpDelete]
     public Boolean EliminarActividad_It(Itinerario it, Actividad ac)
     {
-      return itinerario.EliminarActividad_It(it, ac);
+      return peti.EliminarActividad_It(it, ac);
     }
 
     
@@ -77,7 +77,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     public Boolean EliminarLugar_It(Itinerario it, LugarTuristico lt)
     {
 
-      return itinerario.EliminarLugar_It(it, lt);
+      return peti.EliminarLugar_It(it, lt);
     }
     
 
@@ -85,7 +85,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public List<Itinerario> ConsultarItinerarios(int id_usuario)
     {
-        return itinerario.ConsultarItinerarios(id_usuario);
+        return peti.ConsultarItinerarios(id_usuario);
     }
 
 
