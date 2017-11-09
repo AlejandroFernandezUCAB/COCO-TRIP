@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="M1\PruebasLogin.cs" />
     <Compile Include="M2\M2UnitTest.cs" />
+    <Compile Include="M3\M3UnitTest.cs" />
     <Compile Include="M5\M5UnitTests.cs" />
     <Compile Include="M7\Base\PruebaConexion.cs" />
     <Compile Include="M7\Base\PruebaPeticion.cs" />
@@ -72,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Library\" />
-    <Folder Include="M3\" />
     <Folder Include="M4\" />
     <Folder Include="M6\" />
     <Folder Include="M8\" />
@@ -83,9 +83,6 @@
       <Project>{2b0950d9-df8d-460c-a46d-d9be5ec9d6ce}</Project>
       <Name>ApiRest-COCO-TRIP</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="M7\Nota.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

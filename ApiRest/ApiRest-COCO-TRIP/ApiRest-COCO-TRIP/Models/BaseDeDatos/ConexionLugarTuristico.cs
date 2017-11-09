@@ -7,7 +7,7 @@ using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
 
-namespace ApiRest_COCO_TRIP.Models.Base
+namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   /// <summary>
   /// Clase que gestiona la conexion entre la base de datos y la logica de negocios del modulo 7
@@ -43,6 +43,16 @@ namespace ApiRest_COCO_TRIP.Models.Base
         excepcion.DatosAsociados = "Fallo de conexion con la base de datos";
 
         throw excepcion;
+      }
+      catch (InvalidOperationException e)
+      {
+        //La conexion ya estaba abierta
+        //Se debe registrar en NLog este evento
+
+        /*Solo sucede cuando ocurre una excepcion y, en vez de retornar el estado
+         de la peticion al cliente (cosa que nunca sucede) se realiza otra llamada
+         a la base de datos. Esta excepcion se disparo durante la ejecucion de
+         las pruebas unitarias que testean las excepciones.*/
       }
     }
 
@@ -118,6 +128,13 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+        throw excepcion;
+      }
     }
 
     /// <summary>
@@ -158,7 +175,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
         var excepcion = new BaseDeDatosExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = DocumentarErrorActividad(actividad);
-        excepcion.DatosAsociados = " " + "idLugarTuristico " + idLugarTuristico;
+        excepcion.DatosAsociados += " " + "idLugarTuristico " + idLugarTuristico;
 
         throw excepcion;
       }
@@ -167,7 +184,14 @@ namespace ApiRest_COCO_TRIP.Models.Base
         var excepcion = new CasteoInvalidoExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = DocumentarErrorActividad(actividad);
-        excepcion.DatosAsociados = " " + "idLugarTuristico " + idLugarTuristico;
+        excepcion.DatosAsociados += " " + "idLugarTuristico " + idLugarTuristico;
+
+        throw excepcion;
+      }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
       }
@@ -209,7 +233,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
         var excepcion = new BaseDeDatosExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = DocumentarErrorHorario(horario);
-        excepcion.DatosAsociados = " " + "idLugarturistico " + idLugarTuristico;
+        excepcion.DatosAsociados += " " + "idLugarturistico " + idLugarTuristico;
 
         throw excepcion;
       }
@@ -218,7 +242,14 @@ namespace ApiRest_COCO_TRIP.Models.Base
         var excepcion = new CasteoInvalidoExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = DocumentarErrorHorario(horario);
-        excepcion.DatosAsociados = " " + "idLugarturistico " + idLugarTuristico;
+        excepcion.DatosAsociados += " " + "idLugarturistico " + idLugarTuristico;
+
+        throw excepcion;
+      }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
       }
@@ -269,7 +300,14 @@ namespace ApiRest_COCO_TRIP.Models.Base
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = "Datos: ";
         excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico + " ";
-        excepcion.DatosAsociados += "Foto (size) " + foto.Contenido.Length;
+        //excepcion.DatosAsociados += "Foto (size) " + foto.Contenido.Length;
+
+        throw excepcion;
+      }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
       }
@@ -310,7 +348,7 @@ namespace ApiRest_COCO_TRIP.Models.Base
         var excepcion = new BaseDeDatosExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = DocumentarErrorLugarTuristico(lugarTuristico);
-        excepcion.DatosAsociados = " " + "Id " + lugarTuristico.Id;
+        excepcion.DatosAsociados += " " + "Id " + lugarTuristico.Id;
 
         throw excepcion;
       }
@@ -319,7 +357,14 @@ namespace ApiRest_COCO_TRIP.Models.Base
         var excepcion = new CasteoInvalidoExcepcion(e);
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = DocumentarErrorLugarTuristico(lugarTuristico);
-        excepcion.DatosAsociados = " " + "Id " + lugarTuristico.Id;
+        excepcion.DatosAsociados += " " + "Id " + lugarTuristico.Id;
+
+        throw excepcion;
+      }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
       }
@@ -365,6 +410,13 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+        throw excepcion;
+      }
     }
 
     /// <summary>
@@ -405,6 +457,13 @@ namespace ApiRest_COCO_TRIP.Models.Base
 
         throw excepcion;
       }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+        throw excepcion;
+      }
     }
 
     /// <summary>
@@ -440,7 +499,14 @@ namespace ApiRest_COCO_TRIP.Models.Base
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = "Datos: ";
         excepcion.DatosAsociados += "Id " + foto.Id + " ";
-        excepcion.DatosAsociados += "Foto (size) " + foto.Contenido.Length;
+        //excepcion.DatosAsociados += "Foto (size) " + foto.Contenido.Length;
+
+        throw excepcion;
+      }
+      catch (NullReferenceException e)
+      {
+        var excepcion = new ReferenciaNulaExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
       }
