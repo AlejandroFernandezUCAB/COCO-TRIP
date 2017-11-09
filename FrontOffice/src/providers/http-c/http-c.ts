@@ -48,7 +48,7 @@ agregarItinerario(itinerario){
       }, (err) => {
         console.log(err)
       });
-  });  
+  });
 }
 
 eliminarItinerario(idit){
@@ -59,9 +59,6 @@ eliminarItinerario(idit){
       }, (err) => {
         console.log(err)
       });
-  });  
-
-  
-}
+  });
 
 }
