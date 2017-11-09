@@ -47,14 +47,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     }*/
 
    
-   [HttpPost]
+   [HttpPut]
     public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
     {
       return itinerario.AgregarActividad_It(it, ac);
     }
 
     
-    [HttpPost]
+    [HttpPut]
     public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
     {
       return itinerario.AgregarLugar_It(it, lt);

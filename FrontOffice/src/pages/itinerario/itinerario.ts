@@ -131,7 +131,7 @@ export class ItinerarioPage {
         text: 'Aceptar',
         handler: () => {
           this.eliminarItinerario(id, index);
-          
+          this.httpc.eliminarItinerario(35);
           }
         }
       ]
