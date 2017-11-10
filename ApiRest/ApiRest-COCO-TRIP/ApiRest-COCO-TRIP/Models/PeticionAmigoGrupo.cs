@@ -289,7 +289,6 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandText = "AgregarGrupoSinFoto";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombre));
-        //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, ));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())

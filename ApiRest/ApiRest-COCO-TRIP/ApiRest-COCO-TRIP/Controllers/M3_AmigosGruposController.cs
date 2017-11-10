@@ -8,6 +8,7 @@ using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -27,18 +28,39 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
     [HttpGet]
-    public string AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
+    public HttpStatusCode AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
     {
-      peticion = new PeticionAmigoGrupo();
-      int result = 0;
-      result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);//acomodar
-      return Convert.ToString(result);
+      try
+      { 
+        peticion = new PeticionAmigoGrupo();
+        int result = 0;
+        result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return HttpStatusCode.OK;
+      //return "0";//Convert.ToString(result);
     }
 
     /// <summary>
     /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
     /// </summary>
-    /// <param name="nombreUsuario"></param>
+    /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
     /// <returns></returns>
     [HttpGet]
     public Usuario VisualizarPerfilAmigo(String nombreUsuario)

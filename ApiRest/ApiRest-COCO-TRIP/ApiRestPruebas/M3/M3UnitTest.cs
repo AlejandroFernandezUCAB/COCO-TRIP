@@ -47,6 +47,7 @@ namespace ApiRestPruebas.M3
       conexion.Comando = conexion.SqlConexion.CreateCommand();
       conexion.Comando.CommandText = "Delete from miembro where mi_id < 0;" +
         "Delete from Grupo where gr_id < 0;" +
+        "Delete from amigo where fk_usuario_conoce <0 or fk_usuario_posee <0;" +
         "Delete from usuario where us_id < 0;";
       conexion.Comando.CommandType = CommandType.Text;
       conexion.Comando.ExecuteReader();
