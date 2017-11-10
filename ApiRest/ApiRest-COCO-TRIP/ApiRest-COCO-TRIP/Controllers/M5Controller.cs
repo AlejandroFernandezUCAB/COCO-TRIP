@@ -28,9 +28,9 @@ namespace ApiRest_COCO_TRIP.Controllers
 
    
     [HttpDelete]
-    public Boolean EliminarItinerario(int id)
+    public Boolean EliminarItinerario(int idit)
     {
-      return peti.EliminarItinerario(id);
+      return peti.EliminarItinerario(idit);
     }
 
     [HttpPost]

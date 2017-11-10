@@ -29,7 +29,8 @@ namespace ApiRestPruebas
     {
       itinerario = new Itinerario("Michel", 1);
       it = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(47, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
+      Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
+      Assert.AreEqual("Michel", it.Nombre);
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_EliminarItinerario()
     {
-      x = controller.EliminarItinerario(42);
+      x = controller.EliminarItinerario(47);
       Assert.True(x);
     }
 
@@ -79,9 +80,9 @@ namespace ApiRestPruebas
     {
       DateTime fechaini = new DateTime(2021, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(10, "Michel", fechaini, fechafin, 1);
+      Itinerario itinerario = new Itinerario(51, "Michel", fechaini, fechafin, 1);
       x = controller.ModificarItinerario(itinerario);
-      Assert.AreEqual(true, x);
+      Assert.True(x);
     }
 
     /*   [Test]
