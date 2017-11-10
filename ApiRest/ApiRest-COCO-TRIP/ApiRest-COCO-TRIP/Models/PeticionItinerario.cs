@@ -264,6 +264,7 @@ namespace ApiRest_COCO_TRIP.Models
         NpgsqlDataReader pgread = comm.ExecuteReader();
         pgread.Read();
         it.Id = pgread.GetInt16(0);
+        it.Nombre = pgread.GetString(1);
         con.Desconectar();
         return it;
       }
