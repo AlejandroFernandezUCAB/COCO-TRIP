@@ -14,8 +14,6 @@ namespace ApiRest_COCO_TRIP.Controllers
   public class M3_AmigosGruposController : ApiController
   {
 
-    int cmkdf;
-
     Usuario usuario;
     PeticionAmigoGrupo peticion;
 
