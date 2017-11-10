@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:8091/api';
+apiUrl = 'http://localhost:51049/api';
   constructor(public http: HttpClient) {
   console.log('Hello RestServiceProvider Provider');
 }
@@ -39,6 +39,17 @@ loadItinerarios(id_usuario) {
 //       });
 //   });
 // }
+
+agregarItinerario(itinerario){
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });  
+}
+
 
 
 }
