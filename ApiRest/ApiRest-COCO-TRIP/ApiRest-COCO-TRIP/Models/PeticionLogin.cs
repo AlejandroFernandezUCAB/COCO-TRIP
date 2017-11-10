@@ -54,10 +54,12 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
+        conexion.Desconectar();
         throw e;
       }
       catch (FormatException e)
       {
+        conexion.Desconectar();
         throw e;
       }
       return usuario.Id;

@@ -23,11 +23,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPost]
     public int IniciarSesionCorreo(String datos)
     {
-        usuario = JsonConvert.DeserializeObject<Usuario>(datos);
-        peticion = new PeticionLogin();
+      usuario = JsonConvert.DeserializeObject<Usuario>(datos);
+      peticion = new PeticionLogin();
       try
       {
-        usuario.Id=peticion.ConsultarUsuarioCorreo(usuario);
+        usuario.Id = peticion.ConsultarUsuarioCorreo(usuario);
       }
       catch (NpgsqlException)
       {
@@ -38,15 +38,15 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
       return usuario.Id;
-     }
+    }
     [HttpPost]
     public int IniciarSesionUsuario(String datos)
     {
-        usuario = JsonConvert.DeserializeObject<Usuario>(datos);
-        peticion = new PeticionLogin();
+      usuario = JsonConvert.DeserializeObject<Usuario>(datos);
+      peticion = new PeticionLogin();
       try
       {
-        usuario.Id=peticion.ConsultarUsuarioNombre(usuario);
+        usuario.Id = peticion.ConsultarUsuarioNombre(usuario);
       }
       catch (NpgsqlException)
       {
@@ -66,8 +66,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
         usuario.Id = peticion.ConsultarUsuarioSocial(usuario);
-        if(usuario.Id == 0)
-          usuario.Id=peticion.InsertarUsuarioFacebook(usuario);
+        if (usuario.Id == 0)
+          usuario.Id = peticion.InsertarUsuarioFacebook(usuario);
       }
       catch (NpgsqlException)
       {
@@ -92,7 +92,22 @@ namespace ApiRest_COCO_TRIP.Controllers
         {
           usuario.Id = peticion.ConsultarUsuarioSoloNombre(usuario);
           if (usuario.Id == 0)
-          { usuario.Id = peticion.InsertarUsuario(usuario); }
+          {
+            usuario.Id = peticion.InsertarUsuario(usuario);
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            string uri = "http://localhost:8091/api//M1_Login/ValidarUsuario/?correo=" + usuario.Correo + "&" + "id=" + usuario.Id;
+            mail.From = new MailAddress("cocotrip17@gmail.com");
+            mail.To.Add(usuario.Correo);
+            mail.Subject = "Recuperar contrasena";
+            mail.Body = "Querido Usuario, hemos recibido una solicitud para registrarse en cocotrip, ingrese al siguiente link para completar su proceso de registro: "+uri; 
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
+          }
           else
           { usuario.Id = -2; }
         }
@@ -107,10 +122,21 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
       return usuario.Id;
     }
     [HttpPost]
-    public HttpStatusCode CorreoRecuperar(String datos) {
+    public HttpStatusCode CorreoRecuperar(String datos)
+    {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
       peticion = new PeticionLogin();
       try
@@ -124,7 +150,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         mail.From = new MailAddress("cocotrip17@gmail.com");
         mail.To.Add(usuario.Correo);
         mail.Subject = "Recuperar contrasena";
-        mail.Body = "Querido Usuario, hemos recibido una solicitud para recuperar la contrasena de tu cuenta en cocotrip, esta es: "+usuario.Clave;
+        mail.Body = "Querido Usuario, hemos recibido una solicitud para recuperar la contrasena de tu cuenta en cocotrip, esta es: " + usuario.Clave;
 
         SmtpServer.Port = 587;
         SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");

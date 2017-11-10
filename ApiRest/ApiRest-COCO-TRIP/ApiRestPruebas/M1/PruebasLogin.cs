@@ -220,6 +220,14 @@ namespace ApiRestPruebas
       */
     }
 
+    [Test]
+    [Category("Controlador")]
+    public void TestRegistrarUsuario()
+    {
+      Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+    }
+
   }
 
 }
