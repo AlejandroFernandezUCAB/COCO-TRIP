@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
