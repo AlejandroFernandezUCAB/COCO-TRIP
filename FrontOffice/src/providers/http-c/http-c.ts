@@ -60,5 +60,7 @@ eliminarItinerario(idit){
         console.log(err)
       });
   });
+}
+
 
 }

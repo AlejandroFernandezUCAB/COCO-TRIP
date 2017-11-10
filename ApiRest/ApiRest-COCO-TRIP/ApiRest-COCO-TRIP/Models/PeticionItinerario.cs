@@ -51,7 +51,7 @@ namespace ApiRest_COCO_TRIP.Models
             lugar.Nombre = pgread.GetString(6);
             lugar.Descripcion = pgread.GetString(7);
             lugar.Costo = pgread.GetDouble(8);
-            itinerarios[itinerarios.Count - 1].Lugares.Add(lugar);
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
           }
           //Si existe actividad en este registro
           if (!pgread.IsDBNull(9))
@@ -63,7 +63,7 @@ namespace ApiRest_COCO_TRIP.Models
               Descripcion = pgread.GetString(11),
               Duracion = pgread.GetTimeSpan(12)
             };
-            itinerarios[itinerarios.Count - 1].Actividades.Add(actividad);
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
           }
         }
         con.Desconectar();
