@@ -13,8 +13,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M3_AmigosGruposController : ApiController
   {
-
-    int cmkdf;
+   
 
     Usuario usuario;
     PeticionAmigoGrupo peticion;
@@ -96,20 +95,20 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="usuario">Lider del grupo(creador)</param>
     /// <returns></returns>
     [HttpGet]
-    public string AgregarGrupo(String nombre, String foto, String usuario)
+    public int AgregarGrupo(String nombre, String foto, String nombreusuario)
     {
       peticion = new PeticionAmigoGrupo();
 
       if (foto != "null")
 
-      { peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto),Convert.ToInt32(usuario));
+      { return peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto), nombreusuario);
       }
 
       else
       {
-        peticion.AgregarGrupoBD(nombre, Convert.ToInt32(usuario));
+        return peticion.AgregarGrupoBD(nombre, nombreusuario);
       }
-      return "1";
+      
     }
 
     

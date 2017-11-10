@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Controllers;
+using System.Data;
 
 namespace ApiRestPruebas.M3
 {
@@ -13,10 +15,21 @@ namespace ApiRestPruebas.M3
   {
 
     Usuario usuario1, usuario2;
+    Grupo grupo;
+    PeticionAmigoGrupo peticion;
+    ConexionBase conexion;
 
     [SetUp]
     public void SetUp()
     {
+      conexion = new ConexionBase();
+      conexion.Conectar();
+      conexion.Comando = conexion.SqlConexion.CreateCommand();
+      conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuario55', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','pulidito@gmail.com','123456', null, true)";
+      conexion.Comando.CommandType = CommandType.Text;
+      conexion.Comando.ExecuteReader();
+      conexion.Desconectar();
+      peticion = new PeticionAmigoGrupo();
       usuario1 = new Usuario
       {
         Nombre = "Oswaldo",
@@ -41,6 +54,17 @@ namespace ApiRestPruebas.M3
         Foto = new byte[28480]
       };
     }
+    [TearDown]
+    public void TearDown()
+    {
+      conexion = new ConexionBase();
+      conexion.Conectar();
+      conexion.Comando = conexion.SqlConexion.CreateCommand();
+      conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuario55', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','pulidito@gmail.com','123456', null, true)";
+      conexion.Comando.CommandType = CommandType.Text;
+      conexion.Comando.ExecuteReader();
+      conexion.Desconectar();
+    }
 
     [Test]
     public void TestAgregarAmigo()
@@ -60,6 +84,31 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupo()
     {
 
+    }
+
+    [Test]
+    public void TestInsertarGrupo()
+    {
+      Assert.AreEqual(1, peticion.AgregarGrupoBD("aaaaa","usuario55"));
+    }
+
+    [Test]
+    public void TestPerfilGrupo()
+    {
+      grupo = peticion.ConsultarPerfilGrupo(3);
+      Assert.AreEqual("El MEGAGRUPO", grupo.Nombre);
+    }
+
+    [Test]
+    public void TestListaGrupo()
+    {
+      List<Grupo> lista = new List<Grupo>();
+      grupo.Nombre = "holaa";
+      //lista = controlador.ConsultarListaGrupos("1");
+      //grupo.Nombre = "";
+      //grupo.Foto =new byte[0];
+
+     // Assert.AreEqual(true, controlador.ConsultarListaGrupos("3").Contains(grupo));
     }
 
   }
