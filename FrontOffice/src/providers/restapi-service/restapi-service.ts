@@ -53,7 +53,23 @@ export class RestapiService {
   iniciarSesionFacebook(usuario)
   {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/M1_Login/iniciarsesionsocial/?datos='+JSON.stringify(usuario))
+      this.http.post(this.apiUrl+'/M1_Login/iniciarsesionsocial/?datos='+JSON.stringify(usuario),"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          resolve(-1);
+
+        });
+    });
+  }
+
+  recuperarContrasena(correo)
+  {
+    this.userData={correo: correo};
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M1_Login/CorreoRecuperar/?correo='+JSON.stringify(this.userData),"")
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
