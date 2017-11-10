@@ -19,7 +19,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     private Usuario usuario;
     private PeticionLogin peticion;
 
-    // GET api/<controller>/<action>/id
+    /// <summary>
+    /// Consulta un usuario con los datos recibidos (correo y clave)
+    /// </summary>
+    /// <param name="datos">datos del usuario. Formato JSON</param>
+    /// <returns>El id del usuario(0 si no existe). Formato JSON</returns>
     [HttpPost]
     public int IniciarSesionCorreo(String datos)
     {
@@ -39,6 +43,12 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return usuario.Id;
     }
+
+    /// <summary>
+    /// Consulta un usuario con los datos recibidos (usuario y clave)
+    /// </summary>
+    /// <param name="datos">datos del usuario. Formato JSON</param>
+    /// <returns>El id del usuario(0 si no existe). Formato JSON</returns>
     [HttpPost]
     public int IniciarSesionUsuario(String datos)
     {
@@ -58,6 +68,13 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return usuario.Id;
     }
+
+    /// <summary>
+    /// Verifica que un usuario al iniciar sesion con una red social
+    /// este registrado, si no lo esta, se registran sus datos de la red social
+    /// </summary>
+    /// <param name="datos">datos del usuario. Formato JSON</param>
+    /// <returns>El id del usuario. Formato JSON</returns>
     [HttpPost]
     public int IniciarSesionSocial(String datos)
     {
@@ -80,6 +97,12 @@ namespace ApiRest_COCO_TRIP.Controllers
       return usuario.Id;
 
     }
+
+    /// <summary>
+    /// Verifica que un usuario este registrado, si no lo esta, se registran sus datos
+    /// </summary>
+    /// <param name="datos">datos del usuario. Formato JSON</param>
+    /// <returns>El id del usuario(-1 o -2 si hubo un error). Formato JSON</returns>
     [HttpPost]
     public int RegistrarUsuario(String datos)
     {
@@ -134,6 +157,12 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return usuario.Id;
     }
+
+    /// <summary>
+    /// Envia un correo al usuario con su contrasena
+    /// </summary>
+    /// <param name="datos">datos del usuario. Formato JSON</param>
+    /// <returns>Una respuesta Http confirmando que se envio el correo. Formato JSON</returns>
     [HttpPost]
     public HttpStatusCode CorreoRecuperar(String datos)
     {

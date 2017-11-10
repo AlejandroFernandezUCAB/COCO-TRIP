@@ -8,6 +8,7 @@ import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
 import { LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Storage } from '@ionic/storage';
 import { MenuController } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
@@ -32,12 +33,16 @@ export class LoginPage {
   myForm: FormGroup;
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
-    public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder, public navParams: NavParams) {
+    public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
+    private storage: Storage, public navParams: NavParams) {
+      storage.get('id').then((val) => {
+        console.log('Your id is', val);
+      });
     this.myForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-    this.vista = false;
+     this.vista = false;
     this.menu.enable(false);
 
   }
@@ -56,6 +61,7 @@ export class LoginPage {
 
           }
           else {
+            this.storage.set('id', data);
             this.navCtrl.setRoot(HomePage);
           }
 
