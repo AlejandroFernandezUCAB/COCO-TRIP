@@ -247,8 +247,10 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
   
-    public void AgregarGrupoBD(String nombre, byte foto,int usuario)
+    public int AgregarGrupoBD(String nombre, byte foto,string nombreusuario)
     {
+      int idUsuario = ObtenerIdUsuario(nombreusuario);
+      int result = 0;
       try
       {
         conexion.Conectar();
@@ -257,9 +259,12 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombre));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, usuario));
-
-        conexion.Comando.ExecuteReader();
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          result = leerDatos.GetInt32(0);
+        }
         conexion.Desconectar();
       }
       catch (NpgsqlException e)
@@ -270,10 +275,13 @@ namespace ApiRest_COCO_TRIP.Models
       {
         throw e;
       }
+      return result;
     }
 
-    public void AgregarGrupoBD(String nombre, int usuario)
+    public int AgregarGrupoBD(String nombre, string nombreusuario)
     {
+      int idUsuario = ObtenerIdUsuario(nombreusuario);
+      int result = 0;
       try
       {
         conexion.Conectar();
@@ -282,9 +290,12 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombre));
         //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, ));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, usuario));
-
-        conexion.Comando.ExecuteReader();
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          result = leerDatos.GetInt32(0);
+        }
         conexion.Desconectar();
       }
       catch (NpgsqlException e)
@@ -295,6 +306,7 @@ namespace ApiRest_COCO_TRIP.Models
       {
         throw e;
       }
+      return result;
     }
 
     /// <summary>
