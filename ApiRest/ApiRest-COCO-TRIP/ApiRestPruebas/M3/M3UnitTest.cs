@@ -58,11 +58,6 @@ namespace ApiRestPruebas.M3
       peticion = new PeticionAmigoGrupo();
     }
 
-   /* [TearDown]
-    public void TearDown() {
-      usuario1 = null;
-
-    }*/
 
     [Test]
     public void TestAgregarAmigo()
