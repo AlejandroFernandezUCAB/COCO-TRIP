@@ -63,32 +63,6 @@ namespace ApiRest_COCO_TRIP.Models
       return respuesta;
     }
 
-    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
-    {
-
-      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
-      try
-      {
-        conexion.Conectar();
-        conexion.Comando = conexion.SqlConexion.CreateCommand();
-        conexion.Comando.CommandText = "SalirDeGrupo";
-        conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
-        conexion.Comando.ExecuteReader();
-        conexion.Desconectar();
-      }
-      catch (NpgsqlException e)
-      {
-        throw e;
-      }
-      catch (FormatException e)
-      {
-        throw e;
-      }
-      return true;
-    }
-
     public Usuario VisualizarPerfilAmigoBD(string nombreUsuario)
     {
       Usuario usuario = new Usuario();
@@ -110,6 +84,9 @@ namespace ApiRest_COCO_TRIP.Models
             usuario.Foto[0] = leerDatos.GetByte(3);
           }
           //usuario.Foto[0] = leerDatos.GetByte(3);
+        }else
+        {
+          usuario = null;
         }
 
         leerDatos.Close();
@@ -127,7 +104,42 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-   public List<Usuario> BuscarAmigo(string dato)
+    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
+    {
+      bool resultado = false;
+      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "SalirDeGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          
+          if (leerDatos.GetInt32(0) == 1)
+          {
+            resultado = true;
+          }
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return resultado;
+    }
+
+    public List<Usuario> BuscarAmigo(string dato)
     {
       var listausuarios = new List<Usuario>();
       try
