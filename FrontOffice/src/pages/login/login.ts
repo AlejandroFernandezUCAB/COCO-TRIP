@@ -141,6 +141,18 @@ export class LoginPage {
           handler: data => {
             if (data.correo.includes("@") )
             {
+              this.restapiService.recuperarContrasena(data.correo)
+              .then(data => {
+                if (data == 0 || data == -1) {
+                  this.loading.dismiss();
+                  this.realizarToast('Error, datos incorrectos');
+                  
+                }
+                else {
+                  this.navCtrl.setRoot(HomePage);
+                }
+        
+              });
               this.realizarToast('Se le ha enviado un correo para recuperar la clave');
             }
             else 
