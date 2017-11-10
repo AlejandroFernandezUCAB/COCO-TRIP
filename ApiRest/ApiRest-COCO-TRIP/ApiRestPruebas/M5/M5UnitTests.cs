@@ -118,7 +118,6 @@ namespace ApiRestPruebas
       x = controller.AgregarLugar_It(itinerario, lt);
       Assert.AreEqual(true, x);
     }
-
    
   
   }

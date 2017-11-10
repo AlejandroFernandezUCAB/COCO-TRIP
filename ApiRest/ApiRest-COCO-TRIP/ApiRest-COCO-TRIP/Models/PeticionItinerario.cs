@@ -9,7 +9,8 @@ namespace ApiRest_COCO_TRIP.Models
   public class PeticionItinerario
   {
     private ConexionBase con;
-    private NpgsqlDataReader leerDatos;
+    private NpgsqlDataReader pgread;
+    private NpgsqlCommand comm;
 
     public PeticionItinerario()
     {
@@ -23,10 +24,10 @@ namespace ApiRest_COCO_TRIP.Models
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("consultar_itinerarios", con.SqlConexion);
+        comm = new NpgsqlCommand("consultar_itinerarios", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         int auxiliar = 0;
         //Recorremos los registros devueltos
         while (pgread.Read())
@@ -82,17 +83,17 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="it">itinerario del cual se elimina el lugar turistico</param>
     /// <param name="lt">lugar turistico a eliminar del itinerario</param>
     /// <returns>true si se elimino el lugar turistico exitosamente, false en caso de error</returns>
-    public Boolean EliminarLugar_It(Itinerario it, LugarTuristico lt)
+    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
     {
       try
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
+        comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ag.Id);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
         con.Desconectar();
@@ -104,61 +105,6 @@ namespace ApiRest_COCO_TRIP.Models
       }
     }
 
-    /// <summary>
-    /// Metodo que elimina una actividad existente de un itinerario existente
-    /// </summary>
-    /// <param name="it">itinerario del cual se elimina la actividad</param>
-    /// <param name="ac">actividad a eliminar del itinerario</param>
-    /// <returns>true si se elimino la actividad exitosamente, false en caso de error</returns>
-    public Boolean EliminarActividad_It(Itinerario it, Actividad ac)
-    {
-      try
-      {
-        con = new ConexionBase();
-        con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("del_actividad_it", con.SqlConexion);
-        comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
-        pgread.Read();
-        Boolean resp = pgread.GetBoolean(0);
-        con.Desconectar();
-        return resp;
-      }
-      catch (NpgsqlException e)
-      {
-        return false;
-      }
-    }
-
-    /// <summary>
-    /// Metodo que elimina un evento existente de un itinerario existente
-    /// </summary>
-    /// <param name="it">itinerario del cual se elimina el evento</param>
-    /// <param name="ev">evento a eliminar del itinerario</param>
-    /// <returns>true si se elimino el evento exitosamente, false en caso de error</returns>
-   /*public Boolean EliminarEvento_It(Itinerario it, Evento ev)
-     {
-       try
-       {
-         con = new ConexionBase();
-         con.Conectar();
-         NpgsqlCommand comm = new NpgsqlCommand("del_evento_it", con.SqlConexion);
-         comm.CommandType = CommandType.StoredProcedure;
-         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
-         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-         NpgsqlDataReader pgread = comm.ExecuteReader();
-         pgread.Read();
-         Boolean resp = pgread.GetBoolean(0);
-         con.Desconectar();
-         return resp;
-       }
-       catch (NpgsqlException e)
-       {
-         return false;
-       }
-     }*/
 
     /// <summary>
     /// Metodo que agrega un lugar turistico existente a un itinerario existente
@@ -172,11 +118,11 @@ namespace ApiRest_COCO_TRIP.Models
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+        comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
         con.Desconectar();
@@ -200,11 +146,11 @@ namespace ApiRest_COCO_TRIP.Models
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
+        comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
         con.Desconectar();
@@ -227,13 +173,13 @@ namespace ApiRest_COCO_TRIP.Models
        {
          try
          {
-           ConexionBase con = new ConexionBase();
+           con = new ConexionBase();
            con.Conectar();
-           NpgsqlCommand comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
+           comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
            comm.CommandType = CommandType.StoredProcedure;
            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-           NpgsqlDataReader pgread = comm.ExecuteReader();
+           pgread = comm.ExecuteReader();
            pgread.Read();
            Boolean resp = pgread.GetBoolean(0);
            con.Desconectar();
@@ -257,11 +203,11 @@ namespace ApiRest_COCO_TRIP.Models
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("add_itinerario", con.SqlConexion);
+        comm = new NpgsqlCommand("add_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.IdUsuario);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         pgread.Read();
         it.Id = pgread.GetInt16(0);
         it.Nombre = pgread.GetString(1);
@@ -290,10 +236,10 @@ namespace ApiRest_COCO_TRIP.Models
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("del_itinerario", con.SqlConexion);
+        comm = new NpgsqlCommand("del_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
         con.Desconectar();
@@ -317,13 +263,13 @@ namespace ApiRest_COCO_TRIP.Models
       {
         con = new ConexionBase();
         con.Conectar();
-        NpgsqlCommand comm = new NpgsqlCommand("mod_itinerario", con.SqlConexion);
+        comm = new NpgsqlCommand("mod_itinerario", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaInicio);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaFin);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
+        pgread = comm.ExecuteReader();
         pgread.Read();
         Boolean resp = pgread.GetBoolean(0);
         con.Desconectar();
