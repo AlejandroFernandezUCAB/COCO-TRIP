@@ -20,7 +20,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="nombreUsuario">Nombre de usuario</param>
     /// <returns>Id del usuario, si retorna -1 es que no existe</returns>
-    public int ConsultarIdDelUsuario( string nombreUsuario )
+    public int ConsultarIdDelUsuario(string nombreUsuario)
     {
 
       int id;
@@ -31,7 +31,7 @@ namespace ApiRest_COCO_TRIP.Models
       con.Conectar();
       NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", con.SqlConexion);
       comm.CommandType = CommandType.StoredProcedure;
-      comm.Parameters.AddWithValue( NpgsqlTypes.NpgsqlDbType.Varchar , nombreUsuario );
+      comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreUsuario);
       NpgsqlDataReader pgread = comm.ExecuteReader();
 
       while (pgread.Read())
@@ -100,5 +100,38 @@ namespace ApiRest_COCO_TRIP.Models
       conexion.Desconectar();
 
     }
+
+
+    /// <summary>
+    /// Se modifican los datos del usuario en la base de datos
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario </param>
+    /// <param name="nombreUsuario">Id de la categoria</param>
+    /// <param name="nombre">Id del usuario </param>
+    /// <param name="apellido">Id de la categoria</param>
+    /// <param name="fechaDeNacimiento">Id del usuario </param>
+    /// <param name="genero">Id de la categoria</param>
+    public void ModificarDatos(int idUsuario, string nombreUsuario, string nombre, string apellido, string fechaDeNacimiento, char genero)
+    {
+
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+
+      conexion.Conectar();
+      command = new NpgsqlCommand("ModificarDatosUsuario", conexion.SqlConexion);
+      command.CommandType = CommandType.StoredProcedure;
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreUsuario);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombre);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, apellido);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, fechaDeNacimiento);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Char, genero);
+      pgread = command.ExecuteReader();
+      pgread.Read();
+      conexion.Desconectar();
+
+    }
+
+
   }
 }
