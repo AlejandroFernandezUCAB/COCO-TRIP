@@ -60,18 +60,18 @@ namespace ApiRest_COCO_TRIP.Controllers
       var mail = new MailMessage();
       mail.From = new MailAddress("cocotrip17@gmail.com");
       mail.To.Add(correoElectronico);
-      mail.Subject = "Hola aquiles, te estamos esperando";
+      mail.Subject = "Hola, te estamos esperando";
       mail.IsBodyHtml = false;
-      mail.Body = "Hola, aquiles eres una perra";
+      mail.Body = "Hola";
       SmtpServer.Port = 587;
       SmtpServer.UseDefaultCredentials = false;
-      SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17@gmail.com", "arepascocotrip");
+      SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
       SmtpServer.EnableSsl = true;
       SmtpServer.Send(mail);
       return "";
     }
 
-    [HttpDelete]
+    [HttpGet]
     public bool SalirGrupo(string idGrupo, string nombreUsuario)
     {
       peticion = new PeticionAmigoGrupo();

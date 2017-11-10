@@ -26,20 +26,28 @@ namespace ApiRestPruebas.M3
       conexion = new ConexionBase();
       conexion.Conectar();
       conexion.Comando = conexion.SqlConexion.CreateCommand();
-      conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuario55', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','pulidito@gmail.com','123456', null, true)";
+      conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuariopruebas1', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas1@gmail.com','123456', null, true);" +
+        "INSERT INTO Usuario VALUES (-2 ,'usuariopruebas2', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas2@gmail.com','123456', null, true);"+
+        "INSERT INTO Grupo VALUES (-1,'Grupoprueba1',null,-1);" +
+        "INSERT INTO Grupo VALUES (-2,'Grupoprueba2',null,-2);" +
+        "INSERT INTO Miembro VALUES (-1,-1,-1);" +
+"INSERT INTO Miembro VALUES (-2,-1,-2);";
       conexion.Comando.CommandType = CommandType.Text;
       conexion.Comando.ExecuteReader();
       conexion.Desconectar();
       peticion = new PeticionAmigoGrupo();
       
     }
+
     [TearDown]
     public void TearDown()
     {
       conexion = new ConexionBase();
       conexion.Conectar();
       conexion.Comando = conexion.SqlConexion.CreateCommand();
-      conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuario55', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','pulidito@gmail.com','123456', null, true)";
+      conexion.Comando.CommandText = "Delete from miembro where mi_id < 0;" +
+        "Delete from Grupo where gr_id < 0;" +
+        "Delete from usuario where us_id < 0;";
       conexion.Comando.CommandType = CommandType.Text;
       conexion.Comando.ExecuteReader();
       conexion.Desconectar();
@@ -50,22 +58,22 @@ namespace ApiRestPruebas.M3
     public void TestAgregarAmigo()
     {
       PeticionAmigoGrupo peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(peticion.AgregarAmigosBD("usuario1", "usuario2"),1);
-
+      Assert.AreEqual(peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2"),1);
     }
 
     [Test]
     public void TestVisualizarPerfilAmigo()
     {
-      PeticionAmigoGrupo peticion = new PeticionAmigoGrupo();
-      Usuario u = peticion.VisualizarPerfilAmigoBD("usuario1");
+      peticion = new PeticionAmigoGrupo();
+      Usuario u = peticion.VisualizarPerfilAmigoBD("usuariopruebas1");
       Assert.AreEqual("Aquiles",u.Nombre);
     }
 
     [Test]
     public void TestSalirGrupo()
     {
-
+      peticion = new PeticionAmigoGrupo();
+      Assert.IsTrue(peticion.SalirGrupoBD(-1,"usuariopruebas1"));
     }
     /// <summary>
     /// Prueba para eliminar un amigo
@@ -162,20 +170,6 @@ namespace ApiRestPruebas.M3
 
      // Assert.AreEqual(true, controlador.ConsultarListaGrupos("3").Contains(grupo));
     }
-
-    [TearDown]
-    public void TearDown()
-    {
-      
-      ConexionBase conexion = new ConexionBase();
-      conexion.Conectar();
-
-      conexion.Comando = conexion.SqlConexion.CreateCommand();
-      conexion.Comando.CommandText = "Delete from usuario where us_id < 0;";
-      conexion.Comando.CommandType = CommandType.Text;
-      conexion.Comando.ExecuteReader();
-      conexion.Desconectar();
-    }
-
+    
   }
 }
