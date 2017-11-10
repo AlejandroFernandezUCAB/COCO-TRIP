@@ -181,6 +181,29 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION ModificarUsuario 
+( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar , _foto bytea ) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_nombre = _nombre  ,  us_apellido = _apellido ,   us_fechaNacimiento = _fechaNacimiento ,   us_genero = _genero ,   us_foto = _foto
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarPass 
+( _idUsuario int , _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_password = _password
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos
