@@ -1,14 +1,9 @@
 using System;
 using System.Web.Http;
-using Npgsql;
-using System.Data;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
-using System.Web;
-using System.Net;
 using System.Web.Http.Cors;
-using Newtonsoft.Json;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -18,7 +13,6 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     List<Itinerario> itinerarios = new List<Itinerario>();
     private PeticionItinerario peti = new PeticionItinerario(); //preguntar
-    private PeticionBusqueda petiBusq = new PeticionBusqueda(); 
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
@@ -75,7 +69,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public List<Evento> ConsultarEventos(string busqueda)
     {
-        return petiBusq.ConsultarEventos(busqueda);
+        return peti.ConsultarEventos(busqueda);
     }
 
   }

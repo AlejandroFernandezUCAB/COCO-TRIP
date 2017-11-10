@@ -15,8 +15,5 @@ namespace ApiRest_COCO_TRIP.Models
     public int IdActividad { get => idActividad; set => idActividad = value; }
     public int IdEvento { get => idEvento; set => idEvento = value; }
     public int Id { get => id; set => id = value; }
-
- 
-
   }
 }
