@@ -18,7 +18,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     List<Itinerario> itinerarios = new List<Itinerario>();
     private PeticionItinerario peti = new PeticionItinerario(); //preguntar
-
+    private PeticionBusqueda petiBusq = new PeticionBusqueda(); 
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
@@ -76,10 +76,8 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpDelete]
     public Boolean EliminarLugar_It(Itinerario it, LugarTuristico lt)
     {
-
       return peti.EliminarLugar_It(it, lt);
     }
-    
 
 
     [HttpGet]
@@ -88,8 +86,11 @@ namespace ApiRest_COCO_TRIP.Controllers
         return peti.ConsultarItinerarios(id_usuario);
     }
 
-
-
+    [HttpGet]
+    public List<Evento> ConsultarEventos(string busqueda)
+    {
+        return petiBusq.ConsultarEventos(busqueda);
+    }
 
   }
 }
