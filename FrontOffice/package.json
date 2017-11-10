@@ -35,7 +35,7 @@
     "cordova-android": "6.3.0",
     "cordova-browser": "5.0.1",
     "cordova-ios": "^4.5.2",
-    "cordova-plugin-advanced-http": "^1.7.1",
+    "cordova-plugin-advanced-http": "^1.8.1",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.6",
     "cordova-plugin-facebook4": "^1.9.1",

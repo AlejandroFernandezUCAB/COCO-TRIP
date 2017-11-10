@@ -1,14 +1,9 @@
 using System;
 using System.Web.Http;
-using Npgsql;
-using System.Data;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
-using System.Web;
-using System.Net;
 using System.Web.Http.Cors;
-using Newtonsoft.Json;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -18,7 +13,6 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     List<Itinerario> itinerarios = new List<Itinerario>();
     private PeticionItinerario peti = new PeticionItinerario(); //preguntar
-
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
@@ -28,9 +22,9 @@ namespace ApiRest_COCO_TRIP.Controllers
 
    
     [HttpDelete]
-    public Boolean EliminarItinerario(int id)
+    public Boolean EliminarItinerario(int idit)
     {
-      return peti.EliminarItinerario(id);
+      return peti.EliminarItinerario(idit);
     }
 
     [HttpPost]
@@ -46,50 +40,37 @@ namespace ApiRest_COCO_TRIP.Controllers
     }*/
 
    
-   [HttpPost]
+   [HttpPut]
     public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
     {
       return peti.AgregarActividad_It(it, ac);
     }
 
     
-    [HttpPost]
+    [HttpPut]
     public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
     {
       return peti.AgregarLugar_It(it, lt);
     }
 
-  /*[HttpDelete]
-    public Boolean EliminarEvento_It(Itinerario it, Evento ev)
-    {
-      return itinerario.EliminarEvento_It(it, ev);
-    }*/
-
-   
     [HttpDelete]
-    public Boolean EliminarActividad_It(Itinerario it, Actividad ac)
+    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
     {
-      return peti.EliminarActividad_It(it, ac);
+      return peti.EliminarItem_It(it, ag);
     }
 
     
-    [HttpDelete]
-    public Boolean EliminarLugar_It(Itinerario it, LugarTuristico lt)
-    {
-
-      return peti.EliminarLugar_It(it, lt);
-    }
-    
-
-
     [HttpGet]
     public List<Itinerario> ConsultarItinerarios(int id_usuario)
-    {
+    { 
         return peti.ConsultarItinerarios(id_usuario);
     }
 
-
-
+    [HttpGet]
+    public List<Evento> ConsultarEventos(string busqueda)
+    {
+        return peti.ConsultarEventos(busqueda);
+    }
 
   }
 }
