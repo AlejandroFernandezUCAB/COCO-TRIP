@@ -6,9 +6,14 @@ import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
 import { LoadingController } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core'
-
-
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { MenuController } from 'ionic-angular';
+/**
+ * Generated class for the LoginPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
@@ -16,81 +21,95 @@ import { TranslateService } from '@ngx-translate/core'
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  userData: any;
+  usuario: string;
+  clave: string;
   vista: boolean;
-  idioms: any[] = [];
-  
+  toast: any;
+  userData: any;
+  alert: any;
+  loading : any;
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
-     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
-      private translateService: TranslateService, public navParams: NavParams) {
+    public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
+    public restapiService: RestapiService,public menu: MenuController, public navParams: NavParams) {
     this.vista = false;
-    this.idioms = [
-      {
-        value: 'es',
-        label: 'Español'
-      },
-      {
-        value: 'en',
-        label: 'Ingles'
-      }];
+   this.menu.enable(false);
   }
-  choose(lang) {
-    this.translateService.use(lang);
-  }
-  
+
+
   login() {
-    this.presentLoadingDefault();
+    this.realizarLoading();
+    this.restapiService.iniciarSesion(this.usuario, this.clave)
+      .then(data => {
+        if (data == 0 || data == -1) {
+          this.loading.dismiss();
+          this.realizarToast('Error, datos incorrectos');
+          
+        }
+        else {
+          this.navCtrl.setRoot(HomePage);
+        }
+
+      });
+      //this.loading.dismiss();
+  }
+
+  realizarToast(mensaje){
+    this.toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    this.toast.present();
+  }
+  realizarLoading(){
+      this.loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      dismissOnPageChange: true
+    });
+  
+    this.loading.present();
+  
   }
   facebookLogin() {
-
+    this.realizarLoading();
     this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
       this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
-        this.userData = { correo: profile['email'], pnombre: profile['first_name'], 
-        papellido: profile['last_name'], cumple :profile['birthday'],
-         foto: profile['picture_large']['data']['url'], usuario: profile['name'] };
+        this.userData = {
+          correo: profile['email'], nombre: profile['first_name'],
+          apellido: profile['last_name'], fechaNacimiento: profile['birthday'],
+          foto: profile['picture_large']['data']['url']
+        };
+        console.log("JSON ES: " + JSON.stringify(this.userData));
+        this.restapiService.iniciarSesionFacebook(this.userData)
+          .then(data => {
+            if (data == 0 || data == -1) {
+              this.realizarToast('Error con Facebook');
+              this.loading.dismiss();
+            }
+            else {
+              this.navCtrl.setRoot(HomePage);
+            }
 
-        this.navCtrl.setRoot(HomePage);
+          });
       });
     },
       (resultNegativoFacebook: FacebookLoginResponse) => {
-        const toast = this.toastCtrl.create({
-          message: 'Error, por favor intente de nuevo',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
+        this.toast.setMessage('Error, por favor intente de nuevo');
+        this.toast.present();
 
       }
     );
   }
 
   googleLogin() {
-    this.googleAuth.login().then(
-      (resultPositivoGoogle: AuthLoginResult) => this.navCtrl.setRoot(HomePage),
-      (resultNegativoGoogle: AuthLoginResult) => {
-        const toast = this.toastCtrl.create({
-          message: resultNegativoGoogle.signup+' ++ '+resultNegativoGoogle.token,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      });
+    this.navCtrl.setRoot(HomePage);
   }
 
   registrar() {
     this.navCtrl.push(RegisterPage);
   }
 
-  presentLoadingDefault() {
-    const loading = this.loadingCtrl.create({
-      content: 'Por favor, espere...',
-      duration: 5000
-    });
-    loading.onDidDismiss(() => {
-      this.navCtrl.setRoot(HomePage);
-    });
-    loading.present();
-  }
+  
   Otros() {
     if (this.vista == true)
       this.vista = false;
@@ -115,27 +134,19 @@ export class LoginPage {
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          role: 'cancel'
         },
         {
           text: 'Enviar',
           handler: data => {
-            const toast = this.toastCtrl.create({
-              duration: 5000,
-              position: 'top'
-            });
-            if (data.correo) {
-              toast.setMessage('Se le ha enviado un correo para recuperar la clave');
-              toast.present();
+            if (data.correo.includes("@") )
+            {
+              this.realizarToast('Se le ha enviado un correo para recuperar la clave');
             }
-            else{
-              toast.setMessage('Por favor, escriba un correo valido');
-              toast.present();
+            else 
+            {
+              this.realizarToast('Por favor, escriba un correo valido');
               return false;
-
             }
           }
         }

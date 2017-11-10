@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
 using System.Web;
 using System.Net;
+using System.Web.Http.Cors;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {

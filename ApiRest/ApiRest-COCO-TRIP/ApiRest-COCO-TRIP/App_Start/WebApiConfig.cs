@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace ApiRest_COCO_TRIP
 {
@@ -10,10 +11,10 @@ namespace ApiRest_COCO_TRIP
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuración y servicios de API web
-
-            // Rutas de API web
-            config.MapHttpAttributeRoutes();
+      // Configuración y servicios de API web
+      // Rutas de API
+      config.EnableCors();
+      config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -22,6 +23,7 @@ namespace ApiRest_COCO_TRIP
             );
       config.Formatters.JsonFormatter.SupportedMediaTypes
     .Add(new MediaTypeHeaderValue("text/html"));
+
     }
     }
 }

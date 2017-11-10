@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Web.Http;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Controllers;
@@ -155,6 +154,32 @@ namespace ApiRestPruebas.M7
     }
 
     /// <summary>
+    /// Metodo para testear las excepciones del metodo PostLugar
+    /// </summary>
+    [Category("Post")]
+    [Test]
+    public void TestExcepcionPostLugar()
+    {
+      lugar.Actividad.Add(actividad);
+      lugar.Horario.Add(horario);
+      lugar.Foto.Add(foto);
+
+      lugar.Nombre = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostLugar);
+
+      lugar = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostLugar);
+    }
+
+    /// <summary>
+    /// Metodo para testear las excepciones
+    /// </summary>
+    public void ExcepcionPostLugar()
+    {
+      controlador.PostLugar(lugar);
+    }
+
+    /// <summary>
     /// Test del metodo PostActividad
     /// </summary>
     [Category("Post")]
@@ -163,6 +188,32 @@ namespace ApiRestPruebas.M7
     {
       controlador.PostActividad(actividad, lugar.Id);
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
+    }
+
+    /// <summary>
+    /// Metodo para testear las excepciones del metodo PostActividad
+    /// </summary>
+    [Category("Post")]
+    [Test]
+    public void TestExcepcionPostActividad()
+    {
+      lugar.Id = 0;
+      Assert.Catch<HttpResponseException>(ExcepcionPostActividad);
+
+      lugar.Id = 1;
+      actividad.Nombre = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostActividad);
+
+      actividad = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostActividad);
+    }
+
+    /// <summary>
+    /// Metodo para testear las excepciones
+    /// </summary>
+    public void ExcepcionPostActividad()
+    {
+      controlador.PostActividad(actividad, lugar.Id);
     }
 
     /// <summary>
@@ -177,6 +228,33 @@ namespace ApiRestPruebas.M7
     }
 
     /// <summary>
+    /// Metodo para testear las excepciones del metodo PostHorario
+    /// </summary>
+    [Category("Post")]
+    [Test]
+    public void TestExcepcionPostHorario()
+    {
+      lugar.Id = 0;
+      Assert.Catch<HttpResponseException>(ExcepcionPostHorario);
+
+      lugar.Id = 1;
+      horario.HoraApertura = TimeSpan.Zero;
+      horario.HoraCierre = TimeSpan.Zero;
+      Assert.DoesNotThrow(ExcepcionPostHorario);
+
+      horario = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostHorario);
+    }
+
+    /// <summary>
+    /// Metodo para testear las excepciones
+    /// </summary>
+    public void ExcepcionPostHorario()
+    {
+      controlador.PostHorario(horario, lugar.Id);
+    }
+
+    /// <summary>
     /// Test del metodo PostFoto
     /// </summary>
     [Category("Post")]
@@ -185,6 +263,32 @@ namespace ApiRestPruebas.M7
     {
       controlador.PostFoto(foto, lugar.Id);
       Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Foto.Contains(foto));
+    }
+
+    /// <summary>
+    /// Metodo para testear las excepciones del metodo PostFoto
+    /// </summary>
+    [Category("Post")]
+    [Test]
+    public void TestExcepcionPostFoto()
+    {
+      lugar.Id = 0;
+      Assert.Catch<HttpResponseException>(ExcepcionPostFoto);
+
+      lugar.Id = 1;
+      foto.Contenido = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostFoto);
+
+      foto = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPostFoto);
+    }
+
+    /// <summary>
+    /// Metodo para testear las excepciones
+    /// </summary>
+    public void ExcepcionPostFoto()
+    {
+      controlador.PostFoto(foto, lugar.Id);
     }
 
     //PUT
@@ -205,6 +309,28 @@ namespace ApiRestPruebas.M7
       controlador.PutLugar(lugar);
 
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
+    }
+
+    /// <summary>
+    /// Test para las excepciones del metodo PutLugar
+    /// </summary>
+    [Category("Put")]
+    [Test]
+    public void TestExcepcionPutLugar()
+    {
+      lugar.Nombre = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPutLugar);
+
+      lugar = null;
+      Assert.Catch<HttpResponseException>(ExcepcionPutLugar);
+    }
+
+    /// <summary>
+    /// Metodo que permite testear excepciones
+    /// </summary>
+    public void ExcepcionPutLugar()
+    {
+      controlador.PutLugar(lugar);
     }
 
     /// <summary>
@@ -259,7 +385,7 @@ namespace ApiRestPruebas.M7
     /// </summary>
     private void DeleteActividad()
     {
-      Assert.AreEqual(false, controlador.GetActividad(actividad.Id));
+      controlador.GetActividad(actividad.Id);
     }
 
     /// <summary>
