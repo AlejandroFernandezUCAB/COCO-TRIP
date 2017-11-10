@@ -84,7 +84,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     [HttpGet]
     public List<Itinerario> ConsultarItinerarios(int id_usuario)
-    {
+    { 
         return peti.ConsultarItinerarios(id_usuario);
     }
 

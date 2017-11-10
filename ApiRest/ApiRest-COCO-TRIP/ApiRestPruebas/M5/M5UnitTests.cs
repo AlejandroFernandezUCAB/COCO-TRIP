@@ -4,6 +4,8 @@ using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
 using Npgsql;
+using System.Collections.Generic;
+
 namespace ApiRestPruebas
 {
 
@@ -14,11 +16,13 @@ namespace ApiRestPruebas
     private Itinerario itinerario;
     private Itinerario it;
     private Boolean x;
-
+    private int id_usuario;
+    private List<Itinerario> itinerarios_usuario;
     [OneTimeSetUp]
     protected void OTSU()
     {
       controller = new M5Controller();
+      
     }
 
     /// <summary>
@@ -117,6 +121,27 @@ namespace ApiRestPruebas
       };
       x = controller.AgregarLugar_It(itinerario, lt);
       Assert.AreEqual(true, x);
+    }
+
+
+    /* [Test]
+    public void PruebaConsultarItinerarios()
+    {
+      Assert.Catch<NpgsqlException>(ExcepcionItinerarioNull);
+    }
+
+    public void ExcepcionItinerarioNull()
+    {
+      id_usuario = null;
+      controller.ConsultarItinerarios(id_usuario);
+    } */
+
+    [Test]
+    public void ConsultarItinerarioIsEmpty()
+    {
+      //id de usuario que no existe
+      id_usuario = 50;
+      Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
     }
    
   
