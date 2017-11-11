@@ -116,7 +116,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      Itinerario itinerario = new Itinerario(9);
+      Itinerario itinerario = new Itinerario(4);
       LugarTuristico lt = new LugarTuristico
       {
         Id = 1
@@ -146,6 +146,12 @@ namespace ApiRestPruebas
       Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
     }
    
-  
+    [Test]
+    public void Prueba_EliminarItem()
+    {
+      x = controller.EliminarItem_It(4,12);
+      Assert.True(x);
+    }
+
   }
 }

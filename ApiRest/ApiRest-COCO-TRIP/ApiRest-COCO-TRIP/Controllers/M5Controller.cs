@@ -4,6 +4,7 @@ using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
+using Npgsql;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -17,7 +18,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-      return peti.AgregarItinerario(it);
+     
+        return peti.AgregarItinerario(it);
+      
     }
 
    
@@ -54,9 +57,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     [HttpDelete]
-    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    public Boolean EliminarItem_It(int idit, int idag)
     {
-      return peti.EliminarItem_It(it, ag);
+      return peti.EliminarItem_It(idit, idag);
     }
 
     
