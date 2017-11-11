@@ -23,7 +23,8 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public bool AgregarEvento(Evento evento)
     {
-      return PeticionEvento.AgregarEvento(evento);
+      PeticionEvento peticionEvento = new PeticionEvento();
+      return peticionEvento.AgregarEvento(evento);
     }
     /**
      * <summary>Metodo de controlador para Eliminar un Evento de la BBDD</summary>

@@ -18,10 +18,9 @@ namespace ApiRest_COCO_TRIP.Models
       conexion.Conectar();
     }
 
-    public bool AgregarEvento(Evento evento)
+    public  bool AgregarEvento(Evento evento)
     {
-      try
-      {
+      
         comando = new NpgsqlCommand("Add_evento", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         //Aqui registro los valores
@@ -37,12 +36,8 @@ namespace ApiRest_COCO_TRIP.Models
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdLocalidad);
         read = comando.ExecuteReader();
         read.Read();
-        //Logica para retornar hablar con noe
-      }
-      catch
-      {
-
-      }
+      //Logica para retornar hablar con noe
+      return false;
     }
 
     internal static bool EliminarEvento(int v, int id)
