@@ -27,7 +27,7 @@ namespace ApiRestPruebas.M3
       conexion.Conectar();
       conexion.Comando = conexion.SqlConexion.CreateCommand();
       conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuariopruebas1', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas1@gmail.com','123456', null, true);" +
-        "INSERT INTO Usuario VALUES (-2 ,'usuariopruebas2', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas2@gmail.com','123456', null, true);"+
+        "INSERT INTO Usuario VALUES (-2 ,'usuariopruebas2', 'Mariangel','Perez',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas2@gmail.com','123456', null, true);"+
         "INSERT INTO Grupo VALUES (-1,'Grupoprueba1',null,-1);" +
         "INSERT INTO Grupo VALUES (-2,'Grupoprueba2',null,-2);" +
         "INSERT INTO Miembro VALUES (-1,-1,-1);" +
@@ -192,75 +192,95 @@ namespace ApiRestPruebas.M3
 
     }
 
+
+
+
+
+
+
+
+    //PRUEBAS UNITARIAS DE ELIMINAR AMIGO
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para eliminar un amigo
     /// </summary>
     [Test]
     public void EliminarAmigoTest() {
-      peticion.AgregarAmigosBD("usuario1", "usuario2");
-      Assert.AreEqual(1, peticion.EliminarAmigoBD("usuario1", "usuario2"));
+      peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2");
+      Assert.AreEqual(1, peticion.EliminarAmigoBD("usuariopruebas1", "usuariopruebas2"));
     }
 
+    //PRUEBAS UNITARIAS DE ELIMINAR GRUPO
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para eliminar un grupo
     /// </summary>
     [Test]
     public void EliminarGrupoTest() {
-      peticion.AgregarGrupoBD("Grupo", "usuario1");
-      Assert.AreEqual(1, peticion.EliminarGrupoBD("usuario1", 1));
+      Assert.AreEqual(1, peticion.EliminarGrupoBD("usuariopruebas1", -1));
     }
 
+    //PRUEBAS UNITARIAS DE VISUALIZAR LISTA DE AMIGOS
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
-    /// Prueba para visualizar lista de grupos
+    /// Prueba para visualizar lista de amigos
     /// </summary>
     [Test]
     public void VisualizarListaAmigos() {
-      peticion.AgregarAmigosBD("usuario1", "usuario2");
-      peticion.AgregarAmigosBD("usuario1", "usuario3");
+      peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2");
       List<Usuario> lista = new List<Usuario>();
-      lista.Add(usuario1);
-      lista.Add(usuario2);
-      Assert.AreEqual(lista, peticion.VisualizarListaAmigoBD("usuario1"));
+      lista = peticion.VisualizarListaAmigoBD("usuariopruebas1");
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista) {
+          usuario = u;
+      }
+      Assert.AreEqual("Mariangel", usuario.Nombre);
+      Assert.AreEqual("Perez", usuario.Apellido);
+      Assert.AreEqual(null, usuario.Foto);
     }
 
+    //PRUEBAS UNITARIAS DE MODIFICAR GRUPO
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para modificar los atributos del grupo
     /// </summary>
     [Test]
     public void ModificarGrupoTest() {
-      peticion.AgregarGrupoBD("Grupo", "usuario1");
-      Assert.AreEqual(1, peticion.ModificarGrupoBD("GrupoTest","usuario1",1));
+      Assert.AreEqual(1, peticion.ModificarGrupoBD("GrupoTest", "usuariopruebas1", -1));
     }
 
+    //PRUEBAS UNITARIAS DE ELIMINAR LOS INTEGRANTES DE UN GRUPO AL MODIFICAR
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para eliminar los integrantes de un grupo al modificar
     /// </summary>
     [Test]
     public void EliminarIntegranteModificarTest() {
-      peticion.AgregarGrupoBD("Grupo", "usuario1");
-      peticion.AgregarIntegranteModificarBD(1, "usuario2");
-      Assert.AreEqual(1, peticion.EliminarIntegranteModificarBD("usuario2",1));
+      peticion.AgregarIntegranteModificarBD(-2, "usuariopruebas1");
+      Assert.AreEqual(1, peticion.EliminarIntegranteModificarBD("usuariopruebas1", -2));
 
     }
 
+    //PRUEBAS UNITARIAS DE AGREGAR UN INTEGRANTE AL GRUPO AL MODIFICAR
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para agregar un integrante a un grupo al modificar
     /// </summary>
     [Test]
     public void AgregarIntegranteModificarTest()
     {
-      peticion.AgregarGrupoBD("Grupo", "usuario1");
-      Assert.AreEqual(1, peticion.AgregarIntegranteModificarBD(1, "usuario2"));
-
+      Assert.AreEqual(1, peticion.AgregarIntegranteModificarBD(-2, "usuariopruebas1"));
     }
 
+    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para obtener el id del usuario dado el nombre de usuario
     /// </summary>
     [Test]
     public void ObtenerIdUsuarioTest()
     {
-      Assert.AreEqual(1, peticion.ObtenerIdUsuario("usuario1"));
+      Assert.AreEqual(-1, peticion.ObtenerIdUsuario("usuariopruebas1"));
     }
 
     /// <summary>
