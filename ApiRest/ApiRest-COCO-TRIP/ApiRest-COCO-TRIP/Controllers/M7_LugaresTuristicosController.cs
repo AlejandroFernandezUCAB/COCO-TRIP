@@ -212,7 +212,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion e)
+            catch (ArchivoExcepcion)
             {
               //RegistrarExcepcion(e); NLog
 
@@ -255,7 +255,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion e)
+            catch (ArchivoExcepcion)
             {
               //RegistrarExcepcion(e); NLog
 
@@ -335,7 +335,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion e)
+            catch (ArchivoExcepcion)
             {
               //RegistrarExcepcion(e); NLog
 
@@ -378,7 +378,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion e)
+            catch (ArchivoExcepcion)
             {
               //RegistrarExcepcion(e); NLog
 
@@ -451,7 +451,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
               }
-              catch (ArchivoExcepcion e)
+              catch (ArchivoExcepcion)
               {
                 //RegistrarExcepcion(e); NLog
 
@@ -479,7 +479,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
           }
-          catch (ArchivoExcepcion e)
+          catch (ArchivoExcepcion)
           {
             //RegistrarExcepcion(e); NLog
 
