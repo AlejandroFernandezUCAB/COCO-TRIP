@@ -45,7 +45,7 @@ gr_foto bytea,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
-CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
+CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
 );
 
 Create Table Miembro
@@ -55,8 +55,8 @@ fk_grupo int NOT NULL,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_miembro PRIMARY KEY (mi_id),
-CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id),
-CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
+CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id) on delete cascade,
+CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
 );
 
 Create Table Amigo
@@ -66,9 +66,10 @@ fk_usuario_conoce int NOT NULL,
 fk_usuario_posee int NOT NULL,
 
 CONSTRAINT pk_amigo PRIMARY KEY (am_id),
-CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id),
-CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id)
+CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id) on delete cascade,
+CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
 );
+
 --Fin de modulo 
 --Modulo 4
 --Fin de modulo 

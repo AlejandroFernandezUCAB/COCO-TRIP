@@ -532,3 +532,139 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     BEGIN
         /*UPDATE TABLE CATEGORIA  */
     END; $$;
+
+    /**
+Procedimientos del Modulo (3) Amistades y Grupos
+
+Autores:
+  Mariangel Perez
+  Oswaldo Lopez
+  Aquiles Pulido
+**/
+
+/*INSERT*/
+
+CREATE OR REPLACE FUNCTION BuscarAmigos (_nombre varchar)
+RETURNS TABLE
+  (nombreusu varchar,
+   nombre varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+  RETURN QUERY SELECT
+  us_nombreusuario, us_nombre, us_foto
+  FROM Usuario
+  WHERE  us_nombreusuario=_nombre or us_nombre=_nombre or us_nombre like _nombre || '%' ;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION AgregarGrupo
+(nombre varchar, foto bytea, _fk_usuario integer)
+RETURNS integer AS
+$$
+DECLARE
+ result integer;
+BEGIN
+
+  INSERT INTO Grupo
+  (gr_id,gr_nombre,gr_foto,fk_usuario)
+    VALUES
+  (nextval('SEQ_Grupo'),nombre,foto, _fk_usuario);
+
+  if found then
+  result:= 1;
+  else result:=0;
+  end if;
+
+  INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
+    VALUES
+  (nextval('SEQ_Miembro'),currval('SEQ_Grupo'),_fk_usuario);
+
+  if found then
+  result := result + 1;
+  else result := 0;
+  end if;
+  RETURN result;
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION AgregarGrupoSinFoto
+(nombre varchar, _fk_usuario integer)
+RETURNS integer AS $$
+DECLARE
+result integer;
+BEGIN
+
+  INSERT INTO Grupo
+  (gr_id,gr_nombre,fk_usuario)
+    VALUES
+  (nextval('SEQ_Grupo'),nombre,_fk_usuario);
+
+  if found then
+  result:= 1;
+  else result:=0;
+  end if;
+
+  INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
+    VALUES
+  (nextval('SEQ_Miembro'),currval('SEQ_Grupo'),_fk_usuario);
+
+  if found then
+  result := result + 1;
+  else result := 0;
+  end if;
+  RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consultar la tabla de grupos y devolver la lista que coincida con el id de el usuario
+
+CREATE OR REPLACE FUNCTION ConsultarListaGrupos (idusuario integer)
+RETURNS TABLE
+  (nombre varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+  RETURN QUERY SELECT
+  gru.gr_nombre , gru.gr_foto
+  FROM Grupo gru, Miembro mie
+  WHERE mie.fk_usuario=idusuario and mie.fk_grupo=gru.gr_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consultar perfil del grupo que coincida con el id del grupo 
+
+CREATE OR REPLACE FUNCTION ConsultarPerfilGrupo (idgrupo integer)
+RETURNS TABLE
+  (nombre varchar,
+   foto bytea,
+   cantidad_integrantes bigint)
+AS
+$$
+BEGIN
+  RETURN QUERY SELECT
+  gru.gr_nombre as nombre , gru.gr_foto as foto, count(mie.*)
+  FROM Grupo gru, Miembro mie
+  WHERE mie.fk_grupo=gru.gr_id and gru.gr_id=idgrupo
+    group by(nombre, foto);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ConseguirIdUsuario(
+  nombreUsuario character varying)
+    RETURNS TABLE
+    (id integer)
+     
+AS $$
+BEGIN
+RETURN QUERY
+SELECT us_id
+FROM Usuario
+WHERE us_nombreusuario = nombreUsuario;
+END;
+$$ LANGUAGE plpgsql;
+
+
