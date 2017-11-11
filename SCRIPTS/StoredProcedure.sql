@@ -189,6 +189,7 @@ Autores:
   Aquiles Pulido
 **/
 
+
 /*INSERT*/
 -------------------------PROCEDIMIENTO BUSCAR AMIGO----------------------------
 CREATE OR REPLACE FUNCTION BuscarAmigos (_nombre varchar)
@@ -340,7 +341,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION modificarGrupo(nombreGrupo character varying,
   my_id integer,
   idGrupo integer)
-    RETURNS integer LANGUAGE 'plpgsql'
+    RETURNS integer 
     AS $$
 DECLARE
 result integer;
@@ -356,7 +357,7 @@ UPDATE Grupo SET
   end if;
   RETURN result;
 END;
-$$
+$$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO ELIMINAR INTEGRANTE----------------------------
 CREATE OR REPLACE FUNCTION eliminarintegrante(
   idamigo integer, idGrupo integer)
@@ -379,11 +380,11 @@ BEGIN
   RETURN result;
 END;
 
-$function$;
+$$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO AGREGAR INTEGRANTE----------------------------
 CREATE OR REPLACE FUNCTION agregarIntegrante(idGrupo integer,
   idUsuario integer)
-    RETURNS integer LANGUAGE 'plpgsql'
+    RETURNS integer 
     AS $$
 DECLARE
 result integer;
@@ -399,7 +400,7 @@ INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
   end if;
   RETURN result;
 END;
-$$
+$$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO AGREGAR AMIGO----------------------------
 CREATE OR REPLACE FUNCTION AgregarAmigo(usuario1 integer, usuario2 integer)
     RETURNS integer AS $$
@@ -495,6 +496,23 @@ SELECT us_id
 FROM Usuario
 WHERE us_nombreusuario = nombreUsuario;
 END;
+$$ LANGUAGE plpgsql;
+-------------------------PROCEDIMIENTO VISUALIZAR LOS INTEGRANTES----------------------------
+CREATE OR REPLACE FUNCTION VisualizarMiembroGrupo(idgrupo integer) 
+    RETURNS TABLE(
+      id integer,
+      nombre varchar,
+      apellido varchar,
+      nombreusuario varchar,
+      foto bytea)
+    AS
+  $$
+    BEGIN
+      RETURN QUERY SELECT distinct
+    us_id, us_nombre, us_apellido, us_nombreusuario,us_foto
+    FROM usuario u,miembro mi
+    WHERE u.us_id=mi.fk_usuario and mi.fk_grupo=idgrupo;
+    END;
 $$ LANGUAGE plpgsql;
 
 /**
