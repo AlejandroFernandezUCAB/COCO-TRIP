@@ -133,10 +133,10 @@ namespace ApiRest_COCO_TRIP.Controllers
             SmtpServer.Send(mail);
           }
           else
-          { usuario.Id = -2; }
+          { usuario.Id = -3; }
         }
         else
-        { usuario.Id = -1; }
+        { usuario.Id = -2; }
       }
       catch (NpgsqlException)
       {
