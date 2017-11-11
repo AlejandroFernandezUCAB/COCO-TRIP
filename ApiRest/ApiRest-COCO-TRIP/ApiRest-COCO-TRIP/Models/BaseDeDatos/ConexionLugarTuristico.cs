@@ -18,6 +18,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
     private NpgsqlDataReader leerDatos; //Lee la respuesta de la instruccion SQL ejecutada
 
+    private Archivo foto; //Guarda la foto en el web service
+
     /// <summary>
     /// Constructor de la clase
     /// </summary>
@@ -25,6 +27,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     {
       conexion = new ConexionBase();
       comando = new NpgsqlCommand();
+      foto = new Archivo();
     }
 
     /// <summary>
@@ -159,17 +162,23 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
-        leerDatos = comando.ExecuteReader();
-
-        if (leerDatos.Read())
+        if (actividad.Foto.Contenido != null)
         {
-          actividad.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
+          leerDatos = comando.ExecuteReader();
+
+          if (leerDatos.Read())
+          {
+            actividad.Id = leerDatos.GetInt32(0);
+            leerDatos.Close();
+          }
+
+          foto.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+
         }
-
-        //
-
-        //
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        }
 
         return actividad.Id;
       }

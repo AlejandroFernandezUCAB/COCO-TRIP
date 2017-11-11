@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using System.Reflection;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -24,31 +26,47 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="contenido">Bytes del archivo</param>
     /// <param nombreArchivo="nombreArchivo">Nombre del archivo a escribir</param>
     /// <returns>Retorna si la escritura fue exitosa o no</returns>
-    public bool EscribirArchivo(byte[] contenido, string nombreArchivo)
+    public void EscribirArchivo(byte[] contenido, string nombreArchivo)
     {
       try
       {
         File.WriteAllBytes(ruta + nombreArchivo, contenido);
- 
-        return true;
       }
-      catch(ArgumentNullException)
+      catch(ArgumentNullException e )
       {
         //El arreglo de bytes es null o el nombre del archivo es nulo
         //Registrar en NLog la incidencia
-        return false;
+
+        var excepcion = new ArchivoExcepcion(e);
+        excepcion.NombreArchivo = nombreArchivo;
+        excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        excepcion.Ruta = ruta;
+
+        throw excepcion;
       }
-      catch(DirectoryNotFoundException)
+      catch(DirectoryNotFoundException e)
       {
         //Alguien borro la carpeta Images o el nombre del archivo es incorrecto
         //Registrar en NLog la incidencia
-        return false;
+
+        var excepcion = new ArchivoExcepcion(e);
+        excepcion.NombreArchivo = nombreArchivo;
+        excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        excepcion.Ruta = ruta;
+
+        throw excepcion;
       }
-      catch(IOException)
+      catch(IOException e)
       {
-        //Erorr atipico de entrada/salida
+        //Error atipico de entrada/salida
         //Registrar en NLog la incidencia
-        return false;
+
+        var excepcion = new ArchivoExcepcion(e);
+        excepcion.NombreArchivo = nombreArchivo;
+        excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        excepcion.Ruta = ruta;
+
+        throw excepcion;
       }
     }
 
@@ -62,20 +80,41 @@ namespace ApiRest_COCO_TRIP.Models
       {
         File.Delete(ruta + nombreArchivo);
       }
-      catch (ArgumentNullException)
+      catch (ArgumentNullException e)
       {
         //El nombre del archivo es nulo
         //Registrar en NLog la incidencia
+
+        var excepcion = new ArchivoExcepcion(e);
+        excepcion.NombreArchivo = nombreArchivo;
+        excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        excepcion.Ruta = ruta;
+
+        throw excepcion;
       }
-      catch (DirectoryNotFoundException)
+      catch (DirectoryNotFoundException e)
       {
         //Alguien borro la carpeta Images o el nombre del archivo es incorrecto
         //Registrar en NLog la incidencia
+
+        var excepcion = new ArchivoExcepcion(e);
+        excepcion.NombreArchivo = nombreArchivo;
+        excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        excepcion.Ruta = ruta;
+
+        throw excepcion;
       }
-      catch (IOException)
+      catch (IOException e)
       {
         //Erorr atipico de entrada/salida
         //Registrar en NLog la incidencia
+
+        var excepcion = new ArchivoExcepcion(e);
+        excepcion.NombreArchivo = nombreArchivo;
+        excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        excepcion.Ruta = ruta;
+
+        throw excepcion;
       }
     }
 
