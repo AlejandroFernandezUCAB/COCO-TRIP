@@ -43,7 +43,6 @@ export class RestapiService {
         resolve(this.data);
       },error=>{
         resolve(-1);
-
       });
      });
 

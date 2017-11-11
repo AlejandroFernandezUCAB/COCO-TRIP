@@ -34,12 +34,6 @@ export class LoginPage {
     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
     public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
     private storage: Storage, public navParams: NavParams) {
-    storage.get('id').then((val) => {
-      this.facebook.browserInit(1251585011612648);
-      if (val != null) {
-        this.navCtrl.setRoot(HomePage);
-      }
-    });
     this.myForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -88,27 +82,19 @@ export class LoginPage {
 
   }
   facebookLogin() {
-    this.facebook.login(['public_profile', 'email'])
-       .then((res: FacebookLoginResponse) => this.realizarToast('Logged into Facebook! '+res))
-       .catch((e : FacebookLoginResponse) => this.realizarToast('Error logging into Facebook '+e.authResponse));
-    
-  }
-  facebookLoginprueba() {
+    this.realizarLoading();
     this.facebook.getLoginStatus().then(loginstatus => {
-      if(loginstatus.status=="connected")
-        this.realizarToast("logeado con facebook");
-      else
-      {
+      if(loginstatus.status=="connected"){
+        this.facebook.logout();
+      }
         this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
           this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
             this.userData = {
               correo: profile['email'], nombre: profile['first_name'],
-              apellido: profile['last_name'], fechaNacimiento: profile['birthday'],
-              foto: profile['picture_large']['data']['url']
+              apellido: profile['last_name'], fechaNacimiento: profile['birthday']
             };
-          });
-          console.log("JSON ES: " + JSON.stringify(this.userData));
-          this.restapiService.iniciarSesionFacebook(this.userData)
+            console.log("JSON ES: " + JSON.stringify(this.userData));
+            this.restapiService.iniciarSesionFacebook(this.userData)
             .then(data => {
               if (data == 0 || data == -1) {
                 this.realizarToast('Error con Facebook');
@@ -119,6 +105,7 @@ export class LoginPage {
               }
     
             });
+          });
         },
           (resultNegativoFacebook: FacebookLoginResponse) => {
             this.realizarToast('Error, por favor intente de nuevo+ '+resultNegativoFacebook.authResponse);
@@ -127,7 +114,7 @@ export class LoginPage {
         ).catch(e => {
           this.realizarToast('Error, por favor intente de nuevo++ '+e);
         });
-      }
+      
 
 
     });
