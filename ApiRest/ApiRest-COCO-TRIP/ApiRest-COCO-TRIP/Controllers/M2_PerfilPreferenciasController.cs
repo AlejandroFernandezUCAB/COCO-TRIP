@@ -96,6 +96,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="fechaDeNacimiento">Id del usuario </param>
     /// <param name="genero">Id de la categoria</param>
     /// <returns>bool</returns>
+    [HttpPost]
     public bool ModificarDatosUsuario(string nombreUsuario, string nombre, string apellido, string fechaDeNacimiento, string genero)
     {
       peticion = new PeticionPerfil();
@@ -128,6 +129,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="username">Username del usuario</param>
     /// <param name="password">Contraseña del usuario </param>
     /// <returns>bool</returns>
+    [HttpPost]
     public bool CambiarPass(string username, string passwordActual, string passwordNuevo)
     {
       peticion = new PeticionPerfil();
@@ -167,7 +169,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="username">Username del usuario</param>
     /// <param name="password">Contraseña del usuario </param>
     /// <returns>bool</returns>
-
+    [HttpPost]
     public bool BorrarUsuario(string username, string password)
     {
       peticion = new PeticionPerfil();
