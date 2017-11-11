@@ -82,11 +82,13 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_ModificarItinerario()
     {
-      DateTime fechaini = new DateTime(2021, 05, 28);
+      DateTime fechaini = new DateTime(2022, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(51, "Michel", fechaini, fechafin, 1);
-      x = controller.ModificarItinerario(itinerario);
-      Assert.True(x);
+      Itinerario itinerario = new Itinerario(4, "Epco", fechaini, fechafin, 2);
+      it = controller.ModificarItinerario(itinerario);
+      Assert.AreEqual("Epco", it.Nombre);
+      Assert.AreEqual(fechaini,it.FechaInicio);
+      Assert.AreEqual(fechafin, it.FechaFin);
     }
 
     /*   [Test]
@@ -114,7 +116,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      Itinerario itinerario = new Itinerario(9);
+      Itinerario itinerario = new Itinerario(4);
       LugarTuristico lt = new LugarTuristico
       {
         Id = 1
@@ -144,6 +146,12 @@ namespace ApiRestPruebas
       Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
     }
    
-  
+    [Test]
+    public void Prueba_EliminarItem()
+    {
+      x = controller.EliminarItem_It(4,12);
+      Assert.True(x);
+    }
+
   }
 }
