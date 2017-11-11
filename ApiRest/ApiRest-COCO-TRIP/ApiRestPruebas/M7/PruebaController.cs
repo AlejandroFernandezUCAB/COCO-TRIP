@@ -18,6 +18,12 @@ namespace ApiRestPruebas.M7
     private Horario horario;
     private Foto foto;
 
+    //Identificador unico de cada objeto
+    private int idLugar = 1;
+    private int idActividad = 1;
+    private int idHorario = 1;
+    private int idFoto = 1;
+
     /// <summary>
     /// Instancia los objetos que se usaran en las pruebas unitarias
     /// </summary>
@@ -27,7 +33,7 @@ namespace ApiRestPruebas.M7
       controlador = new M7_LugaresTuristicosController();
 
       lugar = new LugarTuristico();
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       lugar.Nombre = "Parque Generalisimo de Miranda";
       lugar.Costo = 0;
       lugar.Descripcion = "Lugar al aire libre";
@@ -41,7 +47,7 @@ namespace ApiRestPruebas.M7
       byte[] imagen = new byte[28480];
 
       actividad = new Actividad();
-      actividad.Id = 1;
+      actividad.Id = idActividad;
       actividad.Nombre = "Parque Generalisimo de Miranda";
       actividad.Duracion = new TimeSpan(2, 0, 0);
       actividad.Descripcion = "Lugar al aire libre";
@@ -49,13 +55,13 @@ namespace ApiRestPruebas.M7
       actividad.Activar = true;
 
       horario = new Horario();
-      horario.Id = 1;
+      horario.Id = idHorario;
       horario.DiaSemana = (int)DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(8, 0, 0);
       horario.HoraCierre = new TimeSpan(17, 0, 0);
 
       foto = new Foto();
-      foto.Id = 1;
+      foto.Id = idFoto;
       foto.Contenido = imagen;
     }
 
@@ -69,7 +75,7 @@ namespace ApiRestPruebas.M7
     public void TestGetLista()
     {
       lugar = new LugarTuristico();
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       lugar.Nombre = "Parque Generalisimo de Miranda";
       lugar.Costo = 0;
       lugar.Descripcion = "Lugar al aire libre";
@@ -81,7 +87,7 @@ namespace ApiRestPruebas.M7
       lugar.Horario.Add(horario);
       lugar.Foto.Add(foto);
 
-      Assert.AreEqual(true, controlador.GetLista(1, 2).Contains(lugar));
+      Assert.AreEqual(true, controlador.GetLista(1, lugar.Id).Contains(lugar));
     }
 
     /// <summary>
@@ -148,7 +154,8 @@ namespace ApiRestPruebas.M7
       lugar.Horario.Add(horario);
       lugar.Foto.Add(foto);
 
-      controlador.PostLugar(lugar);
+      idLugar = controlador.PostLugar(lugar);
+      lugar.Id = idLugar;
 
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
     }
@@ -186,7 +193,9 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestPostActividad()
     {
-      controlador.PostActividad(actividad, lugar.Id);
+      idActividad = controlador.PostActividad(actividad, lugar.Id);
+      actividad.Id = idActividad;
+
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
     }
 
@@ -200,7 +209,7 @@ namespace ApiRestPruebas.M7
       lugar.Id = 0;
       Assert.Catch<HttpResponseException>(ExcepcionPostActividad);
 
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       actividad.Nombre = null;
       Assert.Catch<HttpResponseException>(ExcepcionPostActividad);
 
@@ -223,7 +232,9 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestPostHorario()
     {
-      controlador.PostHorario(horario, lugar.Id);
+      idHorario = controlador.PostHorario(horario, lugar.Id);
+      horario.Id = idHorario;
+
       Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Horario.Contains(horario));
     }
 
@@ -237,7 +248,7 @@ namespace ApiRestPruebas.M7
       lugar.Id = 0;
       Assert.Catch<HttpResponseException>(ExcepcionPostHorario);
 
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       horario.HoraApertura = TimeSpan.Zero;
       horario.HoraCierre = TimeSpan.Zero;
       Assert.DoesNotThrow(ExcepcionPostHorario);
@@ -261,7 +272,9 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestPostFoto()
     {
-      controlador.PostFoto(foto, lugar.Id);
+      idFoto = controlador.PostFoto(foto, lugar.Id);
+      foto.Id = idFoto;
+
       Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Foto.Contains(foto));
     }
 
@@ -275,7 +288,7 @@ namespace ApiRestPruebas.M7
       lugar.Id = 0;
       Assert.Catch<HttpResponseException>(ExcepcionPostFoto);
 
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       foto.Contenido = null;
       Assert.Catch<HttpResponseException>(ExcepcionPostFoto);
 

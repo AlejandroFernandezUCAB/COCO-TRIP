@@ -18,10 +18,10 @@
 <ion-content padding>
 <ion-list>
   <ion-item-group>
-    <ion-item *ngFor="let evento of eventos">
-      <p><strong>{{evento.titulo}}</strong></p>
-      <p>Comienza: {{evento.horaInicio}} | Termina: {{evento.horaFin}}</p>
-      <p>Itinerario: <em>{{evento.itinerario}}</em></p>
+    <ion-item *ngFor="let item of items_agendaa">
+      <p><strong>{{item.Nombre}}</strong></p>
+      <!-- <p>Comienza: {{evento.horaInicio}} | Termina: {{evento.horaFin}}</p> -->
+      <p>Itinerario: <em>{{item.itinerario}}</em></p>
     </ion-item>
   </ion-item-group>
 </ion-list>
