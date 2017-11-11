@@ -45,7 +45,7 @@ gr_foto bytea,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
-CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
+CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
 );
 
 Create Table Miembro
@@ -55,8 +55,8 @@ fk_grupo int NOT NULL,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_miembro PRIMARY KEY (mi_id),
-CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id),
-CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
+CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id) on delete cascade,
+CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
 );
 
 Create Table Amigo
@@ -66,10 +66,11 @@ fk_usuario_conoce int NOT NULL,
 fk_usuario_posee int NOT NULL,
 
 CONSTRAINT pk_amigo PRIMARY KEY (am_id),
-CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id),
-CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id)
+CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id) on delete cascade,
+CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
 );
---Fin de modulo
+
+--Fin de modulo 
 --Modulo 4
 --Fin de modulo
 --Modulo 5
@@ -177,14 +178,12 @@ create table evento
 	ev_localidad int,
 	ev_categoria int
 );
-
-
-create table localidad
-(
+create table localidad(
 	lo_id int primary key,
 	lo_nombre varchar(200),
 	lo_descripcion varchar(500),
-	lo_lugar varchar (500)
+	lo_coord_x int,
+  lo_coord_y int
 );
 --Fin de modulo
 --Modulo 9
@@ -259,7 +258,9 @@ CREATE SEQUENCE SEQ_LT_Horario;
 CREATE SEQUENCE SEQ_LT_Foto;
 --Fin de modulo
 --Modulo 8
---Fin de modulo
+CREATE SEQUENCE SEQ_Evento;
+CREATE SEQUENCE SEQ_Localidad;
+--Fin de modulo 
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
     START WITH 1
@@ -297,24 +298,15 @@ CREATE INDEX IX_LT_FOTO ON lt_foto (fk_fo_lugar_turistico, fo_id);
 --Fin de modulo
 --Modulo 8
 CREATE SEQUENCE SEQ_Evento
-
 	START WITH 1
-
 	INCREMENT BY 1
-
 	NO MINVALUE
-
 	NO MAXVALUE
-
 	CACHE 1;
 
-
 CREATE SEQUENCE SEQ_Localidad
-
 	START WITH 1
-
 	INCREMENT BY 1
-
 	NO MINVALUE
 	NO MAXVALUE
 	CACHE 1;
