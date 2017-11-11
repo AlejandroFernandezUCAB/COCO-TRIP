@@ -3,6 +3,7 @@ using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.BaseDeDatos;
+using ApiRest_COCO_TRIP.Models;
 
 namespace ApiRestPruebas.M7.Base
 {
@@ -18,6 +19,8 @@ namespace ApiRestPruebas.M7.Base
     private Horario horario;
     private Foto foto;
 
+    private Archivo archivo;
+
     //Identificador unico de cada objeto
     private int idLugar = 1;
     private int idActividad = 1;
@@ -31,6 +34,7 @@ namespace ApiRestPruebas.M7.Base
     public void SetConexion()
     {
       conexion = new ConexionLugarTuristico();
+      archivo = new Archivo();
 
       lugar = new LugarTuristico();
       lugar.Id = idLugar;
@@ -52,6 +56,7 @@ namespace ApiRestPruebas.M7.Base
       actividad.Duracion = new TimeSpan(2, 0, 0);
       actividad.Descripcion = "Lugar al aire libre";
       actividad.Foto.Contenido = imagen;
+      actividad.Foto.Ruta = archivo.Ruta;
       actividad.Activar = true;
 
       horario = new Horario();
@@ -63,6 +68,7 @@ namespace ApiRestPruebas.M7.Base
       foto = new Foto();
       foto.Id = idFoto;
       foto.Contenido = imagen;
+      foto.Ruta = archivo.Ruta;
     }
 
     //Insert
@@ -239,7 +245,6 @@ namespace ApiRestPruebas.M7.Base
     {
       conexion.Conectar();
 
-      string v = Newtonsoft.Json.JsonConvert.SerializeObject(conexion.ConsultarLugarTuristico(lugar.Id));
       Assert.AreEqual(true, lugar.Equals(conexion.ConsultarLugarTuristico(lugar.Id)));
       
       conexion.Desconectar();
@@ -271,6 +276,9 @@ namespace ApiRestPruebas.M7.Base
     [Category("Consultar")]
     public void TestConsultarActividades()
     {
+      actividad.Foto.Contenido = null;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
+
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id).Contains(actividad));
       conexion.Desconectar();
@@ -283,6 +291,9 @@ namespace ApiRestPruebas.M7.Base
     [Category("Consultar")]
     public void TestConsultarActividad()
     {
+      actividad.Foto.Contenido = null;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
+
       conexion.Conectar();
       Assert.AreEqual(true, actividad.Equals(conexion.ConsultarActividad(actividad.Id)));
       conexion.Desconectar();
@@ -337,6 +348,9 @@ namespace ApiRestPruebas.M7.Base
     [Category("Consultar")]
     public void TestConsultarFotos()
     {
+      foto.Contenido = null;
+      foto.Ruta += "lt-fo-" + actividad.Id;
+
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarFotos(lugar.Id).Contains(foto));
       conexion.Desconectar();
@@ -399,6 +413,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestActualizarActividad()
     {
       actividad.Foto.Contenido = new Byte[2];
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
       actividad.Nombre = "ABC";
       actividad.Duracion = new TimeSpan(19, 0, 0);
       actividad.Descripcion = "Haciendo PU simples";
@@ -484,6 +499,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestActualizarFoto()
     {
       foto.Contenido = new Byte[12554];
+      foto.Ruta += "lt-fo-" + foto.Id;
 
       conexion.Conectar();
       conexion.ActualizarFoto(foto);
