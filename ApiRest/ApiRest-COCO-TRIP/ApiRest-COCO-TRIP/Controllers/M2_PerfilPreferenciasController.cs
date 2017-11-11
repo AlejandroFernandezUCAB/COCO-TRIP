@@ -110,7 +110,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         }
         else
         {
-          peticion.ModificarDatos(idUsuario, nombreUsuario, nombre, apellido, fechaDeNacimiento, genero[0]);
+          peticion.ModificarDatos(idUsuario, nombre, apellido, fechaDeNacimiento, genero);
           return true;
         }
       }
