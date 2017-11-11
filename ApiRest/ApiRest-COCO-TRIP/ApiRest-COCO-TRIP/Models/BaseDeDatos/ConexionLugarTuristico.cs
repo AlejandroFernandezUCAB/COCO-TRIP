@@ -566,7 +566,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
       }
       catch (ArchivoExcepcion e)
       {
-
+        throw e;
       }
 
     }
