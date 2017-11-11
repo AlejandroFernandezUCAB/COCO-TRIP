@@ -28,7 +28,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     [HttpPost]
-    public Boolean ModificarItinerario(Itinerario it)
+    public Itinerario ModificarItinerario(Itinerario it)
     {
       return peti.ModificarItinerario(it);
     }
