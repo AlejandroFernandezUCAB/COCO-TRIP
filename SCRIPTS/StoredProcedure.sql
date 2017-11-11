@@ -102,12 +102,13 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
+   validacion boolean,
    foto bytea)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
 	FROM usuario
 	WHERE us_email=_correo;
 END;
@@ -122,14 +123,35 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
+   validacion boolean,
    foto bytea)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
 	FROM usuario
 	WHERE us_nombreUsuario=_nombreUsuario;
+END;
+$$ LANGUAGE plpgsql;
+
+--Consulta el usuario por su id de usuario sin clave
+CREATE OR REPLACE FUNCTION ConsultarUsuarioSoloId(_id integer)
+RETURNS TABLE
+  (nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_foto
+	FROM usuario
+	WHERE us_id=_id;
 END;
 $$ LANGUAGE plpgsql;
 
