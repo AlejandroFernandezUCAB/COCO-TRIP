@@ -224,6 +224,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Consulta la contraseña del usuario
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarContrasena(_username varchar)
+RETURNS TABLE(clave varchar)
+AS $$
+DECLARE clave VARCHAR(20);
+BEGIN
+
+	RETURN QUERY SELECT
+  us_password
+	FROM usuario WHERE us_username = _username AND us_validacion=true;
+
+END;
+$$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
