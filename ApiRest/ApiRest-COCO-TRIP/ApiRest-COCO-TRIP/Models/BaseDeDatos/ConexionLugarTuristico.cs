@@ -153,7 +153,6 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarActividad";
         comando.CommandType = CommandType.StoredProcedure;
 
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, actividad.Foto.Contenido));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Nombre));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Time, actividad.Duracion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
@@ -167,6 +166,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           actividad.Id = leerDatos.GetInt32(0);
           leerDatos.Close();
         }
+
+        //
+
+        //
 
         return actividad.Id;
       }
