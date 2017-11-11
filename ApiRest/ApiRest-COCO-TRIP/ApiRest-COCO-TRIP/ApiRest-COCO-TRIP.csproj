@@ -108,7 +108,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
-    <Compile Include="Controllers\M2_PreferenciasController.cs" />
+    <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
     <Compile Include="Controllers\M5Controller.cs" />
     <Compile Include="Controllers\M7_LugaresTuristicosController.cs" />
