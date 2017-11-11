@@ -1,5 +1,6 @@
 using System.Data;
 using Npgsql;
+using System.Collections.Generic;
 using System;
 
 namespace ApiRest_COCO_TRIP.Models
@@ -23,14 +24,13 @@ namespace ApiRest_COCO_TRIP.Models
     /// <returns>Id del usuario, si retorna -1 es que no existe</returns>
     public int ConsultarIdDelUsuario(string nombreUsuario)
     {
-
+      
       int id;
       id = -1; //Coloco -1 para hacer una comparación más abajo y saber si entró ene l ciclo o no.
 
       conexion.Conectar();
       ConexionBase con = new ConexionBase();
-      con.Conectar();
-      NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", con.SqlConexion);
+      NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", conexion.SqlConexion);
       comm.CommandType = CommandType.StoredProcedure;
       comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreUsuario);
       NpgsqlDataReader pgread = comm.ExecuteReader();
@@ -82,24 +82,108 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     /// <summary>
-    /// Se agrega la preferencia a la base de datos
+    /// Metodo para eliminar la preferencia que haya seleccionado el usuario
     /// </summary>
-    /// <param name="idUsuario">Id del usuario </param>
+    /// <param name="idUsuario">Id del usuario</param>
     /// <param name="idCategoria">Id de la categoria</param>
-    public void AgregarPreferencia(int idUsuario, int idCategoria)
+    public void EliminarPreferencia(int idUsuario, int idCategoria)
     {
 
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
 
-      conexion.Conectar();
-      command = new NpgsqlCommand("agregarPreferencia", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      conexion.Desconectar();
+      try
+      {
 
+        conexion.Conectar();
+        command = new NpgsqlCommand("EliminarPreferencia", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idCategoria);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        conexion.Desconectar();
+
+      }
+      catch (NpgsqlException e)
+      {
+
+
+
+      }
+    }
+
+    /// <summary>
+    /// Se agrega la preferencia a la base de datos
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario </param>
+    /// <param name="idCategoria">Id de la categoria</param>
+    public void AgregarPreferencia( int idUsuario, int idCategoria)
+    {
+
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+
+      try
+      {
+
+        conexion.Conectar();
+        command = new NpgsqlCommand("InsertarPreferencia", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idCategoria);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        conexion.Desconectar();
+
+      }
+      catch (NpgsqlException e)
+      {
+
+       
+
+      }
+
+    }
+
+    /// <summary>
+    /// Metodoque devuelve la lista de preferencias de un usuario
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario</param>
+    /// <returns>Lista de preferencias del usuario</returns>
+    public List<Categoria> BuscarPreferencias(int idUsuario)
+    {
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+      Categoria categoria;
+      Usuario usuario;
+
+      try
+      {
+        usuario = new Usuario();
+        categoria = new Categoria();
+        conexion.Conectar();
+        command = new NpgsqlCommand("BuscarPreferencias", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        pgread = command.ExecuteReader();
+
+        while (pgread.Read()) {
+
+          categoria.Nombre = pgread.GetString(0);
+          usuario.AgregarPreferencia( categoria );
+
+        }
+
+        conexion.Desconectar();
+        return usuario.Preferencias;
+
+      }
+      catch (NpgsqlException e)
+      {
+        return null;
+      }
+      return null;
     }
 
 

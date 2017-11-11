@@ -46,6 +46,16 @@ public List<Actividad> Actividades { get => actividades; set => actividades = va
       idUsuario = idusuario;
     }
 
+    public Itinerario(int id, string nombre, DateTime fechainicio, DateTime fechafin, int idusuario, bool visible)
+    {
+      this.id = id;
+      this.nombre = nombre;
+      fechaInicio = fechainicio;
+      fechaFin = fechafin;
+      idUsuario = idusuario;
+      this.visible = visible;
+    }
+
     public Itinerario(string nombre, DateTime fechainicio, DateTime fechafin, int idusuario)
     {
       this.nombre = nombre;

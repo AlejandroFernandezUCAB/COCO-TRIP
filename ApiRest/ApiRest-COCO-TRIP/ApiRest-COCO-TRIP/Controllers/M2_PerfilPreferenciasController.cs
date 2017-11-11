@@ -13,11 +13,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     protected PeticionPerfil peticion;
     private int idUsuario;
 
-    [HttpGet]
-    public List<Categoria> AgregarPreferencia( )
-    {
-      return new List<Categoria>();
-    }
     /// <summary>
     /// Metodo Post para agregar una preferencia del usuario, hará una llamda a base de datos para buscar id de usuario
     /// y id de categoria para agregarlo en la tabla de preferencias
@@ -26,64 +21,56 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombrePreferencia">Nombre de la preferencia a agregar</param>
     /// <returns>Lista de preferencias del usuario</returns>
     // POST api/<controller>/<action>/prefencia
-    [HttpPost]
+    [HttpPut]
     public List<Categoria> AgregarPreferencias ( string nombreUsuario , string nombrePreferencia)
     {
 
-      Usuario usuario = new Usuario();
-      List<Categoria> preferencias = new List<Categoria>();
-      Categoria categoria = new Categoria();
-      PeticionPerfil peticion;
-
-      usuario.NombreUsuario = nombreUsuario;
-      usuario.Preferencias = preferencias;
-
-      //Si todo funciona como debe ser el enviará la lista de preferencias del usuario,
-      //en caso contrario retornará Null
-
-      try
-      {
-
-        peticion = new PeticionPerfil();
-        //Busco el nombre de usuario
-        usuario.Id = peticion.ConsultarIdDelUsuario( usuario.NombreUsuario );
-
-        if (usuario.Id == -1) 
-        {
-
-          return null; //No hay usuario en la bdd con -1
-
-        }
-
-        else //Se agrega al array de objetos y se busca el id en la BDD.
-        {
-
-          categoria.Id = peticion.ConsultarIdDeCategoria(categoria.Nombre);
-          usuario.AgregarPreferencia(categoria);
-          peticion.AgregarPreferencia(usuario.Id, categoria.Id);
-          return usuario.Preferencias;
-
-        }
-        
-
-      }
-      catch (NpgsqlException e)
-      {
-
-        return null;
-
-      }
+      int idUsuario, idCategoria;
+      List<Categoria> preferencias;
+      peticion = new PeticionPerfil();
+      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
+      idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
+      peticion.AgregarPreferencia(idUsuario, idCategoria);
+      preferencias = peticion.BuscarPreferencias(idUsuario);
+      return preferencias; //Retorna una lista de de categorias
 
     }
 
-    // GET api/<controller>/<action>/prefencia
+    /// <summary>
+    /// Metodo Post que devuelve la lista de preferencias actualizada
+    /// </summary>
+    /// <param name="nombreUsuario">Nombre del usuario</param>
+    /// <param name="nombrePreferencia">Nombre de la categoria a eliminar</param>
+    /// <returns>Retorna  una lista de  categorias</returns>
+    [HttpDelete]
+    public List<Categoria> EliminarPreferencias(string nombreUsuario, string nombrePreferencia)
+    {
+      int idUsuario, idCategoria;
+      List<Categoria> preferencias;
+      peticion = new PeticionPerfil();
+      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
+      idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
+      peticion.EliminarPreferencia(idUsuario, idCategoria);
+      preferencias = peticion.BuscarPreferencias(idUsuario);
+      return preferencias; //Retorna una lista de de categorias
+    }
+
+
+    /// <summary>
+    /// Devuelve la lista de  preferencias de un usuario
+    /// </summary>
+    /// <param name="nombreUsuario">Nombre del usuario</param>
+    /// <returns>Lista de preferencias</returns>
     [HttpGet]
-    public string Hola() {
-
-      return "Hola";
-
+    public List<Categoria> BuscarPreferencias(string nombreUsuario)
+    {
+      int idUsuario;
+      List<Categoria> preferencias;
+      peticion = new PeticionPerfil();
+      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
+      preferencias = peticion.BuscarPreferencias(idUsuario);
+      return preferencias;
     }
-
 
     /// <summary>
     /// Metodo Post para actualizar la informacion del usuario. hará dos llamdas a base de datos, una para buscar id de usuario

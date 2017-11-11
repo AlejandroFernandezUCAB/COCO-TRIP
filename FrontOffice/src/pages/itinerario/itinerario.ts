@@ -59,7 +59,7 @@ export class ItinerarioPage {
 
 
   loadItinerarios() {
-    this.itinerarios.consultarItinerarios(2);
+    this.itinerarios.consultarItinerarios(1);
   }
 
   calendar() {
@@ -97,7 +97,7 @@ export class ItinerarioPage {
                 Nombre: data.Nombre,
                 Items_agenda: Array()
               });
-              let newitinerario ={ Nombre:data.Nombre,IdUsuario:1 }
+              let newitinerario ={ Nombre:data.Nombre,IdUsuario:2 }
               this.httpc.agregarItinerario(newitinerario)
               //this.its[this.its.length].eventos = Array();
             } else {
@@ -111,7 +111,7 @@ export class ItinerarioPage {
     alert.present();
   }
 
-  presentConfirm(id, index) {
+  presentConfirm(idit, index) {
     const alert = this.alertCtrl.create({
     title: 'Por favor, confirmar',
     message: '¿Desea borrar este itinerario?',
@@ -126,8 +126,8 @@ export class ItinerarioPage {
       {
         text: 'Aceptar',
         handler: () => {
-          this.eliminarItinerario(id, index);
-          this.httpc.eliminarItinerario(50);//cambiar luego
+          this.eliminarItinerario(idit, index);
+          this.httpc.eliminarItinerario(idit);
           }
         }
       ]
@@ -153,6 +153,7 @@ export class ItinerarioPage {
         console.log("id_itinerario :: ", id_itinerario);
         console.log("id_evento :: ", id_evento);
         this.eliminarItem(id_itinerario, id_evento, index);
+        this.httpc.eliminarItem(id_itinerario, id_evento);
           }
         }
       ]
@@ -184,13 +185,18 @@ export class ItinerarioPage {
     this.edit = true;
     this.delete = false;
     for(var i = 0;i< this.its.length;i++) {
-      this.its[i].edit = this.its[i].nombre;
+      this.its[i].edit = this.its[i].Nombre;
     }
   }
 
   done(){
     this.edit = false;
     this.delete=false;
+    for(var i = 0;i< this.its.length;i++) {
+      this.its[i].edit = this.its[i].Nombre;
+      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+      this.httpc.modificarItinerario(moditinerario)
+    }
   }
 
   doneDeleting(){

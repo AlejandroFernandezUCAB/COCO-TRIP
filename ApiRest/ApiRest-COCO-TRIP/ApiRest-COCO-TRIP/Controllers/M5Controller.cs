@@ -4,6 +4,7 @@ using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
+using Npgsql;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -17,7 +18,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-      return peti.AgregarItinerario(it);
+     
+        return peti.AgregarItinerario(it);
+      
     }
 
    
@@ -28,7 +31,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     [HttpPost]
-    public Boolean ModificarItinerario(Itinerario it)
+    public Itinerario ModificarItinerario(Itinerario it)
     {
       return peti.ModificarItinerario(it);
     }
@@ -54,9 +57,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     [HttpDelete]
-    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    public Boolean EliminarItem_It(int idit, int idag)
     {
-      return peti.EliminarItem_It(it, ag);
+      return peti.EliminarItem_It(idit, idag);
     }
 
     
@@ -66,11 +69,22 @@ namespace ApiRest_COCO_TRIP.Controllers
         return peti.ConsultarItinerarios(id_usuario);
     }
 
-    [HttpGet]
+ /* [HttpGet]
     public List<Evento> ConsultarEventos(string busqueda)
     {
-        return peti.ConsultarEventos(busqueda);
+      return peti.ConsultarEventos(busqueda);
+    }*/
+
+    [HttpGet]
+    public List<LugarTuristico> ConsultarLugaresTuristicos(string busqueda)
+    {
+      return peti.ConsultarLugarTuristico(busqueda);
     }
 
+    [HttpGet]
+    public List<Actividad> ConsultarActividad(string busqueda)
+    {
+      return peti.ConsultarActividades(busqueda);
+    }
   }
 }

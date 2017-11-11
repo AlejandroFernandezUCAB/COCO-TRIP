@@ -3,6 +3,7 @@ using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.BaseDeDatos;
+using ApiRest_COCO_TRIP.Models;
 
 namespace ApiRestPruebas.M7.Base
 {
@@ -18,7 +19,13 @@ namespace ApiRestPruebas.M7.Base
     private Horario horario;
     private Foto foto;
 
-    //Falta excepciones de cada una
+    private Archivo archivo;
+
+    //Identificador unico de cada objeto
+    private int idLugar = 1;
+    private int idActividad = 1;
+    private int idHorario = 1;
+    private int idFoto = 1;
 
     /// <summary>
     /// Instancia los objetos
@@ -27,9 +34,10 @@ namespace ApiRestPruebas.M7.Base
     public void SetConexion()
     {
       conexion = new ConexionLugarTuristico();
+      archivo = new Archivo();
 
       lugar = new LugarTuristico();
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       lugar.Nombre = "Parque Generalisimo de Miranda";
       lugar.Costo = 0;
       lugar.Descripcion = "Lugar al aire libre";
@@ -43,22 +51,24 @@ namespace ApiRestPruebas.M7.Base
       byte[] imagen = new byte[28480];
 
       actividad = new Actividad();
-      actividad.Id = 1;
+      actividad.Id = idActividad;
       actividad.Nombre = "Parque Generalisimo de Miranda";
       actividad.Duracion = new TimeSpan(2, 0, 0);
       actividad.Descripcion = "Lugar al aire libre";
       actividad.Foto.Contenido = imagen;
+      actividad.Foto.Ruta = archivo.Ruta;
       actividad.Activar = true;
 
       horario = new Horario();
-      horario.Id = 1;
+      horario.Id = idHorario;
       horario.DiaSemana = (int)DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(8, 0, 0);
       horario.HoraCierre = new TimeSpan(17, 0, 0);
 
       foto = new Foto();
-      foto.Id = 1;
+      foto.Id = idFoto;
       foto.Contenido = imagen;
+      foto.Ruta = archivo.Ruta;
     }
 
     //Insert
@@ -71,7 +81,8 @@ namespace ApiRestPruebas.M7.Base
     public void TestInsertarLugarTuristico()
     {
       conexion.Conectar();
-      Assert.AreEqual(true, conexion.InsertarLugarTuristico(lugar) > 0);
+      idLugar = conexion.InsertarLugarTuristico(lugar);
+      Assert.AreEqual(true, idLugar > 0);
       conexion.Desconectar();
     }
 
@@ -107,7 +118,8 @@ namespace ApiRestPruebas.M7.Base
     public void TestInsertarActividad()
     {
       conexion.Conectar();
-      Assert.AreEqual(true, conexion.InsertarActividad(actividad, lugar.Id) > 0);
+      idActividad = conexion.InsertarActividad(actividad, lugar.Id);
+      Assert.AreEqual(true, idActividad > 0);
       conexion.Desconectar();
     }
 
@@ -121,7 +133,7 @@ namespace ApiRestPruebas.M7.Base
       lugar.Id = 0;
       Assert.Catch<BaseDeDatosExcepcion>(ExcepcionInsertarActividad);
 
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       actividad.Nombre = null;
       Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarActividad);
 
@@ -147,7 +159,8 @@ namespace ApiRestPruebas.M7.Base
     public void TestInsertarHorario()
     {
       conexion.Conectar();
-      Assert.AreEqual(true, conexion.InsertarHorario(horario, lugar.Id) > 0);
+      idHorario = conexion.InsertarHorario(horario, lugar.Id);
+      Assert.AreEqual(true, idHorario > 0);
       conexion.Desconectar();
     }
 
@@ -161,7 +174,7 @@ namespace ApiRestPruebas.M7.Base
       lugar.Id = 0;
       Assert.Catch<BaseDeDatosExcepcion>(ExcepcionInsertarHorario);
 
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       horario.HoraApertura = TimeSpan.Zero;
       horario.HoraCierre = TimeSpan.Zero;
       Assert.DoesNotThrow(ExcepcionInsertarHorario);
@@ -188,7 +201,8 @@ namespace ApiRestPruebas.M7.Base
     public void TestInsertarFoto()
     {
       conexion.Conectar();
-      Assert.AreEqual(true, conexion.InsertarFoto(foto, lugar.Id) > 0);
+      idFoto = conexion.InsertarFoto(foto, lugar.Id);
+      Assert.AreEqual(true, idFoto > 0);
       conexion.Desconectar();
     }
 
@@ -202,7 +216,7 @@ namespace ApiRestPruebas.M7.Base
       lugar.Id = 0;
       Assert.Catch<BaseDeDatosExcepcion>(ExcepcionInsertarFoto);
 
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       foto.Contenido = null;
       Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarFoto);
 
@@ -230,7 +244,9 @@ namespace ApiRestPruebas.M7.Base
     public void TestConsultarLugarTuristico()
     {
       conexion.Conectar();
+
       Assert.AreEqual(true, lugar.Equals(conexion.ConsultarLugarTuristico(lugar.Id)));
+      
       conexion.Desconectar();
     }
 
@@ -242,14 +258,14 @@ namespace ApiRestPruebas.M7.Base
     public void TestConsultarListaLugarTuristico()
     {
       lugar = new LugarTuristico();
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       lugar.Nombre = "Parque Generalisimo de Miranda";
       lugar.Costo = 0;
       lugar.Descripcion = "Lugar al aire libre";
       lugar.Activar = true;
 
       conexion.Conectar();
-      Assert.AreEqual(true, conexion.ConsultarListaLugarTuristico(1, 2).Contains(lugar));
+      Assert.AreEqual(true, conexion.ConsultarListaLugarTuristico(1, lugar.Id).Contains(lugar));
       conexion.Desconectar();
     }
 
@@ -260,6 +276,9 @@ namespace ApiRestPruebas.M7.Base
     [Category("Consultar")]
     public void TestConsultarActividades()
     {
+      actividad.Foto.Contenido = null;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
+
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id).Contains(actividad));
       conexion.Desconectar();
@@ -272,6 +291,9 @@ namespace ApiRestPruebas.M7.Base
     [Category("Consultar")]
     public void TestConsultarActividad()
     {
+      actividad.Foto.Contenido = null;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
+
       conexion.Conectar();
       Assert.AreEqual(true, actividad.Equals(conexion.ConsultarActividad(actividad.Id)));
       conexion.Desconectar();
@@ -326,6 +348,9 @@ namespace ApiRestPruebas.M7.Base
     [Category("Consultar")]
     public void TestConsultarFotos()
     {
+      foto.Contenido = null;
+      foto.Ruta += "lt-fo-" + actividad.Id;
+
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarFotos(lugar.Id).Contains(foto));
       conexion.Desconectar();
@@ -388,6 +413,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestActualizarActividad()
     {
       actividad.Foto.Contenido = new Byte[2];
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
       actividad.Nombre = "ABC";
       actividad.Duracion = new TimeSpan(19, 0, 0);
       actividad.Descripcion = "Haciendo PU simples";
@@ -473,6 +499,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestActualizarFoto()
     {
       foto.Contenido = new Byte[12554];
+      foto.Ruta += "lt-fo-" + foto.Id;
 
       conexion.Conectar();
       conexion.ActualizarFoto(foto);
