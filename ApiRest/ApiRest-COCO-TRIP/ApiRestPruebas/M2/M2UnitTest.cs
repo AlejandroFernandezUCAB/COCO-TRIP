@@ -3,6 +3,7 @@ using ApiRest_COCO_TRIP.Models;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Controllers;
 using Npgsql;
+using System;
 
 namespace ApiRestPruebas.M2
 {
@@ -14,6 +15,8 @@ namespace ApiRestPruebas.M2
     private Categoria categoria, categoria2;
     private int posicionDelElemento;
     private M2_PerfilPreferenciasController apiRest;
+    private PeticionPerfil peticion;
+    private int idUsuario;
 
     [SetUp]
     public void SetUp() {
@@ -22,7 +25,7 @@ namespace ApiRestPruebas.M2
       usuario = new Usuario();
       categoria = new Categoria();
       categoria2 = new Categoria();
-
+      peticion = new PeticionPerfil();
      
       //Inicializando categoria
       categoria.Id = 1;
@@ -111,6 +114,30 @@ namespace ApiRestPruebas.M2
       Assert.AreEqual(1, count);
       conexion.Desconectar();
 
+    }
+
+    // Usuario con id 7 agregado previo a la PU
+    [TestCase(7,"Ronald","Navas","2010-05-01","M")]
+    [Category("Modify")]
+    public void PerfilControllerModificarDatosUsuario(int idUsuario, string nombre, string apellido, string fecha, string genero)
+    {
+      DateTime fechaConveritda = Convert.ToDateTime(fecha);
+      peticion.ModificarDatos(idUsuario,nombre, apellido, fecha, genero);
+      usuario = peticion.ObtenerDatosUsuario(idUsuario);
+      Assert.AreEqual(nombre, usuario.Nombre);
+      Assert.AreEqual(apellido, usuario.Apellido);
+      Assert.AreEqual(fechaConveritda, usuario.FechaNacimiento);
+      Assert.AreEqual(genero, usuario.Genero);
+    }
+
+    // Usuario con id 15 agregado previo a la PU
+    [TestCase(15,"gianfranco", "verrocchi")]
+    [Category("Objeto")]
+    public void PerfilControllerObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
+    {
+      usuario = peticion.ObtenerDatosUsuario(idUsuario);
+      Assert.AreEqual(nombre, usuario.Nombre);
+      Assert.AreEqual(apellido, usuario.Apellido);
     }
 
     [TearDown]
