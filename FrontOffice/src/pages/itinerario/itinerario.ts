@@ -153,7 +153,8 @@ export class ItinerarioPage {
         console.log("id_itinerario :: ", id_itinerario);
         console.log("id_evento :: ", id_evento);
         this.eliminarItem(id_itinerario, id_evento, index);
-        this.httpc.eliminarItem(id_itinerario, id_evento);
+        let tipo=this.getTipoItem(id_evento);
+        this.httpc.eliminarItem(tipo,id_itinerario, id_evento);
           }
         }
       ]
@@ -177,7 +178,7 @@ export class ItinerarioPage {
    }
 
   eliminarItem(id_itinerario, id_evento, index){
-    let iti_e_eliminado = this.its.filter(item => item.id === id_itinerario)[0];
+    let iti_e_eliminado = this.its.filter(item => item.Id === id_itinerario)[0];
     var removed_elements = iti_e_eliminado.Items_agenda.splice(index, 1);
   }
 
