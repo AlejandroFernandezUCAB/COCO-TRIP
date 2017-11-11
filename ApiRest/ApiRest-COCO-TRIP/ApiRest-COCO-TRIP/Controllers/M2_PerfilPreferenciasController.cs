@@ -62,14 +62,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario">Nombre del usuario</param>
     /// <returns>Lista de preferencias</returns>
     [HttpGet]
-    public List<Categoria> BuscarPreferencias(string nombreUsuario)
+    public List<Categoria> BuscarPreferencias(int idUsuario)
     {
-      int idUsuario;
+
       List<Categoria> preferencias;
       peticion = new PeticionPerfil();
-      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
-      preferencias = peticion.BuscarPreferencias(idUsuario);
+      preferencias = peticion.BuscarPreferencias( idUsuario );
       return preferencias;
+
     }
 
     /// <summary>
