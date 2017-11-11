@@ -86,15 +86,16 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="it">item del cual se elimina el lugar turistico</param>
     /// <param name="lt">item a eliminar del itinerario</param>
     /// <returns>true si se elimino el item exitosamente, false en caso de error</returns>
-    public Boolean EliminarItem_It(int idit, int idag)
+    public Boolean EliminarItem_It(string tipo,int idit, int iditem)
         {
           try
           {
-            con = new ConexionBase();
+            con = new ConexionBase();  
             con.Conectar();
             comm = new NpgsqlCommand("del_item_it", con.SqlConexion);
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idag);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, tipo);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
             pgread = comm.ExecuteReader();
             pgread.Read();

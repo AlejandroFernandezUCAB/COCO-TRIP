@@ -3,6 +3,7 @@ import { NavController,Platform, ActionSheetController, AlertController} from 'i
 import{CrearGrupoPage} from '../../crear-grupo/crear-grupo';
 import{DetalleGrupoPage} from '../../detalle-grupo/detalle-grupo';
 import{ModificarGrupoPage} from '../../modificar-grupo/modificar-grupo';
+import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 
 @Component({
   selector: 'page-grupos',
@@ -12,32 +13,27 @@ export class GruposPage {
   delete= false;
   edit= false;
   detail=false;
-  Grupo=[];
+  grupo:any;
   
     constructor(public navCtrl: NavController, public platform: Platform,
-      public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController) {
-      
-  
-      
-    this.Grupo=
-    [
-     {
- 
-         id:1, img: 'https://pbs.twimg.com/media/DLty-BkUIAE9LRJ.jpg', nombre: 'Informatica'
- 
-     },
- 
-     {
- 
-         id:2, img: 'https://pbs.twimg.com/media/DL9S8ZhUIAE_jZt.jpg', nombre: 'Desarrollo'
- 
-     }
- 
- ]
+      public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController,
+      public restapiService: RestapiService) {
  
    }
   
-   
+   ionViewWillEnter() {
+    this.restapiService.listaGrupo("usuario1")
+      .then(data => {
+        if (data == 0 || data == -1) {
+          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+
+        }
+        else {
+          this.grupo = data;
+        }
+
+      });
+  }
 
   crearGrupo(){
     this.edit=false;
@@ -127,3 +123,5 @@ export class GruposPage {
   }
   
 }
+
+
