@@ -13,11 +13,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     protected PeticionPerfil peticion;
     private int idUsuario;
 
-    [HttpGet]
-    public List<Categoria> AgregarPreferencia( )
-    {
-      return new List<Categoria>();
-    }
     /// <summary>
     /// Metodo Post para agregar una preferencia del usuario, hará una llamda a base de datos para buscar id de usuario
     /// y id de categoria para agregarlo en la tabla de preferencias
@@ -26,9 +21,10 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombrePreferencia">Nombre de la preferencia a agregar</param>
     /// <returns>Lista de preferencias del usuario</returns>
     // POST api/<controller>/<action>/prefencia
-    [HttpPost]
+    [HttpPut]
     public List<Categoria> AgregarPreferencias ( string nombreUsuario , string nombrePreferencia)
     {
+
       int idUsuario, idCategoria;
       List<Categoria> preferencias;
       peticion = new PeticionPerfil();
@@ -40,7 +36,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
-    [HttpPost]
+    /// <summary>
+    /// Metodo Post que devuelve la lista de preferencias actualizada
+    /// </summary>
+    /// <param name="nombreUsuario">Nombre del usuario</param>
+    /// <param name="nombrePreferencia">Nombre de la categoria a eliminar</param>
+    /// <returns>Retorna  una lista de  categorias</returns>
+    [HttpDelete]
     public List<Categoria> EliminarPreferencias(string nombreUsuario, string nombrePreferencia)
     {
       int idUsuario, idCategoria;
@@ -53,14 +55,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       return preferencias; //Retorna una lista de de categorias
     }
 
-    // GET api/<controller>/<action>/prefencia
+
+    /// <summary>
+    /// Devuelve la lista de  preferencias de un usuario
+    /// </summary>
+    /// <param name="nombreUsuario">Nombre del usuario</param>
+    /// <returns>Lista de preferencias</returns>
     [HttpGet]
-    public string Hola() {
-
-      return "Hola";
-
+    public List<Categoria> BuscarPreferencias(string nombreUsuario)
+    {
+      int idUsuario;
+      List<Categoria> preferencias;
+      peticion = new PeticionPerfil();
+      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
+      preferencias = peticion.BuscarPreferencias(idUsuario);
+      return preferencias;
     }
-
 
     /// <summary>
     /// Metodo Post para actualizar la informacion del usuario. hará dos llamdas a base de datos, una para buscar id de usuario

@@ -27,13 +27,13 @@ namespace ApiRestPruebas.M2
      
       //Inicializando categoria
       categoria.Id = 1;
-      categoria.Nombre = "Deportes";
+      categoria.Nombre = "Deporte";
       categoria.Descripcion = "Los deportes son geniales";
       categoria.Nivel = 1;
       categoria.Estatus = true;
 
       categoria2.Id = 2;
-      categoria2.Nombre = "Deportes";
+      categoria2.Nombre = "Deporte";
       categoria2.Descripcion = "Los deportes son geniales";
       categoria2.Nivel = 2;
       categoria2.Estatus = true;
@@ -101,7 +101,7 @@ namespace ApiRestPruebas.M2
     public void AgregarPreferencia()
     {
 
-      int count = 0;
+      int count = 1;
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
@@ -115,7 +115,7 @@ namespace ApiRestPruebas.M2
         count = pgread.GetInt32(0);
 
       conexion.Desconectar();
-      Assert.AreEqual( lista.Count , count );
+      Assert.AreEqual( count , lista.Count );
       
     }
 
@@ -139,6 +139,18 @@ namespace ApiRestPruebas.M2
 
       conexion.Desconectar();
       Assert.AreEqual(lista.Count, count);
+
+    }
+
+    [Test]
+    [Category("Consultar")]
+    public void ConsultarPreferencias()
+    {
+
+      List<Categoria> preferencias = new List<Categoria>();
+
+      preferencias = apiRest.BuscarPreferencias("conexion");
+      Assert.AreEqual(categoria.Nombre, preferencias[0].Nombre);
 
     }
 

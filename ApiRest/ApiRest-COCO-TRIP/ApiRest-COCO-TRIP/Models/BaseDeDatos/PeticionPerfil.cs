@@ -81,6 +81,11 @@ namespace ApiRest_COCO_TRIP.Models
 
     }
 
+    /// <summary>
+    /// Metodo para eliminar la preferencia que haya seleccionado el usuario
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario</param>
+    /// <param name="idCategoria">Id de la categoria</param>
     public void EliminarPreferencia(int idUsuario, int idCategoria)
     {
 
@@ -140,6 +145,7 @@ namespace ApiRest_COCO_TRIP.Models
       }
 
     }
+
     /// <summary>
     /// Metodoque devuelve la lista de preferencias de un usuario
     /// </summary>
