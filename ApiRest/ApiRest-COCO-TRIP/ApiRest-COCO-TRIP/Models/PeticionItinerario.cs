@@ -18,67 +18,68 @@ namespace ApiRest_COCO_TRIP.Models
         }
 
 
-    public List<Itinerario> ConsultarItinerarios(int id_usuario)
-
-    {
-      List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
-      try
-      {
-        con = new ConexionBase();
-        con.Conectar();      
-        comm = new NpgsqlCommand("consultar_itinerarios", con.SqlConexion);
-        comm.CommandType = CommandType.StoredProcedure;
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
-        NpgsqlDataReader pgread = comm.ExecuteReader();
-        int auxiliar = 0;
-        //Recorremos los registros devueltos
-        while (pgread.Read())
+        public List<Itinerario> ConsultarItinerarios(int id_usuario)
         {
-          Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1));
-          //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
-          if (itinerarios.Count == 0) itinerarios.Add(iti);
-          foreach (Itinerario itinerario in itinerarios)
-          {
-            if (itinerario.Id == iti.Id) auxiliar = 1;
-          }
-          if (auxiliar != 1) itinerarios.Add(iti);
-          auxiliar = 0;
-          //Agregamos los eventos, actividades y lugares a la lista correspondiente
-          //Si existe lugar turistico en este registro
-          if (!pgread.IsDBNull(7))
-          {
-            dynamic lugar = new System.Dynamic.ExpandoObject();
-            lugar.Id = pgread.GetInt32(7);
-            lugar.Nombre = pgread.GetString(8);
-            lugar.Descripcion = pgread.GetString(9);
-            lugar.Costo = pgread.GetDouble(10);
-            lugar.Tipo = "Lugar Turistico";
-            lugar.FechaInicio = pgread.GetDateTime(5);
-            lugar.FechaFin = pgread.GetDateTime(6);
-            itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
-          }
-          //Si existe actividad en este registro
-          if (!pgread.IsDBNull(11))
-          {
-            dynamic actividad = new System.Dynamic.ExpandoObject();
-            actividad.Id = pgread.GetInt32(11);
-            actividad.Nombre = pgread.GetString(12);
-            actividad.Descripcion = pgread.GetString(13);
-            actividad.Duracion = pgread.GetTimeSpan(14);
-            actividad.Tipo = "Actividad";
-            actividad.FechaInicio = pgread.GetDateTime(5);
-            actividad.FechaFin = pgread.GetDateTime(6);
-            itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
-          }
+            List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
+            try
+            {
+                con = new ConexionBase();
+                con.Conectar();
+                comm = new NpgsqlCommand("consultar_itinerarios", con.SqlConexion);
+                comm.CommandType = CommandType.StoredProcedure;
+                comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+                NpgsqlDataReader pgread = comm.ExecuteReader();
+                int auxiliar = 0;
+                //Recorremos los registros devueltos
+                while (pgread.Read())
+                {
+                    Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+
+                    //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
+                    if (itinerarios.Count == 0) itinerarios.Add(iti);
+                    foreach (Itinerario itinerario in itinerarios)
+                    {
+                        if (itinerario.Id == iti.Id) auxiliar = 1;
+                    }
+                    if (auxiliar != 1) itinerarios.Add(iti);
+                    auxiliar = 0;
+
+                    //Agregamos los eventos, actividades y lugares a la lista correspondiente
+                    //Si existe lugar turistico en este registro
+                    if (!pgread.IsDBNull(7))
+                    {
+                        dynamic lugar = new System.Dynamic.ExpandoObject();
+                        lugar.Id = pgread.GetInt32(7);
+                        lugar.Nombre = pgread.GetString(8);
+                        lugar.Descripcion = pgread.GetString(9);
+                        lugar.Costo = pgread.GetDouble(10);
+                        lugar.Tipo = "Lugar Turistico";
+                        lugar.FechaInicio = pgread.GetDateTime(5);
+                        lugar.FechaFin = pgread.GetDateTime(6);
+                        itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
+                    }
+                    //Si existe actividad en este registro
+                    if (!pgread.IsDBNull(11))
+                    {
+                      dynamic actividad = new System.Dynamic.ExpandoObject();
+                      actividad.Id = pgread.GetInt32(11);
+                      actividad.Nombre = pgread.GetString(12);
+                      actividad.Descripcion = pgread.GetString(13);
+                      actividad.Duracion = pgread.GetTimeSpan(14);
+                      actividad.Tipo = "Actividad";
+                      actividad.FechaInicio = pgread.GetDateTime(5);
+                      actividad.FechaFin = pgread.GetDateTime(6);
+                      itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
+                    }
+                }
+                con.Desconectar();
+                return itinerarios;
+            }
+            catch (NpgsqlException e)
+            {
+                throw e;
+            }
         }
-        con.Desconectar();
-        return itinerarios;
-      }
-      catch (NpgsqlException e)
-      {
-        throw e;
-      }
-    }
 
     /// <summary>
     /// Metodo que elimina un lugar turistico existente de un itinerario existente

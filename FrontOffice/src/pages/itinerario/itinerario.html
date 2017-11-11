@@ -87,14 +87,14 @@
         font-size:17px; margin-top: 9px; color: #3B8686;"></ion-input>
       </ion-item>
       <ion-item *ngIf="edit">
-        <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">Start</ion-label>
+        <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">Inicio</ion-label>
         <ion-datetime *ngIf="edit" style="font-family: 'Open Sans', sans-serif;
-        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="itinerario.FechaInicio" [min]="minDate"></ion-datetime>
+        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="itinerario.FechaInicio" [min]="minDate"></ion-datetime>
       </ion-item>
       <ion-item *ngIf="edit">
-        <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">End</ion-label>
+        <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">Fin</ion-label>
         <ion-datetime *ngIf="edit" style="font-family: 'Open Sans', sans-serif;
-        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="itinerario.FechaFin" [min]="minDate"></ion-datetime>
+        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="itinerario.FechaFin" [min]="minDate"></ion-datetime>
       </ion-item>
     </ion-list-header>
       <ion-item-group reorder="true" (ionItemReorder)="$event.applyTo(itinerario.Items_agenda)">
@@ -109,7 +109,7 @@
               <img *ngIf="evento.imagen" [src]="evento.imagen">
             </ion-avatar>
             <p style="font-weight:semibold">{{evento.Nombre}}</p>
-            <p><small>{{evento.startTime | date: 'dd/MM/yyyy' }}  -  {{evento.endTime | date: 'dd/MM/yyyy' }}</small></p>
+            <p><small>{{evento.FechaInicio | date: 'dd/MM/yyyy' }}  -  {{evento.FechaFin | date: 'dd/MM/yyyy' }}</small></p>
             <p style="color: #3B8686" text-capitalize><small>{{getTipoItem(evento)}}</small></p>
 
         </ion-item>
