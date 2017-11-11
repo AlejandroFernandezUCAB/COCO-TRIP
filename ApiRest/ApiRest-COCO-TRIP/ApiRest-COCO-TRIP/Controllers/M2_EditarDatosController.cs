@@ -54,20 +54,27 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="username">Username del usuario</param>
     /// <param name="password">Contraseña del usuario </param>
     /// <returns>bool</returns>
-    public bool CambiarPass(string username, string password)
+    public bool CambiarPass(string username, string passwordActual, string passwordNuevo)
     {
       peticion = new PeticionPerfil();
       idUsuario = peticion.ConsultarIdDelUsuario(username);
+      string storedPassword = peticion.ObtenerPassword(username);
+
+      if(storedPassword != passwordActual)
+      {
+         return false;
+      }
+
       try
       {
         if (idUsuario == 1)
         {
-          peticion.CambiarPassword(idUsuario,password);
-          return true;
+          return false;
         }
         else
         {
-          return false;
+          peticion.CambiarPassword(idUsuario,passwordNuevo);
+          return true;
         }
       }
       catch (NpgsqlException e)
@@ -91,16 +98,24 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       peticion = new PeticionPerfil();
       idUsuario = peticion.ConsultarIdDelUsuario(username);
+
+      string storedPassword = peticion.ObtenerPassword(username);
+
+      if(storedPassword != password)
+      {
+         return false;
+      }
+
       try
       {
-        if (idUsuario == 1)
+        if (idUsuario == -1)
         {
-          peticion.BorrarUsuario(idUsuario, password);
-          return true;
+          return false;
         }
         else
         {
-          return false;
+          peticion.BorrarUsuario(idUsuario, password);
+          return true;  
         }
       }
       catch

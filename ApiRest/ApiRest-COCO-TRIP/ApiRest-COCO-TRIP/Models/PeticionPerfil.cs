@@ -172,6 +172,22 @@ namespace ApiRest_COCO_TRIP.Models
       conexion.Desconectar();
     }
 
+    public string ObtenerPassword(string username)
+    {
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+      string result = "";
+
+      conexion.Conectar();
+      command = new NpgsqlCommand("ConsultarContrasena", conexion.SqlConexion);
+      command.CommandType = CommandType.StoredProcedure;
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, username);
+      pgread = command.ExecuteReader();
+      pgread.Read();
+      result = pgread.GetString(1);
+      conexion.Desconectar();
+      return result;
+    }
 
   }
 }
