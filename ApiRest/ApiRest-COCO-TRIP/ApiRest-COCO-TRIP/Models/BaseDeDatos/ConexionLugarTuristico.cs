@@ -156,7 +156,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarActividad";
         comando.CommandType = CommandType.StoredProcedure;
 
+        var nombreArchivo = "ac-";
+
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Nombre));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, archivo.Ruta + nombreArchivo));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Time, actividad.Duracion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
@@ -172,7 +175,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
             leerDatos.Close();
           }
 
-          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+          archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id);
 
         }
         else
@@ -287,6 +290,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarFoto";
         comando.CommandType = CommandType.StoredProcedure;
 
+        var nombreArchivo = "lt-fo-";
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, archivo.Ruta + nombreArchivo));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
         if (foto.Contenido != null)
@@ -299,7 +305,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
             leerDatos.Close();
           }
 
-          archivo.EscribirArchivo(foto.Contenido, "lu-" + idLugarTuristico + "-" + foto.Id);
+          archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id);
         }
         else
         {
@@ -412,13 +418,21 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, actividad.Id));
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, actividad.Foto.Contenido));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Foto.Ruta));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Nombre));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Time, actividad.Duracion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
 
-        comando.ExecuteNonQuery();
+        if (actividad.Foto.Contenido != null)
+        {
+          comando.ExecuteNonQuery();
+          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        }
       }
       catch (NpgsqlException e)
       {
@@ -444,6 +458,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
+      }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
       }
     }
 
@@ -507,9 +525,17 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, foto.Id));
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto.Contenido));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto.Ruta));
 
-        comando.ExecuteNonQuery();
+        if (foto.Contenido != null)
+        {
+          comando.ExecuteNonQuery();
+          archivo.EscribirArchivo(foto.Contenido, "lt-fo-" + foto.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        }
       }
       catch (NpgsqlException e)
       {
@@ -537,6 +563,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
+      }
+      catch (ArchivoExcepcion e)
+      {
+
       }
 
     }
@@ -814,7 +844,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           var actividad = new Actividad();
 
           actividad.Id = leerDatos.GetInt32(0);
-          actividad.Foto.Contenido = (byte[])leerDatos[1]; //Simplificacion de GetBytes. TESTEAR!
+          actividad.Foto.Ruta = leerDatos.GetString(1);
           actividad.Nombre = leerDatos.GetString(2);
           actividad.Duracion = leerDatos.GetTimeSpan(3);
           actividad.Descripcion = leerDatos.GetString(4);
@@ -860,7 +890,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         if (leerDatos.Read())
         {
           actividad.Id = id;
-          actividad.Foto.Contenido = (byte[])leerDatos[0]; //Simplificacion de GetBytes. TESTEAR!
+          actividad.Foto.Ruta = leerDatos.GetString(0);
           actividad.Nombre = leerDatos.GetString(1);
           actividad.Duracion = leerDatos.GetTimeSpan(2);
           actividad.Descripcion = leerDatos.GetString(3);
@@ -1041,7 +1071,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           var foto = new Foto();
 
           foto.Id = leerDatos.GetInt32(0);
-          foto.Contenido = (byte[])leerDatos[1];
+          foto.Ruta = leerDatos.GetString(1);
 
           listaFoto.Add(foto);
         }

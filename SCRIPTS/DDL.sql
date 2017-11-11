@@ -136,7 +136,7 @@ CREATE TABLE Lugar_Turistico
 CREATE TABLE Actividad
 (
   ac_id integer,
-  ac_foto varchar CONSTRAINT nn_ac_foto NOT NULL,
+  ac_foto varchar (250) CONSTRAINT nn_ac_foto NOT NULL,
   ac_nombre varchar(400) CONSTRAINT nn_ac_nombre NOT NULL,
   ac_duracion time CONSTRAINT nn_ac_duracion NOT NULL,
   ac_descripcion varchar(2000) CONSTRAINT nn_ac_descripcion NOT NULL,
@@ -158,7 +158,7 @@ CREATE TABLE LT_Horario
 CREATE TABLE LT_Foto
 (
   fo_id integer,
-  fo_ruta varchar CONSTRAINT nn_fo_ruta NOT NULL,
+  fo_ruta varchar (250) CONSTRAINT nn_fo_ruta NOT NULL,
   fk_fo_lugar_turistico integer CONSTRAINT fk_fo_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
   CONSTRAINT pk_foto PRIMARY KEY(fk_fo_lugar_turistico, fo_id)
 );
