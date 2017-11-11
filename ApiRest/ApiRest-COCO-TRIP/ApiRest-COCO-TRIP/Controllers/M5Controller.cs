@@ -69,8 +69,19 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public List<Evento> ConsultarEventos(string busqueda)
     {
-        return peti.ConsultarEventos(busqueda);
+      return peti.ConsultarEventos(busqueda);
     }
 
+    [HttpGet]
+    public List<LugarTuristico> ConsultarLugaresTuristicos(string busqueda)
+    {
+      return peti.ConsultarLugarTuristico(busqueda);
+    }
+
+    [HttpGet]
+    public List<Actividad> ConsultarActividad(string busqueda)
+    {
+      return peti.ConsultarActividades(busqueda);
+    }
   }
 }
