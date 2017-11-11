@@ -135,7 +135,8 @@ CREATE TABLE LT_Foto
 );
 --Fin de modulo 
 --Modulo 8
-create table evento(
+create table evento
+(
 	ev_id int primary key,
 	ev_nombre varchar(100) not null,
 	ev_descripcion varchar(500),
