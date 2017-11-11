@@ -167,17 +167,17 @@ export class ItinerarioPage {
   }
 
   eliminarItinerario(id, index){
-     let eliminado = this.its.filter(item => item.id === id)[0];
+     let eliminado = this.its.filter(item => item.Id === id)[0];
      var removed_elements = this.its.splice(index, 1);
      if (this.its.length == 0){
        this.noIts = true;
        console.log("no its")
-
      }
    }
 
   eliminarItem(id_itinerario, id_evento, index){
-    let iti_e_eliminado = this.its.filter(item => item.id === id_itinerario)[0];
+    let iti_e_eliminado = this.its.filter(item => item.Id === id_itinerario)[0];
+    console.log(iti_e_eliminado);
     var removed_elements = iti_e_eliminado.Items_agenda.splice(index, 1);
   }
 

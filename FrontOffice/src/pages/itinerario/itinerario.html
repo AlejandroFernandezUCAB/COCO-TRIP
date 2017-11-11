@@ -89,7 +89,7 @@
       <ion-item *ngIf="edit">
         <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">Inicio</ion-label>
         <ion-datetime *ngIf="edit" style="font-family: 'Open Sans', sans-serif;
-        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="itinerario.FechaInicio" [min]="minDate"></ion-datetime>
+        font-size:12px; margin-top: 10px; color: #3B8686;" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY"  [(ngModel)]="itinerario.FechaFin" min="2017-11-16" max="2026-12-12"></ion-datetime>
       </ion-item>
       <ion-item *ngIf="edit">
         <ion-label *ngIf="edit" style="font-family: 'Open Sans', sans-serif; font-size:12px;">Fin</ion-label>
