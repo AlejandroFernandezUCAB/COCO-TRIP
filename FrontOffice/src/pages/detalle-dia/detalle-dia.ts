@@ -17,12 +17,12 @@ import * as moment from 'moment';
 })
 export class DetalleDiaPage {
   date= '';
-  eventos = Array();
+  items_agendaa = Array();
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
     console.log(this.navParams.get('date'));
     this.date = moment(this.navParams.get('date')).format('MMMM Do YYYY');
-    this.eventos = this.navParams.get('eventos')
-    console.log(this.date);
+    this.items_agendaa = this.navParams.get('items_agenda');
+    console.log(this.items_agendaa);
 
   }
 

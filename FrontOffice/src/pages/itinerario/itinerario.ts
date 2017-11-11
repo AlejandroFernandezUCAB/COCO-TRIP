@@ -184,7 +184,7 @@ export class ItinerarioPage {
     this.edit = true;
     this.delete = false;
     for(var i = 0;i< this.its.length;i++) {
-      this.its[i].edit = this.its[i].nombre;
+      this.its[i].edit = this.its[i].Nombre;
     }
   }
 
