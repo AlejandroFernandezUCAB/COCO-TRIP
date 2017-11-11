@@ -7,17 +7,17 @@
     <ion-col></ion-col>
   </ion-row>
   <div class="login-box">
-    <form [formGroup]="myForm">
+    <form>
       <ion-row>
         <ion-col>
           <ion-list inset>
 
             <ion-item>
-              <ion-input type="text" placeholder="Correo o Usuario" name="text" [(ngModel)]="usuario" formControlName="userName" required></ion-input>
+              <ion-input type="text" placeholder="Correo o Usuario" name="text" [(ngModel)]="usuario" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="clave" formControlName="password" required></ion-input>
+              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="clave" required></ion-input>
             </ion-item>
 
           </ion-list>

@@ -30,7 +30,7 @@ namespace ApiRestPruebas
         Genero = "M",
         NombreUsuario = "pepo",
         FechaNacimiento = new DateTime(2017, 03, 09),
-        Correo = "hdms26@gmail.com",
+        Correo = "kilordpepo@gmail.com",
         Clave = "pruebaclave",
         Foto = new byte[28480]
       };
@@ -68,9 +68,6 @@ namespace ApiRestPruebas
     [Category("Consultar")]
     public void TestConsultarUsuarioFacebook()
     {
-      usuario.Apellido = null;
-      usuario.Nombre = null;
-      usuario.FechaNacimiento = DateTime.Now;
       Assert.AreEqual(1, peticion.ConsultarUsuarioSocial(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuario));
@@ -230,16 +227,6 @@ namespace ApiRestPruebas
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
     }
-
-    [Test]
-    [Category("Controlador")]
-    public void ValidarUsuario()
-    {
-      usuario.Id = 1;
-      Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
-    }
-
-
 
   }
 

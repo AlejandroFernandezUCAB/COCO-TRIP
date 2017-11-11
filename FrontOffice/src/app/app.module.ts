@@ -24,7 +24,6 @@ import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 import { ChangepassPage } from '../pages/changepass/changepass';
 
-import { IonicStorageModule } from '@ionic/storage';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -110,13 +109,8 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     CloudModule.forRoot(cloudSettings),
     CalendarModule,
-    HttpModule,
-    IonicStorageModule.forRoot({
-      name: 'cocotrip',
-         driverOrder: ['indexeddb', 'sqlite', 'websql']
-    })
+    HttpModule
   ],
-  
   bootstrap: [IonicApp],
   entryComponents: [
     CocoTrip,
