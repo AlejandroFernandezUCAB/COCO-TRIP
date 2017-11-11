@@ -59,10 +59,12 @@ export class ItemModalPage {
     }
 
   agregarItem(item_id){
-        let vlista= this.items.filter(function(e,i){ return e.id==item_id})[0];
+    //ARREGLAR ESTO
+        let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
+        console.log(vlista);
         let alert = this.alertCtrl.create({
           title: 'Por favor, confirmar',
-          message: '¿Desea agregar '+ vlista.titulo+ ' a su itinerario?',
+          message: '¿Desea agregar '+ vlista.Nombre+ ' a su itinerario?',
           buttons: [{
             text: 'CANCELAR',
             role: 'cancel',
