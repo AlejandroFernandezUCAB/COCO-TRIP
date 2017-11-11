@@ -212,7 +212,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-        }
+            catch (ArchivoExcepcion e)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+    }
 
         /// <summary>
         /// Inserta una actividad asociada a un lugar turistico
@@ -248,6 +254,12 @@ namespace ApiRest_COCO_TRIP.Controllers
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (ArchivoExcepcion e)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
 
@@ -323,6 +335,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+            catch (ArchivoExcepcion e)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         //PUT
@@ -359,6 +377,12 @@ namespace ApiRest_COCO_TRIP.Controllers
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (ArchivoExcepcion e)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
 
@@ -427,6 +451,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
               }
+              catch (ArchivoExcepcion e)
+              {
+                //RegistrarExcepcion(e); NLog
+
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+              }
         }
 
         /// <summary>
@@ -445,6 +475,12 @@ namespace ApiRest_COCO_TRIP.Controllers
           catch (BaseDeDatosExcepcion e)
           {
             e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+          catch (ArchivoExcepcion e)
+          {
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
