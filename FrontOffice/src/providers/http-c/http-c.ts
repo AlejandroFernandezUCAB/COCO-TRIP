@@ -72,4 +72,14 @@ modificarItinerario(itinerario){
   });
 }
 
+eliminarItem(idit, idag){
+  return new Promise(resolve => {
+    this.http.delete(this.apiUrl+'/M5/EliminarItem_It',{params:{"idit": idit , "idag": idag}}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
+
 }
