@@ -40,6 +40,19 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
+    [HttpPost]
+    public List<Categoria> EliminarPreferencias(string nombreUsuario, string nombrePreferencia)
+    {
+      int idUsuario, idCategoria;
+      List<Categoria> preferencias;
+      peticion = new PeticionPerfil();
+      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
+      idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
+      peticion.EliminarPreferencia(idUsuario, idCategoria);
+      preferencias = peticion.BuscarPreferencias(idUsuario);
+      return preferencias; //Retorna una lista de de categorias
+    }
+
     // GET api/<controller>/<action>/prefencia
     [HttpGet]
     public string Hola() {

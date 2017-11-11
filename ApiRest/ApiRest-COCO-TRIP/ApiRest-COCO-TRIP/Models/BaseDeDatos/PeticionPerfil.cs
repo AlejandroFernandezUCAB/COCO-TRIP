@@ -1,6 +1,7 @@
 using System.Data;
 using Npgsql;
 using System.Collections.Generic;
+using System;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -78,6 +79,33 @@ namespace ApiRest_COCO_TRIP.Models
 
       return id;
 
+    }
+
+    public void EliminarPreferencia(int idUsuario, int idCategoria)
+    {
+
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+
+      try
+      {
+
+        conexion.Conectar();
+        command = new NpgsqlCommand("EliminarPreferencia", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idCategoria);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        conexion.Desconectar();
+
+      }
+      catch (NpgsqlException e)
+      {
+
+
+
+      }
     }
 
     /// <summary>

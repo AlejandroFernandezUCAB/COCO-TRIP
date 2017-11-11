@@ -115,8 +115,31 @@ namespace ApiRestPruebas.M2
         count = pgread.GetInt32(0);
 
       conexion.Desconectar();
-      Assert.AreEqual( lista.Count , count);
+      Assert.AreEqual( lista.Count , count );
       
+    }
+
+    [Test]
+    [Category("Eliminar")]
+    public void EliminarPrefencia()
+    {
+
+      int count = 0;
+      ConexionBase conexion = new ConexionBase();
+      List<Categoria> lista = new List<Categoria>();
+
+      lista = apiRest.EliminarPreferencias("conexion", "Deporte");
+      conexion.Conectar();
+      NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
+                    "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
+      pgread = command.ExecuteReader();
+
+      while (pgread.Read())
+        count = pgread.GetInt32(0);
+
+      conexion.Desconectar();
+      Assert.AreEqual(lista.Count, count);
+
     }
 
     [TearDown]
@@ -125,6 +148,7 @@ namespace ApiRestPruebas.M2
       usuario    = null;
       categoria  = null;
       categoria2 = null;
+      pgread = null;
 
     }
 

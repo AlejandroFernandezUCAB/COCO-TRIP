@@ -181,6 +181,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION EliminarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+
+	DELETE FROM PREFERENCIA WHERE _idUsuario = pr_usuario AND _idCategoria = pr_categoria;
+	
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION BuscarPreferencias
 ( _idUsuario int)
 RETURNS TABLE( 
