@@ -96,7 +96,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             usuario.Id = peticion.InsertarUsuario(usuario);
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            string uri = "http://localhost:8091/api//M1_Login/ValidarUsuario/?correo=" + usuario.Correo + "&" + "id=" + usuario.Id;
+            string uri = "http://localhost:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
             mail.From = new MailAddress("cocotrip17@gmail.com");
             mail.To.Add(usuario.Correo);
             mail.Subject = "Recuperar contrasena";
@@ -178,6 +178,30 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return HttpStatusCode.OK;
+
+    }
+
+    [HttpGet]
+    public String ValidarUsuario(String email, int id)
+    {
+      usuario = new Usuario();
+      usuario.Correo = email;
+      usuario.Id = id;
+      peticion = new PeticionLogin();
+      try
+      {
+        peticion.ValidarUsuario(usuario);
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return "Usuario validado";
 
     }
 

@@ -30,7 +30,7 @@ namespace ApiRestPruebas
         Genero = "M",
         NombreUsuario = "pepo",
         FechaNacimiento = new DateTime(2017, 03, 09),
-        Correo = "kilordpepo@gmail.com",
+        Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
         Foto = new byte[28480]
       };
@@ -227,6 +227,16 @@ namespace ApiRestPruebas
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
     }
+
+    [Test]
+    [Category("Controlador")]
+    public void ValidarUsuario()
+    {
+      usuario.Id = 1;
+      Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
+    }
+
+
 
   }
 
