@@ -152,7 +152,8 @@ create table localidad(
 	lo_id int primary key,
 	lo_nombre varchar(200),
 	lo_descripcion varchar(500),
-	lo_lugar varchar (500)
+	lo_coord_x int,
+  lo_coord_y int
 );
 --Fin de modulo 
 --Modulo 9
@@ -221,6 +222,8 @@ CREATE SEQUENCE SEQ_LT_Horario;
 CREATE SEQUENCE SEQ_LT_Foto;
 --Fin de modulo 
 --Modulo 8
+CREATE SEQUENCE SEQ_Evento;
+CREATE SEQUENCE SEQ_Localidad;
 --Fin de modulo 
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
