@@ -451,9 +451,10 @@ namespace ApiRest_COCO_TRIP.Models
           Usuario usuario = new Usuario();
           usuario.Nombre = leerDatos.GetString(0);
           usuario.Apellido = leerDatos.GetString(1);
-          if (!leerDatos.IsDBNull(2))
+          usuario.NombreUsuario = leerDatos.GetString(2);
+          if (!leerDatos.IsDBNull(3))
           {
-            usuario.Foto[0] = leerDatos.GetByte(2);
+            usuario.Foto[0] = leerDatos.GetByte(3);
           }
           ListaUsuario.Add(usuario);
         }

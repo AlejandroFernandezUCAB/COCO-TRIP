@@ -82,6 +82,12 @@ export class RestapiService {
     });
   }
 
+  
+/**
+ * [MODULO3]
+ * Metodo para obtener la lista de amigos
+ * @param usuario Nombre del usuario
+ */
   listaAmigos(usuario) 
   {  
   
@@ -97,7 +103,23 @@ export class RestapiService {
         });
     });
   }
-    
-
-
+  
+ /**
+  * [MODULO 3] 
+  * Metodo para eliminar un amigo
+  * @param amigo nombre de usuario del amigo
+  * @param usuario nombre del usuario
+  */
+  eliminarAmigo(amigo, usuario){
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarAmigo/?nombreAmigo='+amigo+'&nombreUsuario='+usuario,"")
+      .subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err),
+        console.log(amigo),
+        console.log(usuario)
+      });
+  });
+}
 }

@@ -3,7 +3,7 @@ import { BuscarAmigoPage } from '../../buscar-amigo/buscar-amigo';
 import { Component } from '@angular/core';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 
 @Component({
@@ -14,16 +14,14 @@ export class AmigosPage {
   delete= false;
   edit= false;
   detail=false;
-  Grupo=[];
   amigo: any;
-    /*lista: Array<amigos> = [{ img: 'https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg', nick_name: 'Mariangel Perez'},
-        { img: 'https://pbs.twimg.com/profile_images/501872189436866560/IR71NKjR_400x400.jpeg', nick_name: 'Oswaldo Lopez' },
-        { img: 'https://scontent-mia3-2.xx.fbcdn.net/v/t1.0-9/15055703_10210361491814247_7941784320471131940_n.jpg?oh=de1951a0057f57fde8ac45593b5fd6e8&oe=5A740E18', nick_name: 'Aquiles Pulido' },
-        { img: 'https://i.pinimg.com/736x/35/8c/57/358c57c204a2fec21fa50b917a0728aa--rainbow-face-rainbow-prism.jpg', nick_name: 'Sr. Bigotes' }];
-*/
+  public loading = this.loadingCtrl.create({
+    content: 'Please wait...'
+  });
+  
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
-      public restapiService: RestapiService) {
+      public restapiService: RestapiService, public loadingCtrl: LoadingController) {
       
   }
   
@@ -36,8 +34,22 @@ export class AmigosPage {
   }
     //AQUI SE COLOCAN LAS LLAMADAS PARA ABRIR EL CHAT 
 
+/**
+ * Metodo que carga un LoadingCTRL
+ */
+  cargando(){
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
 
+  /**
+   * Metodo para cargar la lista de amigos
+   */
    ionViewWillEnter() {
+     this.cargando();
       this.restapiService.listaAmigos("usuario1")
         .then(data => {
           if (data == 0 || data == -1) {
@@ -46,6 +58,7 @@ export class AmigosPage {
           }
           else {
             this.amigo = data;
+            this.loading.dismiss();
           }
   
         });
@@ -88,23 +101,31 @@ perfil(){
 }
 
 
-
-eliminarAmigo(id, index) {
+/**
+ * Metodo para confirmar eliminacion de un amigo
+ * @param nombreUsuario Nombre del amigo a eliminar
+ * @param index 
+ */
+eliminarAmigo(nombreUsuario, index) {
   const alert = this.alerCtrl.create({
   title: 'Por favor, confirmar',
-  message: '¿Desea borrar este Amigo?',
+  message: '¿Deseas borrar a: '+nombreUsuario+'?',
   buttons: [
     {
       text: 'Cancelar',
       role: 'cancel',
       handler: () => {
-        //console.log('Cancel clicked');
+       
       }
     },
     {
       text: 'Aceptar',
       handler: () => {
-        //this.eliminarAmigo(id, index);
+        this.eliminarAmigos(nombreUsuario, index);
+        this.restapiService.eliminarAmigo(nombreUsuario,"usuario1");
+        
+        
+        this.delete = false;
         }
       }
     ]
@@ -112,14 +133,18 @@ eliminarAmigo(id, index) {
   alert.present();
 }
 
+/**
+ * Metodo para borrar desde pantalla
+ * @param nombreUsuario Nombre del amigo a eliminar
+ * @param index 
+ */
+eliminarAmigos(nombreUsuario, index){
+  let eliminado = this.amigo.filter(item => item.NombreUsuario === nombreUsuario)[8];
+  var removed_elements = this.amigo.splice(index, 1);
+}
+
 verPerfil() {
   this.navCtrl.push(VisualizarPerfilPage);
-
-}
 }
 
-interface amigos {
-    Foto: string; //Este es el avatar
-    Nombre: string; //El nombre
-    Apellido: string; //El apellido
 }

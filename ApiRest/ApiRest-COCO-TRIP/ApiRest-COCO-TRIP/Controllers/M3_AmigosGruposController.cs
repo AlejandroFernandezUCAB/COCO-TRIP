@@ -264,7 +264,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreAmigo"></param>
     /// <param name="nombreUsuario"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpDelete]
     public int EliminarAmigo(string nombreAmigo, string nombreUsuario)
     {
       int resultado;
@@ -298,7 +298,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario"></param>
     /// <param name="idGrupo"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpDelete]
     public int EliminarGrupo(string nombreUsuario, int idGrupo)
     {
       int resultado;
