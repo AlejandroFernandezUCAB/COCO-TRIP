@@ -150,14 +150,12 @@ create table evento
 	ev_localidad int,
 	ev_categoria int
 );
-
-
-create table localidad
-(
+create table localidad(
 	lo_id int primary key,
 	lo_nombre varchar(200),
 	lo_descripcion varchar(500),
-	lo_lugar varchar (500)
+	lo_coord_x int,
+  lo_coord_y int
 );
 --Fin de modulo 
 --Modulo 9
@@ -226,6 +224,8 @@ CREATE SEQUENCE SEQ_LT_Horario;
 CREATE SEQUENCE SEQ_LT_Foto;
 --Fin de modulo 
 --Modulo 8
+CREATE SEQUENCE SEQ_Evento;
+CREATE SEQUENCE SEQ_Localidad;
 --Fin de modulo 
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
@@ -262,24 +262,15 @@ CREATE INDEX IX_LT_FOTO ON lt_foto (fk_fo_lugar_turistico, fo_id);
 --Fin de modulo 
 --Modulo 8
 CREATE SEQUENCE SEQ_Evento
-
 	START WITH 1
-
 	INCREMENT BY 1
-
 	NO MINVALUE
-
 	NO MAXVALUE
-
 	CACHE 1;
 
-
 CREATE SEQUENCE SEQ_Localidad
-
 	START WITH 1
-
 	INCREMENT BY 1
-
 	NO MINVALUE
 	NO MAXVALUE
 	CACHE 1;
