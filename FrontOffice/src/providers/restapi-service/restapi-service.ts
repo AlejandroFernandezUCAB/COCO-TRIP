@@ -50,6 +50,22 @@ export class RestapiService {
     }
   }
 
+  registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
+  {   
+      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: foto};
+      return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M1_Login/registrarusuario/?datos='+JSON.stringify(this.userData),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+
+      });
+     });
+  }
+
   iniciarSesionFacebook(usuario)
   {
     return new Promise(resolve => {
@@ -60,7 +76,6 @@ export class RestapiService {
           resolve(this.data);
         },error=>{
           resolve(-1);
-
         });
     });
   }
