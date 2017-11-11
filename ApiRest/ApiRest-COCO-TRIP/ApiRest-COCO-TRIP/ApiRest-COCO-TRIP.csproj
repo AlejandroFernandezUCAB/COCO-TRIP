@@ -19,8 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -134,7 +134,7 @@
     <Compile Include="Models\PeticionAmigoGrupo.cs" />
     <Compile Include="Models\PeticionItinerario.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
-    <Compile Include="Models\PeticionPerfil.cs" />
+    <Compile Include="Models\BaseDeDatos\PeticionPerfil.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
