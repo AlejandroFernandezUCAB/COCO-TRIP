@@ -3,6 +3,7 @@ using System.Web.Http;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models;
 
 namespace ApiRestPruebas.M7
 {
@@ -18,6 +19,8 @@ namespace ApiRestPruebas.M7
     private Horario horario;
     private Foto foto;
 
+    private Archivo archivo;
+
     //Identificador unico de cada objeto
     private int idLugar = 1;
     private int idActividad = 1;
@@ -31,6 +34,7 @@ namespace ApiRestPruebas.M7
     public void SetControlador()
     {
       controlador = new M7_LugaresTuristicosController();
+      archivo = new Archivo();
 
       lugar = new LugarTuristico();
       lugar.Id = idLugar;
@@ -52,6 +56,7 @@ namespace ApiRestPruebas.M7
       actividad.Duracion = new TimeSpan(2, 0, 0);
       actividad.Descripcion = "Lugar al aire libre";
       actividad.Foto.Contenido = imagen;
+      actividad.Foto.Ruta = archivo.Ruta;
       actividad.Activar = true;
 
       horario = new Horario();
@@ -63,6 +68,7 @@ namespace ApiRestPruebas.M7
       foto = new Foto();
       foto.Id = idFoto;
       foto.Contenido = imagen;
+      foto.Ruta = archivo.Ruta;
     }
 
     //GET
@@ -84,6 +90,9 @@ namespace ApiRestPruebas.M7
       horario.Id = 0;
       horario.DiaSemana = 0;
 
+      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Contenido = null;
+
       lugar.Horario.Add(horario);
       lugar.Foto.Add(foto);
 
@@ -100,6 +109,9 @@ namespace ApiRestPruebas.M7
       var pruebaActividad = new Actividad();
       pruebaActividad.Nombre = "Parque Generalisimo de Miranda";
 
+      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Contenido = null;
+
       lugar.Actividad.Add(pruebaActividad);
       lugar.Foto.Add(foto);
       lugar.Horario.Add(horario);
@@ -114,6 +126,12 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetLugarActividades()
     {
+      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Contenido = null;
+
+      actividad.Foto.Ruta = "ac-" + actividad.Id;
+      actividad.Foto.Contenido = null;
+
       lugar.Actividad.Add(actividad);
       lugar.Foto.Add(foto);
       lugar.Horario.Add(horario);
@@ -128,6 +146,9 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetActividades()
     {
+      actividad.Foto.Ruta = "ac-" + actividad.Id;
+      actividad.Foto.Contenido = null;
+
       Assert.AreEqual(true, controlador.GetActividades(lugar.Id).Contains(actividad));
     }
 
@@ -138,6 +159,9 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetActividad()
     {
+      actividad.Foto.Ruta = "ac-" + actividad.Id;
+      actividad.Foto.Contenido = null;
+
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
     }
 
@@ -156,6 +180,12 @@ namespace ApiRestPruebas.M7
 
       idLugar = controlador.PostLugar(lugar);
       lugar.Id = idLugar;
+
+      lugar.Foto[0].Contenido = null;
+      lugar.Foto[0].Ruta = archivo.Ruta + "lt-fo-" + lugar.Foto[0].Id;
+
+      lugar.Actividad[0].Foto.Contenido = null;
+      lugar.Actividad[0].Foto.Ruta = archivo.Ruta + "ac-" + lugar.Actividad[0].Id;
 
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
     }
@@ -195,6 +225,9 @@ namespace ApiRestPruebas.M7
     {
       idActividad = controlador.PostActividad(actividad, lugar.Id);
       actividad.Id = idActividad;
+
+      lugar.Actividad[0].Foto.Contenido = null;
+      lugar.Actividad[0].Foto.Ruta = archivo.Ruta + "ac-" + lugar.Actividad[0].Id;
 
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
     }
@@ -275,6 +308,9 @@ namespace ApiRestPruebas.M7
       idFoto = controlador.PostFoto(foto, lugar.Id);
       foto.Id = idFoto;
 
+      foto.Contenido = null;
+      foto.Ruta += "lt-fo-" + foto.Id;
+
       Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Foto.Contains(foto));
     }
 
@@ -315,11 +351,17 @@ namespace ApiRestPruebas.M7
     {
       lugar.Nombre = "Los Amigos Invisibles";
 
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      foto.Ruta += "lt-fo-" + foto.Id;
+
       lugar.Horario.Add(horario);
       lugar.Actividad.Add(actividad);
       lugar.Foto.Add(foto);
 
       controlador.PutLugar(lugar);
+
+      lugar.Actividad[0].Foto.Contenido = null;
+      lugar.Foto[0].Contenido = null;
 
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
     }
@@ -408,6 +450,8 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestDeleteFoto()
     {
+      foto.Contenido = null;
+
       controlador.DeleteFoto(foto.Id);
       Assert.AreEqual(false, lugar.Equals(controlador.GetLugar(lugar.Id).Foto.Contains(foto)));
     }

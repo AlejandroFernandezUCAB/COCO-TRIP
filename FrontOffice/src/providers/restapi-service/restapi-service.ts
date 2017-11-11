@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://localhost:8091/api';
+  apiUrl = 'http://192.168.0.105:8091/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -44,11 +44,26 @@ export class RestapiService {
         resolve(this.data);
       },error=>{
         resolve(-1);
-
       });
      });
 
     }
+  }
+
+  registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
+  {   
+      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: foto};
+      return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M1_Login/registrarusuario/?datos='+JSON.stringify(this.userData),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+
+      });
+     });
   }
 
   iniciarSesionFacebook(usuario)
@@ -61,7 +76,6 @@ export class RestapiService {
           resolve(this.data);
         },error=>{
           resolve(-1);
-
         });
     });
   }
@@ -70,7 +84,7 @@ export class RestapiService {
   {
     this.userData={correo: correo};
     return new Promise(resolve => {
-      this.http.post(this.apiUrl+'/M1_Login/CorreoRecuperar/?correo='+JSON.stringify(this.userData),"")
+      this.http.post(this.apiUrl+'/M1_Login/CorreoRecuperar/?datos='+JSON.stringify(this.userData),"")
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;

@@ -8,6 +8,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
   public class Foto
   {
     private int id; //Identificador unico
+    private string ruta; //Ruta de la imagen en el servidor
     private byte[] contenido; //Bytes de la foto
 
     /// <summary>
@@ -17,6 +18,15 @@ namespace ApiRest_COCO_TRIP.Models.Dato
     {
       get { return id; }
       set { id = value; }
+    }
+
+    /// <summary>
+    /// Getters y Setters del atributo Ruta
+    /// </summary>
+    public string Ruta
+    {
+      get { return ruta; }
+      set { ruta = value; }
     }
 
     /// <summary>
@@ -39,7 +49,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
       {
         var objeto = obj as Foto;
 
-        if (id != objeto.id)
+        if (id != objeto.id || ruta != objeto.Ruta)
         {
           return (false);
         }
