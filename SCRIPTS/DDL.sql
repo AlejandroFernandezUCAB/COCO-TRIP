@@ -70,7 +70,7 @@ CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Us
 CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
 );
 
---Fin de modulo 
+--Fin de modulo
 --Modulo 4
 --Fin de modulo
 --Modulo 5
@@ -136,7 +136,7 @@ CREATE TABLE Lugar_Turistico
 CREATE TABLE Actividad
 (
   ac_id integer,
-  ac_foto bytea CONSTRAINT nn_ac_foto NOT NULL,
+  ac_foto varchar CONSTRAINT nn_ac_foto NOT NULL,
   ac_nombre varchar(400) CONSTRAINT nn_ac_nombre NOT NULL,
   ac_duracion time CONSTRAINT nn_ac_duracion NOT NULL,
   ac_descripcion varchar(2000) CONSTRAINT nn_ac_descripcion NOT NULL,
@@ -158,7 +158,7 @@ CREATE TABLE LT_Horario
 CREATE TABLE LT_Foto
 (
   fo_id integer,
-  fo_byte bytea CONSTRAINT nn_fo_byte NOT NULL,
+  fo_ruta varchar CONSTRAINT nn_fo_ruta NOT NULL,
   fk_fo_lugar_turistico integer CONSTRAINT fk_fo_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
   CONSTRAINT pk_foto PRIMARY KEY(fk_fo_lugar_turistico, fo_id)
 );
@@ -260,7 +260,7 @@ CREATE SEQUENCE SEQ_LT_Foto;
 --Modulo 8
 CREATE SEQUENCE SEQ_Evento;
 CREATE SEQUENCE SEQ_Localidad;
---Fin de modulo 
+--Fin de modulo
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
     START WITH 1

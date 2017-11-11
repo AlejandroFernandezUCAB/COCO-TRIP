@@ -18,6 +18,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
     private NpgsqlDataReader leerDatos; //Lee la respuesta de la instruccion SQL ejecutada
 
+    private Archivo archivo; //Guarda la foto en el web service
+
     /// <summary>
     /// Constructor de la clase
     /// </summary>
@@ -25,6 +27,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     {
       conexion = new ConexionBase();
       comando = new NpgsqlCommand();
+      archivo = new Archivo();
     }
 
     /// <summary>
@@ -153,19 +156,28 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarActividad";
         comando.CommandType = CommandType.StoredProcedure;
 
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, actividad.Foto.Contenido));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Nombre));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Time, actividad.Duracion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
-        leerDatos = comando.ExecuteReader();
-
-        if (leerDatos.Read())
+        if (actividad.Foto.Contenido != null)
         {
-          actividad.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
+          leerDatos = comando.ExecuteReader();
+
+          if (leerDatos.Read())
+          {
+            actividad.Id = leerDatos.GetInt32(0);
+            leerDatos.Close();
+          }
+
+          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
         }
 
         return actividad.Id;
@@ -194,6 +206,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
+      }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
       }
     }
 
@@ -271,15 +287,23 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarFoto";
         comando.CommandType = CommandType.StoredProcedure;
 
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto.Contenido));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
-        leerDatos = comando.ExecuteReader();
-
-        if (leerDatos.Read())
+        if (foto.Contenido != null)
         {
-          foto.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
+          leerDatos = comando.ExecuteReader();
+
+          if (leerDatos.Read())
+          {
+            foto.Id = leerDatos.GetInt32(0);
+            leerDatos.Close();
+          }
+
+          archivo.EscribirArchivo(foto.Contenido, "lu-" + idLugarTuristico + "-" + foto.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
         }
 
         return foto.Id;
@@ -310,6 +334,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
+      }
+      catch(ArchivoExcepcion e)
+      {
+        throw e;
       }
 
     }
