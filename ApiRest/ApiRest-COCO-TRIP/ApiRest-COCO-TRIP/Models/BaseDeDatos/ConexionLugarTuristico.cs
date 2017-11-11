@@ -18,7 +18,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
     private NpgsqlDataReader leerDatos; //Lee la respuesta de la instruccion SQL ejecutada
 
-    private Archivo foto; //Guarda la foto en el web service
+    private Archivo archivo; //Guarda la foto en el web service
 
     /// <summary>
     /// Constructor de la clase
@@ -172,7 +172,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
             leerDatos.Close();
           }
 
-          foto.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
 
         }
         else
@@ -206,6 +206,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
+      }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
       }
     }
 
@@ -283,15 +287,23 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarFoto";
         comando.CommandType = CommandType.StoredProcedure;
 
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto.Contenido));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
-        leerDatos = comando.ExecuteReader();
-
-        if (leerDatos.Read())
+        if (foto.Contenido != null)
         {
-          foto.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
+          leerDatos = comando.ExecuteReader();
+
+          if (leerDatos.Read())
+          {
+            foto.Id = leerDatos.GetInt32(0);
+            leerDatos.Close();
+          }
+
+          archivo.EscribirArchivo(foto.Contenido, "lu-" + idLugarTuristico + "-" + foto.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
         }
 
         return foto.Id;
@@ -322,6 +334,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
+      }
+      catch(ArchivoExcepcion e)
+      {
+        throw e;
       }
 
     }
