@@ -82,11 +82,13 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_ModificarItinerario()
     {
-      DateTime fechaini = new DateTime(2021, 05, 28);
+      DateTime fechaini = new DateTime(2022, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(51, "Michel", fechaini, fechafin, 1);
-      x = controller.ModificarItinerario(itinerario);
-      Assert.True(x);
+      Itinerario itinerario = new Itinerario(4, "Epco", fechaini, fechafin, 2);
+      it = controller.ModificarItinerario(itinerario);
+      Assert.AreEqual("Epco", it.Nombre);
+      Assert.AreEqual(fechaini,it.FechaInicio);
+      Assert.AreEqual(fechafin, it.FechaFin);
     }
 
     /*   [Test]

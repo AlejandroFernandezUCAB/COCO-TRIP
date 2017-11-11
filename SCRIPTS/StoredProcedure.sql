@@ -475,6 +475,46 @@ WHERE us_nombreusuario = nombreUsuario;
 END;
 $$ LANGUAGE plpgsql;
 
+/**
+<<<<<<< HEAD
+Procedimientos del Modulo 5, Gestion de Itinerarios
+Autores:
+  Arguelles, Marialette
+  Jraiche, Michel
+  Orrillo, ev_hora_inicio
+**/
+
+CREATE OR REPLACE FUNCTION public.consultar_itinerarios(
+	idusuario integer)
+    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date, lu_id integer, lu_nombre character varying, lu_descripcion character varying, lu_costo numeric, ac_id integer, ac_nombre character varying, ac_descripcion character varying, ac_duracion time without time zone)
+                  --, ev_id integer, ev_nombre character varying, ev_descripcion character varying, ev_precio double precision, ev_fechaini date, ev_fechafin date)
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE
+    ROWS 1000
+AS $BODY$
+
+    BEGIN
+      RETURN QUERY
+		SELECT  i.it_id as "ID", i.it_idusuario as "ID_usuario", i.it_nombre as "Nombre", i.it_fechainicio as "FechaInicio", i.it_fechafin as "FechaFin", a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
+		  a.ag_idlugarturistico as "lu_id", lt.lu_nombre as "lu_nombre", lt.lu_descripcion as "lu_descripcion", lt.lu_costo as "lu_costo",
+          a.ag_idactividad as "ac_id", ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion", ac.ac_duracion as "ac_duracion"
+         -- a.ag_idevento as "ev_id", e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion", e.ev_precio as "ev_precio", e.ev_fechainicio as "ev_fechaini", e.ev_fechafin as "ev_fechafin"
+      	FROM agenda a
+      	FULL OUTER JOIN itinerario as i ON a.ag_iditinerario = i.it_id
+      	--LEFT OUTER JOIN evento e ON a.ag_idevento = e.ev_id
+      	LEFT OUTER JOIN actividad ac ON a.ag_idactividad = ac.ac_id
+      	LEFT OUTER JOIN lugar_turistico lt ON a.ag_idlugarturistico = lt.lu_id
+      	WHERE (i.it_idusuario=idusuario)
+ 		ORDER BY i.it_id, a.ag_fechainicio;
+    END;
+$BODY$;
+
+ALTER FUNCTION public.consultar_itinerarios(integer)
+    OWNER TO admin_cocotrip;
+
+    /* fin de procedimientos de Modulo_5 */
 
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
@@ -830,7 +870,7 @@ CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripci
     LANGUAGE plpgsql
     AS $$
     BEGIN
-      INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS) 
+      INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
           VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
@@ -838,7 +878,7 @@ CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, des
     LANGUAGE plpgsql
     AS $$
     BEGIN
-        INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR) 
+        INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
               VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
@@ -852,4 +892,341 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     END; $$;
 
 
+/**
+Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
+
+Autores:
+  Noe Herrera
+  Jorge Marin
+  Miguelangel Medina
+**/
+
+/*INSERT*/
+
+--inserta un evento en una localidad
+CREATE OR REPLACE FUNCTION InsertarEvento
+(
+  _nombreEvento VARCHAR(100),
+  _descripcionEvento VARCHAR(500),
+  _precioEvento integer,
+  _fechaInicioEvento timestamp,
+  _fechaFinEvento timestamp,
+  _horaInicioEvento time,
+  _horaFinEvento time,
+  _fotoEvento bytea,
+  _localidadEvento integer,
+  _categoriaEvento integer
+)
+RETURNS integer AS
+$$
+BEGIN
+
+   INSERT INTO evento VALUES
+    (nextval('SEQ_Evento'), _nombreEvento, _descripcionEvento, 
+      _precioEvento, _fechaInicioEvento, _fechaFinEvento, 
+      _horaInicioEvento, _horaFinEvento, _fotoEvento, _localidadEvento, 
+      _categoriaEvento);
+   
+    RETURN currval('SEQ_Evento');
+   END;
+$$ LANGUAGE plpgsql;
+
+--inserta una localidad
+CREATE OR REPLACE FUNCTION InsertarLocalidad
+(
+  _nombreLocalidad varchar(20),
+  _descripcionLocalidad varchar(500),
+  _coordenadaXLocalidad integer,
+  _coordenadaYLocalidad integer
+)
+RETURNS integer AS
+$$
+BEGIN
+
+    INSERT INTO localidad VALUES
+      (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenadaXLocalidad, _coordenadaYLocalidad);
+    
+      RETURN currval('SEQ_Localidad');
+    END;
+$$ LANGUAGE plpgsql;
+
+
+/*DELETE*/
+
+--elimina evento por su id
+CREATE OR REPLACE FUNCTION EliminarEventoPorId
+(
+  _id integer
+)
+RETURNS void AS
+$$
+BEGIN
+
+    DELETE from evento where ev_id = _id;
+
+END;
+$$ LANGUAGE plpgsql;
+
+--elimina evento por su nombre
+CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
+(
+  _nombreEvento integer
+)
+RETURNS void AS
+$$
+BEGIN
+
+    DELETE from evento where ev_nombre = _nombreEvento;
+
+END;
+$$ LANGUAGE plpgsql;
+
+--elimina localidad por su id
+CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
+(
+  _id integer
+)
+RETURNS void AS
+$$
+BEGIN
+
+    DELETE from localidad where lo_id = _id;
+
+END;
+$$ LANGUAGE plpgsql;
+
+--elimina localidad por su nombre
+CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
+(
+  _nombreLocalidad integer
+)
+RETURNS void AS
+$$
+BEGIN
+
+    DELETE from localidad where lo_nombre = _nombreLocalidad;
+
+END;
+$$ LANGUAGE plpgsql;
+
+/*SELECT*/
+
+-- Consulta eventos por id de categoria
+-- devuelve la informacion de los eventos en esa categoria
+CREATE OR REPLACE FUNCTION ConsultarEventoPorIdCategoria
+(
+  _id integer
+)
+RETURNS TABLE
+  (
+     id integer,
+     nombreEvento varchar,
+     descripcionEvento varchar,
+     precioEvento integer,
+     fechaInicioEvento timestamp,
+     fechaFinEvento timestamp,
+     horaInicioEvento time,
+     horaFinEvento time,
+     fotoEvento bytea,
+     categoriaEvento varchar,
+     localidadEvento varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY 
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    from evento, categoria, localidad
+    where ev_categoria = ca_id and ev_localidad = lo_id and ca_id = _id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta eventos por nombre de categoria
+-- devuelve la informacion de los eventos en esa categoria
+CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
+(
+  _nombreCategoria integer
+)
+RETURNS TABLE
+  (
+     id integer,
+     nombreEvento varchar,
+     descripcionEvento varchar,
+     precioEvento integer,
+     fechaInicioEvento timestamp,
+     fechaFinEvento timestamp,
+     horaInicioEvento time,
+     horaFinEvento time,
+     fotoEvento bytea,
+     categoriaEvento varchar,
+     localidadEvento varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY 
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    from evento, categoria, localidad
+    where ev_categoria = ca_id and ev_localidad = lo_id and ca_nombre = _nombreCategoria;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta evento por su id 
+-- devuelve la informacion del evento
+CREATE OR REPLACE FUNCTION ConsultarEventoPorIdEvento
+(
+  _id integer
+)
+RETURNS TABLE
+  (
+     id integer,
+     nombreEvento varchar,
+     descripcionEvento varchar,
+     precioEvento integer,
+     fechaInicioEvento timestamp,
+     fechaFinEvento timestamp,
+     horaInicioEvento time,
+     horaFinEvento time,
+     fotoEvento bytea,
+     categoriaEvento varchar,
+     localidadEvento varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY 
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    from evento, categoria, localidad
+    where ev_categoria = ca_id and ev_localidad = lo_id and ev_id = _id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta las localidades que tienen eventos asignados 
+-- devuelve la informacion de las localidades
+CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
+RETURNS TABLE
+  (
+     id integer,
+     nombreLocalidad varchar,
+     descripcionLocalidad varchar,
+     coordenadaXLocalidad integer,
+     coordenadaYLocalidad integer
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY 
+    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    from localidad, evento
+    where lo_id = ev_localidad
+    group by lo_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta una localidad por su id 
+-- devuelve la informacion de la localidad
+CREATE OR REPLACE FUNCTION ConsultarLocalidadPorId
+(
+  _id integer
+)
+RETURNS TABLE
+  (
+     id integer,
+     nombreLocalidad varchar,
+     descripcionLocalidad varchar,
+     coordenadaXLocalidad integer,
+     coordenadaYLocalidad integer
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY 
+    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    from localidad
+    where lo_id=_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta una localidad por su nombre 
+-- devuelve la informacion de la localidad
+CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
+(
+  _nombreLocalidad integer
+)
+RETURNS TABLE
+  (
+     id integer,
+     nombreLocalidad varchar,
+     descripcionLocalidad varchar,
+     coordenadaXLocalidad integer,
+     coordenadaYLocalidad integer
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY 
+    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    from localidad
+    where lo_nombre=_nombreLocalidad;
+END;
+$$ LANGUAGE plpgsql;
+
+--Consulta y te devuelve true si existe el evento por id
+
+/*UPDATE*/
+
+--actualizar evento por id
+CREATE OR REPLACE FUNCTION actualizarEventoPorId
+(
+  _id integer,
+  _nombreEvento VARCHAR(100),
+  _descripcionEvento VARCHAR(500),
+  _precioEvento integer,
+  _fechaInicioEvento timestamp,
+  _fechaFinEvento timestamp,
+  _horaInicioEvento time,
+  _horaFinEvento time,
+  _fotoEvento bytea,
+  _localidadEvento integer,
+  _categoriaEvento integer
+
+)
+RETURNS void AS
+$$
+BEGIN
+  UPDATE evento SET 
+    ev_nombre=_nombreEvento,
+    ev_descripcion=_descripcionEvento,
+    ev_precio=_precioEvento,
+    ev_fecha_inicio=_fechaInicioEvento,
+    ev_fecha_fin=_fechaFinEvento,
+    ev_hora_inicio=_horaInicioEvento,
+    ev_hora_fin=_horaFinEvento,
+    ev_foto=_fotoEvento,
+    ev_localidad=_localidadEvento,
+    ev_categoria=_categoriaEvento
+  WHERE ev_id=_id;
+END;
+$$ LANGUAGE plpgsql;
+
+--actualizar localidad por id
+CREATE OR REPLACE FUNCTION actualizarLocalidadPorId
+(
+  _id integer,
+  _nombreLocalidad varchar(20),
+  _descripcionLocalidad varchar(500),
+  _coordenadaXLocalidad integer,
+  _coordenadaYLocalidad integer
+)
+RETURNS void AS
+$$
+BEGIN
+  UPDATE localidad SET 
+    lo_nombre=_nombreLocalidad,
+    lo_descripcion=_descripcionLocalidad,
+    lo_coord_x=_coordenadaXLocalidad,
+    lo_coord_y=_coordenadaYLocalidad
+  WHERE lo_id=_id;
+END;
+$$ LANGUAGE plpgsql;
 
