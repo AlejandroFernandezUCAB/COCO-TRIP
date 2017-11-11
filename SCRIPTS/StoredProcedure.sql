@@ -191,6 +191,7 @@ Autores:
 
 
 /*INSERT*/
+--------------------/*INSERT*/
 -------------------------PROCEDIMIENTO BUSCAR AMIGO----------------------------
 CREATE OR REPLACE FUNCTION BuscarAmigos (_nombre varchar)
 RETURNS TABLE
@@ -273,15 +274,15 @@ CREATE OR REPLACE FUNCTION eliminaramigo(
   idamigo integer, my_id integer)
     RETURNS integer
     LANGUAGE 'plpgsql'
-
+   
 AS $function$
 
 DECLARE
  result integer;
 
 BEGIN
-  DELETE FROM Amigo
-    WHERE (fk_usuario_conoce = idamigo AND  fk_usuario_posee = my_id) or
+  DELETE FROM Amigo 
+    WHERE (fk_usuario_conoce = idamigo AND  fk_usuario_posee = my_id) or 
     (fk_usuario_conoce = my_id AND  fk_usuario_posee = idamigo);
 
     if found then
@@ -297,14 +298,14 @@ CREATE OR REPLACE FUNCTION eliminargrupo(
   my_id integer, idGrupo integer)
     RETURNS integer
     LANGUAGE 'plpgsql'
-
+   
 AS $function$
 
 DECLARE
  result integer;
 
 BEGIN
-  DELETE FROM Grupo
+  DELETE FROM Grupo 
     WHERE fk_usuario = my_id and gr_id = idGrupo;
 
     if found then
@@ -323,15 +324,15 @@ CREATE OR REPLACE FUNCTION obtenerlistadeamigos(
     (us_nombre character varying,
   us_apellido character varying,
   us_foto bytea)
-
+     
 AS $$
 BEGIN
 RETURN QUERY
-SELECT u.us_nombre, u.us_apellido, u.us_foto
+SELECT u.us_nombre, u.us_apellido, u.us_foto 
 FROM Amigo a, Usuario u
 WHERE a.fk_usuario_conoce = idUsuario AND  a.fk_usuario_posee = u.us_id
 Union
-SELECT u.us_nombre, u.us_apellido, u.us_foto
+SELECT u.us_nombre, u.us_apellido, u.us_foto 
 FROM Amigo a, Usuario u
 WHERE a.fk_usuario_posee = idUsuario AND  a.fk_usuario_conoce = u.us_id
 ORDER BY us_nombre, us_apellido ASC;
@@ -345,10 +346,10 @@ CREATE OR REPLACE FUNCTION modificarGrupo(nombreGrupo character varying,
     AS $$
 DECLARE
 result integer;
+    
+BEGIN 
 
-BEGIN
-
-UPDATE Grupo SET
+UPDATE Grupo SET 
           gr_nombre = nombreGrupo
                     WHERE fk_usuario= my_id and gr_id = idGrupo;
     if found then
@@ -362,15 +363,14 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION eliminarintegrante(
   idamigo integer, idGrupo integer)
     RETURNS integer
-    LANGUAGE 'plpgsql'
-
-AS $function$
+   
+AS $$
 
 DECLARE
  result integer;
 
 BEGIN
-  DELETE FROM Miembro
+  DELETE FROM Miembro 
     WHERE fk_grupo = idGrupo AND  fk_usuario = idamigo;
 
     if found then
@@ -388,8 +388,8 @@ CREATE OR REPLACE FUNCTION agregarIntegrante(idGrupo integer,
     AS $$
 DECLARE
 result integer;
-
-BEGIN
+    
+BEGIN 
 INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
     VALUES
   (nextval('SEQ_Miembro'),idGrupo,idUsuario);
@@ -402,7 +402,7 @@ INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
 END;
 $$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO AGREGAR AMIGO----------------------------
-CREATE OR REPLACE FUNCTION AgregarAmigo(usuario1 integer, usuario2 integer)
+CREATE OR REPLACE FUNCTION AgregarAmigo(usuario1 integer, usuario2 integer) 
     RETURNS integer AS $$
 DECLARE
  result integer;
@@ -418,7 +418,7 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------PROCEDIMIENTO VISUALIZAR PERFIL PUBLICO----------------------------
-CREATE OR REPLACE FUNCTION VisualizarPerfilPublico(nombreusuario VARCHAR(70))
+CREATE OR REPLACE FUNCTION VisualizarPerfilPublico(nombreusuario VARCHAR(70)) 
     RETURNS TABLE(
       nombre varchar,
       apellido varchar,
@@ -428,7 +428,7 @@ CREATE OR REPLACE FUNCTION VisualizarPerfilPublico(nombreusuario VARCHAR(70))
   $$
     BEGIN
       RETURN QUERY SELECT
-    us_nombre, us_apellido, us_email, us_foto
+    us_nombre, us_apellido, us_email, us_foto   
     FROM usuario
     WHERE us_nombreUsuario = nombreusuario;
     END;
@@ -436,11 +436,11 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------PROCEDIMIENTO SALIR DEL GRUPO----------------------------
-CREATE OR REPLACE FUNCTION SalirDeGrupo(idgrupo integer, idusuario integer)
+CREATE OR REPLACE FUNCTION SalirDeGrupo(idgrupo integer, idusuario integer) 
     RETURNS integer AS $$
     DECLARE result integer;
     BEGIN
-    DELETE FROM Miembro m
+    DELETE FROM Miembro m 
     WHERE fk_grupo = idgrupo AND  fk_usuario = idusuario;
     if found then
     result := 1;
@@ -488,7 +488,7 @@ CREATE OR REPLACE FUNCTION ConseguirIdUsuario(
   nombreUsuario character varying)
     RETURNS TABLE
     (id integer)
-
+     
 AS $$
 BEGIN
 RETURN QUERY
@@ -514,6 +514,7 @@ CREATE OR REPLACE FUNCTION VisualizarMiembroGrupo(idgrupo integer)
     WHERE u.us_id=mi.fk_usuario and mi.fk_grupo=idgrupo;
     END;
 $$ LANGUAGE plpgsql;
+
 
 /**
 <<<<<<< HEAD
