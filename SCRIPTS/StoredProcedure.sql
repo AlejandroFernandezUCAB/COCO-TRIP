@@ -215,11 +215,11 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION BorrarUsuario 
-( _nombreUsuario varchar) 
+(  _idUsuario int, _password varchar) 
 RETURNS integer AS $$
 BEGIN   
    DELETE FROM usuario
-   WHERE _nombreUsuario = us_nombreUsuario;     return 1; 
+   WHERE _password = us_password and _idUsuario = us_id;     return 1; 
 
 END;
 $$ LANGUAGE plpgsql;
