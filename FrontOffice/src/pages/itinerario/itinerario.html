@@ -69,7 +69,7 @@
         <p *ngIf="!edit" style="font-size: smaller; color: #3B8686;" text-left text-uppercase>
           Termina: {{itinerario.FechaFin | date: 'dd/MM/yyyy'}}
         </p>
-        <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(itinerario.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar itinerario</p>
+        <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirm(itinerario.Id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar itinerario</p>
         </button>
         <!-- (ionChange)="pre-delete(itinerario.nombre)" -->
       <div style="justify-content:space-between;">

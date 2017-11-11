@@ -18,73 +18,75 @@ namespace ApiRest_COCO_TRIP.Models
         }
 
 
-        public List<Itinerario> ConsultarItinerarios(int id_usuario)
+    public List<Itinerario> ConsultarItinerarios(int id_usuario)
+
+    {
+      List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();      
+        comm = new NpgsqlCommand("consultar_itinerarios", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        int auxiliar = 0;
+        //Recorremos los registros devueltos
+        while (pgread.Read())
         {
-            List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
-            try
-            {
-                con = new ConexionBase();
-                con.Conectar();
-                comm = new NpgsqlCommand("consultar_itinerarios", con.SqlConexion);
-                comm.CommandType = CommandType.StoredProcedure;
-                comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
-                NpgsqlDataReader pgread = comm.ExecuteReader();
-                int auxiliar = 0;
-                //Recorremos los registros devueltos
-                while (pgread.Read())
-                {
-                    Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1));
-
-                    //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
-                    if (itinerarios.Count == 0) itinerarios.Add(iti);
-                    foreach (Itinerario itinerario in itinerarios)
-                    {
-                        if (itinerario.Id == iti.Id) auxiliar = 1;
-                    }
-                    if (auxiliar != 1) itinerarios.Add(iti);
-                    auxiliar = 0;
-
-                    //Agregamos los eventos, actividades y lugares a la lista correspondiente
-                    //Si existe lugar turistico en este registro
-                    if (!pgread.IsDBNull(5))
-                    {
-                        LugarTuristico lugar = new LugarTuristico();
-                        lugar.Id = pgread.GetInt32(5);
-                        lugar.Nombre = pgread.GetString(6);
-                        lugar.Descripcion = pgread.GetString(7);
-                        lugar.Costo = pgread.GetDouble(8);
-                        itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
-                    }
-                    //Si existe actividad en este registro
-                    if (!pgread.IsDBNull(9))
-                    {
-                        Actividad actividad = new Actividad
-                        {
-                            Id = pgread.GetInt32(9),
-                            Nombre = pgread.GetString(10),
-                            Descripcion = pgread.GetString(11),
-                            Duracion = pgread.GetTimeSpan(12)
-                        };
-                        itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
-                    }
-                }
-                con.Desconectar();
-                return itinerarios;
-            }
-            catch (NpgsqlException e)
-            {
-                throw e;
-            }
-
+          Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1));
+          //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
+          if (itinerarios.Count == 0) itinerarios.Add(iti);
+          foreach (Itinerario itinerario in itinerarios)
+          {
+            if (itinerario.Id == iti.Id) auxiliar = 1;
+          }
+          if (auxiliar != 1) itinerarios.Add(iti);
+          auxiliar = 0;
+          //Agregamos los eventos, actividades y lugares a la lista correspondiente
+          //Si existe lugar turistico en este registro
+          if (!pgread.IsDBNull(7))
+          {
+            dynamic lugar = new System.Dynamic.ExpandoObject();
+            lugar.Id = pgread.GetInt32(7);
+            lugar.Nombre = pgread.GetString(8);
+            lugar.Descripcion = pgread.GetString(9);
+            lugar.Costo = pgread.GetDouble(10);
+            lugar.Tipo = "Lugar Turistico";
+            lugar.FechaInicio = pgread.GetDateTime(5);
+            lugar.FechaFin = pgread.GetDateTime(6);
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
+          }
+          //Si existe actividad en este registro
+          if (!pgread.IsDBNull(11))
+          {
+            dynamic actividad = new System.Dynamic.ExpandoObject();
+            actividad.Id = pgread.GetInt32(11);
+            actividad.Nombre = pgread.GetString(12);
+            actividad.Descripcion = pgread.GetString(13);
+            actividad.Duracion = pgread.GetTimeSpan(14);
+            actividad.Tipo = "Actividad";
+            actividad.FechaInicio = pgread.GetDateTime(5);
+            actividad.FechaFin = pgread.GetDateTime(6);
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
+          }
         }
+        con.Desconectar();
+        return itinerarios;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
 
-        /// <summary>
-        /// Metodo que elimina un lugar turistico existente de un itinerario existente
-        /// </summary>
-        /// <param name="it">itinerario del cual se elimina el lugar turistico</param>
-        /// <param name="lt">lugar turistico a eliminar del itinerario</param>
-        /// <returns>true si se elimino el lugar turistico exitosamente, false en caso de error</returns>
-        public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    /// <summary>
+    /// Metodo que elimina un lugar turistico existente de un itinerario existente
+    /// </summary>
+    /// <param name="it">itinerario del cual se elimina el lugar turistico</param>
+    /// <param name="lt">lugar turistico a eliminar del itinerario</param>
+    /// <returns>true si se elimino el lugar turistico exitosamente, false en caso de error</returns>
+    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
         {
           try
           {
@@ -236,7 +238,7 @@ namespace ApiRest_COCO_TRIP.Models
                 con.Conectar();
                 comm = new NpgsqlCommand("del_itinerario", con.SqlConexion);
                 comm.CommandType = CommandType.StoredProcedure;
-                comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
+                comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer,id);
                 pgread = comm.ExecuteReader();
                 pgread.Read();
                 Boolean resp = pgread.GetBoolean(0);
@@ -245,7 +247,7 @@ namespace ApiRest_COCO_TRIP.Models
             }
             catch (NpgsqlException e)
             {
-                return false;
+              throw e;
             }
 
         }
@@ -255,7 +257,7 @@ namespace ApiRest_COCO_TRIP.Models
         /// </summary>
         /// <param name="it">el itinerario a modificar</param>
         /// <returns>true si modifica existosamente, false en caso de error</returns>
-        public Boolean ModificarItinerario(Itinerario it)
+        public Itinerario ModificarItinerario(Itinerario it)
         {
           try
           {
@@ -267,15 +269,15 @@ namespace ApiRest_COCO_TRIP.Models
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaInicio);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaFin);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.IdUsuario);
             pgread = comm.ExecuteReader();
             pgread.Read();
-            Boolean resp = pgread.GetBoolean(0);
             con.Desconectar();
-            return resp;
+            return it;
           }
           catch (NpgsqlException e)
           {
-            return false;
+            throw e;
           }
         }
 
