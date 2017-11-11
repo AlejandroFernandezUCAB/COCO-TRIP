@@ -188,10 +188,11 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo que se encarga de devolver la lista de grupos a los que pertenece
     /// el usuario
     /// </summary>
-    /// <param name="dato">id del usuario</param>
+    /// <param name="nombreusuario">nombre del usuario por el cual se busca el id</param>
     /// <returns></returns>
-    public List<Grupo> Listagrupo(int dato)
+    public List<Grupo> Listagrupo(string nombreusuario)
     {
+      int idUsuario = ObtenerIdUsuario(nombreusuario);
       var listagrupos = new List<Grupo>();
       try
       {
@@ -199,7 +200,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandText = "ConsultarListaGrupos";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, dato));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
         leerDatos = conexion.Comando.ExecuteReader();
         while (leerDatos.Read())
         {
@@ -229,6 +230,48 @@ namespace ApiRest_COCO_TRIP.Models
       return listagrupos;
     }
 
+    public List<Usuario> Listamiembro(int idgrupo)
+    {
+      
+      var listamiembro = new List<Usuario>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "VisualizarMiembroGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idgrupo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        while (leerDatos.Read())
+        {
+          var usuario = new Usuario();
+          usuario.Id = leerDatos.GetInt32(0);
+          usuario.Nombre = leerDatos.GetString(1);
+          usuario.Apellido= leerDatos.GetString(2);
+          usuario.NombreUsuario = leerDatos.GetString(3);
+          if (!leerDatos.IsDBNull(4))
+          {
+            usuario.Foto[0] = leerDatos.GetByte(3);
+          }
+
+          listamiembro.Add(usuario);
+
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return listamiembro;
+    }
     /// <summary>
     /// Metodo que se encarga de devolver el perfil del grupo
     /// </summary>

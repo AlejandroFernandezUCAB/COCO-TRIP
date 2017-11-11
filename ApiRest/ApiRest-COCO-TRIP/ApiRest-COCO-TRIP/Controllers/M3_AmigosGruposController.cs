@@ -145,8 +145,6 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
-
-
     /// <summary>
     /// Buscar amigo en la aplicacion
     /// </summary>
@@ -363,15 +361,15 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Consultar lista de grupo del usuario
     /// </summary>
-    /// <param name="id">id del usuario</param>
+    /// <param name="nombreusuario">nombre usuario logeado en la app</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Grupo> ConsultarListaGrupos(string id)
+    public List<Grupo> ConsultarListaGrupos(string nombreusuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.Listagrupo(Convert.ToInt32(id));
+        return peticion.Listagrupo(nombreusuario);
       }
       catch (NpgsqlException)
       {
@@ -391,7 +389,34 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
 
     }
-    
+
+    [HttpGet]
+    public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
+    {
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.Listamiembro(Convert.ToInt32(idgrupo));
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+
+    }
+
 
     /// <summary>
     /// Procedimiento para visualizar el perfil del grupo

@@ -98,6 +98,53 @@ export class RestapiService {
     });
   }
     
+  listaGrupo(usuario) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarListaGrupos/?nombreUsuario='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  verperfilGrupo(usuario) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarPerfilGrupos/?id='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  listamiembroGrupo(usuario) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembroGrupo/?idgrupo='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
 
 
 }
