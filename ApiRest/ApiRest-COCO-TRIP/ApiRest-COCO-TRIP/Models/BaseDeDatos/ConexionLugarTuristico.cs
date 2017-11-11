@@ -646,8 +646,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
-
         comando.ExecuteNonQuery();
+
+        archivo.EliminarArchivo("ac-" + id);
+
       }
       catch (NpgsqlException e)
       {
@@ -657,6 +659,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.DatosAsociados += "id " + id;
 
         throw excepcion;
+      }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
       }
     }
 
@@ -673,8 +679,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
-
         comando.ExecuteNonQuery();
+
+        archivo.EliminarArchivo("lt-fo-" + id);
       }
       catch (NpgsqlException e)
       {
@@ -684,6 +691,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.DatosAsociados += "id " + id;
 
         throw excepcion;
+      }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
       }
     }
 
