@@ -86,6 +86,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         usuario.Id = peticion.ConsultarUsuarioSocial(usuario);
         if (usuario.Id == 0)
           usuario.Id = peticion.InsertarUsuarioFacebook(usuario);
+
       }
       catch (NpgsqlException)
       {
@@ -95,6 +96,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+
       return usuario.Id;
 
     }

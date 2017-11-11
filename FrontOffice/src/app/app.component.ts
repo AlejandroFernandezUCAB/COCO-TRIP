@@ -63,8 +63,9 @@ export class CocoTrip {
   }
 
   openPage(page) {
-    if(page.title=="Salir")
+    if(page.title=="Salir"){
       this.storage.set('id', null);
+    }
     this.nav.setRoot(page.component);
   }
 }

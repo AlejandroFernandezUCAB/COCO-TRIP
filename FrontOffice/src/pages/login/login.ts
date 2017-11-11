@@ -40,7 +40,7 @@ export class LoginPage {
     });
     this.vista = false;
     this.menu.enable(false);
-    }
+  }
 
 
   login() {
@@ -84,39 +84,38 @@ export class LoginPage {
   facebookLogin() {
     this.realizarLoading();
     this.facebook.getLoginStatus().then(loginstatus => {
-      if(loginstatus.status=="connected"){
+      if (loginstatus.status == "connected") {
         this.facebook.logout();
       }
-        this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
-          this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
-            this.userData = {
-              correo: profile['email'], nombre: profile['first_name'],
-              apellido: profile['last_name'], fechaNacimiento: profile['birthday']
-            };
-            console.log("JSON ES: " + JSON.stringify(this.userData));
-            this.restapiService.iniciarSesionFacebook(this.userData)
+      this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
+        this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+          this.userData = {
+            correo: profile['email'], nombre: profile['first_name'],
+            apellido: profile['last_name'], fechaNacimiento: new Date(profile['birthday'])
+          };
+          this.restapiService.iniciarSesionFacebook(this.userData)
             .then(data => {
+              this.loading.dismiss();
               if (data == 0 || data == -1) {
-                this.realizarToast('Error con Facebook');
-                this.loading.dismiss();
+                this.realizarToast('Error con los datos de Facebook');
               }
               else {
+                this.storage.set('id', data);
                 this.navCtrl.setRoot(HomePage);
               }
-    
+
             });
-          });
-        },
-          (resultNegativoFacebook: FacebookLoginResponse) => {
-            this.realizarToast('Error, por favor intente de nuevo+ '+resultNegativoFacebook.authResponse);
-    
-          }
-        ).catch(e => {
-          this.realizarToast('Error, por favor intente de nuevo++ '+e);
         });
-      
+      },
+        (resultNegativoFacebook: FacebookLoginResponse) => {
+          this.realizarToast('Error, por favor intente de nuevo');
+          this.loading.dismiss();
 
-
+        }
+      ).catch(e => {
+        this.realizarToast('Hubo un problema con Facebook, por favor intente mas tarde.');
+        this.loading.dismiss();
+      });
     });
   }
 

@@ -68,6 +68,9 @@ namespace ApiRestPruebas
     [Category("Consultar")]
     public void TestConsultarUsuarioFacebook()
     {
+      usuario.Apellido = null;
+      usuario.Nombre = null;
+      usuario.FechaNacimiento = DateTime.Now;
       Assert.AreEqual(1, peticion.ConsultarUsuarioSocial(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuario));
