@@ -137,9 +137,11 @@
     <Compile Include="Models\Dato\Foto.cs" />
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
+    <Compile Include="Models\LocalidadEvento.cs" />
     <Compile Include="Models\PeticionAmigoGrupo.cs" />
     <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionItinerario.cs" />
+    <Compile Include="Models\PeticionLocalidadEvento.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,10 +151,6 @@
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -163,7 +161,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\M8_LocalidadEvento\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
