@@ -11,11 +11,11 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngFor="let item of Grupo; let i= index">
+        <ion-item *ngFor="let item of grupo; let i= index">
           <ion-avatar item-start>
-            <img src={{item.img}}>
+            <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
           </ion-avatar>
-          <h2>{{item.nombre}}</h2>
+          <h2>{{item.Nombre}}</h2>
           <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar Grupo</p>
           </button>
           <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="modificarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Modificar Grupo</p>
