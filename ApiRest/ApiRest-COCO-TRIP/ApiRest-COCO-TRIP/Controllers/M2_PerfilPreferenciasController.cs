@@ -29,50 +29,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPost]
     public List<Categoria> AgregarPreferencias ( string nombreUsuario , string nombrePreferencia)
     {
-
-      Usuario usuario = new Usuario();
-      List<Categoria> preferencias = new List<Categoria>();
-      Categoria categoria = new Categoria();
-      PeticionPerfil peticion;
-
-      usuario.NombreUsuario = nombreUsuario;
-      usuario.Preferencias = preferencias;
-
-      //Si todo funciona como debe ser el enviará la lista de preferencias del usuario,
-      //en caso contrario retornará Null
-
-      try
-      {
-
-        peticion = new PeticionPerfil();
-        //Busco el nombre de usuario
-        usuario.Id = peticion.ConsultarIdDelUsuario( usuario.NombreUsuario );
-
-        if (usuario.Id == -1) 
-        {
-
-          return null; //No hay usuario en la bdd con -1
-
-        }
-
-        else //Se agrega al array de objetos y se busca el id en la BDD.
-        {
-
-          categoria.Id = peticion.ConsultarIdDeCategoria(categoria.Nombre);
-          usuario.AgregarPreferencia(categoria);
-          peticion.AgregarPreferencia(usuario.Id, categoria.Id);
-          return usuario.Preferencias;
-
-        }
-        
-
-      }
-      catch (NpgsqlException e)
-      {
-
-        return null;
-
-      }
+      int idUsuario, idCategoria;
+      List<Categoria> preferencias;
+      peticion = new PeticionPerfil();
+      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
+      idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
+      peticion.AgregarPreferencia(idUsuario, idCategoria);
+      preferencias = peticion.BuscarPreferencias(idUsuario);
+      return preferencias; //Retorna una lista de de categorias
 
     }
 

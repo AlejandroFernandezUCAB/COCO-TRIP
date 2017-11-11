@@ -14,15 +14,16 @@ namespace ApiRestPruebas.M2
     private Categoria categoria, categoria2;
     private int posicionDelElemento;
     private M2_PerfilPreferenciasController apiRest;
+    NpgsqlDataReader pgread;
 
     [SetUp]
     public void SetUp() {
-
+      
       //Creando los objetos vacios
       usuario = new Usuario();
       categoria = new Categoria();
       categoria2 = new Categoria();
-
+      apiRest = new M2_PerfilPreferenciasController();
      
       //Inicializando categoria
       categoria.Id = 1;
@@ -96,21 +97,26 @@ namespace ApiRestPruebas.M2
     }
 
     [Test]
-    [Category("Insert")]
+    [Category("Insertar")]
     public void AgregarPreferencia()
     {
 
+      int count = 0;
       ConexionBase conexion = new ConexionBase();
+      List<Categoria> lista = new List<Categoria>();
 
+      lista = apiRest.AgregarPreferencias("conexion", "Deporte");
       conexion.Conectar();
-      apiRest.AgregarPreferencia(1, "Deporte", "El deporte es bonito", true, 1, "conexion");
-      NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) " +
-                    "FROM preferencias where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
-      int count = command.ExecuteNonQuery();
+      NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
+                    "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
+      pgread = command.ExecuteReader();
 
-      Assert.AreEqual(1, count);
+      while(pgread.Read())
+        count = pgread.GetInt32(0);
+
       conexion.Desconectar();
-
+      Assert.AreEqual( lista.Count , count);
+      
     }
 
     [TearDown]

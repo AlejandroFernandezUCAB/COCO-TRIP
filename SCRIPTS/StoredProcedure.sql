@@ -181,6 +181,19 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION BuscarPreferencias
+( _idUsuario int)
+RETURNS TABLE( 
+  nombre VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	ca_nombre
+	FROM preferencia, categoria
+	WHERE pr_usuario = _idUsuario and pr_categoria = ca_id;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION ModificarDatosUsuario
 ( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
 RETURNS integer AS $$
