@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -12,11 +13,13 @@ export class PreferenciasPage {
 
   preferenciasEnLista: any; //Aquí se guardarán los items de preferencias.
   preferenciasEnBusqueda: any; //Aquí se irán guardando los que se traigan de la Base de datos.
+  idUsuario: any;
+  
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public restapiService: RestapiService) {
+    public restapiService: RestapiService,private storage: Storage) {
 
-    this.inicializarListas();
+    this.cargarListas();
 
   }
 
@@ -47,7 +50,7 @@ export class PreferenciasPage {
       this.preferenciasEnLista.splice( posicionIndex, 1);
 
       const toast = this.toastCtrl.create({
-        message: preferencias + ' fue eliminada exitosamente',
+        message: 'La categoria ' + preferencias.Nombre + ' fue eliminada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -56,12 +59,21 @@ export class PreferenciasPage {
     }
   }
 
+
+    cargarListas(){
+
+      this.storage.get('id').then((val) => {
+        this.idUsuario = val;
+        this.inicializarListas();
+      });
+
+    }
+
     inicializarListas( ){
 
-      this.restapiService.buscarPreferencias( "conexion" )
+      this.restapiService.buscarPreferencias( this.idUsuario )
       .then(data => {
         this.preferenciasEnLista = data;
-        console.log(this.preferenciasEnLista);
       });
     }
 
@@ -79,5 +91,25 @@ export class PreferenciasPage {
         }
       }
 
+
+}
+
+class Categoria{
+
+  Id: any ;
+  Nombre: any;
+  Descripcion : any;
+  Estatus: any;
+  CategoriaSupeior: any;
+
+  constructor(id: number, nombre: string, descripcion: string, status: boolean, categoriaSuperior: Categoria){
+
+    this.Id = id;
+    this.Nombre = nombre;
+    this.Descripcion = descripcion;
+    this.Estatus = status;
+    this.CategoriaSupeior = categoriaSuperior;
+
+  }
 
 }

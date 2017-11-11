@@ -104,12 +104,11 @@ export class RestapiService {
    buscarPreferencias( nombreUsuario )
    {
       return new Promise( resolve => {
-        this.http.get(this.apiUrl+'/M2_PerfilPreferencias/BuscarPreferencias?nombreUsuario=' + nombreUsuario,"")
+        this.http.get(this.apiUrl+'/M2_PerfilPreferencias/BuscarPreferencias?idUsuario=' + nombreUsuario,"")
         .map(res => res.json())
         .subscribe(data => {
 
           this.data = data;
-          console.log('Preferencias', data);
           resolve(this.data);
 
         }, error=>{      
