@@ -7,11 +7,16 @@ using System.Web.Http.Cors;
 namespace ApiRest_COCO_TRIP.Controllers
 {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
-  public class M2_PreferenciasController : ApiController
+  public class M2_PerfilPreferenciasController : ApiController
   {
 
     protected PeticionPerfil peticion;
 
+    [HttpGet]
+    public List<Categoria> AgregarPreferencia( )
+    {
+      return new List<Categoria>();
+    }
     /// <summary>
     /// Metodo Post para agregar una preferencia del usuario, hará una llamda a base de datos para buscar id de usuario
     /// y id de categoria para agregarlo en la tabla de preferencias
@@ -19,7 +24,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario">Nombre del usuario</param>
     /// <param name="nombrePreferencia">Nombre de la preferencia a agregar</param>
     /// <returns>Lista de preferencias del usuario</returns>
-    // GET api/<controller>/<action>/prefencia
+    // POST api/<controller>/<action>/prefencia
     [HttpPost]
     public List<Categoria> AgregarPreferencias ( string nombreUsuario , string nombrePreferencia)
     {
@@ -67,6 +72,14 @@ namespace ApiRest_COCO_TRIP.Controllers
         return null;
 
       }
+
+    }
+
+    // GET api/<controller>/<action>/prefencia
+    [HttpGet]
+    public string Hola() {
+
+      return "Hola";
 
     }
   }

@@ -13,7 +13,7 @@ namespace ApiRestPruebas.M2
     private Usuario usuario;
     private Categoria categoria, categoria2;
     private int posicionDelElemento;
-    private M2_PreferenciasController apiRest;
+    private M2_PerfilPreferenciasController apiRest;
 
     [SetUp]
     public void SetUp() {
