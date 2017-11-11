@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 
 @Component({
   selector: 'page-amigos',
@@ -14,13 +15,15 @@ export class AmigosPage {
   edit= false;
   detail=false;
   Grupo=[];
-    lista: Array<amigos> = [{ img: 'https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg', nick_name: 'Mariangel Perez'},
+  amigo: any;
+    /*lista: Array<amigos> = [{ img: 'https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg', nick_name: 'Mariangel Perez'},
         { img: 'https://pbs.twimg.com/profile_images/501872189436866560/IR71NKjR_400x400.jpeg', nick_name: 'Oswaldo Lopez' },
         { img: 'https://scontent-mia3-2.xx.fbcdn.net/v/t1.0-9/15055703_10210361491814247_7941784320471131940_n.jpg?oh=de1951a0057f57fde8ac45593b5fd6e8&oe=5A740E18', nick_name: 'Aquiles Pulido' },
         { img: 'https://i.pinimg.com/736x/35/8c/57/358c57c204a2fec21fa50b917a0728aa--rainbow-face-rainbow-prism.jpg', nick_name: 'Sr. Bigotes' }];
-
+*/
     constructor(public navCtrl: NavController, public platform: Platform,
-      public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController) {
+      public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
+      public restapiService: RestapiService) {
       
   }
   
@@ -33,6 +36,20 @@ export class AmigosPage {
   }
     //AQUI SE COLOCAN LAS LLAMADAS PARA ABRIR EL CHAT 
 
+
+   ionViewWillEnter() {
+      this.restapiService.listaAmigos("usuario1")
+        .then(data => {
+          if (data == 0 || data == -1) {
+            console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+
+          }
+          else {
+            this.amigo = data;
+          }
+  
+        });
+    }
 
 agregarAmigo(){
  this.edit=false;
@@ -102,6 +119,7 @@ verPerfil() {
 }
 
 interface amigos {
-    img: string; //Este es el avatar
-    nick_name: string; //El nickname
+    Foto: string; //Este es el avatar
+    Nombre: string; //El nombre
+    Apellido: string; //El apellido
 }

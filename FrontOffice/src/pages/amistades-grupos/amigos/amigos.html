@@ -11,12 +11,12 @@
   
   <ion-content padding>
     <ion-list >
-      <ion-item *ngFor="let item of lista" (tap)="tapEvent($event)">
+      <ion-item *ngFor="let item of amigo" (tap)="tapEvent($event)">
         <ion-avatar item-left>
-            <img src="{{item.img}}">
+            <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
         </ion-avatar>
-        <h2>{{item.nick_name}}</h2>
-        <h3>{{item.texto}}</h3>
+        <h2>{{item.Nombre}} {{item.Apellido}}</h2>
+      
          
       <button ion-button small icon-only clear *ngIf="delete" 
       style="width:auto; display: flex; margin-top: 0px;" 
