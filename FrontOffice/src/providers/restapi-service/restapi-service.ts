@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.105:8091/api';
+  apiUrl = 'http://localhost:51049/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -96,6 +96,29 @@ export class RestapiService {
     });
   }
 
+
+  /*
+    Modulo 2 peticiones
+   */
+
+   buscarPreferencias( nombreUsuario )
+   {
+      return new Promise( resolve => {
+        this.http.get(this.apiUrl+'/M2_PerfilPreferencias/BuscarPreferencias?nombreUsuario=' + nombreUsuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+
+          this.data = data;
+          console.log('Preferencias', data);
+          resolve(this.data);
+
+        }, error=>{      
+
+          resolve(-1);
+
+        });
+      });
+   }
   
 /**
  * [MODULO3]
@@ -199,6 +222,5 @@ export class RestapiService {
         });
     });
   }
-
 
 }

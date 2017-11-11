@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { ToastController } from 'ionic-angular';
 
 @IonicPage()
@@ -12,9 +13,10 @@ export class PreferenciasPage {
   preferenciasEnLista: any; //Aquí se guardarán los items de preferencias.
   preferenciasEnBusqueda: any; //Aquí se irán guardando los que se traigan de la Base de datos.
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
+    public restapiService: RestapiService) {
 
-    this.inicializarListas(0);
+    this.inicializarListas();
 
   }
 
@@ -54,29 +56,18 @@ export class PreferenciasPage {
     }
   }
 
-    inicializarListas( vez ){
+    inicializarListas( ){
 
-      this.preferenciasEnBusqueda = [
-        'Concierto',
-        'Relajate',
-        'Parque de Diversiones',
-        'Disney'
-      ];
-
-      if ( vez == 0){
-
-          this.preferenciasEnLista = [
-            'Beisbol',
-            'Futbol',
-            'Deportes'
-          ];
-
-        }
-
+      this.restapiService.buscarPreferencias( "conexion" )
+      .then(data => {
+        this.preferenciasEnLista = data;
+        console.log(this.preferenciasEnLista);
+      });
     }
 
-    buscarPreferencias(ev: any) {
-        this.inicializarListas(1);
+
+    filtrarPreferencias(ev: any) {
+        //this.inicializarListas(1);
         //Este será el valor que uno escribe en el search bar
         let val = ev.target.value;
 
