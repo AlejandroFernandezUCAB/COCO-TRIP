@@ -1,40 +1,36 @@
 using System;
 using System.Web.Http;
-using Npgsql;
-using System.Data;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
-using System.Web;
-using System.Net;
 using System.Web.Http.Cors;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
+  [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M5Controller : ApiController
   {
-    List<Itinerario> itinerarios = new List<Itinerario>();
-    
-    Itinerario itinerario = new Itinerario();
 
+    List<Itinerario> itinerarios = new List<Itinerario>();
+    private PeticionItinerario peti = new PeticionItinerario(); //preguntar
    
-    [HttpPost]
+    [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-      return itinerario.AgregarItinerario(it);
+      return peti.AgregarItinerario(it);
     }
 
    
     [HttpDelete]
-    public Boolean EliminarItinerario(Itinerario it)
+    public Boolean EliminarItinerario(int idit)
     {
-      return itinerario.EliminarItinerario(it);
+      return peti.EliminarItinerario(idit);
     }
 
     [HttpPost]
     public Boolean ModificarItinerario(Itinerario it)
     {
-      return itinerario.ModificarItinerario(it);
+      return peti.ModificarItinerario(it);
     }
 
  /* [HttpGet]
@@ -44,50 +40,37 @@ namespace ApiRest_COCO_TRIP.Controllers
     }*/
 
    
-   [HttpPost]
+   [HttpPut]
     public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
     {
-      return itinerario.AgregarActividad_It(it, ac);
+      return peti.AgregarActividad_It(it, ac);
     }
 
     
-    [HttpPost]
+    [HttpPut]
     public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
     {
-      return itinerario.AgregarLugar_It(it, lt);
+      return peti.AgregarLugar_It(it, lt);
     }
 
-  /*[HttpDelete]
-    public Boolean EliminarEvento_It(Itinerario it, Evento ev)
-    {
-      return itinerario.EliminarEvento_It(it, ev);
-    }*/
-
-   
     [HttpDelete]
-    public Boolean EliminarActividad_It(Itinerario it, Actividad ac)
+    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
     {
-      return itinerario.EliminarActividad_It(it, ac);
+      return peti.EliminarItem_It(it, ag);
     }
 
     
-    [HttpDelete]
-    public Boolean EliminarLugar_It(Itinerario it, LugarTuristico lt)
-    {
-
-      return itinerario.EliminarLugar_It(it, lt);
-    }
-    
-
-
     [HttpGet]
     public List<Itinerario> ConsultarItinerarios(int id_usuario)
-    {
-        return itinerario.ConsultarItinerarios(id_usuario);
+    { 
+        return peti.ConsultarItinerarios(id_usuario);
     }
 
-
-
+    [HttpGet]
+    public List<Evento> ConsultarEventos(string busqueda)
+    {
+        return peti.ConsultarEventos(busqueda);
+    }
 
   }
 }

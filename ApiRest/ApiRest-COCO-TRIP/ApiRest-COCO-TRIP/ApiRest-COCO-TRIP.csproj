@@ -116,8 +116,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Agenda.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\PeticionAmigoGrupo.cs" />
+    <Compile Include="Models\PeticionItinerario.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\PeticionPerfil.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -137,7 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />

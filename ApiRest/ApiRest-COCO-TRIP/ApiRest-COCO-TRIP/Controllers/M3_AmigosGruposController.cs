@@ -13,8 +13,8 @@ namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M3_AmigosGruposController : ApiController
   {
-
-    int cmkdf;
+    
+   
 
     Usuario usuario;
     PeticionAmigoGrupo peticion;
@@ -30,10 +30,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     public string AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
     {
       peticion = new PeticionAmigoGrupo();
-      peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);//acomodar
-      return "1";
+      int result = 0;
+      result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);//acomodar
+      return Convert.ToString(result);
     }
 
+    /// <summary>
+    /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
+    /// </summary>
+    /// <param name="nombreUsuario"></param>
+    /// <returns></returns>
     [HttpGet]
     public Usuario VisualizarPerfilAmigo(String nombreUsuario)
     {
@@ -50,22 +56,22 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public string RecomendarApp(String correoElectronico)
     {
-      SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+      SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
       var mail = new MailMessage();
-      mail.From = new MailAddress("oswaldo7365@hotmail.com");
+      mail.From = new MailAddress("cocotrip17@gmail.com");
       mail.To.Add(correoElectronico);
-      mail.Subject = "Te abu";
+      mail.Subject = "Hola, te estamos esperando";
       mail.IsBodyHtml = false;
-      mail.Body = "Te amo meme desde mi codigo perfecto :)";
+      mail.Body = "Hola";
       SmtpServer.Port = 587;
       SmtpServer.UseDefaultCredentials = false;
-      SmtpServer.Credentials = new System.Net.NetworkCredential("correo@hotmail.com", "clave");
+      SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
       SmtpServer.EnableSsl = true;
       SmtpServer.Send(mail);
       return "";
     }
 
-    [HttpDelete]
+    [HttpGet]
     public bool SalirGrupo(string idGrupo, string nombreUsuario)
     {
       peticion = new PeticionAmigoGrupo();
@@ -96,20 +102,20 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="usuario">Lider del grupo(creador)</param>
     /// <returns></returns>
     [HttpGet]
-    public string AgregarGrupo(String nombre, String foto, String usuario)
+    public int AgregarGrupo(String nombre, String foto, String nombreusuario)
     {
       peticion = new PeticionAmigoGrupo();
 
       if (foto != "null")
 
-      { peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto),Convert.ToInt32(usuario));
+      { return peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto), nombreusuario);
       }
 
       else
       {
-        peticion.AgregarGrupoBD(nombre, Convert.ToInt32(usuario));
+        return peticion.AgregarGrupoBD(nombre, nombreusuario);
       }
-      return "1";
+      
     }
 
     

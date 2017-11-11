@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 /*
@@ -40,5 +41,25 @@ loadItinerarios(id_usuario) {
 //   });
 // }
 
+agregarItinerario(itinerario){
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
+
+eliminarItinerario(idit){
+  let params = new HttpParams().set("idit", idit);
+  return new Promise(resolve => {
+    this.http.delete(this.apiUrl+'/M5/EliminarItinerario', {params:params}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
 
 }

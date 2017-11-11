@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import { DayConfig } from 'ion2-calendar';
 import * as moment from 'moment';
+import { HttpCProvider } from '../providers/http-c/http-c';
 
 @Injectable()
 
@@ -15,7 +16,9 @@ export class EventosCalendarioService {
   _daysConfig: DayConfig[] = [];
   _base_url = '../assets/images/';
   _notificaciones = Object();
-  constructor(){
+  _itis:any;
+  _itinerarios1= [];
+  constructor(public http: HttpCProvider){
 
     this._notificaciones = {
       correo: true,
@@ -24,9 +27,8 @@ export class EventosCalendarioService {
 
     this._eventos = [
       {
-        id: 4,
-        titulo: 'Aventuras en Paris',
-        tipo: 'evento',
+        Id: 4,
+        Nombre: 'Aventuras en Paris',
         imagen: this._base_url+'paris.jpg',
         startTime: '01/01/2018',
         horaInicio: '2:30 PM',
@@ -34,9 +36,8 @@ export class EventosCalendarioService {
         horaFin: '3:30 PM'
       },
       {
-        id: 5,
-        titulo: 'Amsterdam Sightseeing',
-        tipo: 'lugar',
+        Id: 5,
+        Nombre: 'Amsterdam Sightseeing',
         imagen: this._base_url+'Amsterdam.jpg',
         startTime: '01/01/2018',
         horaInicio: '2:00 PM',
@@ -44,9 +45,8 @@ export class EventosCalendarioService {
         horaFin: '3:00 PM'
       },
       {
-        id: 6,
-        titulo: 'Aventuras Divertidas',
-        tipo: 'actividad',
+        Id: 6,
+        Nombre: 'Aventuras Divertidas',
         imagen: this._base_url + 'default-avatar1.svg',
         startTime:'01/01/2018',
         horaInicio: '4:00 PM',
@@ -54,9 +54,8 @@ export class EventosCalendarioService {
         horaFin: '4:30 PM'
       },
       {
-        id: 7,
-        titulo: 'Un Lugar',
-        tipo: 'lugar',
+        Id: 7,
+        Nombre: 'Un Lugar',
         imagen: this._base_url + 'default-avatar1.svg',
         startTime: '',
         horaInicio: '',
@@ -64,9 +63,8 @@ export class EventosCalendarioService {
         horaFin: ''
       },
       {
-        id: 8,
-        titulo: 'Un evento',
-        tipo: 'lugar',
+        Id: 8,
+        Nombre: 'Un evento',
         imagen: this._base_url + 'default-avatar1.svg',
         startTime: '04/02/2018',
         horaInicio: '4:30 PM',
@@ -74,9 +72,8 @@ export class EventosCalendarioService {
         horaFin: '5:30 PM'
       },
       {
-        id: 9,
-        titulo: 'Una de tus actividades',
-        tipo: 'actividad',
+        Id: 9,
+        Nombre: 'Una de tus actividades',
         imagen: this._base_url + 'default-avatar1.svg',
         startTime: '05/02/2018',
         horaInicio: '1:00 PM',
@@ -85,54 +82,56 @@ export class EventosCalendarioService {
       },
     ];
 
-    this._itinerarios.push({
-      id: 1,
-      nombre: 'Disney World',
-      eventos:
-      Array({
-        id: 1,
-        tipo: 'evento',
-        imagen: '../assets/images/epcot.jpg',
-        titulo: 'Epcot International Festival of the Arts',
-        startTime: '01/01/2018',
-        horaInicio: '03:08PM',
-        endTime: '01/01/2018',
-        horaFin: '05:00PM'
-        },
-        {
-        id: 2,
-        tipo: 'evento',
-        imagen: '../assets/images/disney-maraton.jpg',
-        titulo: 'Walt Disney World Marathon Weekend',
-        startTime: '01/02/2018',
-        horaInicio: '01:00 PM',
-        endTime: '01/02/2018',
-        horaFin: '05:00 PM'
-        }),
-      fechaInicio: '01/02/2018',
-      fechaFin: '01/02/2018',
-      visible: true
-      },
-      {
-      id: 2,
-      nombre: 'Viaje a Paris',
-      eventos:
-      Array({
-        id: 3,
-        tipo: 'actividad',
-        imagen: '../assets/images/default-avatar1.svg',
-        titulo: 'Comer croissants en la Torre Eiffel',
-        //***************MM/DD/YYYY************
-        startTime: '01/02/2018',
-        horaInicio: '03:00 PM',
-        endTime: '01/02/2018',
-        horaFin: '05:00 PM'
-        }),
-      fechaInicio: '01/02/2018',
-      fechaFin: '01/02/2018',
-      visible: true
-      });
+    // this._itinerarios.push({
+    //   Id: 1,
+    //   Nombre: 'Disney World',
+    //   Items_agenda:
+    //   Array({
+    //     id: 1,
+    //     tipo: 'evento',
+    //     imagen: '../assets/images/epcot.jpg',
+    //     titulo: 'Epcot International Festival of the Arts',
+    //     startTime: '01/01/2018',
+    //     horaInicio: '03:08PM',
+    //     endTime: '01/01/2018',
+    //     horaFin: '05:00PM'
+    //     },
+    //     {
+    //     id: 2,
+    //     tipo: 'evento',
+    //     imagen: '../assets/images/disney-maraton.jpg',
+    //     titulo: 'Walt Disney World Marathon Weekend',
+    //     startTime: '01/02/2018',
+    //     horaInicio: '01:00 PM',
+    //     endTime: '01/02/2018',
+    //     horaFin: '05:00 PM'
+    //     }),
+    //   FechaInicio: '01/02/2018',
+    //   FechaFin: '01/02/2018',
+    //   Visible: true
+    //   },
+    //   {
+    //   Id: 2,
+    //   Nombre: 'Viaje a Paris',
+    //   Items_agenda:
+    //   Array({
+    //     id: 3,
+    //     tipo: 'actividad',
+    //     imagen: '../assets/images/default-avatar1.svg',
+    //     titulo: 'Comer croissants en la Torre Eiffel',
+    //     //***************MM/DD/YYYY************
+    //     startTime: '01/02/2018',
+    //     horaInicio: '03:00 PM',
+    //     endTime: '01/02/2018',
+    //     horaFin: '05:00 PM'
+    //     }),
+    //   fechaInicio: '01/02/2018',
+    //   fechaFin: '01/02/2018',
+    //   visible: true
+    //   });
 
+
+      this.consultarItinerarios(2);
   }
 
   public getEventosItinerario() {
@@ -152,7 +151,7 @@ export class EventosCalendarioService {
   }
 
   public getItinerarios() {
-    return this._itinerarios;
+    return this._itis;
   }
 
   public getEventosGlobales(){
@@ -173,4 +172,13 @@ export class EventosCalendarioService {
     console.log(this._itinerarios);
     return true;
   }
+
+  public consultarItinerarios(id_usuario){
+    this.http.loadItinerarios(id_usuario)
+    .then(data => {
+      this._itis = data;
+      console.log(this._itis);
+    });
+  }
+
 }

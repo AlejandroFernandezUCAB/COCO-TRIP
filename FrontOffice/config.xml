@@ -78,6 +78,8 @@
     </platform>
     <variable name="REVERSED_CLIENT_ID" value="myreversedclientid" />
     <allow-navigation href="http://192.168.0.105:8100" />
+    <allow-navigation href="http://192.168.56.1:8100" />
+    <allow-navigation href="http://192.168.0.107:8100" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="^4.5.2" />
     <engine name="browser" spec="5.0.1" />
@@ -95,7 +97,5 @@
     <plugin name="cordova-plugin-googleplus" spec="^5.1.1">
         <variable name="REVERSED_CLIENT_ID" value="myreversedclientid" />
     </plugin>
-    <plugin name="cordova-plugin-advanced-http" spec="^1.7.1" />
-    <allow-navigation href="http://192.168.56.1:8100" />
-    <allow-navigation href="http://192.168.0.107:8100" />
+    <plugin name="cordova-plugin-advanced-http" spec="^1.8.1" />
 </widget>

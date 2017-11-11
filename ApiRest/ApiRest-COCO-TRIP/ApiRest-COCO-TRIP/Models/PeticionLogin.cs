@@ -54,10 +54,12 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
+        conexion.Desconectar();
         throw e;
       }
       catch (FormatException e)
       {
+        conexion.Desconectar();
         throw e;
       }
       return usuario.Id;
@@ -127,6 +129,47 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (FormatException e)
       {
+        throw e;
+      }
+      return usuario.Id;
+    }
+
+    public int InsertarUsuario(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "InsertarUsuario";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.NombreUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Nombre));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Apellido));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Date, usuario.FechaNacimiento));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Genero));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Clave));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, usuario.Foto));
+
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          usuario.Id = leerDatos.GetInt32(0);
+          leerDatos.Close();
+        }
+
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        conexion.Desconectar();
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        conexion.Desconectar();
         throw e;
       }
       return usuario.Id;

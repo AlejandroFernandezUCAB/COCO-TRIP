@@ -13,6 +13,7 @@ namespace ApiRest_COCO_TRIP
         {
       // Configuración y servicios de API web
       // Rutas de API
+      //var cors = new EnableCorsAttribute("*", "*", "*");
       config.EnableCors();
       config.MapHttpAttributeRoutes();
 
