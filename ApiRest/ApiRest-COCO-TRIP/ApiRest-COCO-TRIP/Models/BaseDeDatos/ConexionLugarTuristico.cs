@@ -47,7 +47,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
-      catch (InvalidOperationException e)
+      catch (InvalidOperationException)
       {
         //La conexion ya estaba abierta
         //Se debe registrar en NLog este evento
