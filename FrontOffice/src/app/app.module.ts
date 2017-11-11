@@ -112,7 +112,7 @@ export function createTranslateLoader(http: HttpClient) {
     CalendarModule,
     HttpModule,
     IonicStorageModule.forRoot({
-      name: 'usuario',
+      name: 'cocotrip',
          driverOrder: ['indexeddb', 'sqlite', 'websql']
     })
   ],

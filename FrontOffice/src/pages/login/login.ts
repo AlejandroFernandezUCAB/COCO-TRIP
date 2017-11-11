@@ -35,16 +35,17 @@ export class LoginPage {
     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
     public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
     private storage: Storage, public navParams: NavParams) {
-      storage.get('id').then((val) => {
-        console.log('Your id is', val);
-      });
+    storage.get('id').then((val) => {
+      if (val != null) {
+        this.navCtrl.setRoot(HomePage);
+      }
+    });
     this.myForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-     this.vista = false;
+    this.vista = false;
     this.menu.enable(false);
-
   }
 
 
@@ -87,7 +88,6 @@ export class LoginPage {
 
   }
   facebookLogin() {
-    this.realizarLoading();
     this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
       this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
         this.userData = {
@@ -95,18 +95,6 @@ export class LoginPage {
           apellido: profile['last_name'], fechaNacimiento: profile['birthday'],
           foto: profile['picture_large']['data']['url']
         };
-        console.log("JSON ES: " + JSON.stringify(this.userData));
-        this.restapiService.iniciarSesionFacebook(this.userData)
-          .then(data => {
-            if (data == 0 || data == -1) {
-              this.realizarToast('Error con Facebook');
-              this.loading.dismiss();
-            }
-            else {
-              this.navCtrl.setRoot(HomePage);
-            }
-
-          });
       });
     },
       (resultNegativoFacebook: FacebookLoginResponse) => {
