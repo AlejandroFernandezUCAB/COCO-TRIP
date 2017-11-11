@@ -97,7 +97,7 @@ export class ItinerarioPage {
                 Nombre: data.Nombre,
                 Items_agenda: Array()
               });
-              let newitinerario ={ Nombre:data.Nombre,IdUsuario:1 }
+              let newitinerario ={ Nombre:data.Nombre,IdUsuario:2 }
               this.httpc.agregarItinerario(newitinerario)
               //this.its[this.its.length].eventos = Array();
             } else {
@@ -127,8 +127,7 @@ export class ItinerarioPage {
         text: 'Aceptar',
         handler: () => {
           this.eliminarItinerario(idit, index);
-          console.log(idit);
-          this.httpc.eliminarItinerario(idit);//cambiar luego
+          this.httpc.eliminarItinerario(idit);
           }
         }
       ]
@@ -154,6 +153,7 @@ export class ItinerarioPage {
         console.log("id_itinerario :: ", id_itinerario);
         console.log("id_evento :: ", id_evento);
         this.eliminarItem(id_itinerario, id_evento, index);
+        this.httpc.eliminarItem(id_itinerario, id_evento);
           }
         }
       ]
@@ -196,7 +196,6 @@ export class ItinerarioPage {
       this.its[i].edit = this.its[i].Nombre;
       let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
       this.httpc.modificarItinerario(moditinerario)
-      console.log(moditinerario)
     }
   }
 

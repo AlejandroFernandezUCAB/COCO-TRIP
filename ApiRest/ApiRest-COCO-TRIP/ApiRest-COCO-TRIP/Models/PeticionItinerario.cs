@@ -34,7 +34,6 @@ namespace ApiRest_COCO_TRIP.Models
                 while (pgread.Read())
                 {
                     Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
-
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
                     foreach (Itinerario itinerario in itinerarios)
@@ -82,30 +81,30 @@ namespace ApiRest_COCO_TRIP.Models
         }
 
     /// <summary>
-    /// Metodo que elimina un lugar turistico existente de un itinerario existente
+    /// Metodo que elimina un item existente de un itinerario existente
     /// </summary>
-    /// <param name="it">itinerario del cual se elimina el lugar turistico</param>
-    /// <param name="lt">lugar turistico a eliminar del itinerario</param>
-    /// <returns>true si se elimino el lugar turistico exitosamente, false en caso de error</returns>
-    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    /// <param name="it">item del cual se elimina el lugar turistico</param>
+    /// <param name="lt">item a eliminar del itinerario</param>
+    /// <returns>true si se elimino el item exitosamente, false en caso de error</returns>
+    public Boolean EliminarItem_It(int idit, int idag)
         {
           try
           {
             con = new ConexionBase();
             con.Conectar();
-            comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
+            comm = new NpgsqlCommand("del_item_it", con.SqlConexion);
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ag.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idag);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
             pgread = comm.ExecuteReader();
             pgread.Read();
             Boolean resp = pgread.GetBoolean(0);
-           con.Desconectar();
+            con.Desconectar();
             return resp;
           }
           catch (NpgsqlException e)
           {
-            return false;
+            throw e;
           }
         }
 
@@ -285,9 +284,9 @@ namespace ApiRest_COCO_TRIP.Models
         /// <summary>
         /// Consulta los eventos por nombre, o similiares.
         /// </summary>
-        /// <param name="busqueda">Palabra cuyo similitud se busca en el nombre del evento que se esta buscando.</param>
-        /// <returns></returns>
-        public List<Evento> ConsultarEventos(string busqueda)
+        /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del evento que se esta buscando.</param>
+        /// <returns>Retorna una lista con los eventos que tengan coincidencia.</returns>
+     /* public List<Evento> ConsultarEventos(string busqueda)
         {
           List<Evento> list_eventos = new List<Evento>();
           try
@@ -313,9 +312,14 @@ namespace ApiRest_COCO_TRIP.Models
           {
             throw e;
           }
-        }
+        } */
 
-        public List<LugarTuristico> ConsultarLugarTuristico(string busqueda)
+    /// <summary>
+    /// Consulta los lugares turisticos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del lugar turistico que se esta buscando.</param>
+    /// <returns>Retorna una lista con los lugares turisticos que tengan coincidencia.</returns>
+    public List<LugarTuristico> ConsultarLugarTuristico(string busqueda)
         {
           List<LugarTuristico> list_lugaresturisticos = new List<LugarTuristico>();
           try
@@ -346,7 +350,12 @@ namespace ApiRest_COCO_TRIP.Models
           }
         }
 
-        public List<Actividad> ConsultarActividades(string busqueda)
+    /// <summary>
+    ///  Consulta los lugares turisticos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre de la actividad que se esta buscando.</param>
+    /// <returns>Retorna una lista con las actividades que tengan coincidencia.</returns>
+    public List<Actividad> ConsultarActividades(string busqueda)
         {
           List<Actividad> list_actividades = new List<Actividad>();
           try
