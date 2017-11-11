@@ -3,7 +3,7 @@
     <name>CocoTrip</name>
     <description>DS1718AS2</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.1.102:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -82,6 +82,7 @@
     <allow-navigation href="http://192.168.0.107:8100" />
     <allow-navigation href="http://192.168.1.5:8100" />
     <allow-navigation href="http://192.168.1.102:8100" />
+    <allow-navigation href="http://192.168.1.111:8100" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="^4.5.2" />
     <engine name="browser" spec="5.0.1" />
