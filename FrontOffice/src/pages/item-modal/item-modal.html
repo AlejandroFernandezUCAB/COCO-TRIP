@@ -22,8 +22,16 @@
   <ion-select [(ngModel)]="tipo_item">
     <ion-option value="evento">Evento</ion-option>
     <ion-option value="lugar">Lugar Turístico</ion-option>
-    <ion-option value="actividad">Mis actividades</ion-option>
+    <ion-option value="actividad">Actividad</ion-option>
   </ion-select>
+</ion-item>
+<ion-item>
+  <ion-label>Fecha Inicio</ion-label>
+  <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="FechaInicio"></ion-datetime>
+</ion-item>
+<ion-item>
+  <ion-label>Fecha Fin</ion-label>
+  <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="FechaFin"></ion-datetime>
 </ion-item>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
