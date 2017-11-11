@@ -18,7 +18,7 @@
   <form [formGroup]="myForm" (ngSubmit)="saveData()" novalidate>
     <ion-list>
         <ion-item>
-            <ion-label floating>{{ 'Confirma con la contraseña' | translate }}</ion-label>
+            <ion-label floating>{{ 'Contraseña actual' | translate }}</ion-label>
             <ion-input type="password" formControlName="confirmpass" clearInput="true"></ion-input>
         </ion-item>
         <ion-item *ngIf="myForm.get('confirmpass').errors && myForm.get('confirmpass').dirty">
@@ -32,6 +32,15 @@
         <ion-item *ngIf="myForm.get('newpass').errors && myForm.get('newpass').dirty">
           <p color="danger" ion-text *ngIf="myForm.get('newpass').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
         </ion-item>
+
+        <ion-item>
+            <ion-label floating>{{ 'Confirma contraseña' | translate }}</ion-label>
+            <ion-input type="password" formControlName="confirmpass" clearInput="true"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="myForm.get('confirmpass').errors && myForm.get('confirmpass').dirty">
+          <p color="danger" ion-text *ngIf="myForm.get('confirmpass').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
+        </ion-item>
+
     </ion-list>
     <button ion-button type="submit" block (click)="showToastWithCloseButton()">{{ 'Guardar Contraseña' | translate }}</button>
   </form>

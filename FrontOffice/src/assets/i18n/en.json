@@ -46,8 +46,9 @@
     "Introduzca su contraseña":"Enter your password",
     "Confirmar":"Confirm",
 
-    "Confirma con la contraseña":"Confirm with password",
+    "Confirma contraseña":"Confirm with password",
     "Este campo es requerido":"This field is required",
     "Nueva contraseña":"New password",
-    "Guardar Contraseña": "Save password"
+    "Guardar Contraseña": "Save password",
+    "Contraseña actual":"Current password"
 }
