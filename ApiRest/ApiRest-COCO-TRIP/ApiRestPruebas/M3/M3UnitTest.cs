@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
 using System.Data;
-
+using Npgsql;
 
 namespace ApiRestPruebas.M3
 {
@@ -54,14 +54,56 @@ namespace ApiRestPruebas.M3
       conexion.Desconectar();
     }
 
-
+    //PRUEBAS UNITARIAS DE AGREGAR AMIGO
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// Test para probar el caso de exito del metodo agregar amigo
+    /// </summary>
     [Test]
     public void TestAgregarAmigo()
     {
-      PeticionAmigoGrupo peticion = new PeticionAmigoGrupo();
+      peticion = new PeticionAmigoGrupo();
       Assert.AreEqual(peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2"),1);
     }
 
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa null en los parametros
+    /// del metodo agregar amigo
+    /// </summary>
+    [Test]
+    public void TestAgregarAmigoFallidoCast()
+    {
+      Assert.Catch<InvalidCastException>(ExcepcionAgregarAmigoMalCast);
+    }
+
+    public void ExcepcionAgregarAmigoMalCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarAmigosBD(null, null);
+    }
+
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa nombres de usuarios
+    /// que no estan registrados del metodo agregar amigo
+    /// </summary>
+    [Test]
+    public void TestAgregarAmigoFallidoNoExiste()
+    {
+      Assert.Catch<NpgsqlException>(ExcepcionAgregarAmigoMalNoExiste);
+    }
+
+    public void ExcepcionAgregarAmigoMalNoExiste()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarAmigosBD("usuarioramdon1", "usuarioramdon2");
+    }
+
+
+    //PRUEBAS UNITARIAS DE VISUALIZAR PERFIL AMIGO
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// Test para probar el caso de exito del metodo Visualizar Perfil amigo
+    /// </summary>
     [Test]
     public void TestVisualizarPerfilAmigo()
     {
@@ -69,13 +111,95 @@ namespace ApiRestPruebas.M3
       Usuario u = peticion.VisualizarPerfilAmigoBD("usuariopruebas1");
       Assert.AreEqual("Aquiles",u.Nombre);
     }
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa null en el metodo Visualizar Perfil amigo
+    /// </summary>
+    [Test]
+    public void TestVisualizarPerfilAmigoFallidoCast()
+    {
+      Assert.Catch<InvalidCastException>(ExcepcionVisualizarPerfilAmigoMalCast);
+    }
 
+    public void ExcepcionVisualizarPerfilAmigoMalCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.VisualizarPerfilAmigoBD(null);
+    }
+
+
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa nombres de usuarios
+    /// que no estan registrados del metodo agregar amigo
+    /// </summary>
+    ///
+    [Test]
+    public void TestVisualizarPerfilAmigoFallidoNoExiste()
+    {
+      peticion = new PeticionAmigoGrupo();
+      Assert.IsNull(peticion.VisualizarPerfilAmigoBD("usuarioramdon"));
+    }
+
+
+    //PRUEBAS UNITARIAS DE SALIR DE GRUPO
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// Test para probar el caso de exito del metodo salir de grupo
+    /// </summary>
     [Test]
     public void TestSalirGrupo()
     {
       peticion = new PeticionAmigoGrupo();
       Assert.IsTrue(peticion.SalirGrupoBD(-1,"usuariopruebas1"));
     }
+
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa null en los parametros
+    /// del metodo agregar amigo
+    /// </summary>
+    [Test]
+    public void TestSalirGrupoFallidoCast()
+    {
+      Assert.Catch<InvalidCastException>(ExcepcionSalirGrupoMalCast);
+    }
+
+    public void ExcepcionSalirGrupoMalCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.SalirGrupoBD(2, null);
+    }
+
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa nombres de usuarios
+    /// que no estan registrados en la tabla miembro del metodo Salir grupo
+    /// </summary>
+    [Test]
+    public void TestSalirGrupoFallidoNoExisteUsuario()
+    {
+      peticion = new PeticionAmigoGrupo();
+      Assert.IsFalse(peticion.SalirGrupoBD(1, "usuarioramdon"));
+
+    }
+
+    /// <summary>
+    /// Test para probar el caso de falla cuando se ingresa id de grupo
+    /// que no estan registrados en la tabla miembro del metodo Salir grupo
+    /// </summary>
+    [Test]
+    public void TestSalirGrupoFallidoNoExisteGrupo()
+    {
+      peticion = new PeticionAmigoGrupo();
+      Assert.IsFalse(peticion.SalirGrupoBD(-10, "usuariopruebas1"));
+
+    }
+
+
+
+
+
+
+
+
+
     /// <summary>
     /// Prueba para eliminar un amigo
     /// </summary>

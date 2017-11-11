@@ -14,9 +14,6 @@ namespace ApiRest_COCO_TRIP.Controllers
 {
   public class M3_AmigosGruposController : ApiController
   {
-    
-   
-
     Usuario usuario;
     PeticionAmigoGrupo peticion;
 
@@ -65,8 +62,28 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public Usuario VisualizarPerfilAmigo(String nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.VisualizarPerfilAmigoBD(nombreUsuario);
+      Usuario usuario;
+      try {
+        peticion = new PeticionAmigoGrupo();
+        usuario = peticion.VisualizarPerfilAmigoBD(nombreUsuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return usuario;
     }
 
     /// <summary>
@@ -76,7 +93,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     ///  la app</param>
     /// <returns></returns>
     [HttpGet]
-    public string RecomendarApp(String correoElectronico)
+    public void RecomendarApp(String correoElectronico)
     {
       SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
       var mail = new MailMessage();
@@ -90,14 +107,39 @@ namespace ApiRest_COCO_TRIP.Controllers
       SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
       SmtpServer.EnableSsl = true;
       SmtpServer.Send(mail);
-      return "";
     }
-
+    /// <summary>
+    /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
+    /// </summary>
+    /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
+    /// <param name="nombreUsuario">nombre del usuario que desea salir del grupo</param>
+    /// <returns>true si sale exitossamente, false en caso contrario</returns>
     [HttpGet]
     public bool SalirGrupo(string idGrupo, string nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
+      bool salio = false;
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        salio =  peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException e)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return salio;
 
     }
 
