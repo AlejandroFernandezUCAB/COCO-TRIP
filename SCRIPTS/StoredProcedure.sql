@@ -234,7 +234,7 @@ BEGIN
 
 	RETURN QUERY SELECT
   us_password
-	FROM usuario WHERE us_username = _username AND us_validacion=true;
+	FROM usuario WHERE us_nombreUsuario = _username AND us_validacion=true;
 
 END;
 $$ LANGUAGE plpgsql;
