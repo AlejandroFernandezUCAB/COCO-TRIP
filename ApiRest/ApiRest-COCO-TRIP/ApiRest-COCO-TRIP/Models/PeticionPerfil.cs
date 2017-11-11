@@ -106,11 +106,11 @@ namespace ApiRest_COCO_TRIP.Models
     /// Se modifican los datos del usuario en la base de datos
     /// </summary>
     /// <param name="idUsuario">Id del usuario </param>
-    /// <param name="nombreUsuario">Id de la categoria</param>
-    /// <param name="nombre">Id del usuario </param>
-    /// <param name="apellido">Id de la categoria</param>
-    /// <param name="fechaDeNacimiento">Id del usuario </param>
-    /// <param name="genero">Id de la categoria</param>
+    /// <param name="nombreUsuario">Username del usuario</param>
+    /// <param name="nombre">Nombre del usuario</param>
+    /// <param name="apellido">Apellido del usuario</param>
+    /// <param name="fechaDeNacimiento">Fecha de nacimiento del usuario </param>
+    /// <param name="genero">Genero del usuario</param>
     public void ModificarDatos(int idUsuario, string nombreUsuario, string nombre, string apellido, string fechaDeNacimiento, char genero)
     {
 
@@ -130,6 +130,46 @@ namespace ApiRest_COCO_TRIP.Models
       pgread.Read();
       conexion.Desconectar();
 
+    }
+
+    /// <summary>
+    /// Se modifica la contraseña del usuario en la base de datos
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario </param>
+    /// <param name="password">Password del usuario </param>
+    public void CambiarPassword (int idUsuario, string password)
+    {
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+
+      conexion.Conectar();
+      command = new NpgsqlCommand("ModificarPass", conexion.SqlConexion);
+      command.CommandType = CommandType.StoredProcedure;
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, password);
+      pgread = command.ExecuteReader();
+      pgread.Read();
+      conexion.Desconectar();
+    }
+
+    /// <summary>
+    /// Se borra al usuario de la base de datos
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario </param>
+    /// <param name="password">Password del usuario </param>
+    public void BorrarUsuario (int idUsuario, string password)
+    {
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+
+      conexion.Conectar();
+      command = new NpgsqlCommand("BorrarUsuario", conexion.SqlConexion);
+      command.CommandType = CommandType.StoredProcedure;
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, password);
+      pgread = command.ExecuteReader();
+      pgread.Read();
+      conexion.Desconectar();
     }
 
 
