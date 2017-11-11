@@ -53,8 +53,11 @@ namespace ApiRest_COCO_TRIP.Models
                         lugar.Descripcion = pgread.GetString(9);
                         lugar.Costo = pgread.GetDouble(10);
                         lugar.Tipo = "Lugar Turistico";
-                        lugar.FechaInicio = pgread.GetDateTime(5);
-                        lugar.FechaFin = pgread.GetDateTime(6);
+                        if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                        {
+                            lugar.FechaInicio = pgread.GetDateTime(5);
+                            lugar.FechaFin = pgread.GetDateTime(6);
+                        }
                         itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
                     }
                     //Si existe actividad en este registro
@@ -66,10 +69,15 @@ namespace ApiRest_COCO_TRIP.Models
                       actividad.Descripcion = pgread.GetString(13);
                       actividad.Duracion = pgread.GetTimeSpan(14);
                       actividad.Tipo = "Actividad";
-                      actividad.FechaInicio = pgread.GetDateTime(5);
-                      actividad.FechaFin = pgread.GetDateTime(6);
+                      if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                      {
+                        actividad.FechaInicio = pgread.GetDateTime(5);
+                        actividad.FechaFin = pgread.GetDateTime(6);
+                      }
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
+                    //Falta el caso de que sea un evento...
+
                 }
                 con.Desconectar();
                 return itinerarios;
