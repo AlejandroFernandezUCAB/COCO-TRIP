@@ -555,7 +555,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla actividad
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarActividad
-(_nombre VARCHAR(400), _duracion time,
+(_nombre VARCHAR(400), _foto VARCHAR(250), _duracion time,
 _descripcion VARCHAR(2000), _activar boolean, _fk integer)
 RETURNS integer AS
 $$
@@ -565,7 +565,7 @@ BEGIN
    (ac_id, ac_foto, ac_nombre, ac_duracion,
     ac_descripcion, ac_activar, fk_ac_lugar_turistico)
 	VALUES
-    (nextval('seq_actividad'), 'ac-' || currval('seq_actividad'), _nombre,
+    (nextval('seq_actividad'), _foto || currval('seq_actividad'), _nombre,
     _duracion, _descripcion, _activar, _fk);
 
    RETURN currval('seq_actividad');
@@ -595,7 +595,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla lt_foto
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarFoto
-(_fk integer)
+(ruta VARCHAR(250), _fk integer)
 RETURNS integer AS
 $$
 DECLARE
@@ -605,7 +605,7 @@ BEGIN
 	INSERT INTO lt_foto
 	(fo_id, fo_ruta, fk_fo_lugar_turistico)
 	VALUES
-	(nextval('seq_lt_foto'), 'lu-' || fk_fo_lugar_turistico || '-' || currval('seq_lt_foto'), _fk);
+	(nextval('seq_lt_foto'), ruta || currval('seq_lt_foto'), _fk);
 
 	RETURN currval ('seq_lt_foto');
 

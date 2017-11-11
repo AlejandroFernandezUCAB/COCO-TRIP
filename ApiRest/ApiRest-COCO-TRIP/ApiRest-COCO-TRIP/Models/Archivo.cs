@@ -13,6 +13,15 @@ namespace ApiRest_COCO_TRIP.Models
     private string ruta; //Ruta del servidor donde se almacenan las fotos
 
     /// <summary>
+    /// Getter y setter del atributo Ruta
+    /// </summary>
+    public string Ruta
+    {
+      get { return ruta; }
+      set { ruta = value; }
+    }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     public Archivo()
