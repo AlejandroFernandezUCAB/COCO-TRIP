@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
-import { Facebook } from '@ionic-native/facebook';
-import { FacebookLoginResponse } from "@ionic-native/facebook";
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
@@ -36,6 +35,7 @@ export class LoginPage {
     public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
     private storage: Storage, public navParams: NavParams) {
     storage.get('id').then((val) => {
+      this.facebook.browserInit(1251585011612648);
       if (val != null) {
         this.navCtrl.setRoot(HomePage);
       }
@@ -46,7 +46,7 @@ export class LoginPage {
     });
     this.vista = false;
     this.menu.enable(false);
-  }
+    }
 
 
   login() {
@@ -88,21 +88,49 @@ export class LoginPage {
 
   }
   facebookLogin() {
-    this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
-      this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
-        this.userData = {
-          correo: profile['email'], nombre: profile['first_name'],
-          apellido: profile['last_name'], fechaNacimiento: profile['birthday'],
-          foto: profile['picture_large']['data']['url']
-        };
-      });
-    },
-      (resultNegativoFacebook: FacebookLoginResponse) => {
-        this.toast.setMessage('Error, por favor intente de nuevo');
-        this.toast.present();
-
+    this.facebook.login(['public_profile', 'email'])
+       .then((res: FacebookLoginResponse) => this.realizarToast('Logged into Facebook! '+res))
+       .catch((e : FacebookLoginResponse) => this.realizarToast('Error logging into Facebook '+e.authResponse));
+    
+  }
+  facebookLoginprueba() {
+    this.facebook.getLoginStatus().then(loginstatus => {
+      if(loginstatus.status=="connected")
+        this.realizarToast("logeado con facebook");
+      else
+      {
+        this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
+          this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+            this.userData = {
+              correo: profile['email'], nombre: profile['first_name'],
+              apellido: profile['last_name'], fechaNacimiento: profile['birthday'],
+              foto: profile['picture_large']['data']['url']
+            };
+          });
+          console.log("JSON ES: " + JSON.stringify(this.userData));
+          this.restapiService.iniciarSesionFacebook(this.userData)
+            .then(data => {
+              if (data == 0 || data == -1) {
+                this.realizarToast('Error con Facebook');
+                this.loading.dismiss();
+              }
+              else {
+                this.navCtrl.setRoot(HomePage);
+              }
+    
+            });
+        },
+          (resultNegativoFacebook: FacebookLoginResponse) => {
+            this.realizarToast('Error, por favor intente de nuevo+ '+resultNegativoFacebook.authResponse);
+    
+          }
+        ).catch(e => {
+          this.realizarToast('Error, por favor intente de nuevo++ '+e);
+        });
       }
-    );
+
+
+    });
   }
 
   googleLogin() {
