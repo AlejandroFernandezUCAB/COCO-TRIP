@@ -192,14 +192,6 @@ namespace ApiRestPruebas.M3
 
     }
 
-
-
-
-
-
-
-
-
     /// <summary>
     /// Prueba para eliminar un amigo
     /// </summary>
@@ -271,19 +263,55 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual(1, peticion.ObtenerIdUsuario("usuario1"));
     }
 
+    /// <summary>
+    /// Prueba para insertar un grupo dado el id del grupo
+    /// </summary>
     [Test]
     public void TestInsertarGrupo()
     {
-      Assert.AreEqual(1, peticion.AgregarGrupoBD("aaaaa","usuario55"));
+      Assert.AreEqual(2, peticion.AgregarGrupoBD("-1", "usuariopruebas1"));
     }
 
+    /// <summary>
+    /// Prueba excepcion invalidcast insertando null
+    /// </summary>
+    [Test]
+    public void TestInsertarGrupoMal()
+    {
+      Assert.Catch<InvalidCastException>(ExcepcionGrupoMal);
+    }
+
+    public void ExcepcionGrupoMal()
+    {
+      peticion.AgregarGrupoBD(null, "usuariopruebas1");
+    }
+
+    /// <summary>
+    /// Prueba la excepcion de un grupo fallido
+    /// </summary>
+    [Test]
+    public void TestAgregarGrupoFallidoNoExiste()
+    {
+      Assert.Catch<NpgsqlException>(ExcepcionAgregarGrupoMalNoExiste);
+    }
+
+    public void ExcepcionAgregarGrupoMalNoExiste()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarGrupoBD("usuarioramdon1", "usuarioramdon2");
+    }
+
+    /// <summary>
+    /// Prueba que se pueda consultar exitosamente el perfil de grupo
+    /// </summary>
     [Test]
     public void TestPerfilGrupo()
     {
-      grupo = peticion.ConsultarPerfilGrupo(3);
-      Assert.AreEqual("El MEGAGRUPO", grupo.Nombre);
+      grupo = peticion.ConsultarPerfilGrupo(-1);
+      Assert.AreEqual("Grupoprueba1", grupo.Nombre);
     }
 
+    
     [Test]
     public void TestListaGrupo()
     {

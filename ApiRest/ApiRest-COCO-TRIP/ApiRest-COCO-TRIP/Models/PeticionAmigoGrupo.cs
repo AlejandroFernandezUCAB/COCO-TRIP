@@ -139,6 +139,11 @@ namespace ApiRest_COCO_TRIP.Models
       return resultado;
     }
 
+    /// <summary>
+    /// Metodo que se encarga de buscar amigos en la app
+    /// </summary>
+    /// <param name="dato">nombre o iniciales del amigo</param>
+    /// <returns></returns>
     public List<Usuario> BuscarAmigo(string dato)
     {
       var listausuarios = new List<Usuario>();
@@ -161,7 +166,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
 
           listausuarios.Add(usuario);
-         
+
         }
 
         leerDatos.Close();
@@ -179,6 +184,12 @@ namespace ApiRest_COCO_TRIP.Models
       return listausuarios;
     }
 
+    /// <summary>
+    /// Metodo que se encarga de devolver la lista de grupos a los que pertenece
+    /// el usuario
+    /// </summary>
+    /// <param name="dato">id del usuario</param>
+    /// <returns></returns>
     public List<Grupo> Listagrupo(int dato)
     {
       var listagrupos = new List<Grupo>();
@@ -218,10 +229,14 @@ namespace ApiRest_COCO_TRIP.Models
       return listagrupos;
     }
 
-
+    /// <summary>
+    /// Metodo que se encarga de devolver el perfil del grupo
+    /// </summary>
+    /// <param name="dato">id del grupo</param>
+    /// <returns></returns>
     public Grupo ConsultarPerfilGrupo(int dato)
     {
-      
+
       var grupo = new Grupo();
       try
       {
@@ -233,14 +248,14 @@ namespace ApiRest_COCO_TRIP.Models
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
         {
-          
+
           grupo.Nombre = leerDatos.GetString(0);
           if (!leerDatos.IsDBNull(1))
           {
             grupo.Foto[0] = leerDatos.GetByte(3);
           }
 
-         
+
         }
 
         leerDatos.Close();
@@ -258,8 +273,15 @@ namespace ApiRest_COCO_TRIP.Models
       return grupo;
     }
 
-  
-    public int AgregarGrupoBD(String nombre, byte foto,string nombreusuario)
+    /// <summary>
+    /// Metodo que se encarga de Agregar un grupo con foto
+    /// </summary>
+    /// <param name="nombre">nombre del grupo</param>
+    /// <param name="foto">foto del grupo</param>
+    /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
+    /// <returns></returns>
+
+    public int AgregarGrupoBD(String nombre, byte foto, string nombreusuario)
     {
       int idUsuario = ObtenerIdUsuario(nombreusuario);
       int result = 0;
@@ -289,6 +311,13 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return result;
     }
+
+    /// <summary>
+    /// Metodo que se encarga de agregar un grupo sin foto
+    /// </summary>
+    /// <param name="nombre">nombre del grupo</param>
+    /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
+    /// <returns></returns>
 
     public int AgregarGrupoBD(String nombre, string nombreusuario)
     {
