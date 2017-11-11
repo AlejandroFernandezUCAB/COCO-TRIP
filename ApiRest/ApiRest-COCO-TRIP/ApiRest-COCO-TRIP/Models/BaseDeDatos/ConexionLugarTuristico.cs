@@ -27,7 +27,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     {
       conexion = new ConexionBase();
       comando = new NpgsqlCommand();
-      foto = new Archivo();
+      archivo = new Archivo();
     }
 
     /// <summary>
