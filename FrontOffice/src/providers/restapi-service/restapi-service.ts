@@ -97,14 +97,16 @@ export class RestapiService {
   }
 
 
-  /*
-    Modulo 2 peticiones
-   */
+    /**
+     * [Modulo 2]
+     * Metodo para obtener la lista de preferencias del usuario
+     * @param idUsuario Id de usuario
+     */
 
-   buscarPreferencias( nombreUsuario )
+   buscarPreferencias( idUsuario )
    {
       return new Promise( resolve => {
-        this.http.get(this.apiUrl+'/M2_PerfilPreferencias/BuscarPreferencias?idUsuario=' + nombreUsuario,"")
+        this.http.get(this.apiUrl+'/M2_PerfilPreferencias/BuscarPreferencias?idUsuario=' + idUsuario,"")
         .map(res => res.json())
         .subscribe(data => {
 
@@ -113,7 +115,7 @@ export class RestapiService {
 
         }, error=>{      
 
-          resolve(-1);
+          resolve(0);
 
         });
       });

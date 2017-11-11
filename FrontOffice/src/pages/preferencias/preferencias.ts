@@ -73,8 +73,17 @@ export class PreferenciasPage {
 
       this.restapiService.buscarPreferencias( this.idUsuario )
       .then(data => {
-        this.preferenciasEnLista = data;
+        
+        if(data != 0)
+        {
+
+          this.preferenciasEnLista = data;
+
+        }
+
       });
+
+      
     }
 
 
@@ -91,25 +100,5 @@ export class PreferenciasPage {
         }
       }
 
-
-}
-
-class Categoria{
-
-  Id: any ;
-  Nombre: any;
-  Descripcion : any;
-  Estatus: any;
-  CategoriaSupeior: any;
-
-  constructor(id: number, nombre: string, descripcion: string, status: boolean, categoriaSuperior: Categoria){
-
-    this.Id = id;
-    this.Nombre = nombre;
-    this.Descripcion = descripcion;
-    this.Estatus = status;
-    this.CategoriaSupeior = categoriaSuperior;
-
-  }
 
 }
