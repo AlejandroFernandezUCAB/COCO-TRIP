@@ -22,6 +22,8 @@ namespace ApiRest_COCO_TRIP.Models.Dato
     private List<Foto> foto; //Fotos del lugar turistico
     private List<Horario> horario; //Horarios del lugar turistico
     private List<Actividad> actividad; //Actividades del lugar turistico
+    //private List<Categoria> categoria; //Categorias del lugar turistico
+    //private List<Categoria> subCategoria; //Subcategorias del lugar turistico
 
     public LugarTuristico()
     {
@@ -148,6 +150,26 @@ namespace ApiRest_COCO_TRIP.Models.Dato
 
     }
 
+   /* /// <summary>
+    /// Getters y Setters del atributo Categoria
+    /// </summary>
+    public List<Categoria> Categoria
+    {
+      get { return categoria; }
+      set { categoria = value; }
+
+    }
+
+    /// <summary>
+    /// Getters y Setters del atributo SubCategoria
+    /// </summary>
+    public List<Categoria> SubCategoria
+    {
+      get { return subCategoria; }
+      set { subCategoria = value; }
+
+    } */
+
     /// <summary>
     /// Compara si dos objetos de tipo LugarTuristico son iguales
     /// </summary>
@@ -162,7 +184,8 @@ namespace ApiRest_COCO_TRIP.Models.Dato
         if (id != objeto.id || nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
             || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
             || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
-            || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad))
+            || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)
+            /*|| !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria)*/)
         {
 
           return (false);
