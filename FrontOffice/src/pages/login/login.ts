@@ -7,6 +7,8 @@ import { RegisterPage } from '../register/register';
 import { GoogleAuth, User, AuthLoginResult } from '@ionic/cloud-angular';
 import { LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Storage } from '@ionic/storage';
 import { MenuController } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
@@ -27,33 +29,47 @@ export class LoginPage {
   toast: any;
   userData: any;
   alert: any;
-  loading : any;
+  loading: any;
+  myForm: FormGroup;
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
-    public restapiService: RestapiService,public menu: MenuController, public navParams: NavParams) {
-    this.vista = false;
-   this.menu.enable(false);
+    public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
+    private storage: Storage, public navParams: NavParams) {
+      storage.get('id').then((val) => {
+        console.log('Your id is', val);
+      });
+    this.myForm = this.formBuilder.group({
+      userName: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    });
+     this.vista = false;
+    this.menu.enable(false);
+
   }
 
 
   login() {
-    this.realizarLoading();
-    this.restapiService.iniciarSesion(this.usuario, this.clave)
-      .then(data => {
-        if (data == 0 || data == -1) {
-          this.loading.dismiss();
-          this.realizarToast('Error, datos incorrectos');
-          
-        }
-        else {
-          this.navCtrl.setRoot(HomePage);
-        }
+    if (this.myForm.get('password').errors || this.myForm.get('userName').errors)
+      this.realizarToast('Por favor, rellene los campos');
+    else {
+      this.realizarLoading();
+      this.restapiService.iniciarSesion(this.usuario, this.clave)
+        .then(data => {
+          if (data == 0 || data == -1) {
+            this.loading.dismiss();
+            this.realizarToast('Error, datos incorrectos');
 
-      });
-      //this.loading.dismiss();
+          }
+          else {
+            this.storage.set('id', data);
+            this.navCtrl.setRoot(HomePage);
+          }
+
+        });
+    }
   }
 
-  realizarToast(mensaje){
+  realizarToast(mensaje) {
     this.toast = this.toastCtrl.create({
       message: mensaje,
       duration: 3000,
@@ -61,14 +77,14 @@ export class LoginPage {
     });
     this.toast.present();
   }
-  realizarLoading(){
-      this.loading = this.loadingCtrl.create({
-      content: 'Please wait...',
+  realizarLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...',
       dismissOnPageChange: true
     });
-  
+
     this.loading.present();
-  
+
   }
   facebookLogin() {
     this.realizarLoading();
@@ -109,7 +125,7 @@ export class LoginPage {
     this.navCtrl.push(RegisterPage);
   }
 
-  
+
   Otros() {
     if (this.vista == true)
       this.vista = false;
@@ -139,24 +155,21 @@ export class LoginPage {
         {
           text: 'Enviar',
           handler: data => {
-            if (data.correo.includes("@") )
-            {
+            if (data.correo.includes("@")) {
+              this.realizarLoading();
               this.restapiService.recuperarContrasena(data.correo)
-              .then(data => {
-                if (data == 0 || data == -1) {
+                .then(data => {
+                  if (data == 0 || data == -1) {
+                    this.realizarToast('Error, correo no registrado');
+
+                  }
+                  else {
+                    this.realizarToast('Se le ha enviado un correo para recuperar la clave');
+                  }
                   this.loading.dismiss();
-                  this.realizarToast('Error, datos incorrectos');
-                  
-                }
-                else {
-                  this.navCtrl.setRoot(HomePage);
-                }
-        
-              });
-              this.realizarToast('Se le ha enviado un correo para recuperar la clave');
+                });
             }
-            else 
-            {
+            else {
               this.realizarToast('Por favor, escriba un correo valido');
               return false;
             }

@@ -69,7 +69,7 @@ export class RestapiService {
   {
     this.userData={correo: correo};
     return new Promise(resolve => {
-      this.http.post(this.apiUrl+'/M1_Login/CorreoRecuperar/?correo='+JSON.stringify(this.userData),"")
+      this.http.post(this.apiUrl+'/M1_Login/CorreoRecuperar/?datos='+JSON.stringify(this.userData),"")
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;

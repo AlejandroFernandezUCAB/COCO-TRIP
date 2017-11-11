@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 /*
@@ -11,7 +12,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:51049/api';
+apiUrl = 'http://localhost:8091/api';
   constructor(public http: HttpClient) {
   console.log('Hello RestServiceProvider Provider');
 }
@@ -47,9 +48,18 @@ agregarItinerario(itinerario){
       }, (err) => {
         console.log(err)
       });
-  });  
+  });
 }
 
-
+eliminarItinerario(idit){
+  let params = new HttpParams().set("idit", idit);
+  return new Promise(resolve => {
+    this.http.delete(this.apiUrl+'/M5/EliminarItinerario', {params:params}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
 
 }
