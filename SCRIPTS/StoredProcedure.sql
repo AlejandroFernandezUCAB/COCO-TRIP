@@ -16,7 +16,7 @@ CREATE OR REPLACE FUNCTION InsertarUsuario
 (_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
  _apellido VARCHAR(30), _fechaNacimiento date,
  _genero VARCHAR(1), _correo VARCHAR(30),
- _clave VARCHAR(20), _foto bytea)
+ _clave VARCHAR(20), _foto VARCHAR(100))
 RETURNS integer AS
 $$
 BEGIN

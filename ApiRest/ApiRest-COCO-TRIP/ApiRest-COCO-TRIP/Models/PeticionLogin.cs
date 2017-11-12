@@ -157,7 +157,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Genero));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Clave));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, usuario.Foto));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Foto));
 
         leerDatos = conexion.Comando.ExecuteReader();
 

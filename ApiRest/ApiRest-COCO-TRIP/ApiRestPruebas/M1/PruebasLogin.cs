@@ -35,7 +35,7 @@ namespace ApiRestPruebas
         FechaNacimiento = new DateTime(2017, 03, 09),
         Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
-        Foto = new byte[28480]
+        Foto = ""
       };
 
       evento1 = new EventoPreferencia
@@ -72,7 +72,6 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
     {
-      usuario.FechaNacimiento = DateTime.Now;
       Assert.AreEqual(20, peticion.InsertarUsuarioFacebook(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuarioFacebook(usuario);

@@ -53,7 +53,8 @@ export class RestapiService {
 
   registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
   {   
-      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: foto};
+      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: ""};
+      console.log(JSON.stringify(this.userData));
       return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/registrarusuario/?datos='+JSON.stringify(this.userData),"")
       .map(res => res.json())

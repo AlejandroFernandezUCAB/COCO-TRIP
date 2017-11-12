@@ -80,7 +80,6 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.Correo = leerDatos.GetString(2);
           if (!leerDatos.IsDBNull(3))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
           }
           usuario.NombreUsuario = leerDatos.GetString(4);
 
@@ -197,7 +196,6 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.NombreUsuario = leerDatos.GetString(1);
           if (!leerDatos.IsDBNull(2))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
           }
 
           listausuarios.Add(usuario);
@@ -287,7 +285,6 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.NombreUsuario = leerDatos.GetString(3);
           if (!leerDatos.IsDBNull(4))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
           }
 
           listamiembro.Add(usuario);
@@ -532,7 +529,6 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.NombreUsuario = leerDatos.GetString(2);
           if (!leerDatos.IsDBNull(3))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
           }
           ListaUsuario.Add(usuario);
         }
