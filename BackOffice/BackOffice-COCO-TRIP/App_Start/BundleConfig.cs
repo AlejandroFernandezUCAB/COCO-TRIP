@@ -50,6 +50,10 @@ namespace BackOffice_COCO_TRIP
                      "~/Scripts/Lugares/insert-line-table.js"
                      ));
 
+             bundles.Add(new StyleBundle("~/bundles/Lugares_insert-coordsJS").Include(
+                     "~/Scripts/Lugares/google-map.js"
+                     ));
+
             bundles.Add(new StyleBundle("~/bundles/lugares_addCSS").Include(
                     "~/Content/Lugares/add.css"
                     ));
