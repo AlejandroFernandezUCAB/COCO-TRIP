@@ -91,7 +91,6 @@ export class RegisterPage {
       this.realizarToast('Por favor, rellene los campos');
     else {
       if (this.clave == this.clavev) {
-        this.foto = "0101";
         this.restapiService.registrarse(this.nombreUsuario, this.correo, this.nombre, this.apellido, this.genero, new Date(this.fechaNacimiento), this.clave, this.foto)
           .then(data => {
             if (data == 0 || data == -1) {
@@ -176,11 +175,18 @@ export class RegisterPage {
           .then(filePath => {
             let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
             let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+            this.file.readAsText(correctPath,currentName).then(arreglo =>{
+              console.log('arreglo '+arreglo);
+              this.foto=arreglo;
+            });
             this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
           });
       } else {
         var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
         var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+        this.file.readAsText(correctPath,currentName).then(arreglo =>{
+          this.foto=arreglo;
+        });
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }
     }, (err) => {

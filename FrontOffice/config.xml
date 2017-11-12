@@ -3,7 +3,7 @@
     <name>CocoTrip</name>
     <description>DS1718AS2</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.105:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -101,12 +101,12 @@
         <variable name="REVERSED_CLIENT_ID" value="myreversedclientid" />
     </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="^1.8.1" />
-    <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
-        <variable name="APP_ID" value="1251585011612648" />
-        <variable name="APP_NAME" value="cocotrip" />
-    </plugin>
     <plugin name="cordova-plugin-camera" spec="^3.0.0" />
     <plugin name="cordova-plugin-filepath" spec="^1.1.0" />
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.0" />
+    <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
+        <variable name="APP_ID" value="1251585011612648" />
+        <variable name="APP_NAME" value="cocotrip" />
+    </plugin>
 </widget>
