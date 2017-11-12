@@ -626,7 +626,6 @@ $$ LANGUAGE plpgsql;
 
 
 /**
-<<<<<<< HEAD
 Procedimientos del Modulo 5, Gestion de Itinerarios
 Autores:
   Arguelles, Marialette
@@ -1042,6 +1041,14 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     END; $$;
 
 
+CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
+  RETURNS void
+   AS $$
+BEGIN
+    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+END; $$
+  LANGUAGE plpgsql;
+
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
 
@@ -1379,3 +1386,4 @@ BEGIN
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
+

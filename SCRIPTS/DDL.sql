@@ -190,7 +190,7 @@ create table localidad(
 --Modulo 9
 CREATE TABLE categoria
 (
-  ca_id integer NOT NULL,
+  ca_id integer UNIQUE NOT NULL,
   ca_nombre character varying(20) not null,
   ca_descripcion character varying(100) not null,
   ca_status boolean not null,
@@ -314,6 +314,6 @@ CREATE SEQUENCE SEQ_Localidad
 	CACHE 1;
 --Fin de modulo
 --Modulo 9
---Fin de modulo
-
+GRANT ALL PRIVILEGES ON TABLE categoria TO admin_cocotrip;
+--Fin de modulo 
 --Fin Creates tables

@@ -208,7 +208,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         foreach (Foto elemento in lugarTuristico.Foto)
         {
-          conexion.ActualizarFoto(elemento);
+          conexion.ActualizarFoto(elemento);  
         }
 
         if (lugarTuristico.Actividad != null)
