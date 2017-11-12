@@ -26,7 +26,11 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
-  usuario: any;
+  usuario: Object = {
+    Nombre: 'Nombre',
+    Apellido: 'Apellido',
+    Correo: 'Correo'
+  };
   idUsuario = 15;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService) {
@@ -35,6 +39,7 @@ export class PerfilPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PerfilPage');
+    this.cargarUsuario();
   }
 
   cargarUsuario(){
@@ -43,7 +48,10 @@ export class PerfilPage {
       {
 
         this.usuario = data;
-
+        // console.log(this.usuario);
+        // console.log(this.usuario.Nombre);
+        // console.log(this.usuario.Correo);
+        console.log(data);
       }
     });
   }

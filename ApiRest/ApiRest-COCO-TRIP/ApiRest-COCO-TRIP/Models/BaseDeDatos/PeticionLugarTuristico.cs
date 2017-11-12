@@ -54,8 +54,15 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           conexion.InsertarActividad(elemento, lugarTuristico.Id);
         }
 
-        //Categorias y
-        // sub-categorias de las categorias
+        foreach(Categoria elemento in lugarTuristico.Categoria)
+        {
+          conexion.InsertarCategoriaLugarTuristico(lugarTuristico.Id, elemento.Id);
+        }
+
+        foreach(Categoria elemento in lugarTuristico.SubCategoria)
+        {
+          conexion.InsertarCategoriaLugarTuristico(lugarTuristico.Id, elemento.Id);
+        }
 
         conexion.Desconectar();
 
@@ -202,6 +209,29 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
       }
       catch (ArchivoExcepcion e)
       {
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Inserta una categoria en el lugar turistico especificado
+    /// </summary>
+    /// <param name="idLugarTuristico">ID lugar turistico</param>
+    /// <param name="idCategoria">ID categoria</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public void InsertarCategoria (int idLugarTuristico, int idCategoria)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        conexion.InsertarCategoriaLugarTuristico(idLugarTuristico, idCategoria);
+
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
     }
@@ -384,6 +414,27 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     }
 
     /// <summary>
+    /// Elimina una categoria del lugar turistico
+    /// </summary>
+    /// <param name="idLugarTuristico">ID lugar turistico</param>
+    /// <param name="idCategoria">ID categoria</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public void EliminarCategoria(int idLugarTuristico, int idCategoria)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.EliminarCategoriaLugarTuristico(idLugarTuristico, idCategoria);
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
     /// Recibe de la base de datos la lista de lugares turisticos dentro del 
     /// rango establecido
     /// </summary>
@@ -440,7 +491,19 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         lugarTuristico.Horario = conexion.ConsultarHorarios(lugarTuristico.Id);
         lugarTuristico.Foto = conexion.ConsultarFotos(lugarTuristico.Id);
 
-        //Faltan las categorias y sub-categorias. Esperando por el M9.
+        var listaCategorias = conexion.ConsultarCategoriaLugarTuristico(lugarTuristico.Id);
+
+        foreach (Categoria elemento in listaCategorias)
+        {
+          if(elemento.CategoriaSuperior != 0)
+          {
+            lugarTuristico.SubCategoria.Add(elemento);
+          }
+          else
+          {
+            lugarTuristico.Categoria.Add(elemento);
+          }
+        }
 
         conexion.Desconectar();
 
@@ -472,7 +535,19 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         lugarTuristico.Horario = conexion.ConsultarHorarios(lugarTuristico.Id);
         lugarTuristico.Foto = conexion.ConsultarFotos(lugarTuristico.Id);
 
-        //Faltan las categorias y sub-categorias. Esperando por el M9.
+        var listaCategorias = conexion.ConsultarCategoriaLugarTuristico(lugarTuristico.Id);
+
+        foreach (Categoria elemento in listaCategorias)
+        {
+          if (elemento.CategoriaSuperior != 0)
+          {
+            lugarTuristico.SubCategoria.Add(elemento);
+          }
+          else
+          {
+            lugarTuristico.Categoria.Add(elemento);
+          }
+        }
 
         conexion.Desconectar();
 
@@ -527,6 +602,56 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         conexion.Desconectar();
 
         return actividad;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    // Trabajo del M9
+
+    /// <summary>
+    /// Consulta las categorias de la base de datos
+    /// </summary>
+    /// <returns>Lista de categorias de la base de datos</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public List<Categoria> ConsultarCategoria ()
+    {
+      try
+      {
+        conexion.Conectar();
+
+        var listaCategorias = conexion.ConsultarCategoria();
+
+        conexion.Desconectar();
+
+        return listaCategorias;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Consulta las subcategorias de una categoria
+    /// </summary>
+    /// <returns>Lista de subcategorias de una categoria</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public List<Categoria> ConsultarSubCategoria (int idCategoria)
+    {
+      try
+      {
+        conexion.Conectar();
+
+        var listaCategorias = conexion.ConsultarSubCategoria(idCategoria);
+
+        conexion.Desconectar();
+
+        return listaCategorias;
       }
       catch (BaseDeDatosExcepcion e)
       {

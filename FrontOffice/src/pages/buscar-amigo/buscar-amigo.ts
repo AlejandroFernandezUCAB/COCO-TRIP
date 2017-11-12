@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform, ActionSheetController,AlertController } from 'ionic-angular';
 import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the AgregarAmigoPage page.
@@ -19,83 +21,45 @@ export class BuscarAmigoPage {
   toggled: boolean;
   searchTerm: String = '';
   items:string[];
+  idUsuario: any;
+  lista:any;
 
   constructor( public navCtrl: NavController, 
       public navParams: NavParams,public platform: Platform,
       public actionsheetCtrl: ActionSheetController,
-      public alerCtrl: AlertController ) {
-      this.toggled = false;
-      this.initializeItems();       
+      public alerCtrl: AlertController,
+      public restapiService: RestapiService,
+      private storage: Storage ) {
+      //this.cargarListas();       
   }
 
-  ionViewDidLoad() {
-      console.log( 'ionViewDidLoad HomePage' );
-  }
+  buscar(ev){
+  // set q to the value of the searchbar input if it exists
+  if(ev.target.value){
+    var q = ev.target.value;
+  } 
+  this.restapiService.buscaramigo(q)
+  .then(data => {
+  this.lista = data;
+  });
+    }
+  
+  /*cargarListas(){
+  this.storage.get('id').then((val) => {
+  this.idUsuario = val;
+  this.inicializarListas();
+  });
+    }
 
-  toggleSearch() {
-      this.toggled = this.toggled ? false : true;
-  }
+  inicializarListas( ){
+                
+  this.restapiService.buscaramigo( this.idUsuario )
+  .then(data => {
+  this.lista = data;
+  });
+    }*/
 
-  initializeItems() {
-      this.items = ['Mariangel Perez','Oswaldo Lopez']; 
-   }  
-   
-    
-
-  triggerInput( ev: any ) {
-      // Reset items back to all of the items
-      this.initializeItems();
-      // set val to the value of the searchbar
-      let val = ev.target.value;
-      // if the value is an empty string don't filter the items
-      if (val && val.trim() != '') {
-        this.items = this.items.filter((item) => {
-          return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-        })
-      }  
-  }
-
-  /*pressEvent() {
-      let actionSheet = this.actionsheetCtrl.create({
-        title: '¿Que deseas hacer?',
-        cssClass: 'action-sheets-basic-page',
-        buttons: [
-          {
-            text: 'Ver Perfil',
-            icon: !this.platform.is('ios') ? 'eye' : null,
-            handler: () => {
-              console.log('Modificar clicked');
-            }
-          },
-          
-          
-          
-        ]
-      });
-      actionSheet.present();
-  }
-
-  pressEventFacebook() {
-      let actionSheet = this.actionsheetCtrl.create({
-        title: '¿Que deseas hacer?',
-        cssClass: 'action-sheets-basic-page',
-        buttons: [
-          {
-            text: 'Recomendar APP',
-            icon: !this.platform.is('ios') ? 'eye' : null,
-            handler: () => {
-              this.doConfirm();
-              //console.log('Detalle clicked');
-            }
-          }
-          
-          
-          
-        ]
-      });
-      actionSheet.present();
-  }*/
-
+ 
   Visualizarpublico(){
     
         this.navCtrl.push(VisualizarPerfilPublicoPage);

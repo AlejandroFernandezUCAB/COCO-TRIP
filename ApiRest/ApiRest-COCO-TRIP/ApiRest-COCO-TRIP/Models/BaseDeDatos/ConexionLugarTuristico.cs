@@ -368,6 +368,38 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
     }
 
+    /// <summary>
+    /// Inserta una categoria o subcategoria al lugar turistico previamente insertado
+    /// en la base de datos
+    /// </summary>
+    /// <param name="idLugarTuristico">ID lugar turistico</param>
+    /// <param name="idCategoria">ID categoria</param>
+    public void InsertarCategoriaLugarTuristico (int idLugarTuristico, int idCategoria)
+    {
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "InsertarCategoriaLugarTuristico";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idCategoria));
+
+        comando.ExecuteNonQuery();
+
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        excepcion.DatosAsociados = "Datos: ";
+        excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico + " ";
+        excepcion.DatosAsociados += "idCategoria " + idCategoria;
+
+        throw excepcion;
+      }
+    }
+
     // Actualizar
 
     /// <summary>
@@ -769,6 +801,37 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
       }
     }
 
+    /// <summary>
+    /// Elimina la categoria o subcategoria de un lugar turistico
+    /// </summary>
+    /// <param name="idLugarTuristico">ID del lugar turistico</param>
+    /// <param name="idCategoria">ID de la categoria o subcategoria</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public void EliminarCategoriaLugarTuristico (int idLugarTuristico, int idCategoria)
+    {
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "EliminarCategoriaLugarTuristico";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idCategoria));
+
+        comando.ExecuteNonQuery();
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        excepcion.DatosAsociados = "Datos: ";
+        excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico + " ";
+        excepcion.DatosAsociados += "idCategoria " + idCategoria;
+
+        throw excepcion;
+      }
+    }
+
     //Select
 
     /// <summary>
@@ -1149,6 +1212,137 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         excepcion.DatosAsociados = "Datos: ";
         excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico;
+
+        throw excepcion;
+      }
+    }
+
+    /// <summary>
+    /// Consulta las categorias de un lugar turistico
+    /// </summary>
+    /// <param name="idLugarTuristico"></param>
+    /// <returns>Lista de categorias</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public List<Categoria> ConsultarCategoriaLugarTuristico (int idLugarTuristico)
+    {
+      var listaCategorias = new List<Categoria>();
+
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "ConsultarCategoriaLugarTuristico";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
+
+        leerDatos = comando.ExecuteReader();
+
+        while (leerDatos.Read()) //Recorre las filas retornadas de la base de datos
+        {
+          var categoria = new Categoria();
+
+          categoria.Id = leerDatos.GetInt32(0);
+          categoria.CategoriaSuperior = leerDatos.GetInt32(1);
+          categoria.Nombre = leerDatos.GetString(2);
+
+          listaCategorias.Add(categoria);
+        }
+
+        leerDatos.Close();
+
+        return listaCategorias;
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        excepcion.DatosAsociados = "Datos: ";
+        excepcion.DatosAsociados += "idLugarTuristico " + idLugarTuristico;
+
+        throw excepcion;
+      }
+    }
+
+    //Trabajo de M9
+
+    /// <summary>
+    /// Consulta las categorias almacenadas en la base de datos
+    /// </summary>
+    /// <returns>Lista de categorias</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public List<Categoria> ConsultarCategoria()
+    {
+      var listaCategorias = new List<Categoria>();
+
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "ConsultarCategoria";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        leerDatos = comando.ExecuteReader();
+
+        while (leerDatos.Read()) //Recorre las filas retornadas de la base de datos
+        {
+          var categoria = new Categoria();
+
+          categoria.Id = leerDatos.GetInt32(0);
+          categoria.Nombre = leerDatos.GetString(1);
+
+          listaCategorias.Add(categoria);
+        }
+
+        leerDatos.Close();
+
+        return listaCategorias;
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+        throw excepcion;
+      }
+    }
+
+    /// <summary>
+    /// Consulta las subcategorias de una categoria almacenada en la base de datos
+    /// </summary>
+    /// <param name="idCategoria">ID de la categoria</param>
+    /// <returns>La lista de subcategorias de una categoria</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    public List<Categoria> ConsultarSubCategoria (int idCategoria)
+    {
+      var listaCategorias = new List<Categoria>();
+
+      try
+      {
+        comando = conexion.SqlConexion.CreateCommand();
+        comando.CommandText = "ConsultarSubCategoria";
+        comando.CommandType = CommandType.StoredProcedure;
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idCategoria));
+
+        leerDatos = comando.ExecuteReader();
+
+        while (leerDatos.Read()) //Recorre las filas retornadas de la base de datos
+        {
+          var categoria = new Categoria();
+
+          categoria.Id = leerDatos.GetInt32(0);
+          categoria.Nombre = leerDatos.GetString(1);
+
+          listaCategorias.Add(categoria);
+        }
+
+        leerDatos.Close();
+
+        return listaCategorias;
+      }
+      catch (NpgsqlException e)
+      {
+        var excepcion = new BaseDeDatosExcepcion(e);
+        excepcion.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
 
         throw excepcion;
       }

@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs/Rx';
 
 
 @Injectable()
@@ -15,11 +16,10 @@ apiUrl = 'http://localhost:51049/api';
 loadItinerarios(id_usuario)
 {
   let params = new HttpParams().set("id_usuario", id_usuario);
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     this.http.get(this.apiUrl+'/M5/ConsultarItinerarios', { params: params })
     .subscribe(data => resolve(data),
-      err => resolve(-1),
-      () => console.log('yay')
+      err => resolve(-1)
     );
   });
 }
@@ -68,7 +68,7 @@ modificarItinerario(itinerario){
 
 eliminarItem(tipo,idit, iditem){
   return new Promise(resolve => {
-    this.http.delete(this.apiUrl+'/M5/EliminarItem_It',{params:{"tipo": tipo ,"idit": idit , "iditem": iditem}}).subscribe(res => {
+    this.http.delete(this.apiUrl+'/M5/EliminarItem_It',{params:{ tipo: tipo , idit: idit , iditem: iditem}}).subscribe(res => {
         resolve(res);
       }, (err) => {
         console.log(err)
