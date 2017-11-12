@@ -1455,13 +1455,17 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
 (
   _id integer
 )
-RETURNS true AS
+ AS
 $$
+if exists (
 BEGIN
 
     DELETE from evento where ev_id = _id;
 
-END;
+END; )
+select 'true'
+else
+select 'false'
 $$ LANGUAGE plpgsql;
 
 --elimina evento por su nombre
@@ -1469,13 +1473,17 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
 (
   _nombreEvento integer
 )
-RETURNS true AS
+ AS
 $$
+if exists (
 BEGIN
 
     DELETE from evento where ev_nombre = _nombreEvento;
 
-END;
+END; )
+select 'true'
+else
+select 'false'
 $$ LANGUAGE plpgsql;
 
 --elimina localidad por su id
@@ -1483,13 +1491,17 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-RETURNS true AS
+AS
 $$
+if exists (
 BEGIN
 
     DELETE from localidad where lo_id = _id;
 
-END;
+END; )
+select 'true'
+else
+select 'false'
 $$ LANGUAGE plpgsql;
 
 --elimina localidad por su nombre
@@ -1497,13 +1509,17 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
 (
   _nombreLocalidad integer
 )
-RETURNS true AS
+AS
 $$
+if exists(
 BEGIN
 
     DELETE from localidad where lo_nombre = _nombreLocalidad;
 
-END;
+END;)
+select 'true'
+else
+select 'false'
 $$ LANGUAGE plpgsql;
 
 /*SELECT*/
