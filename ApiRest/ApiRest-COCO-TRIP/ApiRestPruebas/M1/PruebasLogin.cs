@@ -228,12 +228,15 @@ namespace ApiRestPruebas
     public void TestRegistrarUsuario()
     {
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
-
+      usuario.NombreUsuario = "homero";
+      Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+      usuario.Correo = "homero_dms@hotmail.com";
+      Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
     }
 
     [Test]
     [Category("Controlador")]
-    public void ValidarUsuario()
+    public void TestValidarUsuario()
     {
       usuario.Id = 1;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
