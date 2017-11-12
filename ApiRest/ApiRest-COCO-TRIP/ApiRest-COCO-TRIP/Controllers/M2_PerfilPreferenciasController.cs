@@ -197,6 +197,24 @@ namespace ApiRest_COCO_TRIP.Controllers
       return usuario;
     }
 
+    /// <summary>
+    /// Metodo que devuelve las preferencias que el usuario aun no tenga
+    /// para luego agregarlas
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario</param>
+    /// <param name="preferencia"> String de preferencia del usuario</param>
+    /// <returns></returns>
+    [HttpPost]
+    public List<Categoria> BuscarCategorias( int idUsuario, string preferencia)
+    {
+
+      List<Categoria> preferencias = new List<Categoria>();
+      peticion = new PeticionPerfil();
+      preferencias = peticion.ObtenerCategorias( idUsuario,preferencia);
+      return preferencias;
+
+    }
+
   }
 
 }
