@@ -87,19 +87,8 @@ namespace ApiRest_COCO_TRIP
         }
 
         leerDatos = conexion.Comando.ExecuteReader();
-        while (leerDatos.Read())
-        {
-          listaCategorias.Add(new Categoria()
-          {
-            Id = leerDatos.GetInt32(0),
-            Nombre = leerDatos.GetString(1),
-            Descripcion = leerDatos.GetString(2),
-            Estatus = leerDatos.GetBoolean(3),
-            Nivel = leerDatos.GetInt32(4)
-          });
-          Int32.TryParse(leerDatos.GetValue(5).ToString(), out Superior);
-          listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
-        }
+        listaCategorias = SetListaCategoria();
+
       }
       catch (NpgsqlException ex)
       {
@@ -116,13 +105,61 @@ namespace ApiRest_COCO_TRIP
         conexion.Desconectar();
 
       }
+      return listaCategorias;
 
+    }
+
+    public IList<Categoria> ObtenerTodasLasCategorias()
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_devolverTodasCategorias";
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();  
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
+
+    }
+    
+    private IList<Categoria> SetListaCategoria()
+    {
+
+      IList<Categoria> listaCategorias = new List<Categoria>();
+      while (leerDatos.Read())
+      {
+        listaCategorias.Add(new Categoria()
+        {
+          Id = leerDatos.GetInt32(0),
+          Nombre = leerDatos.GetString(1),
+          Descripcion = leerDatos.GetString(2),
+          Estatus = leerDatos.GetBoolean(3),
+          Nivel = leerDatos.GetInt32(4)
+        });
+        Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
+        listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
+      }
 
       return listaCategorias;
-      
-
-      
     }
+  
 
   }
 }
