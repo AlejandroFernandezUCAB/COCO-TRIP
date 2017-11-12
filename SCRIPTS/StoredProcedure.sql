@@ -1386,6 +1386,34 @@ END; $$
   LANGUAGE plpgsql;
 
 
+  -------------------------PROCEDIMIENTO BUSCAR CATEGORIA POR STATUS HABILITADO-------------
+  
+  CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada
+  (_status boolean)
+  RETURNS TABLE
+  (
+
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_fkcategoriasuperior integer,
+      categoria_nivel integer
+
+  )
+  AS
+  $$
+  BEGIN
+ 
+    RETURN QUERY 
+    SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_fkcategoriasuperior,ca_nivel
+     FROM categoria 
+    WHERE ca_status=_status;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
+
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
 
