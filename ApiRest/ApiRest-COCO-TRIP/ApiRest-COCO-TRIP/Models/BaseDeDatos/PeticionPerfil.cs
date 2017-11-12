@@ -271,7 +271,8 @@ namespace ApiRest_COCO_TRIP.Models
       command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
       pgread = command.ExecuteReader();
       pgread.Read();
-      user.NombreUsuario = pgread.GetString(1);
+      user.NombreUsuario = pgread.GetString(0);
+      user.Correo = pgread.GetString(1);
       user.Nombre = pgread.GetString(2);
       user.Apellido = pgread.GetString(3);
       user.FechaNacimiento = pgread.GetDateTime(4);
