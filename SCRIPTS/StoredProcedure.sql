@@ -1338,7 +1338,7 @@ $$ LANGUAGE plpgsql;
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
 CREATE FUNCTION m9_modificarcategoria
-(_id integer,_nombre VARCHAR, _descripcion character VARCHAR, _categoriapadre integer) 
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer) 
 RETURNS integer 
     AS $$
     BEGIN
@@ -1349,7 +1349,7 @@ RETURNS integer
         return 1;
         
     END; 
-    $$;
+    $$
     LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
