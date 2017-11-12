@@ -69,6 +69,7 @@ export class RestapiService {
 
   iniciarSesionFacebook(usuario)
   {
+    console.log('USUARIO: '+JSON.stringify(usuario));
     return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/iniciarsesionsocial/?datos='+JSON.stringify(usuario),"")
         .map(res => res.json())

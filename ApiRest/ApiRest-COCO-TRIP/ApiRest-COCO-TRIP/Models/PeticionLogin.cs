@@ -193,9 +193,7 @@ namespace ApiRest_COCO_TRIP.Models
 
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Nombre));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Apellido));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Date, usuario.FechaNacimiento));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, usuario.Foto));
 
         leerDatos = conexion.Comando.ExecuteReader();
 
@@ -205,7 +203,6 @@ namespace ApiRest_COCO_TRIP.Models
           leerDatos.Close();
         }
 
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -214,6 +211,9 @@ namespace ApiRest_COCO_TRIP.Models
       catch (InvalidCastException e)
       {
         throw e;
+      }
+      finally {
+        conexion.Desconectar();
       }
       return usuario.Id;
     }

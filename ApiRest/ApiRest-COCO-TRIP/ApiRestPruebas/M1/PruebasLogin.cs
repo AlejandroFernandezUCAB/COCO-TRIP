@@ -72,7 +72,8 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuarioFacebook(usuario));
+      usuario.FechaNacimiento = DateTime.Now;
+      Assert.AreEqual(20, peticion.InsertarUsuarioFacebook(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuarioFacebook(usuario);
       });
@@ -86,7 +87,7 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuario()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuario(usuario));
+      Assert.AreEqual(13, peticion.InsertarUsuario(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuario(usuario);
       });
