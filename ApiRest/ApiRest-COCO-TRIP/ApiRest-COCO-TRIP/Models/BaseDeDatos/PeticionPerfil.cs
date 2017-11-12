@@ -48,40 +48,6 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     /// <summary>
-    /// Metodo para consultar el id de la categoria a través de su nombre
-    /// </summary>
-    /// <param name="nombreCategoria">Nombre de la categoría</param>
-    /// <returns>Id de la categoria </returns>
-    public int ConsultarIdDeCategoria(string nombreCategoria)
-    {
-
-      int id;
-      id = 1; //Coloco -1 para hacer una comparación más abajo y saber si entró ene l ciclo o no.
-
-      /*ConexionBase conexion = new ConexionBase();
-      conexion.Conectar();
-      ConexionBase con = new ConexionBase();
-      con.Conectar();
-      NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", con.SqlConexion);
-      comm.CommandType = CommandType.StoredProcedure;
-      comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreCategoria);
-      NpgsqlDataReader pgread = comm.ExecuteReader();
-
-      while (pgread.Read())
-      {
-
-        id = pgread.GetInt32(0);
-
-      }
-      conexion.Desconectar();
-
-      return id;*/
-
-      return id;
-
-    }
-
-    /// <summary>
     /// Metodo para eliminar la preferencia que haya seleccionado el usuario
     /// </summary>
     /// <param name="idUsuario">Id del usuario</param>
@@ -169,8 +135,11 @@ namespace ApiRest_COCO_TRIP.Models
         pgread = command.ExecuteReader();
 
         while (pgread.Read()) {
-
-          categoria.Nombre = pgread.GetString(0);
+          categoria = new Categoria();
+          categoria.Id = pgread.GetInt32(0);
+          categoria.Nombre = pgread.GetString(1);
+          categoria.Descripcion = pgread.GetString(2);
+          categoria.Estatus = pgread.GetBoolean(3);
           usuario.AgregarPreferencia( categoria );
 
         }
@@ -183,7 +152,7 @@ namespace ApiRest_COCO_TRIP.Models
       {
         return null;
       }
-      return null;
+
     }
 
 
@@ -295,8 +264,6 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       Usuario user = new Usuario();
-      DateTime convertedDate;
-
       
       conexion.Conectar();
       command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
@@ -311,6 +278,41 @@ namespace ApiRest_COCO_TRIP.Models
       user.Genero = pgread.GetString(5);
       conexion.Desconectar();
       return user;
+    }
+
+    public List<Categoria> ObtenerCategorias(int idUsuario)
+    {
+      NpgsqlCommand command;
+      NpgsqlDataReader pgread;
+      Categoria categoria;
+      Usuario usuario;
+
+      try
+      {
+        usuario = new Usuario();
+        categoria = new Categoria();
+        conexion.Conectar();
+        command = new NpgsqlCommand("BuscarListaPreferenciaUsuario", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        pgread = command.ExecuteReader();
+
+        while (pgread.Read())
+        {
+
+          categoria.Nombre = pgread.GetString(0);
+          usuario.AgregarPreferencia(categoria);
+
+        }
+
+        conexion.Desconectar();
+        return usuario.Preferencias;
+
+      }
+      catch (NpgsqlException e)
+      {
+        return null;
+      }
     }
 
   }

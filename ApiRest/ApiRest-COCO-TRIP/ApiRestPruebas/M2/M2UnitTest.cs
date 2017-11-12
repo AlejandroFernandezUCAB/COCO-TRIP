@@ -109,7 +109,7 @@ namespace ApiRestPruebas.M2
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
-      lista = apiRest.AgregarPreferencias("conexion", "Deporte");
+      lista = apiRest.AgregarPreferencias(1, 1);
       conexion.Conectar();
       NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
                     "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
@@ -132,7 +132,7 @@ namespace ApiRestPruebas.M2
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
-      lista = apiRest.EliminarPreferencias("conexion", "Deporte");
+      lista = apiRest.EliminarPreferencias( 1 , 1);
       conexion.Conectar();
       NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
                     "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
@@ -148,8 +148,8 @@ namespace ApiRestPruebas.M2
 
     // Usuario con id 7 agregado previo a la PU
     [TestCase(7,"Ronald","Navas","2010-05-01","M")]
-    [Category("Modify")]
-    public void PerfilControllerModificarDatosUsuario(int idUsuario, string nombre, string apellido, string fecha, string genero)
+    [Category("Modificar")]
+    public void Model_ModificarDatosUsuario(int idUsuario, string nombre, string apellido, string fecha, string genero)
     {
       DateTime fechaConveritda = Convert.ToDateTime(fecha);
       peticion.ModificarDatos(idUsuario,nombre, apellido, fecha, genero);
@@ -162,8 +162,8 @@ namespace ApiRestPruebas.M2
 
     // Usuario con id 15 agregado previo a la PU
     [TestCase(15,"gianfranco", "verrocchi")]
-    [Category("Objeto")]
-    public void PerfilControllerObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
+    [Category("Usuario")]
+    public void Model_ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
       usuario = peticion.ObtenerDatosUsuario(idUsuario);
       Assert.AreEqual(nombre, usuario.Nombre);
@@ -177,11 +177,20 @@ namespace ApiRestPruebas.M2
 
       List<Categoria> preferencias = new List<Categoria>();
 
-      preferencias = apiRest.BuscarPreferencias("conexion");
+      preferencias = apiRest.BuscarPreferencias(1);
       Assert.AreEqual(categoria.Nombre, preferencias[0].Nombre);
 
     }
 
+    [TestCase(15, "gianfranco", "verrocchi")]
+    [Category("Usuario")]
+    public void ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
+    {
+      usuario = apiRest.ObtenerDatosUsuario(idUsuario);
+      Assert.AreEqual(nombre, usuario.Nombre);
+      Assert.AreEqual(apellido, usuario.Apellido);
+    }
+    
     [TearDown]
     public void TearDown() {
 
