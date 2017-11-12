@@ -4,6 +4,7 @@ import {  IonicPage, NavController, NavParams, ToastController, Platform, Action
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChangepassPage} from '../changepass/changepass';
 import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage'; //para acceder a las variables que guarde en la vista de 'Editar Datos Personales'
 
 @IonicPage()
 @Component({
@@ -13,6 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class EditProfilePage {
 
   myForm: FormGroup;
+  usuario: any = {
+    Nombre: 'Nombre',
+    Apellido: 'Apellido'
+  };
 
   public event = {
     month: '1993-02-27'
@@ -21,19 +26,28 @@ export class EditProfilePage {
   change = ChangepassPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
-    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder )
+    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, private storage: Storage )
   {
+    //obtengo los datos recibidos de la vista anterior
+    this.usuario.Nombre = navParams.data.Nombre;
+    this.usuario.Apellido = navParams.data.Apellido;
+    //inyecto los datos en el formulario
     this.myForm = this.fb.group(
       {
-        nombre: ['', [Validators.required]],
-        apellido: ['',[Validators.required]]
+        nombre: [this.usuario.Nombre, [Validators.required]],
+        apellido: [this.usuario.Apellido,[Validators.required]]
         //sexo: [''],
       }
     )
   }
 
+  //function ejecutada al hacer submit del formulario
   saveData(){
-    alert(JSON.stringify(this.myForm.value));
+    
+    alert(this.myForm.value);
+    // storage.set('name', nuevaInfoUser);
+    this.storage.set('nombre',this.myForm.value.nombre);
+    this.navCtrl.pop();
   }
 
   showToastWithCloseButton() {

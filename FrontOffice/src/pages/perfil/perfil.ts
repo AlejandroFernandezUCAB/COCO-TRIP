@@ -6,6 +6,7 @@ import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
 import { PreferenciasPage } from '../preferencias/preferencias';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { Storage } from '@ionic/storage'; //para acceder a las variables que guarde en la vista de 'Editar Datos Personales'
 
 /**
  * Generated class for the PerfilPage page.
@@ -33,8 +34,10 @@ export class PerfilPage {
   };
   idUsuario = 15;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage) {
 
+
+  
   }
 
   ionViewDidLoad() {
@@ -55,5 +58,17 @@ export class PerfilPage {
       }
     });
   }
+
+  consultarUsuarioAlmacenado(){
+    
+  }
+
+  
+  ionViewWillEnter(){
+    this.storage.get('nombre').then((val) => {
+      console.log('Nombre guardado', val);
+    });
+  }
+
 
 }

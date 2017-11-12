@@ -24,7 +24,7 @@
   <p class="titulo">  <ion-icon name="ios-pin"></ion-icon>  Venezuela</p>
   <br>
   <ion-list>
-    <button [navPush]="editProfile" ion-item>
+    <button [navPush]="editProfile" [navParams]="usuario" ion-item>
       <ion-icon name="md-person"></ion-icon>
       {{ 'Editar Datos Personales' | translate }}
     </button>
