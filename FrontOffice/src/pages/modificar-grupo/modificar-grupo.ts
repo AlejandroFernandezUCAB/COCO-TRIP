@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import{NuevosIntegrantesPage} from '../nuevos-integrantes/nuevos-integrantes';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { AlertController, LoadingController } from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'modificar-grupo-page',
@@ -13,12 +13,16 @@ export class ModificarGrupoPage {
   grupo: any;
   miembro: any;
   id: any;
+  nombreGrupo: string;
+  toast: any;
+
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
     constructor(public navCtrl: NavController, private navParams: NavParams,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
-      public alerCtrl: AlertController) {
+      public alerCtrl: AlertController, public toastCtrl: ToastController,
+      private storage: Storage) {
           
     }
 
@@ -47,6 +51,7 @@ export class ModificarGrupoPage {
         }
         else {
           this.miembro = data;
+          
         }
   
       });
@@ -58,7 +63,6 @@ export class ModificarGrupoPage {
  * @param index 
  */
     eliminarIntegrantes(nombreUsuario, index){
-      console.log(nombreUsuario);
       
       const alert = this.alerCtrl.create({
         title: 'Por favor, confirmar',
@@ -74,8 +78,9 @@ export class ModificarGrupoPage {
           {
             text: 'Aceptar',
             handler: () => {
-              this.eliminarIntegrante(nombreUsuario, index);
-              this.restapiService.eliminarIntegrante(nombreUsuario,1);
+              this.eliminarIntegrante(nombreUsuario, index); 
+              this.restapiService.eliminarIntegrante(nombreUsuario,4);
+              this.realizarToast('Eliminado Exitosamente');
               
               }
             }
@@ -84,14 +89,42 @@ export class ModificarGrupoPage {
         alert.present();
       }
 
+      
+      eliminarIntegrante(nombreUsuario, index){
+        let int_eliminado = this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
+        var removed_elements = this.miembro.splice(index, 1);
+      }
 
-  eliminarIntegrante(nombreUsuario, index){
-    let eliminado = this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[8];
-    var removed_elements = this.miembro.splice(index, 1);
+modificarNombre(evento){
+  this.storage.get('id').then((val) => {
+  if(this.nombreGrupo == undefined){
+    this.restapiService.verperfilGrupo(this.id)
+    .then(data => {this.grupo = data;});
+      var nombreRestApi = this.grupo.filter(item => item.Nombre)[1];
+      this.realizarToast('Modificado Exitosamente');
+     
+  } else {
+       nombreRestApi = this.nombreGrupo;
+        this.restapiService.modificarGrupo(nombreRestApi,val,this.id);
+        this.realizarToast('Modificado Exitosamente');
   }
+});
+}
+
+realizarToast(mensaje) {
+  this.toast = this.toastCtrl.create({
+    message: mensaje,
+    duration: 3000,
+    position: 'top'
+  });
+  this.toast.present();
+}
 
   Integrantes(){
-    this.navCtrl.push(NuevosIntegrantesPage);
+
+    this.navCtrl.push(NuevosIntegrantesPage, {
+      idGrupo: this.id 
+    });
   }
 
   }

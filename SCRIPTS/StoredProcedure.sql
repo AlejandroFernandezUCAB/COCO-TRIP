@@ -32,8 +32,7 @@ $$ LANGUAGE plpgsql;
 -- Inserta el usuario con los datos de Facebook
 -- Devuelve el id del usuario
 CREATE OR REPLACE FUNCTION InsertarUsuarioFacebook
-(_nombre VARCHAR(30), _apellido VARCHAR(30), _correo VARCHAR(30),
- _foto bytea)
+(_nombre VARCHAR(30), _apellido VARCHAR(30), _correo VARCHAR(30))
 RETURNS integer AS
 $$
 BEGIN

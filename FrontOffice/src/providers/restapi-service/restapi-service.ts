@@ -374,7 +374,7 @@ eliminarGrupo(usuario, idGrupo){
  */
 agregarAmigo(idUsuario,nombreAmigo) {  
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -387,7 +387,7 @@ agregarAmigo(idUsuario,nombreAmigo) {
 
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
-      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/SalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
       .subscribe(res => {
         resolve(res);
       }, (err) => {
@@ -435,4 +435,24 @@ agregarAmigo(idUsuario,nombreAmigo) {
       });
   });
 }
+
+/**
+ * [MODULO 3]
+ * Metodo para agregar un integrante al grupo al modificar
+ * @param idGrupo Identificador del grupo
+ * @param nombreAmigo Nombre del amigo a agregar
+ */
+agregarIntegrante(idGrupo,nombreAmigo) {  
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarIntegranteModificar/?idGrupo='+idGrupo+'&nombreUsuario='+nombreAmigo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
 }

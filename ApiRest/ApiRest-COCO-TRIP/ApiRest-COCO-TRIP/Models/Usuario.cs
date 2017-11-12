@@ -14,7 +14,7 @@ namespace ApiRest_COCO_TRIP.Models
     private string apellido;
     private string genero;
     private DateTime fechaNacimiento;
-    private byte[] foto;
+    private string foto;
     private string clave;
     private Boolean valido;
     private List<Categoria> preferencias;
