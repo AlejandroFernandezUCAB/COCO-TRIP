@@ -193,15 +193,15 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION BuscarEventoSegunPreferencias( _idUsuario int, _fechaActual date)
 RETURNS TABLE( 
   nombre VARCHAR,
-  fecha_ini DATE,
-  fecha_fin DATE,
+  fecha_ini TIMESTAMP,
+  fecha_fin TIMESTAMP,
   hora_inicio TIME,
   hora_fin TIME,
-  precio  DECIMAL,
+  precio  INTEGER,
   descripcion VARCHAR,
-  direccion VARCHAR,
+  nombre_local VARCHAR,
   ruta_foto VARCHAR,
-  ca_nombre VARCHAR	
+  categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
   RETURN QUERY 

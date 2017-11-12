@@ -238,6 +238,28 @@ namespace ApiRest_COCO_TRIP.Controllers
       return "Usuario validado";
 
     }
+    //codigo de Pedro Garcia
+    [HttpGet]
+    public List<EventoPreferencia> EventoSegunPreferencias(int idUsuario,DateTime fechaActual) {
+         peticion = new PeticionLogin();
+         List<EventoPreferencia> listaEvento = new List<EventoPreferencia>();
+      try
+         {
+           listaEvento = peticion.ConsultarEventosSegunPreferencias(idUsuario,fechaActual);
+           return listaEvento;
+         }
+         catch (NpgsqlException e)
+         {
+             throw e;
+         }
+         catch (FormatException e)
+         {
+             throw e;
+         }
+
+
+
+     }
 
   }
 }
