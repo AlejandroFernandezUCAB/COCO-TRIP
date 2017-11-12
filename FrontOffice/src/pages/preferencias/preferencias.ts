@@ -48,9 +48,19 @@ export class PreferenciasPage {
       //Eliminando del array de lista
       posicionIndex = this.preferenciasEnLista.indexOf( preferencias );
       this.preferenciasEnLista.splice( posicionIndex, 1);
+      this.restapiService.eliminarPreferencias( this.idUsuario ,preferencias )
+      .then(data => {
+        
+        if(data != 0)
+        {
 
+          this.preferenciasEnLista = data;
+
+        }
+
+      });
       const toast = this.toastCtrl.create({
-        message: 'La categoria ' + preferencias.Nombre + ' fue eliminada exitosamente',
+        message: 'La categoria ' + preferencias + ' fue eliminada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -73,8 +83,17 @@ export class PreferenciasPage {
 
       this.restapiService.buscarPreferencias( this.idUsuario )
       .then(data => {
-        this.preferenciasEnLista = data;
+
+        if(data != 0)
+        {
+
+          this.preferenciasEnLista = data;
+
+        }
+
       });
+
+      
     }
 
 
@@ -91,25 +110,5 @@ export class PreferenciasPage {
         }
       }
 
-
-}
-
-class Categoria{
-
-  Id: any ;
-  Nombre: any;
-  Descripcion : any;
-  Estatus: any;
-  CategoriaSupeior: any;
-
-  constructor(id: number, nombre: string, descripcion: string, status: boolean, categoriaSuperior: Categoria){
-
-    this.Id = id;
-    this.Nombre = nombre;
-    this.Descripcion = descripcion;
-    this.Estatus = status;
-    this.CategoriaSupeior = categoriaSuperior;
-
-  }
 
 }
