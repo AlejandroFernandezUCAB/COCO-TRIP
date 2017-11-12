@@ -10,6 +10,8 @@ using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Web.Http.Cors;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {

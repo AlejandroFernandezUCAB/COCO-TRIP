@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.Dato;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -311,7 +313,47 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return usuario.Id;
     }
+    //codigo Pedro Garcia
+    public List<LugarTuristico> ConsultarLugarTuristicoSegunPreferencias(int idUsuario) {
+        try
+        {
+            conexion.Conectar();
+            conexion.Comando = conexion.SqlConexion.CreateCommand();
+            conexion.Comando.CommandText = "BuscarLugarTuristicoSegunPreferencias";
+            conexion.Comando.CommandType = CommandType.StoredProcedure;
+            conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+            leerDatos = conexion.Comando.ExecuteReader();
+            var listaLugarTuristico = new List<LugarTuristico>();
+
+        while (leerDatos.Read()) //Recorre las filas retornadas de la base de datos
+        {
+          var lugarTuristico = new LugarTuristico();
+
+          lugarTuristico.Id = leerDatos.GetInt32(0);
+          lugarTuristico.Nombre = leerDatos.GetString(1);
+          lugarTuristico.Costo = leerDatos.GetDouble(2);
+          lugarTuristico.Descripcion = leerDatos.GetString(3);
+          lugarTuristico.Activar = leerDatos.GetBoolean(4);
+
+          listaLugarTuristico.Add(lugarTuristico);
+        }
+
+        leerDatos.Close();
+
+        return listaLugarTuristico;
+      }
+        catch (NpgsqlException e)
+        {
+            throw e;
+        }
+        catch (FormatException e)
+        {
+            throw e;
+        }
+
+
+    }
   }
 
-  
+
 }
