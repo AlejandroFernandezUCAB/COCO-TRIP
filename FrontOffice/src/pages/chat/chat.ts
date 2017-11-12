@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ConversacionPage } from '../chat/conversacion/conversacion';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import {ChatProvider} from '../../providers/chat/chat';
 
 /**
  * Generated class for the ChatPage page.
@@ -29,7 +30,7 @@ export class ChatPage {
     {img: 'assets/img/image2.jpeg', nombre: 'Félix', msg: '¡Me encanta desarrollar para COCO-TRIP!'}
   ];
   pushPage: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, public chatService: ChatProvider) {
   }
 
   ionViewDidLoad() {
@@ -85,7 +86,12 @@ export class ChatPage {
     actionSheet.present();
   }
 
+  inicializarConversacion(conversacion){
+    this.chatService.inicializarConversacion(conversacion);
+    this.navCtrl.push('conversacionPage');
+  }
 }
+
 
 interface chats {
   img: string;

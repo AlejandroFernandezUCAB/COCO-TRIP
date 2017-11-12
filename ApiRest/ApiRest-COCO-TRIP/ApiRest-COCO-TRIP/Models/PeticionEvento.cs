@@ -17,7 +17,7 @@ namespace ApiRest_COCO_TRIP.Models
     {
       conexion.Conectar();
     }
-
+    /*
     public  bool AgregarEvento(Evento evento)
     {
       
@@ -59,5 +59,6 @@ namespace ApiRest_COCO_TRIP.Models
     {
       throw new NotImplementedException();
     }
+    */
   }
 }
