@@ -2,6 +2,7 @@ using System.Data;
 using Npgsql;
 using System.Collections.Generic;
 using System;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -51,7 +52,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        return -1;
+        throw new BaseDeDatosExcepcion( e );
 
       }
       catch (Exception e)
@@ -99,7 +100,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        Console.WriteLine("Error en la consulta");
+        throw new BaseDeDatosExcepcion(e);
 
       }
       catch (Exception e)
@@ -143,7 +144,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        Console.WriteLine("Error en la consulta");
+        throw new BaseDeDatosExcepcion(e);
 
       }
       catch (Exception e)
@@ -189,7 +190,7 @@ namespace ApiRest_COCO_TRIP.Models
           categoria.Nombre = pgread.GetString(1);
           categoria.Descripcion = pgread.GetString(2);
           categoria.Estatus = pgread.GetBoolean(3);
-          usuario.AgregarPreferencia( categoria );
+          usuario.AgregarPreferencia(categoria);
 
         }
 
@@ -199,7 +200,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        return null;
+        throw new BaseDeDatosExcepcion(e);
 
       }
       catch (Exception e)
@@ -385,7 +386,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        return null;
+        throw new BaseDeDatosExcepcion(e);
 
       }
       catch (Exception e)
