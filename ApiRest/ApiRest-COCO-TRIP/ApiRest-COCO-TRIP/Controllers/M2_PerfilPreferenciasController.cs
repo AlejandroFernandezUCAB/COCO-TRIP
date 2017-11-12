@@ -127,7 +127,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
       try
       {
-        if (idUsuario == 1)
+        if (idUsuario == -1)
         {
           return false;
         }
