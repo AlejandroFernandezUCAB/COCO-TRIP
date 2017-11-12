@@ -78,7 +78,7 @@ namespace ApiRest_COCO_TRIP.Models
       this.nombre = Nombre;
       this.descripcion = Descripcion;
       this.estatus = Estatus;
-      this.categoriaSuperior = CategoriaSupeior;
+      //this.categoriaSuperior = CategoriaSupeior;
 
     }
 
@@ -89,7 +89,7 @@ namespace ApiRest_COCO_TRIP.Models
       this.nombre = Nombre;
       this.descripcion = Descripcion;
       this.estatus = Estatus;
-      this.categoriaSuperior = CategoriaSupeior;
+      //this.categoriaSuperior = CategoriaSupeior;
 
     }
 

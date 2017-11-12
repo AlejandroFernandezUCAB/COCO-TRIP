@@ -249,7 +249,7 @@ BEGIN
 	AND LOWER(c.ca_nombre) LIKE CONCAT(LOWER(_nombrePreferencia),'%');
 END;
 $$ LANGUAGE plpgsql;
-SELECT BuscarListaPreferenciasPorCategoria(1,'T')
+
 CREATE OR REPLACE FUNCTION ModificarDatosUsuario
 ( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar )
 RETURNS integer AS $$
