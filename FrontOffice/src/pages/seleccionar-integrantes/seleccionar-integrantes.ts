@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 /**
  * Generated class for the SeleccionarIntegrantesPage page.
@@ -14,12 +15,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'seleccionar-integrantes.html',
 })
 export class SeleccionarIntegrantesPage {
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SeleccionarIntegrantesPage');
-  }
+ 
 
 }
