@@ -264,21 +264,29 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       Usuario user = new Usuario();
-      
-      conexion.Conectar();
-      command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      user.NombreUsuario = pgread.GetString(0);
-      user.Correo = pgread.GetString(1);
-      user.Nombre = pgread.GetString(2);
-      user.Apellido = pgread.GetString(3);
-      user.FechaNacimiento = pgread.GetDateTime(4);
-      user.Genero = pgread.GetString(5);
-      conexion.Desconectar();
-      return user;
+
+      try
+      {
+        conexion.Conectar();
+        command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        user.NombreUsuario = pgread.GetString(0);
+        user.Correo = pgread.GetString(1);
+        user.Nombre = pgread.GetString(2);
+        user.Apellido = pgread.GetString(3);
+        user.FechaNacimiento = pgread.GetDateTime(4);
+        user.Genero = pgread.GetString(5);
+        conexion.Desconectar();
+        return user;
+      }
+      catch (NpgsqlException e)
+      {
+        return null;
+      }
+
     }
 
     public List<Categoria> ObtenerCategorias(int idUsuario, string preferencia)

@@ -52,18 +52,18 @@ export class PerfilPage {
     //obtenemos el id ya almacenado desde el login
     this.storage.get('id').then((val) => {
       this.idUsuario = val;
-    });
-    
-    this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
-      if(data != 0)
-      {
-
-        this.usuario = data;
-        // console.log(this.usuario);
-        // console.log(this.usuario.Nombre);
-        // console.log(this.usuario.Correo);
-        console.log(data);
-      }
+      console.log('id de usuario => ',this.idUsuario);
+      this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
+        if(data != 0)
+        {
+          
+          this.usuario = data;
+          // console.log(this.usuario);
+          // console.log(this.usuario.Nombre);
+          // console.log(this.usuario.Correo);
+          console.log(data);
+        }
+      });
     });
   }
 
