@@ -131,8 +131,24 @@ namespace ApiRest_COCO_TRIP.Controllers
     
     [HttpGet]
     public List<Itinerario> ConsultarItinerarios(int id_usuario)
-    { 
+    {
+      try
+      {
         return peti.ConsultarItinerarios(id_usuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
     }
 
  /* [HttpGet]
