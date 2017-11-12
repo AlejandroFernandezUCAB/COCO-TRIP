@@ -42,13 +42,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario">Nombre del usuario</param>
     /// <param name="nombrePreferencia">Nombre de la categoria a eliminar</param>
     /// <returns>Retorna  una lista de  categorias</returns>
-    [HttpDelete]
-    public List<Categoria> EliminarPreferencias(string nombreUsuario, string nombrePreferencia)
+    [HttpPost]
+    public List<Categoria> EliminarPreferencias(int idUsuario, string nombrePreferencia)
     {
-      int idUsuario, idCategoria;
+      int idCategoria;
       List<Categoria> preferencias;
       peticion = new PeticionPerfil();
-      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
       idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
       peticion.EliminarPreferencia(idUsuario, idCategoria);
       preferencias = peticion.BuscarPreferencias(idUsuario);

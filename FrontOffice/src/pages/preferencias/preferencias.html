@@ -25,7 +25,7 @@
         <ion-item-divider color="light">{{ 'Categorías seleccionadas' | translate }}</ion-item-divider>
         <ion-item *ngFor="let preferencias of preferenciasEnLista"> 
           <h2>{{ preferencias.Nombre }}</h2>
-          <button ion-button clear item-end (click)="aviso('eliminar',  preferencias )"><ion-icon name="close"></ion-icon></button>
+          <button ion-button clear item-end (click)="aviso('eliminar',  preferencias.Nombre )"><ion-icon name="close"></ion-icon></button>
         </ion-item>
       </ion-list>
 </ion-content>
