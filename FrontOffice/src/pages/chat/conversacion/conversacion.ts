@@ -14,9 +14,10 @@ import {ChatProvider} from '../../../providers/chat/chat';
 })
 
 export class ConversacionPage {
-
+  @ViewChild('content') content: Content;
   conversacion: any;
-  nuevoMensaje;
+  nuevoMensaje: any;
+  usuarioId: any;
   mensajes: Array<msgs> = [
     {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
   ];
@@ -135,7 +136,7 @@ pressEvent1(){
   }
   
   agregarMensaje() {
-    this.chatService.(this.nuevoMensaje).then(() => {
+    this.chatService.agregarNuevoMensaje(this.nuevoMensaje,this.usuarioId).then(() => {
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
     })
