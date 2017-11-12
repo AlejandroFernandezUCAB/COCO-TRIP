@@ -146,12 +146,12 @@ namespace ApiRestPruebas
       Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
     }
    
-    [Test]
+    /*[Test]
     public void Prueba_EliminarItem()
     {
       x = controller.EliminarItem_It(4,12);
       Assert.True(x);
-    }
+    }*/
 
   }
 }

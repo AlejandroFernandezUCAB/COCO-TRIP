@@ -15,7 +15,7 @@
     "Idioma Seleccionado": "Idioma Seleccionado",
     "Español":"Español",
     "Ingles":"Ingles",
-    
+
     "Editar Datos Personales": "Editar Datos Personales",
     "Cambiar Foto": "Cambiar Foto",
     "Nombre":"Nombre",
@@ -34,7 +34,24 @@
     "Preferencias":"Preferencias",
     "Búsqueda de categorías":"Búsqueda de categorías",
     "Categorías seleccionadas":"Categorías seleccionadas",
-    
+
     "Introduzca su contraseña":"Introduzca su contraseña",
-    "Confirmar":"Confirmar"
+    "Confirmar":"Confirmar",
+
+    "Comienza": "Comienza: ",
+    "Termina": "Termina: ",
+    "Agregar Items": "Agregar Items",
+    "Eliminar Itinerario" : "Eliminar Itinerario",
+    "Eliminar Item":"Eliminar Item",
+    "Inicio": "Inicio",
+    "Fin": "Fin",
+    "Calendario": "Calendario",
+    "Actividad" : "Actividad",
+    "Lugar Turistico" : "Lugar Turistico",
+    "Evento": "Evento",
+    "Type" : "Tipo",
+    "NoItinerarios" : "- No tienes ningún itinerario -",
+    "Eliminar": "Eliminar",
+    "Fecha Inicio": "Fecha Inicio",
+    "Fecha Fin": "Fecha Fin"
 }
