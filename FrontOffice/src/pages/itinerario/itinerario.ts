@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ModalController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ToastController, ModalController, LoadingController } from 'ionic-angular';
 import { CalendarioPage } from '../calendario/calendario';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { HttpCProvider } from '../../providers/http-c/http-c';
+import { TranslateService } from '@ngx-translate/core';
+import 'rxjs/add/observable/throw';
 /**
  * Generated class for the ItinerarioPage page.
  *
@@ -28,6 +30,7 @@ export class ItinerarioPage {
   its: any;
   newitinerario: any;
   users: any;
+  toast: any;
   list = false;
   nuevoViejo = true;
   mySlideOptions = {
@@ -48,7 +51,9 @@ export class ItinerarioPage {
     public alertCtrl: AlertController,
     public itinerarios: EventosCalendarioService,
     public httpc: HttpCProvider,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    private translateService: TranslateService
   ) {
     //this.its = Array();
     //this.its.eventos=Array();
@@ -70,7 +75,66 @@ export class ItinerarioPage {
     this.items = reorderArray(this.items, indexes);
   }
 
+  public crearIngles(){
+    const alert = this.alertCtrl.create({
+      title: 'New Itinerary',
+      inputs: [
+        {
+          name: 'Nombre',
+          placeholder: 'Name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'CANCEL',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'CREATE',
+          handler: data => {
+            if (data.Nombre!= '' && data.Nombre!= undefined) {
+              console.log(data);
+              if (this.its == undefined) this.its=Array();
+              let name = data.Nombre;
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario:2 }
+              this.presentLoading();
+              this.httpc.agregarItinerario(newitinerario).then(
+                data =>{
+                  if (data ==0 || data==-1){
+                    this.loading.dismiss();
+                    this.realizarToast("Sorry, your itinerary wasn't created. Please, try later :(");
+                  }else{
+                    this.loading.dismiss();
+                    console.log("yuxz");
+                    console.log(data);
+                    this.its.push({
+                      Nombre: name,
+                      Items_agenda: Array()
+                    })
+                  }
+                }
+              )
+              //this.its[this.its.length].eventos = Array();
+            } else {
+              // invalid login
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   crear(){
+    if (this.translateService.currentLang == 'es') this.crearEspanol();
+    else this.crearIngles();
+  }
+
+  public crearEspanol(){
     const alert = this.alertCtrl.create({
       title: 'Nuevo Itinerario',
       inputs: [
@@ -93,12 +157,25 @@ export class ItinerarioPage {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
               console.log(data);
               if (this.its == undefined) this.its=Array();
-              this.its.push({
-                Nombre: data.Nombre,
-                Items_agenda: Array()
-              });
-              let newitinerario ={ Nombre:data.Nombre,IdUsuario:2 }
-              this.httpc.agregarItinerario(newitinerario)
+              let name = data.Nombre;
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario:2 }
+              this.presentLoading();
+              this.httpc.agregarItinerario(newitinerario).then(
+                data =>{
+                  if (data ==0 || data==-1){
+                    this.loading.dismiss();
+                    this.realizarToast('No se pudo agregar el itinerario. Por favor intente mas tarde :(');
+                  }else{
+                    this.loading.dismiss();
+                    console.log("yuxz");
+                    let datos = data;
+                    this.its.push({
+                      Nombre: name,
+                      Items_agenda: Array()
+                    })
+                  }
+                }
+              )
               //this.its[this.its.length].eventos = Array();
             } else {
               // invalid login
@@ -150,10 +227,9 @@ export class ItinerarioPage {
     {
       text: 'Aceptar',
       handler: () => {
-        console.log("id_itinerario :: ", id_itinerario);
-        console.log("id_evento :: ", id_evento);
         this.eliminarItem(id_itinerario, id_evento, index);
-        this.httpc.eliminarItem(id_itinerario, id_evento);
+        let tipo=this.getTipoItem(id_evento);
+        this.httpc.eliminarItem(tipo,id_itinerario, id_evento);
           }
         }
       ]
@@ -167,17 +243,16 @@ export class ItinerarioPage {
   }
 
   eliminarItinerario(id, index){
-     let eliminado = this.its.filter(item => item.id === id)[0];
+     let eliminado = this.its.filter(item => item.Id === id)[0];
      var removed_elements = this.its.splice(index, 1);
      if (this.its.length == 0){
        this.noIts = true;
        console.log("no its")
-
      }
    }
 
   eliminarItem(id_itinerario, id_evento, index){
-    let iti_e_eliminado = this.its.filter(item => item.id === id_itinerario)[0];
+    let iti_e_eliminado = this.its.filter(item => item.Id === id_itinerario)[0];
     var removed_elements = iti_e_eliminado.Items_agenda.splice(index, 1);
   }
 
@@ -194,6 +269,7 @@ export class ItinerarioPage {
     this.delete=false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
+      console.log(this.its[i].FechaFin);
       let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
       this.httpc.modificarItinerario(moditinerario)
     }
@@ -263,9 +339,9 @@ export class ItinerarioPage {
         let itinerario_nuevo = data.itinerario;
         eventoData.Id = data.evento_nuevo.Id;
         eventoData.Nombre = data.evento_nuevo.Nombre;
-        eventoData.imagen = data.evento_nuevo.imagen;
-        eventoData.startTime = data.evento_nuevo.startTime;
-        eventoData.endTime = data.evento_nuevo.endTime;
+        eventoData.Imagen = data.evento_nuevo.imagen;
+        eventoData.FechaInicio = data.evento_nuevo.startTime;
+        eventoData.FechaFin = data.evento_nuevo.endTime;
         for(var i = 0;i< this.its.length;i++) {
           if (this.its[i].Nombre == itinerario_nuevo) {
             //si el itinerario no tiene eventos, se inicializa el arreglo eventos
@@ -319,18 +395,35 @@ export class ItinerarioPage {
   }
 
 
-  ionViewWillEnter(){
+  ionViewWillEnter()
+  {
     this.presentLoading();
     this.httpc.loadItinerarios(2)
     .then(data => {
-      this.its = data;
-      this.loading.dismiss();
-      console.log(this.its);
-      if (this.its.length == 0){
-        this.noIts = true;
+      if (data== 0 || data == -1){
+        this.loading.dismiss();
+        this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+      }else{
+        this.its = data;
+        this.loading.dismiss();
+        console.log(this.its);
+        if (this.its.length == 0){
+          this.noIts = true;
+        }
       }
     });
   }
+
+  public realizarToast(mensaje)
+  {
+      this.toast = this.toastCtrl.create({
+        message: mensaje,
+        duration: 3000,
+        position: 'middle'
+      });
+      this.toast.present();
+  }
+
 
   public getTipoItem(evento){
     if (evento.Costo == undefined){

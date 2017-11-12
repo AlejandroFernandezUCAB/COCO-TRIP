@@ -46,6 +46,10 @@ namespace BackOffice_COCO_TRIP
                      "~/Scripts/Lugares/delete-line-table.js"
                      ));
 
+            bundles.Add(new StyleBundle("~/bundles/Lugares_insert-line-tableJS").Include(
+                     "~/Scripts/Lugares/insert-line-table.js"
+                     ));
+
             bundles.Add(new StyleBundle("~/bundles/lugares_addCSS").Include(
                     "~/Content/Lugares/add.css"
                     ));

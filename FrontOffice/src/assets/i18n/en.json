@@ -12,7 +12,7 @@
     "Itinerario": "Itinerary",
     "Amistades y Grupos":"Friends and Groups",
     "Salir":"Log Out",
-  
+
 
     "Configuración": "Settings",
     "Eventos": "Events",
@@ -44,6 +44,29 @@
     "Categorías seleccionadas":"Selected categories",
 
     "Introduzca su contraseña":"Enter your password",
-    "Confirmar":"Confirm"
+    "Confirmar":"Confirm",
+
+    "Confirma contraseña":"Confirm with password",
+    "Este campo es requerido":"This field is required",
+    "Nueva contraseña":"New password",
+    "Guardar Contraseña": "Save password",
+    "Contraseña actual":"Current password",
+
+    "Comienza": "Starts: ",
+    "Termina": "Ends: ",
+    "Agregar Items": "Add Items",
+    "Eliminar Itinerario" : "Delete itinerary",
+    "Eliminar Item":"Delete Item",
+    "Inicio": "Start",
+    "Fin": "End",
+    "Calendario": "Calendary",
+    "Actividad" : "Activity",
+    "Lugar Turistico" : "Turistic Place",
+    "Evento": "Event",
+    "Type" : "Type",
+    "NoItinerarios" : "- You don't have any itineraries -",
+    "Eliminar": "Delete",
+    "Fecha Inicio": "Start Date",
+    "Fecha Fin": "End Date"
 
 }
