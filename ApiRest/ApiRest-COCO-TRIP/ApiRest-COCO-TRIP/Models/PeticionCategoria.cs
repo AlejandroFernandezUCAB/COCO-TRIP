@@ -20,7 +20,6 @@ namespace ApiRest_COCO_TRIP
     public PeticionCategoria()
     {
       conexion = new ConexionBase();
-      //conexion.Comando = new NpgsqlCommand();
     }
 
     private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
@@ -65,11 +64,64 @@ namespace ApiRest_COCO_TRIP
       {
         conexion.Desconectar();
 
+      }  
+    }
+
+    public IList<Categoria> ObtenerCategorias(Categoria categoria)
+    {
+      IList<Categoria> listaCategorias = new List<Categoria>();
+      int Superior;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        if (categoria.Id == -1)
+        {
+          conexion.Comando.CommandText = "m9_obtenerCategoriaTop";
+        }
+        else
+        {
+          conexion.Comando.CommandText = "m9_obtenerCategoriaNoTop";
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+        }
+
+        leerDatos = conexion.Comando.ExecuteReader();
+        while (leerDatos.Read())
+        {
+          listaCategorias.Add(new Categoria()
+          {
+            Id = leerDatos.GetInt32(0),
+            Nombre = leerDatos.GetString(1),
+            Descripcion = leerDatos.GetString(2),
+            Estatus = leerDatos.GetBoolean(3),
+            Nivel = leerDatos.GetInt32(4)
+          });
+          Int32.TryParse(leerDatos.GetValue(5).ToString(), out Superior);
+          listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
+        }
       }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          DatosAsociados = $" ID : {categoria.Id}",
+          Mensaje = $"Error al momento de buscar las categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+
+
+      return listaCategorias;
       
 
       
-
     }
 
   }

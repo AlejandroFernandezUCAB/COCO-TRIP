@@ -442,7 +442,10 @@
         </div>
 
         <div class="row">
+          <label for="coords" class="col-sm-2 control-label">Coordenadas(GD)</label>
+          <input type="text" id="coords" />
           
+          <div id="map" class="text-center"></div>
         </div>
 
         <div class="form-group">
@@ -462,4 +465,6 @@
 @section scripts {
   @Scripts.Render("~/bundles/Lugares_delete-line-tableJS")
   @Scripts.Render("~/bundles/Lugares_insert-line-tableJS")
+  @Scripts.Render("~/bundles/Lugares_insert-coordsJS")
+  @Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")
 }

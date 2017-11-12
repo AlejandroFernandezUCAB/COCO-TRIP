@@ -121,6 +121,47 @@ export class RestapiService {
       });
    }
 
+   buscarPreferenciasFiltrado( idUsuario, nombrePreferencia)
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BuscarCategorias?idUsuario=' + idUsuario 
+        +'&preferencia=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   agregarPreferencias( idUsuario, nombrePreferencia)
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/AgregarPreferencias?idUsuario=' + idUsuario 
+        +'&idCategoria=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+
+   }
+
    eliminarPreferencias( idUsuario ,nombrePreferencia )
    {
 
