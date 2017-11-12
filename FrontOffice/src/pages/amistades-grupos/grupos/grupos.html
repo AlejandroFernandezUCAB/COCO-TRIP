@@ -16,9 +16,9 @@
             <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
           </ion-avatar>
           <h2>{{item.Nombre}}</h2>
-          <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar Grupo</p>
+          <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.Id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">Eliminar Grupo</p>
           </button>
-          <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="modificarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Modificar Grupo</p>
+          <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="modificarGrupo(item.Id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Modificar Grupo</p>
           </button>
           <button ion-button small icon-only clear *ngIf="detail" style="width:auto; display: flex; margin-top: 0px;" (click)="verDetalleGrupo()"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">Ver Detalle Grupo</p>
           </button>

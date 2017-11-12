@@ -22,7 +22,7 @@ export class GruposPage {
    }
   
    ionViewWillEnter() {
-    this.restapiService.listaGrupo("usuario1")
+    this.restapiService.listaGrupo(1)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -90,8 +90,9 @@ export class GruposPage {
     this.edit=false;
     this.detail=false;
     this.delete=false;
-
-    this.navCtrl.push(ModificarGrupoPage);
+    this.navCtrl.push(ModificarGrupoPage,{
+      idGrupo: id
+    });
   }
 
   eliminarGrupo(id, index) {
@@ -109,13 +110,25 @@ export class GruposPage {
       {
         text: 'Aceptar',
         handler: () => {
-          //this.eliminarItinerario(id, index);
+          this.eliminarGrupos(id, index);
+          this.restapiService.eliminarGrupo(1,id);
+          this.delete = false;
           }
         }
       ]
     });
     alert.present();
   }
+
+/**
+ * Metodo para borrar desde pantalla
+ * @param nombreUsuario Nombre del amigo a eliminar
+ * @param index 
+ */
+eliminarGrupos(id, index){
+  let eliminado = this.grupo.filter(item => item.Id === id)[0];
+  var removed_elements = this.grupo.splice(index, 1);
+}
 
   verDetalleGrupo() {
     this.navCtrl.push(DetalleGrupoPage);

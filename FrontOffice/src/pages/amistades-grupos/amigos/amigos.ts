@@ -50,11 +50,11 @@ export class AmigosPage {
    */
    ionViewWillEnter() {
      this.cargando();
-      this.restapiService.listaAmigos("usuario1")
+      this.restapiService.listaAmigos(1)
         .then(data => {
           if (data == 0 || data == -1) {
             console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-
+            this.loading.dismiss();
           }
           else {
             this.amigo = data;
@@ -122,9 +122,7 @@ eliminarAmigo(nombreUsuario, index) {
       text: 'Aceptar',
       handler: () => {
         this.eliminarAmigos(nombreUsuario, index);
-        this.restapiService.eliminarAmigo(nombreUsuario,"usuario1");
-        
-        
+        this.restapiService.eliminarAmigo(nombreUsuario,1);
         this.delete = false;
         }
       }
