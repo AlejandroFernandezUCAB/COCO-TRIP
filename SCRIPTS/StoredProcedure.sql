@@ -954,7 +954,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla actividad
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarActividad
-(_nombre VARCHAR(400), _foto VARCHAR(250), _duracion time,
+(_nombre VARCHAR(400), _foto VARCHAR(320), _duracion time,
 _descripcion VARCHAR(2000), _activar boolean, _fk integer)
 RETURNS integer AS
 $$
@@ -994,7 +994,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla lt_foto
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarFoto
-(ruta VARCHAR(250), _fk integer)
+(ruta VARCHAR(320), _fk integer)
 RETURNS integer AS
 $$
 DECLARE
@@ -1172,7 +1172,7 @@ $$ LANGUAGE plpgsql;
 -- Consultar categorias de un lugar turistico por ID
 -- del lugar Turisticos
 CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico (_id_lu integer)
-RETURNS TABLE (id_ca integer, id_ca_su integer, nombre varchar,)
+RETURNS TABLE (id_ca integer, id_ca_su integer, nombre varchar)
 AS
 $$
 BEGIN
@@ -1188,12 +1188,13 @@ CREATE OR REPLACE FUNCTION ConsultarCategoria ()
 RETURNS TABLE (id integer, nombre VARCHAR)
 AS
 $$
+BEGIN
 
   RETURN QUERY SELECT ca_id, ca_nombre FROM categoria
   WHERE ca_fkcategoriasuperior IS NULL
   AND ca_status = true;
 
-
+END;
 $$ LANGUAGE plpgsql;
 
 -- Consultar lista de subcategorias de una categoria (trabajo de M9)
@@ -1201,10 +1202,12 @@ CREATE OR REPLACE FUNCTION ConsultarSubCategoria (_id integer)
 RETURNS TABLE (id integer, nombre VARCHAR)
 AS
 $$
+BEGIN
 
   RETURN QUERY SELECT ca_id, ca_nombre FROM categoria WHERE
   ca_fkcategoriasuperior = _id and ca_status = true;
 
+END;
 $$ LANGUAGE plpgsql;
 
 /*UPDATE*/
@@ -1252,7 +1255,7 @@ $$ LANGUAGE plpgsql;
 
 -- Actualizar datos de la actividad por ID
 CREATE OR REPLACE FUNCTION ActualizarActividad
-(_id integer, _foto varchar,
+(_id integer, _foto varchar(320),
  _nombre VARCHAR(400), _duracion time,
  _descripcion VARCHAR(2000), _activar boolean)
  RETURNS void AS
@@ -1285,7 +1288,7 @@ $$ LANGUAGE plpgsql;
 
 -- Actualizar foto de un lugar turistico por ID de la foto
 CREATE OR REPLACE FUNCTION ActualizarFoto
-(_id integer, _foto varchar) RETURNS void AS
+(_id integer, _foto varchar(320)) RETURNS void AS
 $$
 BEGIN
   UPDATE lt_foto SET
@@ -1339,7 +1342,7 @@ CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripci
     LANGUAGE plpgsql
     AS $$
     BEGIN
-      INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
+      INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
           VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
@@ -1347,9 +1350,27 @@ CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, des
     LANGUAGE plpgsql
     AS $$
     BEGIN
-        INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
+        INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
               VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
+
+CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS 
+  $BODY$
+  DECLARE
+    CATEGORIA TEXT;
+  BEGIN
+      SELECT CA_ID INTO CATEGORIA FROM CATEGORIA WHERE (CA_NOMBRE = nombrecategoria);
+      RETURN CATEGORIA;
+  END; 
+  $BODY$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_estatus BOOLEAN, nivel INT, fk INT ) AS $$
+BEGIN
+			RETURN 	QUERY
+					SELECT ca_id, ca_nombre, ca_descripcion, ca_status, ca_nivel, ca_fkcategoriasuperior FROM CATEGORIA;
+END; 
+$$ LANGUAGE plpgsql;
 
 
 
@@ -1368,6 +1389,75 @@ BEGIN
     UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
 END; $$
   LANGUAGE plpgsql;
+
+ CREATE OR REPLACE FUNCTION m9_obtenercategoriatop()
+  RETURNS TABLE(categoria_id INT, categoria_nombre VARCHAR, categoria_descripcion VARCHAR, categoria_estatus BOOLEAN, categoria_nivel INT, categoria_catsup INT)
+   AS $$
+DECLARE
+   var_r  record;
+BEGIN
+   FOR var_r IN(SELECT 	ca.ca_id ID, ca.ca_nombre nombre, ca.ca_descripcion descripcion, ca.ca_status estatus, ca.ca_nivel nivel, ca.ca_fkcategoriasuperior sup
+		FROM categoria ca where  ca.ca_fkcategoriasuperior is null)
+   LOOP
+  categoria_id := var_r.ID;
+  categoria_nombre := var_r.nombre;
+  categoria_descripcion := var_r.descripcion;
+  categoria_estatus := var_r.estatus;
+  categoria_nivel := var_r.nivel;
+  categoria_catsup := var_r.sup;
+  RETURN NEXT;
+   END LOOP;
+END; $$
+  LANGUAGE plpgsql;
+
+ CREATE OR REPLACE FUNCTION m9_obtenercategorianotop(sup INT)
+  RETURNS TABLE(categoria_id INT, categoria_nombre VARCHAR, categoria_descripcion VARCHAR, categoria_estatus BOOLEAN, categoria_nivel INT, categoria_catsup INT)
+   AS $$
+DECLARE
+   var_r  record;
+BEGIN
+   FOR var_r IN(SELECT 	ca.ca_id ID, ca.ca_nombre nombre, ca.ca_descripcion descripcion, ca.ca_status estatus, ca.ca_nivel nivel, ca.ca_fkcategoriasuperior sup
+		FROM categoria ca where  ca.ca_fkcategoriasuperior = sup)
+   LOOP
+  categoria_id := var_r.ID;
+  categoria_nombre := var_r.nombre;
+  categoria_descripcion := var_r.descripcion;
+  categoria_estatus := var_r.estatus;
+  categoria_nivel := var_r.nivel;
+  categoria_catsup := var_r.sup;
+  RETURN NEXT;
+   END LOOP;
+END; $$
+  LANGUAGE plpgsql;
+
+
+  -------------------------PROCEDIMIENTO BUSCAR CATEGORIA POR STATUS HABILITADO-------------
+  
+  CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada
+  (_status boolean)
+  RETURNS TABLE
+  (
+
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_fkcategoriasuperior integer,
+      categoria_nivel integer
+
+  )
+  AS
+  $$
+  BEGIN
+ 
+    RETURN QUERY 
+    SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_fkcategoriasuperior,ca_nivel
+     FROM categoria 
+    WHERE ca_status=_status;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
 
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos

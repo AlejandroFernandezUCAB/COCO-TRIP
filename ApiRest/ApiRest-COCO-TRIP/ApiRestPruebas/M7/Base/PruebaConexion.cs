@@ -218,7 +218,7 @@ namespace ApiRestPruebas.M7.Base
 
       lugar.Id = idLugar;
       foto.Contenido = null;
-      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarFoto);
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarFoto);
 
       foto = null;
       Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarFoto);
@@ -421,6 +421,9 @@ namespace ApiRestPruebas.M7.Base
 
       conexion.Conectar();
       conexion.ActualizarActividad(actividad);
+
+      actividad.Foto.Contenido = null;
+
       Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id).Contains(actividad));
       conexion.Desconectar();
     }
@@ -503,6 +506,9 @@ namespace ApiRestPruebas.M7.Base
 
       conexion.Conectar();
       conexion.ActualizarFoto(foto);
+
+      foto.Contenido = null;
+
       Assert.AreEqual(true, conexion.ConsultarFotos(lugar.Id).Contains(foto));
       conexion.Desconectar();
     }
@@ -515,7 +521,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestExcepcionActualizarFoto()
     {
       foto.Contenido = null;
-      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionActualizarFoto);
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionActualizarFoto);
 
       foto = null;
       Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionActualizarFoto);
@@ -560,12 +566,13 @@ namespace ApiRestPruebas.M7.Base
       {
         conexion.Conectar();
         conexion.ActivarActividad(actividad.Id, true);
-        Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id)[0].Activar);
+        Assert.AreEqual(true, conexion.ConsultarActividad(actividad.Id).Activar);
         conexion.Desconectar();
 
         conexion.Conectar();
         conexion.ActivarActividad(lugar.Id, false);
-        Assert.AreEqual(false, conexion.ConsultarActividades(lugar.Id)[0].Activar);
+
+        Assert.AreEqual(false, conexion.ConsultarActividad(actividad.Id).Activar);
         conexion.Desconectar();
       }
       catch (ArgumentOutOfRangeException)
