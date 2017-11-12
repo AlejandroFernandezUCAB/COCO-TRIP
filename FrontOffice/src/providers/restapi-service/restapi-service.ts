@@ -126,7 +126,7 @@ export class RestapiService {
 
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/EliminarPreferencias?idUsuario=' + idUsuario 
-        +'&nombrePreferencia=' + nombrePreferencia,"")
+        +'&idCategoria=' + nombrePreferencia,"")
       .map(res => res.json())
       .subscribe(data => {
 

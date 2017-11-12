@@ -27,17 +27,17 @@ export class PreferenciasPage {
     console.log('ionViewDidLoad PreferenciasPage');
   }
 
-  aviso(str, preferencias) {
+  aviso(str, idPreferencias, nombrePreferencias) {
 
     var posicionIndex;
 
     if (str == "agregado") {
 
-      this.preferenciasEnLista.push( preferencias );
-      posicionIndex = this.preferenciasEnBusqueda.indexOf( preferencias );
+      this.preferenciasEnLista.push( idPreferencias );
+      posicionIndex = this.preferenciasEnBusqueda.indexOf( idPreferencias );
       this.preferenciasEnBusqueda.splice( posicionIndex, 1);
       const toast = this.toastCtrl.create({
-        message: preferencias + ' fue agregada exitosamente',
+        message: nombrePreferencias + ' fue agregada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -46,21 +46,21 @@ export class PreferenciasPage {
     } else {
 
       //Eliminando del array de lista
-      posicionIndex = this.preferenciasEnLista.indexOf( preferencias );
+      posicionIndex = this.preferenciasEnLista.indexOf( idPreferencias );
       this.preferenciasEnLista.splice( posicionIndex, 1);
-      this.restapiService.eliminarPreferencias( this.idUsuario ,preferencias )
+      this.restapiService.eliminarPreferencias( this.idUsuario ,idPreferencias )
       .then(data => {
         
         if(data != 0)
         {
 
           this.preferenciasEnLista = data;
-
+          console.log( this.preferenciasEnLista );
         }
 
       });
       const toast = this.toastCtrl.create({
-        message: 'La categoria ' + preferencias + ' fue eliminada exitosamente',
+        message: 'La categoria ' + nombrePreferencias + ' fue eliminada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -88,6 +88,7 @@ export class PreferenciasPage {
         {
 
           this.preferenciasEnLista = data;
+          console.log(data);
 
         }
 
