@@ -56,6 +56,14 @@ public List<Actividad> Actividades { get => actividades; set => actividades = va
       this.visible = visible;
     }
 
+    public Itinerario(int id, string nombre, int idusuario, bool visible)
+    {
+      this.id = id;
+      this.nombre = nombre;
+      idUsuario = idusuario;
+      this.visible = visible;
+    }
+
     public Itinerario(string nombre, DateTime fechainicio, DateTime fechafin, int idusuario)
     {
       this.nombre = nombre;
@@ -73,8 +81,5 @@ public List<Actividad> Actividades { get => actividades; set => actividades = va
     {
       this.id = id;
     }
-
-  
-   
   }
 }
