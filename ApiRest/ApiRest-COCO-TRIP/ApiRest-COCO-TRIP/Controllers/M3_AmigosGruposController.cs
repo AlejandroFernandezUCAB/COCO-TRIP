@@ -228,13 +228,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario"></param>
     /// <returns></returns>
     [HttpGet]
-    public List<Usuario> VisualizarListaAmigos(string nombreUsuario)
+    public List<Usuario> VisualizarListaAmigos(string idusuario)
     {
       List<Usuario> lista;
       try
       {
         peticion = new PeticionAmigoGrupo();
-        lista = peticion.VisualizarListaAmigoBD(nombreUsuario);
+        lista = peticion.VisualizarListaAmigoBD(Convert.ToInt32(idusuario));
        }
       catch (NpgsqlException)
       {
@@ -364,12 +364,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreusuario">nombre usuario logeado en la app</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Grupo> ConsultarListaGrupos(string nombreusuario)
+    public List<Grupo> ConsultarListaGrupos(string idusuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.Listagrupo(nombreusuario);
+        return peticion.Listagrupo(Convert.ToInt32(idusuario));
       }
       catch (NpgsqlException)
       {
@@ -389,7 +389,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
 
     }
-
+    /// <summary>
+    /// Metodo que devulve los integrantes de un grupo
+    /// </summary>
+    /// <param name="idgrupo">id del grupo por el cual se devuelven sus integrantes</param>
+    /// <returns></returns>
     [HttpGet]
     public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
     {
@@ -424,8 +428,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="id">Es el de id del grupo por el cual se buscara</param>
     /// <returns></returns>
     [HttpGet]
-    public Grupo ConsultarPerfilGrupos(string id)
+    public List<Grupo> ConsultarPerfilGrupos(string id)
     {
+
       try
       {
         peticion = new PeticionAmigoGrupo();

@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.105:8091/api';
+  apiUrl = 'http://localhost:8091/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -106,7 +106,7 @@ export class RestapiService {
   {  
   
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/M3_AmigosGrupos/VisualizarListaAmigos/?nombreUsuario='+usuario,"")
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/VisualizarListaAmigos/?idusuario='+usuario,"")
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
@@ -146,7 +146,7 @@ export class RestapiService {
   {  
   
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarListaGrupos/?nombreUsuario='+usuario,"")
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarListaGrupos/?idusuario='+usuario,"")
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
@@ -158,6 +158,29 @@ export class RestapiService {
     });
   }
 
+  /**
+ * [MODULO 3] 
+ * Metodo para buscar los amigos
+ * @param nombreUsuario nombre del usuario o iniciales
+ */
+
+  buscaramigo( nombreUsuario )
+  {
+     return new Promise( resolve => {
+       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario,"")
+       .map(res => res.json())
+       .subscribe(data => {
+
+         this.data = data;
+         resolve(this.data);
+
+       }, error=>{      
+
+         resolve(-1);
+
+       });
+     });
+  }
 /**
  * [MODULO 3] 
  * Metodo para visualizar el perfil del grupo
@@ -178,6 +201,8 @@ export class RestapiService {
         });
     });
   }
+
+
 
   /**
    * [MODULO 3] 

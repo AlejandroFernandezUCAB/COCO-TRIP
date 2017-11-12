@@ -190,9 +190,9 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="nombreusuario">nombre del usuario por el cual se busca el id</param>
     /// <returns></returns>
-    public List<Grupo> Listagrupo(string nombreusuario)
+    public List<Grupo> Listagrupo(int idUsuario)
     {
-      int idUsuario = ObtenerIdUsuario(nombreusuario);
+      
       var listagrupos = new List<Grupo>();
       try
       {
@@ -277,10 +277,10 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="dato">id del grupo</param>
     /// <returns></returns>
-    public Grupo ConsultarPerfilGrupo(int dato)
+    public List<Grupo> ConsultarPerfilGrupo(int dato)
     {
-
-      var grupo = new Grupo();
+      var listagrupo = new List<Grupo>();
+      //var grupo = new Grupo();
       try
       {
         conexion.Conectar();
@@ -289,16 +289,17 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, dato));
         leerDatos = conexion.Comando.ExecuteReader();
-        if (leerDatos.Read())
-        {
 
+        while (leerDatos.Read())
+        {
+          var grupo = new Grupo();
           grupo.Nombre = leerDatos.GetString(0);
           if (!leerDatos.IsDBNull(1))
           {
             grupo.Foto[0] = leerDatos.GetByte(3);
           }
 
-
+          listagrupo.Add(grupo);
         }
 
         leerDatos.Close();
@@ -313,7 +314,7 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
 
-      return grupo;
+      return listagrupo;
     }
 
     /// <summary>
@@ -476,9 +477,9 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="nombreUsuario">Nombre de usuario del emisor</param>
     /// <returns>Retorna la lista de amigos del usuario</returns>
-    public List<Usuario> VisualizarListaAmigoBD(string nombreUsuario)
+    public List<Usuario> VisualizarListaAmigoBD(int idUsuario)
     {
-      int idUsuario = ObtenerIdUsuario(nombreUsuario);
+      
       List<Usuario> ListaUsuario = new List<Usuario>();
       try
       {

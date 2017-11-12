@@ -22,7 +22,7 @@ export class GruposPage {
    }
   
    ionViewWillEnter() {
-    this.restapiService.listaGrupo("usuario1")
+    this.restapiService.listaGrupo("1")
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");

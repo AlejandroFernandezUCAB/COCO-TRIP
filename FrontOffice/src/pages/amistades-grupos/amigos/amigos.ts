@@ -15,9 +15,9 @@ export class AmigosPage {
   edit= false;
   detail=false;
   amigo: any;
-  public loading = this.loadingCtrl.create({
+  /*public loading = this.loadingCtrl.create({
     content: 'Please wait...'
-  });
+  });*/
   
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
@@ -37,20 +37,20 @@ export class AmigosPage {
 /**
  * Metodo que carga un LoadingCTRL
  */
-  cargando(){
+  /*cargando(){
     this.loading = this.loadingCtrl.create({
       content: 'Por favor espere...',
       dismissOnPageChange: true
     });
     this.loading.present();
-  }
+  }*/
 
   /**
    * Metodo para cargar la lista de amigos
    */
    ionViewWillEnter() {
-     this.cargando();
-      this.restapiService.listaAmigos("usuario1")
+     //this.cargando();
+      this.restapiService.listaAmigos("1")
         .then(data => {
           if (data == 0 || data == -1) {
             console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -58,7 +58,7 @@ export class AmigosPage {
           }
           else {
             this.amigo = data;
-            this.loading.dismiss();
+            //this.loading.dismiss();
           }
   
         });

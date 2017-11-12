@@ -24,7 +24,7 @@ export class DetalleGrupoPage {
   }
 
   ionViewWillEnter() {
-    this.restapiService.verperfilGrupo("1")
+    this.restapiService.verperfilGrupo("2")
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -32,7 +32,7 @@ export class DetalleGrupoPage {
         }
         else {
           this.grupo = data;
-          //this.cargarmiembros();
+          this.cargarmiembros();
         }
 
       });
@@ -47,9 +47,11 @@ export class DetalleGrupoPage {
       }
       else {
         this.miembro = data;
+        alert(this.miembro);
       }
 
     });
   }
 
 }
+
