@@ -218,6 +218,41 @@ namespace ApiRestPruebas.M2
 
     }
 
+    [Test]
+    public void ObtenerPass()
+    {
+      string username, pass, passobtenida;
+      username = "jelo";
+      pass = "123";
+
+      passobtenida = peticion.ObtenerPassword(username);
+      Assert.AreEqual(pass, passobtenida);
+    }
+
+    [Test]
+    public void ConsultarIdTest()
+    {
+      int test, testing;
+      string username;
+      testing = 2;
+      username = "jelo";
+
+      test = peticion.ConsultarIdDelUsuario(username);
+      Assert.AreEqual(test, testing);
+    }
+
+    [Test]
+    public void BorrarUsuarioTest()
+    {
+      string username, pass;
+      username = "jelo";
+      pass = "wwe";
+
+      probar = apiRest.BorrarUsuario(username, pass);
+      Assert.AreEqual(true, probar);
+
+    }
+
 
     [TearDown]
     public void TearDown() {
