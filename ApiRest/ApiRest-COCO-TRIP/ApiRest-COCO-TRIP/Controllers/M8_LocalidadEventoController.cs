@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Web.Http.Cors;
 using System.Collections.Generic;
+using System;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -35,7 +36,7 @@ namespace ApiRest_COCO_TRIP.Controllers
      * <returns>TRUE si se eliminó exitosamente false si no </returns>
      * **/
     [HttpGet]
-    public bool EliminarLocalidadEvento(int id)
+    public Boolean EliminarLocalidadEvento(int id)
     {
       PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
       return peticionLocalidadEvento.EliminarLocalidadEvento(id);
@@ -57,11 +58,12 @@ namespace ApiRest_COCO_TRIP.Controllers
      * <returns>La lista de evento de dicha categoria</returns>
      * **/
     [HttpGet]
-    public List<LocalidadEvento> ListaLocalidadEventos(int id_categoria)
+    public List<LocalidadEvento> ListaLocalidadEventos()
     {
       PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
       return peticionLocalidadEvento.ListaLocalidadEventos();
     }
+
 
   }
 }

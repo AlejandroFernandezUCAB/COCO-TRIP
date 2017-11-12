@@ -65,7 +65,7 @@ namespace ApiRest_COCO_TRIP.Models
     /**
      * <summary>Metodo para eliminar una localidad de la BBDD</summary>
      * **/
-      public bool EliminarLocalidadEvento(int id)
+      public Boolean EliminarLocalidadEvento(int id)
     {
 
       try
@@ -99,9 +99,10 @@ namespace ApiRest_COCO_TRIP.Models
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
         read = comando.ExecuteReader();
         read.Read();
-        localidad.Nombre = read.GetString(0);
-        localidad.Descripcion = read.GetString(1);
-        localidad.Coordenadas = read.GetString(2);
+        localidad.Id = read.GetInt32(0);
+        localidad.Nombre = read.GetString(1);
+        localidad.Descripcion = read.GetString(2);
+        localidad.Coordenadas = read.GetString(3);
         conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)

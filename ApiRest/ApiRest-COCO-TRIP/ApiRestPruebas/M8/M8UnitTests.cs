@@ -29,7 +29,7 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaAgregarLocalidadEvento()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento("Sambil","Lugar familiar y pasarla bien con amigos y pareja se hacen conciertos y eventos infantiles",
+      LocalidadEvento localidadEvento = new LocalidadEvento("Sambil", "Lugar familiar y pasarla bien con amigos y pareja se hacen conciertos y eventos infantiles",
         "Chacao, Venezuela");
       Assert.AreEqual(controlador.AgregarLocalidadEvento(localidadEvento), 5);
     }
@@ -86,5 +86,68 @@ namespace ApiRestPruebas.M8
     }**/
 
     //Pruebas de ELIMINAR LOCALIDAD
+    /**
+     * <summary>Prueba que elimina una localidad exitosamente</summary>
+    **/
+    [Test]
+    public void PruebaEliminarLocalidadEvento()
+    {
+      int idLocalidad = 3;
+      Assert.IsTrue(controlador.EliminarLocalidadEvento(idLocalidad));
+    }
+    /**
+     * <summary>Prueba de eliminar localidad inexistente</summary>
+     * **/
+    [Test]
+    public void PruebaEliminarLocalidadInexistente()
+    {
+      int idLocalidad = 2000;
+      Assert.IsFalse(controlador.EliminarLocalidadEvento(idLocalidad));
+    }
+    //Pruebas de Consultar Localidad
+    /**
+     * <summary>Prueba que consulta una Localidad existente</summary>
+     * **/
+    [Test]
+    public void PruebaConsultarLocalidadEvento()
+    {
+      LocalidadEvento localidadEvento = new LocalidadEvento("Suiza", "Europa", "Europa");
+      int idLocalidadEvento = controlador.AgregarLocalidadEvento(localidadEvento);
+      Assert.AreEqual(controlador.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
+        localidadEvento.Nombre);
+    }
+      /**
+     * <summary>Prueba de consulta casos de borde id inexitente o invalido</summary>
+     * */
+    [Test]
+    public void PruebaConsultarLocalidadNula()
+    {
+      Assert.Catch<InvalidOperationException>(casoBorde1Consultar);
+      Assert.Catch<InvalidOperationException>(casoBorde2Consultar);
+    }
+
+    public void casoBorde1Consultar()
+    {
+      int id = 1111;
+      LocalidadEvento localidad = controlador.ConsultarLocalidadEvento(id);
+    }
+    public void casoBorde2Consultar()
+    {
+      int id = -1;
+      LocalidadEvento localidad = controlador.ConsultarLocalidadEvento(id);
+    }
+
+    /**
+     * <summary>Prueba de busqueda de todas las localidades de eventos</summary>
+     * */
+     [Test]
+     public void PruebaListaLocalidades()
+    {
+      int id = 1;
+      String nombre = "USA";
+      LocalidadEvento localidadEvento = new LocalidadEvento(nombre, "Europa", "Europa");
+      Assert.AreEqual(controlador.ListaLocalidadEventos().ElementAt(0).Id, id);
+//      Assert.AreEqual(controlador.ListaLocalidadEventos().First().Id, id);
+    }
   }
 }

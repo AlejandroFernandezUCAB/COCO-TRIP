@@ -10,6 +10,7 @@ namespace ApiRest_COCO_TRIP.Models
    * **/
   public class LocalidadEvento
   {
+    private int id;
     private string nombre;
     private string descripcion;
     private string coordenadas;
@@ -17,6 +18,15 @@ namespace ApiRest_COCO_TRIP.Models
     public string Nombre { get => nombre; set => nombre = value; }
     public string Descripcion { get => descripcion; set => descripcion = value; }
     public string Coordenadas { get => coordenadas; set => coordenadas = value; }
+    public int Id { get => id; set => id = value; }
+
+    public LocalidadEvento(int id, string nombre, string descripcion, string coordenadas)
+    {
+      this.id = id;
+      this.nombre = nombre;
+      this.descripcion = descripcion;
+      this.coordenadas = coordenadas;
+    }
 
     public LocalidadEvento(string _nombre, string _descripcion, string _coordenadas)
     {
