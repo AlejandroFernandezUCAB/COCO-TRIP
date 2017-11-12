@@ -127,7 +127,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
       try
       {
-        if (idUsuario == 1)
+        if (idUsuario == -1)
         {
           return false;
         }
@@ -195,6 +195,24 @@ namespace ApiRest_COCO_TRIP.Controllers
       peticion = new PeticionPerfil();
       usuario = peticion.ObtenerDatosUsuario(idUsuario);
       return usuario;
+    }
+
+    /// <summary>
+    /// Metodo que devuelve las preferencias que el usuario aun no tenga
+    /// para luego agregarlas
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario</param>
+    /// <param name="preferencia"> String de preferencia del usuario</param>
+    /// <returns></returns>
+    [HttpPost]
+    public List<Categoria> BuscarCategorias( int idUsuario, string preferencia)
+    {
+
+      List<Categoria> preferencias = new List<Categoria>();
+      peticion = new PeticionPerfil();
+      preferencias = peticion.ObtenerCategorias( idUsuario,preferencia);
+      return preferencias;
+
     }
 
   }

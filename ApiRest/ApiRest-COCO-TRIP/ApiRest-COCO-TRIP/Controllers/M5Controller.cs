@@ -1,5 +1,6 @@
 using System;
 using System.Web.Http;
+using System.Net;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
@@ -13,60 +14,141 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
 
     List<Itinerario> itinerarios = new List<Itinerario>();
-    private PeticionItinerario peti = new PeticionItinerario(); //preguntar
+    private PeticionItinerario peti = new PeticionItinerario(); 
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-     
+      try
+      {
         return peti.AgregarItinerario(it);
-      
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (NullReferenceException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
    
     [HttpDelete]
     public Boolean EliminarItinerario(int idit)
     {
-      return peti.EliminarItinerario(idit);
+      try
+      {
+        return peti.EliminarItinerario(idit);
+      }
+      catch(NpgsqlException)
+      {
+        return false;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
+
+
 
     [HttpPost]
     public Itinerario ModificarItinerario(Itinerario it)
     {
-      return peti.ModificarItinerario(it);
+      try
+      {
+        return peti.ModificarItinerario(it);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
- /* [HttpGet]
-    public Boolean AgregarEvento_It(Itinerario it,Evento ev)
-    {
-      return itinerario.AgregarEvento_It(it,ev)
-    }*/
+    /* [HttpPut]
+       public Boolean AgregarEvento_It(int it, int lt,DateTime fechaini,DateTime fechafin)
+       { try
+         {
+           return peti.AgregarEvento_It(it, lt,fechaini,fechafin);
+         }
+         catch (NpgsqlException)
+        {
+          throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        }
+       }*/
 
-   
-   [HttpPut]
-    public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
+
+    [HttpPut]
+    public Boolean AgregarActividad_It(int it, int lt,DateTime fechaini,DateTime fechafin)
     {
-      return peti.AgregarActividad_It(it, ac);
+      try
+      {
+        return peti.AgregarActividad_It(it, lt, fechaini, fechafin);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     
     [HttpPut]
-    public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
+    public Boolean AgregarLugar_It(int it, int lt,DateTime fechaini,DateTime fechafin)
     {
-      return peti.AgregarLugar_It(it, lt);
+      try
+      {
+        return peti.AgregarLugar_It(it, lt, fechaini, fechafin);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     [HttpDelete]
     public Boolean EliminarItem_It(string tipo,int idit, int iditem)
     {
-      return peti.EliminarItem_It(tipo,idit, iditem); 
+      try
+      {
+        return peti.EliminarItem_It(tipo, idit, iditem);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
     
     [HttpGet]
     public List<Itinerario> ConsultarItinerarios(int id_usuario)
-    { 
+    {
+      try
+      {
         return peti.ConsultarItinerarios(id_usuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
     }
 
  /* [HttpGet]

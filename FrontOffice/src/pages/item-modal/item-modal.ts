@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class ItemModalPage {
     public navParams: NavParams,
     private viewCtrl: ViewController,
     public alertCtrl: AlertController,
-    public eventos: EventosCalendarioService
+    public eventos: EventosCalendarioService,
+    private translateService: TranslateService
   ) {
     this.itinerario= this.navParams.get('itinerario');
     this.initializeItems();
@@ -63,27 +65,54 @@ export class ItemModalPage {
     //ARREGLAR ESTO
         let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
         console.log(vlista);
-        let alert = this.alertCtrl.create({
-          title: 'Por favor, confirmar',
-          message: '¿Desea agregar '+ vlista.Nombre+ ' a su itinerario en el dia '+ '?',
-          buttons: [{
-            text: 'CANCELAR',
-            role: 'cancel',
-            handler: data => {
-              console.log('Cancel clicked');
-              }
-            } ,
-            {
-              text: 'AGREGAR',
+        console.log(this.translateService.currentLang);
+        //Si el lenguaje es espa;ol
+        if (this.translateService.currentLang == 'es'){
+          let alert = this.alertCtrl.create({
+            title: 'Por favor, confirmar',
+            message: '¿Desea agregar '+ vlista.Nombre+ ' a su itinerario en el dia '+ '?',
+            buttons: [{
+              text: 'CANCELAR',
+              role: 'cancel',
               handler: data => {
-                console.log(this.FechaFin);
-                console.log(this.FechaInicio);
-                this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                console.log('Cancel clicked');
+                }
+              } ,
+              {
+                text: 'AGREGAR',
+                handler: data => {
+                  console.log(this.FechaFin);
+                  console.log(this.FechaInicio);
+                  this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                }
               }
-            }
-          ]
-        });
-        alert.present();
+            ]
+          });
+          alert.present();
+        }else
+        {
+          let alert = this.alertCtrl.create({
+            title: 'Please, confirm',
+            message: 'Would you like to add '+ vlista.Nombre+ ' to your itinerary on '+ this.FechaInicio +'?',
+            buttons: [{
+              text: 'CANCEL',
+              role: 'cancel',
+              handler: data => {
+                console.log('Cancel clicked');
+                }
+              } ,
+              {
+                text: 'ADD',
+                handler: data => {
+                  console.log(this.FechaFin);
+                  console.log(this.FechaInicio);
+                  this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                }
+              }
+            ]
+          });
+          alert.present();
+        }
     }
 
   closeModal() {

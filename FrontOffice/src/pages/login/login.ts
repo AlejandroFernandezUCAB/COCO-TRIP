@@ -9,6 +9,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { MenuController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
  *
@@ -33,13 +34,22 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
     public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
-    private storage: Storage, public navParams: NavParams) {
+    private storage: Storage, public plt: Platform, public navParams: NavParams) {
     this.myForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
     this.vista = false;
     this.menu.enable(false);
+    this.plt.ready().then((readySource) => {
+      console.log('Platform ready from', readySource);
+      this.facebook.getLoginStatus().then((loginstatus : FacebookLoginResponse) => {
+          console.log(loginstatus.status);
+        
+      },
+      error => {console.log('chao');})
+    });
+  
   }
 
 
@@ -82,12 +92,13 @@ export class LoginPage {
 
   }
   facebookLogin() {
+    
     this.realizarLoading();
     this.facebook.getLoginStatus().then(loginstatus => {
       if (loginstatus.status == "connected") {
         this.facebook.logout();
       }
-      this.facebook.login(['email', 'public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
+      this.facebook.login(['public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
         this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
           this.userData = {
             correo: profile['email'], nombre: profile['first_name'],
