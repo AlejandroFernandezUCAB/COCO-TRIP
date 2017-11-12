@@ -19,7 +19,7 @@ export class EditProfilePage {
     Nombre: 'Nombre',
     Apellido: 'Apellido'
   };
-  apiRestResponse: boolean;
+  apiRestResponse: any;
 
   public event = {
     month: '1993-02-27'
@@ -33,8 +33,9 @@ export class EditProfilePage {
   {
     console.log(navParams.data)
     //obtengo los datos recibidos de la vista anterior
-    this.usuario.Nombre = navParams.data.Nombre;
-    this.usuario.Apellido = navParams.data.Apellido;
+    if(navParams.data != 0){
+      this.usuario = navParams.data;
+    }
     //inyecto los datos en el formulario
     this.myForm = this.fb.group(
       {
@@ -47,14 +48,24 @@ export class EditProfilePage {
 
   //function ejecutada al hacer submit del formulario
   saveData(){
-    
-    if(this.apiRestResponse)
-    {
-      // alert(this.myForm.value);
-      this.storage.set('nombre',this.myForm.value.nombre);
-      this.storage.set('apellido',this.myForm.value.nombre);
-    }
-    this.navCtrl.pop();
+
+    this.usuario.Nombre = this.myForm.value.nombre;
+    this.usuario.Apellido = this.myForm.value.apellido;
+
+    this.restapiService.modificarDatosUsuario(this.usuario).then(data =>{
+        if(data != 0){
+          this.apiRestResponse = data;
+
+          if(this.apiRestResponse == true)
+          {
+            // alert(this.myForm.value);
+            this.storage.set('nombre',this.myForm.value.nombre);
+            this.storage.set('apellido',this.myForm.value.apellido);
+          }
+          this.navCtrl.pop();
+
+      }}
+    );
   }
 
   showToastWithCloseButton() {

@@ -182,6 +182,30 @@ export class RestapiService {
     });
    }
 
+   modificarDatosUsuario(usuario){
+     console.log('metodo en apirest => ',usuario);
+     console.log(usuario.Genero,usuario.NombreUsuario);
+     console.log(usuario.Genero,usuario.FechaNacimiento);
+     console.log(usuario.Genero,usuario.Genero);
+     
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' + 
+      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido + 
+      "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
    ObtenerDatosUsuario(idUsuario){
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ObtenerDatosUsuario?idUsuario=' + idUsuario,"")
