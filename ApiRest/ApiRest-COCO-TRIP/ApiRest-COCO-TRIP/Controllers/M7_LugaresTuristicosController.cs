@@ -2,16 +2,19 @@ using System.Net;
 using System.Web.Http;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Web.Http.Cors;
+using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
-    /// <summary>
-    /// Controlador del Modulo 7 de Gestion de Lugares Turisticos y Actividades en Lugares Turisticos
-    /// </summary>
-    public class M7_LugaresTuristicosController : ApiController
+  /// <summary>
+  /// Controlador del Modulo 7 de Gestion de Lugares Turisticos y Actividades en Lugares Turisticos
+  /// </summary>
+  [EnableCors(origins: "*", headers: "*", methods: "*")]
+  public class M7_LugaresTuristicosController : ApiController
     {
         private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion
         //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
@@ -164,6 +167,69 @@ namespace ApiRest_COCO_TRIP.Controllers
             var actividad = peticion.ConsultarActividad(id);
 
             if (actividad.Equals( new Actividad() ))
+            {
+              throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            else
+            {
+              return actividad;
+            }
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+        }
+
+        /// <summary>
+        /// Consulta las categorias
+        /// </summary>
+        /// <returns>Lista de categorias</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su repsectivo Status Code</exception>
+        public List<Categoria> GetCategoria()
+        {
+          peticion = new PeticionLugarTuristico();
+
+          try
+          {
+            var actividad = peticion.ConsultarCategoria();
+
+            if (actividad.Equals(new Actividad()))
+            {
+              throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            else
+            {
+              return actividad;
+            }
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+        }
+
+        /// <summary>
+        /// Consulta las subcategorias de una categoria
+        /// </summary>
+        /// <param name="id">ID categoria</param>
+        /// <returns>Lista de subcategorias</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        public List<Categoria> GetSubCategoria(int id)
+        {
+          peticion = new PeticionLugarTuristico();
+
+          try
+          {
+            var actividad = peticion.ConsultarSubCategoria(id);
+
+            if (actividad.Equals(new Actividad()))
             {
               throw new HttpResponseException(HttpStatusCode.NotFound);
             }
@@ -352,6 +418,29 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
         }
 
+        /// <summary>
+        /// Inserta una categoria o subcategoria a un lugar turistico existente
+        /// </summary>
+        /// <param name="id">ID lugar turistico</param>
+        /// <param name="idCategoria">ID categoria</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        public void PostCategoria(int id, int idCategoria)
+        {
+          peticion = new PeticionLugarTuristico();
+
+          try
+          {
+            peticion.InsertarCategoria(id, idCategoria);
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+        }
+
         //PUT
 
         /// <summary>
@@ -514,6 +603,29 @@ namespace ApiRest_COCO_TRIP.Controllers
           try
           {
             peticion.EliminarHorario(id);
+          }
+          catch (BaseDeDatosExcepcion e)
+          {
+            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
+        }
+
+        /// <summary>
+        /// Eliminar categoria o subcategoria de un lugar turistico existente
+        /// </summary>
+        /// <param name="id">ID lugar turistico</param>
+        /// <param name="idCategoria">ID categoria</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        public void DeleteCategoria(int id, int idCategoria)
+        {
+          peticion = new PeticionLugarTuristico();
+
+          try
+          {
+            peticion.EliminarCategoria(id, idCategoria);
           }
           catch (BaseDeDatosExcepcion e)
           {

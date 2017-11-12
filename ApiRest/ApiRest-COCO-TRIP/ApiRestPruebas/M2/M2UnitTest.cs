@@ -17,6 +17,7 @@ namespace ApiRestPruebas.M2
     private M2_PerfilPreferenciasController apiRest;
     private PeticionPerfil peticion;
     private int idUsuario;
+    private bool probar;
     NpgsqlDataReader pgread;
 
     [SetUp]
@@ -147,7 +148,7 @@ namespace ApiRestPruebas.M2
     }
 
     // Usuario con id 7 agregado previo a la PU
-    [TestCase(7,"Ronald","Navas","2010-05-01","M")]
+    [TestCase(7,"Ronald","Navas","1993-27-02","M")]
     [Category("Modificar")]
     public void Model_ModificarDatosUsuario(int idUsuario, string nombre, string apellido, string fecha, string genero)
     {
@@ -161,7 +162,7 @@ namespace ApiRestPruebas.M2
     }
 
     // Usuario con id 15 agregado previo a la PU
-    [TestCase(15,"gianfranco", "verrocchi")]
+    [TestCase(7,"ronald", "navas")]
     [Category("Usuario")]
     public void Model_ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
@@ -182,7 +183,7 @@ namespace ApiRestPruebas.M2
 
     }
 
-    [TestCase(15, "gianfranco", "verrocchi")]
+    [TestCase(4, "ronald", "navas")]
     [Category("Usuario")]
     public void ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
@@ -190,7 +191,34 @@ namespace ApiRestPruebas.M2
       Assert.AreEqual(nombre, usuario.Nombre);
       Assert.AreEqual(apellido, usuario.Apellido);
     }
-    
+
+    [Test]
+    public void CambiarPass()
+    {
+      string username, passActual, passNueva;
+      username = "conexion";
+      passActual = "123";
+      passNueva = "HOLA";
+      probar = apiRest.CambiarPass(username, passActual, passNueva);
+      Assert.AreEqual(true, probar);
+    }
+
+    [Test]
+    [Category("Consultar")]
+    public void BuscarPreferenciasDeUsuarioSegunParteDelString()
+    {
+      string consulta;
+      string consultaCompleta;
+      List<Categoria> lista = new List<Categoria>();
+      consulta = "turis";
+      consultaCompleta = "Turismo";
+
+      lista = apiRest.BuscarCategorias( 1, consulta);
+      Assert.AreEqual(consultaCompleta, lista[0].Nombre);
+
+    }
+
+
     [TearDown]
     public void TearDown() {
 

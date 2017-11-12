@@ -17,8 +17,11 @@ namespace ApiRestPruebas
   public class PruebasLogin
   {
     private Usuario usuario;
+    private EventoPreferencia evento1;
+    private EventoPreferencia evento2;
     private PeticionLogin peticion = new PeticionLogin();
     private M1_LoginController controlador = new M1_LoginController();
+    private DateTime fechaPrueba;
 
     [SetUp]
     public void setUsuario()
@@ -33,6 +36,35 @@ namespace ApiRestPruebas
         Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
         Foto = new byte[28480]
+      };
+
+      evento1 = new EventoPreferencia
+      {
+        NombreEvento = "predespachil",
+        FechaInicio = new DateTime (2019, 12, 12, 0, 0, 0),
+        FechaFin = new DateTime(2019, 12, 13, 0, 0, 0),
+        HoraInicio = new TimeSpan(20, 0, 0),
+        HoraFin = new TimeSpan(23, 0, 0),
+        Precio = 5000,
+        Descripcion = "pre despacho antes de beber en holic",
+        NombreLocal = "Holic",
+        LocalFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\predespachill.jpg",
+        NombreCategoria = "bar"
+
+      };
+      evento2 = new EventoPreferencia
+      {
+        NombreEvento = "birrazo",
+        FechaInicio = new DateTime(2018, 12, 12, 0, 0, 0),
+        FechaFin = new DateTime(2018, 12, 13, 0, 0, 0),
+        HoraInicio = new TimeSpan(20, 0, 0),
+        HoraFin = new TimeSpan(23, 0, 0),
+        Precio = 5000,
+        Descripcion = "tomar birras para recaudar fondos para la ucab",
+        NombreLocal = "Birras Bistro",
+        LocalFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\rc.jpg",
+        NombreCategoria = "bar"
+
       };
     }
 
@@ -248,7 +280,73 @@ namespace ApiRestPruebas
       usuario.Id = 1;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
     }
+    /// <summary>
+    /// Prueba de caso exitoso en ConsultarEventosSegunPreferencias
+    /// que se encuentra en el modelo  PeticionLogin.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestEventosSegunPreferenciasMod() {
+      List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
+      listaEventoprueba = peticion.ConsultarEventosSegunPreferencias(1, fechaPrueba);
 
+      fechaPrueba = new DateTime(2017, 03, 09);
+      Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
+      Assert.AreEqual(evento1.FechaInicio, listaEventoprueba[0].FechaInicio);
+      Assert.AreEqual(evento1.FechaFin, listaEventoprueba[0].FechaFin);
+      Assert.AreEqual(evento1.HoraInicio, listaEventoprueba[0].HoraInicio);
+      Assert.AreEqual(evento1.HoraFin, listaEventoprueba[0].HoraFin);
+      Assert.AreEqual(evento1.Precio, listaEventoprueba[0].Precio);
+      Assert.AreEqual(evento1.Descripcion, listaEventoprueba[0].Descripcion);
+      Assert.AreEqual(evento1.NombreLocal, listaEventoprueba[0].NombreLocal);
+      Assert.AreEqual(evento1.LocalFotoRuta, listaEventoprueba[0].LocalFotoRuta);
+      Assert.AreEqual(evento1.NombreCategoria, listaEventoprueba[0].NombreCategoria);
+
+      Assert.AreEqual(evento2.NombreEvento, listaEventoprueba[1].NombreEvento);
+      Assert.AreEqual(evento2.FechaInicio, listaEventoprueba[1].FechaInicio);
+      Assert.AreEqual(evento2.FechaFin, listaEventoprueba[1].FechaFin);
+      Assert.AreEqual(evento2.HoraInicio, listaEventoprueba[1].HoraInicio);
+      Assert.AreEqual(evento2.HoraFin, listaEventoprueba[1].HoraFin);
+      Assert.AreEqual(evento2.Precio, listaEventoprueba[1].Precio);
+      Assert.AreEqual(evento2.Descripcion, listaEventoprueba[1].Descripcion);
+      Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
+      Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
+      Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
+    }
+    /// <summary>
+    /// Prueba de caso exitoso en EventoSegunPreferenciass
+    /// que se encuentra en el controllador  M1_LoginController.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestEventosSegunPreferenciasControler()
+    {
+      List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
+      listaEventoprueba = controlador.EventoSegunPreferencias(1, fechaPrueba);
+
+      fechaPrueba = new DateTime(2017, 03, 09);
+      Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
+      Assert.AreEqual(evento1.FechaInicio, listaEventoprueba[0].FechaInicio);
+      Assert.AreEqual(evento1.FechaFin, listaEventoprueba[0].FechaFin);
+      Assert.AreEqual(evento1.HoraInicio, listaEventoprueba[0].HoraInicio);
+      Assert.AreEqual(evento1.HoraFin, listaEventoprueba[0].HoraFin);
+      Assert.AreEqual(evento1.Precio, listaEventoprueba[0].Precio);
+      Assert.AreEqual(evento1.Descripcion, listaEventoprueba[0].Descripcion);
+      Assert.AreEqual(evento1.NombreLocal, listaEventoprueba[0].NombreLocal);
+      Assert.AreEqual(evento1.LocalFotoRuta, listaEventoprueba[0].LocalFotoRuta);
+      Assert.AreEqual(evento1.NombreCategoria, listaEventoprueba[0].NombreCategoria);
+
+      Assert.AreEqual(evento2.NombreEvento, listaEventoprueba[1].NombreEvento);
+      Assert.AreEqual(evento2.FechaInicio, listaEventoprueba[1].FechaInicio);
+      Assert.AreEqual(evento2.FechaFin, listaEventoprueba[1].FechaFin);
+      Assert.AreEqual(evento2.HoraInicio, listaEventoprueba[1].HoraInicio);
+      Assert.AreEqual(evento2.HoraFin, listaEventoprueba[1].HoraFin);
+      Assert.AreEqual(evento2.Precio, listaEventoprueba[1].Precio);
+      Assert.AreEqual(evento2.Descripcion, listaEventoprueba[1].Descripcion);
+      Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
+      Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
+      Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
+    }
 
   }
 

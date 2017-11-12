@@ -27,13 +27,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
     [HttpGet]
-    public HttpStatusCode AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
+    public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
     {
       try
       { 
         peticion = new PeticionAmigoGrupo();
         int result = 0;
-        result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);
+        result = peticion.AgregarAmigosBD(Convert.ToInt32(idUsuario1), nombreUsuario2);
       }
       catch (NpgsqlException)
       {
@@ -62,12 +62,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
     /// <returns></returns>
     [HttpGet]
-    public Usuario VisualizarPerfilAmigo(String nombreUsuario)
+    public List<Usuario> VisualizarPerfilAmigo(String nombreUsuario)
     {
+      List<Usuario> lista = new List<Usuario>();
       Usuario usuario;
       try {
         peticion = new PeticionAmigoGrupo();
         usuario = peticion.VisualizarPerfilAmigoBD(nombreUsuario);
+        lista.Add(usuario);
       }
       catch (NpgsqlException)
       {
@@ -85,7 +87,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return usuario;
+      return lista;
     }
 
     /// <summary>
@@ -114,16 +116,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
     /// </summary>
     /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
-    /// <param name="nombreUsuario">nombre del usuario que desea salir del grupo</param>
+    /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
     /// <returns>true si sale exitossamente, false en caso contrario</returns>
-    [HttpGet]
-    public bool SalirGrupo(string idGrupo, string nombreUsuario)
+    [HttpDelete]
+    public bool SalirGrupo(string idGrupo, string idUsuario)
     {
       bool salio = false;
       try
       {
         peticion = new PeticionAmigoGrupo();
-        salio =  peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
+        salio =  peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
       }
       catch (NpgsqlException)
       {
@@ -228,13 +230,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario"></param>
     /// <returns></returns>
     [HttpGet]
-    public List<Usuario> VisualizarListaAmigos(string nombreUsuario)
+    public List<Usuario> VisualizarListaAmigos(int idUsuario)
     {
       List<Usuario> lista;
       try
       {
         peticion = new PeticionAmigoGrupo();
-        lista = peticion.VisualizarListaAmigoBD(nombreUsuario);
+        lista = peticion.VisualizarListaAmigoBD(idUsuario);
        }
       catch (NpgsqlException)
       {
@@ -263,12 +265,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario"></param>
     /// <returns></returns>
     [HttpDelete]
-    public int EliminarAmigo(string nombreAmigo, string nombreUsuario)
+    public int EliminarAmigo(string nombreAmigo, int idUsuario)
     {
       int resultado;
       try { 
         peticion = new PeticionAmigoGrupo();
-        resultado = peticion.EliminarAmigoBD(nombreAmigo, nombreUsuario);
+        resultado = peticion.EliminarAmigoBD(nombreAmigo, idUsuario);
       }
       catch (NpgsqlException)
       {
@@ -297,12 +299,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo"></param>
     /// <returns></returns>
     [HttpDelete]
-    public int EliminarGrupo(string nombreUsuario, int idGrupo)
+    public int EliminarGrupo(int idUsuario, int idGrupo)
     {
       int resultado;
       try { 
         peticion = new PeticionAmigoGrupo();
-        resultado = peticion.EliminarGrupoBD(nombreUsuario, idGrupo);
+        resultado = peticion.EliminarGrupoBD(idUsuario, idGrupo);
       }
       catch (NpgsqlException)
       {
@@ -327,17 +329,17 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// modificar los datos de un grupo
     /// </summary>
     /// <param name="nombreGrupo">Nombre del grupo</param>
-    /// <param name="nombreUsuario">Nombre del usuario que esta modificando</param>
+    /// <param name="idUsuario">Identificador del usuario que esta modificando</param>
     /// <param name="foto">Foto del grupo</param>
     /// <param name="idGrupo">El identificador del grupo</param>
     /// <returns></returns>
-    [HttpGet]
-    public int ModificarGrupo(string nombreGrupo, string nombreUsuario, /*byte foto,*/ int idGrupo)
+    [HttpPost]
+    public int ModificarGrupo(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
     {
       int resultado;
       try { 
         peticion = new PeticionAmigoGrupo();
-        resultado = peticion.ModificarGrupoBD(nombreGrupo,nombreUsuario, /*foto, */idGrupo);
+        resultado = peticion.ModificarGrupoBD(nombreGrupo,idUsuario, /*foto, */idGrupo);
       }
       catch (NpgsqlException)
       {
@@ -364,12 +366,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreusuario">nombre usuario logeado en la app</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Grupo> ConsultarListaGrupos(string nombreusuario)
+    public List<Grupo> ConsultarListaGrupos(int idUsuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.Listagrupo(nombreusuario);
+        return peticion.Listagrupo(idUsuario);
       }
       catch (NpgsqlException)
       {
@@ -389,7 +391,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
 
     }
-
+    /// <summary>
+    /// Metodo que devulve los integrantes de un grupo
+    /// </summary>
+    /// <param name="idgrupo">id del grupo por el cual se devuelven sus integrantes</param>
+    /// <returns></returns>
     [HttpGet]
     public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
     {
@@ -424,12 +430,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="id">Es el de id del grupo por el cual se buscara</param>
     /// <returns></returns>
     [HttpGet]
-    public Grupo ConsultarPerfilGrupos(string id)
+    public List<Grupo> ConsultarPerfilGrupos(int id)
     {
+
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.ConsultarPerfilGrupo(Convert.ToInt32(id));
+        return peticion.ConsultarPerfilGrupo(id);
       }
       catch (NpgsqlException)
       {
@@ -489,7 +496,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario"></param>
     /// <param name="idGrupo"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpDelete]
     public int EliminarIntegranteModificar(string nombreUsuario, int idGrupo)
     {
       int resultado;
