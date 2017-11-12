@@ -862,7 +862,8 @@ BEGIN
   (id_lugar_turistico, id_categoria, id_categoria_superior)
   VALUES
   (_id_lu, _id_ca,
-    (select ca_fkcategoriasuperior from categoria
+    (select COALESCE(ca_fkcategoriasuperior,0)
+    from categoria
     where ca_id = _id_ca));
 
 END;
@@ -1002,6 +1003,44 @@ BEGIN
   WHERE fk_fo_lugar_turistico = _fk;
 
 END;
+$$ LANGUAGE plpgsql;
+
+-- Consultar categorias de un lugar turistico por ID
+-- del lugar Turisticos
+CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico
+(_id_lu integer) RETURNS TABLE (id_ca integer, id_ca_su integer)
+AS
+$$
+BEGIN
+
+  RETURN QUERY SELECT id_categoria, id_categoria_superior FROM lt_c
+  WHERE id_lugar_turistico = _id_lu;
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consultar lista de categorias (trabajo de M9)
+CREATE OR REPLACE FUNCTION ConsultarCategoria ()
+RETURNS TABLE (id integer, nombre VARCHAR)
+AS
+$$
+
+  RETURN QUERY SELECT ca_id, ca_nombre FROM categoria
+  WHERE ca_fkcategoriasuperior IS NULL
+  AND ca_status = true;
+
+
+$$ LANGUAGE plpgsql;
+
+-- Consultar lista de subcategorias de una categoria (trabajo de M9)
+CREATE OR REPLACE FUNCTION ConsultarSubCategoria (_id integer)
+RETURNS TABLE (id integer, nombre VARCHAR)
+AS
+$$
+
+  RETURN QUERY SELECT ca_id, ca_nombre FROM categoria WHERE
+  ca_fkcategoriasuperior = _id and ca_status = true;
+
 $$ LANGUAGE plpgsql;
 
 /*UPDATE*/
