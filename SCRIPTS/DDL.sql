@@ -100,7 +100,7 @@ CREATE TABLE Agenda
     CONSTRAINT pk_Agenda PRIMARY KEY (ag_id),
     CONSTRAINT fk_idItinerario FOREIGN KEY (ag_idItinerario)
         REFERENCES Itinerario (it_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
+        ON UPDATE NO ACTION ON DELETE CASCADE,
 )
 --Fin de modulo
 --Modulo 6
