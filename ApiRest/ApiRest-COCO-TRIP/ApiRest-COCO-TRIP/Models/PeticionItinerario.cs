@@ -86,14 +86,20 @@ namespace ApiRest_COCO_TRIP.Models
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
                     //Falta el caso de que sea un evento...
-
                 }
                 con.Desconectar();
                 return itinerarios;
             }
-            catch (NpgsqlException e)
+            catch (NpgsqlException sql)
             {
-                throw e;
+                throw sql;
+            }catch (ArgumentException arg)
+            {
+              throw arg;
+            }
+            catch (InvalidCastException cast)
+            {
+                throw cast;
             }
         }
 
