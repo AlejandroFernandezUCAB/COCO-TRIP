@@ -16,6 +16,8 @@ namespace ApiRestPruebas
     private Itinerario itinerario;
     private Itinerario it;
     private Boolean x;
+    private DateTime fechaini;
+    private DateTime fechafin;
     private int id_usuario;
     private List<Itinerario> itinerarios_usuario;
     [OneTimeSetUp]
@@ -109,20 +111,24 @@ namespace ApiRestPruebas
       {
         Id = 1
       };
-      x = controller.AgregarActividad_It(itinerario, ac);
-      Assert.AreEqual(true, x);
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarActividad_It(itinerario.Id,ac.Id,fechaini, fechafin);
+      Assert.True(x);
     }
 
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      Itinerario itinerario = new Itinerario(4);
-      LugarTuristico lt = new LugarTuristico
+      itinerario = new Itinerario(4);
+      LugarTuristico lt = new LugarTuristico()
       {
         Id = 1
       };
-      x = controller.AgregarLugar_It(itinerario, lt);
-      Assert.AreEqual(true, x);
+      fechaini = new DateTime(2017,11,15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarLugar_It(itinerario.Id, lt.Id,fechaini,fechafin);
+      Assert.True(x);
     }
 
 
