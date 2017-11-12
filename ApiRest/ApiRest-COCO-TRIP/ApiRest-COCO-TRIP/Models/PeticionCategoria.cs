@@ -70,7 +70,6 @@ namespace ApiRest_COCO_TRIP
     public IList<Categoria> ObtenerCategorias(Categoria categoria)
     {
       IList<Categoria> listaCategorias = new List<Categoria>();
-      int Superior;
       try
       {
         conexion.Conectar();
@@ -138,7 +137,50 @@ namespace ApiRest_COCO_TRIP
       return listaCategorias;
 
     }
-    
+
+
+    public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
+    {
+      try
+      {
+        int Superior = 0;
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_devolverid";
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          Int32.TryParse(leerDatos.GetValue(0).ToString(), out Superior);
+        }
+
+        if (Superior == 0)
+        {
+          throw new ItemNoEncontradoException($"No se encontro la categoria con el nombre {categoria.Nombre}");
+        }
+
+        categoria.Id = Superior;
+        
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar el id de una categoria a partir del nombre"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+
+      return categoria;
+    }
+
     private IList<Categoria> SetListaCategoria()
     {
 
