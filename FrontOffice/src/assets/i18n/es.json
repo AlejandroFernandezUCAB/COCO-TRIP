@@ -43,6 +43,8 @@
     "Nueva contraseña":"Nueva contraseña",
     "Guardar Contraseña": "Guardar Contraseña",
     "Contraseña actual":"Contraseña actual",
+    "Se guardaron tus cambios": "Se guardaron tus cambios",
+    "Error al modificando los datos" : "Error al modificando los datos",
 
     "Comienza": "Comienza: ",
     "Termina": "Termina: ",
@@ -60,4 +62,5 @@
     "Eliminar": "Eliminar",
     "Fecha Inicio": "Fecha Inicio",
     "Fecha Fin": "Fecha Fin"
+    
 }

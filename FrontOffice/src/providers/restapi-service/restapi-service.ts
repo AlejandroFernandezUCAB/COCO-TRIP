@@ -182,12 +182,7 @@ export class RestapiService {
     });
    }
 
-   modificarDatosUsuario(usuario){
-     console.log('metodo en apirest => ',usuario);
-     console.log(usuario.Genero,usuario.NombreUsuario);
-     console.log(usuario.Genero,usuario.FechaNacimiento);
-     console.log(usuario.Genero,usuario.Genero);
-     
+   modificarDatosUsuario(usuario){     
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' + 
       usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido + 

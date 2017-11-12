@@ -72,9 +72,9 @@ export class PerfilPage {
   // este metodo se dispara cada vez que se entra en esta pagina
   // antes de que este activa
   ionViewWillEnter(){
-    this.storage.get('nombre').then((val) => {
-      console.log('Nombre guardado', val);
-    });
+    // this.storage.get('nombre').then((val) => {
+    //   console.log('Nombre guardado', val);
+    // });
   }
 
 

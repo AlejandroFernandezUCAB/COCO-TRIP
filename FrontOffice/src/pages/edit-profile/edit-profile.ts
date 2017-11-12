@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChangepassPage} from '../changepass/changepass';
 import { TranslateService } from '@ngx-translate/core';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
-import { Storage } from '@ionic/storage'; //para acceder a las variables que guarde en la vista de 'Editar Datos Personales'
+//import { Storage } from '@ionic/storage'; //storage no es necesario, pues el objeto se pasa por parametros
 
 @IonicPage()
 @Component({
@@ -29,7 +29,7 @@ export class EditProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, 
-    private storage: Storage,public restapiService: RestapiService )
+    public restapiService: RestapiService )
   {
     console.log(navParams.data)
     //obtengo los datos recibidos de la vista anterior
@@ -48,34 +48,61 @@ export class EditProfilePage {
 
   //function ejecutada al hacer submit del formulario
   saveData(){
-
+    //guardamos datos previos
+    let nombreViejo = this.usuario.Nombre;
+    let apellidoViejo = this.usuario.Apellido;
+    //inyectamos datos nuevos
     this.usuario.Nombre = this.myForm.value.nombre;
     this.usuario.Apellido = this.myForm.value.apellido;
 
     this.restapiService.modificarDatosUsuario(this.usuario).then(data =>{
         if(data != 0){
           this.apiRestResponse = data;
-
-          if(this.apiRestResponse == true)
-          {
-            // alert(this.myForm.value);
-            this.storage.set('nombre',this.myForm.value.nombre);
-            this.storage.set('apellido',this.myForm.value.apellido);
-          }
-          this.navCtrl.pop();
-
-      }}
+          this.regresarAvistaAnterior(this.apiRestResponse);
+      }
+      else{
+        //restauramos los nombres anteriores
+        this.usuario.Nombre = nombreViejo;
+        this.usuario.Apellido = apellidoViejo;
+        this.apiRestResponse = false;
+        this.regresarAvistaAnterior(this.apiRestResponse);
+      }
+    }
     );
   }
 
-  showToastWithCloseButton() {
+  regresarAvistaAnterior(apiRestResponse){
+    this.showToastWithCloseButton(apiRestResponse);
+    this.navCtrl.pop();
+  }
+
+  showToastWithCloseButton(apiRestResponse) {
+    let result;
+    if (apiRestResponse == true) {
+      this.translateService.get("Se guardaron tus cambios").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    else{
+      this.translateService.get("Error Modificando los datos").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    
     const toast = this.toastCtrl.create({
-      message: 'Se guardaron tus cambios',
+      message: result ,
       showCloseButton: true,
       closeButtonText: 'Ok'
     });
     toast.present();
   }
+
   //Este OpenMenu es para el ActionSheet de cambiar foto
   openMenu() {
     let actionSheet = this.actionsheetCtrl.create({
