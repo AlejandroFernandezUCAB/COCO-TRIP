@@ -532,3 +532,12 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     BEGIN
         /*UPDATE TABLE CATEGORIA  */
     END; $$;
+
+
+CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
+  RETURNS void
+   AS $$
+BEGIN
+    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+END; $$
+  LANGUAGE plpgsql;

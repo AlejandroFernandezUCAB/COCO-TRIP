@@ -120,6 +120,7 @@
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\Itinerario.cs" />
@@ -133,7 +134,9 @@
     <Compile Include="Models\PeticionItinerario.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\PeticionCategoria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validaciones\ValidacionWS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
