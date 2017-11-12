@@ -22,41 +22,42 @@ namespace ApiRest_COCO_TRIP.Controllers
      * <summary>Metodo de controlador para Agregar un Evento a la BBDD</summary>
      * **/
 
-      /**
     [HttpPut]
     public bool AgregarEvento(Evento evento)
     {
       PeticionEvento peticionEvento = new PeticionEvento();
       return peticionEvento.AgregarEvento(evento);
     }
+    
     /**
      * <summary>Metodo de controlador para Eliminar un Evento de la BBDD</summary>
      * **/
 
-      /**
     [HttpPut]
     public bool EliminarEvento(int id)
     {
       return PeticionEvento.EliminarEvento(id);
     }
+    
     /**
      * <summary>Metodo de controlador para Consultar un evento dado su id todos los datos</summary>
      * **/
-     /**
+
     [HttpGet]
     public Evento ConsultarEvento(int id)
     {
       return PeticionEvento.ConsultarEvento(id);
     }
+    
     /**
      * <summary>Metodo de controlador para Listar todos los eventos de una Categoria</summary>
      * **/
-     /**
+
     [HttpGet]
     public List<Evento> ListaEventosPorCategoria(int id_categoria)
     {
       return PeticionEvento.ListaEventosPorCategoria(id_categoria);
     }
-    **/
+
   }
 }

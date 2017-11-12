@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { Platform, ActionSheetController } from 'ionic-angular';
+import { Component, ViewChild, NgZone } from '@angular/core';
+import { Platform, ActionSheetController, Events, Content } from 'ionic-angular';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
 import { Firebase } from '@ionic-native/firebase';
+import {ChatProvider} from '../../../providers/chat/chat';
 
 @IonicPage()
 @Component({
@@ -13,20 +14,30 @@ import { Firebase } from '@ionic-native/firebase';
 })
 
 export class ConversacionPage {
+  @ViewChild('content') content: Content;
+  conversacion: any;
+  nuevoMensaje: any;
+  usuarioId: any;
+  todosLosMensajes = [];
+  //mensajes: Array<msgs> = [
+   // {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
+  //];
 
+constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
+  this.conversacion = this.chatService.conversacion;
+  this.scrollto();
+  this.events.subscribe('nuevoMensaje', () => {
+    this.todosLosMensajes = [];
+    this.zone.run(() => {
+      this.todosLosMensajes = this.chatService.mensajesConversacion;
+    })
+  })
+ // this.firebase.getToken()
+    //.then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
+    //.catch(error => console.log('Error obteniendo el token', error));
 
-  mensajes: Array<msgs> = [
-    {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
-  ];
-
-constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase) {
-
-  this.firebase.getToken()
-    .then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
-    .catch(error => console.log('Error obteniendo el token', error));
-
-  this.firebase.onTokenRefresh()
-    .subscribe((token: string) => console.log(`He obtenido un nuevo token ${token}`));
+  //this.firebase.onTokenRefresh()
+    //.subscribe((token: string) => console.log(`He obtenido un nuevo token ${token}`));
 
 }
 
@@ -131,9 +142,29 @@ pressEvent1(){
   });
   actionSheet.present();
   }
+  
+  agregarMensaje() {
+    this.chatService.agregarNuevoMensaje(this.nuevoMensaje,this.usuarioId).then(() => {
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+    })
+  }
+
+  ionViewDidEnter() {
+    this.chatService.obtenerMensajesConversacion;
+  }
+
+  scrollto() {
+    setTimeout(() => {
+      this.content.scrollToBottom();
+    }, 1000);
+  }
 }
+
+
 
 interface msgs{
   contenido: string;
   tiempo: string;
 }
+
