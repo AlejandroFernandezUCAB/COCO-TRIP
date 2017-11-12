@@ -249,7 +249,7 @@ namespace ApiRest_COCO_TRIP.Models
       command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, username);
       pgread = command.ExecuteReader();
       pgread.Read();
-      result = pgread.GetString(1);
+      result = pgread.GetString(0);
       conexion.Desconectar();
       return result;
     }
@@ -281,7 +281,7 @@ namespace ApiRest_COCO_TRIP.Models
       return user;
     }
 
-    public List<Categoria> ObtenerCategorias(int idUsuario)
+    public List<Categoria> ObtenerCategorias(int idUsuario, string preferencia)
     {
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
@@ -293,15 +293,16 @@ namespace ApiRest_COCO_TRIP.Models
         usuario = new Usuario();
         categoria = new Categoria();
         conexion.Conectar();
-        command = new NpgsqlCommand("BuscarListaPreferenciaUsuario", conexion.SqlConexion);
+        command = new NpgsqlCommand("BuscarListaPreferenciasPorCategoria", conexion.SqlConexion);
         command.CommandType = CommandType.StoredProcedure;
         command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, preferencia);
         pgread = command.ExecuteReader();
 
         while (pgread.Read())
         {
-
-          categoria.Nombre = pgread.GetString(0);
+          categoria.Id = pgread.GetInt32(0);
+          categoria.Nombre = pgread.GetString(1);
           usuario.AgregarPreferencia(categoria);
 
         }

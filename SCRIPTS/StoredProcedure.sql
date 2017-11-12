@@ -235,22 +235,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION BuscarListaPreferenciaUsuario
+CREATE OR REPLACE FUNCTION BuscarListaPreferenciasPorCategoria
 ( _idUsuario int, _nombrePreferencia varchar)
 RETURNS TABLE(
+  id int,
   nombre VARCHAR
 ) AS $$
 BEGIN
   RETURN QUERY SELECT
-	c.ca_nombre
-	FROM categoria c,preferencia p
-	WHERE pr_categoria NOT IN (Select c.ca_id from preferencia where pr_usuario = _idUsuario and pr_categoria = c.ca_id )
-	and pr_usuario=_idUsuario;
+	c.ca_id, c.ca_nombre
+	FROM categoria c
+	WHERE ca_id NOT IN (Select c.ca_id from preferencia p where p.pr_usuario = _idUsuario and p.pr_categoria = c.ca_id )
+	AND LOWER(c.ca_nombre) LIKE CONCAT(LOWER(_nombrePreferencia),'%');
 END;
 $$ LANGUAGE plpgsql;
-
-
-
+SELECT BuscarListaPreferenciasPorCategoria(1,'T')
 CREATE OR REPLACE FUNCTION ModificarDatosUsuario
 ( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar )
 RETURNS integer AS $$
@@ -750,6 +749,125 @@ AS $BODY$
     END;
 $BODY$;
 
+  --Insertar evento en itineratio
+  CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date)
+    RETURNS boolean AS
+    $BODY$
+    BEGIN
+      INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idEvento) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idevento);
+      return true;
+    END;
+    $BODY$
+    LANGUAGE plpgsql VOLATILE
+    COST 100;
+
+     --Insertar actividad en itineratio
+    CREATE OR REPLACE FUNCTION add_actividad_it(idactividad integer, iditinerario integer,fechaini date, fechafin date)
+    RETURNS boolean AS
+	$BODY$
+    BEGIN
+      INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idActividad) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idactividad);
+      return true;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Insertar lugar turistico en itineratio
+    CREATE OR REPLACE FUNCTION add_lugar_it(idlugar integer, iditinerario integer, fechaini date, fechafin date)
+    RETURNS boolean AS
+	$BODY$
+    BEGIN
+      INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin,ag_idLugarTuristico) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idlugar);
+      return true;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Eliminar item del itineratio
+    CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer)
+    RETURNS boolean AS
+	$BODY$
+    BEGIN
+      IF tipo='Lugar Turistico' THEN
+      DELETE FROM Agenda WHERE (iditem=ag_idlugarturistico) AND (iditinerario=ag_idItinerario);
+      return true;
+      END IF;
+      IF tipo='Actividad' THEN
+      DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
+      return true;
+      END IF;
+      IF tipo='Evento' THEN
+      DELETE FROM Agenda WHERE (iditem=ag_idevento) AND (iditinerario=ag_idItinerario);
+      return true;
+      END IF;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+
+    --Agregar itineratio
+    CREATE OR REPLACE FUNCTION add_itinerario(nombre character varying(80),idusuario integer)
+    RETURNS TABLE (itid integer, itnombre character varying(80),itidusuario integer) AS
+	$BODY$
+    DECLARE
+    i integer;
+    BEGIN
+ 	 INSERT INTO Itinerario (it_id,it_nombre,it_idUsuario) VALUES (nextval('seq_Itinerario'),nombre,idusuario);
+     SELECT FIRST_VALUE(it_id)OVER (order by it_id DESC) into i from itinerario;
+     RETURN QUERY
+     SELECT it_id,it_nombre,it_idUsuario from itinerario
+     WHERE it_id=i;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Eliminar itineratio
+    CREATE OR REPLACE FUNCTION del_itinerario(iditinerario integer)
+    RETURNS boolean AS
+	$BODY$
+    DECLARE
+    i integer;
+    BEGIN
+    SELECT it_id FROM Itinerario where (iditinerario=it_id) into i;
+      IF i is null THEN
+      return false;
+      else
+      DELETE from Itinerario where (iditinerario=it_id);
+      return true;
+      END IF;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Modificar itineratio
+    CREATE OR REPLACE FUNCTION mod_itinerario(iditinerario integer,nombre character varying(80),fechaini date,fechafin date, idusuario integer)
+    RETURNS TABLE (itid integer, itnombre character varying(80),itfechaini date,itfechafin date,itidusuario integer) AS
+	$BODY$
+    DECLARE
+    i integer;
+    BEGIN
+      UPDATE Itinerario
+      SET it_nombre=nombre,
+          it_fechainicio=fechaini,
+          it_fechafin=fechafin
+      WHERE
+          it_id=iditinerario;
+      RETURN QUERY
+      SELECT * from Itinerario
+     WHERE
+      it_id=iditinerario;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+
+
 ALTER FUNCTION public.consultar_itinerarios(integer)
     OWNER TO admin_cocotrip;
 
@@ -859,12 +977,16 @@ $$
 BEGIN
 
   INSERT INTO LT_C
-  (id_lugar_turistico, id_categoria, id_categoria_superior)
+  (id_lugar_turistico, id_categoria, id_categoria_superior, categoria_nombre)
   VALUES
   (_id_lu, _id_ca,
     (select COALESCE(ca_fkcategoriasuperior,0)
     from categoria
-    where ca_id = _id_ca));
+    where ca_id = _id_ca),
+    (select ca_nombre
+    from categoria
+    where ca_id = _id_ca)
+  );
 
 END;
 $$ LANGUAGE plpgsql;
@@ -1007,14 +1129,14 @@ $$ LANGUAGE plpgsql;
 
 -- Consultar categorias de un lugar turistico por ID
 -- del lugar Turisticos
-CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico
-(_id_lu integer) RETURNS TABLE (id_ca integer, id_ca_su integer)
+CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico (_id_lu integer)
+RETURNS TABLE (id_ca integer, id_ca_su integer, nombre varchar,)
 AS
 $$
 BEGIN
 
-  RETURN QUERY SELECT id_categoria, id_categoria_superior FROM lt_c
-  WHERE id_lugar_turistico = _id_lu;
+  RETURN QUERY SELECT id_categoria, id_categoria_superior, categoria_nombre
+  FROM lt_c WHERE id_lugar_turistico = _id_lu;
 
 END;
 $$ LANGUAGE plpgsql;
