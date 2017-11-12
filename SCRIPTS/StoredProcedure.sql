@@ -1388,17 +1388,17 @@ END; $$
 
   -------------------------PROCEDIMIENTO BUSCAR CATEGORIA POR STATUS HABILITADO-------------
   
-  CREATE OR REPLACE FUNCTION ConsultarCategoriaHabilitada
-  (_status integer)
+  CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada
+  (_status boolean)
   RETURNS TABLE
   (
 
-      id integer ,
-      nombre character varying(20) ,
-      descripcion character varying(100),
-      status boolean ,
-      fkcategoriasuperior integer,
-      nivel integer
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_fkcategoriasuperior integer,
+      categoria_nivel integer
 
   )
   AS
