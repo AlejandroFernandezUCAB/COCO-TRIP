@@ -192,7 +192,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="idUsuario"></param>
     /// <returns>Objeto Usuario</returns>
-    [HttpGet]
+    [HttpPost]
     public Usuario ObtenerDatosUsuario(int idUsuario)
     {
       peticion = new PeticionPerfil();
