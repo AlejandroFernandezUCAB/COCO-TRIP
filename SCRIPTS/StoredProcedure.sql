@@ -1050,6 +1050,24 @@ CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, des
               VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
+CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS 
+  $BODY$
+  DECLARE
+    CATEGORIA TEXT;
+  BEGIN
+      SELECT CA_IDCATEGORIA INTO CATEGORIA FROM CATEGORIA WHERE (CA_NOMBRE = nombrecategoria);
+      RETURN CATEGORIA;
+  END; 
+  $BODY$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (nombrecategoria VARCHAR(50)) AS $$
+BEGIN
+      RETURN  QUERY
+          SELECT CA_NOMBRE FROM CATEGORIA;
+END; 
+$$ LANGUAGE plpgsql;
+
 
 
 CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescripcion character varying, categoriapadre integer) RETURNS void
