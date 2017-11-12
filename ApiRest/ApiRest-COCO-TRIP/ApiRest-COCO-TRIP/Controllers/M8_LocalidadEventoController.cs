@@ -19,35 +19,48 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
     /**
      * <summary>Metodo de controlador para Agregar un Localidad de Evento a la BBDD</summary>
+     * <param name="lEvento">Objeto con infomarcion de la localidad evento a agregar</param>
+     * <returns>Retorna el ID de la localidad agregada</returns>
      * **/
-    [HttpPut]
-    public bool AgregarLocalidadEvento(LocalidadEvento lEvento)
+    [HttpGet]
+    public int AgregarLocalidadEvento(LocalidadEvento lEvento)
     {
-      return PeticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
+
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      return peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
     }
     /**
      * <summary>Metodo de controlador para Eliminar una Localidad de Evento de la BBDD</summary>
+     * <param name="id">Id de la localidad a eliminar </param>
+     * <returns>TRUE si se eliminó exitosamente false si no </returns>
      * **/
-    [HttpPut]
+    [HttpGet]
     public bool EliminarLocalidadEvento(int id)
     {
-      return PeticionLocalidadEvento.EliminarLocalidadEvento(id);
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      return peticionLocalidadEvento.EliminarLocalidadEvento(id);
     }
     /**
      * <summary>Metodo de controlador para Consultar una Localidad de evento dado su id todos los datos</summary>
+     * <param name="id">Id del evento a consultar</param>
+     * <returns>Objeto Localidad Evento </returns>
      * **/
     [HttpGet]
     public LocalidadEvento ConsultarLocalidadEvento(int id)
     {
-      return PeticionLocalidadEvento.ConsultarLocalidadEvento(id);
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      return peticionLocalidadEvento.ConsultarLocalidadEvento(id);
     }
     /**
      * <summary>Metodo de controlador para Listar todos las localidades de los eventos</summary>
+     * <param name="id_categoria">id de la categoria a consultar sus eventos</param>
+     * <returns>La lista de evento de dicha categoria</returns>
      * **/
     [HttpGet]
     public List<LocalidadEvento> ListaLocalidadEventos(int id_categoria)
     {
-      return PeticionLocalidadEvento.ListaLocalidadEventos();
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      return peticionLocalidadEvento.ListaLocalidadEventos();
     }
 
   }
