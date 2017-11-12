@@ -1,5 +1,10 @@
 using Npgsql;
 using System;
+using System.Net;
+using System.Web.Http;
+using Newtonsoft.Json;
+using System.Net.Mail;
+using System.Web.Http.Cors;
 using System.Collections.Generic;
 using System.Data;
 using ApiRest_COCO_TRIP.Models.Dato;
@@ -387,5 +392,63 @@ namespace ApiRest_COCO_TRIP.Models
           }
         }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="datos"></param>
+    /// <returns></returns>
+    /*
+    public string EnviarCorreo(String datos)
+    {
+      Usuario usuario;
+      PeticionLogin peticion;
+
+      usuario = JsonConvert.DeserializeObject<Usuario>(datos);
+      peticion = new PeticionLogin();
+      try
+      {
+        usuario.Id = peticion.ConsultarUsuarioSocial(usuario);
+        if (usuario.Id != 0)
+        {
+          usuario.Id = peticion.InsertarUsuario(usuario);
+          MailMessage mail = new MailMessage();
+          SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+          mail.From = new MailAddress("cocotrip17@gmail.com");
+          mail.To.Add(usuario.Correo);
+          mail.Subject = "";
+          mail.Body = "Querido Usuario, hemos recibido una solicitud para registrarse en cocotrip, ingrese al siguiente link para completar su proceso de registro: ";
+
+          SmtpServer.Port = 587;
+          SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+          SmtpServer.EnableSsl = true;
+
+          SmtpServer.Send(mail);
+        }
+        else
+        {
+          return "Fallo";
+        }
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return "Exitoso";
+    }
+    */
   }
 }
