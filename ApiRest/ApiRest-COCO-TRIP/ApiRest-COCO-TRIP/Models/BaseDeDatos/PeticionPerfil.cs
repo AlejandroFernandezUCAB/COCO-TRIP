@@ -295,8 +295,6 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       Usuario user = new Usuario();
-      DateTime convertedDate;
-
       
       conexion.Conectar();
       command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);

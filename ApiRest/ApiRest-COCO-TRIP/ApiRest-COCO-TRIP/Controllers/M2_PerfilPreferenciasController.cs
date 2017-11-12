@@ -11,6 +11,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
 
     protected PeticionPerfil peticion;
+    Usuario usuario;
     private int idUsuario;
 
     /// <summary>
@@ -184,6 +185,19 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return false;
       }
+    }
+
+    /// <summary>
+    /// Metodo Post para obtener los datos del usuario.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>Objeto Usuario</returns>
+    [HttpGet]
+    public Usuario ObtenerDatosUsuario(int userId)
+    {
+      peticion = new PeticionPerfil();
+      usuario = peticion.ObtenerDatosUsuario(userId);
+      return usuario;
     }
 
   }
