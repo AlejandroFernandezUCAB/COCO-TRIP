@@ -197,8 +197,8 @@ namespace ApiRestPruebas.M2
     {
       string username, passActual, passNueva;
       username = "conexion";
-      passActual = "HOLA";
-      passNueva = "123";
+      passActual = "123";
+      passNueva = "HOLA";
       probar = apiRest.CambiarPass(username, passActual, passNueva);
       Assert.AreEqual(true, probar);
     }
