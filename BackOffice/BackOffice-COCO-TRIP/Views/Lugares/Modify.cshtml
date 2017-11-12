@@ -12,22 +12,22 @@
         <ul class="list-inline">
           <li class="list-inline-item">
             <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="assets/img/barco_colon.jpg" alt="">
+              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/barco_colon.jpg")" alt="">
             </figure>
           </li>
           <li class="list-inline-item">
             <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="assets/img/areas_verdes.jpg" alt="">
+              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/areas_verdes.jpg")" alt="">
             </figure>
           </li>
           <li class="list-inline-item">
             <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="assets/img/property_detail.jpg" alt="">
+              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/property_detail.jpg")" alt="">
             </figure>
           </li>
           <li class="list-inline-item">
             <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="assets/img/canchas.jpg" alt="">
+              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/canchas.jpg")" alt="">
             </figure>
           </li>
         </ul>
@@ -89,11 +89,11 @@
 
                     <div class="col-md-5">
                       <div class="form-group ">
-                        <label for="category" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="category">
+                          <select class="form-control" id="categoria">
                             <option>Elige una categor&iacute;a</option>
-                            <option>Zoologico</option>
+                            <option>Zool&oacute;gico</option>
                             <option>Parque tem&aacute;tico</option>
                             <option>Parque infantil</option>
                             <option>Otro</option>
@@ -104,9 +104,9 @@
 
                     <div class="col-md-5">
                       <div class="form-group">
-                        <label for="category" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="category">
+                          <select class="form-control" id="subcategoria">
                             <option>Elige una sub-categor&iacute;a</option>
                             <option>Para mayores de 18 a&ntilde;os</option>
                             <option>Para todas las edades</option>
@@ -120,7 +120,7 @@
                     <div class="col-md-2">
                       <div class="form-group">
                         <div class="col-sm-12" align="center">
-                          <a href="#">
+                          <a onclick="agregarCategoria();" class="agregar">
                             <i class="fa fa-plus-circle icon-add-category" aria-hidden="true"></i>
                           </a>
                         </div>
@@ -130,7 +130,7 @@
                   </div>
 
                   <div class="row row-table">
-                    <table class="table table-hover table-responsive">
+                    <table class="table table-hover table-responsive" id="tabla">
                       <thead>
                         <tr>
                           <th>Nombre Categor&iacute;a</th>
@@ -138,24 +138,10 @@
                           <th>Acciones</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>Parque</td>
-                          <td>Zool&oacute;gico</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Todas las edades</td>
-                          <td>mayores de 9 a&ntilde;os</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
-                      </tbody>
+                      <tbody></tbody>
                     </table>
                   </div>
+
 
                 </div>
               </div>
@@ -186,7 +172,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control">
+                        <select class="form-control" id="dia">
                           <option selected="true">Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -201,18 +187,18 @@
 
                     <div class="col-md-3">
                       <div class="form-group form-group-horario">
-                        <label for="name" class="control-label">Horario Apertura</label>
+                        <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="name" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
                         </div>
                       </div>
                     </div>
 
                     <div class="col-md-3">
                       <div class="form-group form-group-horario">
-                        <label for="name" class="control-label">Horario Cierre</label>
+                        <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="name" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
                         </div>
                       </div>
                     </div>
@@ -220,7 +206,7 @@
                     <div class="col-md-2">
                       <div class="form-group">
                         <div class="col-sm-12" align="center">
-                          <a href="#">
+                          <a onclick="agregarHorario();">
                             <i class="fa fa-plus-circle icon-add-horario" aria-hidden="true"></i>
                           </a>
                         </div>
@@ -229,7 +215,7 @@
                   </div>
 
                   <div class="row row-table">
-                    <table class="table table-hover table-responsive">
+                    <table class="table table-hover table-responsive" id="tabla_horario">
                       <thead>
                         <tr>
                           <th>D&iacute;a</th>
@@ -238,24 +224,7 @@
                           <th>Acciones</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>Lunes</td>
-                          <td>8:00 a.m.</td>
-                          <td>7:00 p.m.</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Domingo</td>
-                          <td>7:00 a.m.</td>
-                          <td>8:00 p.m.</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
-                      </tbody>
+                      <tbody></tbody>
                     </table>
                   </div>
 
@@ -452,6 +421,13 @@
           </div>
         </div>
 
+        <div class="row">
+          <label for="coords" class="col-sm-2 control-label">Coordenadas(GD)</label>
+          <input type="text" id="coords" />
+
+          <div id="map" class="text-center"></div>
+        </div>
+
         <div class="form-group">
           <div class="col-sm-12" align="center">
             <a href="index.html">
@@ -467,3 +443,8 @@
     </form>
   </div>
 </div>
+
+@Scripts.Render("~/bundles/Lugares_delete-line-tableJS")
+@Scripts.Render("~/bundles/Lugares_insert-line-tableJS")
+@Scripts.Render("~/bundles/Lugares_insert-coordsJS")
+@Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")

@@ -18,6 +18,7 @@ namespace ApiRestPruebas.M7
     private Actividad actividad;
     private Horario horario;
     private Foto foto;
+    private Categoria categoria;
 
     private Archivo archivo;
 
@@ -47,6 +48,22 @@ namespace ApiRestPruebas.M7
       lugar.Latitud = 20.0;
       lugar.Longitud = 10.0;
       lugar.Activar = true;
+
+      categoria = new Categoria();
+      categoria.Id = 1;
+      categoria.Nombre = "Categoria 1";
+      lugar.Categoria.Add(categoria);
+
+      categoria = new Categoria();
+      categoria.Id = 2;
+      categoria.Nombre = "Categoria 2";
+      lugar.Categoria.Add(categoria);
+
+      categoria = new Categoria();
+      categoria.Id = 3;
+      categoria.CategoriaSuperior = 1;
+      categoria.Nombre = "Categoria 1.2";
+      lugar.SubCategoria.Add(categoria);
 
       byte[] imagen = new byte[28480];
 
@@ -116,6 +133,9 @@ namespace ApiRestPruebas.M7
       lugar.Foto.Add(foto);
       lugar.Horario.Add(horario);
 
+      string x = Newtonsoft.Json.JsonConvert.SerializeObject(lugar);
+      string y = Newtonsoft.Json.JsonConvert.SerializeObject(controlador.GetLugar(lugar.Id));
+
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugar(lugar.Id)));
     }
 
@@ -129,7 +149,7 @@ namespace ApiRestPruebas.M7
       foto.Ruta += "lt-fo-" + foto.Id;
       foto.Contenido = null;
 
-      actividad.Foto.Ruta = "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
       actividad.Foto.Contenido = null;
 
       lugar.Actividad.Add(actividad);
@@ -146,7 +166,7 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetActividades()
     {
-      actividad.Foto.Ruta = "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
       actividad.Foto.Contenido = null;
 
       Assert.AreEqual(true, controlador.GetActividades(lugar.Id).Contains(actividad));
@@ -159,7 +179,7 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetActividad()
     {
-      actividad.Foto.Ruta = "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id;
       actividad.Foto.Contenido = null;
 
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
@@ -182,10 +202,10 @@ namespace ApiRestPruebas.M7
       lugar.Id = idLugar;
 
       lugar.Foto[0].Contenido = null;
-      lugar.Foto[0].Ruta = archivo.Ruta + "lt-fo-" + lugar.Foto[0].Id;
+      lugar.Foto[0].Ruta += "lt-fo-" + lugar.Foto[0].Id;
 
       lugar.Actividad[0].Foto.Contenido = null;
-      lugar.Actividad[0].Foto.Ruta = archivo.Ruta + "ac-" + lugar.Actividad[0].Id;
+      lugar.Actividad[0].Foto.Ruta += "ac-" + lugar.Actividad[0].Id;
 
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
     }
@@ -226,8 +246,8 @@ namespace ApiRestPruebas.M7
       idActividad = controlador.PostActividad(actividad, lugar.Id);
       actividad.Id = idActividad;
 
-      lugar.Actividad[0].Foto.Contenido = null;
-      lugar.Actividad[0].Foto.Ruta = archivo.Ruta + "ac-" + lugar.Actividad[0].Id;
+      actividad.Foto.Contenido = null;
+      actividad.Foto.Ruta = archivo.Ruta + "ac-" + actividad.Id;
 
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
     }
@@ -395,17 +415,13 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestPutActivarLugar()
     {
-      lugar.Horario.Add(horario);
-      lugar.Actividad.Add(actividad);
-      lugar.Foto.Add(foto);
-
       lugar.Activar = false;
       controlador.PutActivarLugar(lugar.Id, lugar.Activar);
-      Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
+      Assert.AreEqual(false, controlador.GetLugar(lugar.Id).Activar);
 
       lugar.Activar = true;
       controlador.PutActivarLugar(lugar.Id, lugar.Activar);
-      Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
+      Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Activar);
     }
 
     /// <summary>
@@ -417,11 +433,11 @@ namespace ApiRestPruebas.M7
     {
       actividad.Activar = false;
       controlador.PutActivarActividad(actividad.Id, actividad.Activar);
-      Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
+      Assert.AreEqual(false, controlador.GetActividad(actividad.Id).Activar);
 
       actividad.Activar = true;
       controlador.PutActivarActividad(actividad.Id, actividad.Activar);
-      Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
+      Assert.AreEqual(true, controlador.GetActividad(actividad.Id).Activar);
     }
 
     /// <summary>

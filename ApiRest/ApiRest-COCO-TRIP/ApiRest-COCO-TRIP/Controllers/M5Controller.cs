@@ -168,5 +168,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       return peti.ConsultarActividades(busqueda);
     }
+
+    [HttpGet]
+    public string NotificacionCorreo(int id_usuario)
+    {
+      return peti.EnviarCorreo(id_usuario);
+    }
   }
 }

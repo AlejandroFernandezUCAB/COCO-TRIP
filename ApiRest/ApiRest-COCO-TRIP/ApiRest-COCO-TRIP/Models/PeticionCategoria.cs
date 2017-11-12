@@ -20,7 +20,6 @@ namespace ApiRest_COCO_TRIP
     public PeticionCategoria()
     {
       conexion = new ConexionBase();
-      //conexion.Comando = new NpgsqlCommand();
     }
 
     private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
@@ -65,12 +64,144 @@ namespace ApiRest_COCO_TRIP
       {
         conexion.Desconectar();
 
-      }
-      
+      }  
+    }
 
-      
+    public IList<Categoria> ObtenerCategorias(Categoria categoria)
+    {
+      IList<Categoria> listaCategorias = new List<Categoria>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        if (categoria.Id == -1)
+        {
+          conexion.Comando.CommandText = "m9_obtenerCategoriaTop";
+        }
+        else
+        {
+          conexion.Comando.CommandText = "m9_obtenerCategoriaNoTop";
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+        }
+
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();
+
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          DatosAsociados = $" ID : {categoria.Id}",
+          Mensaje = $"Error al momento de buscar las categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
 
     }
+
+    public IList<Categoria> ObtenerTodasLasCategorias()
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_devolverTodasCategorias";
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();  
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
+
+    }
+
+
+    public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
+    {
+      try
+      {
+        int Superior = 0;
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_devolverid";
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          Int32.TryParse(leerDatos.GetValue(0).ToString(), out Superior);
+        }
+
+        if (Superior == 0)
+        {
+          throw new ItemNoEncontradoException($"No se encontro la categoria con el nombre {categoria.Nombre}");
+        }
+
+        categoria.Id = Superior;
+        
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar el id de una categoria a partir del nombre"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+
+      return categoria;
+    }
+
+    private IList<Categoria> SetListaCategoria()
+    {
+
+      IList<Categoria> listaCategorias = new List<Categoria>();
+      while (leerDatos.Read())
+      {
+        listaCategorias.Add(new Categoria()
+        {
+          Id = leerDatos.GetInt32(0),
+          Nombre = leerDatos.GetString(1),
+          Descripcion = leerDatos.GetString(2),
+          Estatus = leerDatos.GetBoolean(3),
+          Nivel = leerDatos.GetInt32(4)
+        });
+        Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
+        listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
+      }
+
+      return listaCategorias;
+    }
+  
 
   }
 }
