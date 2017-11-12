@@ -912,7 +912,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla actividad
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarActividad
-(_nombre VARCHAR(400), _foto VARCHAR(250), _duracion time,
+(_nombre VARCHAR(400), _foto VARCHAR(320), _duracion time,
 _descripcion VARCHAR(2000), _activar boolean, _fk integer)
 RETURNS integer AS
 $$
@@ -952,7 +952,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla lt_foto
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarFoto
-(ruta VARCHAR(250), _fk integer)
+(ruta VARCHAR(320), _fk integer)
 RETURNS integer AS
 $$
 DECLARE
@@ -1130,7 +1130,7 @@ $$ LANGUAGE plpgsql;
 -- Consultar categorias de un lugar turistico por ID
 -- del lugar Turisticos
 CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico (_id_lu integer)
-RETURNS TABLE (id_ca integer, id_ca_su integer, nombre varchar,)
+RETURNS TABLE (id_ca integer, id_ca_su integer, nombre varchar)
 AS
 $$
 BEGIN
@@ -1146,12 +1146,13 @@ CREATE OR REPLACE FUNCTION ConsultarCategoria ()
 RETURNS TABLE (id integer, nombre VARCHAR)
 AS
 $$
+BEGIN
 
   RETURN QUERY SELECT ca_id, ca_nombre FROM categoria
   WHERE ca_fkcategoriasuperior IS NULL
   AND ca_status = true;
 
-
+END;
 $$ LANGUAGE plpgsql;
 
 -- Consultar lista de subcategorias de una categoria (trabajo de M9)
@@ -1159,10 +1160,12 @@ CREATE OR REPLACE FUNCTION ConsultarSubCategoria (_id integer)
 RETURNS TABLE (id integer, nombre VARCHAR)
 AS
 $$
+BEGIN
 
   RETURN QUERY SELECT ca_id, ca_nombre FROM categoria WHERE
   ca_fkcategoriasuperior = _id and ca_status = true;
 
+END;
 $$ LANGUAGE plpgsql;
 
 /*UPDATE*/
@@ -1210,7 +1213,7 @@ $$ LANGUAGE plpgsql;
 
 -- Actualizar datos de la actividad por ID
 CREATE OR REPLACE FUNCTION ActualizarActividad
-(_id integer, _foto varchar,
+(_id integer, _foto varchar(320),
  _nombre VARCHAR(400), _duracion time,
  _descripcion VARCHAR(2000), _activar boolean)
  RETURNS void AS
@@ -1243,7 +1246,7 @@ $$ LANGUAGE plpgsql;
 
 -- Actualizar foto de un lugar turistico por ID de la foto
 CREATE OR REPLACE FUNCTION ActualizarFoto
-(_id integer, _foto varchar) RETURNS void AS
+(_id integer, _foto varchar(320)) RETURNS void AS
 $$
 BEGIN
   UPDATE lt_foto SET
@@ -1320,11 +1323,15 @@ CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TE
   $BODY$
 LANGUAGE plpgsql;
 
+<<<<<<< HEAD
 CREATE OR REPLACE function m9_devolverTodasCategorias() 
 RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
+=======
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_estatus BOOLEAN, nivel INT, fk INT ) AS $$
+>>>>>>> cb0d418795e8b8f89ac3c2d3beb550a9f7644a80
 BEGIN
 			RETURN 	QUERY
-					SELECT * FROM CATEGORIA;
+					SELECT ca_id, ca_nombre, ca_descripcion, ca_status, ca_nivel, ca_fkcategoriasuperior FROM CATEGORIA;
 END; 
 $$ LANGUAGE plpgsql;
 
