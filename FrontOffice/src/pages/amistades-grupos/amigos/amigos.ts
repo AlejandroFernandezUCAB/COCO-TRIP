@@ -15,6 +15,7 @@ export class AmigosPage {
   edit= false;
   detail=false;
   amigo: any;
+  nombreUsuario : string;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
@@ -50,7 +51,7 @@ export class AmigosPage {
    */
    ionViewWillEnter() {
      this.cargando();
-      this.restapiService.listaAmigos(1)
+      this.restapiService.listaAmigos(2)
         .then(data => {
           if (data == 0 || data == -1) {
             console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -123,7 +124,7 @@ eliminarAmigo(nombreUsuario, index) {
       text: 'Aceptar',
       handler: () => {
         this.eliminarAmigos(nombreUsuario, index);
-        this.restapiService.eliminarAmigo(nombreUsuario,1);
+        this.restapiService.eliminarAmigo(nombreUsuario,2);
         this.delete = false;
         }
       }
@@ -142,8 +143,10 @@ eliminarAmigos(nombreUsuario, index){
   var removed_elements = this.amigo.splice(index, 1);
 }
 
-verPerfil() {
-  this.navCtrl.push(VisualizarPerfilPage);
+verPerfil(item) {
+  this.navCtrl.push(VisualizarPerfilPage,{
+      nombreUsuario : item
+  });
 }
 
 }

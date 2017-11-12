@@ -99,18 +99,40 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public void RecomendarApp(String correoElectronico)
     {
-      SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-      var mail = new MailMessage();
-      mail.From = new MailAddress("cocotrip17@gmail.com");
-      mail.To.Add(correoElectronico);
-      mail.Subject = "Hola, te estamos esperando";
-      mail.IsBodyHtml = false;
-      mail.Body = "Hola";
-      SmtpServer.Port = 587;
-      SmtpServer.UseDefaultCredentials = false;
-      SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
-      SmtpServer.EnableSsl = true;
-      SmtpServer.Send(mail);
+      try
+      {
+        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+        var mail = new MailMessage();
+        mail.From = new MailAddress("cocotrip17@gmail.com");
+        mail.To.Add(correoElectronico);
+        mail.Subject = "Hola, te estamos esperando";
+        mail.IsBodyHtml = false;
+        mail.Body = "Hola";
+        SmtpServer.Port = 587;
+        SmtpServer.UseDefaultCredentials = false;
+        SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+        SmtpServer.EnableSsl = true;
+        SmtpServer.Send(mail);
+      } catch(FormatException e)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+    }
+
+    [HttpGet]
+    public int EliminarSalirGrupo(string idGrupo, string idUsuario)
+    {
+      int respuesta = 0;
+      peticion = new PeticionAmigoGrupo();
+      if (peticion.VerificarLider(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario))) {
+        respuesta = 1;
+        respuesta = peticion.EliminarGrupoBD(Convert.ToInt32(idUsuario), Convert.ToInt32(idGrupo));
+      } else
+      {
+        respuesta = 2;
+        respuesta = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
+      }
+      return respuesta;
     }
     /// <summary>
     /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
@@ -119,9 +141,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
     /// <returns>true si sale exitossamente, false en caso contrario</returns>
     [HttpDelete]
-    public bool SalirGrupo(string idGrupo, string idUsuario)
+    public int SalirGrupo(string idGrupo, string idUsuario)
     {
-      bool salio = false;
+      int salio = 0;
       try
       {
         peticion = new PeticionAmigoGrupo();
