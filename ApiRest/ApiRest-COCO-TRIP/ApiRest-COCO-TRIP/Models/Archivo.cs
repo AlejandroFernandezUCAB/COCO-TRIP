@@ -35,6 +35,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="contenido">Bytes del archivo</param>
     /// <param nombreArchivo="nombreArchivo">Nombre del archivo a escribir</param>
     /// <returns>Retorna si la escritura fue exitosa o no</returns>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void EscribirArchivo(byte[] contenido, string nombreArchivo)
     {
       try
@@ -83,6 +84,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Elimina el archivo
     /// </summary>
     /// <param name="nombreArchivo">Nombre del archivo</param>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void EliminarArchivo(string nombreArchivo)
     {
       try
@@ -115,7 +117,7 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (IOException e)
       {
-        //Erorr atipico de entrada/salida
+        //Error atipico de entrada/salida
         //Registrar en NLog la incidencia
 
         var excepcion = new ArchivoExcepcion(e);
