@@ -57,7 +57,7 @@ namespace ApiRest_COCO_TRIP.Models
     private int categoriaSuperior;
 
     [JsonProperty(PropertyName = "categoriaSuperior")]
-    public int CategoriaSupeior
+    public int CategoriaSuperior
     {
       get { return categoriaSuperior; }
       set { categoriaSuperior = value; }

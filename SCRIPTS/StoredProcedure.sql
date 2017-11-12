@@ -859,12 +859,16 @@ $$
 BEGIN
 
   INSERT INTO LT_C
-  (id_lugar_turistico, id_categoria, id_categoria_superior)
+  (id_lugar_turistico, id_categoria, id_categoria_superior, categoria_nombre)
   VALUES
   (_id_lu, _id_ca,
     (select COALESCE(ca_fkcategoriasuperior,0)
     from categoria
-    where ca_id = _id_ca));
+    where ca_id = _id_ca),
+    (select ca_nombre
+    from categoria
+    where ca_id = _id_ca)
+  );
 
 END;
 $$ LANGUAGE plpgsql;
@@ -1007,15 +1011,15 @@ $$ LANGUAGE plpgsql;
 
 -- Consultar categorias de un lugar turistico por ID
 -- del lugar Turisticos
-CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico
-(_id_lu integer) RETURNS TABLE (id_ca integer, id_ca_su integer)
+CREATE OR REPLACE FUNCTION ConsultarCategoriaLugarTuristico (_id_lu integer)
+RETURNS TABLE (id_ca integer, id_ca_su integer, nombre varchar,)
 AS
 $$
 BEGIN
 
-  RETURN QUERY SELECT id_categoria, id_categoria_superior FROM lt_c
-  WHERE id_lugar_turistico = _id_lu;
-
+  RETURN QUERY SELECT id_categoria, id_categoria_superior, categoria_nombre
+  FROM lt_c WHERE id_lugar_turistico = _id_lu;
+  
 END;
 $$ LANGUAGE plpgsql;
 

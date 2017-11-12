@@ -168,6 +168,7 @@ CREATE TABLE LT_C
   id_lugar_turistico integer CONSTRAINT fk_lt_c_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
   id_categoria integer CONSTRAINT fk_lt_c_categoria REFERENCES categoria(ca_id),
   id_categoria_superior integer DEFAULT 0 CONSTRAINT nn_lt_c_categoria_superior NOT NULL,
+  categoria_nombre VARCHAR(500) CONSTRAINT nn_lt_c_categoria_nombre NOT NULL,
   CONSTRAINT pk_lt_c PRIMARY KEY (id_lugar_turistico, id_categoria)
 );
 --Fin de modulo
@@ -200,7 +201,7 @@ CREATE TABLE categoria
   ca_id integer UNIQUE NOT NULL,
   ca_nombre character varying(500) not null,
   ca_descripcion character varying(2000) not null,
-  ca_status boolean not null,
+  ca_status boolean default true not null,
   ca_fkcategoriasuperior integer,
   ca_nivel integer
 );
