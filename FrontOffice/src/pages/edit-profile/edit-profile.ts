@@ -4,6 +4,7 @@ import {  IonicPage, NavController, NavParams, ToastController, Platform, Action
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChangepassPage} from '../changepass/changepass';
 import { TranslateService } from '@ngx-translate/core';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage'; //para acceder a las variables que guarde en la vista de 'Editar Datos Personales'
 
 @IonicPage()
@@ -18,6 +19,7 @@ export class EditProfilePage {
     Nombre: 'Nombre',
     Apellido: 'Apellido'
   };
+  apiRestResponse: boolean;
 
   public event = {
     month: '1993-02-27'
@@ -26,8 +28,10 @@ export class EditProfilePage {
   change = ChangepassPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
-    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, private storage: Storage )
+    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, 
+    private storage: Storage,public restapiService: RestapiService )
   {
+    console.log(navParams.data)
     //obtengo los datos recibidos de la vista anterior
     this.usuario.Nombre = navParams.data.Nombre;
     this.usuario.Apellido = navParams.data.Apellido;
@@ -44,9 +48,12 @@ export class EditProfilePage {
   //function ejecutada al hacer submit del formulario
   saveData(){
     
-    alert(this.myForm.value);
-    // storage.set('name', nuevaInfoUser);
-    this.storage.set('nombre',this.myForm.value.nombre);
+    if(this.apiRestResponse)
+    {
+      // alert(this.myForm.value);
+      this.storage.set('nombre',this.myForm.value.nombre);
+      this.storage.set('apellido',this.myForm.value.nombre);
+    }
     this.navCtrl.pop();
   }
 

@@ -27,10 +27,11 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
-  usuario: Object = {
+  usuario: any = {
     Nombre: 'Nombre',
     Apellido: 'Apellido',
-    Correo: 'Correo'
+    Correo: 'Correo',
+
   };
   idUsuario = 0;
 
@@ -53,10 +54,10 @@ export class PerfilPage {
     this.storage.get('id').then((val) => {
       this.idUsuario = val;
       console.log('id de usuario => ',this.idUsuario);
+      //hacemos la llamada al apirest con el id obtenido
       this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
         if(data != 0)
-        {
-          
+        {  
           this.usuario = data;
           // console.log(this.usuario);
           // console.log(this.usuario.Nombre);
@@ -67,9 +68,6 @@ export class PerfilPage {
     });
   }
 
-  consultarUsuarioAlmacenado(){
-    
-  }
 
   // este metodo se dispara cada vez que se entra en esta pagina
   // antes de que este activa
