@@ -14,7 +14,6 @@ export class CalendarioPage {
   its= Array();
   items = Array();
   date: string;
-
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
   _daysConfig= this.eventos.getEventosItinerario();
   options: CalendarComponentOptions = {
@@ -26,12 +25,10 @@ export class CalendarioPage {
     public modalCtrl: ModalController,
     public eventos: EventosCalendarioService,
   ) {
-    console.log(this._daysConfig);
    }
 
     ionViewWillEnter(){
       this.its = this.eventos.getItinerarios();
-      console.log(this.its);
     }
 
     onChange($event) {
@@ -40,7 +37,7 @@ export class CalendarioPage {
       this.its.forEach(it => {
         if (it.Visible ==true){
           it.Items_agenda.forEach( ev => {
-            if (ev.FechaInicio == moment($event._d).format('MM/DD/YYYY')){
+            if (moment(ev.FechaInicio).format('DD/MM/YYYY') == moment($event._d).format('MM/DD/YYYY')){
               items_agenda.push({
                 Nombre: ev.Nombre,
                 // HoraInicio: ev.HoraInicio,
@@ -51,8 +48,6 @@ export class CalendarioPage {
           })
         }
       })
-      // console.log("items_agenda ");
-      // console.log(items_agenda);
       let modal = this.modalCtrl.create('DetalleDiaPage', {date: $event , items_agenda: items_agenda});
       modal.present();
       }
