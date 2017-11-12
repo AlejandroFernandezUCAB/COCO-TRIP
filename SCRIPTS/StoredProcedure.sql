@@ -680,6 +680,125 @@ AS $BODY$
     END;
 $BODY$;
 
+  --Insertar evento en itineratio
+  CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date) 
+    RETURNS boolean AS 
+    $BODY$
+    BEGIN
+      INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idEvento) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idevento);
+      return true;
+    END;
+    $BODY$
+    LANGUAGE plpgsql VOLATILE
+    COST 100;
+    
+     --Insertar actividad en itineratio
+    CREATE OR REPLACE FUNCTION add_actividad_it(idactividad integer, iditinerario integer,fechaini date, fechafin date)  
+    RETURNS boolean AS  
+	$BODY$
+    BEGIN
+      INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idActividad) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idactividad);
+      return true;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Insertar lugar turistico en itineratio
+    CREATE OR REPLACE FUNCTION add_lugar_it(idlugar integer, iditinerario integer, fechaini date, fechafin date) 
+    RETURNS boolean AS  
+	$BODY$
+    BEGIN
+      INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin,ag_idLugarTuristico) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idlugar);
+      return true;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Eliminar item del itineratio
+    CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer) 
+    RETURNS boolean AS  
+	$BODY$
+    BEGIN
+      IF tipo='Lugar Turistico' THEN
+      DELETE FROM Agenda WHERE (iditem=ag_idlugarturistico) AND (iditinerario=ag_idItinerario);
+      return true;
+      END IF;
+      IF tipo='Actividad' THEN
+      DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
+      return true;
+      END IF;
+      IF tipo='Evento' THEN
+      DELETE FROM Agenda WHERE (iditem=ag_idevento) AND (iditinerario=ag_idItinerario);
+      return true;
+      END IF;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    
+    --Agregar itineratio
+    CREATE OR REPLACE FUNCTION add_itinerario(nombre character varying(80),idusuario integer)
+    RETURNS TABLE (itid integer, itnombre character varying(80),itidusuario integer) AS 
+	$BODY$
+    DECLARE
+    i integer;
+    BEGIN
+ 	 INSERT INTO Itinerario (it_id,it_nombre,it_idUsuario) VALUES (nextval('seq_Itinerario'),nombre,idusuario);
+     SELECT FIRST_VALUE(it_id)OVER (order by it_id DESC) into i from itinerario;
+     RETURN QUERY
+     SELECT it_id,it_nombre,it_idUsuario from itinerario 
+     WHERE it_id=i;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Eliminar itineratio
+    CREATE OR REPLACE FUNCTION del_itinerario(iditinerario integer)
+    RETURNS boolean AS  
+	$BODY$
+    DECLARE
+    i integer;
+    BEGIN
+    SELECT it_id FROM Itinerario where (iditinerario=it_id) into i;
+      IF i is null THEN
+      return false;
+      else
+      DELETE from Itinerario where (iditinerario=it_id);  
+      return true;
+      END IF;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+    --Modificar itineratio
+    CREATE OR REPLACE FUNCTION mod_itinerario(iditinerario integer,nombre character varying(80),fechaini date,fechafin date, idusuario integer)
+    RETURNS TABLE (itid integer, itnombre character varying(80),itfechaini date,itfechafin date,itidusuario integer) AS   
+	$BODY$
+    DECLARE
+    i integer;
+    BEGIN
+      UPDATE Itinerario
+      SET it_nombre=nombre,
+          it_fechainicio=fechaini,
+          it_fechafin=fechafin
+      WHERE
+          it_id=iditinerario;
+      RETURN QUERY
+      SELECT * from Itinerario 
+     WHERE 
+      it_id=iditinerario;
+    END;
+	$BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+    
+
+
 ALTER FUNCTION public.consultar_itinerarios(integer)
     OWNER TO admin_cocotrip;
 
