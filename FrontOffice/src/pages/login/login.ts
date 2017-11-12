@@ -98,7 +98,7 @@ export class LoginPage {
       if (loginstatus.status == "connected") {
         this.facebook.logout();
       }
-      this.facebook.login(['public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
+      this.facebook.login(['email','public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
         this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
           this.userData = {
             correo: profile['email'], nombre: profile['first_name'],
