@@ -122,16 +122,39 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public int EliminarSalirGrupo(string idGrupo, string idUsuario)
     {
+
       int respuesta = 0;
-      peticion = new PeticionAmigoGrupo();
-      if (peticion.VerificarLider(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario))) {
-        respuesta = 1;
-        respuesta = peticion.EliminarGrupoBD(Convert.ToInt32(idUsuario), Convert.ToInt32(idGrupo));
-      } else
+      try
       {
-        respuesta = 2;
-        respuesta = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
+        peticion = new PeticionAmigoGrupo();
+        if (peticion.VerificarLider(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario)))
+        {
+          respuesta = 1;
+          respuesta = peticion.EliminarGrupoBD(Convert.ToInt32(idUsuario), Convert.ToInt32(idGrupo));
+        }
+        else
+        {
+          respuesta = 2;
+          respuesta = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
+        }
       }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      
       return respuesta;
     }
     /// <summary>
