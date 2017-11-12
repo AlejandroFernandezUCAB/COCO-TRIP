@@ -1175,7 +1175,7 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
 (
   _id integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -1189,7 +1189,7 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
 (
   _nombreEvento integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -1203,7 +1203,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -1217,7 +1217,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
 (
   _nombreLocalidad integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 

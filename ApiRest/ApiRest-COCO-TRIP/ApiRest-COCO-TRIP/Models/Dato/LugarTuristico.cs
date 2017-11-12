@@ -22,14 +22,20 @@ namespace ApiRest_COCO_TRIP.Models.Dato
     private List<Foto> foto; //Fotos del lugar turistico
     private List<Horario> horario; //Horarios del lugar turistico
     private List<Actividad> actividad; //Actividades del lugar turistico
-    //private List<Categoria> categoria; //Categorias del lugar turistico
-    //private List<Categoria> subCategoria; //Subcategorias del lugar turistico
+    private List<Categoria> categoria; //Categorias del lugar turistico 
+    private List<Categoria> subCategoria; //Subcategorias del lugar turistico
 
+    /// <summary>
+    /// Constructor que inicializa los atributos de la clase
+    /// </summary>
     public LugarTuristico()
     {
       foto = new List<Foto>();
       horario = new List<Horario>();
       actividad = new List<Actividad>();
+
+      categoria = new List<Categoria>();
+      subCategoria = new List<Categoria>();
     }
 
     /// <summary>
@@ -150,7 +156,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
 
     }
 
-   /* /// <summary>
+    /// <summary>
     /// Getters y Setters del atributo Categoria
     /// </summary>
     public List<Categoria> Categoria
@@ -168,7 +174,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
       get { return subCategoria; }
       set { subCategoria = value; }
 
-    } */
+    }
 
     /// <summary>
     /// Compara si dos objetos de tipo LugarTuristico son iguales
@@ -185,7 +191,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
             || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
             || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
             || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)
-            /*|| !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria)*/)
+            || !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria))
         {
 
           return (false);
