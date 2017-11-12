@@ -463,7 +463,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPut]
     public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
     {
       int resultado;
