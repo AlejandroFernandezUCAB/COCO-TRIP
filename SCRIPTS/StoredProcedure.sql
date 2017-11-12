@@ -1,4 +1,4 @@
-
+﻿
 
 /**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
@@ -179,6 +179,135 @@ BEGIN
 	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+/**
+Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
+
+Autores:
+  Fernández Pedro
+  Navas Ronald
+  Verrocchi Gianfranco
+**/
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION InsertarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+   
+	INSERT INTO preferencia VALUES
+	( _idUsuario, _idCategoria);
+
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION EliminarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+
+	DELETE FROM PREFERENCIA WHERE _idUsuario = pr_usuario AND _idCategoria = pr_categoria;
+	
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BuscarPreferencias
+( _idUsuario int)
+RETURNS TABLE( 
+  id int,
+  nombre VARCHAR,
+  descripcion VARCHAR,
+  status boolean,
+  nivel int
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	ca_id,ca_nombre, ca_descripcion, ca_status, ca_nivel
+	FROM preferencia, categoria
+	WHERE pr_usuario = _idUsuario and pr_categoria = ca_id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BuscarListaPreferenciaUsuario
+( _idUsuario int, _nombrePreferencia varchar)
+RETURNS TABLE( 
+  nombre VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	c.ca_nombre
+	FROM categoria c,preferencia p
+	WHERE pr_categoria NOT IN (Select c.ca_id from preferencia where pr_usuario = _idUsuario and pr_categoria = c.ca_id )  
+	and pr_usuario=_idUsuario;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION ModificarDatosUsuario
+( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_nombre = _nombre  ,  us_apellido = _apellido ,   us_fechaNacimiento = _fechaNacimiento ,   us_genero = _genero 
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarPass 
+( _idUsuario int , _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_password = _password
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarFoto 
+( _idUsuario int , _foto bytea) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_foto = _foto
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BorrarUsuario 
+(  _idUsuario int, _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   DELETE FROM usuario
+   WHERE _password = us_password and _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta la contraseña del usuario
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarContrasena(_username varchar)
+RETURNS TABLE(clave varchar)
+AS $$
+DECLARE clave VARCHAR(20);
+BEGIN
+
+	RETURN QUERY SELECT
+  us_password
+	FROM usuario WHERE us_nombreUsuario = _username AND us_validacion=true;
+
+END;
+$$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (3) Amistades y Grupos
@@ -191,6 +320,7 @@ Autores:
 
 
 /*INSERT*/
+--------------------/*INSERT*/
 -------------------------PROCEDIMIENTO BUSCAR AMIGO----------------------------
 CREATE OR REPLACE FUNCTION BuscarAmigos (_nombre varchar)
 RETURNS TABLE
@@ -273,15 +403,15 @@ CREATE OR REPLACE FUNCTION eliminaramigo(
   idamigo integer, my_id integer)
     RETURNS integer
     LANGUAGE 'plpgsql'
-
+   
 AS $function$
 
 DECLARE
  result integer;
 
 BEGIN
-  DELETE FROM Amigo
-    WHERE (fk_usuario_conoce = idamigo AND  fk_usuario_posee = my_id) or
+  DELETE FROM Amigo 
+    WHERE (fk_usuario_conoce = idamigo AND  fk_usuario_posee = my_id) or 
     (fk_usuario_conoce = my_id AND  fk_usuario_posee = idamigo);
 
     if found then
@@ -297,14 +427,14 @@ CREATE OR REPLACE FUNCTION eliminargrupo(
   my_id integer, idGrupo integer)
     RETURNS integer
     LANGUAGE 'plpgsql'
-
+   
 AS $function$
 
 DECLARE
  result integer;
 
 BEGIN
-  DELETE FROM Grupo
+  DELETE FROM Grupo 
     WHERE fk_usuario = my_id and gr_id = idGrupo;
 
     if found then
@@ -323,15 +453,15 @@ CREATE OR REPLACE FUNCTION obtenerlistadeamigos(
     (us_nombre character varying,
   us_apellido character varying,
   us_foto bytea)
-
+     
 AS $$
 BEGIN
 RETURN QUERY
-SELECT u.us_nombre, u.us_apellido, u.us_foto
+SELECT u.us_nombre, u.us_apellido, u.us_foto 
 FROM Amigo a, Usuario u
 WHERE a.fk_usuario_conoce = idUsuario AND  a.fk_usuario_posee = u.us_id
 Union
-SELECT u.us_nombre, u.us_apellido, u.us_foto
+SELECT u.us_nombre, u.us_apellido, u.us_foto 
 FROM Amigo a, Usuario u
 WHERE a.fk_usuario_posee = idUsuario AND  a.fk_usuario_conoce = u.us_id
 ORDER BY us_nombre, us_apellido ASC;
@@ -345,10 +475,10 @@ CREATE OR REPLACE FUNCTION modificarGrupo(nombreGrupo character varying,
     AS $$
 DECLARE
 result integer;
+    
+BEGIN 
 
-BEGIN
-
-UPDATE Grupo SET
+UPDATE Grupo SET 
           gr_nombre = nombreGrupo
                     WHERE fk_usuario= my_id and gr_id = idGrupo;
     if found then
@@ -362,15 +492,14 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION eliminarintegrante(
   idamigo integer, idGrupo integer)
     RETURNS integer
-    LANGUAGE 'plpgsql'
-
-AS $function$
+   
+AS $$
 
 DECLARE
  result integer;
 
 BEGIN
-  DELETE FROM Miembro
+  DELETE FROM Miembro 
     WHERE fk_grupo = idGrupo AND  fk_usuario = idamigo;
 
     if found then
@@ -388,8 +517,8 @@ CREATE OR REPLACE FUNCTION agregarIntegrante(idGrupo integer,
     AS $$
 DECLARE
 result integer;
-
-BEGIN
+    
+BEGIN 
 INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
     VALUES
   (nextval('SEQ_Miembro'),idGrupo,idUsuario);
@@ -402,7 +531,7 @@ INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
 END;
 $$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO AGREGAR AMIGO----------------------------
-CREATE OR REPLACE FUNCTION AgregarAmigo(usuario1 integer, usuario2 integer)
+CREATE OR REPLACE FUNCTION AgregarAmigo(usuario1 integer, usuario2 integer) 
     RETURNS integer AS $$
 DECLARE
  result integer;
@@ -418,7 +547,7 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------PROCEDIMIENTO VISUALIZAR PERFIL PUBLICO----------------------------
-CREATE OR REPLACE FUNCTION VisualizarPerfilPublico(nombreusuario VARCHAR(70))
+CREATE OR REPLACE FUNCTION VisualizarPerfilPublico(nombreusuario VARCHAR(70)) 
     RETURNS TABLE(
       nombre varchar,
       apellido varchar,
@@ -428,7 +557,7 @@ CREATE OR REPLACE FUNCTION VisualizarPerfilPublico(nombreusuario VARCHAR(70))
   $$
     BEGIN
       RETURN QUERY SELECT
-    us_nombre, us_apellido, us_email, us_foto
+    us_nombre, us_apellido, us_email, us_foto   
     FROM usuario
     WHERE us_nombreUsuario = nombreusuario;
     END;
@@ -436,11 +565,11 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------PROCEDIMIENTO SALIR DEL GRUPO----------------------------
-CREATE OR REPLACE FUNCTION SalirDeGrupo(idgrupo integer, idusuario integer)
+CREATE OR REPLACE FUNCTION SalirDeGrupo(idgrupo integer, idusuario integer) 
     RETURNS integer AS $$
     DECLARE result integer;
     BEGIN
-    DELETE FROM Miembro m
+    DELETE FROM Miembro m 
     WHERE fk_grupo = idgrupo AND  fk_usuario = idusuario;
     if found then
     result := 1;
@@ -488,7 +617,7 @@ CREATE OR REPLACE FUNCTION ConseguirIdUsuario(
   nombreUsuario character varying)
     RETURNS TABLE
     (id integer)
-
+     
 AS $$
 BEGIN
 RETURN QUERY
@@ -515,8 +644,8 @@ CREATE OR REPLACE FUNCTION VisualizarMiembroGrupo(idgrupo integer)
     END;
 $$ LANGUAGE plpgsql;
 
+
 /**
-<<<<<<< HEAD
 Procedimientos del Modulo 5, Gestion de Itinerarios
 Autores:
   Arguelles, Marialette
@@ -932,6 +1061,14 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     END; $$;
 
 
+CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
+  RETURNS void
+   AS $$
+BEGIN
+    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+END; $$
+  LANGUAGE plpgsql;
+
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
 
@@ -1269,3 +1406,4 @@ BEGIN
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
+
