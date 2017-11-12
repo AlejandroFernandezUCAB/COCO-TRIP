@@ -11,6 +11,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
 
     protected PeticionPerfil peticion;
+    Usuario usuario;
     private int idUsuario;
 
     /// <summary>
@@ -22,14 +23,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <returns>Lista de preferencias del usuario</returns>
     // POST api/<controller>/<action>/prefencia
     [HttpPut]
-    public List<Categoria> AgregarPreferencias ( string nombreUsuario , string nombrePreferencia)
+    public List<Categoria> AgregarPreferencias ( int idUsuario , int idCategoria)
     {
 
-      int idUsuario, idCategoria;
+
       List<Categoria> preferencias;
       peticion = new PeticionPerfil();
-      idUsuario = peticion.ConsultarIdDelUsuario(nombreUsuario);
-      idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
       peticion.AgregarPreferencia(idUsuario, idCategoria);
       preferencias = peticion.BuscarPreferencias(idUsuario);
       return preferencias; //Retorna una lista de de categorias
@@ -43,12 +42,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombrePreferencia">Nombre de la categoria a eliminar</param>
     /// <returns>Retorna  una lista de  categorias</returns>
     [HttpPost]
-    public List<Categoria> EliminarPreferencias(int idUsuario, string nombrePreferencia)
+    public List<Categoria> EliminarPreferencias(int idUsuario, int idCategoria)
     {
-      int idCategoria;
+
       List<Categoria> preferencias;
       peticion = new PeticionPerfil();
-      idCategoria = peticion.ConsultarIdDeCategoria(nombrePreferencia);
       peticion.EliminarPreferencia(idUsuario, idCategoria);
       preferencias = peticion.BuscarPreferencias(idUsuario);
       return preferencias; //Retorna una lista de de categorias
@@ -184,6 +182,19 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return false;
       }
+    }
+
+    /// <summary>
+    /// Metodo Post para obtener los datos del usuario.
+    /// </summary>
+    /// <param name="idUsuario"></param>
+    /// <returns>Objeto Usuario</returns>
+    [HttpPost]
+    public Usuario ObtenerDatosUsuario(int idUsuario)
+    {
+      peticion = new PeticionPerfil();
+      usuario = peticion.ObtenerDatosUsuario(idUsuario);
+      return usuario;
     }
 
   }

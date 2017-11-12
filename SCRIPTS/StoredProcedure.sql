@@ -221,15 +221,35 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION BuscarPreferencias
 ( _idUsuario int)
 RETURNS TABLE( 
-  nombre VARCHAR
+  id int,
+  nombre VARCHAR,
+  descripcion VARCHAR,
+  status boolean,
+  nivel int
 ) AS $$
 BEGIN
   RETURN QUERY SELECT
-	ca_nombre
+	ca_id,ca_nombre, ca_descripcion, ca_status, ca_nivel
 	FROM preferencia, categoria
 	WHERE pr_usuario = _idUsuario and pr_categoria = ca_id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BuscarListaPreferenciaUsuario
+( _idUsuario int, _nombrePreferencia varchar)
+RETURNS TABLE( 
+  nombre VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	c.ca_nombre
+	FROM categoria c,preferencia p
+	WHERE pr_categoria NOT IN (Select c.ca_id from preferencia where pr_usuario = _idUsuario and pr_categoria = c.ca_id )  
+	and pr_usuario=_idUsuario;
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 CREATE OR REPLACE FUNCTION ModificarDatosUsuario
 ( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
@@ -626,7 +646,6 @@ $$ LANGUAGE plpgsql;
 
 
 /**
-<<<<<<< HEAD
 Procedimientos del Modulo 5, Gestion de Itinerarios
 Autores:
   Arguelles, Marialette
@@ -1042,6 +1061,14 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     END; $$;
 
 
+CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
+  RETURNS void
+   AS $$
+BEGIN
+    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+END; $$
+  LANGUAGE plpgsql;
+
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
 
@@ -1379,3 +1406,4 @@ BEGIN
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
+
