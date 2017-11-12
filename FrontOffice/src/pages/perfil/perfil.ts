@@ -5,6 +5,7 @@ import { EditProfilePage } from '../edit-profile/edit-profile';
 import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
 import { PreferenciasPage } from '../preferencias/preferencias';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 /**
  * Generated class for the PerfilPage page.
@@ -25,13 +26,26 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
+  usuario: any;
+  idUsuario = 15;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PerfilPage');
   }
 
+  cargarUsuario(){
+    this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
+      if(data != 0)
+      {
+
+        this.usuario = data;
+
+      }
+    });
+  }
 
 }

@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content padding class="action-sheets-basic-page">
-  <form>
+  <form [formGroup]="myForm" (ngSubmit)="saveData()" novalidate>
     <ion-list>
 
         <ion-title text-center><img alt="logo" src="assets/images/ron.jpeg" class="imagen-perfil"></ion-title>
@@ -22,49 +22,45 @@
         </h2>
     
       <ion-item>
-        <ion-label floating>{{ 'Nombre' | translate }}</ion-label>
-        <ion-input type="text" name="nombre" clearInput="true"></ion-input>
+        <ion-label stacked>{{ 'Nombre' | translate }}</ion-label>
+        <ion-input type="text" formControlName="nombre" clearInput="true"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="myForm.get('nombre').errors && myForm.get('nombre').dirty">
+        <p color="danger" ion-text *ngIf="myForm.get('nombre').hasError('required')">Este campo es requerido</p>
       </ion-item>
 
       <ion-item>
-          <ion-label floating>{{ 'Apellido' | translate }}</ion-label>
-          <ion-input type="text" name="apellido" clearInput="true"></ion-input>
+        <ion-label stacked>{{ 'Apellido' | translate }}</ion-label>
+        <ion-input type="text" formControlName="apellido" clearInput="true"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="myForm.get('apellido').errors && myForm.get('apellido').dirty">
+        <p color="danger" ion-text *ngIf="myForm.get('apellido').hasError('required')">Este campo es requerido</p>
       </ion-item>
 
+     
+
+    <!--
       <ion-item>
           <ion-label floating>{{ 'Fecha de Nacimiento' | translate }}</ion-label>
-          <ion-datetime name="fechanac" displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
+          <ion-datetime formControlNamename="fechanac" displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
       </ion-item>
-
-      <!-- <ion-item>
-          <ion-label fixed >Ubicacion</ion-label>
-          <ion-select name="ubicacion" [(ngModel)]="place">
-            <ion-option value="vzla">Venezuela</ion-option>
-            <ion-option value="jpn">Japon</ion-option>
-            <ion-option value="usa">USA</ion-option>
-            <ion-option value="Fra">Francia</ion-option>
-            <ion-option value="Ale">Alemania</ion-option>
-            <ion-option value="col">Colombia</ion-option>
-          </ion-select>
-      </ion-item> -->
-
-      <!-- <ion-item>
-          <ion-label>Numero Telefonico</ion-label>
-          <ion-input type="number" name="telf" clearInput="true"></ion-input>
-      </ion-item> -->
-
+      
+      
       <ion-item>
-          <ion-label floating >{{ 'Sexo' | translate }}</ion-label>
-          <ion-select name="sexo" [(ngModel)]="gender">
-            <ion-option value="hom">{{ 'Hombre' | translate }}</ion-option>
+          <ion-label stacked >{{ 'Sexo' | translate }}</ion-label>
+          <ion-select interface="popover" formControlNamename="sexo">
+            <ion-option value="hom" selected="true">{{ 'Hombre' | translate }}</ion-option>
             <ion-option value="muj">{{ 'Mujer' | translate }}</ion-option>
           </ion-select>
       </ion-item>
+      -->
         
     </ion-list>
-
-    <button ion-button block [navPush]="change">{{ 'Cambiar Contraseña' | translate }}</button>
-    <button ion-button type="submit" block (click)="showToastWithCloseButton()">{{ 'Guardar Cambios' | translate }}</button>
+    <div>
+      <button ion-button block [navPush]="change">{{ 'Cambiar Contraseña' | translate }}</button>
+      <button ion-button type="submit" block (click)="showToastWithCloseButton()">{{ 'Guardar Cambios' | translate }}</button>
+    </div>
+    
 
   </form>
 

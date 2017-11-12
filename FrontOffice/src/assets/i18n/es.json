@@ -38,6 +38,12 @@
     "Introduzca su contraseña":"Introduzca su contraseña",
     "Confirmar":"Confirmar",
 
+    "Confirma contraseña":"Confirma con la contraseña",
+    "Este campo es requerido":"Este campo es requerido",
+    "Nueva contraseña":"Nueva contraseña",
+    "Guardar Contraseña": "Guardar Contraseña",
+    "Contraseña actual":"Contraseña actual",
+}
     "Comienza": "Comienza: ",
     "Termina": "Termina: ",
     "Agregar Items": "Agregar Items",
