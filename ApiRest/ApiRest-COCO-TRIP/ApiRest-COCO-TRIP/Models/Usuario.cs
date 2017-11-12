@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Npgsql;
+using System.Data;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -14,6 +16,7 @@ namespace ApiRest_COCO_TRIP.Models
     private DateTime fechaNacimiento;
     private byte[] foto;
     private string clave;
+    private Boolean valido;
     private List<Categoria> preferencias;
 
 
@@ -36,6 +39,7 @@ namespace ApiRest_COCO_TRIP.Models
     public string Clave { get => clave; set => clave = value; }
     public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
     public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
+    public bool Valido { get => valido; set => valido = value; }
 
     /// <summary>
     /// Metodo que agrega a la lista de categoria (Es decir agrega una preferencia) una nueva categoría
@@ -46,7 +50,7 @@ namespace ApiRest_COCO_TRIP.Models
     {
       
       preferencias.Add( nuevaCategoria );
-      
+
     }
      
 

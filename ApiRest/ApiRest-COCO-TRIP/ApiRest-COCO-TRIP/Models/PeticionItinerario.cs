@@ -38,8 +38,16 @@ namespace ApiRest_COCO_TRIP.Models
                 //Recorremos los registros devueltos
                 while (pgread.Read())
                 {
-                    Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
-
+                  Itinerario iti;
+                  if (!pgread.IsDBNull(3) && (!pgread.IsDBNull(4)))
+                  {
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+                  }
+                  else
+                  {
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), true);
+                  }
+                    
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
                     foreach (Itinerario itinerario in itinerarios)
@@ -59,8 +67,11 @@ namespace ApiRest_COCO_TRIP.Models
                         lugar.Descripcion = pgread.GetString(9);
                         lugar.Costo = pgread.GetDouble(10);
                         lugar.Tipo = "Lugar Turistico";
-                        lugar.FechaInicio = pgread.GetDateTime(5);
-                        lugar.FechaFin = pgread.GetDateTime(6);
+                        if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                        {
+                            lugar.FechaInicio = pgread.GetDateTime(5);
+                            lugar.FechaFin = pgread.GetDateTime(6);
+                        }
                         itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
                     }
                     //Si existe actividad en este registro
@@ -72,17 +83,28 @@ namespace ApiRest_COCO_TRIP.Models
                       actividad.Descripcion = pgread.GetString(13);
                       actividad.Duracion = pgread.GetTimeSpan(14);
                       actividad.Tipo = "Actividad";
-                      actividad.FechaInicio = pgread.GetDateTime(5);
-                      actividad.FechaFin = pgread.GetDateTime(6);
+                      if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                      {
+                        actividad.FechaInicio = pgread.GetDateTime(5);
+                        actividad.FechaFin = pgread.GetDateTime(6);
+                      }
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
+                    //Falta el caso de que sea un evento...
                 }
                 con.Desconectar();
                 return itinerarios;
             }
-            catch (NpgsqlException e)
+            catch (NpgsqlException sql)
             {
-                throw e;
+                throw sql;
+            }catch (ArgumentException arg)
+            {
+              throw arg;
+            }
+            catch (InvalidCastException cast)
+            {
+                throw cast;
             }
         }
 
@@ -92,45 +114,17 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="it">item del cual se elimina el lugar turistico</param>
     /// <param name="lt">item a eliminar del itinerario</param>
     /// <returns>true si se elimino el item exitosamente, false en caso de error</returns>
-    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    public Boolean EliminarItem_It(string tipo,int idit, int iditem)
         {
           try
           {
-            con = new ConexionBase();
+            con = new ConexionBase();  
             con.Conectar();
-            comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
+            comm = new NpgsqlCommand("del_item_it", con.SqlConexion);
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ag.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-            pgread = comm.ExecuteReader();
-            pgread.Read();
-            Boolean resp = pgread.GetBoolean(0);
-           con.Desconectar();
-            return resp;
-          }
-          catch (NpgsqlException e)
-          {
-            return false;
-          }
-        }
-
-
-        /// <summary>
-        /// Metodo que agrega un lugar turistico existente a un itinerario existente
-        /// </summary>
-        /// <param name="it">itinerario al cual se le agrega el lugar turistico</param>
-        /// <param name="lt">lugar turistico a agregar en el itinerario</param>
-        /// <returns>true si se agrego el lugar turistico exitosamente, false en caso de error</returns>
-        public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
-        {
-          try
-          {
-            con = new ConexionBase();
-            con.Conectar();
-            comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, tipo);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
             pgread = comm.ExecuteReader();
             pgread.Read();
             Boolean resp = pgread.GetBoolean(0);
@@ -139,7 +133,44 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
-            return false;
+            con.Desconectar();
+            throw e;
+          }
+          catch (InvalidCastException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+    }
+
+
+        /// <summary>
+        /// Metodo que agrega un lugar turistico existente a un itinerario existente
+        /// </summary>
+        /// <param name="it">itinerario al cual se le agrega el lugar turistico</param>
+        /// <param name="lt">lugar turistico a agregar en el itinerario</param>
+        /// <returns>true si se agrego el lugar turistico exitosamente, false en caso de error</returns>
+        public Boolean AgregarLugar_It(int idit, int idlt,DateTime fechaini, DateTime fechafin)
+        {
+          try
+          {
+            con = new ConexionBase();
+            con.Conectar();
+            comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+            comm.CommandType = CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idlt);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechaini);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
+            pgread = comm.ExecuteReader();
+            pgread.Read();
+            Boolean resp = pgread.GetBoolean(0);
+            con.Desconectar();
+            return resp;
+          }
+          catch (NpgsqlException e)
+          {
+            throw e;
           }
         }
 
@@ -149,16 +180,18 @@ namespace ApiRest_COCO_TRIP.Models
         /// <param name="it">itinerario al cual se le agrega la actividad</param>
         /// <param name="ac">actividad a agregar en el itinerario</param>
         /// <returns>true si se agrego la actividad exitosamente, false en caso de error</returns>
-        public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
-        {
+        public Boolean AgregarActividad_It(int idit, int idac,DateTime fechaini, DateTime fechafin)
+    {
           try
           {
             con = new ConexionBase();
             con.Conectar();
             comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idac);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechaini);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
             pgread = comm.ExecuteReader();
             pgread.Read();
             Boolean resp = pgread.GetBoolean(0);
@@ -167,7 +200,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
-            return false;
+            throw e;
           }
         }
 
@@ -223,13 +256,21 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
+            con.Desconectar();
             throw e;
           }
-          catch (FormatException e)
+          catch (InvalidCastException e)
           {
+            con.Desconectar();
             throw e;
           }
-        }
+          catch (NullReferenceException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+
+    }
 
         /// <summary>
         /// Metodo que elimina un itinerario de la base de datos
@@ -283,9 +324,15 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
+            con.Desconectar();
             throw e;
           }
-        }
+          catch (InvalidCastException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+    }
 
         /// <summary>
         /// Consulta los eventos por nombre, o similiares.

@@ -1,4 +1,4 @@
-
+﻿
 
 /**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
@@ -102,12 +102,13 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
+   validacion boolean,
    foto bytea)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
 	FROM usuario
 	WHERE us_email=_correo;
 END;
@@ -122,14 +123,35 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
+   validacion boolean,
    foto bytea)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
 	FROM usuario
 	WHERE us_nombreUsuario=_nombreUsuario;
+END;
+$$ LANGUAGE plpgsql;
+
+--Consulta el usuario por su id de usuario sin clave
+CREATE OR REPLACE FUNCTION ConsultarUsuarioSoloId(_id integer)
+RETURNS TABLE
+  (nombreUsuario varchar,
+   email varchar,
+   nombre varchar,
+   apellido varchar,
+   fechNacimiento date,
+   genero varchar,
+   foto bytea)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT
+	us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_foto
+	FROM usuario
+	WHERE us_id=_id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -157,6 +179,135 @@ BEGIN
 	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+/**
+Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
+
+Autores:
+  Fernández Pedro
+  Navas Ronald
+  Verrocchi Gianfranco
+**/
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION InsertarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+   
+	INSERT INTO preferencia VALUES
+	( _idUsuario, _idCategoria);
+
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION EliminarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+
+	DELETE FROM PREFERENCIA WHERE _idUsuario = pr_usuario AND _idCategoria = pr_categoria;
+	
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BuscarPreferencias
+( _idUsuario int)
+RETURNS TABLE( 
+  id int,
+  nombre VARCHAR,
+  descripcion VARCHAR,
+  status boolean,
+  nivel int
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	ca_id,ca_nombre, ca_descripcion, ca_status, ca_nivel
+	FROM preferencia, categoria
+	WHERE pr_usuario = _idUsuario and pr_categoria = ca_id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BuscarListaPreferenciaUsuario
+( _idUsuario int, _nombrePreferencia varchar)
+RETURNS TABLE( 
+  nombre VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	c.ca_nombre
+	FROM categoria c,preferencia p
+	WHERE pr_categoria NOT IN (Select c.ca_id from preferencia where pr_usuario = _idUsuario and pr_categoria = c.ca_id )  
+	and pr_usuario=_idUsuario;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION ModificarDatosUsuario
+( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_nombre = _nombre  ,  us_apellido = _apellido ,   us_fechaNacimiento = _fechaNacimiento ,   us_genero = _genero 
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarPass 
+( _idUsuario int , _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_password = _password
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarFoto 
+( _idUsuario int , _foto bytea) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_foto = _foto
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BorrarUsuario 
+(  _idUsuario int, _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   DELETE FROM usuario
+   WHERE _password = us_password and _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta la contraseña del usuario
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarContrasena(_username varchar)
+RETURNS TABLE(clave varchar)
+AS $$
+DECLARE clave VARCHAR(20);
+BEGIN
+
+	RETURN QUERY SELECT
+  us_password
+	FROM usuario WHERE us_nombreUsuario = _username AND us_validacion=true;
+
+END;
+$$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (3) Amistades y Grupos
@@ -167,7 +318,9 @@ Autores:
   Aquiles Pulido
 **/
 
+
 /*INSERT*/
+--------------------/*INSERT*/
 -------------------------PROCEDIMIENTO BUSCAR AMIGO----------------------------
 CREATE OR REPLACE FUNCTION BuscarAmigos (_nombre varchar)
 RETURNS TABLE
@@ -318,7 +471,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION modificarGrupo(nombreGrupo character varying,
   my_id integer,
   idGrupo integer)
-    RETURNS integer LANGUAGE 'plpgsql'
+    RETURNS integer 
     AS $$
 DECLARE
 result integer;
@@ -334,14 +487,13 @@ UPDATE Grupo SET
   end if;
   RETURN result;
 END;
-$$
+$$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO ELIMINAR INTEGRANTE----------------------------
 CREATE OR REPLACE FUNCTION eliminarintegrante(
   idamigo integer, idGrupo integer)
     RETURNS integer
-    LANGUAGE 'plpgsql'
    
-AS $function$
+AS $$
 
 DECLARE
  result integer;
@@ -357,11 +509,11 @@ BEGIN
   RETURN result;
 END;
 
-$function$;
+$$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO AGREGAR INTEGRANTE----------------------------
 CREATE OR REPLACE FUNCTION agregarIntegrante(idGrupo integer,
   idUsuario integer)
-    RETURNS integer LANGUAGE 'plpgsql'
+    RETURNS integer 
     AS $$
 DECLARE
 result integer;
@@ -377,7 +529,7 @@ INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
   end if;
   RETURN result;
 END;
-$$
+$$ LANGUAGE plpgsql;
 -------------------------PROCEDIMIENTO AGREGAR AMIGO----------------------------
 CREATE OR REPLACE FUNCTION AgregarAmigo(usuario1 integer, usuario2 integer) 
     RETURNS integer AS $$
@@ -474,9 +626,26 @@ FROM Usuario
 WHERE us_nombreusuario = nombreUsuario;
 END;
 $$ LANGUAGE plpgsql;
+-------------------------PROCEDIMIENTO VISUALIZAR LOS INTEGRANTES----------------------------
+CREATE OR REPLACE FUNCTION VisualizarMiembroGrupo(idgrupo integer) 
+    RETURNS TABLE(
+      id integer,
+      nombre varchar,
+      apellido varchar,
+      nombreusuario varchar,
+      foto bytea)
+    AS
+  $$
+    BEGIN
+      RETURN QUERY SELECT distinct
+    us_id, us_nombre, us_apellido, us_nombreusuario,us_foto
+    FROM usuario u,miembro mi
+    WHERE u.us_id=mi.fk_usuario and mi.fk_grupo=idgrupo;
+    END;
+$$ LANGUAGE plpgsql;
+
 
 /**
-<<<<<<< HEAD
 Procedimientos del Modulo 5, Gestion de Itinerarios
 Autores:
   Arguelles, Marialette
@@ -555,7 +724,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla actividad
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarActividad
-(_foto bytea, _nombre VARCHAR(400), _duracion time,
+(_nombre VARCHAR(400), _foto VARCHAR(250), _duracion time,
 _descripcion VARCHAR(2000), _activar boolean, _fk integer)
 RETURNS integer AS
 $$
@@ -565,7 +734,7 @@ BEGIN
    (ac_id, ac_foto, ac_nombre, ac_duracion,
     ac_descripcion, ac_activar, fk_ac_lugar_turistico)
 	VALUES
-    (nextval('seq_actividad'), _foto, _nombre,
+    (nextval('seq_actividad'), _foto || currval('seq_actividad'), _nombre,
     _duracion, _descripcion, _activar, _fk);
 
    RETURN currval('seq_actividad');
@@ -595,7 +764,7 @@ $$ LANGUAGE plpgsql;
 -- Insertar datos en la tabla lt_foto
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarFoto
-(_foto bytea, _fk integer)
+(ruta VARCHAR(250), _fk integer)
 RETURNS integer AS
 $$
 DECLARE
@@ -603,9 +772,9 @@ _id integer;
 BEGIN
 
 	INSERT INTO lt_foto
-	(fo_id, fo_byte, fk_fo_lugar_turistico)
+	(fo_id, fo_ruta, fk_fo_lugar_turistico)
 	VALUES
-	(nextval('seq_lt_foto'), _foto, _fk);
+	(nextval('seq_lt_foto'), ruta || currval('seq_lt_foto'), _fk);
 
 	RETURN currval ('seq_lt_foto');
 
@@ -659,7 +828,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION ConsultarActividades (_fk integer)
 RETURNS TABLE
   (id integer,
-   foto bytea,
+   foto varchar,
    nombre varchar,
    duracion time,
    descripcion varchar,
@@ -677,7 +846,7 @@ $$ LANGUAGE plpgsql;
 -- Consultar la tabla actividad por ID
 CREATE OR REPLACE FUNCTION ConsultarActividad (_id integer)
 RETURNS TABLE
-  (foto bytea,
+  (foto varchar,
    nombre varchar,
    duracion time,
    descripcion varchar,
@@ -737,12 +906,12 @@ $$ LANGUAGE plpgsql;
 -- Consultar fotos de un lugar turistico por ID
 -- del lugar turistico
 CREATE OR REPLACE FUNCTION ConsultarFotos
-(_fk integer) RETURNS TABLE (id integer, byte bytea)
+(_fk integer) RETURNS TABLE (id integer, ruta varchar)
 AS
 $$
 BEGIN
 
-  RETURN QUERY SELECT fo_id, fo_byte FROM lt_foto
+  RETURN QUERY SELECT fo_id, fo_ruta FROM lt_foto
   WHERE fk_fo_lugar_turistico = _fk;
 
 END;
@@ -793,7 +962,7 @@ $$ LANGUAGE plpgsql;
 
 -- Actualizar datos de la actividad por ID
 CREATE OR REPLACE FUNCTION ActualizarActividad
-(_id integer, _foto bytea,
+(_id integer, _foto varchar,
  _nombre VARCHAR(400), _duracion time,
  _descripcion VARCHAR(2000), _activar boolean)
  RETURNS void AS
@@ -826,11 +995,11 @@ $$ LANGUAGE plpgsql;
 
 -- Actualizar foto de un lugar turistico por ID de la foto
 CREATE OR REPLACE FUNCTION ActualizarFoto
-(_id integer, _foto bytea) RETURNS void AS
+(_id integer, _foto varchar) RETURNS void AS
 $$
 BEGIN
   UPDATE lt_foto SET
-    fo_byte = _foto
+    fo_ruta = _foto
   WHERE fo_id = _id;
 END;
 $$ LANGUAGE plpgsql;
@@ -892,6 +1061,14 @@ CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescri
     END; $$;
 
 
+CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
+  RETURNS void
+   AS $$
+BEGIN
+    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+END; $$
+  LANGUAGE plpgsql;
+
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
 
@@ -922,11 +1099,11 @@ $$
 BEGIN
 
    INSERT INTO evento VALUES
-    (nextval('SEQ_Evento'), _nombreEvento, _descripcionEvento, 
-      _precioEvento, _fechaInicioEvento, _fechaFinEvento, 
-      _horaInicioEvento, _horaFinEvento, _fotoEvento, _localidadEvento, 
+    (nextval('SEQ_Evento'), _nombreEvento, _descripcionEvento,
+      _precioEvento, _fechaInicioEvento, _fechaFinEvento,
+      _horaInicioEvento, _horaFinEvento, _fotoEvento, _localidadEvento,
       _categoriaEvento);
-   
+
     RETURN currval('SEQ_Evento');
    END;
 $$ LANGUAGE plpgsql;
@@ -945,7 +1122,7 @@ BEGIN
 
     INSERT INTO localidad VALUES
       (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenadaXLocalidad, _coordenadaYLocalidad);
-    
+
       RETURN currval('SEQ_Localidad');
     END;
 $$ LANGUAGE plpgsql;
@@ -958,7 +1135,7 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
 (
   _id integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -972,7 +1149,7 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
 (
   _nombreEvento integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -986,7 +1163,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -1000,7 +1177,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
 (
   _nombreLocalidad integer
 )
-RETURNS void AS
+RETURNS true AS
 $$
 BEGIN
 
@@ -1034,7 +1211,7 @@ RETURNS TABLE
 AS
 $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
     SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ca_id = _id;
@@ -1064,14 +1241,14 @@ RETURNS TABLE
 AS
 $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
     SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ca_nombre = _nombreCategoria;
 END;
 $$ LANGUAGE plpgsql;
 
--- Consulta evento por su id 
+-- Consulta evento por su id
 -- devuelve la informacion del evento
 CREATE OR REPLACE FUNCTION ConsultarEventoPorIdEvento
 (
@@ -1094,14 +1271,14 @@ RETURNS TABLE
 AS
 $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
     SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ev_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 
--- Consulta las localidades que tienen eventos asignados 
+-- Consulta las localidades que tienen eventos asignados
 -- devuelve la informacion de las localidades
 CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
 RETURNS TABLE
@@ -1115,7 +1292,7 @@ RETURNS TABLE
 AS
 $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
     select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
     from localidad, evento
     where lo_id = ev_localidad
@@ -1123,7 +1300,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Consulta una localidad por su id 
+-- Consulta una localidad por su id
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorId
 (
@@ -1140,14 +1317,14 @@ RETURNS TABLE
 AS
 $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
     select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
     from localidad
     where lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
 
--- Consulta una localidad por su nombre 
+-- Consulta una localidad por su nombre
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 (
@@ -1164,7 +1341,7 @@ RETURNS TABLE
 AS
 $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
     select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
     from localidad
     where lo_nombre=_nombreLocalidad;
@@ -1194,7 +1371,7 @@ CREATE OR REPLACE FUNCTION actualizarEventoPorId
 RETURNS void AS
 $$
 BEGIN
-  UPDATE evento SET 
+  UPDATE evento SET
     ev_nombre=_nombreEvento,
     ev_descripcion=_descripcionEvento,
     ev_precio=_precioEvento,
@@ -1221,7 +1398,7 @@ CREATE OR REPLACE FUNCTION actualizarLocalidadPorId
 RETURNS void AS
 $$
 BEGIN
-  UPDATE localidad SET 
+  UPDATE localidad SET
     lo_nombre=_nombreLocalidad,
     lo_descripcion=_descripcionLocalidad,
     lo_coord_x=_coordenadaXLocalidad,

@@ -1,4 +1,4 @@
-CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
+﻿CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
 CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
 --DROPS
 --Modulo 3
@@ -31,9 +31,10 @@ CREATE TABLE USUARIO (
 --Fin de modulo
 --Modulo 2
 CREATE TABLE Preferencia(
-   pr_usuario   int not null,
-    pr_categoria int not null,
-    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria)
+    pr_usuario   int NOT NULL,
+    pr_categoria int NOT NULL,
+    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria) ,
+    CONSTRAINT fk_usuario FOREIGN KEY (pr_usuario) REFERENCES USUARIO (us_id)
 );
 --Fin de modulo
 --Modulo 3
@@ -70,7 +71,7 @@ CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Us
 CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
 );
 
---Fin de modulo 
+--Fin de modulo
 --Modulo 4
 --Fin de modulo
 --Modulo 5
@@ -100,7 +101,7 @@ CREATE TABLE Agenda
     CONSTRAINT pk_Agenda PRIMARY KEY (ag_id),
     CONSTRAINT fk_idItinerario FOREIGN KEY (ag_idItinerario)
         REFERENCES Itinerario (it_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
+        ON UPDATE NO ACTION ON DELETE CASCADE,
 )
 --Fin de modulo
 --Modulo 6
@@ -136,7 +137,7 @@ CREATE TABLE Lugar_Turistico
 CREATE TABLE Actividad
 (
   ac_id integer,
-  ac_foto bytea CONSTRAINT nn_ac_foto NOT NULL,
+  ac_foto varchar (250) CONSTRAINT nn_ac_foto NOT NULL,
   ac_nombre varchar(400) CONSTRAINT nn_ac_nombre NOT NULL,
   ac_duracion time CONSTRAINT nn_ac_duracion NOT NULL,
   ac_descripcion varchar(2000) CONSTRAINT nn_ac_descripcion NOT NULL,
@@ -158,7 +159,7 @@ CREATE TABLE LT_Horario
 CREATE TABLE LT_Foto
 (
   fo_id integer,
-  fo_byte bytea CONSTRAINT nn_fo_byte NOT NULL,
+  fo_ruta varchar (250) CONSTRAINT nn_fo_ruta NOT NULL,
   fk_fo_lugar_turistico integer CONSTRAINT fk_fo_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
   CONSTRAINT pk_foto PRIMARY KEY(fk_fo_lugar_turistico, fo_id)
 );
@@ -189,7 +190,7 @@ create table localidad(
 --Modulo 9
 CREATE TABLE categoria
 (
-  ca_id integer NOT NULL,
+  ca_id integer UNIQUE NOT NULL,
   ca_nombre character varying(20) not null,
   ca_descripcion character varying(100) not null,
   ca_status boolean not null,
@@ -202,15 +203,16 @@ CREATE TABLE categoria
 --Modulo 1
 --Fin de modulo
 --Modulo 2
---Fin de modulo
+--alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
+--Fin de modulo 
 --Modulo 3
 --Fin de modulo
 --Modulo 4
 --Fin de modulo
 --Modulo 5
-ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES categoria (ca_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES categoria (ca_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
 --Fin de modulo
 --Modulo 6
@@ -260,7 +262,7 @@ CREATE SEQUENCE SEQ_LT_Foto;
 --Modulo 8
 CREATE SEQUENCE SEQ_Evento;
 CREATE SEQUENCE SEQ_Localidad;
---Fin de modulo 
+--Fin de modulo
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
     START WITH 1
@@ -312,6 +314,6 @@ CREATE SEQUENCE SEQ_Localidad
 	CACHE 1;
 --Fin de modulo
 --Modulo 9
---Fin de modulo
-
+GRANT ALL PRIVILEGES ON TABLE categoria TO admin_cocotrip;
+--Fin de modulo 
 --Fin Creates tables

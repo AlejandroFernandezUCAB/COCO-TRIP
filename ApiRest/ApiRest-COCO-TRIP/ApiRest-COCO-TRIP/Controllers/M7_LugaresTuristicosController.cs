@@ -25,6 +25,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="hasta">limite superior</param>
         /// <returns>Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
         /// de cada lugar turistico. Formato JSON</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public List<LugarTuristico> GetLista (int desde, int hasta)
         {
             peticion = new PeticionLugarTuristico();
@@ -57,6 +58,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id">ID del lugar turistico</param>
         /// <returns>Datos del lugar turistico y nombre de las actividades. Formato JSON</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public LugarTuristico GetLugar (int id)
         {
             peticion = new PeticionLugarTuristico();
@@ -88,6 +90,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id">ID del lugar turistico</param>
         /// <returns>Datos del lugar turistico y datos de las actividades. Formato JSON</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public LugarTuristico GetLugarActividades (int id)
         {
             peticion = new PeticionLugarTuristico();
@@ -119,6 +122,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id">ID del lugar turistico</param>
         /// <returns>Lista de actividades asociadas al lugar turistico. Formato JSON</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public List<Actividad> GetActividades (int id)
         {
             peticion = new PeticionLugarTuristico();
@@ -150,6 +154,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id">ID de la actividad</param>
         /// <returns>Objeto Actividad. Formato JSON</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public Actividad GetActividad(int id)
         {
           peticion = new PeticionLugarTuristico();
@@ -182,7 +187,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// Inserta los datos del lugar turistico
         /// </summary>
         /// <param name="lugar">Objeto LugarTuristico</param>
-        /// <returns></returns>
+        /// <returns>ID del lugar turistico insertado</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public int PostLugar(LugarTuristico lugar)
         {
             peticion = new PeticionLugarTuristico();
@@ -212,7 +218,13 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-        }
+            catch (ArchivoExcepcion)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+    }
 
         /// <summary>
         /// Inserta una actividad asociada a un lugar turistico
@@ -220,6 +232,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="actividad">Objeto Actividad</param>
         /// <param name="id">ID del lugar turistico</param>
         /// <returns>ID de la actividad insertada</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public int PostActividad(Actividad actividad, int id)
         {
             peticion = new PeticionLugarTuristico();
@@ -249,6 +262,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+            catch (ArchivoExcepcion)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         /// <summary>
@@ -257,6 +276,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="horario">Objeto Horario</param>
         /// <param name="id">ID del lugar turistico</param>
         /// <returns>ID del horario insertado</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public int PostHorario(Horario horario, int id)
         {
             peticion = new PeticionLugarTuristico();
@@ -294,6 +314,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="foto">Objeto Foto</param>
         /// <param name="id">ID del lugar turistico</param>
         /// <returns>ID de la foto insertada</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public int PostFoto(Foto foto, int id)
         {
             peticion = new PeticionLugarTuristico();
@@ -323,6 +344,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+            catch (ArchivoExcepcion)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         //PUT
@@ -331,6 +358,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// Actualiza los datos del lugar turistico
         /// </summary>
         /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public void PutLugar(LugarTuristico lugar)
         {
             peticion = new PeticionLugarTuristico();
@@ -360,6 +388,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+            catch (ArchivoExcepcion)
+            {
+              //RegistrarExcepcion(e); NLog
+
+              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         /// <summary>
@@ -367,6 +401,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id">ID del lugar turistico</param>
         /// <param name="activar">true para activar, false para desactivar</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public void PutActivarLugar(int id, bool activar)
         {
           peticion = new PeticionLugarTuristico();
@@ -389,6 +424,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id">ID de la actividad</param>
         /// <param name="activar">true para activar, false para desactivar</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public void PutActivarActividad(int id, bool activar)
         {
           peticion = new PeticionLugarTuristico();
@@ -412,6 +448,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// Eliminar actividad
         /// </summary>
         /// <param name="id">ID de la actividad</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public void DeleteActividad (int id)
         {
           peticion = new PeticionLugarTuristico();
@@ -427,12 +464,19 @@ namespace ApiRest_COCO_TRIP.Controllers
 
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
               }
+              catch (ArchivoExcepcion)
+              {
+                //RegistrarExcepcion(e); NLog
+
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+              }
         }
 
         /// <summary>
         /// Eliminar foto
         /// </summary>
         /// <param name="id">ID de la foto</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public void DeleteFoto (int id)
         {
 
@@ -449,12 +493,19 @@ namespace ApiRest_COCO_TRIP.Controllers
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
           }
+          catch (ArchivoExcepcion)
+          {
+            //RegistrarExcepcion(e); NLog
+
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+          }
         }
 
         /// <summary>
         /// Eliminar horario
         /// </summary>
         /// <param name="id">ID del horario</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         public void DeleteHorario(int id)
         {
 

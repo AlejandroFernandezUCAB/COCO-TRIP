@@ -115,6 +115,11 @@ namespace ApiRest_COCO_TRIP.Models
         if (leerDatos.Read())
         {
           usuario.Id = leerDatos.GetInt32(0);
+          usuario.Correo = leerDatos.GetString(2);
+          usuario.Nombre = leerDatos.GetString(3);
+          usuario.Apellido = leerDatos.GetString(4);
+          usuario.FechaNacimiento = leerDatos.GetDateTime(5);
+          usuario.Valido = leerDatos.GetBoolean(7);
         }
         else
         {
@@ -283,6 +288,11 @@ namespace ApiRest_COCO_TRIP.Models
         if (leerDatos.Read())
         {
           usuario.Id = leerDatos.GetInt32(0);
+          usuario.Correo = leerDatos.GetString(2);
+          usuario.Nombre = leerDatos.GetString(3);
+          usuario.Apellido = leerDatos.GetString(4);
+          usuario.FechaNacimiento = leerDatos.GetDateTime(5);
+          usuario.Valido = leerDatos.GetBoolean(7);
         }
         else
         {
