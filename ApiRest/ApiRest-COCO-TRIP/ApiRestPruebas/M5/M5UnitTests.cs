@@ -147,11 +147,17 @@ namespace ApiRestPruebas
     }
    
     [Test]
-    public void Prueba_EliminarItem()
+    public void Prueba_EliminarLugarIt()
     {
       //x = controller.EliminarItem_It(4,12);
       //Assert.True(x);
     }
 
+    [Test]
+    public void Prueba_EliminarActividad()
+    {
+      x = controller.EliminarItem_It("Actividad", 4, 1);
+      Assert.True(x);
+    }
   }
 }

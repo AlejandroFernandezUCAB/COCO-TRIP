@@ -33,7 +33,16 @@ namespace ApiRest_COCO_TRIP.Models
                 //Recorremos los registros devueltos
                 while (pgread.Read())
                 {
-                    Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+                  Itinerario iti;
+                  if (!pgread.IsDBNull(3) && (!pgread.IsDBNull(4)))
+                  {
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+                  }
+                  else
+                  {
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), true);
+                  }
+                    
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
                     foreach (Itinerario itinerario in itinerarios)
@@ -53,8 +62,11 @@ namespace ApiRest_COCO_TRIP.Models
                         lugar.Descripcion = pgread.GetString(9);
                         lugar.Costo = pgread.GetDouble(10);
                         lugar.Tipo = "Lugar Turistico";
-                        lugar.FechaInicio = pgread.GetDateTime(5);
-                        lugar.FechaFin = pgread.GetDateTime(6);
+                        if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                        {
+                            lugar.FechaInicio = pgread.GetDateTime(5);
+                            lugar.FechaFin = pgread.GetDateTime(6);
+                        }
                         itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
                     }
                     //Si existe actividad en este registro
@@ -66,10 +78,15 @@ namespace ApiRest_COCO_TRIP.Models
                       actividad.Descripcion = pgread.GetString(13);
                       actividad.Duracion = pgread.GetTimeSpan(14);
                       actividad.Tipo = "Actividad";
-                      actividad.FechaInicio = pgread.GetDateTime(5);
-                      actividad.FechaFin = pgread.GetDateTime(6);
+                      if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                      {
+                        actividad.FechaInicio = pgread.GetDateTime(5);
+                        actividad.FechaFin = pgread.GetDateTime(6);
+                      }
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
+                    //Falta el caso de que sea un evento...
+
                 }
                 con.Desconectar();
                 return itinerarios;

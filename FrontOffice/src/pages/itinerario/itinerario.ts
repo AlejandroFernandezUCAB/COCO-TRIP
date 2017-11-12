@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ModalController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ToastController, ModalController, LoadingController } from 'ionic-angular';
 import { CalendarioPage } from '../calendario/calendario';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { HttpCProvider } from '../../providers/http-c/http-c';
+import 'rxjs/add/observable/throw';
 /**
  * Generated class for the ItinerarioPage page.
  *
@@ -28,6 +29,7 @@ export class ItinerarioPage {
   its: any;
   newitinerario: any;
   users: any;
+  toast: any;
   list = false;
   nuevoViejo = true;
   mySlideOptions = {
@@ -48,7 +50,8 @@ export class ItinerarioPage {
     public alertCtrl: AlertController,
     public itinerarios: EventosCalendarioService,
     public httpc: HttpCProvider,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {
     //this.its = Array();
     //this.its.eventos=Array();
@@ -168,12 +171,11 @@ export class ItinerarioPage {
   }
 
   eliminarItinerario(id, index){
-     let eliminado = this.its.filter(item => item.id === id)[0];
+     let eliminado = this.its.filter(item => item.Id === id)[0];
      var removed_elements = this.its.splice(index, 1);
      if (this.its.length == 0){
        this.noIts = true;
        console.log("no its")
-
      }
    }
 
@@ -320,18 +322,35 @@ export class ItinerarioPage {
   }
 
 
-  ionViewWillEnter(){
+  ionViewWillEnter()
+  {
     this.presentLoading();
     this.httpc.loadItinerarios(2)
     .then(data => {
-      this.its = data;
-      this.loading.dismiss();
-      console.log(this.its);
-      if (this.its.length == 0){
-        this.noIts = true;
+      if (data== 0 || data == -1){
+        this.loading.dismiss();
+        this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+      }else{
+        this.its = data;
+        this.loading.dismiss();
+        console.log(this.its);
+        if (this.its.length == 0){
+          this.noIts = true;
+        }
       }
     });
   }
+
+  public realizarToast(mensaje)
+  {
+      this.toast = this.toastCtrl.create({
+        message: mensaje,
+        duration: 3000,
+        position: 'middle'
+      });
+      this.toast.present();
+  }
+
 
   public getTipoItem(evento){
     if (evento.Costo == undefined){

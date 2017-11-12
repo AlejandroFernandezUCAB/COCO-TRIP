@@ -57,9 +57,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     [HttpDelete]
-    public Boolean EliminarItem_It(string tipo,int idit, int idag)
+    public Boolean EliminarItem_It(string tipo,int idit, int iditem)
     {
-      return peti.EliminarItem_It(tipo,idit, idag);
+      return peti.EliminarItem_It(tipo,idit, iditem); 
     }
 
     
