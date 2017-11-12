@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import{SeleccionarIntegrantesPage} from '../seleccionar-integrantes/seleccionar-integrantes';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 /**
  * Generated class for the CrearGrupoPage page.
  *
@@ -15,36 +16,33 @@ import{SeleccionarIntegrantesPage} from '../seleccionar-integrantes/seleccionar-
 })
 export class CrearGrupoPage {
 
-  Amigo=[];
+  amigo: any;
   toggled: boolean;
   searchTerm: String = '';
   items: string[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public restapiService: RestapiService) {
    this.toggled = false;  
-   this.Amigo=
-   [
-    {
-
-        img: 'https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg', nombre: 'Mariangel Perez'
-
-    },
-    {
-      
-         img: 'https://pbs.twimg.com/profile_images/501872189436866560/IR71NKjR_400x400.jpeg', nombre: 'Oswaldo Lopez'
-      
-    },
-
-    {
-
-        img: 'https://scontent-mia3-2.xx.fbcdn.net/v/t1.0-9/15055703_10210361491814247_7941784320471131940_n.jpg?oh=de1951a0057f57fde8ac45593b5fd6e8&oe=5A740E18', nombre: 'Aquiles Pulido'
-
-    }
-
-]
+   
 
   }
 
+  ionViewWillEnter() {
+    //this.cargando();
+     this.restapiService.listaAmigos("1")
+       .then(data => {
+         if (data == 0 || data == -1) {
+           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+
+         }
+         else {
+           this.amigo = data;
+           //this.loading.dismiss();
+         }
+ 
+       });
+   }
   toggleSearch() {
     this.toggled = this.toggled ? false : true;
 }
