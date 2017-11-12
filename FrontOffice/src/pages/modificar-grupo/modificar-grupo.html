@@ -15,9 +15,9 @@
       </ion-header>
               
 <ion-content padding class="card-background-page"> 
-    <ion-card *ngFor="let item of Grupo" class ="item-borderless"  >
-        <img src={{item.img}}/>
-        <div class="card-title">{{item.nombre}}</div>
+    <ion-card *ngFor="let item of grupo" class ="item-borderless"  >
+        <img src="http://chucksdonutswoodside.com/images/donuts.jpg"/>
+        <div class="card-title">{{item.Nombre}}</div>
         <div class="card-subtitle">3 Integrantes</div>
     </ion-card>
 
@@ -26,21 +26,22 @@
         <ion-list-header>
         Integrantes
         </ion-list-header>
-        <ion-item-sliding *ngFor="let item of Amigo">
+        <ion-item-sliding *ngFor="let item of miembro">
         <ion-item>
-        <ion-label>{{item.nombre}}</ion-label>
+        <h2>{{item.Nombre}} {{item.Apellido}}</h2>
+        <h3>{{item.NombreUsuario}}</h3>
         <ion-avatar item-left>
-            <img src={{item.img}}>
+            <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
         </ion-avatar>
         </ion-item>
-        </ion-item-sliding>
+        
         <ion-item-options side="right">
-        <button ion-button color="danger" icon-start>
+        <button ion-button color="danger" icon-start (click)="eliminarIntegrantes(item.NombreUsuario, i)"> 
             <ion-icon name="close"></ion-icon>
-            Declinar
+            Eliminar
         </button>
         </ion-item-options>   
-    
+    </ion-item-sliding>
     </ion-list>
 
 

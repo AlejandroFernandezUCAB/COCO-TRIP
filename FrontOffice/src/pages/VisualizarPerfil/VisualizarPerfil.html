@@ -8,23 +8,23 @@
   
   <ion-content class="cards-bg">
       
-    <ion-card>
+    <ion-card *ngFor="let item of amigo" >
   
       <img class=".img-circular" src="https://pbs.twimg.com/profile_images/501872189436866560/IR71NKjR_400x400.jpeg" style="border-radius: 5%;"/>
   
       <ion-card-content>
         <ion-card-title>
-          Oswaldo Lopez
+             {{item.Nombre}} {{item.Apellido}}
         </ion-card-title>
           
         <ion-item>
             <ion-icon name="mail"></ion-icon>
-            oswaldo7365@hotmail.com
+            {{item.Correo}}
         </ion-item>
   
         <ion-item>
-            <ion-icon name="pin"></ion-icon>
-            Venezuela
+            <ion-icon name="ios-at"></ion-icon>
+            {{item.NombreUsuario}}
         </ion-item>
       </ion-card-content>
       

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { Platform, ActionSheetController } from 'ionic-angular';
+import { Component, ViewChild, NgZone } from '@angular/core';
+import { Platform, ActionSheetController, Events, Content } from 'ionic-angular';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
 import { Firebase } from '@ionic-native/firebase';
+import {ChatProvider} from '../../../providers/chat/chat';
 
 @IonicPage()
 @Component({
@@ -14,12 +15,13 @@ import { Firebase } from '@ionic-native/firebase';
 
 export class ConversacionPage {
 
-
+  conversacion: any;
+  nuevoMensaje;
   mensajes: Array<msgs> = [
     {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
   ];
 
-constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase) {
+constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
 
   this.firebase.getToken()
     .then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
@@ -131,9 +133,18 @@ pressEvent1(){
   });
   actionSheet.present();
   }
+  
+  agregarMensaje() {
+    this.chatService.(this.nuevoMensaje).then(() => {
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+    })
+  }
 }
+
 
 interface msgs{
   contenido: string;
   tiempo: string;
 }
+
