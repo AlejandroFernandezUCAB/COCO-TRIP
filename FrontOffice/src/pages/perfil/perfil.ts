@@ -32,7 +32,7 @@ export class PerfilPage {
     Apellido: 'Apellido',
     Correo: 'Correo'
   };
-  idUsuario = 15;
+  idUsuario = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage) {
 
@@ -40,12 +40,20 @@ export class PerfilPage {
   
   }
 
+  // este metodo se dispara 1 sola vez
+  // por tanto, lo utilizamos para cargar los datos del usuario desde el
+  // restapi al cargar la vista en memoria/cache
   ionViewDidLoad() {
     console.log('ionViewDidLoad PerfilPage');
     this.cargarUsuario();
   }
 
   cargarUsuario(){
+    //obtenemos el id ya almacenado desde el login
+    this.storage.get('id').then((val) => {
+      this.idUsuario = val;
+    });
+    
     this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
       if(data != 0)
       {
@@ -63,7 +71,8 @@ export class PerfilPage {
     
   }
 
-  
+  // este metodo se dispara cada vez que se entra en esta pagina
+  // antes de que este activa
   ionViewWillEnter(){
     this.storage.get('nombre').then((val) => {
       console.log('Nombre guardado', val);
