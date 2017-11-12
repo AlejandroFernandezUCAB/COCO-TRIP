@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Controllers;
 using Npgsql;
@@ -252,6 +253,21 @@ namespace ApiRestPruebas.M2
       probar = apiRest.BorrarUsuario(username, pass);
       Assert.AreEqual(true, probar);
 
+    }
+
+    [Test]
+    [Category("Excepciones")]
+    public void ExcepcionAgregarUsuario()
+    {
+
+      Assert.Throws(typeof(BaseDeDatosExcepcion), AgregarUsuarioEx);
+
+
+    }
+
+    public void AgregarUsuarioEx()
+    {
+      apiRest.AgregarPreferencias(-1, -1);
     }
 
 
