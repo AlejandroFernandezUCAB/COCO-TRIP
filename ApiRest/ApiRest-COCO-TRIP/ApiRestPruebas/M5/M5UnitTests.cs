@@ -4,6 +4,8 @@ using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
 using Npgsql;
+using System.Collections.Generic;
+
 namespace ApiRestPruebas
 {
 
@@ -14,11 +16,13 @@ namespace ApiRestPruebas
     private Itinerario itinerario;
     private Itinerario it;
     private Boolean x;
-
+    private int id_usuario;
+    private List<Itinerario> itinerarios_usuario;
     [OneTimeSetUp]
     protected void OTSU()
     {
       controller = new M5Controller();
+      
     }
 
     /// <summary>
@@ -29,7 +33,8 @@ namespace ApiRestPruebas
     {
       itinerario = new Itinerario("Michel", 1);
       it = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(47, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
+      Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
+      Assert.AreEqual("Michel", it.Nombre);
     }
 
     /// <summary>
@@ -63,7 +68,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_EliminarItinerario()
     {
-      x = controller.EliminarItinerario(42);
+      x = controller.EliminarItinerario(47);
       Assert.True(x);
     }
 
@@ -77,11 +82,13 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_ModificarItinerario()
     {
-      DateTime fechaini = new DateTime(2021, 05, 28);
+      DateTime fechaini = new DateTime(2022, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(10, "Michel", fechaini, fechafin, 1);
-      x = controller.ModificarItinerario(itinerario);
-      Assert.AreEqual(true, x);
+      Itinerario itinerario = new Itinerario(4, "Epco", fechaini, fechafin, 2);
+      it = controller.ModificarItinerario(itinerario);
+      Assert.AreEqual("Epco", it.Nombre);
+      Assert.AreEqual(fechaini,it.FechaInicio);
+      Assert.AreEqual(fechafin, it.FechaFin);
     }
 
     /*   [Test]
@@ -109,7 +116,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      Itinerario itinerario = new Itinerario(9);
+      Itinerario itinerario = new Itinerario(4);
       LugarTuristico lt = new LugarTuristico
       {
         Id = 1
@@ -118,7 +125,39 @@ namespace ApiRestPruebas
       Assert.AreEqual(true, x);
     }
 
+
+    /* [Test]
+    public void PruebaConsultarItinerarios()
+    {
+      Assert.Catch<NpgsqlException>(ExcepcionItinerarioNull);
+    }
+
+    public void ExcepcionItinerarioNull()
+    {
+      id_usuario = null;
+      controller.ConsultarItinerarios(id_usuario);
+    } */
+
+    [Test]
+    public void ConsultarItinerarioIsEmpty()
+    {
+      //id de usuario que no existe
+      id_usuario = 50;
+      Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
+    }
    
-  
+    [Test]
+    public void Prueba_EliminarLugarIt()
+    {
+      x = controller.EliminarItem_It("Lugar Turistico",4,1);
+      Assert.True(x);
+    }
+
+    [Test]
+    public void Prueba_EliminarActividad()
+    {
+      x = controller.EliminarItem_It("Actividad", 4, 1);
+      Assert.True(x);
+    }
   }
 }

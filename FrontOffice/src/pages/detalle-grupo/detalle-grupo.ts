@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 /**
  * Generated class for the DetalleGrupoPage page.
@@ -14,47 +15,41 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'detalle-grupo.html',
 })
 export class DetalleGrupoPage {
+  grupo:any;
+  miembro:any;
 
-  Grupo=[];
-  Amigo=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.Grupo=
-    [
-     {
- 
-         img: 'https://pbs.twimg.com/media/DL9S8ZhUIAE_jZt.jpg',nombre: 'Desarrollo'
- 
-     }
- 
-     
- 
- ]
- this.Amigo=
- [
-  {
-
-      img: 'https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg', nombre: 'Mariangel Perez'
-
-  },
-  {
-    
-       img: 'https://pbs.twimg.com/profile_images/501872189436866560/IR71NKjR_400x400.jpeg', nombre: 'Oswaldo Lopez'
-    
-  },
-
-  {
-
-      img: 'https://scontent-mia3-2.xx.fbcdn.net/v/t1.0-9/15055703_10210361491814247_7941784320471131940_n.jpg?oh=de1951a0057f57fde8ac45593b5fd6e8&oe=5A740E18', nombre: 'Aquiles Pulido'
-
-  }
-
-]
-
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public restapiService: RestapiService) {
  
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DetalleGrupoPage');
+  ionViewWillEnter() {
+    this.restapiService.verperfilGrupo("1")
+      .then(data => {
+        if (data == 0 || data == -1) {
+          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+
+        }
+        else {
+          this.grupo = data;
+          //this.cargarmiembros();
+        }
+
+      });
+  }
+
+  cargarmiembros(){
+    this.restapiService.listamiembroGrupo("1")
+    .then(data => {
+      if (data == 0 || data == -1) {
+        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+
+      }
+      else {
+        this.miembro = data;
+      }
+
+    });
   }
 
 }

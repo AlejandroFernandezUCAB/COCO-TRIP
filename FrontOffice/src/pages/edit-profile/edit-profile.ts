@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {  IonicPage, NavController, NavParams, ToastController, Platform, ActionSheetController } from 'ionic-angular';
 
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChangepassPage} from '../changepass/changepass';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EditProfilePage {
 
+  myForm: FormGroup;
+
   public event = {
     month: '1993-02-27'
   }
@@ -18,8 +21,21 @@ export class EditProfilePage {
   change = ChangepassPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
-    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService ){
+    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder )
+  {
+    this.myForm = this.fb.group(
+      {
+        nombre: ['', [Validators.required]],
+        apellido: ['',[Validators.required]]
+        //sexo: [''],
+      }
+    )
   }
+
+  saveData(){
+    alert(JSON.stringify(this.myForm.value));
+  }
+
   showToastWithCloseButton() {
     const toast = this.toastCtrl.create({
       message: 'Se guardaron tus cambios',

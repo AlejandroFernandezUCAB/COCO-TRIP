@@ -21,7 +21,7 @@
     "@angular/platform-browser": "4.4.3",
     "@angular/platform-browser-dynamic": "4.4.3",
     "@ionic-native/core": "4.3.0",
-    "@ionic-native/facebook": "^4.3.2",
+    "@ionic-native/facebook": "^4.4.0",
     "@ionic-native/firebase": "^4.3.3",
     "@ionic-native/http": "^4.3.3",
     "@ionic-native/splash-screen": "4.3.0",
@@ -32,10 +32,10 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "angularfire2": "^5.0.0-rc.3",
     "cordova": "7.1.0",
-    "cordova-android": "6.3.0",
+    "cordova-android": "^6.3.0",
     "cordova-browser": "5.0.1",
-    "cordova-ios": "^4.5.2",
-    "cordova-plugin-advanced-http": "^1.7.1",
+    "cordova-ios": "^4.5.3",
+    "cordova-plugin-advanced-http": "^1.8.1",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.6",
     "cordova-plugin-facebook4": "^1.9.1",
@@ -71,20 +71,20 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-facebook4": {
-        "APP_ID": "1251585011612648",
-        "APP_NAME": "cocotrip"
-      },
       "cordova-plugin-firebase": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "myreversedclientid"
       },
-      "cordova-plugin-advanced-http": {}
+      "cordova-plugin-advanced-http": {},
+      "cordova-plugin-facebook4": {
+        "APP_ID": "1251585011612648",
+        "APP_NAME": "cocotrip"
+      }
     },
     "platforms": [
-      "android",
+      "browser",
       "ios",
-      "browser"
+      "android"
     ]
   }
 }

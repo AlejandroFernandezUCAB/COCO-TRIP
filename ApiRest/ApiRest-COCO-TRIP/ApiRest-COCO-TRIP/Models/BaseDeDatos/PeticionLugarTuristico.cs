@@ -69,6 +69,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -102,6 +106,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
       catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ArchivoExcepcion e)
+      {
         throw e;
       }
     }
@@ -174,6 +182,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -222,6 +234,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
       catch (ReferenciaNulaExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ArchivoExcepcion e)
+      {
         throw e;
       }
     }
@@ -287,6 +303,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -304,6 +324,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      catch (ArchivoExcepcion e)
+      {
         throw e;
       }
     }

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, reorderArray, AlertController, ToastController, ModalController, LoadingController } from 'ionic-angular';
 import { CalendarioPage } from '../calendario/calendario';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { HttpCProvider } from '../../providers/http-c/http-c';
+import 'rxjs/add/observable/throw';
 /**
  * Generated class for the ItinerarioPage page.
  *
@@ -25,9 +26,10 @@ export class ItinerarioPage {
   delete= false;
   count = 0;
   minDate= new Date().toISOString();
-  its= Array();
+  its: any;
   newitinerario: any;
   users: any;
+  toast: any;
   list = false;
   nuevoViejo = true;
   mySlideOptions = {
@@ -37,6 +39,9 @@ export class ItinerarioPage {
   originalEventDates = Array();
   eventDatesAsInt = Array();
   noIts = false;
+  public loading = this.loadingCtrl.create({
+    content: 'Please wait...'
+  });
   //************** FIN DE DECLARACION DE VARIABLES *****************
   constructor(
     public navCtrl: NavController,
@@ -44,26 +49,20 @@ export class ItinerarioPage {
     private modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public itinerarios: EventosCalendarioService,
-    public httpc: HttpCProvider
+    public httpc: HttpCProvider,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {
     //this.its = Array();
     //this.its.eventos=Array();
     for (let x = 0; x < 5; x++) {
       this.items.push(x);
     }
-    this.loadItinerarios();
-    if (this.its == undefined){
-      this.noIts = true;
-      }
   }
 
 
   loadItinerarios() {
-    this.httpc.loadItinerarios(1)
-    .then(data => {
-      this.users = data;
-      console.log(this.users);
-    });
+    this.itinerarios.consultarItinerarios(1);
   }
 
   calendar() {
@@ -98,11 +97,11 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               this.its.push({
-                nombre: data.Nombre,
-                eventos: Array()
-              });                
-              let newitinerario ={ Nombre:data.Nombre,IdUsuario:1 } 
-              this.httpc.agregarItinerario(newitinerario)                 
+                Nombre: data.Nombre,
+                Items_agenda: Array()
+              });
+              let newitinerario ={ Nombre:data.Nombre,IdUsuario:2 }
+              this.httpc.agregarItinerario(newitinerario)
               //this.its[this.its.length].eventos = Array();
             } else {
               // invalid login
@@ -115,7 +114,7 @@ export class ItinerarioPage {
     alert.present();
   }
 
-  presentConfirm(id, index) {
+  presentConfirm(idit, index) {
     const alert = this.alertCtrl.create({
     title: 'Por favor, confirmar',
     message: '¿Desea borrar este itinerario?',
@@ -130,8 +129,8 @@ export class ItinerarioPage {
       {
         text: 'Aceptar',
         handler: () => {
-          this.eliminarItinerario(id, index);
-          
+          this.eliminarItinerario(idit, index);
+          this.httpc.eliminarItinerario(idit);
           }
         }
       ]
@@ -157,6 +156,8 @@ export class ItinerarioPage {
         console.log("id_itinerario :: ", id_itinerario);
         console.log("id_evento :: ", id_evento);
         this.eliminarItem(id_itinerario, id_evento, index);
+        let tipo=this.getTipoItem(id_evento);
+        this.httpc.eliminarItem(tipo,id_itinerario, id_evento);
           }
         }
       ]
@@ -166,35 +167,43 @@ export class ItinerarioPage {
 
   eliminar(){
     this.delete = true;
+    this.edit = false;
   }
 
   eliminarItinerario(id, index){
-     let eliminado = this.its.filter(item => item.id === id)[0];
+     let eliminado = this.its.filter(item => item.Id === id)[0];
      var removed_elements = this.its.splice(index, 1);
      if (this.its.length == 0){
        this.noIts = true;
        console.log("no its")
-    
      }
    }
 
   eliminarItem(id_itinerario, id_evento, index){
-    let iti_e_eliminado = this.its.filter(item => item.id === id_itinerario)[0];
-    var removed_elements = iti_e_eliminado.eventos.splice(index, 1);
+    let iti_e_eliminado = this.its.filter(item => item.Id === id_itinerario)[0];
+    var removed_elements = iti_e_eliminado.Items_agenda.splice(index, 1);
   }
 
   editar(){
     this.edit = true;
+    this.delete = false;
     for(var i = 0;i< this.its.length;i++) {
-      this.its[i].edit = this.its[i].nombre;
+      this.its[i].edit = this.its[i].Nombre;
     }
   }
 
   done(){
     this.edit = false;
+    this.delete=false;
+    for(var i = 0;i< this.its.length;i++) {
+      this.its[i].edit = this.its[i].Nombre;
+      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+      this.httpc.modificarItinerario(moditinerario)
+    }
   }
 
   doneDeleting(){
+    this.edit = false;
     this.delete = false;
   }
 
@@ -204,13 +213,13 @@ export class ItinerarioPage {
     var dates = Array();
     if (this.nuevoViejo == true){
      for(var i = 0;i< this.its.length;i++) {
-       this.its[i].eventos.sort(function(a,b){
+       this.its[i].Items_agenda.sort(function(a,b){
             return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
          });
        }
     }else{
       for(var i = 0;i< this.its.length;i++) {
-        this.its[i].eventos.sort(function(a,b){
+        this.its[i].Items_agenda.sort(function(a,b){
              return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
           });
         }
@@ -248,25 +257,26 @@ export class ItinerarioPage {
   }
 
   agregarItem(iti){
+    console.log(iti);
     let modal = this.modalCtrl.create('ItemModalPage', {itinerario: iti});
     modal.present();
     modal.onDidDismiss(data => {
       if (data) {
         let eventoData = data;
         let itinerario_nuevo = data.itinerario;
-        eventoData.id = data.evento_nuevo.id;
-        eventoData.titulo = data.evento_nuevo.titulo;
-        eventoData.tipo = data.evento_nuevo.tipo;
+        eventoData.Id = data.evento_nuevo.Id;
+        eventoData.Nombre = data.evento_nuevo.Nombre;
         eventoData.imagen = data.evento_nuevo.imagen;
         eventoData.startTime = data.evento_nuevo.startTime;
         eventoData.endTime = data.evento_nuevo.endTime;
         for(var i = 0;i< this.its.length;i++) {
-          if (this.its[i].nombre == itinerario_nuevo) {
+          if (this.its[i].Nombre == itinerario_nuevo) {
             //si el itinerario no tiene eventos, se inicializa el arreglo eventos
-            if (this.its[i].eventos == undefined){
-              this.its[i].eventos = Array();
+            if (this.its[i].Items_agenda == undefined){
+              this.its[i].Items_agenda = Array();
             }
-            this.its[i].eventos.push(eventoData);
+            this.its[i].Items_agenda.push(eventoData);
+            console.log(eventoData);
           }
         }
       }
@@ -288,8 +298,8 @@ export class ItinerarioPage {
 
   listar(){
     for(var i = 0;i< this.its.length;i++) {
-      if (this.its[i].eventos == undefined){
-        this.its[i].eventos = Array();
+      if (this.its[i].Items_agenda == undefined){
+        this.its[i].Items_agenda = Array();
       }
     }
 
@@ -301,8 +311,56 @@ export class ItinerarioPage {
     }
   }
 
-  ionViewWillEnter(){
-    this.its = this.itinerarios.getItinerarios();
+
+
+  presentLoading(){
+      this.loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
+
+
+  ionViewWillEnter()
+  {
+    this.presentLoading();
+    this.httpc.loadItinerarios(2)
+    .then(data => {
+      if (data== 0 || data == -1){
+        this.loading.dismiss();
+        this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+      }else{
+        this.its = data;
+        this.loading.dismiss();
+        console.log(this.its);
+        if (this.its.length == 0){
+          this.noIts = true;
+        }
+      }
+    });
+  }
+
+  public realizarToast(mensaje)
+  {
+      this.toast = this.toastCtrl.create({
+        message: mensaje,
+        duration: 3000,
+        position: 'middle'
+      });
+      this.toast.present();
+  }
+
+
+  public getTipoItem(evento){
+    if (evento.Costo == undefined){
+      let actividad = 'Actividad';
+      return actividad;
+    }else
+      if (evento.Costo != undefined){
+        let lugar = 'Lugar Turistico';
+        return lugar;
+      }
   }
 
   parseDateStrToInt(input) {

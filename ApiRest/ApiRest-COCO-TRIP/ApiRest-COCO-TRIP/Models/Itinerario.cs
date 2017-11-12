@@ -13,17 +13,22 @@ namespace ApiRest_COCO_TRIP.Models
      string nombre;
      DateTime fechaInicio;
      DateTime fechaFin;
-     List<LugarTuristico> lugares= new List<LugarTuristico>();
-     List<Actividad> actividades = new List<Actividad>();
+    Boolean visible;
+    List<dynamic> items_agenda = new List<dynamic>();
+    /* List<LugarTuristico> lugares= new List<LugarTuristico>();
+     List<Actividad> actividades = new List<Actividad>(); */
     //List<Evento> eventos = new List<Evento>();
     public int Id { get => id; set => id = value; }
     public int IdUsuario { get => idUsuario; set => idUsuario = value; }
     public string Nombre { get => nombre; set => nombre = value; }
     public DateTime FechaInicio { get => fechaInicio; set => fechaInicio = value; }
     public DateTime FechaFin { get => fechaFin; set => fechaFin = value; }
-    public List<LugarTuristico> Lugares { get => lugares; set => lugares = value; }
-    public List<Actividad> Actividades { get => actividades; set => actividades = value; }
-    
+    public List<dynamic> Items_agenda { get => items_agenda; set => items_agenda = value; }
+    public bool Visible { get => visible; set => visible = value; }
+
+    /*public List<LugarTuristico> Lugares { get => lugares; set => lugares = value; }
+public List<Actividad> Actividades { get => actividades; set => actividades = value; } */
+
     public Itinerario()
     {
       id = new int();
@@ -39,6 +44,24 @@ namespace ApiRest_COCO_TRIP.Models
       fechaInicio = fechainicio;
       fechaFin = fechafin;
       idUsuario = idusuario;
+    }
+
+    public Itinerario(int id, string nombre, DateTime fechainicio, DateTime fechafin, int idusuario, bool visible)
+    {
+      this.id = id;
+      this.nombre = nombre;
+      fechaInicio = fechainicio;
+      fechaFin = fechafin;
+      idUsuario = idusuario;
+      this.visible = visible;
+    }
+
+    public Itinerario(int id, string nombre, int idusuario, bool visible)
+    {
+      this.id = id;
+      this.nombre = nombre;
+      idUsuario = idusuario;
+      this.visible = visible;
     }
 
     public Itinerario(string nombre, DateTime fechainicio, DateTime fechafin, int idusuario)
@@ -58,8 +81,5 @@ namespace ApiRest_COCO_TRIP.Models
     {
       this.id = id;
     }
-
-  
-   
   }
 }

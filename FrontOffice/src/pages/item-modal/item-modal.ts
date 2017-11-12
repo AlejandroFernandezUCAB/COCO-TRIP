@@ -16,7 +16,8 @@ export class ItemModalPage {
   items: any;
   tipo_item: any;
   searching: any = false;
-
+  FechaInicio: any;
+  FechaFin: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -59,10 +60,12 @@ export class ItemModalPage {
     }
 
   agregarItem(item_id){
-        let vlista= this.items.filter(function(e,i){ return e.id==item_id})[0];
+    //ARREGLAR ESTO
+        let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
+        console.log(vlista);
         let alert = this.alertCtrl.create({
           title: 'Por favor, confirmar',
-          message: '¿Desea agregar '+ vlista.titulo+ ' a su itinerario?',
+          message: '¿Desea agregar '+ vlista.Nombre+ ' a su itinerario en el dia '+ '?',
           buttons: [{
             text: 'CANCELAR',
             role: 'cancel',
@@ -73,6 +76,8 @@ export class ItemModalPage {
             {
               text: 'AGREGAR',
               handler: data => {
+                console.log(this.FechaFin);
+                console.log(this.FechaInicio);
                 this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
               }
             }
