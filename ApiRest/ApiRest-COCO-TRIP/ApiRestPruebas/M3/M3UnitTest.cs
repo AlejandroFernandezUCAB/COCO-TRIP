@@ -149,7 +149,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.IsTrue(peticion.SalirGrupoBD(-1,-1));
+      Assert.AreEqual(1,peticion.SalirGrupoBD(-1,-1));
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteUsuario()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.IsFalse(peticion.SalirGrupoBD(1,-88));
+      Assert.AreEqual(0,peticion.SalirGrupoBD(1,-88));
 
     }
 
@@ -188,7 +188,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.IsFalse(peticion.SalirGrupoBD(-10, -1));
+      Assert.AreEqual(0,peticion.SalirGrupoBD(-10, -1));
 
     }
 
