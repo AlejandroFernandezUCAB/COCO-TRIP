@@ -15,12 +15,7 @@ export class GruposPage {
   detail=false;
   toast : any;
   grupo:any;
-/*
-  public loading = this.loadingCtrl.create({
-    content: 'Please wait...'
-  });
-*/
-  
+    
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController,
       public restapiService: RestapiService, loadingCtrl: LoadingController,
@@ -30,7 +25,7 @@ export class GruposPage {
    
   
    ionViewWillEnter() {
-    this.restapiService.listaGrupo(1)
+    this.restapiService.listaGrupo(2)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -136,8 +131,7 @@ export class GruposPage {
         text: 'Aceptar',
         handler: () => {
           //this.eliminarItinerario(id, index);
-            
-            this.restapiService.salirGrupo(1,id)
+            this.restapiService.salirGrupo(2,id)
             .then(data => {
               if (data == 0 || data == -1) {
                 console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -148,7 +142,9 @@ export class GruposPage {
               else {
                 //this.amigo = data;
                 //this.loading.dismiss();
-                this.realizarToast('Agregado exitosamente');
+                console.log("la data es "+data);
+                this.realizarToast('Haz salido del grupo exitosamente');
+                
                 this.eliminarGrupos(id, index);
               }
       

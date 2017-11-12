@@ -331,7 +331,7 @@ eliminarGrupo(usuario, idGrupo){
  */
 agregarAmigo(idUsuario,nombreAmigo) {  
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -344,7 +344,7 @@ agregarAmigo(idUsuario,nombreAmigo) {
 
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
-      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/SalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
       .subscribe(res => {
         resolve(res);
       }, (err) => {
