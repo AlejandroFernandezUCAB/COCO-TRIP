@@ -191,7 +191,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
             || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
             || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
             || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)
-            || !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria))
+          /*|| !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria)*/)
         {
 
           return (false);
