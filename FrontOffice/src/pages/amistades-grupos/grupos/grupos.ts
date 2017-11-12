@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,Platform, ActionSheetController, AlertController} from 'ionic-angular';
+import { NavController,Platform, ActionSheetController, AlertController, LoadingController, ToastController} from 'ionic-angular';
 import{CrearGrupoPage} from '../../crear-grupo/crear-grupo';
 import{DetalleGrupoPage} from '../../detalle-grupo/detalle-grupo';
 import{ModificarGrupoPage} from '../../modificar-grupo/modificar-grupo';
@@ -13,16 +13,24 @@ export class GruposPage {
   delete= false;
   edit= false;
   detail=false;
+  toast : any;
   grupo:any;
+/*
+  public loading = this.loadingCtrl.create({
+    content: 'Please wait...'
+  });
+*/
   
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController,
-      public restapiService: RestapiService) {
+      public restapiService: RestapiService, loadingCtrl: LoadingController,
+      public toastCtrl: ToastController ) {
  
    }
+   
   
    ionViewWillEnter() {
-    this.restapiService.listaGrupo("1")
+    this.restapiService.listaGrupo(1)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -90,10 +98,28 @@ export class GruposPage {
     this.edit=false;
     this.detail=false;
     this.delete=false;
-
-    this.navCtrl.push(ModificarGrupoPage);
+    this.navCtrl.push(ModificarGrupoPage,{
+      idGrupo: id
+    });
   }
 
+  realizarToast(mensaje) {
+    this.toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    this.toast.present();
+  }
+/*
+  cargando(){
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
+*/
   eliminarGrupo(id, index) {
     const alert = this.alertCtrl.create({
     title: 'Por favor, confirmar',
@@ -110,12 +136,43 @@ export class GruposPage {
         text: 'Aceptar',
         handler: () => {
           //this.eliminarItinerario(id, index);
+            
+            this.restapiService.salirGrupo(1,id)
+            .then(data => {
+              if (data == 0 || data == -1) {
+                console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+                //this.loading.dismiss();
+                this.realizarToast('Hubo un error');
+
+              }
+              else {
+                //this.amigo = data;
+                //this.loading.dismiss();
+                this.realizarToast('Agregado exitosamente');
+                this.eliminarGrupos(id, index);
+              }
+      
+            });
+            this.delete = false;
+          //this.eliminarGrupos(id, index);
+          //this.restapiService.eliminarGrupo(1,id);
+          //this.delete = false;
           }
         }
       ]
     });
     alert.present();
   }
+
+/**
+ * Metodo para borrar desde pantalla
+ * @param nombreUsuario Nombre del amigo a eliminar
+ * @param index 
+ */
+eliminarGrupos(id, index){
+  let eliminado = this.grupo.filter(item => item.Id === id)[0];
+  var removed_elements = this.grupo.splice(index, 1);
+}
 
   verDetalleGrupo() {
     this.navCtrl.push(DetalleGrupoPage);

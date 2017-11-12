@@ -31,10 +31,9 @@ namespace ApiRest_COCO_TRIP.Models
       return parametro;
     }
 
-    public int AgregarAmigosBD(string nobmreUsuario, string nombreAmigo)
+    public int AgregarAmigosBD(int idUsuario, string nombreAmigo)
     {
       int respuesta = 0;
-      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
       int idAmigo = ObtenerIdUsuario(nombreAmigo);
       try
       {
@@ -83,8 +82,11 @@ namespace ApiRest_COCO_TRIP.Models
           {
             usuario.Foto[0] = leerDatos.GetByte(3);
           }
+          usuario.NombreUsuario = leerDatos.GetString(4);
+
           //usuario.Foto[0] = leerDatos.GetByte(3);
-        }else
+        }
+        else
         {
           usuario = null;
         }
@@ -104,10 +106,9 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
+    public bool SalirGrupoBD(int idGrupo, int idUsuario)
     {
       bool resultado = false;
-      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
       try
       {
         conexion.Conectar();
@@ -205,10 +206,11 @@ namespace ApiRest_COCO_TRIP.Models
         while (leerDatos.Read())
         {
           var grupo = new Grupo();
-          grupo.Nombre = leerDatos.GetString(0);
-          if (!leerDatos.IsDBNull(1))
+          grupo.Id = leerDatos.GetInt32(0);
+          grupo.Nombre = leerDatos.GetString(1);
+          if (!leerDatos.IsDBNull(2))
           {
-            grupo.Foto[0] = leerDatos.GetByte(1);
+            grupo.Foto[0] = leerDatos.GetByte(2);
           }
 
           listagrupos.Add(grupo);
@@ -398,13 +400,12 @@ namespace ApiRest_COCO_TRIP.Models
     /// base de datos
     /// </summary>
     /// <param name="nombreAmigo">Recibe el nombre de usuario del amigo</param>
-    /// <param name="nombreUsuario">Recibe el nombre de usuario del emisor</param>
+    /// <param name="idUsuario">Recibe el id de usuario del emisor</param>
     /// <returns>Retorna 1 si se elimina, 0 si no se elimina</returns>
-    public int EliminarAmigoBD(string nombreAmigo, string nombreUsuario)
+    public int EliminarAmigoBD(string nombreAmigo, int idUsuario)
     {
       int result = 0;
       int idAmigo = ObtenerIdUsuario(nombreAmigo);
-      int idUsuario = ObtenerIdUsuario(nombreUsuario);
       try
       {
         conexion.Conectar();
@@ -437,13 +438,12 @@ namespace ApiRest_COCO_TRIP.Models
     /// Procedimiento para eliminar grupos de la
     /// base de datos
     /// </summary>
-    /// <param name="nombreUsuario">Nombre de usuario del lider del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario lider del grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns>Retorna 1 si se elimina, 0 si no se elimina</returns>
-    public int EliminarGrupoBD(string nombreUsuario, int idGrupo)
+    public int EliminarGrupoBD(int idUsuario, int idGrupo)
     {
       int result = 0;
-      int idUsuario = ObtenerIdUsuario(nombreUsuario);
       try
       {
         conexion.Conectar();
@@ -475,7 +475,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo que se encarga de obtener de la base de datos la lista de
     /// amigos de un usuario
     /// </summary>
-    /// <param name="nombreUsuario">Nombre de usuario del emisor</param>
+    /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>Retorna la lista de amigos del usuario</returns>
     public List<Usuario> VisualizarListaAmigoBD(int idUsuario)
     {
@@ -560,10 +560,9 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreUsuario">Nombre del usuario que modificara el grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns></returns>
-    public int ModificarGrupoBD(string nombreGrupo, string nombreUsuario, /*byte foto,*/ int idGrupo)
+    public int ModificarGrupoBD(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
     {
       int result = 0;
-      int idUsuario = ObtenerIdUsuario(nombreUsuario);
       try
       {
         conexion.Conectar();

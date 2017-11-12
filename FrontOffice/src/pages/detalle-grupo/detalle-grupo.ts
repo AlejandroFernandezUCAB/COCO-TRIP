@@ -24,7 +24,7 @@ export class DetalleGrupoPage {
   }
 
   ionViewWillEnter() {
-    this.restapiService.verperfilGrupo("2")
+    this.restapiService.verperfilGrupo(2)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -39,7 +39,7 @@ export class DetalleGrupoPage {
   }
 
   cargarmiembros(){
-    this.restapiService.listamiembroGrupo("1")
+    this.restapiService.listamiembroGrupo(1)
     .then(data => {
       if (data == 0 || data == -1) {
         console.log("DIO ERROR PORQUE ENTRO EN EL IF");
