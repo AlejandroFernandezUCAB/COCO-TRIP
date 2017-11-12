@@ -36,5 +36,11 @@
     "Categorías seleccionadas":"Categorías seleccionadas",
     
     "Introduzca su contraseña":"Introduzca su contraseña",
-    "Confirmar":"Confirmar"
+    "Confirmar":"Confirmar",
+
+    "Confirma contraseña":"Confirma con la contraseña",
+    "Este campo es requerido":"Este campo es requerido",
+    "Nueva contraseña":"Nueva contraseña",
+    "Guardar Contraseña": "Guardar Contraseña",
+    "Contraseña actual":"Contraseña actual"
 }

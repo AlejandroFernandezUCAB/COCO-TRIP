@@ -107,7 +107,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="datos">datos del usuario. Formato JSON</param>
     /// <returns>El id del usuario(-1 o -2 si hubo un error). Formato JSON</returns>
     [HttpPost]
-    public int RegistrarUsuario(String datos)
+     public int RegistrarUsuario(String datos)
     {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
       peticion = new PeticionLogin();
@@ -125,7 +125,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             string uri = "http://localhost:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
             mail.From = new MailAddress("cocotrip17@gmail.com");
             mail.To.Add(usuario.Correo);
-            mail.Subject = "Recuperar contrasena";
+            mail.Subject = "Registro Cocotrip";
             mail.Body = "Querido Usuario, hemos recibido una solicitud para registrarse en cocotrip, ingrese al siguiente link para completar su proceso de registro: "+uri; 
 
             SmtpServer.Port = 587;

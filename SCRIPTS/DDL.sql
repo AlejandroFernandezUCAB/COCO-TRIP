@@ -1,4 +1,4 @@
-CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
+﻿CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
 CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
 --DROPS
 --Modulo 3
@@ -31,9 +31,10 @@ CREATE TABLE USUARIO (
 --Fin de modulo
 --Modulo 2
 CREATE TABLE Preferencia(
-   pr_usuario   int not null,
-    pr_categoria int not null,
-    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria)
+    pr_usuario   int NOT NULL,
+    pr_categoria int NOT NULL,
+    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria) ,
+    CONSTRAINT fk_usuario FOREIGN KEY (pr_usuario) REFERENCES USUARIO (us_id)
 );
 --Fin de modulo
 --Modulo 3
@@ -100,7 +101,7 @@ CREATE TABLE Agenda
     CONSTRAINT pk_Agenda PRIMARY KEY (ag_id),
     CONSTRAINT fk_idItinerario FOREIGN KEY (ag_idItinerario)
         REFERENCES Itinerario (it_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
+        ON UPDATE NO ACTION ON DELETE CASCADE,
 )
 --Fin de modulo
 --Modulo 6
@@ -189,7 +190,7 @@ create table localidad(
 --Modulo 9
 CREATE TABLE categoria
 (
-  ca_id integer NOT NULL,
+  ca_id integer UNIQUE NOT NULL,
   ca_nombre character varying(20) not null,
   ca_descripcion character varying(100) not null,
   ca_status boolean not null,
@@ -202,15 +203,16 @@ CREATE TABLE categoria
 --Modulo 1
 --Fin de modulo
 --Modulo 2
---Fin de modulo
+--alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
+--Fin de modulo 
 --Modulo 3
 --Fin de modulo
 --Modulo 4
 --Fin de modulo
 --Modulo 5
-ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES categoria (ca_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES categoria (ca_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
 --Fin de modulo
 --Modulo 6
@@ -312,6 +314,6 @@ CREATE SEQUENCE SEQ_Localidad
 	CACHE 1;
 --Fin de modulo
 --Modulo 9
---Fin de modulo
-
+GRANT ALL PRIVILEGES ON TABLE categoria TO admin_cocotrip;
+--Fin de modulo 
 --Fin Creates tables

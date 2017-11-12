@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private int id;
 
+    [JsonProperty(PropertyName = "IdCategoria")]
     public int Id
     {
       get { return id; }
@@ -18,6 +20,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private string nombre;
 
+    [JsonProperty(PropertyName = "nombre")]
     public string Nombre
     {
       get { return nombre; }
@@ -26,6 +29,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private string descripcion;
 
+    [JsonProperty(PropertyName = "descripcion")]
     public string Descripcion
     {
       get { return descripcion; }
@@ -34,6 +38,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private bool estatus;
 
+    [JsonProperty(PropertyName = "estatus")]
     public bool Estatus
     {
       get { return estatus; }
@@ -42,6 +47,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private int nivel;
 
+    [JsonProperty(PropertyName = "nivel")]
     public int Nivel
     {
       get { return nivel; }
@@ -50,6 +56,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private int categoriaSuperior;
 
+    [JsonProperty(PropertyName = "categoriaSuperior")]
     public int CategoriaSupeior
     {
       get { return categoriaSuperior; }
@@ -86,6 +93,14 @@ namespace ApiRest_COCO_TRIP.Models
 
     }
 
+    public Categoria(int Id, string Nombre, string Descripcion, bool Estatus, int Nivel)
+    {
+      this.id = Id;
+      this.nombre = Nombre;
+      this.descripcion = Descripcion;
+      this.estatus = Estatus;
+      this.nivel = Nivel;
+    }
 
   }
 }

@@ -21,26 +21,11 @@
   <ion-content padding class="card-background-page"> 
   
       
-  
-        <ion-card *ngFor="let item of Grupo" class ="item-borderless"  >
-            <img src={{item.img}}/>
-            <div class="card-title">{{item.nombre}}</div>
+          <ion-card  >
+            <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png"/>
+            <div class="card-title">grupo.Nombre</div>
             <div class="card-subtitle">3 Integrantes</div>
           </ion-card>
-  
-        
-        <ion-list>
-            <ion-list-header>
-              Integrantes
-            </ion-list-header>
-            <ion-item *ngFor="let item of Amigo">
-              <ion-label>{{item.nombre}}</ion-label>
-              <ion-avatar item-left>
-                  <img src={{item.img}}>
-            </ion-avatar>
-            </ion-item>
-          
-          </ion-list>
   
   
   </ion-content>
