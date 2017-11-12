@@ -1297,7 +1297,7 @@ CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripci
     LANGUAGE plpgsql
     AS $$
     BEGIN
-      INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
+      INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
           VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
@@ -1305,9 +1305,27 @@ CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, des
     LANGUAGE plpgsql
     AS $$
     BEGIN
-        INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
+        INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
               VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
+
+CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS 
+  $BODY$
+  DECLARE
+    CATEGORIA TEXT;
+  BEGIN
+      SELECT CA_ID INTO CATEGORIA FROM CATEGORIA WHERE (CA_NOMBRE = nombrecategoria);
+      RETURN CATEGORIA;
+  END; 
+  $BODY$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
+BEGIN
+			RETURN 	QUERY
+					SELECT * FROM CATEGORIA;
+END; 
+$$ LANGUAGE plpgsql;
 
 
 
@@ -1326,6 +1344,47 @@ BEGIN
     UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
 END; $$
   LANGUAGE plpgsql;
+
+ CREATE OR REPLACE FUNCTION m9_obtenercategoriatop()
+  RETURNS TABLE(categoria_id INT, categoria_nombre VARCHAR, categoria_descripcion VARCHAR, categoria_estatus BOOLEAN, categoria_nivel INT, categoria_catsup INT)
+   AS $$
+DECLARE
+   var_r  record;
+BEGIN
+   FOR var_r IN(SELECT 	ca.ca_id ID, ca.ca_nombre nombre, ca.ca_descripcion descripcion, ca.ca_status estatus, ca.ca_nivel nivel, ca.ca_fkcategoriasuperior sup
+		FROM categoria ca where  ca.ca_fkcategoriasuperior is null)
+   LOOP
+  categoria_id := var_r.ID;
+  categoria_nombre := var_r.nombre;
+  categoria_descripcion := var_r.descripcion;
+  categoria_estatus := var_r.estatus;
+  categoria_nivel := var_r.nivel;
+  categoria_catsup := var_r.sup;
+  RETURN NEXT;
+   END LOOP;
+END; $$
+  LANGUAGE plpgsql;
+
+ CREATE OR REPLACE FUNCTION m9_obtenercategorianotop(sup INT)
+  RETURNS TABLE(categoria_id INT, categoria_nombre VARCHAR, categoria_descripcion VARCHAR, categoria_estatus BOOLEAN, categoria_nivel INT, categoria_catsup INT)
+   AS $$
+DECLARE
+   var_r  record;
+BEGIN
+   FOR var_r IN(SELECT 	ca.ca_id ID, ca.ca_nombre nombre, ca.ca_descripcion descripcion, ca.ca_status estatus, ca.ca_nivel nivel, ca.ca_fkcategoriasuperior sup
+		FROM categoria ca where  ca.ca_fkcategoriasuperior = sup)
+   LOOP
+  categoria_id := var_r.ID;
+  categoria_nombre := var_r.nombre;
+  categoria_descripcion := var_r.descripcion;
+  categoria_estatus := var_r.estatus;
+  categoria_nivel := var_r.nivel;
+  categoria_catsup := var_r.sup;
+  RETURN NEXT;
+   END LOOP;
+END; $$
+  LANGUAGE plpgsql;
+
 
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
