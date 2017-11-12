@@ -27,6 +27,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="lugarTuristico">Objeto lugar turistico con todos los campos obligatorios llenos</param>
     /// <returns>(int) ID del Lugar Turistico</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public int InsertarLugarTuristico(LugarTuristico lugarTuristico)
     {
       try
@@ -50,6 +54,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           conexion.InsertarActividad(elemento, lugarTuristico.Id);
         }
 
+        //Categorias y
+        // sub-categorias de las categorias
+
         conexion.Desconectar();
 
         return lugarTuristico.Id;
@@ -69,6 +76,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -77,6 +88,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="actividad">Objeto Actividad</param>
     /// <param name="idLugarTuristico">ID del lugar turistico</param>
     /// <returns>ID de la actividad insertada</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public int InsertarActividad (Actividad actividad, int idLugarTuristico)
     {
       try
@@ -104,6 +119,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -112,6 +131,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="horario">Objeto Horario</param>
     /// <param name="idLugarTuristico">ID del horario </param>
     /// <returns>ID del horario insertado</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
     public int InsertarHorario (Horario horario, int idLugarTuristico)
     {
       try
@@ -147,6 +169,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="foto">Objeto Foto</param>
     /// <param name="idLugarTuristico">ID del horario </param>
     /// <returns>ID de la foto insertada</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public int InsertarFoto(Foto foto, int idLugarTuristico)
     {
       try
@@ -174,6 +200,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -181,6 +211,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="lugarTuristico">Objeto lugar turistico con todos los campos obligatorios llenos
     /// y, el ID de cada lugar turistico, horario, foto y actividad si aplica</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void ActualizarLugarTuristico(LugarTuristico lugarTuristico)
     {
       try
@@ -196,7 +230,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         foreach (Foto elemento in lugarTuristico.Foto)
         {
-          conexion.ActualizarFoto(elemento);
+          conexion.ActualizarFoto(elemento);  
         }
 
         if (lugarTuristico.Actividad != null)
@@ -206,6 +240,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
             conexion.ActualizarActividad(elemento);
           }
         }
+
+        //Categorias y
+        // sub-categorias de las categorias
 
         conexion.Desconectar();
       }
@@ -224,6 +261,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -231,6 +272,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID del lugar turistico</param>
     /// <param name="activar">true para activar, false para desactivar</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public void ActivarLugarTuristico (int id, bool activar)
     {
       try
@@ -253,6 +295,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID de la actividad</param>
     /// <param name="activar">true para activar, false para desactivar</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public void ActivarActividad(int id, bool activar)
     {
       try
@@ -274,6 +317,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// Elimina una actividad de la base de datos
     /// </summary>
     /// <param name="id">ID de la actividad</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void EliminarActividad(int id)
     {
       try
@@ -287,12 +332,18 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
     /// Elimina una foto de la base de datos
     /// </summary>
     /// <param name="id">ID de la foto</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void EliminarFoto(int id)
     {
       try
@@ -306,12 +357,17 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
     /// Elimina un horario de la base de datos
     /// </summary>
     /// <param name="id">ID del horario</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public void EliminarHorario(int id)
     {
       try
@@ -335,6 +391,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="hasta">limite superior</param>
     /// <returns>(List<LugarTuristico>) Lista de lugares turisticos con ID, nombre, costo, descripcion, estado, el horario del dia actual
     /// y las fotos</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<LugarTuristico> ConsultarListaLugarTuristico(int desde, int hasta)
     {
       try
@@ -370,6 +427,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID del lugar turistico</param>
     /// <returns>Objeto Lugar Turistico con todos los campos obligatorios y los nombres de las actividades</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public LugarTuristico ConsultarLugarTuristico(int id)
     {
       try
@@ -381,6 +439,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         lugarTuristico.Actividad = conexion.ConsultarNombreActividades(lugarTuristico.Id);
         lugarTuristico.Horario = conexion.ConsultarHorarios(lugarTuristico.Id);
         lugarTuristico.Foto = conexion.ConsultarFotos(lugarTuristico.Id);
+
+        //Faltan las categorias y sub-categorias. Esperando por el M9.
 
         conexion.Desconectar();
 
@@ -399,6 +459,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID del lugar turistico</param>
     /// <returns>Objeto Lugar Turistico con todos los campos obligatorios y campos de actividades</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public LugarTuristico ConsultarLugarTuristicoConActividades(int id)
     {
       try
@@ -410,6 +471,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         lugarTuristico.Actividad = conexion.ConsultarActividades(lugarTuristico.Id);
         lugarTuristico.Horario = conexion.ConsultarHorarios(lugarTuristico.Id);
         lugarTuristico.Foto = conexion.ConsultarFotos(lugarTuristico.Id);
+
+        //Faltan las categorias y sub-categorias. Esperando por el M9.
 
         conexion.Desconectar();
 
@@ -427,6 +490,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="idLugarTuristico">ID del lugar turistico</param>
     /// <returns>(List<Actividad>) Lista de actividades</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<Actividad> ConsultarActividades(int idLugarTuristico)
     {
       try
@@ -451,6 +515,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID de la actividad</param>
     /// <returns>Objeto Actividad</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public Actividad ConsultarActividad(int id)
     {
       try

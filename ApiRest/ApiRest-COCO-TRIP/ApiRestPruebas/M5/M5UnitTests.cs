@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Web.Http;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
@@ -16,6 +18,8 @@ namespace ApiRestPruebas
     private Itinerario itinerario;
     private Itinerario it;
     private Boolean x;
+    private DateTime fechaini;
+    private DateTime fechafin;
     private int id_usuario;
     private List<Itinerario> itinerarios_usuario;
     [OneTimeSetUp]
@@ -43,8 +47,8 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_FalloAgregarItinerario()
     {
-      Assert.Catch<NullReferenceException>(Excepcion_Agregar);
-      Assert.Catch<NpgsqlException>(Excepcion_Agregar2);
+      Assert.Catch<HttpResponseException>(Excepcion_Agregar);
+      Assert.Catch<HttpResponseException>(Excepcion_Agregar2);
     }
 
     /// <summary>
@@ -82,21 +86,28 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_ModificarItinerario()
     {
-      DateTime fechaini = new DateTime(2021, 05, 28);
+      DateTime fechaini = new DateTime(2022, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(51, "Michel", fechaini, fechafin, 1);
-      x = controller.ModificarItinerario(itinerario);
-      Assert.True(x);
+      Itinerario itinerario = new Itinerario(4, "Epco", fechaini, fechafin, 2);
+      it = controller.ModificarItinerario(itinerario);
+      Assert.AreEqual("Epco", it.Nombre);
+      Assert.AreEqual(fechaini,it.FechaInicio);
+      Assert.AreEqual(fechafin, it.FechaFin);
     }
 
     /*   [Test]
        public void Prueba_AgregarEvento_It()
        {
          Itinerario itinerario = new Itinerario(9);
-         Evento ev = new Evento(3);
+         Evento ev = new Evento
+         {
+           Id = 1
+         };
+         fechaini = new DateTime(2017, 11, 15);
+         fechafin = new DateTime(2017, 11, 18);
          M5Controller controller = new M5Controller();
-         Boolean x = controller.AgregarEvento_It(itinerario, ev);
-         Assert.AreEqual(true, x);
+         Boolean x = controller.AgregarEvento_It(itinerario.Id, ev.Id,fechaini, fechafin);
+         Assert.True(x);
        }*/
 
     [Test]
@@ -107,20 +118,24 @@ namespace ApiRestPruebas
       {
         Id = 1
       };
-      x = controller.AgregarActividad_It(itinerario, ac);
-      Assert.AreEqual(true, x);
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarActividad_It(itinerario.Id,ac.Id,fechaini, fechafin);
+      Assert.True(x);
     }
 
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      Itinerario itinerario = new Itinerario(9);
-      LugarTuristico lt = new LugarTuristico
+      itinerario = new Itinerario(4);
+      LugarTuristico lt = new LugarTuristico()
       {
         Id = 1
       };
-      x = controller.AgregarLugar_It(itinerario, lt);
-      Assert.AreEqual(true, x);
+      fechaini = new DateTime(2017,11,15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarLugar_It(itinerario.Id, lt.Id,fechaini,fechafin);
+      Assert.True(x);
     }
 
 
@@ -144,6 +159,18 @@ namespace ApiRestPruebas
       Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
     }
    
-  
+    [Test]
+    public void Prueba_EliminarLugarIt()
+    {
+      //x = controller.EliminarItem_It(4,12);
+      //Assert.True(x);
+    }
+
+    [Test]
+    public void Prueba_EliminarActividad()
+    {
+      x = controller.EliminarItem_It("Actividad", 4, 1);
+      Assert.True(x);
+    }
   }
 }

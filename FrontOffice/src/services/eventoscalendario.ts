@@ -135,18 +135,20 @@ export class EventosCalendarioService {
   }
 
   public getEventosItinerario() {
-      for (let i= 0 ; i < this._itinerarios.length; i++){
-        if (this._itinerarios[i].visible == true){
-          for (let j =0;  j< this._itinerarios[i].eventos.length; j++)
-          { console.log(this._itinerarios[i].eventos[j].titulo)
+      for (let i= 0 ; i < this._itis.length; i++){
+        if (this._itis[i].Visible == true){
+          for (let j =0;  j< this._itis[i].Items_agenda.length; j++)
+          { console.log(this._itis[i].Items_agenda[j].Nombre)
             this._daysConfig.push({
-              date: new Date(this._itinerarios[i].eventos[j].startTime),
+              date: new Date(this._itis[i].Items_agenda[j].FechaInicio),
               subTitle: '*',
               marked: true,
             });
           }
         }
       }
+      console.log("perra");
+      console.log(this._daysConfig);
     return this._daysConfig;
   }
 

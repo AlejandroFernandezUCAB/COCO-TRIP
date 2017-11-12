@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 /**
  * Generated class for the ChangepassPage page.
  *
@@ -15,7 +17,20 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 })
 export class ChangepassPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  myForm: FormGroup;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public fb: FormBuilder) 
+  {
+    this.myForm = this.fb.group(
+      {
+        confirmpass: ['', [Validators.required]],
+        newpass: ['',[Validators.required]]
+      }
+    )
+  }
+
+  saveData(){
+    alert(JSON.stringify(this.myForm.value));
   }
   
   showToastWithCloseButton() {

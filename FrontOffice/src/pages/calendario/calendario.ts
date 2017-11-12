@@ -26,32 +26,34 @@ export class CalendarioPage {
     public modalCtrl: ModalController,
     public eventos: EventosCalendarioService,
   ) {
-    console.log("entre calendario ");
+    console.log(this._daysConfig);
    }
 
     ionViewWillEnter(){
       this.its = this.eventos.getItinerarios();
-      console.log("olaa");
+      console.log(this.its);
     }
 
     onChange($event) {
-      let eventos = Array();
+      let items_agenda = Array();
       console.log(this.its);
       this.its.forEach(it => {
-        if (it.visible ==true){
-          it.eventos.forEach( ev => {
-            if (ev.startTime == moment($event._d).format('MM/DD/YYYY')){
-              eventos.push({
-                titulo: ev.titulo,
-                horaInicio: ev.horaInicio,
-                horaFin: ev.horaFin,
-                itinerario: it.nombre
+        if (it.Visible ==true){
+          it.Items_agenda.forEach( ev => {
+            if (ev.FechaInicio == moment($event._d).format('MM/DD/YYYY')){
+              items_agenda.push({
+                Nombre: ev.Nombre,
+                // HoraInicio: ev.HoraInicio,
+                // HoraFin: ev.HoraFin,
+                itinerario: it.Nombre
               });
             }
           })
         }
       })
-      let modal = this.modalCtrl.create('DetalleDiaPage', {date: $event , eventos: eventos});
+      // console.log("items_agenda ");
+      // console.log(items_agenda);
+      let modal = this.modalCtrl.create('DetalleDiaPage', {date: $event , items_agenda: items_agenda});
       modal.present();
       }
 

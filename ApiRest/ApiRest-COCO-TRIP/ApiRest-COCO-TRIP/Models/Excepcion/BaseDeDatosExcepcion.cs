@@ -13,6 +13,7 @@ namespace ApiRest_COCO_TRIP.Models.Excepcion
     private DateTime fechaHora;
     private List<String> nombreMetodos; //Enlista los metodos que atrapan la excepcion antes de manejarla
     private string datosAsociados; //Datos asociados a la excepcion generada
+    private string mensaje; //Mensaje asociado al error
 
     /// <summary>
     /// Getters y Setters del atributo NombreMetodos
@@ -48,6 +49,16 @@ namespace ApiRest_COCO_TRIP.Models.Excepcion
     {
       get { return datosAsociados; }
       set { datosAsociados = value; }
+    }
+
+
+    /// <summary>
+    /// Getters y setters del atributo mensaje
+    /// </summary>
+    public string Mensaje
+    {
+      get { return mensaje; }
+      set { mensaje = value; }
     }
 
     /// <summary>

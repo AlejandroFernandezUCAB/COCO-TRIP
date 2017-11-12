@@ -63,32 +63,6 @@ namespace ApiRest_COCO_TRIP.Models
       return respuesta;
     }
 
-    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
-    {
-
-      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
-      try
-      {
-        conexion.Conectar();
-        conexion.Comando = conexion.SqlConexion.CreateCommand();
-        conexion.Comando.CommandText = "SalirDeGrupo";
-        conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
-        conexion.Comando.ExecuteReader();
-        conexion.Desconectar();
-      }
-      catch (NpgsqlException e)
-      {
-        throw e;
-      }
-      catch (FormatException e)
-      {
-        throw e;
-      }
-      return true;
-    }
-
     public Usuario VisualizarPerfilAmigoBD(string nombreUsuario)
     {
       Usuario usuario = new Usuario();
@@ -110,6 +84,9 @@ namespace ApiRest_COCO_TRIP.Models
             usuario.Foto[0] = leerDatos.GetByte(3);
           }
           //usuario.Foto[0] = leerDatos.GetByte(3);
+        }else
+        {
+          usuario = null;
         }
 
         leerDatos.Close();
@@ -127,7 +104,47 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-   public List<Usuario> BuscarAmigo(string dato)
+    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
+    {
+      bool resultado = false;
+      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "SalirDeGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          
+          if (leerDatos.GetInt32(0) == 1)
+          {
+            resultado = true;
+          }
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return resultado;
+    }
+
+    /// <summary>
+    /// Metodo que se encarga de buscar amigos en la app
+    /// </summary>
+    /// <param name="dato">nombre o iniciales del amigo</param>
+    /// <returns></returns>
+    public List<Usuario> BuscarAmigo(string dato)
     {
       var listausuarios = new List<Usuario>();
       try
@@ -149,7 +166,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
 
           listausuarios.Add(usuario);
-         
+
         }
 
         leerDatos.Close();
@@ -167,8 +184,15 @@ namespace ApiRest_COCO_TRIP.Models
       return listausuarios;
     }
 
-    public List<Grupo> Listagrupo(int dato)
+    /// <summary>
+    /// Metodo que se encarga de devolver la lista de grupos a los que pertenece
+    /// el usuario
+    /// </summary>
+    /// <param name="nombreusuario">nombre del usuario por el cual se busca el id</param>
+    /// <returns></returns>
+    public List<Grupo> Listagrupo(string nombreusuario)
     {
+      int idUsuario = ObtenerIdUsuario(nombreusuario);
       var listagrupos = new List<Grupo>();
       try
       {
@@ -176,7 +200,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandText = "ConsultarListaGrupos";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, dato));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
         leerDatos = conexion.Comando.ExecuteReader();
         while (leerDatos.Read())
         {
@@ -206,10 +230,56 @@ namespace ApiRest_COCO_TRIP.Models
       return listagrupos;
     }
 
-
-    public Grupo ConsultarPerfilGrupo(int dato)
+    public List<Usuario> Listamiembro(int idgrupo)
     {
       
+      var listamiembro = new List<Usuario>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "VisualizarMiembroGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idgrupo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        while (leerDatos.Read())
+        {
+          var usuario = new Usuario();
+          usuario.Id = leerDatos.GetInt32(0);
+          usuario.Nombre = leerDatos.GetString(1);
+          usuario.Apellido= leerDatos.GetString(2);
+          usuario.NombreUsuario = leerDatos.GetString(3);
+          if (!leerDatos.IsDBNull(4))
+          {
+            usuario.Foto[0] = leerDatos.GetByte(3);
+          }
+
+          listamiembro.Add(usuario);
+
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return listamiembro;
+    }
+    /// <summary>
+    /// Metodo que se encarga de devolver el perfil del grupo
+    /// </summary>
+    /// <param name="dato">id del grupo</param>
+    /// <returns></returns>
+    public Grupo ConsultarPerfilGrupo(int dato)
+    {
+
       var grupo = new Grupo();
       try
       {
@@ -221,14 +291,14 @@ namespace ApiRest_COCO_TRIP.Models
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
         {
-          
+
           grupo.Nombre = leerDatos.GetString(0);
           if (!leerDatos.IsDBNull(1))
           {
             grupo.Foto[0] = leerDatos.GetByte(3);
           }
 
-         
+
         }
 
         leerDatos.Close();
@@ -246,8 +316,15 @@ namespace ApiRest_COCO_TRIP.Models
       return grupo;
     }
 
-  
-    public int AgregarGrupoBD(String nombre, byte foto,string nombreusuario)
+    /// <summary>
+    /// Metodo que se encarga de Agregar un grupo con foto
+    /// </summary>
+    /// <param name="nombre">nombre del grupo</param>
+    /// <param name="foto">foto del grupo</param>
+    /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
+    /// <returns></returns>
+
+    public int AgregarGrupoBD(String nombre, byte foto, string nombreusuario)
     {
       int idUsuario = ObtenerIdUsuario(nombreusuario);
       int result = 0;
@@ -278,6 +355,13 @@ namespace ApiRest_COCO_TRIP.Models
       return result;
     }
 
+    /// <summary>
+    /// Metodo que se encarga de agregar un grupo sin foto
+    /// </summary>
+    /// <param name="nombre">nombre del grupo</param>
+    /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
+    /// <returns></returns>
+
     public int AgregarGrupoBD(String nombre, string nombreusuario)
     {
       int idUsuario = ObtenerIdUsuario(nombreusuario);
@@ -289,7 +373,6 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandText = "AgregarGrupoSinFoto";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombre));
-        //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, ));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
@@ -411,9 +494,10 @@ namespace ApiRest_COCO_TRIP.Models
           Usuario usuario = new Usuario();
           usuario.Nombre = leerDatos.GetString(0);
           usuario.Apellido = leerDatos.GetString(1);
-          if (!leerDatos.IsDBNull(2))
+          usuario.NombreUsuario = leerDatos.GetString(2);
+          if (!leerDatos.IsDBNull(3))
           {
-            usuario.Foto[0] = leerDatos.GetByte(2);
+            usuario.Foto[0] = leerDatos.GetByte(3);
           }
           ListaUsuario.Add(usuario);
         }

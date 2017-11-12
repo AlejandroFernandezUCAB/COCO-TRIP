@@ -8,14 +8,14 @@ using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using System.Net;
+using System.Web.Http.Cors;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
+  [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M3_AmigosGruposController : ApiController
   {
-    
-   
-
     Usuario usuario;
     PeticionAmigoGrupo peticion;
 
@@ -27,24 +27,65 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
     [HttpGet]
-    public string AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
+    public HttpStatusCode AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
     {
-      peticion = new PeticionAmigoGrupo();
-      int result = 0;
-      result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);//acomodar
-      return Convert.ToString(result);
+      try
+      { 
+        peticion = new PeticionAmigoGrupo();
+        int result = 0;
+        result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return HttpStatusCode.OK;
+      //return "0";//Convert.ToString(result);
     }
 
     /// <summary>
     /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
     /// </summary>
-    /// <param name="nombreUsuario"></param>
+    /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
     /// <returns></returns>
     [HttpGet]
     public Usuario VisualizarPerfilAmigo(String nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.VisualizarPerfilAmigoBD(nombreUsuario);
+      Usuario usuario;
+      try {
+        peticion = new PeticionAmigoGrupo();
+        usuario = peticion.VisualizarPerfilAmigoBD(nombreUsuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return usuario;
     }
 
     /// <summary>
@@ -54,7 +95,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     ///  la app</param>
     /// <returns></returns>
     [HttpGet]
-    public string RecomendarApp(String correoElectronico)
+    public void RecomendarApp(String correoElectronico)
     {
       SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
       var mail = new MailMessage();
@@ -68,18 +109,41 @@ namespace ApiRest_COCO_TRIP.Controllers
       SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
       SmtpServer.EnableSsl = true;
       SmtpServer.Send(mail);
-      return "";
     }
-
+    /// <summary>
+    /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
+    /// </summary>
+    /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
+    /// <param name="nombreUsuario">nombre del usuario que desea salir del grupo</param>
+    /// <returns>true si sale exitossamente, false en caso contrario</returns>
     [HttpGet]
     public bool SalirGrupo(string idGrupo, string nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
+      bool salio = false;
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        salio =  peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException e)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return salio;
 
     }
-
-
 
     /// <summary>
     /// Buscar amigo en la aplicacion
@@ -89,9 +153,27 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public List<Usuario> BuscarAmigo(string nombre)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.BuscarAmigo(nombre);
-
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.BuscarAmigo(nombre);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     /// <summary>
@@ -104,18 +186,38 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public int AgregarGrupo(String nombre, String foto, String nombreusuario)
     {
-      peticion = new PeticionAmigoGrupo();
-
-      if (foto != "null")
-
-      { return peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto), nombreusuario);
-      }
-
-      else
+      try
       {
-        return peticion.AgregarGrupoBD(nombre, nombreusuario);
+        peticion = new PeticionAmigoGrupo();
+
+        if (foto != "null")
+
+        {
+          return peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto), nombreusuario);
+        }
+
+        else
+        {
+          return peticion.AgregarGrupoBD(nombre, nombreusuario);
+        }
       }
-      
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+
     }
 
     
@@ -128,8 +230,29 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public List<Usuario> VisualizarListaAmigos(string nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.VisualizarListaAmigoBD(nombreUsuario);
+      List<Usuario> lista;
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        lista = peticion.VisualizarListaAmigoBD(nombreUsuario);
+       }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+  }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+}
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return lista;
     }
 
     /// <summary>
@@ -139,11 +262,31 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreAmigo"></param>
     /// <param name="nombreUsuario"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpDelete]
     public int EliminarAmigo(string nombreAmigo, string nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.EliminarAmigoBD(nombreAmigo, nombreUsuario);
+      int resultado;
+      try { 
+        peticion = new PeticionAmigoGrupo();
+        resultado = peticion.EliminarAmigoBD(nombreAmigo, nombreUsuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return resultado;
     }
 
     /// <summary>
@@ -153,11 +296,31 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario"></param>
     /// <param name="idGrupo"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpDelete]
     public int EliminarGrupo(string nombreUsuario, int idGrupo)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.EliminarGrupoBD(nombreUsuario, idGrupo);
+      int resultado;
+      try { 
+        peticion = new PeticionAmigoGrupo();
+        resultado = peticion.EliminarGrupoBD(nombreUsuario, idGrupo);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return resultado;
     }
     /// <summary>
     /// Procedimiento que se encarga de hacer la peticion para
@@ -171,23 +334,89 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public int ModificarGrupo(string nombreGrupo, string nombreUsuario, /*byte foto,*/ int idGrupo)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.ModificarGrupoBD(nombreGrupo,nombreUsuario, /*foto, */idGrupo);
+      int resultado;
+      try { 
+        peticion = new PeticionAmigoGrupo();
+        resultado = peticion.ModificarGrupoBD(nombreGrupo,nombreUsuario, /*foto, */idGrupo);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return resultado;
     }
 
     /// <summary>
     /// Consultar lista de grupo del usuario
     /// </summary>
-    /// <param name="id">id del usuario</param>
+    /// <param name="nombreusuario">nombre usuario logeado en la app</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Grupo> ConsultarListaGrupos(string id)
+    public List<Grupo> ConsultarListaGrupos(string nombreusuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.Listagrupo(Convert.ToInt32(id));
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.Listagrupo(nombreusuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
 
     }
-    
+
+    [HttpGet]
+    public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
+    {
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.Listamiembro(Convert.ToInt32(idgrupo));
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+
+    }
+
 
     /// <summary>
     /// Procedimiento para visualizar el perfil del grupo
@@ -197,8 +426,27 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public Grupo ConsultarPerfilGrupos(string id)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.ConsultarPerfilGrupo(Convert.ToInt32(id));
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.ConsultarPerfilGrupo(Convert.ToInt32(id));
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
 
     }
 
@@ -211,8 +459,28 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
     {
-      peticion = new PeticionAmigoGrupo();
-      return peticion.AgregarIntegranteModificarBD(idGrupo, nombreUsuario);
+      int resultado;
+      try { 
+        peticion = new PeticionAmigoGrupo();
+        resultado = peticion.AgregarIntegranteModificarBD(idGrupo, nombreUsuario);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return resultado;
     }
 
     /// <summary>
@@ -224,8 +492,28 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public int EliminarIntegranteModificar(string nombreUsuario, int idGrupo)
     {
+      int resultado;
+      try { 
       peticion = new PeticionAmigoGrupo();
-      return peticion.EliminarIntegranteModificarBD(nombreUsuario, idGrupo);
+      resultado = peticion.EliminarIntegranteModificarBD(nombreUsuario, idGrupo);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return resultado;
     }
 
   }
