@@ -39,7 +39,7 @@
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-facebook4": "^1.9.1",
-    "cordova-plugin-file": "^4.3.3",
+    "cordova-plugin-file": "^5.0.0",
     "cordova-plugin-firebase": "^0.1.24",
     "cordova-plugin-googleplus": "^5.1.1",
     "cordova-plugin-ionic-webview": "^1.1.16",
