@@ -18,9 +18,13 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ChangepassPage {
 
   myForm: FormGroup;
+  NombreUsuario: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public fb: FormBuilder) 
   {
+    console.log(navParams);
+    this.NombreUsuario = navParams.data;
+    console.log(this.NombreUsuario);
     this.myForm = this.fb.group(
       {
         confirmpass: ['', [Validators.required]],

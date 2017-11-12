@@ -31,13 +31,10 @@ export class PerfilPage {
     Nombre: 'Nombre',
     Apellido: 'Apellido',
     Correo: 'Correo',
-
   };
   idUsuario = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage) {
-
-
   
   }
 
@@ -51,7 +48,8 @@ export class PerfilPage {
 
   cargarUsuario(){
     //obtenemos el id ya almacenado desde el login
-    this.storage.get('id').then((val) => {
+    this.storage.get('id').then((val) => { //obtieniene el id guardado localmente
+
       this.idUsuario = val;
       console.log('id de usuario => ',this.idUsuario);
       //hacemos la llamada al apirest con el id obtenido
@@ -59,12 +57,10 @@ export class PerfilPage {
         if(data != 0)
         {  
           this.usuario = data;
-          // console.log(this.usuario);
-          // console.log(this.usuario.Nombre);
-          // console.log(this.usuario.Correo);
           console.log(data);
         }
       });
+
     });
   }
 
