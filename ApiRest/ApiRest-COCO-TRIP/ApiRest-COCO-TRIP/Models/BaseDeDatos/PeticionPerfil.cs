@@ -140,7 +140,6 @@ namespace ApiRest_COCO_TRIP.Models
           categoria.Nombre = pgread.GetString(1);
           categoria.Descripcion = pgread.GetString(2);
           categoria.Estatus = pgread.GetBoolean(3);
-          categoria.Nivel = pgread.GetInt32(4);
           usuario.AgregarPreferencia( categoria );
 
         }
