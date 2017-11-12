@@ -98,7 +98,7 @@ namespace ApiRest_COCO_TRIP
             Nivel = leerDatos.GetInt32(4)
           });
           Int32.TryParse(leerDatos.GetValue(5).ToString(), out Superior);
-          listaCategorias[listaCategorias.Count - 1].CategoriaSupeior = Superior;
+          listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
         }
       }
       catch (NpgsqlException ex)
