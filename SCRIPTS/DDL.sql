@@ -131,37 +131,45 @@ CREATE TABLE Lugar_Turistico
   lu_longitud decimal CONSTRAINT nn_lu_longitud NOT NULL,
   -- Coordenadas GPS (Google Maps)
   lu_activar boolean DEFAULT true CONSTRAINT nn_lu_activar NOT NULL
-  -- Faltan los FOREIGN KEY de Categorias y Sub_Categorias
+  -- Faltan las Categorias y Sub_Categorias
 );
 
 CREATE TABLE Actividad
 (
-  ac_id integer,
-  ac_foto varchar (250) CONSTRAINT nn_ac_foto NOT NULL,
+  ac_id intege CONSTRAINT pk_actividad PRIMARY KEY,
+  ac_foto varchar (320) CONSTRAINT nn_ac_foto NOT NULL,
   ac_nombre varchar(400) CONSTRAINT nn_ac_nombre NOT NULL,
   ac_duracion time CONSTRAINT nn_ac_duracion NOT NULL,
   ac_descripcion varchar(2000) CONSTRAINT nn_ac_descripcion NOT NULL,
   ac_activar boolean DEFAULT true CONSTRAINT nn_ac_activar NOT NULL,
-  fk_ac_lugar_turistico integer CONSTRAINT fk_ac_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
-  CONSTRAINT pk_actividad PRIMARY KEY(fk_ac_lugar_turistico,ac_id)
+  fk_ac_lugar_turistico integer CONSTRAINT fk_ac_lugar_turistico REFERENCES Lugar_Turistico(lu_id)
 );
 
 CREATE TABLE LT_Horario
 (
-  ho_id integer,
+  ho_id integer CONSTRAINT pk_horario PRIMARY KEY,
   ho_dia_semana integer CONSTRAINT nn_ho_dia_semana NOT NULL,
   ho_hora_apertura time CONSTRAINT nn_ho_hora_apertura NOT NULL,
   ho_hora_cierre time CONSTRAINT nn_ho_hora_cierre NOT NULL,
-  fk_ho_lugar_turistico integer CONSTRAINT fk_ho_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
-  CONSTRAINT pk_horario PRIMARY KEY(fk_ho_lugar_turistico, ho_id)
+  fk_ho_lugar_turistico integer CONSTRAINT fk_ho_lugar_turistico REFERENCES Lugar_Turistico(lu_id)
 );
 
 CREATE TABLE LT_Foto
 (
-  fo_id integer,
-  fo_ruta varchar (250) CONSTRAINT nn_fo_ruta NOT NULL,
-  fk_fo_lugar_turistico integer CONSTRAINT fk_fo_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
-  CONSTRAINT pk_foto PRIMARY KEY(fk_fo_lugar_turistico, fo_id)
+  fo_id integer CONSTRAINT pk_foto PRIMARY KEY,
+  fo_ruta varchar (320) CONSTRAINT nn_fo_ruta NOT NULL,
+  fk_fo_lugar_turistico integer CONSTRAINT fk_fo_lugar_turistico REFERENCES Lugar_Turistico(lu_id)
+);
+
+--Tabla interseccion entre Lugar_Turistico y Categoria--
+--Nota: Antes de crear la tabla es necesario tener creada la tabla Categoria y Lugar_Turistico
+CREATE TABLE LT_C
+(
+  id_lugar_turistico integer CONSTRAINT fk_lt_c_lugar_turistico REFERENCES Lugar_Turistico(lu_id),
+  id_categoria integer CONSTRAINT fk_lt_c_categoria REFERENCES categoria(ca_id),
+  id_categoria_superior integer DEFAULT 0 CONSTRAINT nn_lt_c_categoria_superior NOT NULL,
+  categoria_nombre VARCHAR(500) CONSTRAINT nn_lt_c_categoria_nombre NOT NULL,
+  CONSTRAINT pk_lt_c PRIMARY KEY (id_lugar_turistico, id_categoria)
 );
 --Fin de modulo
 --Modulo 8
@@ -191,9 +199,9 @@ create table localidad(
 CREATE TABLE categoria
 (
   ca_id integer UNIQUE NOT NULL,
-  ca_nombre character varying(20) not null,
-  ca_descripcion character varying(100) not null,
-  ca_status boolean not null,
+  ca_nombre character varying(500) not null,
+  ca_descripcion character varying(2000) not null,
+  ca_status boolean default true not null,
   ca_fkcategoriasuperior integer,
   ca_nivel integer
 );
@@ -204,7 +212,7 @@ CREATE TABLE categoria
 --Fin de modulo
 --Modulo 2
 --alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
---Fin de modulo 
+--Fin de modulo
 --Modulo 3
 --Fin de modulo
 --Modulo 4
@@ -315,5 +323,5 @@ CREATE SEQUENCE SEQ_Localidad
 --Fin de modulo
 --Modulo 9
 GRANT ALL PRIVILEGES ON TABLE categoria TO admin_cocotrip;
---Fin de modulo 
+--Fin de modulo
 --Fin Creates tables
