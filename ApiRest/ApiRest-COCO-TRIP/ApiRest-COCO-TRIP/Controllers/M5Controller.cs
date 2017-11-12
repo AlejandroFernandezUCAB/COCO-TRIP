@@ -14,7 +14,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
 
     List<Itinerario> itinerarios = new List<Itinerario>();
-    private PeticionItinerario peti = new PeticionItinerario(); //preguntar
+    private PeticionItinerario peti = new PeticionItinerario(); 
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
@@ -31,6 +31,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (NullReferenceException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
    
@@ -43,6 +47,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch(NpgsqlException)
       {
+        return false;
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
@@ -68,22 +73,42 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     /* [HttpPut]
        public Boolean AgregarEvento_It(int it, int lt,DateTime fechaini,DateTime fechafin)
-       {
-         return peti.AgregarEvento_It(it, lt,fechaini,fechafin);
+       { try
+         {
+           return peti.AgregarEvento_It(it, lt,fechaini,fechafin);
+         }
+         catch (NpgsqlException)
+        {
+          throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        }
        }*/
 
 
     [HttpPut]
     public Boolean AgregarActividad_It(int it, int lt,DateTime fechaini,DateTime fechafin)
     {
-      return peti.AgregarActividad_It(it, lt,fechaini,fechafin);
+      try
+      {
+        return peti.AgregarActividad_It(it, lt, fechaini, fechafin);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     
     [HttpPut]
     public Boolean AgregarLugar_It(int it, int lt,DateTime fechaini,DateTime fechafin)
     {
-      return peti.AgregarLugar_It(it, lt,fechaini,fechafin);
+      try
+      {
+        return peti.AgregarLugar_It(it, lt, fechaini, fechafin);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     [HttpDelete]

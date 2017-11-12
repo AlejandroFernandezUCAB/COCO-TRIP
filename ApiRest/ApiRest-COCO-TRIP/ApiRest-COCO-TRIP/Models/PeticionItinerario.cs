@@ -159,7 +159,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
-            return false;
+            throw e;
           }
         }
 
@@ -189,7 +189,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
-            return false;
+            throw e;
           }
         }
 
@@ -253,6 +253,12 @@ namespace ApiRest_COCO_TRIP.Models
             con.Desconectar();
             throw e;
           }
+          catch (NullReferenceException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+
     }
 
         /// <summary>

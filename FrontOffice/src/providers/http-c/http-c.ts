@@ -76,14 +76,4 @@ eliminarItem(tipo,idit, iditem){
   });
 }
 
-agregarItinerario(itinerario){
-  return new Promise(resolve => {
-    this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
-        resolve(res);
-      }, (err) => {
-        console.log(err)
-      });
-  });
-}
-
 }

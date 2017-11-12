@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Web.Http;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
@@ -45,8 +47,8 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_FalloAgregarItinerario()
     {
-      Assert.Catch<NullReferenceException>(Excepcion_Agregar);
-      Assert.Catch<NpgsqlException>(Excepcion_Agregar2);
+      Assert.Catch<HttpResponseException>(Excepcion_Agregar);
+      Assert.Catch<HttpResponseException>(Excepcion_Agregar2);
     }
 
     /// <summary>
@@ -97,10 +99,15 @@ namespace ApiRestPruebas
        public void Prueba_AgregarEvento_It()
        {
          Itinerario itinerario = new Itinerario(9);
-         Evento ev = new Evento(3);
+         Evento ev = new Evento
+         {
+           Id = 1
+         };
+         fechaini = new DateTime(2017, 11, 15);
+         fechafin = new DateTime(2017, 11, 18);
          M5Controller controller = new M5Controller();
-         Boolean x = controller.AgregarEvento_It(itinerario, ev);
-         Assert.AreEqual(true, x);
+         Boolean x = controller.AgregarEvento_It(itinerario.Id, ev.Id,fechaini, fechafin);
+         Assert.True(x);
        }*/
 
     [Test]
