@@ -109,7 +109,7 @@ namespace ApiRestPruebas.M2
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
-      lista = apiRest.AgregarPreferencias("conexion", "Deporte");
+      lista = apiRest.AgregarPreferencias(1, 1);
       conexion.Conectar();
       NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
                     "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
@@ -132,7 +132,7 @@ namespace ApiRestPruebas.M2
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
-      lista = apiRest.EliminarPreferencias( 1 , "Deporte");
+      lista = apiRest.EliminarPreferencias( 1 , 1);
       conexion.Conectar();
       NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
                     "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
