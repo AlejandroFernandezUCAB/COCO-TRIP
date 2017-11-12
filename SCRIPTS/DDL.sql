@@ -1,4 +1,4 @@
-CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
+﻿CREATE ROLE admin_cocotrip WITH LOGIN CREATEDB PASSWORD 'ds1718a';
 CREATE DATABASE cocotrip WITH OWNER = admin_cocotrip ENCODING = UTF8;
 --DROPS
 --Modulo 3
@@ -31,9 +31,10 @@ CREATE TABLE USUARIO (
 --Fin de modulo
 --Modulo 2
 CREATE TABLE Preferencia(
-   pr_usuario   int not null,
-    pr_categoria int not null,
-    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria)
+    pr_usuario   int NOT NULL,
+    pr_categoria int NOT NULL,
+    CONSTRAINT pk_usuario PRIMARY KEY (pr_usuario, pr_categoria) ,
+    CONSTRAINT fk_usuario FOREIGN KEY (pr_usuario) REFERENCES USUARIO (us_id)
 );
 --Fin de modulo
 --Modulo 3
@@ -202,7 +203,8 @@ CREATE TABLE categoria
 --Modulo 1
 --Fin de modulo
 --Modulo 2
---Fin de modulo
+--alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
+--Fin de modulo 
 --Modulo 3
 --Fin de modulo
 --Modulo 4

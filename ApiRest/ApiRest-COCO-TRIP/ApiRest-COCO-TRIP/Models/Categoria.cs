@@ -86,6 +86,14 @@ namespace ApiRest_COCO_TRIP.Models
 
     }
 
+    public Categoria(int Id, string Nombre, string Descripcion, bool Estatus, int Nivel)
+    {
+      this.id = Id;
+      this.nombre = Nombre;
+      this.descripcion = Descripcion;
+      this.estatus = Estatus;
+      this.nivel = Nivel;
+    }
 
   }
 }

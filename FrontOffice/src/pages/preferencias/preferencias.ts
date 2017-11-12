@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -11,10 +13,13 @@ export class PreferenciasPage {
 
   preferenciasEnLista: any; //Aquí se guardarán los items de preferencias.
   preferenciasEnBusqueda: any; //Aquí se irán guardando los que se traigan de la Base de datos.
+  idUsuario: any;
+  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
+    public restapiService: RestapiService,private storage: Storage) {
 
-    this.inicializarListas(0);
+    this.cargarListas();
 
   }
 
@@ -43,9 +48,19 @@ export class PreferenciasPage {
       //Eliminando del array de lista
       posicionIndex = this.preferenciasEnLista.indexOf( preferencias );
       this.preferenciasEnLista.splice( posicionIndex, 1);
+      this.restapiService.eliminarPreferencias( this.idUsuario ,preferencias )
+      .then(data => {
+        
+        if(data != 0)
+        {
 
+          this.preferenciasEnLista = data;
+
+        }
+
+      });
       const toast = this.toastCtrl.create({
-        message: preferencias + ' fue eliminada exitosamente',
+        message: 'La categoria ' + preferencias + ' fue eliminada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -54,29 +69,36 @@ export class PreferenciasPage {
     }
   }
 
-    inicializarListas( vez ){
 
-      this.preferenciasEnBusqueda = [
-        'Concierto',
-        'Relajate',
-        'Parque de Diversiones',
-        'Disney'
-      ];
+    cargarListas(){
 
-      if ( vez == 0){
-
-          this.preferenciasEnLista = [
-            'Beisbol',
-            'Futbol',
-            'Deportes'
-          ];
-
-        }
+      this.storage.get('id').then((val) => {
+        this.idUsuario = val;
+        this.inicializarListas();
+      });
 
     }
 
-    buscarPreferencias(ev: any) {
-        this.inicializarListas(1);
+    inicializarListas( ){
+
+      this.restapiService.buscarPreferencias( this.idUsuario )
+      .then(data => {
+
+        if(data != 0)
+        {
+
+          this.preferenciasEnLista = data;
+
+        }
+
+      });
+
+      
+    }
+
+
+    filtrarPreferencias(ev: any) {
+        //this.inicializarListas(1);
         //Este será el valor que uno escribe en el search bar
         let val = ev.target.value;
 

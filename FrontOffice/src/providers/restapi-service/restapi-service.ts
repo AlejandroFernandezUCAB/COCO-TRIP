@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.105:8091/api';
+  apiUrl = 'http://localhost:51049/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -96,6 +96,50 @@ export class RestapiService {
     });
   }
 
+
+    /**
+     * [Modulo 2]
+     * Metodo para obtener la lista de preferencias del usuario
+     * @param idUsuario Id de usuario
+     */
+
+   buscarPreferencias( idUsuario )
+   {
+      return new Promise( resolve => {
+        this.http.get(this.apiUrl+'/M2_PerfilPreferencias/BuscarPreferencias?idUsuario=' + idUsuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+
+          this.data = data;
+          resolve(this.data);
+
+        }, error=>{      
+
+          resolve(0);
+
+        });
+      });
+   }
+
+   eliminarPreferencias( idUsuario ,nombrePreferencia )
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/EliminarPreferencias?idUsuario=' + idUsuario 
+        +'&nombrePreferencia=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
   
 /**
  * [MODULO3]
@@ -199,6 +243,5 @@ export class RestapiService {
         });
     });
   }
-
 
 }

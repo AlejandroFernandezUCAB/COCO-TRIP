@@ -1,4 +1,4 @@
-
+﻿
 
 /**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
@@ -177,6 +177,115 @@ $$
 BEGIN
 	UPDATE usuario SET us_validacion=true
 	WHERE us_email=_correo AND us_id = _id;
+END;
+$$ LANGUAGE plpgsql;
+/**
+Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
+
+Autores:
+  Fernández Pedro
+  Navas Ronald
+  Verrocchi Gianfranco
+**/
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION InsertarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+   
+	INSERT INTO preferencia VALUES
+	( _idUsuario, _idCategoria);
+
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
+--Agregar Preferencia (Insert)
+CREATE OR REPLACE FUNCTION EliminarPreferencia
+( _idUsuario int , _idCategoria int )
+RETURNS integer AS $$
+DECLARE idUsuario int;
+DECLARE idCategoria int;
+BEGIN
+
+	DELETE FROM PREFERENCIA WHERE _idUsuario = pr_usuario AND _idCategoria = pr_categoria;
+	
+   return 1;
+   
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BuscarPreferencias
+( _idUsuario int)
+RETURNS TABLE( 
+  nombre VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT
+	ca_nombre
+	FROM preferencia, categoria
+	WHERE pr_usuario = _idUsuario and pr_categoria = ca_id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarDatosUsuario
+( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_nombre = _nombre  ,  us_apellido = _apellido ,   us_fechaNacimiento = _fechaNacimiento ,   us_genero = _genero 
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarPass 
+( _idUsuario int , _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_password = _password
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ModificarFoto 
+( _idUsuario int , _foto bytea) 
+RETURNS integer AS $$
+BEGIN   
+   UPDATE usuario
+   SET   us_foto = _foto
+   WHERE _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION BorrarUsuario 
+(  _idUsuario int, _password varchar) 
+RETURNS integer AS $$
+BEGIN   
+   DELETE FROM usuario
+   WHERE _password = us_password and _idUsuario = us_id;     return 1; 
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- Consulta la contraseña del usuario
+-- devuelve los datos del usuario
+CREATE OR REPLACE FUNCTION ConsultarContrasena(_username varchar)
+RETURNS TABLE(clave varchar)
+AS $$
+DECLARE clave VARCHAR(20);
+BEGIN
+
+	RETURN QUERY SELECT
+  us_password
+	FROM usuario WHERE us_nombreUsuario = _username AND us_validacion=true;
+
 END;
 $$ LANGUAGE plpgsql;
 

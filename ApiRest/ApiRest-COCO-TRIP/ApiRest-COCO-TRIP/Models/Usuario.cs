@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Npgsql;
+using System.Data;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -48,7 +50,7 @@ namespace ApiRest_COCO_TRIP.Models
     {
       
       preferencias.Add( nuevaCategoria );
-      
+
     }
      
 
