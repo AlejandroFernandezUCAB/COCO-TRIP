@@ -67,9 +67,9 @@
 
                     <div class="col-md-5">
                       <div class="form-group ">
-                        <label for="category" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="category">
+                          <select class="form-control" id="categoria">
                             <option>Elige una categor&iacute;a</option>
                             <option>Zool&oacute;gico</option>
                             <option>Parque tem&aacute;tico</option>
@@ -82,9 +82,9 @@
 
                     <div class="col-md-5">
                       <div class="form-group">
-                        <label for="category" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="category">
+                          <select class="form-control" id="subcategoria">
                             <option>Elige una sub-categor&iacute;a</option>
                             <option>Para mayores de 18 a&ntilde;os</option>
                             <option>Para todas las edades</option>
@@ -98,7 +98,7 @@
                     <div class="col-md-2">
                       <div class="form-group">
                         <div class="col-sm-12" align="center">
-                          <a href="#">
+                          <a onclick="agregarCategoria();" class="agregar">
                             <i class="fa fa-plus-circle icon-add-category" aria-hidden="true"></i>
                           </a>
                         </div>
@@ -108,7 +108,7 @@
                   </div>
 
                   <div class="row row-table">
-                    <table class="table table-hover table-responsive">
+                    <table class="table table-hover table-responsive" id="tabla">
                       <thead>
                         <tr>
                           <th>Nombre Categor&iacute;a</th>
@@ -117,20 +117,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Parque</td>
-                          <td>Zool&oacute;gico</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Todas las edades</td>
-                          <td>mayores de 9 a&ntilde;os</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
+                        
                       </tbody>
                     </table>
                   </div>
@@ -165,7 +152,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control">
+                        <select class="form-control" id="dia">
                           <option selected="true">Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -180,18 +167,18 @@
 
                     <div class="col-md-3">
                       <div class="form-group form-group-horario">
-                        <label for="name" class="control-label">Horario Apertura</label>
+                        <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="name" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
                         </div>
                       </div>
                     </div>
 
                     <div class="col-md-3">
                       <div class="form-group form-group-horario">
-                        <label for="name" class="control-label">Horario Cierre</label>
+                        <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="name" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
                         </div>
                       </div>
                     </div>
@@ -199,7 +186,7 @@
                     <div class="col-md-2">
                       <div class="form-group">
                         <div class="col-sm-12" align="center">
-                          <a href="#">
+                          <a onclick="agregarHorario();">
                             <i class="fa fa-plus-circle icon-add-horario" aria-hidden="true"></i>
                           </a>
                         </div>
@@ -208,7 +195,7 @@
                   </div>
 
                   <div class="row row-table">
-                    <table class="table table-hover table-responsive">
+                    <table class="table table-hover table-responsive" id="tabla_horario">
                       <thead>
                         <tr>
                           <th>D&iacute;a</th>
@@ -218,22 +205,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Lunes</td>
-                          <td>8:00 a.m.</td>
-                          <td>7:00 p.m.</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Domingo</td>
-                          <td>7:00 a.m.</td>
-                          <td>8:00 p.m.</td>
-                          <td>
-                            <a class="btn btn-danger borrar">Eliminar</a>
-                          </td>
-                        </tr>
+                        
                       </tbody>
                     </table>
                   </div>
@@ -489,4 +461,5 @@
 
 @section scripts {
   @Scripts.Render("~/bundles/Lugares_delete-line-tableJS")
+  @Scripts.Render("~/bundles/Lugares_insert-line-tableJS")
 }

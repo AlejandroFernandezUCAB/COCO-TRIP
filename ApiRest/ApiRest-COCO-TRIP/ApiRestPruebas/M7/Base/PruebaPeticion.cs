@@ -17,6 +17,12 @@ namespace ApiRestPruebas.M7.Base
     private Horario horario;
     private Foto foto;
 
+    //Identificador unico de cada objeto
+    private int idLugar = 1;
+    private int idActividad = 1;
+    private int idHorario = 1;
+    private int idFoto = 1;
+
     /// <summary>
     /// Instancia los objetos
     /// </summary>
@@ -26,7 +32,7 @@ namespace ApiRestPruebas.M7.Base
       peticion = new PeticionLugarTuristico();
 
       lugar = new LugarTuristico();
-      lugar.Id = 1;
+      lugar.Id = idLugar;
       lugar.Nombre = "Parque Generalisimo de Miranda";
       lugar.Costo = 0;
       lugar.Descripcion = "Lugar al aire libre";
@@ -40,7 +46,7 @@ namespace ApiRestPruebas.M7.Base
       byte[] imagen = new byte[28480];
 
       actividad = new Actividad();
-      actividad.Id = 1;
+      actividad.Id = idActividad;
       actividad.Nombre = "Parque Generalisimo de Miranda";
       actividad.Duracion = new TimeSpan(2, 0, 0);
       actividad.Descripcion = "Lugar al aire libre";
@@ -48,13 +54,13 @@ namespace ApiRestPruebas.M7.Base
       actividad.Activar = true;
 
       horario = new Horario();
-      horario.Id = 1;
+      horario.Id = idHorario;
       horario.DiaSemana = (int) DateTime.Now.DayOfWeek;
       horario.HoraApertura = new TimeSpan(8, 0, 0);
       horario.HoraCierre = new TimeSpan(17, 0, 0);
 
       foto = new Foto();
-      foto.Id = 1;
+      foto.Id = idFoto;
       foto.Contenido = imagen;
 
       lugar.Actividad.Add(actividad);

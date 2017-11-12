@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -11,10 +13,13 @@ export class PreferenciasPage {
 
   preferenciasEnLista: any; //Aquí se guardarán los items de preferencias.
   preferenciasEnBusqueda: any; //Aquí se irán guardando los que se traigan de la Base de datos.
+  idUsuario: any;
+  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
+    public restapiService: RestapiService,private storage: Storage) {
 
-    this.inicializarListas(0);
+    this.cargarListas();
 
   }
 
@@ -22,17 +27,17 @@ export class PreferenciasPage {
     console.log('ionViewDidLoad PreferenciasPage');
   }
 
-  aviso(str, preferencias) {
+  aviso(str, idPreferencias, nombrePreferencias) {
 
     var posicionIndex;
 
     if (str == "agregado") {
 
-      this.preferenciasEnLista.push( preferencias );
-      posicionIndex = this.preferenciasEnBusqueda.indexOf( preferencias );
+      this.preferenciasEnLista.push( idPreferencias );
+      posicionIndex = this.preferenciasEnBusqueda.indexOf( idPreferencias );
       this.preferenciasEnBusqueda.splice( posicionIndex, 1);
       const toast = this.toastCtrl.create({
-        message: preferencias + ' fue agregada exitosamente',
+        message: nombrePreferencias + ' fue agregada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -41,11 +46,21 @@ export class PreferenciasPage {
     } else {
 
       //Eliminando del array de lista
-      posicionIndex = this.preferenciasEnLista.indexOf( preferencias );
+      posicionIndex = this.preferenciasEnLista.indexOf( idPreferencias );
       this.preferenciasEnLista.splice( posicionIndex, 1);
+      this.restapiService.eliminarPreferencias( this.idUsuario ,idPreferencias )
+      .then(data => {
+        
+        if(data != 0)
+        {
 
+          this.preferenciasEnLista = data;
+          console.log( this.preferenciasEnLista );
+        }
+
+      });
       const toast = this.toastCtrl.create({
-        message: preferencias + ' fue eliminada exitosamente',
+        message: 'La categoria ' + nombrePreferencias + ' fue eliminada exitosamente',
         showCloseButton: true,
         closeButtonText: 'Ok'
       });
@@ -54,29 +69,37 @@ export class PreferenciasPage {
     }
   }
 
-    inicializarListas( vez ){
 
-      this.preferenciasEnBusqueda = [
-        'Concierto',
-        'Relajate',
-        'Parque de Diversiones',
-        'Disney'
-      ];
+    cargarListas(){
 
-      if ( vez == 0){
-
-          this.preferenciasEnLista = [
-            'Beisbol',
-            'Futbol',
-            'Deportes'
-          ];
-
-        }
+      this.storage.get('id').then((val) => {
+        this.idUsuario = val;
+        this.inicializarListas();
+      });
 
     }
 
-    buscarPreferencias(ev: any) {
-        this.inicializarListas(1);
+    inicializarListas( ){
+
+      this.restapiService.buscarPreferencias( this.idUsuario )
+      .then(data => {
+
+        if(data != 0)
+        {
+
+          this.preferenciasEnLista = data;
+          console.log(data);
+
+        }
+
+      });
+
+      
+    }
+
+
+    filtrarPreferencias(ev: any) {
+        //this.inicializarListas(1);
         //Este será el valor que uno escribe en el search bar
         let val = ev.target.value;
 

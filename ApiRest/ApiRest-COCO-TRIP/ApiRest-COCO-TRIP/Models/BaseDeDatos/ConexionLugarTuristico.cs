@@ -18,6 +18,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     private NpgsqlCommand comando; //Instruccion SQL a ejecutar
     private NpgsqlDataReader leerDatos; //Lee la respuesta de la instruccion SQL ejecutada
 
+    private Archivo archivo; //Guarda la foto en el web service
+
     /// <summary>
     /// Constructor de la clase
     /// </summary>
@@ -25,11 +27,14 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     {
       conexion = new ConexionBase();
       comando = new NpgsqlCommand();
+      archivo = new Archivo();
     }
 
     /// <summary>
     /// Inicia una conexion con la base de datos
     /// </summary>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Conectar()
     {
       try
@@ -44,7 +49,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
-      catch (InvalidOperationException e)
+      catch (InvalidOperationException)
       {
         //La conexion ya estaba abierta
         //Se debe registrar en NLog este evento
@@ -59,6 +64,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <summary>
     /// Finaliza la conexion con la base de datos
     /// </summary>
+    /// <exception cref="NpgsqlException"></exception>
     public void Desconectar()
     {
       try
@@ -83,6 +89,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="lugarTuristico">LugarTuristico</param>
     /// <returns>(int) ID del Lugar Turistico</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
     public int InsertarLugarTuristico(LugarTuristico lugarTuristico)
     {
       try
@@ -100,6 +109,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Numeric, lugarTuristico.Latitud));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Numeric, lugarTuristico.Longitud));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, lugarTuristico.Activar));
+
+        //Categorias y
+        // sub-categorias de las categorias
 
         leerDatos = comando.ExecuteReader();
 
@@ -145,6 +157,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="actividad">Actividad</param>
     /// <param name="idLugarTuristico">ID del Lugar Turistico</param>
     /// <returns>(int) ID de la actividad insertada</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public int InsertarActividad(Actividad actividad, int idLugarTuristico)
     {
       try
@@ -153,19 +169,31 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarActividad";
         comando.CommandType = CommandType.StoredProcedure;
 
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, actividad.Foto.Contenido));
+        var nombreArchivo = "ac-";
+
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Nombre));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, archivo.Ruta + nombreArchivo));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Time, actividad.Duracion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
-        leerDatos = comando.ExecuteReader();
-
-        if (leerDatos.Read())
+        if (actividad.Foto.Contenido != null)
         {
-          actividad.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
+          leerDatos = comando.ExecuteReader();
+
+          if (leerDatos.Read())
+          {
+            actividad.Id = leerDatos.GetInt32(0);
+            leerDatos.Close();
+          }
+
+          archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id);
+
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
         }
 
         return actividad.Id;
@@ -195,6 +223,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -205,6 +237,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="horario">Horario</param>
     /// <param name="idLugarTuristico">ID del Lugar Turistico</param>
     /// <returns>(int) ID del horario insertado</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
     public int InsertarHorario(Horario horario, int idLugarTuristico)
     {
       try
@@ -263,6 +298,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="foto">Foto</param>
     /// <param name="idLugarTuristico">ID del Lugar Turistico</param>
     /// <returns>(int) ID de la foto insertada</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public int InsertarFoto(Foto foto, int idLugarTuristico)
     {
       try
@@ -271,15 +310,26 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandText = "InsertarFoto";
         comando.CommandType = CommandType.StoredProcedure;
 
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto.Contenido));
+        var nombreArchivo = "lt-fo-";
+
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, archivo.Ruta + nombreArchivo));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
-        leerDatos = comando.ExecuteReader();
-
-        if (leerDatos.Read())
+        if (foto.Contenido != null)
         {
-          foto.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
+          leerDatos = comando.ExecuteReader();
+
+          if (leerDatos.Read())
+          {
+            foto.Id = leerDatos.GetInt32(0);
+            leerDatos.Close();
+          }
+
+          archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
         }
 
         return foto.Id;
@@ -311,6 +361,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
+      catch(ArchivoExcepcion e)
+      {
+        throw e;
+      }
 
     }
 
@@ -321,6 +375,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// en la base de datos
     /// </summary>
     /// <param name="lugarTuristico">Lugar Turistico</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
     public void ActualizarLugarTuristico(LugarTuristico lugarTuristico)
     {
       try
@@ -340,6 +397,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Numeric, lugarTuristico.Latitud));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Numeric, lugarTuristico.Longitud));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, lugarTuristico.Activar));
+
+        //Categorias y
+        // sub-categorias de las categorias
 
         comando.ExecuteNonQuery();
       }
@@ -375,6 +435,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// lugar turistico
     /// </summary>
     /// <param name="actividad">Actividad</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void ActualizarActividad(Actividad actividad)
     {
       try
@@ -384,13 +448,21 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, actividad.Id));
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, actividad.Foto.Contenido));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Foto.Ruta));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Nombre));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Time, actividad.Duracion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
 
-        comando.ExecuteNonQuery();
+        if (actividad.Foto.Contenido != null)
+        {
+          comando.ExecuteNonQuery();
+          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        }
       }
       catch (NpgsqlException e)
       {
@@ -417,6 +489,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
@@ -424,6 +500,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// lugar turistico
     /// </summary>
     /// <param name="horario">Horario</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
     public void ActualizarHorario(Horario horario)
     {
       try
@@ -470,6 +549,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// Actualizar foto asociada a un lugar turistico
     /// </summary>
     /// <param name="foto">Foto</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="CasteoInvalidoExcepcion"></exception>
+    /// <exception cref="ReferenciaNulaExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void ActualizarFoto(Foto foto)
     {
       try
@@ -479,9 +562,17 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, foto.Id));
-        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto.Contenido));
+        comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto.Ruta));
 
-        comando.ExecuteNonQuery();
+        if (foto.Contenido != null)
+        {
+          comando.ExecuteNonQuery();
+          archivo.EscribirArchivo(foto.Contenido, "lt-fo-" + foto.Id);
+        }
+        else
+        {
+          throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        }
       }
       catch (NpgsqlException e)
       {
@@ -510,6 +601,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
 
     }
 
@@ -518,6 +613,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID del lugar turistico</param>
     /// <param name="activar">activar (true) o desactivar (false)</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public void ActivarLugarTuristico(int id, bool activar)
     {
       try
@@ -548,6 +644,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID de la actividad</param>
     /// <param name="activar">activar (true) o desactivar (false)</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public void ActivarActividad(int id, bool activar)
     {
       try
@@ -579,6 +676,8 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// Eliminar actividad asociado al lugar turistico
     /// </summary>
     /// <param name="id">ID de la actividad</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void EliminarActividad(int id)
     {
       try
@@ -588,8 +687,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
-
         comando.ExecuteNonQuery();
+
+        archivo.EliminarArchivo("ac-" + id);
+
       }
       catch (NpgsqlException e)
       {
@@ -600,12 +701,18 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
     /// Eliminar foto asociada al lugar turistico
     /// </summary>
     /// <param name="id">ID de la foto</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
+    /// <exception cref="ArchivoExcepcion"></exception>
     public void EliminarFoto(int id)
     {
       try
@@ -615,8 +722,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.CommandType = CommandType.StoredProcedure;
 
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
-
         comando.ExecuteNonQuery();
+
+        archivo.EliminarArchivo("lt-fo-" + id);
       }
       catch (NpgsqlException e)
       {
@@ -627,12 +735,17 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
         throw excepcion;
       }
+      catch (ArchivoExcepcion e)
+      {
+        throw e;
+      }
     }
 
     /// <summary>
     /// Eliminar horario asociada al lugar turistico
     /// </summary>
     /// <param name="id">ID de la foto</param>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public void EliminarHorario(int id)
     {
       try
@@ -665,6 +778,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID del Lugar Turistico</param>
     /// <returns>(LugarTuristico) Retorna toda la informacion del lugar turistico</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public LugarTuristico ConsultarLugarTuristico(int id)
     {
       var lugarTuristico = new LugarTuristico();
@@ -717,6 +831,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="desde">ID desde el cual se consultan los lugares turisticos</param>
     /// <param name="hasta">ID hasta el cual se consultan los lugares turisticos</param>
     /// <returns>(List<LugarTuristico>) Lista de lugares turisticos con la informacion minima</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<LugarTuristico> ConsultarListaLugarTuristico(int desde, int hasta)
     {
       var listaLugarTuristico = new List<LugarTuristico>();
@@ -767,6 +882,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="idLugarTuristico">ID del Lugar Turistico</param>
     /// <returns>(List<Actividad>) Lista de actividades asociadas al lugar turistico</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<Actividad> ConsultarActividades(int idLugarTuristico)
     {
       var listaActividad = new List<Actividad>();
@@ -786,7 +902,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           var actividad = new Actividad();
 
           actividad.Id = leerDatos.GetInt32(0);
-          actividad.Foto.Contenido = (byte[])leerDatos[1]; //Simplificacion de GetBytes. TESTEAR!
+          actividad.Foto.Ruta = leerDatos.GetString(1);
           actividad.Nombre = leerDatos.GetString(2);
           actividad.Duracion = leerDatos.GetTimeSpan(3);
           actividad.Descripcion = leerDatos.GetString(4);
@@ -815,6 +931,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="id">ID de la activdad</param>
     /// <returns>Objeto actividad</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public Actividad ConsultarActividad (int id)
     {
       var actividad = new Actividad ();
@@ -832,7 +949,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         if (leerDatos.Read())
         {
           actividad.Id = id;
-          actividad.Foto.Contenido = (byte[])leerDatos[0]; //Simplificacion de GetBytes. TESTEAR!
+          actividad.Foto.Ruta = leerDatos.GetString(0);
           actividad.Nombre = leerDatos.GetString(1);
           actividad.Duracion = leerDatos.GetTimeSpan(2);
           actividad.Descripcion = leerDatos.GetString(3);
@@ -860,6 +977,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="idLugarTuristico">ID del Lugar Turistico</param>
     /// <returns>(List<Actividad>) Lista de actividades asociadas al lugar turistico</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<Actividad> ConsultarNombreActividades(int idLugarTuristico)
     {
       var listaActividad = new List<Actividad>();
@@ -904,6 +1022,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="idLugarTuristico">ID de Lugar Turistico</param>
     /// <returns>(List<Horario>) Retorna la lista de horarios</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<Horario> ConsultarHorarios(int idLugarTuristico)
     {
       var listaHorario = new List<Horario>();
@@ -952,6 +1071,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// <param name="idLugarTuristico">ID de Lugar Turistico</param>
     /// <param name="diaSemana">Dia de la semana</param>
     /// <returns>(Horario) Horario del dia de la semana</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public Horario ConsultarDiaHorario(int idLugarTuristico, int diaSemana)
     {
       var horario = new Horario();
@@ -994,6 +1114,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     /// </summary>
     /// <param name="idLugarTuristico">ID del Lugar Turistico</param>
     /// <returns>(List<Foto>) Lista de fotos del lugar turistico</returns>
+    /// <exception cref="BaseDeDatosExcepcion"></exception>
     public List<Foto> ConsultarFotos(int idLugarTuristico)
     {
       var listaFoto = new List<Foto>();
@@ -1013,7 +1134,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           var foto = new Foto();
 
           foto.Id = leerDatos.GetInt32(0);
-          foto.Contenido = (byte[])leerDatos[1];
+          foto.Ruta = leerDatos.GetString(1);
 
           listaFoto.Add(foto);
         }

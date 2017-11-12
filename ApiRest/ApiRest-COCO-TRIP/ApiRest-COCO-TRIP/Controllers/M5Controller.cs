@@ -1,9 +1,11 @@
 using System;
 using System.Web.Http;
+using System.Net;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
+using Npgsql;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -12,51 +14,118 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
 
     List<Itinerario> itinerarios = new List<Itinerario>();
-    private PeticionItinerario peti = new PeticionItinerario(); //preguntar
+    private PeticionItinerario peti = new PeticionItinerario(); 
    
     [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
-      return peti.AgregarItinerario(it);
+      try
+      {
+        return peti.AgregarItinerario(it);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (NullReferenceException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
    
     [HttpDelete]
     public Boolean EliminarItinerario(int idit)
     {
-      return peti.EliminarItinerario(idit);
+      try
+      {
+        return peti.EliminarItinerario(idit);
+      }
+      catch(NpgsqlException)
+      {
+        return false;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
+
+
 
     [HttpPost]
-    public Boolean ModificarItinerario(Itinerario it)
+    public Itinerario ModificarItinerario(Itinerario it)
     {
-      return peti.ModificarItinerario(it);
+      try
+      {
+        return peti.ModificarItinerario(it);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
- /* [HttpGet]
-    public Boolean AgregarEvento_It(Itinerario it,Evento ev)
-    {
-      return itinerario.AgregarEvento_It(it,ev)
-    }*/
+    /* [HttpPut]
+       public Boolean AgregarEvento_It(int it, int lt,DateTime fechaini,DateTime fechafin)
+       { try
+         {
+           return peti.AgregarEvento_It(it, lt,fechaini,fechafin);
+         }
+         catch (NpgsqlException)
+        {
+          throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        }
+       }*/
 
-   
-   [HttpPut]
-    public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
+
+    [HttpPut]
+    public Boolean AgregarActividad_It(int it, int lt,DateTime fechaini,DateTime fechafin)
     {
-      return peti.AgregarActividad_It(it, ac);
+      try
+      {
+        return peti.AgregarActividad_It(it, lt, fechaini, fechafin);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     
     [HttpPut]
-    public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
+    public Boolean AgregarLugar_It(int it, int lt,DateTime fechaini,DateTime fechafin)
     {
-      return peti.AgregarLugar_It(it, lt);
+      try
+      {
+        return peti.AgregarLugar_It(it, lt, fechaini, fechafin);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
     }
 
     [HttpDelete]
-    public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    public Boolean EliminarItem_It(string tipo,int idit, int iditem)
     {
-      return peti.EliminarItem_It(it, ag);
+      try
+      {
+        return peti.EliminarItem_It(tipo, idit, iditem);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
     
@@ -66,11 +135,22 @@ namespace ApiRest_COCO_TRIP.Controllers
         return peti.ConsultarItinerarios(id_usuario);
     }
 
-    [HttpGet]
+ /* [HttpGet]
     public List<Evento> ConsultarEventos(string busqueda)
     {
-        return peti.ConsultarEventos(busqueda);
+      return peti.ConsultarEventos(busqueda);
+    }*/
+
+    [HttpGet]
+    public List<LugarTuristico> ConsultarLugaresTuristicos(string busqueda)
+    {
+      return peti.ConsultarLugarTuristico(busqueda);
     }
 
+    [HttpGet]
+    public List<Actividad> ConsultarActividad(string busqueda)
+    {
+      return peti.ConsultarActividades(busqueda);
+    }
   }
 }

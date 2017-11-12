@@ -33,8 +33,16 @@ namespace ApiRest_COCO_TRIP.Models
                 //Recorremos los registros devueltos
                 while (pgread.Read())
                 {
-                    Itinerario iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1));
-
+                  Itinerario iti;
+                  if (!pgread.IsDBNull(3) && (!pgread.IsDBNull(4)))
+                  {
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+                  }
+                  else
+                  {
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), true);
+                  }
+                    
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
                     foreach (Itinerario itinerario in itinerarios)
@@ -46,27 +54,39 @@ namespace ApiRest_COCO_TRIP.Models
 
                     //Agregamos los eventos, actividades y lugares a la lista correspondiente
                     //Si existe lugar turistico en este registro
-                    if (!pgread.IsDBNull(5))
+                    if (!pgread.IsDBNull(7))
                     {
-                        LugarTuristico lugar = new LugarTuristico();
-                        lugar.Id = pgread.GetInt32(5);
-                        lugar.Nombre = pgread.GetString(6);
-                        lugar.Descripcion = pgread.GetString(7);
-                        lugar.Costo = pgread.GetDouble(8);
+                        dynamic lugar = new System.Dynamic.ExpandoObject();
+                        lugar.Id = pgread.GetInt32(7);
+                        lugar.Nombre = pgread.GetString(8);
+                        lugar.Descripcion = pgread.GetString(9);
+                        lugar.Costo = pgread.GetDouble(10);
+                        lugar.Tipo = "Lugar Turistico";
+                        if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                        {
+                            lugar.FechaInicio = pgread.GetDateTime(5);
+                            lugar.FechaFin = pgread.GetDateTime(6);
+                        }
                         itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
                     }
                     //Si existe actividad en este registro
-                    if (!pgread.IsDBNull(9))
+                    if (!pgread.IsDBNull(11))
                     {
-                        Actividad actividad = new Actividad
-                        {
-                            Id = pgread.GetInt32(9),
-                            Nombre = pgread.GetString(10),
-                            Descripcion = pgread.GetString(11),
-                            Duracion = pgread.GetTimeSpan(12)
-                        };
-                        itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
+                      dynamic actividad = new System.Dynamic.ExpandoObject();
+                      actividad.Id = pgread.GetInt32(11);
+                      actividad.Nombre = pgread.GetString(12);
+                      actividad.Descripcion = pgread.GetString(13);
+                      actividad.Duracion = pgread.GetTimeSpan(14);
+                      actividad.Tipo = "Actividad";
+                      if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+                      {
+                        actividad.FechaInicio = pgread.GetDateTime(5);
+                        actividad.FechaFin = pgread.GetDateTime(6);
+                      }
+                      itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
+                    //Falta el caso de que sea un evento...
+
                 }
                 con.Desconectar();
                 return itinerarios;
@@ -75,54 +95,25 @@ namespace ApiRest_COCO_TRIP.Models
             {
                 throw e;
             }
-
         }
 
-        /// <summary>
-        /// Metodo que elimina un lugar turistico existente de un itinerario existente
-        /// </summary>
-        /// <param name="it">itinerario del cual se elimina el lugar turistico</param>
-        /// <param name="lt">lugar turistico a eliminar del itinerario</param>
-        /// <returns>true si se elimino el lugar turistico exitosamente, false en caso de error</returns>
-        public Boolean EliminarItem_It(Itinerario it, Agenda ag)
+    /// <summary>
+    /// Metodo que elimina un item existente de un itinerario existente
+    /// </summary>
+    /// <param name="it">item del cual se elimina el lugar turistico</param>
+    /// <param name="lt">item a eliminar del itinerario</param>
+    /// <returns>true si se elimino el item exitosamente, false en caso de error</returns>
+    public Boolean EliminarItem_It(string tipo,int idit, int iditem)
         {
           try
           {
-            con = new ConexionBase();
+            con = new ConexionBase();  
             con.Conectar();
-            comm = new NpgsqlCommand("del_lugar_it", con.SqlConexion);
+            comm = new NpgsqlCommand("del_item_it", con.SqlConexion);
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ag.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-            pgread = comm.ExecuteReader();
-            pgread.Read();
-            Boolean resp = pgread.GetBoolean(0);
-           con.Desconectar();
-            return resp;
-          }
-          catch (NpgsqlException e)
-          {
-            return false;
-          }
-        }
-
-
-        /// <summary>
-        /// Metodo que agrega un lugar turistico existente a un itinerario existente
-        /// </summary>
-        /// <param name="it">itinerario al cual se le agrega el lugar turistico</param>
-        /// <param name="lt">lugar turistico a agregar en el itinerario</param>
-        /// <returns>true si se agrego el lugar turistico exitosamente, false en caso de error</returns>
-        public Boolean AgregarLugar_It(Itinerario it, LugarTuristico lt)
-        {
-          try
-          {
-            con = new ConexionBase();
-            con.Conectar();
-            comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lt.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, tipo);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
             pgread = comm.ExecuteReader();
             pgread.Read();
             Boolean resp = pgread.GetBoolean(0);
@@ -131,7 +122,44 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
-            return false;
+            con.Desconectar();
+            throw e;
+          }
+          catch (InvalidCastException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+    }
+
+
+        /// <summary>
+        /// Metodo que agrega un lugar turistico existente a un itinerario existente
+        /// </summary>
+        /// <param name="it">itinerario al cual se le agrega el lugar turistico</param>
+        /// <param name="lt">lugar turistico a agregar en el itinerario</param>
+        /// <returns>true si se agrego el lugar turistico exitosamente, false en caso de error</returns>
+        public Boolean AgregarLugar_It(int idit, int idlt,DateTime fechaini, DateTime fechafin)
+        {
+          try
+          {
+            con = new ConexionBase();
+            con.Conectar();
+            comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+            comm.CommandType = CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idlt);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechaini);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
+            pgread = comm.ExecuteReader();
+            pgread.Read();
+            Boolean resp = pgread.GetBoolean(0);
+            con.Desconectar();
+            return resp;
+          }
+          catch (NpgsqlException e)
+          {
+            throw e;
           }
         }
 
@@ -141,16 +169,18 @@ namespace ApiRest_COCO_TRIP.Models
         /// <param name="it">itinerario al cual se le agrega la actividad</param>
         /// <param name="ac">actividad a agregar en el itinerario</param>
         /// <returns>true si se agrego la actividad exitosamente, false en caso de error</returns>
-        public Boolean AgregarActividad_It(Itinerario it, Actividad ac)
-        {
+        public Boolean AgregarActividad_It(int idit, int idac,DateTime fechaini, DateTime fechafin)
+    {
           try
           {
             con = new ConexionBase();
             con.Conectar();
             comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ac.Id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idac);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechaini);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
             pgread = comm.ExecuteReader();
             pgread.Read();
             Boolean resp = pgread.GetBoolean(0);
@@ -159,7 +189,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
-            return false;
+            throw e;
           }
         }
 
@@ -215,13 +245,21 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
+            con.Desconectar();
             throw e;
           }
-          catch (FormatException e)
+          catch (InvalidCastException e)
           {
+            con.Desconectar();
             throw e;
           }
-        }
+          catch (NullReferenceException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+
+    }
 
         /// <summary>
         /// Metodo que elimina un itinerario de la base de datos
@@ -236,7 +274,7 @@ namespace ApiRest_COCO_TRIP.Models
                 con.Conectar();
                 comm = new NpgsqlCommand("del_itinerario", con.SqlConexion);
                 comm.CommandType = CommandType.StoredProcedure;
-                comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
+                comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer,id);
                 pgread = comm.ExecuteReader();
                 pgread.Read();
                 Boolean resp = pgread.GetBoolean(0);
@@ -245,7 +283,7 @@ namespace ApiRest_COCO_TRIP.Models
             }
             catch (NpgsqlException e)
             {
-                return false;
+              throw e;
             }
 
         }
@@ -255,7 +293,7 @@ namespace ApiRest_COCO_TRIP.Models
         /// </summary>
         /// <param name="it">el itinerario a modificar</param>
         /// <returns>true si modifica existosamente, false en caso de error</returns>
-        public Boolean ModificarItinerario(Itinerario it)
+        public Itinerario ModificarItinerario(Itinerario it)
         {
           try
           {
@@ -267,24 +305,30 @@ namespace ApiRest_COCO_TRIP.Models
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, it.Nombre);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaInicio);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, it.FechaFin);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.IdUsuario);
             pgread = comm.ExecuteReader();
             pgread.Read();
-            Boolean resp = pgread.GetBoolean(0);
             con.Desconectar();
-            return resp;
+            return it;
           }
           catch (NpgsqlException e)
           {
-            return false;
+            con.Desconectar();
+            throw e;
           }
-        }
+          catch (InvalidCastException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+    }
 
         /// <summary>
         /// Consulta los eventos por nombre, o similiares.
         /// </summary>
-        /// <param name="busqueda">Palabra cuyo similitud se busca en el nombre del evento que se esta buscando.</param>
-        /// <returns></returns>
-        public List<Evento> ConsultarEventos(string busqueda)
+        /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del evento que se esta buscando.</param>
+        /// <returns>Retorna una lista con los eventos que tengan coincidencia.</returns>
+     /* public List<Evento> ConsultarEventos(string busqueda)
         {
           List<Evento> list_eventos = new List<Evento>();
           try
@@ -310,9 +354,14 @@ namespace ApiRest_COCO_TRIP.Models
           {
             throw e;
           }
-        }
+        } */
 
-        public List<LugarTuristico> ConsultarLugarTuristico(string busqueda)
+    /// <summary>
+    /// Consulta los lugares turisticos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del lugar turistico que se esta buscando.</param>
+    /// <returns>Retorna una lista con los lugares turisticos que tengan coincidencia.</returns>
+    public List<LugarTuristico> ConsultarLugarTuristico(string busqueda)
         {
           List<LugarTuristico> list_lugaresturisticos = new List<LugarTuristico>();
           try
@@ -343,7 +392,12 @@ namespace ApiRest_COCO_TRIP.Models
           }
         }
 
-        public List<Actividad> ConsultarActividades(string busqueda)
+    /// <summary>
+    ///  Consulta los lugares turisticos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre de la actividad que se esta buscando.</param>
+    /// <returns>Retorna una lista con las actividades que tengan coincidencia.</returns>
+    public List<Actividad> ConsultarActividades(string busqueda)
         {
           List<Actividad> list_actividades = new List<Actividad>();
           try
