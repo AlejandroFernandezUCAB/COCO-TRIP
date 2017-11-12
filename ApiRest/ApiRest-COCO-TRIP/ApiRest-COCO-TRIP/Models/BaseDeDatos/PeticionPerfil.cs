@@ -315,6 +315,10 @@ namespace ApiRest_COCO_TRIP.Models
       {
         return null;
       }
+      catch (Exception e)
+      {
+        return null;
+      }
     }
 
   }

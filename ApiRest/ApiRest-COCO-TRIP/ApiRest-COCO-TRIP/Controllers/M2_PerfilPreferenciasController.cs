@@ -22,7 +22,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombrePreferencia">Nombre de la preferencia a agregar</param>
     /// <returns>Lista de preferencias del usuario</returns>
     // POST api/<controller>/<action>/prefencia
-    [HttpPut]
+    [HttpPost]
     public List<Categoria> AgregarPreferencias ( int idUsuario , int idCategoria)
     {
 
