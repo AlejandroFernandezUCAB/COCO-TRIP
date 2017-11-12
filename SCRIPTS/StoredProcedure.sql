@@ -249,7 +249,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT BuscarListaPreferenciaUsuario( 1 ,'Conciertos')
+
 
 CREATE OR REPLACE FUNCTION ModificarDatosUsuario
 ( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
