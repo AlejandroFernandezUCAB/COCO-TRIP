@@ -193,10 +193,11 @@ namespace ApiRestPruebas.M2
     }
 
     [Test]
-    public void cambiarPass(string username, string passActual, string passNueva)
+    public void cambiarPass()
     {
-      username = "ron2702";
-      passActual = "master93";
+      string username, passActual, passNueva;
+      username = "conexion";
+      passActual = "HOLA";
       passNueva = "123";
       probar = apiRest.CambiarPass(username, passActual, passNueva);
       Assert.AreEqual(true, probar);
