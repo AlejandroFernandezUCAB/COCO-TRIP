@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.105:8091/api';
+  apiUrl = 'http://localhost:8091/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -199,6 +199,54 @@ export class RestapiService {
         });
     });
   }
+/**
+ * [MODULO 3] 
+ * Metodo para visualizar el perfil del usuario
+ * @param usuario nombre de usuario
+ */
+  obtenerPerfilPublico(usuario) 
+  {  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/VisualizarPerfilAmigo/?nombreUsuario='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error");
+        });
+    });
+  }
 
+    /**
+ * [MODULO 3] 
+ * Metodo para agregar el amigo solicitado
+ * @param usuario nombre de usuario
+ */
+agregarAmigo(idUsuario,nombreAmigo) {  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+  salirGrupo(usuario, idGrupo){
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/SalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
+      .subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err),
+        console.log(usuario),
+        console.log(idGrupo)
+      });
+  });
+  }
 
 }

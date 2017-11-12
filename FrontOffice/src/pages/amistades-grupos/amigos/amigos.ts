@@ -50,11 +50,12 @@ export class AmigosPage {
    */
    ionViewWillEnter() {
      this.cargando();
-      this.restapiService.listaAmigos("usuario1")
+      this.restapiService.listaAmigos("usuario2")
         .then(data => {
           if (data == 0 || data == -1) {
             console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-
+            this.loading.dismiss();
+            
           }
           else {
             this.amigo = data;

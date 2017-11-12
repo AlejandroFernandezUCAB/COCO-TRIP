@@ -27,13 +27,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
     [HttpGet]
-    public HttpStatusCode AgregarAmigo(String nombreUsuario1, String nombreUsuario2)
+    public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
     {
       try
       { 
         peticion = new PeticionAmigoGrupo();
         int result = 0;
-        result = peticion.AgregarAmigosBD(nombreUsuario1, nombreUsuario2);
+        result = peticion.AgregarAmigosBD(Convert.ToInt32(idUsuario1), nombreUsuario2);
       }
       catch (NpgsqlException)
       {
@@ -62,12 +62,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
     /// <returns></returns>
     [HttpGet]
-    public Usuario VisualizarPerfilAmigo(String nombreUsuario)
+    public List<Usuario> VisualizarPerfilAmigo(String nombreUsuario)
     {
+      List<Usuario> lista = new List<Usuario>();
       Usuario usuario;
       try {
         peticion = new PeticionAmigoGrupo();
         usuario = peticion.VisualizarPerfilAmigoBD(nombreUsuario);
+        lista.Add(usuario);
       }
       catch (NpgsqlException)
       {
@@ -85,7 +87,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return usuario;
+      return lista;
     }
 
     /// <summary>
@@ -114,16 +116,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
     /// </summary>
     /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
-    /// <param name="nombreUsuario">nombre del usuario que desea salir del grupo</param>
+    /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
     /// <returns>true si sale exitossamente, false en caso contrario</returns>
-    [HttpGet]
-    public bool SalirGrupo(string idGrupo, string nombreUsuario)
+    [HttpDelete]
+    public bool SalirGrupo(string idGrupo, string idUsuario)
     {
       bool salio = false;
       try
       {
         peticion = new PeticionAmigoGrupo();
-        salio =  peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), nombreUsuario);
+        salio =  peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
       }
       catch (NpgsqlException)
       {

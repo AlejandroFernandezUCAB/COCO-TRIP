@@ -31,10 +31,9 @@ namespace ApiRest_COCO_TRIP.Models
       return parametro;
     }
 
-    public int AgregarAmigosBD(string nobmreUsuario, string nombreAmigo)
+    public int AgregarAmigosBD(int idUsuario, string nombreAmigo)
     {
       int respuesta = 0;
-      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
       int idAmigo = ObtenerIdUsuario(nombreAmigo);
       try
       {
@@ -83,8 +82,11 @@ namespace ApiRest_COCO_TRIP.Models
           {
             usuario.Foto[0] = leerDatos.GetByte(3);
           }
+          usuario.NombreUsuario = leerDatos.GetString(4);
+
           //usuario.Foto[0] = leerDatos.GetByte(3);
-        }else
+        }
+        else
         {
           usuario = null;
         }
@@ -104,10 +106,9 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-    public bool SalirGrupoBD(int idGrupo, string nobmreUsuario)
+    public bool SalirGrupoBD(int idGrupo, int idUsuario)
     {
       bool resultado = false;
-      int idUsuario = ObtenerIdUsuario(nobmreUsuario);
       try
       {
         conexion.Conectar();
@@ -190,6 +191,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="nombreusuario">nombre del usuario por el cual se busca el id</param>
     /// <returns></returns>
+    ///
+
     public List<Grupo> Listagrupo(string nombreusuario)
     {
       int idUsuario = ObtenerIdUsuario(nombreusuario);
@@ -205,10 +208,11 @@ namespace ApiRest_COCO_TRIP.Models
         while (leerDatos.Read())
         {
           var grupo = new Grupo();
-          grupo.Nombre = leerDatos.GetString(0);
-          if (!leerDatos.IsDBNull(1))
+          grupo.Id = leerDatos.GetInt32(0);
+          grupo.Nombre = leerDatos.GetString(1);
+          if (!leerDatos.IsDBNull(2))
           {
-            grupo.Foto[0] = leerDatos.GetByte(1);
+            grupo.Foto[0] = leerDatos.GetByte(2);
           }
 
           listagrupos.Add(grupo);

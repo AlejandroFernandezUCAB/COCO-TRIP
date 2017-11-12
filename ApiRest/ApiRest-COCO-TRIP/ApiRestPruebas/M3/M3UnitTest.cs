@@ -63,7 +63,7 @@ namespace ApiRestPruebas.M3
     public void TestAgregarAmigo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2"),1);
+      Assert.AreEqual(peticion.AgregarAmigosBD(-1, "usuariopruebas2"),1);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ namespace ApiRestPruebas.M3
     public void ExcepcionAgregarAmigoMalCast()
     {
       peticion = new PeticionAmigoGrupo();
-      peticion.AgregarAmigosBD(null, null);
+      peticion.AgregarAmigosBD(0, null);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ namespace ApiRestPruebas.M3
     public void ExcepcionAgregarAmigoMalNoExiste()
     {
       peticion = new PeticionAmigoGrupo();
-      peticion.AgregarAmigosBD("usuarioramdon1", "usuarioramdon2");
+      peticion.AgregarAmigosBD(-8, "usuarioramdon2");
     }
 
 
@@ -149,7 +149,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.IsTrue(peticion.SalirGrupoBD(-1,"usuariopruebas1"));
+      Assert.IsTrue(peticion.SalirGrupoBD(-1,-1));
     }
 
     /// <summary>
@@ -159,13 +159,13 @@ namespace ApiRestPruebas.M3
     [Test]
     public void TestSalirGrupoFallidoCast()
     {
-      Assert.Catch<InvalidCastException>(ExcepcionSalirGrupoMalCast);
+      Assert.Catch<FormatException>(ExcepcionSalirGrupoMalCast);
     }
 
     public void ExcepcionSalirGrupoMalCast()
     {
       peticion = new PeticionAmigoGrupo();
-      peticion.SalirGrupoBD(2, null);
+      peticion.SalirGrupoBD(2, Convert.ToInt32("sdf"));
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteUsuario()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.IsFalse(peticion.SalirGrupoBD(1, "usuarioramdon"));
+      Assert.IsFalse(peticion.SalirGrupoBD(1,-88));
 
     }
 
@@ -188,7 +188,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.IsFalse(peticion.SalirGrupoBD(-10, "usuariopruebas1"));
+      Assert.IsFalse(peticion.SalirGrupoBD(-10, -1));
 
     }
 
@@ -206,7 +206,7 @@ namespace ApiRestPruebas.M3
     /// </summary>
     [Test]
     public void EliminarAmigoTest() {
-      peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2");
+      peticion.AgregarAmigosBD(-1, "usuariopruebas2");
       Assert.AreEqual(1, peticion.EliminarAmigoBD("usuariopruebas1", "usuariopruebas2"));
     }
 
@@ -227,7 +227,7 @@ namespace ApiRestPruebas.M3
     /// </summary>
     [Test]
     public void VisualizarListaAmigos() {
-      peticion.AgregarAmigosBD("usuariopruebas1", "usuariopruebas2");
+      peticion.AgregarAmigosBD(-1, "usuariopruebas2");
       List<Usuario> lista = new List<Usuario>();
       lista = peticion.VisualizarListaAmigoBD("usuariopruebas1");
       Usuario usuario = new Usuario();
