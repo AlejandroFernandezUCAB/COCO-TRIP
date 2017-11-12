@@ -18,28 +18,28 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Metodo Post para agregar una preferencia del usuario, hará una llamda a base de datos para buscar id de usuario
     /// y id de categoria para agregarlo en la tabla de preferencias
     /// </summary>
-    /// <param name="nombreUsuario">Nombre del usuario</param>
-    /// <param name="nombrePreferencia">Nombre de la preferencia a agregar</param>
+    /// <param name="idUsuario"> Id usuario </param>
+    /// <param name="idCategoria"> Id Categoria</param>
     /// <returns>Lista de preferencias del usuario</returns>
     // POST api/<controller>/<action>/prefencia
-    [HttpPut]
+    [HttpPost]
     public List<Categoria> AgregarPreferencias ( int idUsuario , int idCategoria)
     {
 
-
-      List<Categoria> preferencias;
-      peticion = new PeticionPerfil();
-      peticion.AgregarPreferencia(idUsuario, idCategoria);
-      preferencias = peticion.BuscarPreferencias(idUsuario);
-      return preferencias; //Retorna una lista de de categorias
+    
+        List<Categoria> preferencias;
+        peticion = new PeticionPerfil();
+        peticion.AgregarPreferencia(idUsuario, idCategoria);
+        preferencias = peticion.BuscarPreferencias(idUsuario);
+        return preferencias; //Retorna una lista de de categorias
 
     }
 
     /// <summary>
     /// Metodo Post que devuelve la lista de preferencias actualizada
     /// </summary>
-    /// <param name="nombreUsuario">Nombre del usuario</param>
-    /// <param name="nombrePreferencia">Nombre de la categoria a eliminar</param>
+    /// <param name="idUsuario">Id del usuario</param>
+    /// <param name="idCategoria">idCategoria</param>
     /// <returns>Retorna  una lista de  categorias</returns>
     [HttpPost]
     public List<Categoria> EliminarPreferencias(int idUsuario, int idCategoria)
@@ -56,7 +56,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Devuelve la lista de  preferencias de un usuario
     /// </summary>
-    /// <param name="nombreUsuario">Nombre del usuario</param>
+    /// <param name="idUsuario">Id del usuario</param>
     /// <returns>Lista de preferencias</returns>
     [HttpGet]
     public List<Categoria> BuscarPreferencias(int idUsuario)

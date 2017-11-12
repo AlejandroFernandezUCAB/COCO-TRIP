@@ -70,7 +70,6 @@ namespace ApiRest_COCO_TRIP
     public IList<Categoria> ObtenerCategorias(Categoria categoria)
     {
       IList<Categoria> listaCategorias = new List<Categoria>();
-      int Superior;
       try
       {
         conexion.Conectar();
@@ -87,19 +86,8 @@ namespace ApiRest_COCO_TRIP
         }
 
         leerDatos = conexion.Comando.ExecuteReader();
-        while (leerDatos.Read())
-        {
-          listaCategorias.Add(new Categoria()
-          {
-            Id = leerDatos.GetInt32(0),
-            Nombre = leerDatos.GetString(1),
-            Descripcion = leerDatos.GetString(2),
-            Estatus = leerDatos.GetBoolean(3),
-            Nivel = leerDatos.GetInt32(4)
-          });
-          Int32.TryParse(leerDatos.GetValue(5).ToString(), out Superior);
-          listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
-        }
+        listaCategorias = SetListaCategoria();
+
       }
       catch (NpgsqlException ex)
       {
@@ -116,13 +104,104 @@ namespace ApiRest_COCO_TRIP
         conexion.Desconectar();
 
       }
+      return listaCategorias;
 
+    }
+
+    public IList<Categoria> ObtenerTodasLasCategorias()
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_devolverTodasCategorias";
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();  
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
+
+    }
+
+
+    public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
+    {
+      try
+      {
+        int Superior = 0;
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_devolverid";
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          Int32.TryParse(leerDatos.GetValue(0).ToString(), out Superior);
+        }
+
+        if (Superior == 0)
+        {
+          throw new ItemNoEncontradoException($"No se encontro la categoria con el nombre {categoria.Nombre}");
+        }
+
+        categoria.Id = Superior;
+        
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar el id de una categoria a partir del nombre"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+
+      return categoria;
+    }
+
+    private IList<Categoria> SetListaCategoria()
+    {
+
+      IList<Categoria> listaCategorias = new List<Categoria>();
+      while (leerDatos.Read())
+      {
+        listaCategorias.Add(new Categoria()
+        {
+          Id = leerDatos.GetInt32(0),
+          Nombre = leerDatos.GetString(1),
+          Descripcion = leerDatos.GetString(2),
+          Estatus = leerDatos.GetBoolean(3),
+          Nivel = leerDatos.GetInt32(4)
+        });
+        Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
+        listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
+      }
 
       return listaCategorias;
-      
-
-      
     }
+  
 
   }
 }
