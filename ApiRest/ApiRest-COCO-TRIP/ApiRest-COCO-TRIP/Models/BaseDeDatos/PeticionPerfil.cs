@@ -249,7 +249,7 @@ namespace ApiRest_COCO_TRIP.Models
       command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, username);
       pgread = command.ExecuteReader();
       pgread.Read();
-      result = pgread.GetString(1);
+      result = pgread.GetString(0);
       conexion.Desconectar();
       return result;
     }
