@@ -163,6 +163,7 @@ namespace ApiRestPruebas.M2
 
     // Usuario con id 15 agregado previo a la PU
     [TestCase(7,"ronald", "navas")]
+    [TestCase(15, "gianfranco", "verrocchi")]
     [Category("Usuario")]
     public void Model_ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
@@ -183,7 +184,7 @@ namespace ApiRestPruebas.M2
 
     }
 
-    [TestCase(4, "ronald", "navas")]
+    [TestCase(7, "ronald", "navas")]
     [Category("Usuario")]
     public void ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {

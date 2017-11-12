@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://localhost:8091/api';
+  apiUrl = 'http://localhost:51049/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -121,12 +121,77 @@ export class RestapiService {
       });
    }
 
+   buscarPreferenciasFiltrado( idUsuario, nombrePreferencia)
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BuscarCategorias?idUsuario=' + idUsuario 
+        +'&preferencia=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   agregarPreferencias( idUsuario, nombrePreferencia)
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/AgregarPreferencias?idUsuario=' + idUsuario 
+        +'&idCategoria=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+
+   }
+
    eliminarPreferencias( idUsuario ,nombrePreferencia )
    {
 
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/EliminarPreferencias?idUsuario=' + idUsuario 
         +'&idCategoria=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   modificarDatosUsuario(usuario){
+     console.log('metodo en apirest => ',usuario);
+     console.log(usuario.Genero,usuario.NombreUsuario);
+     console.log(usuario.Genero,usuario.FechaNacimiento);
+     console.log(usuario.Genero,usuario.Genero);
+     
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' + 
+      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido + 
+      "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
       .map(res => res.json())
       .subscribe(data => {
 

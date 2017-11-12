@@ -6,6 +6,7 @@ import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
 import { PreferenciasPage } from '../preferencias/preferencias';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { Storage } from '@ionic/storage'; //para acceder a las variables que guarde en la vista de 'Editar Datos Personales'
 
 /**
  * Generated class for the PerfilPage page.
@@ -26,34 +27,55 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
-  usuario: Object = {
+  usuario: any = {
     Nombre: 'Nombre',
     Apellido: 'Apellido',
-    Correo: 'Correo'
+    Correo: 'Correo',
+
   };
-  idUsuario = 15;
+  idUsuario = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage) {
 
+
+  
   }
 
+  // este metodo se dispara 1 sola vez
+  // por tanto, lo utilizamos para cargar los datos del usuario desde el
+  // restapi al cargar la vista en memoria/cache
   ionViewDidLoad() {
     console.log('ionViewDidLoad PerfilPage');
     this.cargarUsuario();
   }
 
   cargarUsuario(){
-    this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
-      if(data != 0)
-      {
-
-        this.usuario = data;
-        // console.log(this.usuario);
-        // console.log(this.usuario.Nombre);
-        // console.log(this.usuario.Correo);
-        console.log(data);
-      }
+    //obtenemos el id ya almacenado desde el login
+    this.storage.get('id').then((val) => {
+      this.idUsuario = val;
+      console.log('id de usuario => ',this.idUsuario);
+      //hacemos la llamada al apirest con el id obtenido
+      this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
+        if(data != 0)
+        {  
+          this.usuario = data;
+          // console.log(this.usuario);
+          // console.log(this.usuario.Nombre);
+          // console.log(this.usuario.Correo);
+          console.log(data);
+        }
+      });
     });
   }
+
+
+  // este metodo se dispara cada vez que se entra en esta pagina
+  // antes de que este activa
+  ionViewWillEnter(){
+    this.storage.get('nombre').then((val) => {
+      console.log('Nombre guardado', val);
+    });
+  }
+
 
 }

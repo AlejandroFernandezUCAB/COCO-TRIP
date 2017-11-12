@@ -33,9 +33,19 @@ export class PreferenciasPage {
 
     if (str == "agregado") {
 
-      this.preferenciasEnLista.push( idPreferencias );
       posicionIndex = this.preferenciasEnBusqueda.indexOf( idPreferencias );
       this.preferenciasEnBusqueda.splice( posicionIndex, 1);
+      this.restapiService.agregarPreferencias( this.idUsuario ,idPreferencias )
+      .then(data => {
+        
+        if(data != 0)
+        {
+
+          this.preferenciasEnLista = data;
+          console.log( this.preferenciasEnLista );
+        }
+
+      });
       const toast = this.toastCtrl.create({
         message: nombrePreferencias + ' fue agregada exitosamente',
         showCloseButton: true,
@@ -98,17 +108,26 @@ export class PreferenciasPage {
     }
 
 
-    filtrarPreferencias(ev: any) {
-        //this.inicializarListas(1);
+    buscarFiltrado(ev: any) {
         //Este será el valor que uno escribe en el search bar
         let val = ev.target.value;
+        if(val.lenght == 0){
+          this.preferenciasEnBusqueda = null;
+        }else{
 
-        // Si está vació no va a filtrar.
-        if (val && val.trim() != '') {
-          this.preferenciasEnBusqueda = this.preferenciasEnBusqueda.filter((item) => {
-            return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-          })
-        }
+                this.restapiService.buscarPreferenciasFiltrado( this.idUsuario , val)
+                .then(data => {
+          
+                  if(data != 0)
+                  {
+          
+                    this.preferenciasEnBusqueda = data;
+                    console.log(data);
+          
+                  }
+          
+                });
+      }
       }
 
 

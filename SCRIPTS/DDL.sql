@@ -136,7 +136,7 @@ CREATE TABLE Lugar_Turistico
 
 CREATE TABLE Actividad
 (
-  ac_id intege CONSTRAINT pk_actividad PRIMARY KEY,
+  ac_id integer CONSTRAINT pk_actividad PRIMARY KEY,
   ac_foto varchar (320) CONSTRAINT nn_ac_foto NOT NULL,
   ac_nombre varchar(400) CONSTRAINT nn_ac_nombre NOT NULL,
   ac_duracion time CONSTRAINT nn_ac_duracion NOT NULL,

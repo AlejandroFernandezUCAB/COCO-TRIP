@@ -21,29 +21,52 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo para consultar el id del usuario a través de su nombre de usuario
     /// </summary>
     /// <param name="nombreUsuario">Nombre de usuario</param>
+    /// <exception cref="NpgsqlException">Ocurrio un error al buscar en la base de datos</exception>
+    /// <exception cref="Exception">Se desconoce la excepcion</exception>
     /// <returns>Id del usuario, si retorna -1 es que no existe</returns>
     public int ConsultarIdDelUsuario(string nombreUsuario)
     {
       
       int id;
-      id = -1; //Coloco -1 para hacer una comparación más abajo y saber si entró ene l ciclo o no.
-
-      conexion.Conectar();
-      ConexionBase con = new ConexionBase();
-      NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", conexion.SqlConexion);
-      comm.CommandType = CommandType.StoredProcedure;
-      comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreUsuario);
-      NpgsqlDataReader pgread = comm.ExecuteReader();
-
-      while (pgread.Read())
+      id = 0;
+      try
       {
+        conexion.Conectar();
+        ConexionBase con = new ConexionBase();
+        NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", conexion.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreUsuario);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
 
-        id = pgread.GetInt32(0);
+        while (pgread.Read())
+        {
+
+          id = pgread.GetInt32(0);
+
+        }
+
+        return id;
 
       }
-      conexion.Desconectar();
+      catch (NpgsqlException e)
+      {
 
-      return id;
+        return -1;
+
+      }
+      catch (Exception e)
+      {
+
+        return -1;
+
+      }
+      finally
+      {
+
+        conexion.Desconectar();
+
+      }
+
 
     }
 
@@ -52,6 +75,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="idUsuario">Id del usuario</param>
     /// <param name="idCategoria">Id de la categoria</param>
+    /// <exception cref="NpgsqlException">Ocurrio un error al buscar en la base de datos</exception>
+    /// <exception cref="Exception">Se desconoce la excepcion</exception>
     public void EliminarPreferencia(int idUsuario, int idCategoria)
     {
 
@@ -68,13 +93,25 @@ namespace ApiRest_COCO_TRIP.Models
         command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idCategoria);
         pgread = command.ExecuteReader();
         pgread.Read();
-        conexion.Desconectar();
+
 
       }
       catch (NpgsqlException e)
       {
 
+        Console.WriteLine("Error en la consulta");
 
+      }
+      catch (Exception e)
+      {
+
+        Console.WriteLine("Se desconoce la excepcion");
+
+      }
+      finally
+      {
+
+        conexion.Desconectar();
 
       }
     }
@@ -106,7 +143,19 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-       
+        Console.WriteLine("Error en la consulta");
+
+      }
+      catch (Exception e)
+      {
+
+        Console.WriteLine("Se desconoce la excepcion");
+
+      }
+      finally
+      {
+
+        conexion.Desconectar();
 
       }
 
@@ -144,13 +193,27 @@ namespace ApiRest_COCO_TRIP.Models
 
         }
 
-        conexion.Desconectar();
         return usuario.Preferencias;
 
       }
       catch (NpgsqlException e)
       {
+
         return null;
+
+      }
+      catch (Exception e)
+      {
+
+        return null;
+
+      }
+      finally
+      {
+
+        conexion.Desconectar();
+        
+
       }
 
     }
@@ -264,21 +327,29 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       Usuario user = new Usuario();
-      
-      conexion.Conectar();
-      command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      user.NombreUsuario = pgread.GetString(0);
-      user.Correo = pgread.GetString(1);
-      user.Nombre = pgread.GetString(2);
-      user.Apellido = pgread.GetString(3);
-      user.FechaNacimiento = pgread.GetDateTime(4);
-      user.Genero = pgread.GetString(5);
-      conexion.Desconectar();
-      return user;
+
+      try
+      {
+        conexion.Conectar();
+        command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        user.NombreUsuario = pgread.GetString(0);
+        user.Correo = pgread.GetString(1);
+        user.Nombre = pgread.GetString(2);
+        user.Apellido = pgread.GetString(3);
+        user.FechaNacimiento = pgread.GetDateTime(4);
+        user.Genero = pgread.GetString(5);
+        conexion.Desconectar();
+        return user;
+      }
+      catch (NpgsqlException e)
+      {
+        return null;
+      }
+
     }
 
     public List<Categoria> ObtenerCategorias(int idUsuario, string preferencia)
@@ -307,13 +378,27 @@ namespace ApiRest_COCO_TRIP.Models
 
         }
 
-        conexion.Desconectar();
+        
         return usuario.Preferencias;
 
       }
       catch (NpgsqlException e)
       {
+
         return null;
+
+      }
+      catch (Exception e)
+      {
+
+        return null;
+
+      }
+      finally
+      {
+
+        conexion.Desconectar();
+
       }
     }
 
