@@ -235,22 +235,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION BuscarListaPreferenciaUsuario
+CREATE OR REPLACE FUNCTION BuscarListaPreferenciasPorCategoria
 ( _idUsuario int, _nombrePreferencia varchar)
 RETURNS TABLE( 
+  id int,
   nombre VARCHAR
 ) AS $$
 BEGIN
   RETURN QUERY SELECT
-	c.ca_nombre
-	FROM categoria c,preferencia p
-	WHERE pr_categoria NOT IN (Select c.ca_id from preferencia where pr_usuario = _idUsuario and pr_categoria = c.ca_id )  
-	and pr_usuario=_idUsuario;
+	c.ca_id, c.ca_nombre
+	FROM categoria c
+	WHERE ca_id NOT IN (Select c.ca_id from preferencia p where p.pr_usuario = _idUsuario and p.pr_categoria = c.ca_id ) 
+	AND LOWER(c.ca_nombre) LIKE CONCAT(LOWER(_nombrePreferencia),'%');
 END;
 $$ LANGUAGE plpgsql;
-
-
-
+SELECT BuscarListaPreferenciasPorCategoria(1,'T')
 CREATE OR REPLACE FUNCTION ModificarDatosUsuario
 ( _idUsuario int , _nombre varchar , _apellido varchar , _fechaNacimiento date , _genero varchar ) 
 RETURNS integer AS $$
