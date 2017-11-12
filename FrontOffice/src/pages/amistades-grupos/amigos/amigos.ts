@@ -18,6 +18,7 @@ export class AmigosPage {
   amigo: any;
   toast: any;
   
+  nombreUsuario : string;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
@@ -150,8 +151,10 @@ eliminarAmigos(nombreUsuario, index){
   var removed_elements = this.amigo.splice(index, 1);
 }
 
-verPerfil() {
-  this.navCtrl.push(VisualizarPerfilPage);
+verPerfil(item) {
+  this.navCtrl.push(VisualizarPerfilPage,{
+      nombreUsuario : item
+  });
 }
 
 realizarToast(mensaje) {

@@ -140,8 +140,7 @@ export class GruposPage {
         text: 'Aceptar',
         handler: () => {
           //this.eliminarItinerario(id, index);
-            
-            this.restapiService.salirGrupo(1,id)
+            this.restapiService.salirGrupo(2,id)
             .then(data => {
               if (data == 0 || data == -1) {
                 console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -152,7 +151,9 @@ export class GruposPage {
               else {
                 //this.amigo = data;
                 //this.loading.dismiss();
-                this.realizarToast('Agregado exitosamente');
+                console.log("la data es "+data);
+                this.realizarToast('Haz salido del grupo exitosamente');
+                
                 this.eliminarGrupos(id, index);
               }
       
