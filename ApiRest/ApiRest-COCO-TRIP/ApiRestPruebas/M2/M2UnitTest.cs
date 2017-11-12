@@ -148,7 +148,7 @@ namespace ApiRestPruebas.M2
 
     // Usuario con id 7 agregado previo a la PU
     [TestCase(7,"Ronald","Navas","2010-05-01","M")]
-    [Category("Modify")]
+    [Category("Modificar")]
     public void Model_ModificarDatosUsuario(int idUsuario, string nombre, string apellido, string fecha, string genero)
     {
       DateTime fechaConveritda = Convert.ToDateTime(fecha);
@@ -162,7 +162,7 @@ namespace ApiRestPruebas.M2
 
     // Usuario con id 15 agregado previo a la PU
     [TestCase(15,"gianfranco", "verrocchi")]
-    [Category("Objeto")]
+    [Category("Usuario")]
     public void Model_ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
       usuario = peticion.ObtenerDatosUsuario(idUsuario);
@@ -182,6 +182,15 @@ namespace ApiRestPruebas.M2
 
     }
 
+    [TestCase(15, "gianfranco", "verrocchi")]
+    [Category("Usuario")]
+    public void ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
+    {
+      usuario = apiRest.ObtenerDatosUsuario(idUsuario);
+      Assert.AreEqual(nombre, usuario.Nombre);
+      Assert.AreEqual(apellido, usuario.Apellido);
+    }
+    
     [TearDown]
     public void TearDown() {
 

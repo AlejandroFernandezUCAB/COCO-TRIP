@@ -190,13 +190,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Metodo Post para obtener los datos del usuario.
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="idUsuario"></param>
     /// <returns>Objeto Usuario</returns>
     [HttpGet]
-    public Usuario ObtenerDatosUsuario(int userId)
+    public Usuario ObtenerDatosUsuario(int idUsuario)
     {
       peticion = new PeticionPerfil();
-      usuario = peticion.ObtenerDatosUsuario(userId);
+      usuario = peticion.ObtenerDatosUsuario(idUsuario);
       return usuario;
     }
 
