@@ -1320,22 +1320,30 @@ CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TE
   $BODY$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
+CREATE OR REPLACE function m9_devolverTodasCategorias() 
+RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
 BEGIN
 			RETURN 	QUERY
 					SELECT * FROM CATEGORIA;
 END; 
 $$ LANGUAGE plpgsql;
 
+-------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
-
-CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescripcion character varying, categoriapadre integer) RETURNS void
-    LANGUAGE plpgsql
+CREATE FUNCTION m9_modificarcategoria
+(_id integer,_nombre VARCHAR, _descripcion character VARCHAR, _categoriapadre integer) 
+RETURNS integer 
     AS $$
     BEGIN
-        /*UPDATE TABLE CATEGORIA  */
-    END; $$;
-
+        UPDATE categoria
+        SET 
+        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre
+        WHERE ca_id=_id;
+        return 1;
+        
+    END; 
+    $$;
+    LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
   RETURNS void
