@@ -1614,6 +1614,37 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Consulta eventos a partir de una fecha dada
+-- devuelve la informacion de los eventos que su fecha sea mayor a la dada
+CREATE OR REPLACE FUNCTION ConsultarEventosPorFecha
+(
+  _fecha timestamp
+)
+RETURNS TABLE
+  (
+     id integer,
+     nombreEvento varchar,
+     descripcionEvento varchar,
+     precioEvento integer,
+     fechaInicioEvento timestamp,
+     fechaFinEvento timestamp,
+     horaInicioEvento time,
+     horaFinEvento time,
+     fotoEvento bytea,
+     categoriaEvento varchar,
+     localidadEvento varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    from evento, categoria, localidad
+    where ev_categoria = ca_id and ev_localidad = lo_id and ev_fecha_inicio >= _fecha;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Consulta las localidades que tienen eventos asignados
 -- devuelve la informacion de las localidades
 CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
