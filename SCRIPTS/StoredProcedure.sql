@@ -1038,7 +1038,7 @@ CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripci
     LANGUAGE plpgsql
     AS $$
     BEGIN
-      INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
+      INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
           VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
@@ -1046,7 +1046,7 @@ CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, des
     LANGUAGE plpgsql
     AS $$
     BEGIN
-        INSERT INTO CATEGORIA (CA_IDCATEGORIA, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
+        INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
               VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
@@ -1055,16 +1055,16 @@ CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TE
   DECLARE
     CATEGORIA TEXT;
   BEGIN
-      SELECT CA_IDCATEGORIA INTO CATEGORIA FROM CATEGORIA WHERE (CA_NOMBRE = nombrecategoria);
+      SELECT CA_ID INTO CATEGORIA FROM CATEGORIA WHERE (CA_NOMBRE = nombrecategoria);
       RETURN CATEGORIA;
   END; 
   $BODY$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (nombrecategoria VARCHAR(50)) AS $$
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
 BEGIN
-      RETURN  QUERY
-          SELECT CA_NOMBRE FROM CATEGORIA;
+			RETURN 	QUERY
+					SELECT * FROM CATEGORIA;
 END; 
 $$ LANGUAGE plpgsql;
 
