@@ -11,7 +11,8 @@ import { Events } from 'ionic-angular';
 export class ChatProvider {
   fireConversacionChats = firebase.database().ref('/conversacionesChats');
   conversacion: any;
-  constructor() {
+  mensajesConversacion = [];
+  constructor(public events: Events) {
   }
 
   inicializarConversacion(conversacion){
@@ -39,6 +40,19 @@ export class ChatProvider {
       })
       return promise;
     }
+  }
+
+  obtenerMensajesConversacion(idRemitente) {
+    
+    let temp;
+    this.fireConversacionChats.child(idRemitente).child(this.conversacion.uid).on('value', (snapshot) => {
+      this.mensajesConversacion = [];
+      temp = snapshot.val();
+      for (var tempkey in temp) {
+        this.mensajesConversacion.push(temp[tempkey]);
+      }
+      this.events.publish('nuevoMensaje');
+    })
   }
 
 }

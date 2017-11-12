@@ -14,21 +14,30 @@ import {ChatProvider} from '../../../providers/chat/chat';
 })
 
 export class ConversacionPage {
-
+  @ViewChild('content') content: Content;
   conversacion: any;
-  nuevoMensaje;
-  mensajes: Array<msgs> = [
-    {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
-  ];
+  nuevoMensaje: any;
+  usuarioId: any;
+  todosLosMensajes = [];
+  //mensajes: Array<msgs> = [
+   // {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
+  //];
 
 constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
+  this.conversacion = this.chatService.conversacion;
+  this.scrollto();
+  this.events.subscribe('nuevoMensaje', () => {
+    this.todosLosMensajes = [];
+    this.zone.run(() => {
+      this.todosLosMensajes = this.chatService.mensajesConversacion;
+    })
+  })
+ // this.firebase.getToken()
+    //.then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
+    //.catch(error => console.log('Error obteniendo el token', error));
 
-  this.firebase.getToken()
-    .then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
-    .catch(error => console.log('Error obteniendo el token', error));
-
-  this.firebase.onTokenRefresh()
-    .subscribe((token: string) => console.log(`He obtenido un nuevo token ${token}`));
+  //this.firebase.onTokenRefresh()
+    //.subscribe((token: string) => console.log(`He obtenido un nuevo token ${token}`));
 
 }
 
@@ -135,12 +144,23 @@ pressEvent1(){
   }
   
   agregarMensaje() {
-    this.chatService.(this.nuevoMensaje).then(() => {
+    this.chatService.agregarNuevoMensaje(this.nuevoMensaje,this.usuarioId).then(() => {
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
     })
   }
+
+  ionViewDidEnter() {
+    this.chatService.obtenerMensajesConversacion;
+  }
+
+  scrollto() {
+    setTimeout(() => {
+      this.content.scrollToBottom();
+    }, 1000);
+  }
 }
+
 
 
 interface msgs{
