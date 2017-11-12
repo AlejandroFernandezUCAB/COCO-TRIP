@@ -218,7 +218,7 @@ namespace ApiRestPruebas.M7.Base
 
       lugar.Id = idLugar;
       foto.Contenido = null;
-      Assert.Catch<CasteoInvalidoExcepcion>(ExcepcionInsertarFoto);
+      Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarFoto);
 
       foto = null;
       Assert.Catch<ReferenciaNulaExcepcion>(ExcepcionInsertarFoto);
