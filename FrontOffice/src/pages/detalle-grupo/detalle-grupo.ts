@@ -47,7 +47,6 @@ export class DetalleGrupoPage {
       }
       else {
         this.miembro = data;
-        alert(this.miembro);
       }
 
     });

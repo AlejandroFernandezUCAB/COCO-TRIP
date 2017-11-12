@@ -59,7 +59,7 @@ export class AmigosPage {
           }
           else {
             this.amigo = data;
-            //this.loading.dismiss();
+            this.loading.dismiss();
           }
   
         });
