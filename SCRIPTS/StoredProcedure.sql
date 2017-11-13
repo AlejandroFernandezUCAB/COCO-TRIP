@@ -753,7 +753,7 @@ Autores:
   Orrillo, ev_hora_inicio
 **/
 
-CREATE OR REPLACE FUNCTION public.consultar_itinerarios(
+CREATE OR REPLACE FUNCTION consultar_itinerarios(
 	idusuario integer)
     RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date, lu_id integer, lu_nombre character varying, lu_descripcion character varying, lu_costo numeric, ac_id integer, ac_nombre character varying, ac_descripcion character varying, ac_duracion time without time zone)
                   --, ev_id integer, ev_nombre character varying, ev_descripcion character varying, ev_precio double precision, ev_fechaini date, ev_fechafin date)
@@ -781,7 +781,7 @@ AS $BODY$
 $BODY$;
 
 -----------------Consultar Eventos---------------------------
-CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, DateTime fechainicio, DateTime fechafin )
+CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, fechainicio date, fechafin date )
 RETURNS TABLE (id_evento integer, nombre_evento varchar) AS $$
 
 DECLARE
@@ -838,15 +838,15 @@ $$ LANGUAGE plpgsql;
 ------------------- Consultar Itinerarios por correo --------------------
 CREATE OR REPLACE FUNCTION public.consultar_itinerarios(idusuario integer)
     RETURNS TABLE(
-    id integer, 
-    nombre character varying, 
-    a_fechainicio date, 
-    a_fechafin date, 
-    lu_nombre character varying, 
-    lu_descripcion character varying, 
-    ac_nombre character varying, 
-    ac_descripcion character varying, 
-    ev_nombre character varying, 
+    id integer,
+    nombre character varying,
+    a_fechainicio date,
+    a_fechafin date,
+    lu_nombre character varying,
+    lu_descripcion character varying,
+    ac_nombre character varying,
+    ac_descripcion character varying,
+    ev_nombre character varying,
     ev_descripcion character varying)
     LANGUAGE 'plpgsql'
 
@@ -883,7 +883,7 @@ ALTER FUNCTION public.consultar_itinerarios(integer)
 
 -- DROP FUNCTION public.setvisible(integer, boolean, integer);
 
-CREATE OR REPLACE FUNCTION public.setvisible(
+CREATE OR REPLACE FUNCTION setvisible(
 	idusuario integer,
 	visible boolean,
 	iditinerario integer)
@@ -906,7 +906,7 @@ AS $BODY$
 
 $BODY$;
 
-ALTER FUNCTION public.setvisible(integer, boolean, integer)
+ALTER FUNCTION setvisible(integer, boolean, integer)
     OWNER TO postgres;
 
 
@@ -952,7 +952,7 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
    CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer)
     RETURNS boolean AS
 	$BODY$
-    DECLARE 
+    DECLARE
     i integer;
     BEGIN
     SELECT it_id FROM Itinerario where (iditinerario=it_id) into i;
@@ -968,13 +968,13 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
       IF tipo='Actividad' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
       return true;
-      else 
+      else
       return false;
       END IF;
       IF tipo='Evento' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idevento) AND (iditinerario=ag_idItinerario);
       return true;
-      else 
+      else
       return false;
       END IF;
 	END IF;
@@ -1021,7 +1021,7 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
     COST 100;
 
     --Modificar itineratio
-    CREATE OR REPLACE FUNCTION public.mod_itinerario(
+    CREATE OR REPLACE FUNCTION mod_itinerario(
 	iditinerario integer,
 	nombre character varying,
 	fechaini date,
@@ -1052,13 +1052,6 @@ AS $BODY$
 
 $BODY$;
 
-ALTER FUNCTION public.mod_itinerario(integer, character varying, date, date, integer)
-    OWNER TO postgres;
-
-
-
-ALTER FUNCTION public.consultar_itinerarios(integer)
-    OWNER TO admin_cocotrip;
 
     /* fin de procedimientos de Modulo_5 */
 
@@ -1523,17 +1516,17 @@ $$ LANGUAGE plpgsql;
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
 CREATE FUNCTION m9_modificarcategoria
-(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer) 
-RETURNS integer 
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer)
+RETURNS integer
     AS $$
     BEGIN
         UPDATE categoria
-        SET 
+        SET
         ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre
         WHERE ca_id=_id;
         return 1;
-        
-    END; 
+
+    END;
     $$
     LANGUAGE plpgsql;
 
@@ -1710,7 +1703,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-returns boolean AS  
+returns boolean AS
 $$
  begin
 
