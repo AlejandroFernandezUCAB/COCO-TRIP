@@ -68,7 +68,7 @@ export class EditProfilePage {
     // this.usuario.Apellido = this.myForm.value.apellido;
 
       //guardamos datos previos
-    let usuarioDatosPrevios = this.usuario;
+    let datosPrevios = this.usuario;
       //inyectamos datos nuevos
     this.usuario.Nombre = this.myForm.value.nombre;
     this.usuario.Apellido = this.myForm.value.apellido;
@@ -84,7 +84,7 @@ export class EditProfilePage {
       }
       else{
         //restauramos los nombres anteriores
-        this.usuario = usuarioDatosPrevios;
+        this.usuario = datosPrevios;
         this.apiRestResponse = false;
         this.regresarAvistaAnterior(this.apiRestResponse);
       }
@@ -101,6 +101,14 @@ export class EditProfilePage {
     let result;
     if (apiRestResponse == true) {
       this.translateService.get("Se guardaron tus cambios").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    else if (apiRestResponse == "datosIguales") {
+      this.translateService.get("No hay cambios en los campos").subscribe(
         value => {
           // value is our translated string
           result = value;
