@@ -37,7 +37,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             {
               var listaLugar = peticion.ConsultarListaLugarTuristico(desde, hasta);
 
-              if(listaLugar.Equals( new List<LugarTuristico>() ) )
+              if(listaLugar.Count == (new List<LugarTuristico>() ).Count)
               {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
               }
@@ -134,7 +134,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             {
               var listaActividades = peticion.ConsultarActividades(id);
 
-              if (listaActividades.Equals( new List<Actividad>() ) )
+              if (listaActividades.Count == ( new List<Actividad>() ).Count )
               {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
               }
@@ -195,15 +195,15 @@ namespace ApiRest_COCO_TRIP.Controllers
 
           try
           {
-            var actividad = peticion.ConsultarCategoria();
+            var categoria = peticion.ConsultarCategoria();
 
-            if (actividad.Equals(new Actividad()))
+            if (categoria.Count == (new List<Categoria>() ).Count )
             {
               throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             else
             {
-              return actividad;
+              return categoria;
             }
           }
           catch (BaseDeDatosExcepcion e)
@@ -227,15 +227,15 @@ namespace ApiRest_COCO_TRIP.Controllers
 
           try
           {
-            var actividad = peticion.ConsultarSubCategoria(id);
+            var categoria = peticion.ConsultarSubCategoria(id);
 
-            if (actividad.Equals(new Actividad()))
+            if (categoria.Count == (new List<Categoria>()).Count )
             {
               throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             else
             {
-              return actividad;
+              return categoria;
             }
           }
           catch (BaseDeDatosExcepcion e)
