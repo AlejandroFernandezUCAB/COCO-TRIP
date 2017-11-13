@@ -5,42 +5,26 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  
-    <ion-navbar >
-      <button *ngIf="!toggled" ion-button icon-only menuToggle><ion-icon name="menu"></ion-icon></button>
-      <!-- Title -->
-      <ion-title *ngIf="!toggled">Crear Grupo</ion-title>
-      <!-- Search Bar -->
-      <ion-searchbar *ngIf="toggled" [(ngModel)]="searchTerm" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionInput)="triggerInput($event)"></ion-searchbar>
-      <!-- Search Icon -->    
-      <ion-buttons end *ngIf="!toggled">
-        <button ion-button icon-only (click)="toggleSearch()"><ion-icon name="search"></ion-icon></button>
-      </ion-buttons> 
-      <ion-buttons end>
-          <button ion-button icon-only (click)="CrearGrupo()">
-          <ion-icon name="arrow-forward"></ion-icon>
-        </button>
-          </ion-buttons>
-           
-    </ion-navbar>
+  <ion-navbar >
+    <ion-title>Agregar Integrante</ion-title>
+    
+  </ion-navbar>
   
   </ion-header>
   
   
   <ion-content padding>
-      <ion-list>
-          <ion-list-header>
-            Amigos
-          </ion-list-header>
-          <ion-item *ngFor="let item of amigo">
-            <ion-label>{{item.Nombre}}</ion-label>
-            
-            <ion-checkbox item-left checked="false"   ></ion-checkbox> 
+    <ion-list>
+      <ion-list-header>
+        Mis Amigos
+      </ion-list-header>
+    <ion-item *ngFor="let item of amigo ; let i = index"  (tap)="agregarIntegrantes($event,item.NombreUsuario)">
             <ion-avatar item-left>
-                <img src="https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg">
+                <img src="http://chucksdonutswoodside.com/images/donuts.jpg">
           </ion-avatar>
-          </ion-item>
-        
+          <h2>{{item.Nombre}} {{item.Apellido}}</h2>
+          <h3>{{item.NombreUsuario}}</h3>
+    </ion-item>
         </ion-list>
         
   </ion-content>

@@ -72,6 +72,40 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public string ConsultarUsuario(int idUsuario)
+    {
+      string resultado = "";
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarUsuarioSoloId";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          resultado = leerDatos.GetString(2) + " " +  leerDatos.GetString(3);
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return resultado;
+    }
+
+    /// <summary>
     /// Metodo que obtiene los datos de un amigo para visualizar el perfil
     /// </summary>
     /// <param name="nombreUsuario">Nombre del usuario amigo</param>
@@ -483,7 +517,7 @@ namespace ApiRest_COCO_TRIP.Models
           grupo.Nombre = leerDatos.GetString(0);
           if (!leerDatos.IsDBNull(1))
           {
-            grupo.Foto = leerDatos.GetString(3);
+            grupo.Foto = leerDatos.GetString(1);
           }
 
           listagrupo.Add(grupo);
@@ -512,9 +546,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
     /// <returns></returns>
 
-    public int AgregarGrupoBD(String nombre, string foto, string nombreusuario)
+    public int AgregarGrupoBD(String nombre, string foto, int idUsuario)
     {
-      int idUsuario = ObtenerIdUsuario(nombreusuario);
       int result = 0;
       try
       {
@@ -550,9 +583,9 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
     /// <returns></returns>
 
-    public int AgregarGrupoBD(String nombre, string nombreusuario)
+    public int AgregarGrupoBD(String nombre, int idUsuario)
     {
-      int idUsuario = ObtenerIdUsuario(nombreusuario);
+      
       int result = 0;
       try
       {

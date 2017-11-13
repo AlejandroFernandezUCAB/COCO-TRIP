@@ -9,10 +9,10 @@
     <ion-navbar >
       <ion-title>Crear Grupo</ion-title>
       <ion-buttons end>
-          <button ion-button icon-only >
-              <ion-icon name="checkmark-circle"></ion-icon>
-        </button>
-          </ion-buttons>
+        <button ion-button icon-only (click)="agregarGrupo()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+        </ion-buttons>
       
     </ion-navbar>
   
@@ -28,7 +28,9 @@
               </ion-buttons>
         
               <ion-item>
-                  <ion-input type="text" placeholder="Nombre del grupo"></ion-input>
+                  <ion-input type="text" placeholder="Nombre del grupo"
+                    [(ngModel)]="nombreGrupo">
+                  </ion-input>
                 </ion-item>
           
           

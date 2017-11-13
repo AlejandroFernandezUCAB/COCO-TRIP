@@ -102,28 +102,48 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="correoElectronico">correo electronico de la persona a la que se le va a recomendar
     ///  la app</param>
     /// <returns></returns>
-    [HttpGet]
-    public void RecomendarApp(String correoElectronico)
+    ///
+    [HttpPut]
+    public int EnviarNotificacionCorreo( string nombreUsuarioRecibe, string correoElectronico, string idUsuarioEnvia)
     {
+      int respuesta = 0;
       try
       {
+        peticion = new PeticionAmigoGrupo();
+        
         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
         var mail = new MailMessage();
         mail.From = new MailAddress("cocotrip17@gmail.com");
         mail.To.Add(correoElectronico);
-        mail.Subject = "Hola, te estamos esperando";
+        mail.Subject = "Hola "+ nombreUsuarioRecibe + " alguien quiere agregarte como amigo!";
         mail.IsBodyHtml = false;
-        mail.Body = "Hola";
+        mail.Body = peticion.ConsultarUsuario(Convert.ToInt32(idUsuarioEnvia)) +
+          " desea agregarte como amigo, puedes aceptarl@ desde la app de COCO-Trip ";
         SmtpServer.Port = 587;
         SmtpServer.UseDefaultCredentials = false;
         SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
         SmtpServer.EnableSsl = true;
         SmtpServer.Send(mail);
+        respuesta = 1;
       }
-      catch (FormatException e)
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return respuesta;
+
     }
 
     /// <summary>
@@ -348,24 +368,24 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="nombre">Nombre del grupo</param>
     /// <param name="foto">Foto del grupo</param>
-    /// <param name="usuario">Lider del grupo(creador)</param>
+    /// <param name="idusuario">Lider del grupo(creador)</param>
     /// <returns></returns>
-    [HttpGet]
-    public int AgregarGrupo(String nombre, String foto, String nombreusuario)
+    [HttpPut]
+    public int AgregarGrupo(String nombre, String foto, String idusuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
 
-        if (foto != "null")
+        if (foto != "")
 
         {
-          return peticion.AgregarGrupoBD(nombre, foto, nombreusuario);
+          return peticion.AgregarGrupoBD(nombre, foto, Convert.ToInt32(idusuario));
         }
 
         else
         {
-          return peticion.AgregarGrupoBD(nombre, nombreusuario);
+          return peticion.AgregarGrupoBD(nombre, Convert.ToInt32(idusuario));
         }
       }
       catch (NpgsqlException)
