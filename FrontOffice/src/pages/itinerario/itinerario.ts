@@ -28,6 +28,7 @@ export class ItinerarioPage {
   newitinerario: any;
   users: any;
   toast: any;
+  datos:any;
   list = false;
   nuevoViejo = true;
   originalEventDates = Array();
@@ -218,12 +219,13 @@ export class ItinerarioPage {
                     this.realizarToast('No se pudo agregar el itinerario. Por favor intente mas tarde :(');
                   }else{
                     this.loading.dismiss();
-                    let datos = data;
-                    console.log(datos);
+                    this.datos = data;
                     this.its.push({
+                      Id: this.datos.Id,
                       Nombre: name,
                       Items_agenda: Array()
                     })
+                    console.log(this.its);
                   }
                 }
               )
