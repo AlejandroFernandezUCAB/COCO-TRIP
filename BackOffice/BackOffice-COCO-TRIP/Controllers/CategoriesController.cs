@@ -69,12 +69,26 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(int id)
     {
       ViewBag.Title = "Editar Categoría";
-      IList<Categories> MyList = new List<Categories>(){
+     /* IList<Categories> MyList = new List<Categories>(){
             new Categories(){Id=1, Name="UK"},
             new Categories(){Id=2, Name="VE"}
       };
+      */
+      IList<Categories> listCategories = null;
+      JObject respuesta = peticion.GetCategoriasHabilitadas();
+      if (respuesta.Property("data") != null)
+      {
+        listCategories = respuesta["data"].ToObject<IList<Categories>>();
+        listCategories = listCategories.Where(s => s.Nivel <3 && s.Id!=id).ToList();
+      }
 
-      ViewBag.MyList = MyList;
+      else
+      {
+        listCategories = new List<Categories>();
+        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+      }
+
+      ViewBag.MyList = listCategories;
       Categories categories = null;
       if (TempData["listaCategorias"] != null)
       {
@@ -99,11 +113,21 @@ namespace BackOffice_COCO_TRIP.Controllers
       ModelState.Remove("UpperCategories");
       if (ModelState.IsValid)
       {
-        //categories.UpperCategories = new Categories() { Id = Int32.Parse(Request["categoria superior"]) };
-        return RedirectToAction("Index");
+        categories.UpperCategories = Int32.Parse(Request["Mover a la categoria"]) ;
+        JObject respuesta = peticion.PutEditarCategoria(categories);
+        if (respuesta.Property("data") != null)
+        {
+          return RedirectToAction("Index");
+
+        }
+
+        else
+        { 
+          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+          return View(categories);
+        } 
       }
-
-
+      
       return View(categories);
     }
 
