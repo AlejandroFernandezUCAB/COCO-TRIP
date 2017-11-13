@@ -1648,6 +1648,9 @@ Autores:
 /*INSERT*/
 
 --inserta un evento en una localidad
+
+
+
 CREATE OR REPLACE FUNCTION InsertarEvento
 (
   _nombreEvento VARCHAR(100),
@@ -1716,8 +1719,8 @@ BEGIN
     return true;
     end if;
 END;
-$$ LANGUAGE plpgsql volatile;
-cost 100;
+$BODY$ LANGUAGE plpgsql volatile;
+
 
 --elimina evento por su nombre
 CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
@@ -1740,7 +1743,7 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
-cost 100;
+
 
 
 --elimina localidad por su id
@@ -1765,8 +1768,7 @@ $BODY$
       end if;
  END;
  $BODY$
- LANGUAGE plpgsql volatile
-cost 100;
+ LANGUAGE plpgsql volatile;
 
 --elimina localidad por su nombre
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre()
@@ -1784,8 +1786,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre()
       END IF;
     END;
   $BODY$
-    LANGUAGE plpgsql  VOLATILE
-    COST 100;
+    LANGUAGE plpgsql  VOLATILE;
 
 /*SELECT*/
 
@@ -1931,6 +1932,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 -- Consulta una localidad por su id
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorId
@@ -2033,3 +2035,7 @@ BEGIN
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+
