@@ -22,25 +22,31 @@ export class ChatProvider {
 
   agregarNuevoMensajeAmigo(mensaje,idAmigo,idRemitente) {
     if (this.conversacion) {
-      this.fireConversacionChatsAmigo.child(idAmigo).push({
-        enviadorPor: idRemitente,
-        mensaje: mensaje,
-        eliminado: false,
-        modificado: false,
-        fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
-      })    
+      var promise = new Promise((resolve, reject) => {
+        this.fireConversacionChatsAmigo.child(idAmigo).push({
+          enviadorPor: idRemitente,
+          mensaje: mensaje,
+          eliminado: false,
+          modificado: false,
+          tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP
+        })
+      })
+      return promise;
     }
   }
 
   agregarNuevoMensajeGrupo(mensaje,idGrupo,idRemitente) {
     if (this.conversacion) {
-      this.fireConversacionChatsGrupo.child(idGrupo).push({
-        enviadorPor: idRemitente,
-        eliminado: false,
-        modificado: false,
-        mensaje: mensaje,
-        fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
-      })   
+      var promise = new Promise((resolve, reject) => {
+        this.fireConversacionChatsGrupo.child(idGrupo).push({
+          enviadorPor: idRemitente,
+          eliminado: false,
+          modificado: false,
+          mensaje: mensaje,
+          tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP
+        })
+      }).catch()
+      return promise;
     }
   }
 
