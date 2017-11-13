@@ -112,6 +112,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
       peticion = new PeticionLogin();
+      usuario.Foto = "";
       try
       {
         usuario.Id = peticion.ConsultarUsuarioSocial(usuario);

@@ -57,7 +57,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -79,7 +79,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -102,7 +102,7 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -123,7 +123,7 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -143,7 +143,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
