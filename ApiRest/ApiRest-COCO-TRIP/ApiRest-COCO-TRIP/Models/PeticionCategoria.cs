@@ -39,7 +39,7 @@ namespace ApiRest_COCO_TRIP
       int exitoso = 0;
       try
       {
-        
+
         conexion.Conectar();
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandText = "m9_actualizarEstatusCategoria";
@@ -49,9 +49,10 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
 
         exitoso = conexion.Comando.ExecuteNonQuery();
-        
 
-      } catch( NpgsqlException ex)
+
+      }
+      catch (NpgsqlException ex)
       {
         BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
         {
@@ -60,11 +61,12 @@ namespace ApiRest_COCO_TRIP
         };
         throw bdException;
 
-      } finally
+      }
+      finally
       {
         conexion.Desconectar();
 
-      }  
+      }
     }
 
     public IList<Categoria> ObtenerCategorias(Categoria categoria)
@@ -118,7 +120,7 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.CommandText = "m9_devolverTodasCategorias";
         leerDatos = conexion.Comando.ExecuteReader();
-        listaCategorias = SetListaCategoria();  
+        listaCategorias = SetListaCategoria();
       }
       catch (NpgsqlException ex)
       {
@@ -161,7 +163,7 @@ namespace ApiRest_COCO_TRIP
         }
 
         categoria.Id = Superior;
-        
+
       }
       catch (NpgsqlException ex)
       {
@@ -204,45 +206,86 @@ namespace ApiRest_COCO_TRIP
 
 
     public void ModificarCategoria(Categoria categoria)
+    {
+
+      int exitoso = 0;
+      try
+      {
+
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "m9_ModificarCategoria";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
+
+        if (categoria.CategoriaSuperior == 0)
         {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
 
-            int exitoso = 0;
-            try
-            {
-
-                conexion.Conectar();
-                conexion.Comando = conexion.SqlConexion.CreateCommand();
-                conexion.Comando.CommandText = "m9_ModificarCategoria";
-                conexion.Comando.CommandType = CommandType.StoredProcedure;
-
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
-
-                exitoso = conexion.Comando.ExecuteNonQuery();
-
-
-            }
-            catch (NpgsqlException ex)
-            {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior} ",
-                    Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
-                };
-                throw bdException;
-
-            }
-            finally
-            {
-                conexion.Desconectar();
-
-            }
         }
+        else
+        {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+        }
+
+        
+
+        exitoso = conexion.Comando.ExecuteNonQuery();
+
+
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior} ",
+          Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+    }
+
+    public IList<Categoria> ObtenerCategoriasHabilitadas()
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_ConsultarCategoriaHabilitada";/* aqui va el stored procedure */
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
 
     }
 
-   
+  }
+
+
 
 }
