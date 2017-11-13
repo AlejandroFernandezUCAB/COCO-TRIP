@@ -23,7 +23,7 @@ namespace ApiRestPruebas.M8
     public void PruebaConsultarEventoPorID()
     {
       
-      string nombre = "Tomorrowland";
+      string nombre = "RobotLand";
       Evento evento = new Evento();
       evento.Nombre = nombre;
       evento.Descripcion = "Evento de Tecno";
@@ -46,14 +46,8 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaConsultarEventosPorFecha()
     {
-      int dia = 20;
-      int mes = 11;
-      int ano = 2017;
-      DateTime date = new DateTime();
-      date.AddDays(dia);
-      date.AddMonths(mes);
-      date.AddYears(ano);
-      Assert.AreEqual(controlador.ListarEventosPorFecha(date).Count,1);
+      DateTime date = new DateTime(2017,11,20);
+      Assert.AreEqual(3,controlador.ListarEventosPorFecha(date).Count);
     }
     [Test]
     public void PruebaConsultarEventoPorCategoria()
