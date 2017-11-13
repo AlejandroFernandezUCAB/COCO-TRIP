@@ -217,8 +217,8 @@ namespace ApiRest_COCO_TRIP
 
                 conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
                 conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
-                conexion.Comando.Parameters.AddwithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
-                conexion.Comando.Parameters.AddwithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
 
                 exitoso = conexion.Comando.ExecuteNonQuery();
 
