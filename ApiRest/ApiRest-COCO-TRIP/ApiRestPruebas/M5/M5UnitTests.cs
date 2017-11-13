@@ -139,7 +139,7 @@ namespace ApiRestPruebas
     public void PUAgregarActividad_It()
     {
       itinerario = new Itinerario(6);
-      Actividad ac = new Actividad
+      Actividad ac = new Actividad()
       {
         Id = 2
       };
@@ -231,7 +231,7 @@ namespace ApiRestPruebas
       itinerario = new Itinerario(6);
       Actividad ac = new Actividad()
       {
-        Id = 1
+        Id = 2
       };
       x = controller.EliminarItem_It("Actividad", itinerario.Id, ac.Id);
       Assert.True(x);

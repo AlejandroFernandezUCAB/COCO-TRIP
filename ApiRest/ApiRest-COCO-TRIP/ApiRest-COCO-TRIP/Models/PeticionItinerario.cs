@@ -193,17 +193,20 @@ namespace ApiRest_COCO_TRIP.Models
           {
             con = new ConexionBase();
             con.Conectar();
-            if (tipo == "Lugar Turistico")
+            if ((tipo == "Lugar Turistico") || (tipo == "Actividad") || (tipo == "Evento"))
             {
-              comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
-            }
-            if (tipo == "Actividad")
-            {
-              comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
-            }
-            if (tipo == "Evento")
-            {
-              comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
+              if (tipo == "Lugar Turistico")
+              {
+                 comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+              }
+              if (tipo == "Actividad")
+              {
+                comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
+              }
+              if (tipo == "Evento")
+              {
+                comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
+              }
             }
             else
             {
