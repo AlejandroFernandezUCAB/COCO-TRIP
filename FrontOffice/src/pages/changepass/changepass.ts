@@ -50,13 +50,12 @@ export class ChangepassPage {
     this.passNueva = this.myForm.value.newpass;
 
     this.restapiService.cambiarPass(this.NombreUsuario, this.passAct, this.passNueva).then(data =>{
-      console.log(data)
       if(data != 0){
         this.apiRestResponse = data;
         this.regresarAvistaAnterior(this.apiRestResponse);
     }
     else{
-      this.apiRestResponse = data;
+      this.apiRestResponse = false;
       this.regresarAvistaAnterior(this.apiRestResponse);
     }
   }

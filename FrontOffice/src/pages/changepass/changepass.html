@@ -24,6 +24,7 @@
         <ion-item *ngIf="myForm.get('contraActual').errors && myForm.get('contraActual').dirty">
           <p color="danger" ion-text *ngIf="myForm.get('contraActual').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
         </ion-item>
+       
 
         <ion-item>
             <ion-label floating>{{ 'Nueva contraseña' | translate }}</ion-label>
