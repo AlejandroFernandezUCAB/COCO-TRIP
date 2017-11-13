@@ -15,45 +15,68 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 export class EditProfilePage {
 
   myForm: FormGroup;
+  // datos a cargar por defecto
+  // se sobre escriben si la llamada al
+  // apirest fue exitosa
   usuario: any = {
     Nombre: 'Nombre',
-    Apellido: 'Apellido'
+    Apellido: 'Apellido',
+    FechaNacimiento: new Date('1990-04-11T00:00:00.196Z').toISOString(),
+    Genero: "F"
   };
+
+  genero: string;
+  generoSelect: any;
+  
   apiRestResponse: any;
-
-  public event = {
-    month: '1993-02-27'
-  }
-
-  change = ChangepassPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, 
     public restapiService: RestapiService )
   {
+
+    this.genero = this.usuario.Genero;
+
     console.log(navParams.data)
-    //obtengo los datos recibidos de la vista anterior
-    if(navParams.data != 0){
+    // obtengo los datos recibidos de la vista anterior
+    // la verificacion de la fecha permite evitar la excepcion de RangeError
+    if(navParams.data != 0 && navParams.data.FechaNacimiento != undefined){
       this.usuario = navParams.data;
+      this.usuario.FechaNacimiento = new Date(navParams.data.FechaNacimiento).toISOString();
+      this.genero = navParams.data.Genero;
     }
+
     //inyecto los datos en el formulario
     this.myForm = this.fb.group(
       {
         nombre: [this.usuario.Nombre, [Validators.required]],
-        apellido: [this.usuario.Apellido,[Validators.required]]
-        //sexo: [''],
+        apellido: [this.usuario.Apellido,[Validators.required]],
+        genero: [this.genero],
+        fechanac: [this.usuario.FechaNacimiento]
       }
     )
+
+
   }
 
   //function ejecutada al hacer submit del formulario
   saveData(){
-    //guardamos datos previos
-    let nombreViejo = this.usuario.Nombre;
-    let apellidoViejo = this.usuario.Apellido;
-    //inyectamos datos nuevos
+    // //guardamos datos previos
+    // let nombreViejo = this.usuario.Nombre;
+    // let apellidoViejo = this.usuario.Apellido;
+    // //inyectamos datos nuevos
+    // this.usuario.Nombre = this.myForm.value.nombre;
+    // this.usuario.Apellido = this.myForm.value.apellido;
+
+      //guardamos datos previos
+    let usuarioDatosPrevios = this.usuario;
+      //inyectamos datos nuevos
     this.usuario.Nombre = this.myForm.value.nombre;
     this.usuario.Apellido = this.myForm.value.apellido;
+    // notar que el toISOString es muy importante para que el apirest reconozca a FechaNacimiento
+    // como un valor de DateTime valido 
+    this.usuario.FechaNacimiento = new Date(this.myForm.value.fechanac).toISOString();
+    this.usuario.Genero = this.myForm.value.genero;
 
     this.restapiService.modificarDatosUsuario(this.usuario).then(data =>{
         if(data != 0){
@@ -62,8 +85,7 @@ export class EditProfilePage {
       }
       else{
         //restauramos los nombres anteriores
-        this.usuario.Nombre = nombreViejo;
-        this.usuario.Apellido = apellidoViejo;
+        this.usuario = usuarioDatosPrevios;
         this.apiRestResponse = false;
         this.regresarAvistaAnterior(this.apiRestResponse);
       }
@@ -139,6 +161,7 @@ export class EditProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventosActividadesPage');
+    
   }
 
 }
