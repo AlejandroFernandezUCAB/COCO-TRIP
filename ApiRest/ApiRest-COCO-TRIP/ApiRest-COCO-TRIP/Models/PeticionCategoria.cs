@@ -241,7 +241,37 @@ namespace ApiRest_COCO_TRIP
             }
         }
 
+    public IList<Categoria> ObtenerCategoriasHabilitadas()
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_ConsultarCategoriaHabilitada";/* aqui va el stored procedure */
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
+
     }
+
+  }
 
    
 
