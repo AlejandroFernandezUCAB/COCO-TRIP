@@ -330,7 +330,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del evento que se esta buscando.</param>
     /// <returns>Retorna una lista con los eventos que tengan coincidencia.</returns>
-    public List<Evento> ConsultarEventos(string busqueda)
+    public List<Evento> ConsultarEventos(string busqueda, DateTime fechainicio, DateTime fechafin)
     {
       List<Evento> list_eventos = new List<Evento>();
       try
@@ -340,6 +340,8 @@ namespace ApiRest_COCO_TRIP.Models
         comm = new NpgsqlCommand("consultar_eventos", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechainicio);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
         pgread = comm.ExecuteReader();
 
         //Se recorre los registros devueltos.
@@ -551,10 +553,12 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     /// <summary>
-    /// 
+    /// Se encarga de buscar todas las notificaciones de eventos, actividad y lugares turisticos
+    /// con una semana de intervalo, es decir, buscar esos eventos pendientes entre hoy a una semana,
+    /// con el fin de enviarlo por correo.
     /// </summary>
-    /// <param name="datos"></param>
-    /// <returns></returns>
+    /// <param name="id_usuario">Id del usuario a quien se le buscara la información</param>
+    /// <returns>Devuelve "Exitoso" en caso de no haber incovenientes, y una excepcion en caso contrario</returns>
     public string EnviarCorreo(int id_usuario)
     {
       Usuario usuario;
