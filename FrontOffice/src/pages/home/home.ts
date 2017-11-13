@@ -17,7 +17,7 @@ eve: any;
 idUser: any;
 
 
-  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public http: HttpCProvider) {
+  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider) {
     //console.log(this.its2);
  //   this.IniciarNotificaciones();
     this.menu.enable(true);
@@ -26,13 +26,7 @@ idUser: any;
   }
  
  ltSegunPreferencia(){
- /* IniciarNotificaciones() {
-    this.http.NotificacionUsuario(1)
-    .then(data => {
-      this._itis = data;
-      console.log(this._itis);
-    });
-  }*/
+
 
     this.storage.get('id').then(idUser=>{
       this.idUser=idUser;
@@ -92,4 +86,11 @@ idUser: any;
 
    } 
 
+    /* IniciarNotificaciones() {
+    this.http.NotificacionUsuario(1)
+    .then(data => {
+      this._itis = data;
+      console.log(this._itis);
+    });
+  }*/
 }
