@@ -31,7 +31,7 @@ namespace ApiRestPruebas.M3
         "INSERT INTO Grupo VALUES (-1,'Grupoprueba1',null,-1);" +
         "INSERT INTO Grupo VALUES (-2,'Grupoprueba2',null,-2);" +
         "INSERT INTO Miembro VALUES (-1,-1,-1);" +
-"INSERT INTO Miembro VALUES (-2,-1,-2);";
+        "INSERT INTO Miembro VALUES (-2,-1,-2);";
       conexion.Comando.CommandType = CommandType.Text;
       conexion.Comando.ExecuteReader();
       conexion.Desconectar();
@@ -193,9 +193,121 @@ namespace ApiRestPruebas.M3
     }
 
 
+    //PRUEBAS UNITARIAS DE OBTENERLISTADENOTIFICACIONES
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// Test para probar el coaso de exito de obtenerListaNotifiaciones
+    /// </summary>
+    [Test]
+    public void TestObtenerListaNotificaciones()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarAmigosBD(-2,"usuariopruebas1");
+      Usuario usuario = new Usuario();
+      List<Usuario> lista = peticion.ObtenerListaNotificacionesBD(-1);
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.AreEqual("Mariangel", usuario.Nombre);
+    }
+
+
+    /// <summary>
+    /// Test para probar el caso de  falla cuando existe un casteo incorrecto
+    /// </summary>
+    ///
+    [Test]
+    public void TestObtenerListaNotificacionesFalloCast()
+    {
+      Assert.Catch<FormatException>(ExcepcionSalirGrupoMalCast);
+    }
+
+    public void ExcepcionObtenerListaNotificacionesFalloCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.ObtenerListaNotificacionesBD(Convert.ToInt32("5ff"));
+    }
 
 
 
+    //PRUEBAS UNITARIAS DE ACEPNOTIFICACIONES
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// Test para probar el caso de exito del metodo AceptarNotificacionesBD
+    /// </summary>
+    [Test]
+    public void TestAceptarNotificaciones()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      peticion.AceptarNotificacionBD("usuariopruebas2", -1);
+      Usuario usuario = new Usuario();
+      List<Usuario> lista = peticion.VisualizarListaAmigoBD(-1);
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.AreEqual("Mariangel", usuario.Nombre);
+    }
+
+
+    /// <summary>
+    /// Test para probar el caso de  falla cuando existe un casteo incorrecto
+    /// </summary>
+    ///
+    [Test]
+    public void TestAceptarNotificacionesFalloCast()
+    {
+      Assert.Catch<FormatException>(ExcepcionSalirGrupoMalCast);
+    }
+
+    public void ExcepcionAceptarNotificacionesFalloCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AceptarNotificacionBD(null, -1);
+    }
+
+
+
+
+    //PRUEBAS UNITARIAS DE RECHAZARNOTIFICACIONES ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    //CREADO POR: OSWALDO LOPEZ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+    /// <summary>
+    /// Test para probar el caso de exito del metodo AceptarNotificacionesBD
+    /// </summary>
+    [Test]
+    public void TestRechazarNotificaciones()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      peticion.RechazarNotificacionBD("usuariopruebas2", -1);
+      Usuario usuario = new Usuario();
+      List<Usuario> lista = peticion.VisualizarListaAmigoBD(-1);
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsNull(usuario.Nombre);
+    }
+
+
+    /// <summary>
+    /// Test para probar el caso de  falla cuando existe un casteo incorrecto
+    /// </summary>
+    ///
+    [Test]
+    public void TestRechazarNotificacionesFalloCast()
+    {
+      Assert.Catch<FormatException>(ExcepcionSalirGrupoMalCast);
+    }
+
+    public void ExcepcionRechazarNotificacionesFalloCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.RechazarNotificacionBD(null, -1);
+    }
 
 
 
@@ -207,7 +319,7 @@ namespace ApiRestPruebas.M3
     [Test]
     public void EliminarAmigoTest() {
       peticion.AgregarAmigosBD(-1, "usuariopruebas2");
-      //Assert.AreEqual(1, peticion.EliminarAmigoBD("usuariopruebas1", "usuariopruebas2"));
+      Assert.AreEqual(1, peticion.EliminarAmigoBD( "usuariopruebas2", -1));
     }
 
     //PRUEBAS UNITARIAS DE ELIMINAR GRUPO
@@ -217,7 +329,7 @@ namespace ApiRestPruebas.M3
     /// </summary>
     [Test]
     public void EliminarGrupoTest() {
-     // Assert.AreEqual(1, peticion.EliminarGrupoBD("usuariopruebas1", -1));
+      Assert.AreEqual(1, peticion.EliminarGrupoBD(-1 , -1));
     }
 
     //PRUEBAS UNITARIAS DE VISUALIZAR LISTA DE AMIGOS
