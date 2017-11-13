@@ -127,10 +127,10 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      itinerario = new Itinerario(4);
+      itinerario = new Itinerario(6);
       LugarTuristico lt = new LugarTuristico()
       {
-        Id = 1
+        Id = 2
       };
       fechaini = new DateTime(2017,11,15);
       fechafin = new DateTime(2017,11,18);
