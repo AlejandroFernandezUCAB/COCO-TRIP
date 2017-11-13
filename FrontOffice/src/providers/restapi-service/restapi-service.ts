@@ -107,14 +107,23 @@ ltSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
       },error=>{
-        resolve(0);
+        resolve(-1);
       });
   });
 
 }
 
-eveSegunPreferencias(idUsuario){
-  
+eveSegunPreferencias(idUser){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M1_Login/EventoSegunPreferencias/?idUsuari='+JSON.stringify(idUser),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+      });
+  });  
   
   
     
