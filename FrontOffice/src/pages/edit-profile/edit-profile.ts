@@ -25,6 +25,8 @@ export class EditProfilePage {
     Genero: "F"
   };
 
+  change = ChangepassPage;
+
   genero: string;
   
   apiRestResponse: any;
