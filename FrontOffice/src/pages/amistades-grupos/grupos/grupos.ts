@@ -4,6 +4,7 @@ import{CrearGrupoPage} from '../../crear-grupo/crear-grupo';
 import{DetalleGrupoPage} from '../../detalle-grupo/detalle-grupo';
 import{ModificarGrupoPage} from '../../modificar-grupo/modificar-grupo';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-grupos',
@@ -15,32 +16,43 @@ export class GruposPage {
   detail=false;
   toast : any;
   grupo:any;
-/*
+
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
-*/
+
   
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController,
-      public restapiService: RestapiService, loadingCtrl: LoadingController,
-      public toastCtrl: ToastController ) {
+      public restapiService: RestapiService, public loadingCtrl: LoadingController,
+      public toastCtrl: ToastController, private storage: Storage ) {
  
    }
    
-  
+   cargando(){
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
+
    ionViewWillEnter() {
-    this.restapiService.listaGrupo(1)
+     this.cargando();
+    this.storage.get('id').then((val) => {
+    this.restapiService.listaGrupo(val)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-
+          this.loading.dismiss();
         }
         else {
           this.grupo = data;
+          this.loading.dismiss();
         }
 
       });
+    });
   }
 
   crearGrupo(){
@@ -111,15 +123,7 @@ export class GruposPage {
     });
     this.toast.present();
   }
-/*
-  cargando(){
-    this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
-      dismissOnPageChange: true
-    });
-    this.loading.present();
-  }
-*/
+
   eliminarGrupo(id, index) {
     const alert = this.alertCtrl.create({
     title: 'Por favor, confirmar',
@@ -129,34 +133,35 @@ export class GruposPage {
         text: 'Cancelar',
         role: 'cancel',
         handler: () => {
-          //console.log('Cancel clicked');
+      
         }
       },
       {
         text: 'Aceptar',
         handler: () => {
-          //this.eliminarItinerario(id, index);
-            
-            this.restapiService.salirGrupo(1,id)
+          
+          
+          this.storage.get('id').then((val) => {
+            console.log('El id del usuario es ', val);
+            this.restapiService.salirGrupo(val,id)
             .then(data => {
               if (data == 0 || data == -1) {
                 console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-                //this.loading.dismiss();
+          
                 this.realizarToast('Hubo un error');
 
               }
               else {
-                //this.amigo = data;
-                //this.loading.dismiss();
-                this.realizarToast('Agregado exitosamente');
+                
+                console.log("la data es "+data);
+                this.realizarToast('Haz salido del grupo exitosamente');
+                 
                 this.eliminarGrupos(id, index);
               }
       
             });
             this.delete = false;
-          //this.eliminarGrupos(id, index);
-          //this.restapiService.eliminarGrupo(1,id);
-          //this.delete = false;
+          });
           }
         }
       ]
@@ -174,8 +179,10 @@ eliminarGrupos(id, index){
   var removed_elements = this.grupo.splice(index, 1);
 }
 
-  verDetalleGrupo() {
-    this.navCtrl.push(DetalleGrupoPage);
+  verDetalleGrupo(id, index) {
+    this.navCtrl.push(DetalleGrupoPage,{
+      idGrupo: id
+    });
   
   }
   

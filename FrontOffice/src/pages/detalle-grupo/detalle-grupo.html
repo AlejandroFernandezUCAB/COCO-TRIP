@@ -8,11 +8,6 @@
   
     <ion-navbar  >
       <ion-title>Detalle del Grupo</ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only >
-        <ion-icon name="create"></ion-icon>
-      </button>
-        </ion-buttons>
     </ion-navbar>
     
   
@@ -32,7 +27,8 @@
               Integrantes
             </ion-list-header>
             <ion-item *ngFor="let item of miembro">
-              <ion-label>{{item.Nombre}}</ion-label>
+              <h2>{{item.Nombre}} {{item.Apellido}}</h2>
+              <h3>{{item.NombreUsuario}}</h3>
               <ion-avatar item-left>
                   <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
             </ion-avatar>
