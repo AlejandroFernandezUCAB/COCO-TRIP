@@ -23,7 +23,8 @@ export class BuscarAmigoPage {
   items:string[];
   idUsuario: any;
   lista:any;
-
+  showList:any;
+  showBar:any;
   constructor( public navCtrl: NavController, 
       public navParams: NavParams,public platform: Platform,
       public actionsheetCtrl: ActionSheetController,
@@ -33,13 +34,18 @@ export class BuscarAmigoPage {
       //this.cargarListas();       
   }
 
+  ionViewWillEnter() {
+    this.showBar = true;
+    this.showList = false;
+  }
+
   buscar(ev){
-    // set q to the value of the searchbar input if it exists
+    this.showList = true;
     this.storage.get('id').then((val) =>{
       if(ev.target.value){
-        var q = ev.target.value;
+        var dato = ev.target.value;
       } 
-      this.restapiService.buscaramigo(q, val)
+      this.restapiService.buscaramigo(dato, val)
       .then(data => {
       this.lista = data;
       });
@@ -47,6 +53,11 @@ export class BuscarAmigoPage {
     
   }
   
+
+  /*ionViewDidLeave(){
+    this.lista=false;
+  }*/
+
   /*cargarListas(){
   this.storage.get('id').then((val) => {
   this.idUsuario = val;
@@ -67,6 +78,7 @@ export class BuscarAmigoPage {
         this.navCtrl.push(VisualizarPerfilPublicoPage,{
           nombreUsuario : nombre
         });
+        this.showBar = false;
       }
 
   doConfirm() {

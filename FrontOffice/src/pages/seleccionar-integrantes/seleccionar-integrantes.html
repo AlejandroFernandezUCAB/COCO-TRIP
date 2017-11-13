@@ -20,6 +20,7 @@
   
   
   <ion-content padding>
+      <form [formGroup]="myForm">
       <ion-list>
           <ion-buttons>
               <button ion-button icon-only >
@@ -29,11 +30,10 @@
         
               <ion-item>
                   <ion-input type="text" placeholder="Nombre del grupo"
-                    [(ngModel)]="nombreGrupo">
+                    [(ngModel)]="nombreGrupo" formControlName="namegroup" required>
                   </ion-input>
                 </ion-item>
-          
-          
           </ion-list>
+        </form>
   </ion-content>
   

@@ -5,11 +5,11 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="buscar($event)"
+    <ion-searchbar (ionInput)="buscar($event)" *ngIf="showBar"
     [animated]=true
     [showCancelButton]="shouldShowCancel">
   </ion-searchbar>
-    <ion-list>
+    <ion-list *ngIf="showList">
         <ion-item *ngFor="let item of lista" (tap)="Visualizarpublico(item.NombreUsuario)">
           <ion-avatar item-left>
               <img src='https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg'>
