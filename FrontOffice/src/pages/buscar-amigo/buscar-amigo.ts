@@ -34,15 +34,18 @@ export class BuscarAmigoPage {
   }
 
   buscar(ev){
-  // set q to the value of the searchbar input if it exists
-  if(ev.target.value){
-    var q = ev.target.value;
-  } 
-  this.restapiService.buscaramigo(q)
-  .then(data => {
-  this.lista = data;
-  });
-    }
+    // set q to the value of the searchbar input if it exists
+    this.storage.get('id').then((val) =>{
+      if(ev.target.value){
+        var q = ev.target.value;
+      } 
+      this.restapiService.buscaramigo(q, val)
+      .then(data => {
+      this.lista = data;
+      });
+    });
+    
+  }
   
   /*cargarListas(){
   this.storage.get('id').then((val) => {

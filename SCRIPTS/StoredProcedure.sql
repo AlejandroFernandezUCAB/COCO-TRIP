@@ -169,7 +169,6 @@ BEGIN
 
 END;
 $$ LANGUAGE plpgsql;
-<<<<<<< HEAD
 --Consulta los lugares turisticos segun las preferencias del usuario
 --se le da un id y retorna lista con lugares turisticos
 CREATE OR REPLACE FUNCTION BuscarLugarTuristicoSegunPreferencias ( _idUsuario int)
@@ -212,8 +211,6 @@ BEGIN
 	  (pr_usuario =_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
-=======
->>>>>>> de6998daf21a1dc8486e931c62f2077be8c86d1d
 
 /*UPDATES*/
 CREATE OR REPLACE FUNCTION ValidarUsuario(_correo varchar, _id integer)
@@ -959,11 +956,10 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
     IF i is null THEN
     return false;
     else
+    If (tipo='Lugar Turistico' OR tipo='Actividad' OR tipo='Evento' ) THEN
       IF tipo='Lugar Turistico' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idlugarturistico) AND (iditinerario=ag_idItinerario);
       return true;
-      else
-      return false;
       END IF;
       IF tipo='Actividad' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
@@ -977,6 +973,9 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
       else
       return false;
       END IF;
+	ELSE
+    return false;
+    END IF;
 	END IF;
     END
 	$BODY$
