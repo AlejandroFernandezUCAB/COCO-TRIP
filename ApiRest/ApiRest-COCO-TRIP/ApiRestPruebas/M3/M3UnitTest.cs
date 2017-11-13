@@ -450,16 +450,9 @@ namespace ApiRestPruebas.M3
     }
 
     [Test]
-    public void TestPerfilGrupoNoExiste()
+    public void TestVisualizarPerfilGrupoNoExiste()
     {
-      Assert.Catch<NpgsqlException>(ExcepcionVerperfilGrupoMalNoExiste);
-      
-    }
-
-    public void ExcepcionVerperfilGrupoMalNoExiste()
-    {
-      List<Grupo> lista = new List<Grupo>();
-      lista = peticion.ConsultarPerfilGrupo(-50);
+      Assert.IsEmpty(peticion.ConsultarPerfilGrupo(0));
     }
 
     [Test]
@@ -476,6 +469,19 @@ namespace ApiRestPruebas.M3
     }
 
     [Test]
+    public void TestListaGrupoVacio()
+    {
+      List<Grupo> lista = new List<Grupo>();
+      lista = peticion.Listagrupo(0);
+      Grupo grupo = new Grupo();
+      foreach (Grupo g in lista)
+      {
+        grupo = g;
+      }
+      Assert.IsEmpty(grupo.Nombre);
+    }
+
+    [Test]
     public void BuscarAmigo()
     {
 
@@ -489,6 +495,22 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("Aquiles", usuario.Nombre);
 
     }
+
+    [Test]
+    public void BuscarAmigoNoExiste()
+    {
+
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.BuscarAmigo("Aquilessss", 1);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsNull(usuario.Nombre);
+
+    }
+
 
   }
 }
