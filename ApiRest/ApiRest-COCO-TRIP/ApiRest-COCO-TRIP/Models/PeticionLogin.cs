@@ -313,45 +313,59 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return usuario.Id;
     }
-    //codigo Pedro Garcia
-    /*public List<LugarTuristico> ConsultarLugarTuristicoSegunPreferencias(int idUsuario) {
-        try
-        {
-            conexion.Conectar();
-            conexion.Comando = conexion.SqlConexion.CreateCommand();
-            conexion.Comando.CommandText = "BuscarLugarTuristicoSegunPreferencias";
-            conexion.Comando.CommandType = CommandType.StoredProcedure;
-            conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
-            leerDatos = conexion.Comando.ExecuteReader();
-            var listaLugarTuristico = new List<LugarTuristico>();
+    public List<LugarTuristicoPreferencia> ConsultarLugarTuristicoSegunPreferencias(int idUsuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "BuscarLugarTuristicoSegunPreferencias";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        List<LugarTuristicoPreferencia> ltp = new List<LugarTuristicoPreferencia>();
 
         while (leerDatos.Read()) //Recorre las filas retornadas de la base de datos
         {
-          var lugarTuristico = new LugarTuristico();
-          lugarTuristico.Nombre = leerDatos.GetString(0);
-          lugarTuristico.Costo = leerDatos.GetDouble(1);
-          lugarTuristico.Descripcion = leerDatos.GetString(2);
-          lugarTuristico.Direccion = leerDatos.GetString(3);
-          lugarTuristico.Categoria = leerDatos.
-
-          listaLugarTuristico.Add(lugarTuristico);
+          var lugarPreferencia = new LugarTuristicoPreferencia();
+          lugarPreferencia.NombreLT = leerDatos.GetString(0);
+          lugarPreferencia.Costo = leerDatos.GetDouble(1);
+          lugarPreferencia.Descripcion = leerDatos.GetString(2);
+          lugarPreferencia.Direccion = leerDatos.GetString(3);
+          lugarPreferencia.LugarFotoRuta = leerDatos.GetString(4);
+          lugarPreferencia.NombreCategoria = leerDatos.GetString(5);
+          ltp.Add(lugarPreferencia);
         }
-
+        
         leerDatos.Close();
+       /* int j = ltp.Count;
+        int i = 0;
+        while(i <= j){
+          var aux = new ListaLT();
+          aux.NombreLT = ltp[i].NombreLT;
+          aux.Costo = ltp[i].Costo;
+          aux.Descripcion = ltp[i].Descripcion;
+          aux.Direccion = ltp[i].Direccion;
+          if (ltp[i].NombreLT.Equals(ltp[i+1].NombreLT) && ((i+1)<= j)) {
+             aux.LugarFotoRuta.Add(ltp)
+            
+          }
+          i++;
 
-        return listaLugarTuristico;
+        }*/
+        return ltp;
       }
-        catch (NpgsqlException e)
-        {
-            throw e;
-        }
-        catch (FormatException e)
-        {
-            throw e;
-        }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
 
 
-    }*/
+    }
     public List<EventoPreferencia> ConsultarEventosSegunPreferencias(int idUsuario, DateTime fechaActual) {
         try
         {
@@ -378,7 +392,6 @@ namespace ApiRest_COCO_TRIP.Models
           eventoPreferencia.LocalFotoRuta = leerDatos.GetString(8);
           eventoPreferencia.NombreCategoria = leerDatos.GetString(9);
           listaEventos.Add(eventoPreferencia);
-          Console.WriteLine(listaEventos);
         }
 
         leerDatos.Close();

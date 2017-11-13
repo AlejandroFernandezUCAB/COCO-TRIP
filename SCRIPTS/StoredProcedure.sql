@@ -173,17 +173,19 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION BuscarLugarTuristicoSegunPreferencias ( _idUsuario int)
 RETURNS TABLE( 
   nombre VARCHAR,
-  costo  DECIMAL,
+  costo  NUMERIC,
   descripcion VARCHAR,
   direccion VARCHAR,
-  ca_nombre VARCHAR	
+  ruta_foto VARCHAR,
+  categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
   RETURN QUERY 
-	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,ca_nombre
-	FROM usuario, preferencia, categoria, lugar_turistico
-	WHERE 
-	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (lu_categoria= ca_id);
+	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,fo_ruta, ca_nombre
+  FROM usuario, preferencia, categoria, lugar_turistico,lt_foto, lt_c
+  WHERE 
+	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = fk_fo_lugar_turistico) and (lu_id = id_lugar_turistico)
+  group by lu_nombre,lu_costo,lu_descripcion, lu_direccion,fo_ruta, ca_nombre;
 END;
 $$ LANGUAGE plpgsql;
 

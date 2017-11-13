@@ -19,10 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -154,6 +152,8 @@
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Models\Dato\Categ.cs" />
+    <Compile Include="Models\Dato\RutaFoto.cs" />
     <Compile Include="Models\EventoPreferencia.cs" />
     <Compile Include="Models\Excepcion\ArchivoExcepcion.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
@@ -170,6 +170,7 @@
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\LocalidadEvento.cs" />
+    <Compile Include="Models\LugarTuristicoPreferencia.cs" />
     <Compile Include="Models\PeticionAmigoGrupo.cs" />
     <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionItinerario.cs" />

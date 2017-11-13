@@ -22,6 +22,11 @@ namespace ApiRestPruebas
     private PeticionLogin peticion = new PeticionLogin();
     private M1_LoginController controlador = new M1_LoginController();
     private DateTime fechaPrueba;
+    private LugarTuristicoPreferencia lugarTuristico1;
+    private LugarTuristicoPreferencia lugarTuristico2;
+    private LugarTuristicoPreferencia lugarTuristico3;
+    private LugarTuristicoPreferencia lugarTuristico4;
+    private LugarTuristicoPreferencia lugarTuristico5;
 
     [SetUp]
     public void setUsuario()
@@ -66,6 +71,17 @@ namespace ApiRestPruebas
         NombreCategoria = "bar"
 
       };
+      lugarTuristico1 = new LugarTuristicoPreferencia
+      {
+        NombreLT = "Playa Pelua",
+        Costo = 0,
+        Descripcion = "Farandu lLaya",
+        Direccion = "la guaria",
+        LugarFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\pelua.jpg",
+        NombreCategoria= "bar"
+
+      };
+
     }
 
     [Test]
@@ -347,6 +363,26 @@ namespace ApiRestPruebas
       Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
       Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
     }
+<<<<<<< HEAD
+    /// <summary>
+    /// Prueba de caso exitoso en LugarTuristicoSegunPreferencias
+    /// que se encuentra en el controlador M1_LoginController.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestLugarTuristicoSegunPreferencias()
+    {
+      List<LugarTuristicoPreferencia> listaLT = new List<LugarTuristicoPreferencia>();
+      listaLT = controlador.LugarTuristicoSegunPreferencias(1);
+      Assert.AreEqual(lugarTuristico1.NombreLT, listaLT[0].NombreLT);
+      Assert.AreEqual(lugarTuristico1.Costo, listaLT[0].Costo);
+      Assert.AreEqual(lugarTuristico1.Descripcion, listaLT[0].Descripcion);
+      Assert.AreEqual(lugarTuristico1.Direccion, listaLT[0].Direccion);
+      Assert.AreEqual(lugarTuristico1.LugarFotoRuta, listaLT[0].LugarFotoRuta);
+      Assert.AreEqual(lugarTuristico1.NombreCategoria, listaLT[0].NombreCategoria);
+    }
+=======
+>>>>>>> a93f69e6f43b0f8980b9900aaa220d4870a276ef
 
   }
 
