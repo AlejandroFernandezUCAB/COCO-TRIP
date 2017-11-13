@@ -10,14 +10,14 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: 'item-modal.html',
 })
 export class ItemModalPage {
-  itinerario = '';
-  searchTerm: string = '';
+  itinerario = ''; 
+  searchTerm: string = ''; //Lo que esta buscando
   //searchControl: FormControl;
   base_url = '../assets/images/';
-  items: any;
-  tipo_item: any;
+  items: any; //Donde metrere la busqueda
+  tipo_item: any; //Evento -----  Lugar Turistico -------   Actividad
   searching: any = false;
-  FechaInicio: any;
+  FechaInicio: any; 
   FechaFin: any;
   constructor(
     public navCtrl: NavController,
@@ -66,6 +66,41 @@ export class ItemModalPage {
         let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
         console.log(vlista);
         console.log(this.translateService.currentLang);
+
+        /////////////////////////////////////////////////
+
+        if (this.tipo_item == 'Evento'){
+          
+        }
+        else{
+          if (this.tipo_item == 'Lugar Turistico'){
+            
+          }
+          else{
+            if (this.tipo_item == 'Actividad'){
+              
+            }
+            else{
+              /*
+              En el jardin hay algo
+              que esta esperando, 
+              tal cual lo dejaste 
+              boca arriba quedo, 
+              y cuando lo encuentres, 
+              se habra descolorado, 
+              mas claro es el reverso si lo haces girar, 
+              todo esta, tal cual lo dejaste, 
+              todo esta siempre cambiando, 
+              ligeramente de dia y noche 
+              un poco mas 
+              pero todo estas.
+              */
+            }      
+          }
+        }
+
+        /////////////////////////////////////////////////
+
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
           let alert = this.alertCtrl.create({

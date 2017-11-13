@@ -110,5 +110,35 @@ verItem(id, tipo)
   }
 }
 
+ConsultarEventos(busqueda, finicio, ffin)
+{
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/ConsultarEventos',{params:{ busq: busqueda , fechai: finicio , fechaf: ffin}}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
+
+ConsultarLugarTuristico(busqueda){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/ConsultarLugaresTuristicos',{params:{ busq: busqueda }}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
+
+ConsultarActividades(busqueda){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/ConsultarActividad',{params:{ busq: busqueda }}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
 
 }
