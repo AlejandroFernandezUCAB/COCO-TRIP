@@ -23,8 +23,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.AgregarItinerario(it);
       }
-      catch (NpgsqlException)
-      {
+      catch (NpgsqlException e)
+      { 
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (InvalidCastException)
