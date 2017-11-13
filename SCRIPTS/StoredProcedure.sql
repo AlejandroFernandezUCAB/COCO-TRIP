@@ -16,7 +16,7 @@ CREATE OR REPLACE FUNCTION InsertarUsuario
 (_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
  _apellido VARCHAR(30), _fechaNacimiento date,
  _genero VARCHAR(1), _correo VARCHAR(30),
- _clave VARCHAR(20), _foto bytea)
+ _clave VARCHAR(20), _foto VARCHAR(100))
 RETURNS integer AS
 $$
 BEGIN
@@ -32,14 +32,13 @@ $$ LANGUAGE plpgsql;
 -- Inserta el usuario con los datos de Facebook
 -- Devuelve el id del usuario
 CREATE OR REPLACE FUNCTION InsertarUsuarioFacebook
-(_nombre VARCHAR(30), _apellido VARCHAR(30), _fechaNacimiento date, _correo VARCHAR(30),
- _foto bytea)
+(_nombre VARCHAR(30), _apellido VARCHAR(30), _correo VARCHAR(30))
 RETURNS integer AS
 $$
 BEGIN
 
-   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_fechanacimiento, us_email, us_foto, us_validacion) VALUES
-    (nextval('seq_Usuario'), _nombre, _apellido, _fechaNacimiento, _correo, _foto, false);
+   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_email, us_validacion) VALUES
+    (nextval('seq_Usuario'), _nombre, _apellido, _correo, false);
 
    RETURN currval('seq_Usuario');
 

@@ -82,7 +82,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     public int IniciarSesionSocial(String datos)
     {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
-      usuario.Foto = new byte[1000];
       peticion = new PeticionLogin();
       try
       {

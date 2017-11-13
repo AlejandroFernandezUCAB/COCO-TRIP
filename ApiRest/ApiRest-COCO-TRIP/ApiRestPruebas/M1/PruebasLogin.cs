@@ -40,7 +40,7 @@ namespace ApiRestPruebas
         FechaNacimiento = new DateTime(2017, 03, 09),
         Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
-        Foto = new byte[28480]
+        Foto = ""
       };
 
       evento1 = new EventoPreferencia
@@ -88,21 +88,21 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuarioFacebook(usuario));
+      Assert.AreEqual(20, peticion.InsertarUsuarioFacebook(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuarioFacebook(usuario);
       });
       Assert.Throws<InvalidCastException>(() => {
-          usuario.Nombre = null;
-          peticion.InsertarUsuarioFacebook(usuario);
-        });
-     
+        usuario.Nombre = null;
+        peticion.InsertarUsuarioFacebook(usuario);
+      });
+
     }
     [Test]
     [Category("Insertar")]
     public void TestInsertarUsuario()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuario(usuario));
+      Assert.AreEqual(13, peticion.InsertarUsuario(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuario(usuario);
       });
@@ -243,7 +243,7 @@ namespace ApiRestPruebas
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
       });
-  
+
     }
     [Test]
     [Category("Controlador")]
@@ -254,7 +254,7 @@ namespace ApiRestPruebas
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
       });
-     
+
     }
     //CORRER SOLO CUANDO NO TIENES CONEXION
     [Test]
@@ -276,10 +276,17 @@ namespace ApiRestPruebas
     public void TestRegistrarUsuario()
     {
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
       usuario.NombreUsuario = "homero";
       Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
       usuario.Correo = "homero_dms@hotmail.com";
       Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
     }
 
     [Test]
@@ -356,6 +363,7 @@ namespace ApiRestPruebas
       Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
       Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
     }
+<<<<<<< HEAD
     /// <summary>
     /// Prueba de caso exitoso en LugarTuristicoSegunPreferencias
     /// que se encuentra en el controlador M1_LoginController.cs
@@ -373,6 +381,8 @@ namespace ApiRestPruebas
       Assert.AreEqual(lugarTuristico1.LugarFotoRuta, listaLT[0].LugarFotoRuta);
       Assert.AreEqual(lugarTuristico1.NombreCategoria, listaLT[0].NombreCategoria);
     }
+=======
+>>>>>>> a93f69e6f43b0f8980b9900aaa220d4870a276ef
 
   }
 
