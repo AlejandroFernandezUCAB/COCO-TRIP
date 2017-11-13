@@ -6,32 +6,10 @@
     <br><br>
 
     <form class="form-horizontal">
-      <div class="form-group">
+      <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;genes del lugar</label>
-        
-        <ul class="list-inline">
-          <li class="list-inline-item">
-            <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/barco_colon.jpg")" alt="">
-            </figure>
-          </li>
-          <li class="list-inline-item">
-            <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/areas_verdes.jpg")" alt="">
-            </figure>
-          </li>
-          <li class="list-inline-item">
-            <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/property_detail.jpg")" alt="">
-            </figure>
-          </li>
-          <li class="list-inline-item">
-            <figure class="imagen-actividad-modificar">
-              <img class="img-actividad" src="@Url.Content("~/Images/Lugares/canchas.jpg")" alt="">
-            </figure>
-          </li>
-        </ul>
-        <p class="help-block col-sm-9 text-center">Click sobre la imagen para cambiarla!</p>
+        <input class="col-sm-6" type="file" multiple="true" id="perfilphoto">
+        <p class="help-block col-sm-9">Las fotos seleccionadas se ver&aacute;n en el lugar tur&iacute;stico</p>
       </div>
       
       <div class="row row-nombre-costo-estado">
