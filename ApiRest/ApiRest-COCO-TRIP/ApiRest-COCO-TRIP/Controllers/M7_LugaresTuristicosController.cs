@@ -8,10 +8,10 @@ using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
-    /// <summary>
-    /// Controlador del Modulo 7 de Gestion de Lugares Turisticos y Actividades en Lugares Turisticos
-    /// </summary>
-    public class M7_LugaresTuristicosController : ApiController
+  /// <summary>
+  /// Controlador del Modulo 7 de Gestion de Lugares Turisticos y Actividades en Lugares Turisticos
+  /// </summary>
+  public class M7_LugaresTuristicosController : ApiController
     {
         private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion
         //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
