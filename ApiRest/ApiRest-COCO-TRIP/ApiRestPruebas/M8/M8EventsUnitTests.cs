@@ -28,12 +28,8 @@ namespace ApiRestPruebas.M8
       evento.Nombre = nombre;
       evento.Descripcion = "Evento de Tecno";
       evento.Precio = 200;
-      evento.FechaInicio.AddDays(18);
-      evento.FechaInicio.AddMonths(11);
-      evento.FechaInicio.AddYears(2017);
-      evento.FechaFin.AddDays(17);
-      evento.FechaFin.AddMonths(12);
-      evento.FechaFin.AddYears(2017);
+      evento.FechaInicio = new DateTime(2017, 12,21);
+      evento.FechaFin = new DateTime(2017, 12,21);
       evento.HoraInicio.AddHours(7);
       evento.HoraFin.AddHours(8);
       evento.Foto = "link prueba";
@@ -41,6 +37,26 @@ namespace ApiRestPruebas.M8
       evento.IdCategoria = 1;
       int id = controlador.AgregarEvento(evento);
       Assert.AreEqual(controlador.ConsultarEvento(id).Nombre, nombre);
+    }
+
+    [Test]
+    public void PruebaConsultarEventosPorFecha()
+    {
+      DateTime date = new DateTime(2017,11,20);
+      Assert.AreEqual(2,controlador.ListarEventosPorFecha(date).Count);
+    }
+    [Test]
+    public void PruebaConsultarEventoPorCategoria()
+    {
+      int idCategoria = 1;
+      Assert.AreEqual(controlador.ListaEventosPorCategoria(idCategoria).Count(), 1);
+    }
+
+    [Test]
+    public void PruebaConsultarEventoPorCategoriaSinEventos()
+    {
+      int idCategoria = 2;
+      Assert.AreEqual(controlador.ListaEventosPorCategoria(idCategoria).Count(), 0);
     }
   }
 }

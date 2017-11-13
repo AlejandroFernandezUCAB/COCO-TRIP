@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ namespace BackOffice_COCO_TRIP.Models
 
     private int _id;
 
+    [JsonProperty(PropertyName = "IdCategoria")]
     public int Id
     {
       get { return _id; }
@@ -19,6 +21,7 @@ namespace BackOffice_COCO_TRIP.Models
 
     private string _name;
 
+    [JsonProperty(PropertyName = "nombre")]
     [Display(Name = "Nombre")]
     [Required(ErrorMessage = "Debe llenar este campo")]
     public string Name
@@ -30,6 +33,7 @@ namespace BackOffice_COCO_TRIP.Models
 
     private string _description;
 
+    [JsonProperty(PropertyName = "descripcion")]
     [Display(Name = "Descripcion")]
     [Required(ErrorMessage = "Debe llenar este campo")]
     public string Description
@@ -38,6 +42,7 @@ namespace BackOffice_COCO_TRIP.Models
       set { _description = value; }
     }
 
+    [JsonProperty(PropertyName = "estatus")]
     private bool _status;
 
     public bool Status
@@ -46,14 +51,25 @@ namespace BackOffice_COCO_TRIP.Models
       set { _status = value; }
     }
 
-    private Categories _categories;
+    private int _categories;
 
+    [JsonProperty(PropertyName = "categoriaSuperior")]
     [Required]
-    public Categories UpperCategories  
+    public int UpperCategories  
     {
       get { return _categories; }
       set { _categories = value; }
     }
+
+    private int nivel;
+
+    [JsonProperty(PropertyName = "nivel")]
+    public int Nivel
+    {
+      get { return nivel; }
+      set { nivel = value; }
+    }
+
 
 
   }
