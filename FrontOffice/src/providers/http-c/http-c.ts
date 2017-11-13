@@ -40,7 +40,7 @@ agregarItinerario(itinerario){
     this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
         resolve(res);
       }, (err) => {
-        console.log(err)
+        err => resolve(-1)
       });
   });
 }

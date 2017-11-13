@@ -1,5 +1,10 @@
 using Npgsql;
 using System;
+using System.Net;
+using System.Web.Http;
+using Newtonsoft.Json;
+using System.Net.Mail;
+using System.Web.Http.Cors;
 using System.Collections.Generic;
 using System.Data;
 using ApiRest_COCO_TRIP.Models.Dato;
@@ -434,6 +439,209 @@ namespace ApiRest_COCO_TRIP.Models
             throw e;
           }
         }
+
+    /// <summary>
+    /// Clase provisional para buscar usuario.
+    /// </summary>
+    /// <param name="id_usuario">id del usuario</param>
+    /// <returns>El usuario cuyo id sea igual al parametro</returns>
+    public Usuario Buscar_Usuario(int id_usuario)
+    {
+      Usuario Usuario = new Usuario();
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultarusuariosoloid", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        if(pgread.Read())
+        {
+          Usuario.NombreUsuario = pgread.GetString(0);
+          Usuario.Correo = pgread.GetString(1);
+        }
+        con.Desconectar();
+        return Usuario;
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
+
+    public List<Itinerario> ConsultarItinerariosCorreo(int id_usuario)
+    {
+      List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultar_itinerarios_correo", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        NpgsqlDataReader pgread = comm.ExecuteReader();
+        int auxiliar = 0;
+        //Recorremos los registros devueltos
+        while (pgread.Read())
+        {
+          Itinerario iti;
+          if (!pgread.IsDBNull(2) && (!pgread.IsDBNull(3)))
+          {
+            iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(1), pgread.GetDateTime(2), pgread.GetDateTime(3), id_usuario, true);
+          }
+          else
+          {
+            iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(1), id_usuario, true);
+          }
+
+          //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
+          if (itinerarios.Count == 0) itinerarios.Add(iti);
+          foreach (Itinerario itinerario in itinerarios)
+          {
+            if (itinerario.Id == iti.Id) auxiliar = 1;
+          }
+          if (auxiliar != 1) itinerarios.Add(iti);
+          auxiliar = 0;
+
+          //Agregamos los eventos, actividades y lugares a la lista correspondiente
+          //Si existe lugar turistico en este registro
+          if (!pgread.IsDBNull(4))
+          {
+            dynamic lugar = new System.Dynamic.ExpandoObject();
+            lugar.Nombre = pgread.GetString(4);
+            lugar.Descripcion = pgread.GetString(5);
+            lugar.Tipo = "Lugar Turistico";
+            /*
+            if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+            {
+              lugar.FechaInicio = pgread.GetDateTime(5);
+              lugar.FechaFin = pgread.GetDateTime(6);
+            }
+            */
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
+          }
+
+          //Si existe actividad en este registro
+          if (!pgread.IsDBNull(6))
+          {
+            dynamic actividad = new System.Dynamic.ExpandoObject();
+            actividad.Nombre = pgread.GetString(6);
+            actividad.Descripcion = pgread.GetString(7);
+            actividad.Tipo = "Actividad";
+            /*
+            if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
+            {
+              actividad.FechaInicio = pgread.GetDateTime(5);
+              actividad.FechaFin = pgread.GetDateTime(6);
+            }
+            */
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
+          }
+          //Falta el caso de que sea un evento...
+        }
+        con.Desconectar();
+        return itinerarios;
+      }
+      catch (NpgsqlException sql)
+      {
+        throw sql;
+      }
+      catch (ArgumentException arg)
+      {
+        throw arg;
+      }
+      catch (InvalidCastException cast)
+      {
+        throw cast;
+      }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="datos"></param>
+    /// <returns></returns>
+    public string EnviarCorreo(int id_usuario)
+    {
+      Usuario usuario;
+      List<Itinerario> itinerarios; // Lista de itinerarios de un usuario
+      string Body_Correo = "";
+      //PeticionLogin peticion;
+      //peticion = new PeticionLogin();
+
+      string lugarturistico = "l";
+      string actividad = "a";
+      string evento = "e";
+
+      try
+      {
+        usuario = Buscar_Usuario(id_usuario);
+        usuario.Id = id_usuario;
+        itinerarios = ConsultarItinerariosCorreo(id_usuario);
+
+        foreach (Itinerario itinerario in itinerarios)
+        {
+          foreach (dynamic objeto in itinerario.Items_agenda)
+          {
+            switch (objeto.Tipo) {
+              case "Lugar Turistico":
+                lugarturistico = lugarturistico + objeto.Nombre + objeto.Descripcion;
+                break;
+
+              case "Actividad":
+                actividad = actividad + objeto.Nombre + objeto.Descripcion; ;
+                break;
+
+              case "Evento":
+                evento = evento + objeto.Nombre + objeto.Descripcion;
+                break;
+            }
+          }
+        }
+        
+        Body_Correo = "Contenido de su itinerario /n" +
+          lugarturistico + "/n" +
+          actividad + "/n" +
+          evento + "/n";
+
+        MailMessage mail = new MailMessage();
+        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+        mail.From = new MailAddress("cocotrip17@gmail.com");
+        mail.To.Add(usuario.Correo);
+        mail.Subject = "Recordatorio de itinerario CocoTrip.";
+        mail.Body = Body_Correo;
+
+        SmtpServer.Port = 587;
+        SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+        SmtpServer.EnableSsl = true;
+
+        SmtpServer.Send(mail);
+
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return "Exitoso";
+    }
 
   }
 }

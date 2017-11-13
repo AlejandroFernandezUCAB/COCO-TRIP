@@ -159,7 +159,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario:2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario:1 }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{

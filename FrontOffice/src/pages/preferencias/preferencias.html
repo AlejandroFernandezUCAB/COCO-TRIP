@@ -8,7 +8,7 @@
 
 
 <ion-content padding>
-      <ion-searchbar (ionInput)="buscarPreferencias($event)"
+      <ion-searchbar (ionInput)="buscarFiltrado($event)"
         [animated]=true
         [showCancelButton]="shouldShowCancel">
       </ion-searchbar>
@@ -16,16 +16,16 @@
       <ion-list>
           <ion-item-divider color="light">{{ 'Búsqueda de categorías' | translate }}</ion-item-divider>
         <ion-item *ngFor="let preferencias of preferenciasEnBusqueda"> 
-          <h2>{{ preferencias.Nombre }}</h2>
-          <button ion-button clear item-end (click)="aviso('agregado',  preferencias.Id , preferencias.Nombre)"><ion-icon name="add"></ion-icon></button>
+          <h2>{{ preferencias.nombre }}</h2>
+          <button ion-button clear item-end (click)="aviso('agregado',  preferencias.IdCategoria , preferencias.nombre)"><ion-icon name="add"></ion-icon></button>
         </ion-item>
       </ion-list>
 
       <ion-list>
         <ion-item-divider color="light">{{ 'Categorías seleccionadas' | translate }}</ion-item-divider>
         <ion-item *ngFor="let preferencias of preferenciasEnLista"> 
-          <h2>{{ preferencias.Nombre }}</h2>
-          <button ion-button clear item-end (click)="aviso('eliminar',  preferencias.Id , preferencias.Nombre)"><ion-icon name="close"></ion-icon></button>
+          <h2>{{ preferencias.nombre }}</h2>
+          <button ion-button clear item-end (click)="aviso('eliminar',  preferencias.IdCategoria , preferencias.nombre)"><ion-icon name="close"></ion-icon></button>
         </ion-item>
       </ion-list>
 </ion-content>
