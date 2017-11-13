@@ -1312,22 +1312,30 @@ CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TE
   $BODY$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
+
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_estatus BOOLEAN, nivel INT, fk INT ) AS $$
 BEGIN
 			RETURN 	QUERY
 					SELECT ca_id, ca_nombre, ca_descripcion, ca_status, ca_nivel, ca_fkcategoriasuperior FROM CATEGORIA;
 END;
 $$ LANGUAGE plpgsql;
 
+-------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
-
-CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescripcion character varying, categoriapadre integer) RETURNS void
-    LANGUAGE plpgsql
+CREATE FUNCTION m9_modificarcategoria
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer) 
+RETURNS integer 
     AS $$
     BEGIN
-        /*UPDATE TABLE CATEGORIA  */
-    END; $$;
-
+        UPDATE categoria
+        SET 
+        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre
+        WHERE ca_id=_id;
+        return 1;
+        
+    END; 
+    $$
+    LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
   RETURNS void
@@ -1472,71 +1480,61 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
 (
   _id integer
 )
- AS
+RETURNS boolean AS
 $$
-if exists (
+
 BEGIN
 
     DELETE from evento where ev_id = _id;
-
-END; )
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
 
 --elimina evento por su nombre
 CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
 (
-  _nombreEvento integer
+  _nombreEvento varchar(50)
 )
- AS
+RETURNS boolean AS
 $$
-if exists (
 BEGIN
 
     DELETE from evento where ev_nombre = _nombreEvento;
-
-END; )
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
+
 
 --elimina localidad por su id
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-AS
+returns boolean AS  
 $$
-if exists (
-BEGIN
+ begin
 
-    DELETE from localidad where lo_id = _id;
+delete
+    from localidad
+    where lo_id = _id;
+    return true;
 
-END; )
-select 'true'
-else
-select 'false'
-$$ LANGUAGE plpgsql;
+ END;
+ $$
+ LANGUAGE plpgsql ;
 
 --elimina localidad por su nombre
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
 (
-  _nombreLocalidad integer
+  _nombreLocalidad varchar(50)
 )
-AS
+RETURNS boolean AS
 $$
-if exists(
 BEGIN
 
     DELETE from localidad where lo_nombre = _nombreLocalidad;
-
-END;)
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
 
 /*SELECT*/
@@ -1575,7 +1573,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de los eventos en esa categoria
 CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
 (
-  _nombreCategoria integer
+  _nombreCategoria varchar(50)
 )
 RETURNS TABLE
   (
@@ -1712,7 +1710,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 (
-  _nombreLocalidad varchar
+  _nombreLocalidad varchar(50)
 )
 RETURNS TABLE
   (
