@@ -356,7 +356,7 @@ namespace ApiRest_COCO_TRIP.Controllers
               e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
+              throw new HttpResponseException(HttpStatusCode.BadRequest); //ID de Lugar Turistico no existe
             }
             catch (CasteoInvalidoExcepcion e)
             {
