@@ -28,7 +28,7 @@ export class ChatProvider {
           mensaje: mensaje,
           eliminado: false,
           modificado: false,
-          tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP
+          fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
         })
       })
       return promise;
@@ -43,7 +43,7 @@ export class ChatProvider {
           eliminado: false,
           modificado: false,
           mensaje: mensaje,
-          tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP
+          fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
         })
       }).catch();
       return promise;
@@ -74,4 +74,35 @@ export class ChatProvider {
     })
   }
 
+  modificarMensajeAmigo(idAmigo,idMensaje,mensajeModificado){
+    this.fireConversacionChatsAmigo.child(idAmigo).set({
+      modificado: true,
+      mensaje: "mensaje modificado:"+mensajeModificado,
+      fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
+    });
+  }
+
+  modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado){
+    this.fireConversacionChatsAmigo.child(idGrupo).set({
+      modificado: true,
+      mensaje: mensajeModificado,
+      fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
+    });
+  }
+
+  eliminarMensajeAmigo(idAmigo,idMensaje,mensajeModificado){
+    this.fireConversacionChatsAmigo.child(idAmigo).set({
+      eliminado: true,
+      mensaje: "mensaje eliminado",
+      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+    });
+  }
+
+  eliminarMensajeGrupo(idGrupo,idMensaje){
+    this.fireConversacionChatsAmigo.child(idGrupo).set({
+      eliminado: true,
+      mensaje: "mensaje eliminado",
+      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+    });
+  }
 }
