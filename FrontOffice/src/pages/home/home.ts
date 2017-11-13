@@ -63,16 +63,16 @@ its2: Array<any> = [{
 
   constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public http: HttpCProvider) {
     //console.log(this.its2);
-    this.IniciarNotificaciones();
+ //   this.IniciarNotificaciones();
     this.menu.enable(true);
   }
  
-  IniciarNotificaciones() {
+ /* IniciarNotificaciones() {
     this.http.NotificacionUsuario(1)
     .then(data => {
       this._itis = data;
       console.log(this._itis);
     });
-  }
+  }*/
 
 }

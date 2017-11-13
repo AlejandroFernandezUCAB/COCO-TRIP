@@ -39,6 +39,8 @@ agregarItinerario(itinerario){
   return new Promise(resolve => {
     this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
         resolve(res);
+        console.log("res");
+        console.log(res);
       }, (err) => {
         err => resolve(-1)
       });
@@ -59,6 +61,16 @@ eliminarItinerario(idit){
 modificarItinerario(itinerario){
   return new Promise(resolve => {
     this.http.post(this.apiUrl+'/M5/ModificarItinerario', itinerario).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        console.log(err)
+      });
+  });
+}
+
+setVisible(idusuario, iditi, visible){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/SetVisible', {params: { idusuario: idusuario , iditinerario: iditi , visible: visible}}).subscribe(res => {
         resolve(res);
       }, (err) => {
         console.log(err)
