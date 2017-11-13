@@ -1480,71 +1480,61 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
 (
   _id integer
 )
- AS
+RETURNS boolean AS
 $$
-if exists (
+
 BEGIN
 
     DELETE from evento where ev_id = _id;
-
-END; )
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
 
 --elimina evento por su nombre
 CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
 (
-  _nombreEvento integer
+  _nombreEvento varchar(50)
 )
- AS
+RETURNS boolean AS
 $$
-if exists (
 BEGIN
 
     DELETE from evento where ev_nombre = _nombreEvento;
-
-END; )
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
+
 
 --elimina localidad por su id
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-AS
+returns boolean AS  
 $$
-if exists (
-BEGIN
+ begin
 
-    DELETE from localidad where lo_id = _id;
+delete
+    from localidad
+    where lo_id = _id;
+    return true;
 
-END; )
-select 'true'
-else
-select 'false'
-$$ LANGUAGE plpgsql;
+ END;
+ $$
+ LANGUAGE plpgsql ;
 
 --elimina localidad por su nombre
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
 (
-  _nombreLocalidad integer
+  _nombreLocalidad varchar(50)
 )
-AS
+RETURNS boolean AS
 $$
-if exists(
 BEGIN
 
     DELETE from localidad where lo_nombre = _nombreLocalidad;
-
-END;)
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
 
 /*SELECT*/
@@ -1583,7 +1573,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de los eventos en esa categoria
 CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
 (
-  _nombreCategoria integer
+  _nombreCategoria varchar(50)
 )
 RETURNS TABLE
   (
@@ -1720,7 +1710,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 (
-  _nombreLocalidad varchar
+  _nombreLocalidad varchar(50)
 )
 RETURNS TABLE
   (
