@@ -240,9 +240,10 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
     //codigo de Pedro Garcia
     [HttpGet]
-    public List<EventoPreferencia> EventoSegunPreferencias(int idUsuario,DateTime fechaActual) {
+    public List<EventoPreferencia> EventoSegunPreferencias(int idUsuario) {
          peticion = new PeticionLogin();
          List<EventoPreferencia> listaEvento = new List<EventoPreferencia>();
+         DateTime fechaActual = DateTime.Now;
       try
          {
            listaEvento = peticion.ConsultarEventosSegunPreferencias(idUsuario,fechaActual);
@@ -260,6 +261,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
      }
+    [HttpGet]
     public List<LugarTuristicoPreferencia> LugarTuristicoSegunPreferencias(int idUsuario) {
       List<LugarTuristicoPreferencia> ltp = new List<LugarTuristicoPreferencia>();
       

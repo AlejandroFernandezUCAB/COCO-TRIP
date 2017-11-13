@@ -338,7 +338,7 @@ namespace ApiRestPruebas
     public void TestEventosSegunPreferenciasControler()
     {
       List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
-      listaEventoprueba = controlador.EventoSegunPreferencias(1, fechaPrueba);
+      listaEventoprueba = controlador.EventoSegunPreferencias(1);
 
       fechaPrueba = new DateTime(2017, 03, 09);
       Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
@@ -363,7 +363,7 @@ namespace ApiRestPruebas
       Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
       Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
     }
-<<<<<<< HEAD
+
     /// <summary>
     /// Prueba de caso exitoso en LugarTuristicoSegunPreferencias
     /// que se encuentra en el controlador M1_LoginController.cs
@@ -381,8 +381,6 @@ namespace ApiRestPruebas
       Assert.AreEqual(lugarTuristico1.LugarFotoRuta, listaLT[0].LugarFotoRuta);
       Assert.AreEqual(lugarTuristico1.NombreCategoria, listaLT[0].NombreCategoria);
     }
-=======
->>>>>>> a93f69e6f43b0f8980b9900aaa220d4870a276ef
 
   }
 

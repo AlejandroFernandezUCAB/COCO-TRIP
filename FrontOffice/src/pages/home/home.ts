@@ -3,65 +3,32 @@ import { NavController } from 'ionic-angular';
 import * as moment from 'moment';
 import { MenuController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
- its1: Array<any> = [{
-  id: 1,
-  nombre: 'Predespachill',
-  tipo: 'evento',
-  imagen: '../assets/images/predespachill.jpg',
-  titulo: 'Fiesta ',
-  fecha: '05/11/2017'
-},
-{
-  id: 2,
-  nombre: 'rumba Caracas',
-  tipo: 'evento',
-  imagen: '../assets/images/rc.jpg',
-  titulo: 'Evento Rumba Caracas',
-  fecha: '18/11/2017'
-},
-{
-  id: 3,
-  nombre: 'Holic',
-  tipo: 'evento',
-  imagen: '../assets/images/holic.jpg',
-  titulo: 'fiesta en holic',
-  fecha: '03/12/2017'
-}];
-its2: Array<any> = [{
-  id: 1,
-  nombre: 'Playa Pelua',
-  tipo: 'lugar',
-  imagen: '../assets/images/pelua.jpg',
-  titulo: 'Playa del estado vargas',
-  distancia: '5 km'
-},
-{
-  id: 2,
-  nombre: 'Paseo Los proceres',
-  tipo: 'lugar',
-  imagen: '../assets/images/proceres.jpg',
-  titulo: 'Boulevart en honor a los proceres venezolanos',
-  distancia: '12 km'
-},
-{
-  id: 3,
-  nombre: 'Sabas Nieves',
-  tipo: 'lugar',
-  imagen: '../assets/images/sabasnieves.jpg',
-  titulo: 'Entrada al Parque Waraira Repano',
-  distancia: '3 km'
-}];
 
-  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController) {
+  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public restapiService: RestapiService) {
     //console.log(this.its2);
     this.menu.enable(true);
   }
  
+ ltSegunPreferencia(){
+
+    var idUser=this.storage.get('id');
+    if(idUser){
+      this.restapiService.ltSegunPreferencias(idUser)
+      .then(data=>{
+      console.log(data)
+      
+      });
+
+    }
+    else prompt('Error fatal al consultar el servidor');
+
+ } 
 
 }

@@ -11,9 +11,10 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.105:8091/api';
+  apiUrl = 'http://localhost:8091/api';
   data : any;
   userData: any;
+  idUser: any;
   constructor(public http: Http) {
   }
   iniciarSesion(usuario,clave) 
@@ -97,6 +98,26 @@ export class RestapiService {
 
         });
     });
+  }
+ltSegunPreferencias(idUser){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M1_Login/LugarTuristicoSegunPreferencias/?idUsuari='+JSON.stringify(idUser),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(0);
+      });
+  });
+
+}
+
+eveSegunPreferencias(idUsuario){
+  
+  
+  
+    
   }
 
 
