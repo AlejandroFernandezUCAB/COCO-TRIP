@@ -130,7 +130,7 @@ namespace ApiRestPruebas
       itinerario = new Itinerario(6);
       LugarTuristico lt = new LugarTuristico()
       {
-        Id = 2
+        Id = 1
       };
       fechaini = new DateTime(2017,11,15);
       fechafin = new DateTime(2017,11,18);

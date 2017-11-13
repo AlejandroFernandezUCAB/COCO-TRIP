@@ -78,9 +78,9 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.AgregarItem_It(tipo,idit, iditem, fechaini, fechafin);
       }
-      catch (NpgsqlException e)
+      catch (NpgsqlException)
       {
-        throw e;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
 
