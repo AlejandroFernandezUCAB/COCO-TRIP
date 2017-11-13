@@ -222,6 +222,18 @@ BEGIN
 	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ActualizarUsuario(_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
+ _apellido VARCHAR(30), _fechaNacimiento date,
+ _genero VARCHAR(1), _correo VARCHAR(30),
+ _clave VARCHAR(20), _foto VARCHAR(100))
+RETURNS void AS
+$$
+BEGIN
+	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, _genero = us_genero, us_email=_correo, us_password=_clave, us_foto =_foto
+	WHERE us_email=_correo;
+END;
+$$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
 

@@ -62,7 +62,6 @@ export class RestapiService {
         this.data = data;
         resolve(this.data);
       },error=>{
-        console.log('ERROR '+error);
         resolve(-1);
 
       });
