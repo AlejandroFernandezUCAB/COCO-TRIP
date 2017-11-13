@@ -85,7 +85,7 @@ export class ChatProvider {
   modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado){
     this.fireConversacionChatsAmigo.child(idGrupo).set({
       modificado: true,
-      mensaje: mensajeModificado,
+      mensaje: "mensaje modificado:"+mensajeModificado,
       fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
     });
   }
