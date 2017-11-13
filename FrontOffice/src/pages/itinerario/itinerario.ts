@@ -642,8 +642,8 @@ export class ItinerarioPage {
   public ionViewWillEnter()
   {
     this.presentLoading();
-    this.storage.get('id').then((val) => {
-      console.log("val :::::::::::::: " + val);
+    // this.storage.get('id').then((val) => {
+    //   console.log("val :::::::::::::: " + val);
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
     this.httpc.loadItinerarios(2)
     .then(data => {
@@ -658,7 +658,7 @@ export class ItinerarioPage {
           this.noIts = true;
         }
       }
-    });
+  //  });
   });
   }
 
@@ -694,7 +694,7 @@ export class ItinerarioPage {
    **/
   public getTipoItem(evento)
   {
-    if (evento.Costo == undefined){
+    if (evento.Costo == undefined && evento.Precio==undefined){
       let actividad = 'Actividad';
       return actividad;
     }else
