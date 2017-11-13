@@ -125,7 +125,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             usuario.Id = peticion.InsertarUsuario(usuario);
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            string uri = "http://localhost:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
+            string uri = "http://192.168.0.105:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
             mail.From = new MailAddress("cocotrip17@gmail.com");
             mail.To.Add(usuario.Correo);
             mail.Subject = "Registro Cocotrip";

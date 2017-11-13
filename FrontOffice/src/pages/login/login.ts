@@ -41,14 +41,20 @@ export class LoginPage {
     });
     this.vista = false;
     this.menu.enable(false);
-    this.plt.ready().then((readySource) => {
-      console.log('Platform ready from', readySource);
-      this.facebook.getLoginStatus().then((loginstatus : FacebookLoginResponse) => {
-          console.log(loginstatus.status);
-        
-      },
-      error => {console.log('chao');})
+    this.facebook.getLoginStatus().then( estado =>{
+      if(estado != 'connected')
+      this.storage.get('id').then(idUsuario => {
+        console.log('ESTADO '+estado);
+        if(idUsuario!=null)
+        this.navCtrl.setRoot(HomePage);},
+      error =>{
+  
+      }
+  
+      );
+
     });
+    
   
   }
 
