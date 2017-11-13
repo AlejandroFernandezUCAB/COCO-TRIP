@@ -352,6 +352,8 @@ namespace ApiRestPruebas.M3
 
 
 
+
+
     //PRUEBAS UNITARIAS DE ELIMINAR AMIGO
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
@@ -405,6 +407,14 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual(0, peticion.EliminarGrupoBD(-5, -1));
     }
 
+    /// <summary>
+    /// Caso de prueba cuando se intenta eliminar un grupo y el usuario no existe
+    /// </summary>
+    [Test]
+    public void EliminarGrupoNoExisteUsuarioTest()
+    {
+      Assert.AreEqual(0, peticion.EliminarGrupoBD(-2, -10));
+    }
 
 
     //PRUEBAS UNITARIAS DE VISUALIZAR LISTA DE AMIGOS
@@ -497,7 +507,28 @@ namespace ApiRestPruebas.M3
     public void EliminarIntegranteModificarTest() {
       peticion.AgregarIntegranteModificarBD(-2, "usuariopruebas1");
       Assert.AreEqual(1, peticion.EliminarIntegranteModificarBD("usuariopruebas1", -2));
+    }
 
+    /// <summary>
+    /// Caso de fallo, cuando no existe el integrante a eliminar
+    /// </summary>
+    [Test]
+    public void EliminarIntegranteModificarFallaTest()
+    {
+      Assert.AreEqual(0, peticion.EliminarIntegranteModificarBD("usuariopruebas1", -2));
+    }
+    /// <summary>
+    /// Caso de fallo cuando el integrante a eliminar es null
+    /// </summary>
+    [Test]
+    public void EliminarIntegranteModificarNullTest()
+    {
+      Assert.Catch<InvalidCastException>(EliminarIntegranteNullCast);
+    }
+
+    public void EliminarIntegranteNullCast()
+    {
+      peticion.EliminarIntegranteModificarBD(null, -2);
     }
 
     //PRUEBAS UNITARIAS DE AGREGAR UN INTEGRANTE AL GRUPO AL MODIFICAR
@@ -511,6 +542,21 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual(1, peticion.AgregarIntegranteModificarBD(-2, "usuariopruebas1"));
     }
 
+    /// <summary>
+    /// Caso de fallo, cuando ingresas un usuario que no existe
+    /// </summary>
+    [Test]
+    public void AgregarIntegranteModificarFallaTest()
+    {
+      Assert.Catch<Npgsql.PostgresException>(AgregarIntegranteFalla);
+    }
+
+    public void AgregarIntegranteFalla()
+    {
+      peticion.AgregarIntegranteModificarBD(-2, "usuariorandom1");
+    }
+
+
     //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
@@ -520,6 +566,15 @@ namespace ApiRestPruebas.M3
     public void ObtenerIdUsuarioTest()
     {
       Assert.AreEqual(-1, peticion.ObtenerIdUsuario("usuariopruebas1"));
+    }
+
+    /// <summary>
+    /// Caso de fallo cuando el usuario no existe
+    /// </summary>
+    [Test]
+    public void ObtenerIdUsuarioFallaTest()
+    {
+      Assert.AreEqual(0, peticion.ObtenerIdUsuario("usuarioRandom1"));
     }
 
     //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
@@ -543,6 +598,55 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual(null, usuario.Foto);
     }
 
+    /// <summary>
+    /// caso de fallo, cuando el usuario que se ingresa no es el lider
+    /// del grupo
+    /// </summary>
+    [Test]
+    public void ObtenerLiderVacioTest()
+    {
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerLider(-2, -1);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
+
+    /// <summary>
+    /// Caso de fallo, cuando no existe el grupo del que se trata
+    /// de obtener el lider
+    /// </summary>
+    [Test]
+    public void ObtenerLiderNoEsGrupoTest()
+    {
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerLider(-8, -2);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
+    /// <summary>
+    /// Caso de fallo cuando no existe el lider, ni el grupo
+    /// </summary>
+    [Test]
+    public void ObtenerLiderGrupoNoEsLiderNoEsGrupoTest()
+    {
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerLider(-8, -7);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
+
     //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
@@ -564,6 +668,23 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("usuariopruebas2", usuario.NombreUsuario);
       Assert.AreEqual(null, usuario.Foto);
     }
+
+    /// <summary>
+    /// caso de fallo, cuando no existe el grupo
+    /// </summary>
+    [Test]
+    public void ObtenerSinLiderFallaTest()
+    {
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerSinLider(-4);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
+
 
 
 
