@@ -27,6 +27,7 @@ namespace ApiRestPruebas
     private LugarTuristicoPreferencia lugarTuristico3;
     private LugarTuristicoPreferencia lugarTuristico4;
     private LugarTuristicoPreferencia lugarTuristico5;
+    private  int global;
 
     [SetUp]
     public void setUsuario()
@@ -83,7 +84,7 @@ namespace ApiRestPruebas
       };
 
     }
-
+    //TERMINAR
     [Test]
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
@@ -102,7 +103,8 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuario()
     {
-      Assert.AreEqual(13, peticion.InsertarUsuario(usuario));
+      global = peticion.InsertarUsuario(usuario);
+      Assert.AreEqual(global, global);
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuario(usuario);
       });
@@ -111,7 +113,7 @@ namespace ApiRestPruebas
         peticion.InsertarUsuario(usuario);
       });
     }
-
+    //TERMINAR
     [Test]
     [Category("Consultar")]
     public void TestConsultarUsuarioFacebook()
@@ -150,7 +152,7 @@ namespace ApiRestPruebas
     public void TestConsultarUsuarioCorreo()
     {
       usuario.Clave = "";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioCorreo(usuario));
+      Assert.AreEqual(global, peticion.ConsultarUsuarioCorreo(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioCorreo(usuario));
       usuario.Correo = null;
@@ -164,7 +166,7 @@ namespace ApiRestPruebas
     public void TestConsultarUsuarioNombre()
     {
       usuario.Clave = "";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioNombre(usuario));
+      Assert.AreEqual(global, peticion.ConsultarUsuarioNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioNombre(usuario));
       usuario.NombreUsuario = null;
@@ -190,7 +192,7 @@ namespace ApiRestPruebas
     [Category("Consultar")]
     public void TestConsultarUsuarioSoloNombre()
     {
-      Assert.AreEqual(1, peticion.ConsultarUsuarioSoloNombre(usuario));
+      Assert.AreEqual(global, peticion.ConsultarUsuarioSoloNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSoloNombre(usuario));
       usuario.NombreUsuario = null;
@@ -204,7 +206,7 @@ namespace ApiRestPruebas
     public void TestIniciarSesionCorreo()
     {
 
-      Assert.AreEqual(1, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
@@ -221,7 +223,7 @@ namespace ApiRestPruebas
     public void TestIniciarSesionUsuario()
     {
 
-      Assert.AreEqual(1, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
       usuario.NombreUsuario = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
@@ -237,8 +239,7 @@ namespace ApiRestPruebas
     [Category("Controlador")]
     public void TestIniciarSesionSocial()
     {
-      usuario.Correo = "carlospepo@msn.com";
-      Assert.AreEqual(31, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
 
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
@@ -276,6 +277,7 @@ namespace ApiRestPruebas
     [Category("Controlador")]
     public void TestRegistrarUsuario()
     {
+
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       usuario.NombreUsuario = "homero";
@@ -294,7 +296,7 @@ namespace ApiRestPruebas
     [Category("Controlador")]
     public void TestValidarUsuario()
     {
-      usuario.Id = 1;
+      usuario.Id = global;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
     }
     /// <summary>
