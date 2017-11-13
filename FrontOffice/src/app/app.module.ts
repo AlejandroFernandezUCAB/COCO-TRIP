@@ -34,6 +34,9 @@ import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { ChatProvider } from '../providers/chat/chat';
+import { config } from './app.firebaseconfig';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -119,7 +122,8 @@ export function createTranslateLoader(http: HttpClient) {
     IonicStorageModule.forRoot({
       name: 'cocotrip',
          driverOrder: ['indexeddb', 'sqlite', 'websql']
-    })
+    }),
+    AngularFireModule.initializeApp(config)
   ],
 
   bootstrap: [IonicApp],
@@ -166,7 +170,8 @@ export function createTranslateLoader(http: HttpClient) {
     Transfer,
     Camera,
     FilePath,
-    ChatProvider
+    ChatProvider,
+    AngularFireAuth,
   ]
 })
 export class AppModule {}
