@@ -54,12 +54,24 @@ export class BorrarCuentaPage {
       this.showToastWithCloseButton(apiRestResponse);
       this.navCtrl.setRoot(LoginPage);
     }
+    else{
+      this.showToastWithCloseButton("incorrecto");
+      this.navCtrl.pop();
+    }
   }
 
   showToastWithCloseButton(apiRestResponse) {
     let result;
     if (apiRestResponse == true) {
       this.translateService.get("Se borro la cuenta").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    else if(apiRestResponse == "incorrecto"){
+      this.translateService.get("Contraseña incorrecta").subscribe(
         value => {
           // value is our translated string
           result = value;

@@ -26,7 +26,6 @@ export class EditProfilePage {
   };
 
   genero: string;
-  generoSelect: any;
   
   apiRestResponse: any;
 
@@ -52,7 +51,7 @@ export class EditProfilePage {
         nombre: [this.usuario.Nombre, [Validators.required]],
         apellido: [this.usuario.Apellido,[Validators.required]],
         genero: [this.genero],
-        fechanac: [this.usuario.FechaNacimiento]
+        fechanac: [this.usuario.FechaNacimiento,[Validators.required]]
       }
     )
 
