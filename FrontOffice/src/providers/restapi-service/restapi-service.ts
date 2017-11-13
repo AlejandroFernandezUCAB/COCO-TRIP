@@ -99,7 +99,7 @@ export class RestapiService {
   }
 ltSegunPreferencias(idUser){
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M1_Login/LugarTuristicoSegunPreferencias/?idUsuari='+JSON.stringify(idUser),"")
+    this.http.get(this.apiUrl+'/M1_Login/LugarTuristicoSegunPreferencias/?idUsuario='+JSON.stringify(idUser),"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -113,7 +113,7 @@ ltSegunPreferencias(idUser){
 
 eveSegunPreferencias(idUser){
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M1_Login/EventoSegunPreferencias/?idUsuari='+JSON.stringify(idUser),"")
+    this.http.get(this.apiUrl+'/M1_Login/EventoSegunPreferencias/?idUsuario='+JSON.stringify(idUser),"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;

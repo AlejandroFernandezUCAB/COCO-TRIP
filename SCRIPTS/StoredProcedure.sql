@@ -184,7 +184,6 @@ BEGIN
 	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,fo_ruta, ca_nombre
   FROM usuario, preferencia, categoria, lugar_turistico,lt_foto, lt_c
   WHERE 
-  
 	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = fk_fo_lugar_turistico) and (lu_id = id_lugar_turistico);
 END;
 $$ LANGUAGE plpgsql;
