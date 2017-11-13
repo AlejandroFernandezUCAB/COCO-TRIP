@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using BackOffice_COCO_TRIP.Models.Dato;
+using System.Collections.Generic;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {
@@ -23,10 +24,10 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     //GET
 
-    public List<LugarTuristico> GetLista (int desde, int hasta)
+    /*public List<LugarTuristico> GetLista (int desde, int hasta)
     {
 
-    }
+    }*/
 
   }
 }

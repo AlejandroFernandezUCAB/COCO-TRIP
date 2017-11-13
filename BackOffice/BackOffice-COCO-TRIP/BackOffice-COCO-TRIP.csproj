@@ -169,6 +169,8 @@
     <Compile Include="Models\Dato\Foto.cs" />
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
+    <Compile Include="Models\Peticion\BasePeticion.cs" />
+    <Compile Include="Models\Peticion\PeticionCategoria.cs" />
     <Compile Include="Models\Peticion\PeticionLugares.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
