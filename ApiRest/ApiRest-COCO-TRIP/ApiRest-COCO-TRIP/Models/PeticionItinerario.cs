@@ -230,7 +230,8 @@ namespace ApiRest_COCO_TRIP.Models
             }
             else
             {
-              return false;
+              con.Desconectar();
+              return false; 
             }
             comm.CommandType = CommandType.StoredProcedure;
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
@@ -245,6 +246,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
+            con.Desconectar();
             throw e;
           }
         }
