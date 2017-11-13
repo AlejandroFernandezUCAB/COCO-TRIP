@@ -176,15 +176,14 @@ RETURNS TABLE(
   costo  NUMERIC,
   descripcion VARCHAR,
   direccion VARCHAR,
-  ruta_foto VARCHAR,
   categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
   RETURN QUERY 
-	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,fo_ruta, ca_nombre
-  FROM usuario, preferencia, categoria, lugar_turistico,lt_foto, lt_c
+	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion, ca_nombre
+  FROM usuario, preferencia, categoria, lugar_turistico, lt_c
   WHERE 
-	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = fk_fo_lugar_turistico) and (lu_id = id_lugar_turistico);
+	 (pr_usuario =_idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = id_lugar_turistico);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -205,10 +204,10 @@ RETURNS TABLE(
 ) AS $$
 BEGIN
   RETURN QUERY 
-	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ev_foto, ca_nombre
+	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
 	 WHERE 
-	  (pr_usuario =_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
+	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
 
