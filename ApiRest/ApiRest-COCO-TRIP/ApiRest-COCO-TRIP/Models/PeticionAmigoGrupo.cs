@@ -62,6 +62,35 @@ namespace ApiRest_COCO_TRIP.Models
       return respuesta;
     }
 
+    public string ConsultarUsuario(int idUsuario)
+    {
+      string resultado = "";
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ConsultarUsuarioSoloId";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          resultado = leerDatos.GetString(2) + " " +  leerDatos.GetString(3);
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return resultado;
+    }
+
     public Usuario VisualizarPerfilAmigoBD(string nombreUsuario)
     {
       Usuario usuario = new Usuario();
