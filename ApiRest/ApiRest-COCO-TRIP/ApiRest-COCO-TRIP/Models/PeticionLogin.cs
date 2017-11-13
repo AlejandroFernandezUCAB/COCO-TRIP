@@ -340,27 +340,12 @@ namespace ApiRest_COCO_TRIP.Models
           lugarPreferencia.Costo = leerDatos.GetDouble(1);
           lugarPreferencia.Descripcion = leerDatos.GetString(2);
           lugarPreferencia.Direccion = leerDatos.GetString(3);
-          lugarPreferencia.LugarFotoRuta = leerDatos.GetString(4);
-          lugarPreferencia.NombreCategoria = leerDatos.GetString(5);
+          //lugarPreferencia.LugarFotoRuta = leerDatos.GetString(4);
+          lugarPreferencia.NombreCategoria = leerDatos.GetString(4);
           ltp.Add(lugarPreferencia);
         }
         
         leerDatos.Close();
-       /* int j = ltp.Count;
-        int i = 0;
-        while(i <= j){
-          var aux = new ListaLT();
-          aux.NombreLT = ltp[i].NombreLT;
-          aux.Costo = ltp[i].Costo;
-          aux.Descripcion = ltp[i].Descripcion;
-          aux.Direccion = ltp[i].Direccion;
-          if (ltp[i].NombreLT.Equals(ltp[i+1].NombreLT) && ((i+1)<= j)) {
-             aux.LugarFotoRuta.Add(ltp)
-            
-          }
-          i++;
-
-        }*/
         return ltp;
       }
       catch (NpgsqlException e)
@@ -397,8 +382,8 @@ namespace ApiRest_COCO_TRIP.Models
           eventoPreferencia.Precio = leerDatos.GetDouble(5);
           eventoPreferencia.Descripcion = leerDatos.GetString(6);
           eventoPreferencia.NombreLocal = leerDatos.GetString(7);
-          eventoPreferencia.LocalFotoRuta = leerDatos.GetString(8);
-          eventoPreferencia.NombreCategoria = leerDatos.GetString(9);
+         // eventoPreferencia.LocalFotoRuta = leerDatos.GetString(8);
+          eventoPreferencia.NombreCategoria = leerDatos.GetString(8);
           listaEventos.Add(eventoPreferencia);
         }
 

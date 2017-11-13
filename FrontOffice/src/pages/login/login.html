@@ -43,12 +43,4 @@
   <ion-row class="recuperar" (click) = "presentPrompt()">
     <a>{{ '¿Olvidaste tu contraseña?' | translate }}</a>
   </ion-row>
-  <ion-item>
-      <ion-label>Escoge el  idioma</ion-label>
-      <ion-select (ionChange)="choose($event)">
-        <ion-option *ngFor="let item of idioms" [value]="item.value">
-          {{ item.label }}
-        </ion-option>
-      </ion-select>
-    </ion-item>
 </ion-content>

@@ -33,9 +33,9 @@ namespace ApiRestPruebas
     /// Prueba de caso exitoso en AgregarItinerario
     /// </summary>
     [Test]
-    public void Prueba_AgregarItinerario()
+    public void PUAgregarItinerario()
     {
-      itinerario = new Itinerario("Michel", 1);
+      itinerario = new Itinerario("Michel", 2);
       it = controller.AgregarItinerario(itinerario);
       Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
       Assert.AreEqual("Michel", it.Nombre);
@@ -45,14 +45,14 @@ namespace ApiRestPruebas
     /// Prueba de casos borde(excepciones) en AgregarItinerario
     /// </summary>
     [Test]
-    public void Prueba_FalloAgregarItinerario()
+    public void FalloAgregarItinerario()
     {
       Assert.Catch<HttpResponseException>(Excepcion_Agregar);
       Assert.Catch<HttpResponseException>(Excepcion_Agregar2);
     }
 
     /// <summary>
-    /// Metodo utilizados para casos borde(excepciones)
+    /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
     public void Excepcion_Agregar()
     {
@@ -61,7 +61,7 @@ namespace ApiRestPruebas
     }
 
     /// <summary>
-    /// Metodo utilizados para casos borde(excepciones)
+    /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
     public void Excepcion_Agregar2()
     {
@@ -69,22 +69,31 @@ namespace ApiRestPruebas
       controller.AgregarItinerario(itinerario);
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en EliminaItinerario
+    /// </summary>
     [Test]
-    public void Prueba_EliminarItinerario()
+    public void PUEliminarItinerario()
     {
       x = controller.EliminarItinerario(47);
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarItinerario
+    /// </summary>
     [Test]
-    public void Prueba_FalloEliminarItinerario()
+    public void FalloEliminarItinerario()
     {
       x = controller.EliminarItinerario(4);
       Assert.False(x);
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en ModificarItinerario
+    /// </summary>
     [Test]
-    public void Prueba_ModificarItinerario()
+    public void PUModificarItinerario()
     {
       DateTime fechaini = new DateTime(2022, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
@@ -95,28 +104,50 @@ namespace ApiRestPruebas
       Assert.AreEqual(fechafin, it.FechaFin);
     }
 
-    /*   [Test]
-       public void Prueba_AgregarEvento_It()
-       {
-         Itinerario itinerario = new Itinerario(9);
-         Evento ev = new Evento
-         {
-           Id = 1
-         };
-         fechaini = new DateTime(2017, 11, 15);
-         fechafin = new DateTime(2017, 11, 18);
-         M5Controller controller = new M5Controller();
-         Boolean x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
-         Assert.True(x);
-       }*/
-
+    /// <summary>
+    /// Prueba de caso exitoso en AgregarEvento_It
+    /// </summary>
     [Test]
-    public void Prueba_AgregarActividad_It()
+    public void PUAgregarEvento_It()
     {
-      Itinerario itinerario = new Itinerario(9);
-      Actividad ac = new Actividad
+      Itinerario itinerario = new Itinerario(1);
+      Evento ev = new Evento
       {
         Id = 1
+      };
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
+      Assert.True(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso borde(fallo) en AgregarEvento_It
+    /// </summary>
+    [Test]
+    public void FalloAgregarEvento_It()
+   {
+     Itinerario itinerario = new Itinerario(6);
+     Evento ev = new Evento
+     {
+       Id = 1
+     };
+     fechaini = new DateTime(2017, 11, 15);
+     fechafin = new DateTime(2017, 11, 18);
+     x = controller.AgregarItem_It("Eventos",itinerario.Id, ev.Id,fechaini, fechafin);
+     Assert.False(x);
+   }
+
+    /// <summary>
+    /// Prueba de caso exitoso en AgregarActividad_It
+    /// </summary>
+    [Test]
+    public void PUAgregarActividad_It()
+    {
+      itinerario = new Itinerario(2);
+      Actividad ac = new Actividad()
+      {
+        Id = 4
       };
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
@@ -124,13 +155,33 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en AgregarActividad_It
+    /// </summary>
     [Test]
-    public void Prueba_AgregarLugar_It()
+    public void FalloAgregarActividad_It()
     {
-      itinerario = new Itinerario(4);
+      itinerario = new Itinerario(6);
+      Actividad ac = new Actividad
+      {
+        Id = 2
+      };
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarItem_It("Actividads", itinerario.Id, ac.Id, fechaini, fechafin);
+      Assert.False(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en AgregarLugar_It
+    /// </summary>
+    [Test]
+    public void PUAgregarLugar_It()
+    {
+      itinerario = new Itinerario(1);
       LugarTuristico lt = new LugarTuristico()
       {
-        Id = 1
+        Id = 2
       };
       fechaini = new DateTime(2017,11,15);
       fechafin = new DateTime(2017,11,18);
@@ -138,6 +189,113 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en AgregarLugar_It
+    /// </summary>
+    [Test]
+    public void FalloAgregarLugar_It()
+    {
+      itinerario = new Itinerario(6);
+      LugarTuristico lt = new LugarTuristico()
+      {
+        Id = 1
+      };
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarItem_It("LugarTuristico", itinerario.Id, lt.Id, fechaini, fechafin);
+      Assert.False(x);
+
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en EliminarLugar_It
+    /// </summary>
+    [Test]
+    public void PUEliminarLugar_It()
+    {
+      itinerario = new Itinerario(1);
+      LugarTuristico lt = new LugarTuristico()
+      {
+        Id = 2
+      };
+      x = controller.EliminarItem_It("Lugar Turistico",itinerario.Id,lt.Id);
+      Assert.True(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarLugar_It
+    /// </summary>
+    [Test]
+    public void FalloEliminarLugar_It()
+    {
+      itinerario = new Itinerario(6);
+      LugarTuristico lt = new LugarTuristico()
+      {
+        Id = 1
+      };
+      x = controller.EliminarItem_It("LugarTuristico", itinerario.Id, lt.Id);
+      Assert.False(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en EliminarActividad_It
+    /// </summary>
+    [Test]
+    public void PUEliminarActividad_It()
+    {
+      itinerario = new Itinerario(2);
+      Actividad ac = new Actividad()
+      {
+        Id = 4
+      };
+      x = controller.EliminarItem_It("Actividad", itinerario.Id, ac.Id);
+      Assert.True(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarActividad_It
+    /// </summary>
+    [Test]
+    public void FalloEliminarActividad_It()
+    {
+      itinerario = new Itinerario(6);
+      Actividad ac = new Actividad()
+      {
+        Id = 1
+      };
+      x = controller.EliminarItem_It("Actividads", itinerario.Id, ac.Id);
+      Assert.False(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en EliminarEvento_It
+    /// </summary>
+    [Test]
+    public void PUEliminarEvento_It()
+    {
+      itinerario = new Itinerario(1);
+      Evento ev = new Evento()
+      {
+        Id = 1
+      };
+      x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
+      Assert.True(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarEvento_It
+    /// </summary>
+    [Test]
+    public void FalloEliminarEvento_It()
+    {
+      itinerario = new Itinerario(6);
+      Evento ev = new Evento()
+      {
+        Id = 1
+      };
+      x = controller.EliminarItem_It("Eventoss", itinerario.Id, ev.Id);
+      Assert.False(x);
+    }
 
     /* [Test]
     public void PruebaConsultarItinerarios()
