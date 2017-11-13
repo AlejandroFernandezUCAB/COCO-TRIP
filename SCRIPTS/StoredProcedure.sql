@@ -750,10 +750,16 @@ Autores:
   Orrillo, ev_hora_inicio
 **/
 
+-- FUNCTION: public.consultar_itinerarios(integer)
+
+-- DROP FUNCTION public.consultar_itinerarios(integer);
+
 CREATE OR REPLACE FUNCTION consultar_itinerarios(
 	idusuario integer)
-    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date, lu_id integer, lu_nombre character varying, lu_descripcion character varying, lu_costo numeric, ac_id integer, ac_nombre character varying, ac_descripcion character varying, ac_duracion time without time zone)
-                  --, ev_id integer, ev_nombre character varying, ev_descripcion character varying, ev_precio double precision, ev_fechaini date, ev_fechafin date)
+    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date,
+                  lu_id integer, lu_nombre character varying, lu_descripcion character varying, lu_costo numeric,
+                  ac_id integer, ac_nombre character varying, ac_descripcion character varying, ac_duracion time without time zone, ac_foto character varying,
+                  ev_id integer, ev_nombre character varying, ev_descripcion character varying, ev_precio integer, ev_fechaini timestamp without time zone, ev_fechafin timestamp without time zone, ev_horainicio time without time zone, ev_horafin time without time zone,ev_foto character varying)
     LANGUAGE 'plpgsql'
 
     COST 100
@@ -763,19 +769,25 @@ AS $BODY$
 
     BEGIN
       RETURN QUERY
-		SELECT  i.it_id as "ID", i.it_idusuario as "ID_usuario", i.it_nombre as "Nombre", i.it_fechainicio as "FechaInicio", i.it_fechafin as "FechaFin", a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
+
+	SELECT  i.it_id as "ID", i.it_idusuario as "ID_usuario", i.it_nombre as "Nombre", i.it_fechainicio as "FechaInicio", i.it_fechafin as "FechaFin", a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
 		  a.ag_idlugarturistico as "lu_id", lt.lu_nombre as "lu_nombre", lt.lu_descripcion as "lu_descripcion", lt.lu_costo as "lu_costo",
-          a.ag_idactividad as "ac_id", ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion", ac.ac_duracion as "ac_duracion"
-         -- a.ag_idevento as "ev_id", e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion", e.ev_precio as "ev_precio", e.ev_fechainicio as "ev_fechaini", e.ev_fechafin as "ev_fechafin"
+          a.ag_idactividad as "ac_id", ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion", ac.ac_duracion as "ac_duracion", ac.ac_foto as "ac_foto",
+          a.ag_idevento as "ev_id", e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion", e.ev_precio as "ev_precio", e.ev_fecha_inicio as "ev_fechaini", e.ev_fecha_fin as "ev_fechafin", e.ev_hora_inicio as "ev_horainicio", e.ev_hora_fin as "ev_horafin", e.ev_foto as "ev_foto"
       	FROM agenda a
       	FULL OUTER JOIN itinerario as i ON a.ag_iditinerario = i.it_id
-      	--LEFT OUTER JOIN evento e ON a.ag_idevento = e.ev_id
+      	LEFT OUTER JOIN evento e ON a.ag_idevento = e.ev_id
       	LEFT OUTER JOIN actividad ac ON a.ag_idactividad = ac.ac_id
       	LEFT OUTER JOIN lugar_turistico lt ON a.ag_idlugarturistico = lt.lu_id
       	WHERE (i.it_idusuario=idusuario)
  		ORDER BY i.it_id, a.ag_fechainicio;
     END;
+
 $BODY$;
+
+ALTER FUNCTION consultar_itinerarios(integer)
+    OWNER TO admin_cocotrip;
+
 
 -----------------Consultar Eventos---------------------------
 CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, fechainicio date, fechafin date )
@@ -889,7 +901,6 @@ CREATE OR REPLACE FUNCTION setvisible(
 
     COST 100
     VOLATILE
-    ROWS 0
 AS $BODY$
 
     BEGIN
@@ -904,8 +915,7 @@ AS $BODY$
 $BODY$;
 
 ALTER FUNCTION setvisible(integer, boolean, integer)
-    OWNER TO postgres;
-
+    OWNER TO admin_cocotrip;
 
 
 
