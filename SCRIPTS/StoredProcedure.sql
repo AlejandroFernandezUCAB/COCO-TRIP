@@ -199,7 +199,6 @@ RETURNS TABLE(
   precio  INTEGER,
   descripcion VARCHAR,
   nombre_local VARCHAR,
-  ruta_foto VARCHAR,
   categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
