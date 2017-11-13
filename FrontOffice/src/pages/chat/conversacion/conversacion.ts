@@ -5,7 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
 import { Firebase } from '@ionic-native/firebase';
-import {ChatProvider} from '../../../providers/chat/chat';
+import { ChatProvider } from '../../../providers/chat/chat';
 
 @IonicPage()
 @Component({
@@ -142,7 +142,7 @@ pressEvent1(){
   });
   actionSheet.present();
   }
-  
+
   agregarMensaje() {
     this.chatService.agregarNuevoMensaje(this.nuevoMensaje,this.usuarioId).then(() => {
       this.content.scrollToBottom();
