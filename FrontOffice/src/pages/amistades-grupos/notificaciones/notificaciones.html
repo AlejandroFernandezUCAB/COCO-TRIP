@@ -11,19 +11,20 @@
   
   <ion-content padding>
     <ion-list >
-     <ion-item-sliding *ngFor="let item of lista">
+     <ion-item-sliding *ngFor="let item of notificaciones; let i = index">
       <ion-item>
         <ion-avatar item-left>
-            <img src="{{item.img}}">
+            <img src="https://i.pinimg.com/474x/60/d1/3a/60d13adaac4377da28f926af3bfadf8a--icon-design-design-ui.jpg">
         </ion-avatar>
-        <h2>{{item.nick_name}}</h2>     
+        <h2>{{item.Nombre}} {{item.Apellido}}</h2>    
+        <h3>{{item.NombreUsuario}}</h3> 
       </ion-item>
       <ion-item-options side="right">
-          <button ion-button color="primary" icon-start>
+          <button ion-button color="primary" (click)="aceptarAmigo(item.NombreUsuario,i)" icon-start>
             <ion-icon name="checkmark"></ion-icon>
             Aceptar
           </button>
-          <button ion-button color="danger" icon-start>
+          <button ion-button color="danger" (click)="rechazarAmigo(item.NombreUsuario,i)" icon-start>
             <ion-icon name="close"></ion-icon>
             Declinar
           </button>

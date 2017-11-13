@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController , ToastController} from 'ionic-angular';
+
+import { Storage } from '@ionic/storage';
+import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 
 @Component({
   selector: 'page-notificaciones',
@@ -7,16 +10,99 @@ import { NavController } from 'ionic-angular';
 })
 export class NotificacionesPage {
   
-  lista: Array<notificaciones> = [{ img: 'https://i.pinimg.com/474x/60/d1/3a/60d13adaac4377da28f926af3bfadf8a--icon-design-design-ui.jpg', nick_name: 'Darth Vader'},
-  { img: 'https://www.shareicon.net/data/2016/11/21/854794_r2d2_512x512.png', nick_name: 'R2D2' },
-  { img: 'https://d13yacurqjgara.cloudfront.net/users/448/screenshots/1705077/screen_shot_2014-08-29_at_2.14.14_pm.png', nick_name: 'Mr. Stormtrooper' }];
+  toast: any;
 
-  constructor(public navCtrl: NavController) {
+  notificaciones : any;
+  constructor(public navCtrl: NavController, public restapiService: RestapiService,  
+              private storage: Storage, public toastCtrl: ToastController) {
    
   }
 //comentario
   onLink(url: string) {
     window.open(url);
+}
+
+realizarToast(mensaje) {
+  this.toast = this.toastCtrl.create({
+    message: mensaje,
+    duration: 3000,
+    position: 'top'
+  });
+  this.toast.present();
+}
+
+ionViewWillEnter() {
+  //this.cargando();
+  this.storage.get('id').then((val) => {
+    this.restapiService.listaNotificaciones(val)
+      .then(data => {
+      if (data == 0 || data == -1) {
+        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+        //this.loading.dismiss();
+      }
+      else {
+        this.notificaciones = data;
+        
+        //this.loading.dismiss();
+      }
+    });
+   });
+}
+
+aceptarAmigo(nombreUsuarioAceptado,index){
+  this.storage.get('id').then((val) => {
+    this.restapiService.aceptarNotificacion(nombreUsuarioAceptado , val)
+      .then(data => {
+      if (data == 0 || data == -1) {
+        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+        //this.loading.dismiss();
+      }
+      else {
+        if(data == 1){
+            
+          this.realizarToast('Amigo Acepatado');
+          
+          this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
+        }else {
+          
+        this.realizarToast('Algo ha salido mal');
+        }
+        
+        //this.notificaciones = data;
+        //this.loading.dismiss();
+      }
+    });
+   });
+}
+
+rechazarAmigo(nombreUsuarioRechazado, index){
+  this.storage.get('id').then((val) => {
+    this.restapiService.rechazarNotificacion(nombreUsuarioRechazado , val)
+      .then(data => {
+      if (data == 0 || data == -1) {
+        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+        //this.loading.dismiss();
+      }
+      else {
+        
+        if(data == 1){
+            
+          this.realizarToast('Peticion eliminada');
+          
+          this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
+        }else {
+          
+        this.realizarToast('Algo ha salido mal');
+        }
+      }
+    });
+   });
+}
+
+
+eliminarNotificacionVisual(nombreUsuario, index){
+  let eliminado = this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
+  var removed_elements = this.notificaciones.splice(index, 1);
 }
 
 
