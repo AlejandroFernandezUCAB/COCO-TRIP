@@ -3,6 +3,7 @@
 <div class="card color-texto">
     <div class="container-fluid pad-top">
         <h4>Ingrese los datos:</h4>
+        <div>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</div>
         <hr>
 
       @using (Html.BeginForm("Edit", "Categories", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
