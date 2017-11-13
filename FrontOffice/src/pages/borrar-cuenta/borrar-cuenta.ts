@@ -5,6 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -51,7 +52,7 @@ export class BorrarCuentaPage {
 
     if (apiRestResponse == true){
       this.showToastWithCloseButton(apiRestResponse);
-      this.navCtrl.popToRoot();
+      this.navCtrl.setRoot(LoginPage);
     }
   }
 
