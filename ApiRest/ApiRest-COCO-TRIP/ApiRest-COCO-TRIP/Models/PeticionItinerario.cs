@@ -24,7 +24,11 @@ namespace ApiRest_COCO_TRIP.Models
           con = new ConexionBase();
         }
 
-
+    /// <summary>
+    /// Metodo para consultar todos los itinerarios, con sus respectivos eventos, de un usuario
+    /// </summary>
+    /// <param name="id_usuario"></param>
+    /// <returns></returns>
         public List<Itinerario> ConsultarItinerarios(int id_usuario)
         {
             List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
