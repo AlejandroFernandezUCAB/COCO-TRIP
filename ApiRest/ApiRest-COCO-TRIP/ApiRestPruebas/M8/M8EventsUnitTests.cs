@@ -42,5 +42,24 @@ namespace ApiRestPruebas.M8
       int id = controlador.AgregarEvento(evento);
       Assert.AreEqual(controlador.ConsultarEvento(id).Nombre, nombre);
     }
+
+    [Test]
+    public void PruebaConsultarEventosPorFecha()
+    {
+      int dia = 20;
+      int mes = 11;
+      int ano = 2017;
+      DateTime date = new DateTime();
+      date.AddDays(dia);
+      date.AddMonths(mes);
+      date.AddYears(ano);
+      Assert.AreEqual(controlador.ListarEventosPorFecha(date).Count,1);
+    }
+    [Test]
+    public void PruebaConsultarEventoPorCategoria()
+    {
+      int idCategoria = 1;
+      Assert.AreEqual(controlador.ListaEventosPorCategoria(idCategoria).Count(), 5);
+    }
   }
 }
