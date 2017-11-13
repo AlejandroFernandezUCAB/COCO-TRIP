@@ -149,6 +149,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
 
+    [HttpGet]
+    public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
+    {
+      return peti.SetVisible(idusuario, iditinerario, visible);
+    }
+
 
   }
 }

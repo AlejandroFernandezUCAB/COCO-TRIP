@@ -115,7 +115,7 @@ namespace ApiRest_COCO_TRIP.Models
 
 
 
-    public Boolean setVisible(int idusuario, int iditinerario, Boolean visible)
+    public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
     {
       Boolean visible_sql = false;
       try
@@ -125,8 +125,8 @@ namespace ApiRest_COCO_TRIP.Models
         comm = new NpgsqlCommand("setVisible", con.SqlConexion);
         comm.CommandType = CommandType.StoredProcedure;
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idusuario);
-        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditinerario);
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, visible);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditinerario);
         pgread = comm.ExecuteReader();
         pgread.Read();
         visible_sql = pgread.GetBoolean(0);
