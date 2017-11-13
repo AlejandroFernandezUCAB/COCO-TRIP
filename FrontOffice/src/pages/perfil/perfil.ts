@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { TranslateService } from '@ngx-translate/core';
 import { EditProfilePage } from '../edit-profile/edit-profile';
 import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
@@ -28,13 +28,14 @@ export class PerfilPage {
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
   usuario: any = {
+    Id: 0,
     Nombre: 'Nombre',
     Apellido: 'Apellido',
     Correo: 'Correo',
   };
   idUsuario = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage, private translateService: TranslateService) {
   
   }
 
@@ -57,7 +58,17 @@ export class PerfilPage {
         if(data != 0)
         {  
           this.usuario = data;
+          this.usuario.id = this.idUsuario; 
           console.log(data);
+
+              //cargamos el idioma
+              this.storage.get(this.usuario.id.toString()).then((val) => {
+                console.log('idioma guardado => ', val);
+                if(val != null || val != undefined){
+                  this.translateService.use(val);
+                }
+              });
+
         }
       });
 
