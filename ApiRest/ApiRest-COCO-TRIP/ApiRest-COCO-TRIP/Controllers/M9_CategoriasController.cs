@@ -186,5 +186,10 @@ namespace ApiRest_COCO_TRIP.Controllers
 
       return response;
     }
-  }
+
+   ///<summary>
+   ///EndPoint para modificar los datos de la categoria
+   ///</summary>
+  
+    }
 }
