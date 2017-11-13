@@ -915,9 +915,20 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
     COST 100;
 
     --Modificar itineratio
-    CREATE OR REPLACE FUNCTION mod_itinerario(iditinerario integer,nombre character varying(80),fechaini date,fechafin date, idusuario integer)
-    RETURNS TABLE (itid integer, itnombre character varying(80),itfechaini date,itfechafin date,itidusuario integer) AS
-	$BODY$
+    CREATE OR REPLACE FUNCTION public.mod_itinerario(
+	iditinerario integer,
+	nombre character varying,
+	fechaini date,
+	fechafin date,
+	idusuario integer)
+    RETURNS TABLE(itid integer, itnombre character varying, itfechaini date, itfechafin date, itidusuario integer)
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE
+    ROWS 1000
+AS $BODY$
+
     DECLARE
     i integer;
     BEGIN
@@ -928,13 +939,15 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
       WHERE
           it_id=iditinerario;
       RETURN QUERY
-      SELECT * from Itinerario
+      SELECT it_id, it_nombre, it_fechainicio, it_fechafin, it_idusuario from Itinerario
      WHERE
       it_id=iditinerario;
     END;
-	$BODY$
-    LANGUAGE plpgsql  VOLATILE
-    COST 100;
+
+$BODY$;
+
+ALTER FUNCTION public.mod_itinerario(integer, character varying, date, date, integer)
+    OWNER TO postgres;
 
 
 
