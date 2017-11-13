@@ -62,13 +62,13 @@ export class ChangepassPage {
   );
   }
 
-  /*
-
+  
+/*
   regresarAvistaAnterior(apiRestResponse){
     this.showToastWithCloseButton(apiRestResponse);
     this.navCtrl.pop();
   }
-
+*/
   showToastWithCloseButton(apiRestResponse) {
     let result;
     if (apiRestResponse == true) {
@@ -87,7 +87,7 @@ export class ChangepassPage {
         }
       );
     }
-    */
+    
     const toast = this.toastCtrl.create({
       message: result ,
       showCloseButton: true,
