@@ -69,6 +69,9 @@ namespace ApiRestPruebas
       controller.AgregarItinerario(itinerario);
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en EliminaItinerario
+    /// </summary>
     [Test]
     public void PUEliminarItinerario()
     {
@@ -83,6 +86,9 @@ namespace ApiRestPruebas
       Assert.False(x);
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en ModificarItinerario
+    /// </summary>
     [Test]
     public void PUModificarItinerario()
     {
@@ -95,23 +101,25 @@ namespace ApiRestPruebas
       Assert.AreEqual(fechafin, it.FechaFin);
     }
 
-    /*   [Test]
-       public void PUAgregarEvento_It()
-       {
-         Itinerario itinerario = new Itinerario(6);
-         Evento ev = new Evento
-         {
-           Id = 1
-         };
-         fechaini = new DateTime(2017, 11, 15);
-         fechafin = new DateTime(2017, 11, 18);
-         M5Controller controller = new M5Controller();
-         Boolean x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
-         Assert.True(x);
-       }*/
+    /// <summary>
+    /// Prueba de caso exitoso en AgregarEvento_It
+    /// </summary>
+    [Test]
+    public void PUAgregarEvento_It()
+    {
+      Itinerario itinerario = new Itinerario(6);
+      Evento ev = new Evento
+      {
+        Id = 1
+      };
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
+      Assert.True(x);
+    }
 
-    /*   [Test]
-   public void FalloAgregarEvento_It()
+    [Test]
+    public void FalloAgregarEvento_It()
    {
      Itinerario itinerario = new Itinerario(6);
      Evento ev = new Evento
@@ -120,11 +128,13 @@ namespace ApiRestPruebas
      };
      fechaini = new DateTime(2017, 11, 15);
      fechafin = new DateTime(2017, 11, 18);
-     M5Controller controller = new M5Controller();
-     Boolean x = controller.AgregarItem_It("Eventos",itinerario.Id, ev.Id,fechaini, fechafin);
-     Assert.True(x);
-   }*/
+     x = controller.AgregarItem_It("Eventos",itinerario.Id, ev.Id,fechaini, fechafin);
+     Assert.False(x);
+   }
 
+    /// <summary>
+    /// Prueba de caso exitoso en AgregarActividad_It
+    /// </summary>
     [Test]
     public void PUAgregarActividad_It()
     {
@@ -153,6 +163,9 @@ namespace ApiRestPruebas
       Assert.False(x);
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en AgregarLugr_It
+    /// </summary>
     [Test]
     public void PUAgregarLugar_It()
     {
@@ -182,6 +195,9 @@ namespace ApiRestPruebas
 
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en EliminarLugar_It
+    /// </summary>
     [Test]
     public void PUEliminarLugar_It()
     {
@@ -206,6 +222,9 @@ namespace ApiRestPruebas
       Assert.False(x);
     }
 
+    /// <summary>
+    /// Prueba de caso exitoso en EliminarActividad_It
+    /// </summary>
     [Test]
     public void PUEliminarActividad_It()
     {
@@ -227,6 +246,33 @@ namespace ApiRestPruebas
         Id = 1
       };
       x = controller.EliminarItem_It("Actividads", itinerario.Id, ac.Id);
+      Assert.False(x);
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en EliminarEvento_It
+    /// </summary>
+    [Test]
+    public void PUEliminarEvento_It()
+    {
+      itinerario = new Itinerario(6);
+      Evento ev = new Evento()
+      {
+        Id = 1
+      };
+      x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
+      Assert.True(x);
+    }
+
+    [Test]
+    public void FalloEliminarEvento_It()
+    {
+      itinerario = new Itinerario(6);
+      Evento ev = new Evento()
+      {
+        Id = 1
+      };
+      x = controller.EliminarItem_It("Eventoss", itinerario.Id, ev.Id);
       Assert.False(x);
     }
 
