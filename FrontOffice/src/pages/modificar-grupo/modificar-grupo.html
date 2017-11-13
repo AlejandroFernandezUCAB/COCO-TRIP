@@ -21,11 +21,26 @@
         [(ngModel)]="nombreGrupo" class="card-title" ></ion-input>
     </ion-card>
 
+
     
+    <ion-list >
+            <ion-list-header>
+              Lider del Grupo
+             </ion-list-header>
+                <ion-item *ngFor="let item of lider">
+                  <ion-avatar item-left>
+                      <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
+                  </ion-avatar>
+                  <h2>{{item.Nombre}} {{item.Apellido}}</h2>
+                  <h3>{{item.NombreUsuario}}</h3>
+                  </ion-item>
+          
+
+    </ion-list> 
     <ion-list>
-        <ion-list-header>
-        Integrantes
-        </ion-list-header>
+            <ion-list-header>
+                Integrantes
+            </ion-list-header>
         <ion-item-sliding *ngFor="let item of miembro; let i = index">
         <ion-item>
         <h2>{{item.Nombre}} {{item.Apellido}}</h2>
@@ -41,8 +56,8 @@
             Eliminar
         </button>
         </ion-item-options>   
-    </ion-item-sliding>
-    </ion-list>
+        </ion-item-sliding>
+        </ion-list>
 
     <button ion-button type="submit" block
     (click)="modificarNombre($event)">Guardar Cambios</button>

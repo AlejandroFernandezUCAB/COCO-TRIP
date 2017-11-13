@@ -845,6 +845,101 @@ namespace ApiRest_COCO_TRIP.Models
       return result;
     }
 
+    /// <summary>
+    /// Retorna el usuario lider
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">identificador del usuario</param>
+    /// <returns>retorna la lista de usuarios lider</returns>
+    public List<Usuario> ObtenerLider(int idGrupo, int idUsuario)
+    {
+
+      List<Usuario> ListaUsuario = new List<Usuario>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "obtenerLider";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        while (leerDatos.Read())
+        {
+          Usuario usuario = new Usuario();
+          usuario.Nombre = leerDatos.GetString(0);
+          usuario.Apellido = leerDatos.GetString(1);
+          usuario.NombreUsuario = leerDatos.GetString(2);
+          if (!leerDatos.IsDBNull(3))
+          {
+            usuario.Foto = leerDatos.GetString(3);
+          }
+          ListaUsuario.Add(usuario);
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return ListaUsuario;
+    }
+
+    /// <summary>
+    /// Metodo para obtener la lista de integrantes sin el lider
+    /// </summary>
+    /// <param name="idGrupo">identificsdor del grupo</param>
+    /// <returns>retorna la lista de usaruios integrantes del grupo sin el usuario lider</returns>
+    public List<Usuario> ObtenerSinLider(int idGrupo)
+    {
+
+      List<Usuario> ListaUsuario = new List<Usuario>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "VisualizarMiembroSinLider";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        while (leerDatos.Read())
+        {
+          Usuario usuario = new Usuario();
+          usuario.Nombre = leerDatos.GetString(0);
+          usuario.Nombre = leerDatos.GetString(1);
+          usuario.Apellido = leerDatos.GetString(2);
+          usuario.NombreUsuario = leerDatos.GetString(3);
+          if (!leerDatos.IsDBNull(4))
+          {
+            usuario.Foto = leerDatos.GetString(4);
+          }
+          ListaUsuario.Add(usuario);
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return ListaUsuario;
+    }
+
 
   }
 }

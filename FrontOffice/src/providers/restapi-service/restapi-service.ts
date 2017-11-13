@@ -524,4 +524,66 @@ agregarIntegrante(idGrupo,nombreAmigo) {
   });
 }
 
+/**
+ * [MODULO 3]
+ * Metodo para verificar que un usuario es lider
+ * @param idGrupo Identificador del grupo
+ * @param idUsuario Identificador del usuario
+ */
+verificarLider(idGrupo, idUsuario) 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/VerificarLider/?idGrupo='+idGrupo
+    +'&idUsuario='+idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+/**
+ * [MODULO 3]
+ * Metodo para obtener al usuario lider
+ * @param idGrupo identificador del grupo
+ * @param idUsuario identificador del usuario 
+ */
+obtenerLider(idGrupo, idUsuario) 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarLider/?idGrupo='+idGrupo
+    +'&idUsuario='+idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+/**
+ * [MODULO 3]
+ * Metodo que obtiene la lista de integrantes, sin el integrante lider
+ * @param idGrupo 
+ */
+obtenerSinLider(idGrupo) 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembrosSinLider/?idGrupo='+idGrupo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+
 }
