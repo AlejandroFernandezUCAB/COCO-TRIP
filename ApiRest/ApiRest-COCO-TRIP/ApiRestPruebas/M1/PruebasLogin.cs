@@ -78,10 +78,10 @@ namespace ApiRestPruebas
         peticion.InsertarUsuarioFacebook(usuario);
       });
       Assert.Throws<InvalidCastException>(() => {
-          usuario.Nombre = null;
-          peticion.InsertarUsuarioFacebook(usuario);
-        });
-     
+        usuario.Nombre = null;
+        peticion.InsertarUsuarioFacebook(usuario);
+      });
+
     }
     [Test]
     [Category("Insertar")]
@@ -228,7 +228,7 @@ namespace ApiRestPruebas
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
       });
-  
+
     }
     [Test]
     [Category("Controlador")]
@@ -239,7 +239,7 @@ namespace ApiRestPruebas
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
       });
-     
+
     }
     //CORRER SOLO CUANDO NO TIENES CONEXION
     [Test]
@@ -261,10 +261,17 @@ namespace ApiRestPruebas
     public void TestRegistrarUsuario()
     {
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
       usuario.NombreUsuario = "homero";
       Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
       usuario.Correo = "homero_dms@hotmail.com";
       Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
     }
 
     [Test]
@@ -341,7 +348,6 @@ namespace ApiRestPruebas
       Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
       Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
     }
-
 
   }
 

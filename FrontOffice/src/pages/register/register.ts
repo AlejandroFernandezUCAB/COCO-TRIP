@@ -94,7 +94,7 @@ export class RegisterPage {
         this.restapiService.registrarse(this.nombreUsuario, this.correo, this.nombre, this.apellido, this.genero, new Date(this.fechaNacimiento), this.clave, this.foto)
           .then(data => {
             if (data == 0 || data == -1) {
-              this.realizarToast('Error, datos incorrectos.'+data+'no.');
+              this.realizarToast('Error, datos incorrectos.');
             }
             if (data==-2)
             {
@@ -118,6 +118,7 @@ export class RegisterPage {
     }
 
   }
+
   realizarToast(mensaje) {
     this.toast = this.toastCtrl.create({
       message: mensaje,

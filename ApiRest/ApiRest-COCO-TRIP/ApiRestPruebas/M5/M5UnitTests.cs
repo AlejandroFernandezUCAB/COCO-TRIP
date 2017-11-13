@@ -106,7 +106,7 @@ namespace ApiRestPruebas
          fechaini = new DateTime(2017, 11, 15);
          fechafin = new DateTime(2017, 11, 18);
          M5Controller controller = new M5Controller();
-         Boolean x = controller.AgregarEvento_It(itinerario.Id, ev.Id,fechaini, fechafin);
+         Boolean x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
          Assert.True(x);
        }*/
 
@@ -120,7 +120,7 @@ namespace ApiRestPruebas
       };
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarActividad_It(itinerario.Id,ac.Id,fechaini, fechafin);
+      x = controller.AgregarItem_It("Actividad",itinerario.Id,ac.Id,fechaini, fechafin);
       Assert.True(x);
     }
 
@@ -133,8 +133,8 @@ namespace ApiRestPruebas
         Id = 1
       };
       fechaini = new DateTime(2017,11,15);
-      fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarLugar_It(itinerario.Id, lt.Id,fechaini,fechafin);
+      fechafin = new DateTime(2017,11,18);
+      x = controller.AgregarItem_It("Lugar Turistico",itinerario.Id, lt.Id,fechaini,fechafin);
       Assert.True(x);
     }
 

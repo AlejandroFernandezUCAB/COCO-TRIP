@@ -102,24 +102,13 @@
                 <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('pattern')">el campo no cumple con los caracteres permitidos</p>
                 <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('minlength')">la minima cantidad de caracteres es 5</p>
                 <p color="danger" ion-text *ngIf="myForm.get('passwordConfirmation').hasError('maxlength')">la maxima cantidad de caracteres es 20</p>        
-      </ion-item>
-
-          <ion-toolbar color="primary">
-            <ion-buttons>
-              <button ion-button icon-left (click)="presentActionSheet()">
-                <ion-icon name="camera"></ion-icon>Select Image
-              </button>
-              <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
-                <ion-icon name="cloud-upload"></ion-icon>Upload
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-
-      <ion-row>
-          <ion-col class="signup-col">
-            <button ion-button full icon-left class="submit-btn" (click)="registrar()" [disabled]="myForm.invalid">Registrarse</button>
-          </ion-col>
-        </ion-row>
+      </ion-item>          
+          <ion-row>
+            <ion-col class="signup-col">
+              <!--<button ion-button full icon-left (click)="presentActionSheet()" formControlName="photo" type="photo" ><ion-icon name="camera"></ion-icon>Seleccionar imagen de perfil</button>-->
+              <button ion-button full icon-left class="submit-btn" (click)="registrar()" [disabled]="myForm.invalid">Registrarse</button>
+            </ion-col>
+          </ion-row>
     </ion-list>
   </form>    
 </ion-content>
