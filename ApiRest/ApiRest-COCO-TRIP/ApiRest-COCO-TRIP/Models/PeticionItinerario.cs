@@ -104,8 +104,8 @@ namespace ApiRest_COCO_TRIP.Models
                       evento.Nombre = pgread.GetString(17);
                       evento.Descripcion = pgread.GetString(18);
                       evento.Precio = pgread.GetInt32(19);
-                      evento.FechaInicio = pgread.GetTimeStamp(20);
-                      evento.FechaFin = pgread.GetTimeStamp(21);
+                      evento.FechaInicio = pgread.GetDateTime(20);
+                      evento.FechaFin = pgread.GetDateTime(21);
                       evento.HoraInicio = pgread.GetTimeSpan(22);
                       evento.HoraFin = pgread.GetTimeSpan(23);
                       evento.Foto = pgread.GetString(24);
