@@ -29,6 +29,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -156,7 +160,11 @@ export function createTranslateLoader(http: HttpClient) {
     EventosCalendarioService,
     Firebase,
     RestapiService,
-    HttpCProvider
+    HttpCProvider,
+    File,
+    Transfer,
+    Camera,
+    FilePath,
   ]
 })
 export class AppModule {}

@@ -106,9 +106,47 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-    public bool SalirGrupoBD(int idGrupo, int idUsuario)
+    /// <summary>
+    /// Metodo que verifica si el usuario es el lider del grupo o solo un miembro
+    /// </summary>
+    /// <param name="idGrupo">id del grupo a verificar</param>
+    /// <param name="idUsuario">id del usuario que desea eliminar / salir deel grupo</param>
+    /// <returns></returns>
+    public bool VerificarLider(int idGrupo, int idUsuario)
     {
-      bool resultado = false;
+      bool respuesta = false;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "VerificarLider";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          respuesta = true;
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return respuesta;
+    }
+
+
+
+    public int SalirGrupoBD(int idGrupo, int idUsuario)
+    {
+      int resultado = 0;
       try
       {
         conexion.Conectar();
@@ -120,11 +158,7 @@ namespace ApiRest_COCO_TRIP.Models
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
         {
-          
-          if (leerDatos.GetInt32(0) == 1)
-          {
-            resultado = true;
-          }
+            resultado = leerDatos.GetInt32(0);
         }
         leerDatos.Close();
         conexion.Desconectar();

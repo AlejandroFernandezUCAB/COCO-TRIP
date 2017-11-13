@@ -177,6 +177,7 @@
     <Content Include="Scripts\Lugares\delete-line-table.js" />
     <Content Include="Scripts\Lugares\insert-line-table.js" />
     <Content Include="Scripts\Lugares\google-map.js" />
+    <Content Include="Scripts\Lugares\status.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
