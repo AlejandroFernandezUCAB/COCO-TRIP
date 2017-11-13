@@ -57,7 +57,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -79,7 +79,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -102,7 +102,7 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -123,7 +123,7 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -143,7 +143,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -764,11 +764,15 @@ Autores:
   Jraiche, Michel
   Orrillo, ev_hora_inicio
 **/
+-- FUNCTION: public.consultar_itinerarios(integer)
+
+-- DROP FUNCTION public.consultar_itinerarios(integer);
 
 CREATE OR REPLACE FUNCTION public.consultar_itinerarios(
 	idusuario integer)
-    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date, lu_id integer, lu_nombre character varying, lu_descripcion character varying, lu_costo numeric, ac_id integer, ac_nombre character varying, ac_descripcion character varying, ac_duracion time without time zone)
-                  --, ev_id integer, ev_nombre character varying, ev_descripcion character varying, ev_precio double precision, ev_fechaini date, ev_fechafin date)
+    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date,
+                  lu_id integer, lu_nombre character varying, lu_costo numeric, lu_idfoto integer, lu_rutafoto character varying, lu_dia integer, lu_horainicio time without time zone, lu_horafin time without time zone,
+                  ac_id integer, ac_nombre character varying, ac_duracion time without time zone, ac_rutafoto character varying)
     LANGUAGE 'plpgsql'
 
     COST 100
@@ -779,18 +783,29 @@ AS $BODY$
     BEGIN
       RETURN QUERY
 		SELECT  i.it_id as "ID", i.it_idusuario as "ID_usuario", i.it_nombre as "Nombre", i.it_fechainicio as "FechaInicio", i.it_fechafin as "FechaFin", a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
-		  a.ag_idlugarturistico as "lu_id", lt.lu_nombre as "lu_nombre", lt.lu_descripcion as "lu_descripcion", lt.lu_costo as "lu_costo",
-          a.ag_idactividad as "ac_id", ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion", ac.ac_duracion as "ac_duracion"
-         -- a.ag_idevento as "ev_id", e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion", e.ev_precio as "ev_precio", e.ev_fechainicio as "ev_fechaini", e.ev_fechafin as "ev_fechafin"
+		  a.ag_idlugarturistico as "lu_id", lt.lu_nombre as "lu_nombre", lt.lu_costo as "lu_costo", f.fo_id as "lu_idfoto", f.fo_ruta as "lu_rutafoto",
+          h.ho_dia_semana as "lt_dia", h.ho_hora_apertura as  "lt_horainicio", h.ho_hora_cierre as "lt_horafin",
+          a.ag_idactividad as "ac_id", ac.ac_nombre as "ac_nombre", ac.ac_duracion as "ac_duracion", ac.ac_foto as "ac_foto"
+         -- a.ag_idevento as "ev_id", e.ev_nombre as "ev_nombre", e.ev_precio as "ev_precio", e.ev_fechainicio as "ev_fechaini", e.ev_fechafin as "ev_fechafin"
       	FROM agenda a
       	FULL OUTER JOIN itinerario as i ON a.ag_iditinerario = i.it_id
       	--LEFT OUTER JOIN evento e ON a.ag_idevento = e.ev_id
       	LEFT OUTER JOIN actividad ac ON a.ag_idactividad = ac.ac_id
       	LEFT OUTER JOIN lugar_turistico lt ON a.ag_idlugarturistico = lt.lu_id
+        LEFT OUTER JOIN lt_horario h ON lt.lu_id = h.fk_ho_lugar_turistico
+        LEFT OUTER JOIN lt_foto f ON lt.lu_id = f.fk_fo_lugar_turistico
       	WHERE (i.it_idusuario=idusuario)
  		ORDER BY i.it_id, a.ag_fechainicio;
     END;
+
 $BODY$;
+
+ALTER FUNCTION public.consultar_itinerarios(integer)
+    OWNER TO admin_cocotrip;
+
+
+
+
 
   --Insertar evento en itineratio
   CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date)

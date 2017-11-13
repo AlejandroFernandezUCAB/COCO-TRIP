@@ -55,7 +55,6 @@ export class AmigosPage {
    */
    ionViewWillEnter() {
      this.cargando();
-
      this.storage.get('id').then((val) => {
       this.restapiService.listaAmigos(val)
       .then(data => {

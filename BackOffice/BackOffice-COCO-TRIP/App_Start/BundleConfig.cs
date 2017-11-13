@@ -58,6 +58,10 @@ namespace BackOffice_COCO_TRIP
                      "~/Scripts/Lugares/status.js"
                      ));
 
+            bundles.Add(new StyleBundle("~/bundles/lugares_homeCSS").Include(
+                    "~/Content/Lugares/home.css"
+                    ));
+
             bundles.Add(new StyleBundle("~/bundles/lugares_addCSS").Include(
                     "~/Content/Lugares/add.css"
                     ));

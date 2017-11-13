@@ -407,6 +407,12 @@ agregarAmigo(idUsuario,nombreAmigo) {
   });
 }
 
+/**
+ * [MODULO 3]
+ * Metodo para salir de un grupo
+ * @param usuario 
+ * @param idGrupo 
+ */
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
       this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
