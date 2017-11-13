@@ -89,7 +89,7 @@ namespace ApiRest_COCO_TRIP.Models
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
         {
-          resultado = leerDatos.GetString(2) + " " +  leerDatos.GetString(3);
+          resultado = leerDatos.GetString(2);
         }
         leerDatos.Close();
         conexion.Desconectar();

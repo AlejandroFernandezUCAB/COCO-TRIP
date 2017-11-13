@@ -149,7 +149,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(1, peticion.SalirGrupoBD(-1, -1));
+      Assert.AreEqual(3, peticion.SalirGrupoBD(-1, -1));
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteUsuario()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(0, peticion.SalirGrupoBD(1, -88));
+      Assert.AreEqual(2, peticion.SalirGrupoBD(1, -88));
 
     }
 
@@ -188,7 +188,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(0, peticion.SalirGrupoBD(-10, -1));
+      Assert.AreEqual(2, peticion.SalirGrupoBD(-10, -1));
 
     }
 
@@ -259,7 +259,7 @@ namespace ApiRestPruebas.M3
     [Test]
     public void TestAceptarNotificacionesFalloCast()
     {
-      Assert.Catch<FormatException>(ExcepcionSalirGrupoMalCast);
+      Assert.Catch<InvalidCastException>(ExcepcionAceptarNotificacionesFalloCast);
     }
 
     public void ExcepcionAceptarNotificacionesFalloCast()
@@ -271,8 +271,8 @@ namespace ApiRestPruebas.M3
 
 
 
-    //PRUEBAS UNITARIAS DE RECHAZARNOTIFICACIONES ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    //CREADO POR: OSWALDO LOPEZ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    //PRUEBAS UNITARIAS DE RECHAZARNOTIFICACIONES 
+    //CREADO POR: OSWALDO LOPEZ 
 
     /// <summary>
     /// Test para probar el caso de exito del metodo AceptarNotificacionesBD
@@ -308,6 +308,47 @@ namespace ApiRestPruebas.M3
       peticion = new PeticionAmigoGrupo();
       peticion.RechazarNotificacionBD(null, -1);
     }
+
+
+
+    //PRUEBAS UNITARIAS DE ACEPNOTIFICACIONES
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// 
+    /// </summary>
+    [Test]
+    public void TestObtenerUsuario()
+    {
+      peticion = new PeticionAmigoGrupo();
+      Assert.AreEqual("Aquiles",peticion.ConsultarUsuario(-1));
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    [Test]
+    public void TestObtenerUsuarioFalloNoExiste()
+    {
+      peticion = new PeticionAmigoGrupo();
+      Assert.AreEqual("", peticion.ConsultarUsuario(-11));
+    }
+
+
+    [Test]
+    public void TestObtenerUsuarioFalloCast()
+    {
+      Assert.Catch<FormatException>(ExcepcionTestObtenerUsuarioFalloCast);
+    }
+
+    public void ExcepcionTestObtenerUsuarioFalloCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.ConsultarUsuario(Convert.ToInt32("asdsda"));
+    }
+
+
+
+    //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
 
