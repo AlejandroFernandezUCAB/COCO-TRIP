@@ -160,6 +160,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Categorias\categorias.css" />
+    <Content Include="Content\Lugares\home.css" />
     <Content Include="Content\Lugares\add.css" />
     <Content Include="Content\Lugares\modify.css" />
     <Content Include="Content\Lugares\activity.css" />

@@ -16,14 +16,14 @@ drop SEQUENCE SEQ_Usuario;
 --Modulo 1
 CREATE TABLE USUARIO (
     us_id		integer,
-    us_nombreUsuario 	varchar(20) DEFAULT '' UNIQUE,
+    us_nombreUsuario 	varchar(20)  UNIQUE,
     us_nombre         	varchar(30) NOT NULL,
     us_apellido        	varchar(30) NOT NULL,
-    us_fechaNacimiento  date NOT NULL,
+    us_fechaNacimiento  date,
     us_genero		varchar(1) CHECK (us_genero ='M' OR us_genero='F'),
     us_email	        varchar(30) NOT NULL UNIQUE,
-    us_password         varchar(20)DEFAULT '',
-    us_foto		bytea,
+    us_password         varchar(20),
+    us_foto		varchar(100),
     us_validacion	boolean NOT NULL,
     CONSTRAINT primaria_usuario PRIMARY KEY(us_id)
 
@@ -183,7 +183,7 @@ create table evento
 	ev_fecha_fin timestamp,
 	ev_hora_inicio time,
 	ev_hora_fin time,
-	ev_foto bytea,
+	ev_foto varchar,
 	ev_localidad int,
 	ev_categoria int
 );
