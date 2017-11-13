@@ -18,6 +18,7 @@ idUser: any;
   constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public restapiService: RestapiService) {
     //console.log(this.its2);
     this.menu.enable(true);
+    this.eveSegunPreferencia();
     this.ltSegunPreferencia();
   }
  
@@ -26,43 +27,46 @@ idUser: any;
     this.storage.get('id').then(idUser=>{
       this.idUser=idUser;
       console.log(this.idUser+"id en el .get");
+
+      console.log(this.idUser+"id despues del .get");
+      if(this.idUser!=null){
+        this.restapiService.ltSegunPreferencias(this.idUser)
+        .then(data=>{
+  
+          if(data==-1){
+            console.log('error al recibir del webservice');
+            //this.navCtrl.setRoot(LoginPage);
+  
+  
+          }
+  
+  
+          else{
+          this.lts = data;
+          console.log(this.lts);
+          }
+        });
+  
+      }
+      else{
+      console.log('error al recibir el id del storage');
+      //this.navCtrl.setRoot(LoginPage);
+      }
     });
-    console.log(this.idUser+"id despues del .get");
-    if(this.idUser!=null){
-      this.restapiService.ltSegunPreferencias(this.idUser)
-      .then(data=>{
-
-        if(data==-1){
-          console.log('error al recibir del webservice');
-          this.navCtrl.setRoot(LoginPage);
-
-
-        }
-
-
-        else{
-        this.lts = data;
-        console.log(this.lts);
-        }
-      });
-
-    }
-    else{
-    console.log('error al recibir el id del storage');
-    //this.navCtrl.setRoot(LoginPage);
-    }
+    
  } 
 
  eveSegunPreferencia(){
-  
-      var idUser=this.storage.get('id');
-      if(idUser){
-        this.restapiService.eveSegunPreferencias(idUser)
+
+      this.storage.get('id').then(idUser=>{      
+        this.idUser=idUser;
+        if(this.idUser){
+        this.restapiService.eveSegunPreferencias(this.idUser)
         .then(data=>{
 
           if(data==-1){
             console.log('error al recibir del webservice');
-            this.navCtrl.setRoot(LoginPage);
+            //this.navCtrl.setRoot(LoginPage);
 
           }
           else{
@@ -73,8 +77,9 @@ idUser: any;
       }
       else{
       console.log('error al recibir el id del storage');
-      this.navCtrl.setRoot(LoginPage);
-      }
+      //this.navCtrl.setRoot(LoginPage);
+      }}) ;   
+
    } 
 
 }
