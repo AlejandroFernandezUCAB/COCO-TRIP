@@ -25,8 +25,10 @@ export class ModificarGrupoPage {
       private storage: Storage) {
           
     }
+    
 
     ionViewWillEnter() {
+      
       this.id = this.navParams.get('idGrupo');
       this.restapiService.verperfilGrupo(this.id)
         .then(data => {

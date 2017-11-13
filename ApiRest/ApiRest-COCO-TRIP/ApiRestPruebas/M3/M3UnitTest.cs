@@ -289,7 +289,7 @@ namespace ApiRestPruebas.M3
     [Test]
     public void TestInsertarGrupo()
     {
-      Assert.AreEqual(2, peticion.AgregarGrupoBD("-1", "usuariopruebas1"));
+      Assert.AreEqual(2, peticion.AgregarGrupoBD( "usuariopruebas1", -1));
     }
 
     /// <summary>
@@ -303,22 +303,21 @@ namespace ApiRestPruebas.M3
 
     public void ExcepcionGrupoMal()
     {
-      peticion.AgregarGrupoBD(null, "usuariopruebas1");
+      peticion.AgregarGrupoBD( null,1);
     }
 
     /// <summary>
     /// Prueba la excepcion de un grupo fallido
     /// </summary>
     [Test]
-    public void TestAgregarGrupoFallidoNoExiste()
+    public void TestInsertarGrupoFallidoNoExiste()
     {
       Assert.Catch<NpgsqlException>(ExcepcionAgregarGrupoMalNoExiste);
     }
 
     public void ExcepcionAgregarGrupoMalNoExiste()
     {
-      peticion = new PeticionAmigoGrupo();
-      peticion.AgregarGrupoBD("usuarioramdon1", "usuarioramdon2");
+      peticion.AgregarGrupoBD("usuarioramdon1", -50);
     }
 
     /// <summary>
@@ -327,22 +326,57 @@ namespace ApiRestPruebas.M3
     [Test]
     public void TestPerfilGrupo()
     {
-      //grupo = peticion.ConsultarPerfilGrupo(-1);
+      
+      List<Grupo> lista = new List<Grupo>();
+      lista = peticion.ConsultarPerfilGrupo(-1); 
+      Grupo grupo = new Grupo();
+      foreach (Grupo g in lista)
+      {
+        grupo = g;
+      }
       Assert.AreEqual("Grupoprueba1", grupo.Nombre);
     }
 
-    
+    [Test]
+    public void TestPerfilGrupoNoExiste()
+    {
+      Assert.Catch<NpgsqlException>(ExcepcionVerperfilGrupoMalNoExiste);
+      
+    }
+
+    public void ExcepcionVerperfilGrupoMalNoExiste()
+    {
+      List<Grupo> lista = new List<Grupo>();
+      lista = peticion.ConsultarPerfilGrupo(-50);
+    }
+
     [Test]
     public void TestListaGrupo()
     {
       List<Grupo> lista = new List<Grupo>();
-      grupo.Nombre = "holaa";
-      //lista = controlador.ConsultarListaGrupos("1");
-      //grupo.Nombre = "";
-      //grupo.Foto =new byte[0];
-
-     // Assert.AreEqual(true, controlador.ConsultarListaGrupos("3").Contains(grupo));
+      lista = peticion.Listagrupo(-1);
+      Grupo grupo = new Grupo();
+      foreach (Grupo g in lista)
+      {
+        grupo = g;
+      }
+      Assert.AreEqual("Grupoprueba1", grupo.Nombre);
     }
-    
+
+    [Test]
+    public void BuscarAmigo()
+    {
+
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.BuscarAmigo("Aquiles",1);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.AreEqual("Aquiles", usuario.Nombre);
+
+    }
+
   }
 }

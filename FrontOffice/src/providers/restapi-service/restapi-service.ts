@@ -386,6 +386,26 @@ agregarAmigo(idUsuario,nombreAmigo) {
 }
 
 /**
+* [MODULO 3] 
+* Metodo para agregar el grupo 
+* @param idusuario id del usuario logeado
+* @param nombre nombre de grupo
+* @param foto foto del grupo
+*/
+agregarGrupo(idusuario,nombre,foto,) {  
+ return new Promise(resolve => {
+   this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarGrupo/?nombre='+nombre+'&foto='+foto+'&idusuario='+idusuario,"")
+     .map(res => res.json())
+     .subscribe(data => {
+       this.data = data;
+       resolve(this.data);
+     },error=>{
+       console.log("Ocurrio un error");
+     });
+ });
+}
+
+/**
  * [MODULO 3]
  * Metodo para salir de un grupo
  * @param usuario 

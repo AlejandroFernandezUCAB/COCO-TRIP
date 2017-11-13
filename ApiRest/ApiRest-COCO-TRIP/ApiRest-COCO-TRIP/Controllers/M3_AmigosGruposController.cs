@@ -196,14 +196,15 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Buscar amigo en la aplicacion
     /// </summary>
     /// <param name="nombre">nombre del amigo a buscar</param>
+    /// <param name="idusuario">id del usuario logeado</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Usuario> BuscarAmigo(string nombre)
+    public List<Usuario> BuscarAmigo(string nombre,int idusuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.BuscarAmigo(nombre);
+        return peticion.BuscarAmigo(nombre, Convert.ToInt32(idusuario));
       }
       catch (NpgsqlException)
       {
@@ -228,24 +229,24 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="nombre">Nombre del grupo</param>
     /// <param name="foto">Foto del grupo</param>
-    /// <param name="usuario">Lider del grupo(creador)</param>
+    /// <param name="idusuario">Lider del grupo(creador)</param>
     /// <returns></returns>
-    [HttpGet]
-    public int AgregarGrupo(String nombre, String foto, String nombreusuario)
+    [HttpPut]
+    public int AgregarGrupo(String nombre, String foto, String idusuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
 
-        if (foto != "null")
+        if (foto != "")
 
         {
-          return peticion.AgregarGrupoBD(nombre, foto, nombreusuario);
+          return peticion.AgregarGrupoBD(nombre, foto, Convert.ToInt32(idusuario));
         }
 
         else
         {
-          return peticion.AgregarGrupoBD(nombre, nombreusuario);
+          return peticion.AgregarGrupoBD(nombre, Convert.ToInt32(idusuario));
         }
       }
       catch (NpgsqlException)

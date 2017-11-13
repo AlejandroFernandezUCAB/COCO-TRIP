@@ -178,8 +178,9 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo que se encarga de buscar amigos en la app
     /// </summary>
     /// <param name="dato">nombre o iniciales del amigo</param>
+    /// <param name="idusuario">id del usuario logeado</param>
     /// <returns></returns>
-    public List<Usuario> BuscarAmigo(string dato)
+    public List<Usuario> BuscarAmigo(string dato,int idusuario)
     {
       var listausuarios = new List<Usuario>();
       try
@@ -189,6 +190,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandText = "BuscarAmigos";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, dato));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idusuario));
         leerDatos = conexion.Comando.ExecuteReader();
         while (leerDatos.Read())
         {
@@ -332,7 +334,7 @@ namespace ApiRest_COCO_TRIP.Models
           grupo.Nombre = leerDatos.GetString(0);
           if (!leerDatos.IsDBNull(1))
           {
-            grupo.Foto = leerDatos.GetString(3);
+            grupo.Foto = leerDatos.GetString(1);
           }
 
           listagrupo.Add(grupo);
@@ -361,9 +363,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
     /// <returns></returns>
 
-    public int AgregarGrupoBD(String nombre, string foto, string nombreusuario)
+    public int AgregarGrupoBD(String nombre, string foto, int idUsuario)
     {
-      int idUsuario = ObtenerIdUsuario(nombreusuario);
       int result = 0;
       try
       {
@@ -399,9 +400,9 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
     /// <returns></returns>
 
-    public int AgregarGrupoBD(String nombre, string nombreusuario)
+    public int AgregarGrupoBD(String nombre, int idUsuario)
     {
-      int idUsuario = ObtenerIdUsuario(nombreusuario);
+      
       int result = 0;
       try
       {
