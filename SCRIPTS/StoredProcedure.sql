@@ -735,6 +735,9 @@ AS $BODY$
     END;
 $BODY$;
 
+ALTER FUNCTION public.consultar_itinerarios(integer)
+    OWNER TO admin_cocotrip;
+
   --Insertar evento en itineratio
   CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date)
     RETURNS boolean AS
@@ -1298,22 +1301,22 @@ CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, des
               VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
-CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS 
+CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS
   $BODY$
   DECLARE
     CATEGORIA TEXT;
   BEGIN
       SELECT CA_ID INTO CATEGORIA FROM CATEGORIA WHERE (CA_NOMBRE = nombrecategoria);
       RETURN CATEGORIA;
-  END; 
+  END;
   $BODY$
 LANGUAGE plpgsql;
 
 CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
 BEGIN
 			RETURN 	QUERY
-					SELECT * FROM CATEGORIA;
-END; 
+					SELECT ca_id, ca_nombre, ca_descripcion, ca_status, ca_nivel, ca_fkcategoriasuperior FROM CATEGORIA;
+END;
 $$ LANGUAGE plpgsql;
 
 
@@ -1372,6 +1375,34 @@ BEGIN
   RETURN NEXT;
    END LOOP;
 END; $$
+  LANGUAGE plpgsql;
+
+
+  -------------------------PROCEDIMIENTO BUSCAR CATEGORIA POR STATUS HABILITADO-------------
+
+  CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada
+  (_status boolean)
+  RETURNS TABLE
+  (
+
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_fkcategoriasuperior integer,
+      categoria_nivel integer
+
+  )
+  AS
+  $$
+  BEGIN
+
+    RETURN QUERY
+    SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_fkcategoriasuperior,ca_nivel
+     FROM categoria
+    WHERE ca_status=_status;
+  END;
+  $$
   LANGUAGE plpgsql;
 
 
