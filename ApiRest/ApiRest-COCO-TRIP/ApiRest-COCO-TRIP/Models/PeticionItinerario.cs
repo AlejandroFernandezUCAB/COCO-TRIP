@@ -205,6 +205,10 @@ namespace ApiRest_COCO_TRIP.Models
             {
               comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
             }
+            else
+            {
+              return false;
+            }
             comm.CommandType = CommandType.StoredProcedure;
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);

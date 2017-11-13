@@ -856,23 +856,36 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
     COST 100;
 
     --Eliminar item del itineratio
-    CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer)
+   CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer)
     RETURNS boolean AS
 	$BODY$
+    DECLARE 
+    i integer;
     BEGIN
+    SELECT it_id FROM Itinerario where (iditinerario=it_id) into i;
+    IF i is null THEN
+    return false;
+    else
       IF tipo='Lugar Turistico' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idlugarturistico) AND (iditinerario=ag_idItinerario);
       return true;
+      else
+      return false;
       END IF;
       IF tipo='Actividad' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
       return true;
+      else 
+      return false;
       END IF;
       IF tipo='Evento' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idevento) AND (iditinerario=ag_idItinerario);
       return true;
+      else 
+      return false;
       END IF;
-    END;
+	END IF;
+    END
 	$BODY$
     LANGUAGE plpgsql  VOLATILE
     COST 100;
