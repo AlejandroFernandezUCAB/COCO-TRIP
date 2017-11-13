@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import * as moment from 'moment';
 import { MenuController } from 'ionic-angular';
+import { HttpCProvider } from '../../providers/http-c/http-c';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  _itis:any;
  its1: Array<any> = [{
   id: 1,
   nombre: 'Predespachill',
@@ -57,10 +59,18 @@ its2: Array<any> = [{
   distancia: '3 km'
 }];
 
-  constructor(public navCtrl: NavController,public menu: MenuController) {
+  constructor(public navCtrl: NavController,public menu: MenuController, public http: HttpCProvider) {
     //console.log(this.its2);
+    this.IniciarNotificaciones();
     this.menu.enable(true);
   }
  
+  IniciarNotificaciones() {
+    this.http.NotificacionUsuario(1)
+    .then(data => {
+      this._itis = data;
+      console.log(this._itis);
+    });
+  }
 
 }
