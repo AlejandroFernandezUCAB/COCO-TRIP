@@ -66,12 +66,15 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
 import { Firebase } from '@ionic-native/firebase';
+import * as firebase from 'firebase';
 import { RestapiService } from '../providers/restapi-service/restapi-service';
 import { HttpCProvider } from '../providers/http-c/http-c';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+firebase.initializeApp(config);
 
 @NgModule({
   declarations: [
