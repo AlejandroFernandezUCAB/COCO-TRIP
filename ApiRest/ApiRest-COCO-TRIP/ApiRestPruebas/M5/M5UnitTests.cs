@@ -52,7 +52,7 @@ namespace ApiRestPruebas
     }
 
     /// <summary>
-    /// Metodo utilizados para casos borde(excepciones)
+    /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
     public void Excepcion_Agregar()
     {
@@ -61,7 +61,7 @@ namespace ApiRestPruebas
     }
 
     /// <summary>
-    /// Metodo utilizados para casos borde(excepciones)
+    /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
     public void Excepcion_Agregar2()
     {
@@ -79,6 +79,9 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarItinerario
+    /// </summary>
     [Test]
     public void FalloEliminarItinerario()
     {
@@ -107,7 +110,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarEvento_It()
     {
-      Itinerario itinerario = new Itinerario(6);
+      Itinerario itinerario = new Itinerario(1);
       Evento ev = new Evento
       {
         Id = 1
@@ -118,6 +121,9 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en AgregarEvento_It
+    /// </summary>
     [Test]
     public void FalloAgregarEvento_It()
    {
@@ -138,10 +144,10 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarActividad_It()
     {
-      itinerario = new Itinerario(6);
+      itinerario = new Itinerario(2);
       Actividad ac = new Actividad()
       {
-        Id = 2
+        Id = 4
       };
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
@@ -149,6 +155,9 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en AgregarActividad_It
+    /// </summary>
     [Test]
     public void FalloAgregarActividad_It()
     {
@@ -164,15 +173,15 @@ namespace ApiRestPruebas
     }
 
     /// <summary>
-    /// Prueba de caso exitoso en AgregarLugr_It
+    /// Prueba de caso exitoso en AgregarLugar_It
     /// </summary>
     [Test]
     public void PUAgregarLugar_It()
     {
-      itinerario = new Itinerario(6);
+      itinerario = new Itinerario(1);
       LugarTuristico lt = new LugarTuristico()
       {
-        Id = 1
+        Id = 2
       };
       fechaini = new DateTime(2017,11,15);
       fechafin = new DateTime(2017,11,18);
@@ -180,6 +189,9 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en AgregarLugar_It
+    /// </summary>
     [Test]
     public void FalloAgregarLugar_It()
     {
@@ -201,15 +213,18 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarLugar_It()
     {
-      itinerario = new Itinerario(6);
+      itinerario = new Itinerario(1);
       LugarTuristico lt = new LugarTuristico()
       {
-        Id = 1
+        Id = 2
       };
       x = controller.EliminarItem_It("Lugar Turistico",itinerario.Id,lt.Id);
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarLugar_It
+    /// </summary>
     [Test]
     public void FalloEliminarLugar_It()
     {
@@ -228,15 +243,18 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarActividad_It()
     {
-      itinerario = new Itinerario(6);
+      itinerario = new Itinerario(2);
       Actividad ac = new Actividad()
       {
-        Id = 2
+        Id = 4
       };
       x = controller.EliminarItem_It("Actividad", itinerario.Id, ac.Id);
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarActividad_It
+    /// </summary>
     [Test]
     public void FalloEliminarActividad_It()
     {
@@ -255,7 +273,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarEvento_It()
     {
-      itinerario = new Itinerario(6);
+      itinerario = new Itinerario(1);
       Evento ev = new Evento()
       {
         Id = 1
@@ -264,6 +282,9 @@ namespace ApiRestPruebas
       Assert.True(x);
     }
 
+    /// <summary>
+    /// Prueba de caso borde(fallo) en EliminarEvento_It
+    /// </summary>
     [Test]
     public void FalloEliminarEvento_It()
     {

@@ -87,6 +87,7 @@ namespace ApiRest_COCO_TRIP.Models
                       actividad.Nombre = pgread.GetString(12);
                       actividad.Descripcion = pgread.GetString(13);
                       actividad.Duracion = pgread.GetTimeSpan(14);
+                      actividad.Foto = pgread.GetString(15);
                       actividad.Tipo = "Actividad";
                       if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
                       {
@@ -95,7 +96,22 @@ namespace ApiRest_COCO_TRIP.Models
                       }
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
-                    //Falta el caso de que sea un evento...
+                    //Si existe evento en este registro
+                    if (!pgread.IsDBNull(16))
+                    {
+                      dynamic evento = new System.Dynamic.ExpandoObject();
+                      evento.Id = pgread.GetInt32(16);
+                      evento.Nombre = pgread.GetString(17);
+                      evento.Descripcion = pgread.GetString(18);
+                      evento.Precio = pgread.GetInt32(19);
+                      evento.FechaInicio = pgread.GetDateTime(20);
+                      evento.FechaFin = pgread.GetDateTime(21);
+                      evento.HoraInicio = pgread.GetTimeSpan(22);
+                      evento.HoraFin = pgread.GetTimeSpan(23);
+                      evento.Foto = pgread.GetString(24);
+                      evento.Tipo = "Evento";
+                      itinerarios[itinerarios.Count - 1].Items_agenda.Add(evento);
+                    }
                 }
                 con.Desconectar();
                 return itinerarios;
@@ -214,7 +230,8 @@ namespace ApiRest_COCO_TRIP.Models
             }
             else
             {
-              return false;
+              con.Desconectar();
+              return false; 
             }
             comm.CommandType = CommandType.StoredProcedure;
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
@@ -229,6 +246,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
+            con.Desconectar();
             throw e;
           }
         }

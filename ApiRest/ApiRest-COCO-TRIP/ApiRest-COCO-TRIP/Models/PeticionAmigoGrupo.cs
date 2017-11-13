@@ -72,10 +72,10 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     /// <summary>
-    /// 
+    /// Consulta el usuario para obtener el nombre (Para el correo)
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
-    /// <returns></returns>
+    /// <returns>Reotrna el nombre</returns>
     public string ConsultarUsuario(int idUsuario)
     {
       string resultado = "";
