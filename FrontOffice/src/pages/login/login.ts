@@ -41,14 +41,21 @@ export class LoginPage {
     });
     this.vista = false;
     this.menu.enable(false);
-    this.plt.ready().then((readySource) => {
-      console.log('Platform ready from', readySource);
-      this.facebook.getLoginStatus().then((loginstatus : FacebookLoginResponse) => {
-          console.log(loginstatus.status);
-        
-      },
-      error => {console.log('chao');})
+    this.plt.ready().then(ready=>{
+    this.facebook.getLoginStatus().then( (estado : FacebookLoginResponse) =>{
+      if(estado.status != 'connected')
+      this.storage.get('id').then(idUsuario => {
+        if(idUsuario!=null)
+        this.navCtrl.setRoot(HomePage);},
+      error =>{
+  
+      }
+  
+      );
+
     });
+  });
+    
   
   }
 
@@ -99,7 +106,7 @@ export class LoginPage {
         this.facebook.logout();
       }
       this.facebook.login(['email','public_profile']).then((resultPositivoFacebook: FacebookLoginResponse) => {
-        this.facebook.api('me?fields=id,email,first_name,last_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+        this.facebook.api('me?fields=id,email,first_name,last_name', []).then(profile => {
           this.userData = {
             correo: profile['email'], nombre: profile['first_name'],
             apellido: profile['last_name']
@@ -108,6 +115,7 @@ export class LoginPage {
             .then(data => {
               this.loading.dismiss();
               if (data == 0 || data == -1) {
+                this.facebook.logout();
                 this.realizarToast('Error con los datos de Facebook');
               }
               else {
