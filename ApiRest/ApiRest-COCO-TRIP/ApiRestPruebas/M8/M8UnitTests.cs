@@ -29,9 +29,9 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaAgregarLocalidadEvento()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento("Sambil", "Lugar familiar y pasarla bien con amigos y pareja se hacen conciertos y eventos infantiles",
+      LocalidadEvento localidadEvento = new LocalidadEvento("CCCT", "Lugar familiar y pasarla bien con amigos y pareja se hacen conciertos y eventos infantiles",
         "Chacao, Venezuela");
-      Assert.AreEqual(controlador.AgregarLocalidadEvento(localidadEvento), 5);
+      Assert.AreEqual(controlador.AgregarLocalidadEvento(localidadEvento), 4);
     }
     /**
      * <summary>Casos de borde cuando falta algun parametro o todos los parametros
@@ -143,11 +143,9 @@ namespace ApiRestPruebas.M8
      [Test]
      public void PruebaListaLocalidades()
     {
-      int id = 1;
-      String nombre = "USA";
-      LocalidadEvento localidadEvento = new LocalidadEvento(nombre, "Europa", "Europa");
-      Assert.AreEqual(controlador.ListaLocalidadEventos().ElementAt(0).Id, id);
-//      Assert.AreEqual(controlador.ListaLocalidadEventos().First().Id, id);
+      
+      Assert.AreEqual(controlador.ListaLocalidadEventos().Count, 1);
+
     }
     
   }
