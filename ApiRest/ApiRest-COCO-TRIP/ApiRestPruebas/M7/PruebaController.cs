@@ -133,9 +133,6 @@ namespace ApiRestPruebas.M7
       lugar.Foto.Add(foto);
       lugar.Horario.Add(horario);
 
-      string x = Newtonsoft.Json.JsonConvert.SerializeObject(lugar);
-      string y = Newtonsoft.Json.JsonConvert.SerializeObject(controlador.GetLugar(lugar.Id));
-
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugar(lugar.Id)));
     }
 
