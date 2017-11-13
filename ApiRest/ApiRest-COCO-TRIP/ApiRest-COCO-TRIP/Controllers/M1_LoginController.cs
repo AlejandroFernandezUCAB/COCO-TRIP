@@ -10,8 +10,9 @@ using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Web.Http.Cors;
-using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -260,6 +261,28 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
      }
+    public List<LugarTuristicoPreferencia> LugarTuristicoSegunPreferencias(int idUsuario) {
+      List<LugarTuristicoPreferencia> ltp = new List<LugarTuristicoPreferencia>();
+      
+      try
+      {
+        peticion = new PeticionLogin();
+        ltp = peticion.ConsultarLugarTuristicoSegunPreferencias(idUsuario);
+        return ltp;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+
+
+    }
+  }
 
   }
-}
+
