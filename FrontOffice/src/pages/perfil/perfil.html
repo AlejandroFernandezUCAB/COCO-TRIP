@@ -36,7 +36,7 @@
       <ion-icon name="md-settings"></ion-icon>
       {{ 'Configuración' | translate }}
     </button>
-    <button [navPush]="deleteAccount" ion-item>
+    <button [navPush]="deleteAccount" [navParams]="usuario.NombreUsuario" ion-item>
       <ion-icon name="md-trash"></ion-icon>
       {{ 'Borrar Cuenta' | translate }}
     </button>

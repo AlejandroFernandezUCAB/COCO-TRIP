@@ -235,6 +235,24 @@ export class RestapiService {
       });
     });
    }
+
+   borrarUser(username, passwordAct){
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + username
+       +"&password=" + passwordAct ,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
   
 /**
  * [MODULO3]
