@@ -99,7 +99,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       ModelState.Remove("UpperCategories");
       if (ModelState.IsValid)
       {
-        //categories.UpperCategories = new Categories() { Id = Int32.Parse(Request["categoria superior"]) };
+        categories.UpperCategories = Int32.Parse(Request["Mover a la categoria"]) ;
         return RedirectToAction("Index");
       }
 
