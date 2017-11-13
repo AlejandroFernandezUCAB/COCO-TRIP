@@ -138,7 +138,7 @@ export class EventosCalendarioService {
       for (let i= 0 ; i < this._itis.length; i++){
         if (this._itis[i].Visible == true){
           for (let j =0;  j< this._itis[i].Items_agenda.length; j++)
-          { console.log(this._itis[i].Items_agenda[j].Nombre)
+          { 
             this._daysConfig.push({
               date: new Date(this._itis[i].Items_agenda[j].FechaInicio),
               subTitle: '*',
@@ -147,8 +147,6 @@ export class EventosCalendarioService {
           }
         }
       }
-      console.log("perra");
-      console.log(this._daysConfig);
     return this._daysConfig;
   }
 
@@ -164,22 +162,10 @@ export class EventosCalendarioService {
     return this._notificaciones;
   }
 
-  public updateItinerarioVisible(visible){
-    let up_itinerario = Array();
-    this._itinerarios.forEach(iti => {
-      if (iti.id == visible.id){
-       iti.visible = visible.visible;
-      }
-    })
-    console.log(this._itinerarios);
-    return true;
-  }
-
   public consultarItinerarios(id_usuario){
     this.http.loadItinerarios(id_usuario)
     .then(data => {
       this._itis = data;
-      console.log(this._itis);
     });
   }
 

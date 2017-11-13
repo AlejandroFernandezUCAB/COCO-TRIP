@@ -37,7 +37,7 @@
     </ion-item>
     <ion-item *ngFor="let itinerario of _itinerarios">
       <ion-label><small>{{itinerario.Nombre}}</small></ion-label>
-     <ion-toggle [(ngModel)]="itinerario.visible" (ionChange)="updateVisible(itinerario)" color="primary"></ion-toggle>
+     <ion-toggle [(ngModel)]="itinerario.Visible" (ionChange)="updateVisible(itinerario)" color="primary"></ion-toggle>
     </ion-item>
   </ion-item-group>
 </ion-list>

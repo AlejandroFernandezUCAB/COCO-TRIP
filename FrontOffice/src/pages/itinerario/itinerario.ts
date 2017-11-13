@@ -168,8 +168,8 @@ export class ItinerarioPage {
                     this.realizarToast('No se pudo agregar el itinerario. Por favor intente mas tarde :(');
                   }else{
                     this.loading.dismiss();
-                    console.log("yuxz");
                     let datos = data;
+                    console.log(datos);
                     this.its.push({
                       Nombre: name,
                       Items_agenda: Array()
@@ -204,8 +204,16 @@ export class ItinerarioPage {
       {
         text: 'Aceptar',
         handler: () => {
-          this.eliminarItinerario(idit, index);
-          this.httpc.eliminarItinerario(idit);
+          this.presentLoading();
+          this.httpc.eliminarItinerario(idit).then(data => {
+            if (data==0 || data==-1){
+              this.loading.dismiss();
+              console.log("hubo un error");
+            }else{
+              this.loading.dismiss();
+              this.eliminarItinerario(idit, index);
+            }
+          });
           }
         }
       ]
@@ -228,9 +236,17 @@ export class ItinerarioPage {
     {
       text: 'Aceptar',
       handler: () => {
-        this.eliminarItem(id_itinerario, id_evento, index);
+        this.presentLoading();
         let tipo=this.getTipoItem(id_evento);
-        this.httpc.eliminarItem(tipo,id_itinerario, id_evento);
+        this.httpc.eliminarItem(tipo,id_itinerario, id_evento).then(data=>{
+          if (data==0 || data==-1){
+            this.loading.dismiss();
+            console.log("ERROR:: no se pudo eliminar el item");
+          }else {
+            this.loading.dismiss();
+            this.eliminarItem(id_itinerario, id_evento, index);
+          }
+        });
           }
         }
       ]
