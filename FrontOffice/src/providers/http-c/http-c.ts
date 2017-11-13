@@ -88,6 +88,17 @@ eliminarItem(tipo,idit, iditem){
   });
 }
 
+NotificacionUsuario(id_usuario)
+{
+  let params = new HttpParams().set("id_usuario", id_usuario);
+  return new Promise((resolve, reject) => {
+    this.http.get(this.apiUrl+'/M5/NotificacionCorreo', { params: params })
+    .subscribe(data => resolve(data),
+      err => resolve(-1)
+    );
+  });
+}
+
 verItem(id, tipo)
 { let item;
   if (tipo=='Lugar Turistico'){
