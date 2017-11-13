@@ -201,7 +201,48 @@ namespace ApiRest_COCO_TRIP
 
       return listaCategorias;
     }
-  
 
-  }
+
+    public void ModificarCategoria(Categoria categoria)
+        {
+
+            int exitoso = 0;
+            try
+            {
+
+                conexion.Conectar();
+                conexion.Comando = conexion.SqlConexion.CreateCommand();
+                conexion.Comando.CommandText = "m9_ModificarCategoria";
+                conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+
+                exitoso = conexion.Comando.ExecuteNonQuery();
+
+
+            }
+            catch (NpgsqlException ex)
+            {
+                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+                {
+                    DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior} ",
+                    Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
+                };
+                throw bdException;
+
+            }
+            finally
+            {
+                conexion.Desconectar();
+
+            }
+        }
+
+    }
+
+   
+
 }
