@@ -1,4 +1,4 @@
-﻿
+
 
 /**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
@@ -923,9 +923,16 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
   CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date)
     RETURNS boolean AS
     $BODY$
+    DECLARE 
+    i integer;
     BEGIN
+    SELECT ag_idEvento FROM Agenda WHERE (idevento=ag_idEvento) into i;
+    IF i is null THEN
       INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idEvento) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idevento);
       return true;
+    ELSE
+    return false;
+    END IF;
     END;
     $BODY$
     LANGUAGE plpgsql VOLATILE
@@ -935,9 +942,16 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
     CREATE OR REPLACE FUNCTION add_actividad_it(idactividad integer, iditinerario integer,fechaini date, fechafin date)
     RETURNS boolean AS
 	$BODY$
+    DECLARE
+    i integer;
     BEGIN
+    SELECT ag_idActividad FROM Agenda WHERE (idactividad=ag_idActividad) AND (iditinerario=ag_idItinerario) into i;
+    IF i is null THEN
       INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idActividad) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idactividad);
       return true;
+    ELSE
+    return false;
+    END IF;
     END;
 	$BODY$
     LANGUAGE plpgsql  VOLATILE
@@ -947,9 +961,16 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
     CREATE OR REPLACE FUNCTION add_lugar_it(idlugar integer, iditinerario integer, fechaini date, fechafin date)
     RETURNS boolean AS
 	$BODY$
+    DECLARE
+    i integer;
     BEGIN
+    SELECT ag_idLugarTuristico FROM Agenda WHERE (idlugar=ag_idLugarTuristico) AND (iditinerario=ag_idItinerario) into i;
+    IF i is null THEN
       INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin,ag_idLugarTuristico) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idlugar);
       return true;
+    ELSE
+    return false;
+    END IF;
     END;
 	$BODY$
     LANGUAGE plpgsql  VOLATILE
