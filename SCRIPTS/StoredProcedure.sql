@@ -102,12 +102,13 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto varchar)
+   foto varchar,
+   password varchar)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto, us_password
 	FROM usuario
 	WHERE us_email=_correo;
 END;
