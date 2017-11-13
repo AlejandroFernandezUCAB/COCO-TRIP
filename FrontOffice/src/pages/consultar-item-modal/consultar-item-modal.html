@@ -50,8 +50,11 @@
         <ion-label>{{horario.HoraCierre}}</ion-label>
       </ion-item>
     </div>
-    <ion-item text-wrap *ngIf="(evento.Tipo=='Lugar Turistico' || evento.Tipo=='Evento')" text-justify>
+    <ion-item text-wrap *ngIf="(evento.Tipo=='Lugar Turistico')" text-justify>
       <ion-label><p>Costo:</p> {{evento1.Costo}}</ion-label>
+    </ion-item>
+    <ion-item text-wrap *ngIf="(evento.Tipo=='Evento')" text-justify>
+      <ion-label><p>Costo:</p> {{evento1.Precio}}</ion-label>
     </ion-item>
     <ion-item text-wrap *ngIf="(evento.Tipo=='Actividad')" text-justify>
       <ion-label><p>Duración:</p> {{evento1.Duracion}}</ion-label>

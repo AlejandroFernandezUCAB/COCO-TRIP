@@ -28,7 +28,7 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     private string descripcion;
-
+ 
     [JsonProperty(PropertyName = "descripcion")]
     public string Descripcion
     {

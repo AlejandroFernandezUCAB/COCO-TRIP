@@ -29,6 +29,8 @@ export class ConsultarItemModalPage {
   {
     this.evento= this.navParams.get('evento');
     this.evento1=this.navParams.get('evento1');
+    console.log(this.evento1);
+    console.log("evento1");
     this.itinerario = this.navParams.get('itinerario');
     this.fotos = Array();
     if (this.evento1.Foto.length != 0){
