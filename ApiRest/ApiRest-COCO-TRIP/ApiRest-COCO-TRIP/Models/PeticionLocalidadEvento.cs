@@ -112,6 +112,30 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return localidad;
     }
+
+    public LocalidadEvento ConsultarLocalidadEventoPorNombre(string nombre)
+    {
+      LocalidadEvento localidad = new LocalidadEvento();
+      try
+      {
+        comando = new NpgsqlCommand("ConsultarLocalidadPorNombre", conexion.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombre);
+        read = comando.ExecuteReader();
+        read.Read();
+        localidad.Id = read.GetInt32(0);
+        localidad.Nombre = read.GetString(1);
+        localidad.Descripcion = read.GetString(2);
+        localidad.Coordenadas = read.GetString(3);
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      return localidad;
+    }
     /**
      * <summary>Metodo para listar todas las localidades de la base de datos</summary>
      * **/

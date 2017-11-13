@@ -14,7 +14,7 @@ namespace ApiRest_COCO_TRIP.Models
     private string apellido;
     private string genero;
     private DateTime fechaNacimiento;
-    private byte[] foto;
+    private string foto;
     private string clave;
     private Boolean valido;
     private List<Categoria> preferencias;
@@ -35,11 +35,11 @@ namespace ApiRest_COCO_TRIP.Models
     public string Apellido { get => apellido; set => apellido = value; }
     public string Genero { get => genero; set => genero = value; }
     public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
-    public byte[] Foto { get => foto; set => foto = value; }
     public string Clave { get => clave; set => clave = value; }
     public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
     public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
     public bool Valido { get => valido; set => valido = value; }
+    public string Foto { get => foto; set => foto = value; }
 
     /// <summary>
     /// Metodo que agrega a la lista de categoria (Es decir agrega una preferencia) una nueva categoría

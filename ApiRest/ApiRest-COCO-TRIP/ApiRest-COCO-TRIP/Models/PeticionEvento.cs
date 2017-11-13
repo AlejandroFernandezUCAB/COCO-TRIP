@@ -9,12 +9,17 @@ using System.Reflection;
 
 namespace ApiRest_COCO_TRIP.Models
 {
+  /**
+  * <summary>Clase que recibe todas las peticiones relacionadas a eventos</summary>
+  **/
   public class PeticionEvento
   {
     private  ConexionBase conexion;
     private  NpgsqlDataReader read;
     private  NpgsqlCommand comando;
-
+    /**
+     * <summary>Contructor de la clase</summary>
+     * */
     public PeticionEvento()
     {
             try
@@ -38,17 +43,18 @@ namespace ApiRest_COCO_TRIP.Models
             int respuesta = -1;
             try
             {
-
-                comando = new NpgsqlCommand("InsertarEvento", conexion.SqlConexion);
+        
+        
+            comando = new NpgsqlCommand("InsertarEvento", conexion.SqlConexion);
                 comando.CommandType = CommandType.StoredProcedure;
                 //Aqui registro los valores
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Nombre);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Descripcion);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Double, evento.Precio);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, evento.FechaInicio);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, evento.FechaFin);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.HoraInicio);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.HoraFin);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.Precio);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.FechaInicio);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.FechaFin);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraInicio.Hour+":"+evento.HoraInicio.Minute+"00");
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraFin.Hour + ":" + evento.HoraFin.Minute + "00");
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Foto);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdCategoria);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdLocalidad);
@@ -65,25 +71,139 @@ namespace ApiRest_COCO_TRIP.Models
             return respuesta;
            
     }
-
-    internal static bool EliminarEvento(int v, int id)
+    /**
+     * <summary>Metodo que retorna la Lista de eventos por un id de categoria dada</summary>
+     * <params name="id_categoria">Id de la categria</params>
+     * <returns>La lista de eventos
+     * </returns>
+     */
+    public List<Evento> ListaEventosPorCategoria(int id_categoria)
     {
-      throw new NotImplementedException();
+      List<Evento> list = new List<Evento>();
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      //PeticionCategoria peticionCategoria = new PeticionCategoria();
+      try
+      {
+        comando = new NpgsqlCommand("ConsultarEventosPorId", conexion.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer,id_categoria);
+        read = comando.ExecuteReader();
+        while (read.Read())
+        {
+          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(11));
+          //Categoria categoria = peticionCategoria.ObtenerCategorias
+          Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
+            read.GetDateTime(6), read.GetDateTime(7), read.GetString(8), localidad.Id);
+          list.Add(evento);
+        }
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      return list;
     }
-
-    internal static Evento ConsultarEvento(int id)
+    /**
+     * <summary>Metodo que muestra info de un evento dado su id</summary>
+     * <params name="id">id del evento</params>
+     * <returns>El evento solicitado</returns>
+     * */
+    public Evento ConsultarEvento(int id)
     {
-      throw new NotImplementedException();
+      Evento evento = new Evento();
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      try
+      {
+        comando = new NpgsqlCommand("ConsultarEventoPorIdEvento", conexion.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
+        read = comando.ExecuteReader();
+        read.Read();
+        evento.Id = read.GetInt32(0);
+        evento.Nombre = read.GetString(1);
+        evento.Descripcion = read.GetString(2);
+        evento.Precio = read.GetInt64(3);
+        evento.FechaInicio = read.GetDateTime(4);
+        evento.FechaFin = read.GetDateTime(5);
+            DateTime horaInicio = new DateTime();
+            horaInicio.AddHours(read.GetTimeSpan(6).Hours);
+            horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
+        evento.HoraInicio = horaInicio;
+            DateTime horaFin = new DateTime();
+            horaFin.AddHours(read.GetTimeSpan(7).Hours);
+            horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
+        evento.HoraFin = horaFin;
+        evento.Foto = read.GetString(8);
+        //evento.IdCategoria = read.GetString(9);
+        evento.IdLocalidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10)).Id;
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      return evento;
     }
-
-    internal static bool EliminarEvento(int id)
+    /**
+     * <summary>Metodo que elimina un evento segun su id</summary>
+     * <paramas name="id">id de evento que se quiere eliminar</paramas>
+     * <return>True si se elimino y false en caso contrario </return>
+     * */
+    public bool EliminarEvento(int id)
     {
-      throw new NotImplementedException();
+      Boolean respuesta = false;
+      try
+      {
+        comando = new NpgsqlCommand("EliminarEventoPorId", conexion.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
+        read = comando.ExecuteReader();
+        read.Read();
+        respuesta = read.GetBoolean(0);
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      return respuesta;
     }
-
-    internal static List<Evento> ListaEventosPorCategoria(int id_categoria)
+    /**
+     * <summary>Lista de eventos dado una fecha</summary>
+     * <params name=fecha>fecha</params>
+     * <returns>Retorna la informacion de todos los eventos a partir de esa fecha</returns>
+     * */
+    public List<Evento> ListaEventosPorFecha(DateTime fecha)
     {
-      throw new NotImplementedException();
+      List<Evento> list = new List<Evento>();
+      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+      //PeticionCategoria peticionCategoria = new PeticionCategoria();
+      try
+      {
+        comando = new NpgsqlCommand("ConsultarEventosPorFecha", conexion.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date);
+        read = comando.ExecuteReader();
+        while (read.Read())
+        {
+          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(11));
+          //Categoria categoria = peticionCategoria.ObtenerCategorias
+          Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3),read.GetDateTime(4), read.GetDateTime(5),
+            read.GetDateTime(6), read.GetDateTime(7), read.GetString(8),localidad.Id);
+          list.Add(evento);
+        }
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      return list;
     }
   }
 }

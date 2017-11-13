@@ -60,9 +60,10 @@ export class BuscarAmigoPage {
     }*/
 
  
-  Visualizarpublico(){
-    
-        this.navCtrl.push(VisualizarPerfilPublicoPage);
+  Visualizarpublico(nombre){
+        this.navCtrl.push(VisualizarPerfilPublicoPage,{
+          nombreUsuario : nombre
+        });
       }
 
   doConfirm() {

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
-
 /**
  * Generated class for the DetalleGrupoPage page.
  *
@@ -17,6 +16,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 export class DetalleGrupoPage {
   grupo:any;
   miembro:any;
+  idGrupo: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public restapiService: RestapiService) {
@@ -24,7 +24,8 @@ export class DetalleGrupoPage {
   }
 
   ionViewWillEnter() {
-    this.restapiService.verperfilGrupo(2)
+    this.idGrupo = this.navParams.get('idGrupo');
+      this.restapiService.verperfilGrupo(this.idGrupo)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -32,14 +33,15 @@ export class DetalleGrupoPage {
         }
         else {
           this.grupo = data;
-          this.cargarmiembros();
+          this.cargarmiembros(this.idGrupo);
         }
 
       });
+ 
   }
 
-  cargarmiembros(){
-    this.restapiService.listamiembroGrupo(1)
+  cargarmiembros(id){
+    this.restapiService.listamiembroGrupo(id)
     .then(data => {
       if (data == 0 || data == -1) {
         console.log("DIO ERROR PORQUE ENTRO EN EL IF");

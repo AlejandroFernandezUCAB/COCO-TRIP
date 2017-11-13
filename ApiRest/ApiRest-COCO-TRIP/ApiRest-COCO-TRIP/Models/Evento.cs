@@ -99,13 +99,40 @@ namespace ApiRest_COCO_TRIP.Models
             this.idLocalidad = 0;
             this.idCategoria = 0;
         }
+    /// <summary>
+    /// Constructor de la clase evento sin categoria.
+    /// </summary>
+    /// <param name="id">Identificador unico del evento.</param>
+    /// <param name="nombre">Nombre del evento.</param>
+    /// <param name="descripcion">Descripcion del evento.</param>
+    /// <param name="precio">Precio del evento.</param>
+    /// <param name="fechaInicio">Fecha en la que inicia el evento.</param>
+    /// <param name="fechaFin">Fecha en la que termina el evento.</param>
+    /// <param name="horaInicio">Hora en la que empieza el evento.</param>
+    /// <param name="horaFin">hora en la que termina el evento.</param>
+    /// <param name="foto">Foto referencial del evento.</param>
+    /// <param name="idLocalidad">Id unico que representa la localidad del evento.</param>
+    public Evento(int id, string nombre, string descripcion, double precio, DateTime fechaInicio, DateTime fechaFin, DateTime horaInicio, DateTime horaFin, string foto, int idLocalidad) : this(id, nombre)
+    {
+      this.descripcion = descripcion;
+      this.precio = precio;
+      this.fechaInicio = fechaInicio;
+      this.fechaFin = fechaFin;
+      this.horaInicio = horaInicio;
+      this.horaFin = horaFin;
+      this.foto = foto;
+      this.idLocalidad = idLocalidad;
+    }
 
-        /// <summary>
-        /// Compara si dos objetos del tipo "Evento" son iguales.
-        /// </summary>
-        /// <param name="obj">Objeto del tipo evento con el que se desea comparar.</param>
-        /// <returns>En caso de ser iguales devuelve "true", en caso contrario "false"</returns>
-        public override bool Equals(object obj)
+
+
+
+    /// <summary>
+    /// Compara si dos objetos del tipo "Evento" son iguales.
+    /// </summary>
+    /// <param name="obj">Objeto del tipo evento con el que se desea comparar.</param>
+    /// <returns>En caso de ser iguales devuelve "true", en caso contrario "false"</returns>
+    public override bool Equals(object obj)
         {
             return base.Equals(obj);
         }
