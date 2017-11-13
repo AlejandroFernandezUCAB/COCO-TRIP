@@ -30,6 +30,7 @@ namespace ApiRest_COCO_TRIP.Models
             catch (BaseDeDatosExcepcion e)
             {
                 e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        e.Mensaje = "Problema al abrir conexion con base de datos en Peticiones de eventos";
                 throw e;
             }
         }
@@ -66,6 +67,7 @@ namespace ApiRest_COCO_TRIP.Models
             catch (BaseDeDatosExcepcion e)
             {
                 e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+                e.Mensaje = "Problemas en la base de datos, en Insertar Evento";
                 throw e;
             }
             return respuesta;
@@ -80,7 +82,7 @@ namespace ApiRest_COCO_TRIP.Models
     public List<Evento> ListaEventosPorCategoria(int id_categoria)
     {
       List<Evento> list = new List<Evento>();
-      //PeticionCategoria peticionCategoria = new PeticionCategoria();
+      
       try
       {
         comando = new NpgsqlCommand("ConsultarEventoPorIdCategoria", conexion.SqlConexion);
@@ -89,9 +91,18 @@ namespace ApiRest_COCO_TRIP.Models
         read = comando.ExecuteReader();
         while (read.Read())
         {
+
+
+          //Creo un objeto de tipo categoria con un solo atributo nombre
+          //y Busco el id de la categoria
+          Categoria categoriaNombre = new Categoria();
+          categoriaNombre.Nombre = read.GetString(9);
+          PeticionCategoria peticionCategoria = new PeticionCategoria();
           PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+          //Con el nmbre de la localidad busco el id de la misma 
           LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10));
-          //Categoria categoria = peticionCategoria.ObtenerCategorias
+           Categoria categoria = peticionCategoria.ObtenerIdCategoriaPorNombre(categoriaNombre);
+          //Creo variables de tipo hora para armarlas
           DateTime horaInicio = new DateTime();
           horaInicio.AddHours(read.GetTimeSpan(6).Hours);
           horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
@@ -101,7 +112,7 @@ namespace ApiRest_COCO_TRIP.Models
           horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
 
           Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
-            horaInicio, horaFin, read.GetString(8), localidad.Id);
+            horaInicio, horaFin, read.GetString(8),categoria.Id,localidad.Id);
           list.Add(evento);
         }
         conexion.Desconectar();
@@ -109,6 +120,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        e.Mensaje = "Problemas en la base de datos, en ListaEventosPorCategoria";
         throw e;
       }
       return list;
@@ -129,6 +141,13 @@ namespace ApiRest_COCO_TRIP.Models
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
         read = comando.ExecuteReader();
         read.Read();
+        //Creo un objeto de tipo categoria con un solo atributo nombre
+        //y Busco el id de la categoria
+        Categoria categoriaNombre = new Categoria();
+        categoriaNombre.Nombre = read.GetString(9);
+        PeticionCategoria peticionCategoria = new PeticionCategoria();
+        Categoria categoria = peticionCategoria.ObtenerIdCategoriaPorNombre(categoriaNombre);
+
         evento.Id = read.GetInt32(0);
         evento.Nombre = read.GetString(1);
         evento.Descripcion = read.GetString(2);
@@ -144,13 +163,15 @@ namespace ApiRest_COCO_TRIP.Models
             horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
         evento.HoraFin = horaFin;
         evento.Foto = read.GetString(8);
-        //evento.IdCategoria = read.GetString(9);
+        evento.IdCategoria = categoria.Id;
         evento.IdLocalidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10)).Id;
         conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        e.Mensaje = "Problemas en la base de datos, en ConsultarEvento";
+
         throw e;
       }
       return evento;
@@ -176,6 +197,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        e.Mensaje = "Problemas en la base de datos, en Eliminar Evento por iD";
         throw e;
       }
       return respuesta;
@@ -188,7 +210,7 @@ namespace ApiRest_COCO_TRIP.Models
     public List<Evento> ListaEventosPorFecha(DateTime fecha)
     {
       List<Evento> list = new List<Evento>();
-      //PeticionCategoria peticionCategoria = new PeticionCategoria();
+      
       try
       {
         comando = new NpgsqlCommand("ConsultarEventosPorFecha", conexion.SqlConexion);
@@ -197,9 +219,15 @@ namespace ApiRest_COCO_TRIP.Models
         read = comando.ExecuteReader();
         while (read.Read())
         {
+          //Creo un objeto de tipo categoria con un solo atributo nombre
+          //y Busco el id de la categoria
+          Categoria categoriaNombre = new Categoria();
+          categoriaNombre.Nombre = read.GetString(9);
+          PeticionCategoria peticionCategoria = new PeticionCategoria();
+          Categoria categoria = peticionCategoria.ObtenerIdCategoriaPorNombre(categoriaNombre);
+
           PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
           LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10));
-
           DateTime horaInicio = new DateTime();
           horaInicio.AddHours(read.GetTimeSpan(6).Hours);
           horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
@@ -210,7 +238,7 @@ namespace ApiRest_COCO_TRIP.Models
           
           //Categoria categoria = peticionCategoria.ObtenerCategorias
           Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3),read.GetDateTime(4), read.GetDateTime(5),
-            horaInicio,horaFin, read.GetString(8),localidad.Id);
+            horaInicio,horaFin, read.GetString(8),categoria.Id,localidad.Id);
           list.Add(evento);
         }
         conexion.Desconectar();
@@ -218,6 +246,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        e.Mensaje = "Problemas en la base de datos, en ConsultarEventosPorFecha";
         throw e;
       }
       return list;
