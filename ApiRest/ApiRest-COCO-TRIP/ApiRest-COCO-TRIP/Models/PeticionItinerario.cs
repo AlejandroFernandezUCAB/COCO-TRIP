@@ -151,15 +151,26 @@ namespace ApiRest_COCO_TRIP.Models
         /// <param name="it">itinerario al cual se le agrega el lugar turistico</param>
         /// <param name="lt">lugar turistico a agregar en el itinerario</param>
         /// <returns>true si se agrego el lugar turistico exitosamente, false en caso de error</returns>
-        public Boolean AgregarLugar_It(int idit, int idlt,DateTime fechaini, DateTime fechafin)
+        public Boolean AgregarItem_It(string tipo, int idit, int iditem,DateTime fechaini, DateTime fechafin)
         {
           try
           {
             con = new ConexionBase();
             con.Conectar();
-            comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+            if (tipo == "Lugar Turistico")
+            {
+              comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+            }
+            if (tipo == "Actividad")
+            {
+              comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
+            }
+            if (tipo == "Evento")
+            {
+              comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
+            }
             comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idlt);
+            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditem);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechaini);
             comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
@@ -174,64 +185,6 @@ namespace ApiRest_COCO_TRIP.Models
             throw e;
           }
         }
-
-        /// <summary>
-        /// Metodo que agrega una actividad existente a un itinerario existente
-        /// </summary>
-        /// <param name="it">itinerario al cual se le agrega la actividad</param>
-        /// <param name="ac">actividad a agregar en el itinerario</param>
-        /// <returns>true si se agrego la actividad exitosamente, false en caso de error</returns>
-        public Boolean AgregarActividad_It(int idit, int idac,DateTime fechaini, DateTime fechafin)
-    {
-          try
-          {
-            con = new ConexionBase();
-            con.Conectar();
-            comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idac);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idit);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechaini);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
-            pgread = comm.ExecuteReader();
-            pgread.Read();
-            Boolean resp = pgread.GetBoolean(0);
-            con.Desconectar();
-            return resp;
-          }
-          catch (NpgsqlException e)
-          {
-            throw e;
-          }
-        }
-
-        /// <summary>
-        /// Metodo que agrega un evento existente a un itinerario existente
-        /// </summary>
-        /// <param name="it">itinerario al cual se le agrega el evento</param>
-        /// <param name="ev">evento a agregar en el itinerario</param>
-        /// <returns>true si se agrego el evento exitosamente, false en caso de error</returns>
-     /* public Boolean AgregarEvento_It(Itinerario it,Evento ev)
-        {
-          try
-          {
-            ConexionBase con = new ConexionBase();
-            con.Conectar();
-            NpgsqlCommand comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, ev.Ev_id);
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, it.Id);
-            NpgsqlDataReader pgread = comm.ExecuteReader();
-            pgread.Read();
-            Boolean resp = pgread.GetBoolean(0);
-            con.Desconectar();
-            return resp;
-          }
-          catch (NpgsqlException e)
-          {
-            return false;
-          }
-        }*/
 
         /// <summary>returns
         /// Metodo que agrega en la base de datos un nuevo itinerario
@@ -295,6 +248,7 @@ namespace ApiRest_COCO_TRIP.Models
             }
             catch (NpgsqlException e)
             {
+              con.Desconectar();
               throw e;
             }
 

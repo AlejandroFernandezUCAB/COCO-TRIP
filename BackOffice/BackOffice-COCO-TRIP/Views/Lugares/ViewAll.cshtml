@@ -102,7 +102,7 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="fa fa-circle" aria-hidden="true"></i>
+              <i id="status-one" class="fa fa-circle active" aria-hidden="true" onclick="cambiarEstado(id);"></i>
             </li>
           </ul>
         </div>
@@ -207,7 +207,7 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="fa fa-circle" aria-hidden="true"></i>
+              <i id="status-two" class="fa fa-circle inactive" aria-hidden="true" onclick="cambiarEstado(id);"></i>
             </li>
           </ul>
         </div>
@@ -313,7 +313,7 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="fa fa-circle" aria-hidden="true"></i>
+              <i id="status-three" class="fa fa-circle inactive" aria-hidden="true" onclick="cambiarEstado(id);"></i>
             </li>
           </ul>
         </div>
@@ -422,7 +422,7 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="fa fa-circle" aria-hidden="true"></i>
+              <i id="status-four" class="fa fa-circle inactive" aria-hidden="true" onclick="cambiarEstado(id);"></i>
             </li>
           </ul>
         </div>
@@ -527,7 +527,7 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="fa fa-circle" aria-hidden="true"></i>
+              <i id="status-five" class="fa fa-circle active" aria-hidden="true" onclick="cambiarEstado(id);"></i>
             </li>
           </ul>
         </div>
@@ -633,7 +633,7 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="fa fa-circle" aria-hidden="true"></i>
+              <i id="status-six" class="fa fa-circle inactive" aria-hidden="true" onclick="cambiarEstado(id);"></i>
             </li>
           </ul>
         </div>
@@ -668,3 +668,7 @@
     </nav>
   </div>
 </div>
+
+@section scripts {
+  @Scripts.Render("~/bundles/Lugares_change-statusJS")
+}

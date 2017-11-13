@@ -10,7 +10,17 @@ namespace ApiRest_COCO_TRIP.Models
   /// </summary>
   public class Archivo
   {
-    private string ruta; //Ruta del servidor donde se almacenan las fotos
+    private string rutaCompleta; //Ruta del servidor donde se almacenan las fotos
+    private string ruta; //Ruta que se almacenara en la base de datos
+
+    /// <summary>
+    /// Getter y setter del atributo RutaCompleta
+    /// </summary>
+    public string RutaCompleta
+    {
+      get { return rutaCompleta; }
+      set { rutaCompleta = value; }
+    }
 
     /// <summary>
     /// Getter y setter del atributo Ruta
@@ -26,7 +36,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     public Archivo()
     {
-      ruta = Directory.GetCurrentDirectory() + "/Images/";
+      ruta = "/Images/";
+      rutaCompleta = Directory.GetCurrentDirectory() + "/Images/";
     }
 
     /// <summary>
@@ -40,7 +51,7 @@ namespace ApiRest_COCO_TRIP.Models
     {
       try
       {
-        File.WriteAllBytes(ruta + nombreArchivo, contenido);
+        File.WriteAllBytes(rutaCompleta + nombreArchivo, contenido);
       }
       catch(ArgumentNullException e )
       {
@@ -50,7 +61,7 @@ namespace ApiRest_COCO_TRIP.Models
         var excepcion = new ArchivoExcepcion(e);
         excepcion.NombreArchivo = nombreArchivo;
         excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-        excepcion.Ruta = ruta;
+        excepcion.Ruta = rutaCompleta;
 
         throw excepcion;
       }
@@ -62,7 +73,7 @@ namespace ApiRest_COCO_TRIP.Models
         var excepcion = new ArchivoExcepcion(e);
         excepcion.NombreArchivo = nombreArchivo;
         excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-        excepcion.Ruta = ruta;
+        excepcion.Ruta = rutaCompleta;
 
         throw excepcion;
       }
@@ -74,7 +85,7 @@ namespace ApiRest_COCO_TRIP.Models
         var excepcion = new ArchivoExcepcion(e);
         excepcion.NombreArchivo = nombreArchivo;
         excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-        excepcion.Ruta = ruta;
+        excepcion.Ruta = rutaCompleta;
 
         throw excepcion;
       }
@@ -89,7 +100,7 @@ namespace ApiRest_COCO_TRIP.Models
     {
       try
       {
-        File.Delete(ruta + nombreArchivo);
+        File.Delete(rutaCompleta + nombreArchivo);
       }
       catch (ArgumentNullException e)
       {
@@ -99,7 +110,7 @@ namespace ApiRest_COCO_TRIP.Models
         var excepcion = new ArchivoExcepcion(e);
         excepcion.NombreArchivo = nombreArchivo;
         excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-        excepcion.Ruta = ruta;
+        excepcion.Ruta = rutaCompleta;
 
         throw excepcion;
       }
@@ -111,7 +122,7 @@ namespace ApiRest_COCO_TRIP.Models
         var excepcion = new ArchivoExcepcion(e);
         excepcion.NombreArchivo = nombreArchivo;
         excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-        excepcion.Ruta = ruta;
+        excepcion.Ruta = rutaCompleta;
 
         throw excepcion;
       }
@@ -123,7 +134,7 @@ namespace ApiRest_COCO_TRIP.Models
         var excepcion = new ArchivoExcepcion(e);
         excepcion.NombreArchivo = nombreArchivo;
         excepcion.NombreMetodo = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-        excepcion.Ruta = ruta;
+        excepcion.Ruta = rutaCompleta;
 
         throw excepcion;
       }

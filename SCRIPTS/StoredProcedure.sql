@@ -32,14 +32,13 @@ $$ LANGUAGE plpgsql;
 -- Inserta el usuario con los datos de Facebook
 -- Devuelve el id del usuario
 CREATE OR REPLACE FUNCTION InsertarUsuarioFacebook
-(_nombre VARCHAR(30), _apellido VARCHAR(30), _fechaNacimiento date, _correo VARCHAR(30),
- _foto bytea)
+(_nombre VARCHAR(30), _apellido VARCHAR(30), _correo VARCHAR(30))
 RETURNS integer AS
 $$
 BEGIN
 
-   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_fechanacimiento, us_email, us_foto, us_validacion) VALUES
-    (nextval('seq_Usuario'), _nombre, _apellido, _fechaNacimiento, _correo, _foto, false);
+   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_email, us_validacion) VALUES
+    (nextval('seq_Usuario'), _nombre, _apellido, _correo, false);
 
    RETURN currval('seq_Usuario');
 
@@ -167,6 +166,48 @@ BEGIN
   us_password
 	FROM usuario WHERE us_email = _correo AND us_validacion=true;
 
+END;
+$$ LANGUAGE plpgsql;
+--Consulta los lugares turisticos segun las preferencias del usuario
+--se le da un id y retorna lista con lugares turisticos
+CREATE OR REPLACE FUNCTION BuscarLugarTuristicoSegunPreferencias ( _idUsuario int)
+RETURNS TABLE( 
+  nombre VARCHAR,
+  costo  DECIMAL,
+  descripcion VARCHAR,
+  direccion VARCHAR,
+  ca_nombre VARCHAR	
+) AS $$
+BEGIN
+  RETURN QUERY 
+	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,ca_nombre
+	FROM usuario, preferencia, categoria, lugar_turistico
+	WHERE 
+	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (lu_categoria= ca_id);
+END;
+$$ LANGUAGE plpgsql;
+
+--Consulta los eventos que van a ocurrir segun las preferencias del usuario
+--se le da un id y la fecha actual (del sistema por ejemplo) retorna lista con los eventos
+CREATE OR REPLACE FUNCTION BuscarEventoSegunPreferencias( _idUsuario int, _fechaActual date)
+RETURNS TABLE( 
+  nombre VARCHAR,
+  fecha_ini TIMESTAMP,
+  fecha_fin TIMESTAMP,
+  hora_inicio TIME,
+  hora_fin TIME,
+  precio  INTEGER,
+  descripcion VARCHAR,
+  nombre_local VARCHAR,
+  ruta_foto VARCHAR,
+  categoria_nombre VARCHAR	
+) AS $$
+BEGIN
+  RETURN QUERY 
+	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ev_foto, ca_nombre
+	 FROM usuario, preferencia, categoria,evento,localidad
+	 WHERE 
+	  (pr_usuario =_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
 
