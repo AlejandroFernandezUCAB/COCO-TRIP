@@ -120,7 +120,7 @@ namespace ApiRest_COCO_TRIP.Models
       {
         comando = new NpgsqlCommand("ConsultarLocalidadPorNombre", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
-        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, nombre);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombre);
         read = comando.ExecuteReader();
         read.Read();
         localidad.Id = read.GetInt32(0);

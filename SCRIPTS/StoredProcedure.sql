@@ -1410,7 +1410,7 @@ CREATE OR REPLACE FUNCTION InsertarEvento
   _fechaFinEvento timestamp,
   _horaInicioEvento time,
   _horaFinEvento time,
-  _fotoEvento bytea,
+  _fotoEvento varchar
   _localidadEvento integer,
   _categoriaEvento integer
 )
@@ -1540,7 +1540,7 @@ RETURNS TABLE
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
-     fotoEvento bytea,
+     fotoEvento varchar,
      categoriaEvento varchar,
      localidadEvento varchar
   )
@@ -1570,7 +1570,7 @@ RETURNS TABLE
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
-     fotoEvento bytea,
+     fotoEvento varchar,
      categoriaEvento varchar,
      localidadEvento varchar
   )
@@ -1600,7 +1600,7 @@ RETURNS TABLE
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
-     fotoEvento bytea,
+     fotoEvento varchar,
      categoriaEvento varchar,
      localidadEvento varchar
   )
@@ -1631,7 +1631,7 @@ RETURNS TABLE
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
-     fotoEvento bytea,
+     fotoEvento varchar,
      categoriaEvento varchar,
      localidadEvento varchar
   )
@@ -1695,7 +1695,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 (
-  _nombreLocalidad integer
+  _nombreLocalidad varchar
 )
 RETURNS TABLE
   (
@@ -1730,7 +1730,7 @@ CREATE OR REPLACE FUNCTION actualizarEventoPorId
   _fechaFinEvento timestamp,
   _horaInicioEvento time,
   _horaFinEvento time,
-  _fotoEvento bytea,
+  _fotoEvento varchar,
   _localidadEvento integer,
   _categoriaEvento integer
 

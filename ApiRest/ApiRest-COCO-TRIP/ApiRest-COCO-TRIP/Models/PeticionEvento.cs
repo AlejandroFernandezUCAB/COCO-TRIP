@@ -43,17 +43,18 @@ namespace ApiRest_COCO_TRIP.Models
             int respuesta = -1;
             try
             {
-
-                comando = new NpgsqlCommand("InsertarEvento", conexion.SqlConexion);
+        
+        
+            comando = new NpgsqlCommand("InsertarEvento", conexion.SqlConexion);
                 comando.CommandType = CommandType.StoredProcedure;
                 //Aqui registro los valores
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Nombre);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Descripcion);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Double, evento.Precio);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, evento.FechaInicio);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, evento.FechaFin);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.HoraInicio);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.HoraFin);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.Precio);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.FechaInicio);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, evento.FechaFin);
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraInicio.Hour+":"+evento.HoraInicio.Minute+"00");
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraFin.Hour + ":" + evento.HoraFin.Minute + "00");
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Foto);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdCategoria);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdLocalidad);
@@ -126,8 +127,14 @@ namespace ApiRest_COCO_TRIP.Models
         evento.Precio = read.GetInt64(3);
         evento.FechaInicio = read.GetDateTime(4);
         evento.FechaFin = read.GetDateTime(5);
-        evento.HoraInicio = read.GetDateTime(6);
-        evento.HoraFin = read.GetDateTime(7);
+            DateTime horaInicio = new DateTime();
+            horaInicio.AddHours(read.GetTimeSpan(6).Hours);
+            horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
+        evento.HoraInicio = horaInicio;
+            DateTime horaFin = new DateTime();
+            horaFin.AddHours(read.GetTimeSpan(7).Hours);
+            horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
+        evento.HoraFin = horaFin;
         evento.Foto = read.GetString(8);
         //evento.IdCategoria = read.GetString(9);
         evento.IdLocalidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10)).Id;
