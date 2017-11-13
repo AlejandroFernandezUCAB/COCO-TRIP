@@ -60,11 +60,8 @@ its2: Array<any> = [{
   distancia: '3 km'
 }];
 
-<<<<<<< HEAD
-  constructor(public navCtrl: NavController,public menu: MenuController, public http: HttpCProvider) {
-=======
-  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController) {
->>>>>>> 62194d740df5f472ab1b365d09c153fb2e899ea8
+
+  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public http: HttpCProvider) {
     //console.log(this.its2);
     this.IniciarNotificaciones();
     this.menu.enable(true);
