@@ -34,6 +34,9 @@ import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { ChatProvider } from '../providers/chat/chat';
+import { config } from './app.firebaseconfig';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -63,12 +66,15 @@ import { BuscarAmigoPage } from '../pages/buscar-amigo/buscar-amigo';
 import { ModificarGrupoPage } from '../pages/modificar-grupo/modificar-grupo';
 import { NuevosIntegrantesPage } from '../pages/nuevos-integrantes/nuevos-integrantes';
 import { Firebase } from '@ionic-native/firebase';
+import * as firebase from 'firebase';
 import { RestapiService } from '../providers/restapi-service/restapi-service';
 import { HttpCProvider } from '../providers/http-c/http-c';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+firebase.initializeApp(config);
 
 @NgModule({
   declarations: [
@@ -119,7 +125,8 @@ export function createTranslateLoader(http: HttpClient) {
     IonicStorageModule.forRoot({
       name: 'cocotrip',
          driverOrder: ['indexeddb', 'sqlite', 'websql']
-    })
+    }),
+    AngularFireModule.initializeApp(config)
   ],
 
   bootstrap: [IonicApp],
@@ -166,7 +173,8 @@ export function createTranslateLoader(http: HttpClient) {
     Transfer,
     Camera,
     FilePath,
-    ChatProvider
+    ChatProvider,
+    AngularFireAuth,
   ]
 })
 export class AppModule {}

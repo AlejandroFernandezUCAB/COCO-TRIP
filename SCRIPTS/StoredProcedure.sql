@@ -780,6 +780,99 @@ AS $BODY$
     END;
 $BODY$;
 
+-----------------Consultar Eventos---------------------------
+CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, DateTime fechainicio, DateTime fechafin )
+RETURNS TABLE (id_evento integer, nombre_evento varchar) AS $$
+
+DECLARE
+    s varchar;
+
+BEGIN
+  s := '%' || busqueda || '%';
+
+    RETURN QUERY SELECT
+  ev_id, ev_nombre
+  FROM evento
+  WHERE (ev_nombre like s) and (ev_fecha_inicio BETWEEN fechainicio and fechafin);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-----------------Consultar Lugares Turisticos---------------------------
+CREATE OR REPLACE FUNCTION consultar_lugarturistico( busqueda varchar )
+RETURNS TABLE (id_lugarturistico integer, nombre_lugarturistico varchar) AS $$
+
+DECLARE
+    s varchar;
+
+BEGIN
+  s := '%' || busqueda || '%';
+
+    RETURN QUERY SELECT
+  lu_id, lu_nombre
+  FROM lugar_turistico
+  WHERE lu_nombre like s;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-----------------Consultar Actividades---------------------------
+CREATE OR REPLACE FUNCTION consultar_actividades( busqueda varchar )
+RETURNS TABLE (id_actividad integer, nombre_actividad varchar) AS $$
+
+DECLARE
+    s varchar;
+
+BEGIN
+  s := '%' || busqueda || '%';
+
+    RETURN QUERY SELECT
+  ac_id, ac_nombre
+  FROM actividad
+  WHERE ac_nombre like s;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+------------------- Consultar Itinerarios por correo --------------------
+CREATE OR REPLACE FUNCTION public.consultar_itinerarios(idusuario integer)
+    RETURNS TABLE(
+    id integer, 
+    nombre character varying, 
+    a_fechainicio date, 
+    a_fechafin date, 
+    lu_nombre character varying, 
+    lu_descripcion character varying, 
+    ac_nombre character varying, 
+    ac_descripcion character varying, 
+    ev_nombre character varying, 
+    ev_descripcion character varying)
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE
+    ROWS 1000
+AS $BODY$
+
+    BEGIN
+      RETURN QUERY
+    SELECT i.it_id as "ID", i.it_nombre as "Nombre",
+        a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
+        lt.lu_nombre as "lu_nombre", lt.lu_descripcion as "lu_descripcion",
+        ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion",
+        e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion"
+        FROM agenda a
+        FULL OUTER JOIN itinerario as i ON a.ag_iditinerario = i.it_id
+        LEFT OUTER JOIN evento e ON a.ag_idevento = e.ev_id
+        LEFT OUTER JOIN actividad ac ON a.ag_idactividad = ac.ac_id
+        LEFT OUTER JOIN lugar_turistico lt ON a.ag_idlugarturistico = lt.lu_id
+        WHERE (i.it_idusuario=idusuario) and (a.ag_fechainicio BETWEEN date(now()) and (date(now()) + 7))
+    ORDER BY i.it_id, a.ag_fechainicio;
+    END;
+$BODY$;
+
+
 ALTER FUNCTION public.consultar_itinerarios(integer)
     OWNER TO admin_cocotrip;
 
@@ -856,23 +949,36 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
     COST 100;
 
     --Eliminar item del itineratio
-    CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer)
+   CREATE OR REPLACE FUNCTION del_item_it(tipo varchar, iditem integer, iditinerario integer)
     RETURNS boolean AS
 	$BODY$
+    DECLARE 
+    i integer;
     BEGIN
+    SELECT it_id FROM Itinerario where (iditinerario=it_id) into i;
+    IF i is null THEN
+    return false;
+    else
       IF tipo='Lugar Turistico' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idlugarturistico) AND (iditinerario=ag_idItinerario);
       return true;
+      else
+      return false;
       END IF;
       IF tipo='Actividad' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
       return true;
+      else 
+      return false;
       END IF;
       IF tipo='Evento' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idevento) AND (iditinerario=ag_idItinerario);
       return true;
+      else 
+      return false;
       END IF;
-    END;
+	END IF;
+    END
 	$BODY$
     LANGUAGE plpgsql  VOLATILE
     COST 100;
@@ -1406,22 +1512,30 @@ CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TE
   $BODY$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_status BOOLEAN, fk INT, nivel INT ) AS $$
+
+CREATE OR REPLACE function m9_devolverTodasCategorias() RETURNS TABLE (idcat INT, nombrecategoria VARCHAR(50), descripcion VARCHAR(100), ca_estatus BOOLEAN, nivel INT, fk INT ) AS $$
 BEGIN
 			RETURN 	QUERY
 					SELECT ca_id, ca_nombre, ca_descripcion, ca_status, ca_nivel, ca_fkcategoriasuperior FROM CATEGORIA;
 END;
 $$ LANGUAGE plpgsql;
 
+-------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
-
-CREATE FUNCTION m9_modificarcategoria(nuevonombre character varying, nuevadescripcion character varying, categoriapadre integer) RETURNS void
-    LANGUAGE plpgsql
+CREATE FUNCTION m9_modificarcategoria
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer) 
+RETURNS integer 
     AS $$
     BEGIN
-        /*UPDATE TABLE CATEGORIA  */
-    END; $$;
-
+        UPDATE categoria
+        SET 
+        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre
+        WHERE ca_id=_id;
+        return 1;
+        
+    END; 
+    $$
+    LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_categoria INT)
   RETURNS void
@@ -1566,71 +1680,61 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
 (
   _id integer
 )
- AS
+RETURNS boolean AS
 $$
-if exists (
+
 BEGIN
 
     DELETE from evento where ev_id = _id;
-
-END; )
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
 
 --elimina evento por su nombre
 CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
 (
-  _nombreEvento integer
+  _nombreEvento varchar(50)
 )
- AS
+RETURNS boolean AS
 $$
-if exists (
 BEGIN
 
     DELETE from evento where ev_nombre = _nombreEvento;
-
-END; )
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
+
 
 --elimina localidad por su id
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-AS
+returns boolean AS  
 $$
-if exists (
-BEGIN
+ begin
 
-    DELETE from localidad where lo_id = _id;
+delete
+    from localidad
+    where lo_id = _id;
+    return true;
 
-END; )
-select 'true'
-else
-select 'false'
-$$ LANGUAGE plpgsql;
+ END;
+ $$
+ LANGUAGE plpgsql ;
 
 --elimina localidad por su nombre
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
 (
-  _nombreLocalidad integer
+  _nombreLocalidad varchar(50)
 )
-AS
+RETURNS boolean AS
 $$
-if exists(
 BEGIN
 
     DELETE from localidad where lo_nombre = _nombreLocalidad;
-
-END;)
-select 'true'
-else
-select 'false'
+    return true;
+END;
 $$ LANGUAGE plpgsql;
 
 /*SELECT*/
@@ -1669,7 +1773,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de los eventos en esa categoria
 CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
 (
-  _nombreCategoria integer
+  _nombreCategoria varchar(50)
 )
 RETURNS TABLE
   (
@@ -1806,7 +1910,7 @@ $$ LANGUAGE plpgsql;
 -- devuelve la informacion de la localidad
 CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 (
-  _nombreLocalidad varchar
+  _nombreLocalidad varchar(50)
 )
 RETURNS TABLE
   (
