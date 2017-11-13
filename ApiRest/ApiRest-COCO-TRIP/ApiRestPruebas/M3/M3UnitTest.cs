@@ -27,7 +27,7 @@ namespace ApiRestPruebas.M3
       conexion.Conectar();
       conexion.Comando = conexion.SqlConexion.CreateCommand();
       conexion.Comando.CommandText = "INSERT INTO Usuario VALUES (-1 ,'usuariopruebas1', 'Aquiles','pulido',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas1@gmail.com','123456', null, true);" +
-        "INSERT INTO Usuario VALUES (-2 ,'usuariopruebas2', 'Mariangel','Perez',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas2@gmail.com','123456', null, true);"+
+        "INSERT INTO Usuario VALUES (-2 ,'usuariopruebas2', 'Mariangel','Perez',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas2@gmail.com','123456', null, true);" +
         "INSERT INTO Grupo VALUES (-1,'Grupoprueba1',null,-1);" +
         "INSERT INTO Grupo VALUES (-2,'Grupoprueba2',null,-2);" +
         "INSERT INTO Miembro VALUES (-1,-1,-1);" +
@@ -36,7 +36,7 @@ namespace ApiRestPruebas.M3
       conexion.Comando.ExecuteReader();
       conexion.Desconectar();
       peticion = new PeticionAmigoGrupo();
-      
+
     }
 
     [TearDown]
@@ -63,7 +63,7 @@ namespace ApiRestPruebas.M3
     public void TestAgregarAmigo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(peticion.AgregarAmigosBD(-1, "usuariopruebas2"),1);
+      Assert.AreEqual(peticion.AgregarAmigosBD(-1, "usuariopruebas2"), 1);
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ namespace ApiRestPruebas.M3
     {
       peticion = new PeticionAmigoGrupo();
       Usuario u = peticion.VisualizarPerfilAmigoBD("usuariopruebas1");
-      Assert.AreEqual("Aquiles",u.Nombre);
+      Assert.AreEqual("Aquiles", u.Nombre);
     }
     /// <summary>
     /// Test para probar el caso de falla cuando se ingresa null en el metodo Visualizar Perfil amigo
@@ -149,7 +149,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(1,peticion.SalirGrupoBD(-1,-1));
+      Assert.AreEqual(1, peticion.SalirGrupoBD(-1, -1));
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteUsuario()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(0,peticion.SalirGrupoBD(1,-88));
+      Assert.AreEqual(0, peticion.SalirGrupoBD(1, -88));
 
     }
 
@@ -188,7 +188,7 @@ namespace ApiRestPruebas.M3
     public void TestSalirGrupoFallidoNoExisteGrupo()
     {
       peticion = new PeticionAmigoGrupo();
-      Assert.AreEqual(0,peticion.SalirGrupoBD(-10, -1));
+      Assert.AreEqual(0, peticion.SalirGrupoBD(-10, -1));
 
     }
 
@@ -207,8 +207,31 @@ namespace ApiRestPruebas.M3
     [Test]
     public void EliminarAmigoTest() {
       peticion.AgregarAmigosBD(-1, "usuariopruebas2");
-      //Assert.AreEqual(1, peticion.EliminarAmigoBD("usuariopruebas1", "usuariopruebas2"));
+      Assert.AreEqual(1, peticion.EliminarAmigoBD("usuariopruebas2", -1));
     }
+    /// <summary>
+    /// Caso de prueba cuando se intenta eliminar un amigo que no existe
+    /// </summary>
+    [Test]
+    public void EliminarAmigoNoExisteTest()
+    {
+      Assert.AreEqual(0, peticion.EliminarAmigoBD("usuariopruebas2", -1));
+    }
+
+    /// <summary>
+    ///  Caso de prueba cuando se ingresa un dato null
+    /// </summary>
+    [Test]
+    public void EliminarAmigoNull()
+    {
+      Assert.Catch<InvalidCastException> (AmigoNullCast);
+    }
+
+    public void AmigoNullCast()
+    {
+      peticion.EliminarAmigoBD(null, -1);
+    }
+
 
     //PRUEBAS UNITARIAS DE ELIMINAR GRUPO
     //CREADO POR: MARIANGEL PEREZ
@@ -217,8 +240,19 @@ namespace ApiRestPruebas.M3
     /// </summary>
     [Test]
     public void EliminarGrupoTest() {
-     // Assert.AreEqual(1, peticion.EliminarGrupoBD("usuariopruebas1", -1));
+      Assert.AreEqual(1, peticion.EliminarGrupoBD(-1, -1));
     }
+
+    /// <summary>
+    /// Caso de prueba cuando se intenta eliminar un grupo que no existe
+    /// </summary>
+    [Test]
+    public void EliminarGrupoNoExisteTest()
+    {
+      Assert.AreEqual(0, peticion.EliminarGrupoBD(-5, -1));
+    }
+
+
 
     //PRUEBAS UNITARIAS DE VISUALIZAR LISTA DE AMIGOS
     //CREADO POR: MARIANGEL PEREZ
@@ -228,15 +262,34 @@ namespace ApiRestPruebas.M3
     [Test]
     public void VisualizarListaAmigos() {
       peticion.AgregarAmigosBD(-1, "usuariopruebas2");
+      peticion.AceptarNotificacionBD("usuariopruebas1", -2);
       List<Usuario> lista = new List<Usuario>();
-     // lista = peticion.VisualizarListaAmigoBD("usuariopruebas1");
+      lista = peticion.VisualizarListaAmigoBD(-1);
       Usuario usuario = new Usuario();
       foreach (Usuario u in lista) {
-          usuario = u;
+        usuario = u;
       }
       Assert.AreEqual("Mariangel", usuario.Nombre);
       Assert.AreEqual("Perez", usuario.Apellido);
+      Assert.AreEqual("usuariopruebas2", usuario.NombreUsuario);
       Assert.AreEqual(null, usuario.Foto);
+    }
+
+    /// <summary>
+    /// Prueba para visualizar que la lista de amigos no existe
+    /// </summary>
+    [Test]
+    public void VisualizarListaAmigosNoExisteTest()
+    {
+     
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.VisualizarListaAmigoBD(-1);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
     }
 
     //PRUEBAS UNITARIAS DE MODIFICAR GRUPO
@@ -246,7 +299,40 @@ namespace ApiRestPruebas.M3
     /// </summary>
     [Test]
     public void ModificarGrupoTest() {
-      //Assert.AreEqual(1, peticion.ModificarGrupoBD("GrupoTest", "usuariopruebas1", -1));
+      Assert.AreEqual(1, peticion.ModificarGrupoBD("GrupoTest", -1, -1));
+    }
+
+    /// <summary>
+    /// Prueba de caso de fallo, cuando el usuario que intenta modificar no es el lider
+    /// </summary>
+    [Test]
+    public void ModificarGrupoNoEsElLiderTest()
+    {
+      Assert.AreEqual(0, peticion.ModificarGrupoBD("GrupoTest", -3, -1));
+    }
+
+    /// <summary>
+    /// Prueba de caso de fallo, cuando el grupo que se intenta
+    /// modificar no existe
+    /// </summary>
+    [Test]
+    public void ModificarGrupoNoEsElGrupoTest()
+    {
+      Assert.AreEqual(0, peticion.ModificarGrupoBD("GrupoTest", -1, -5));
+    }
+
+    /// <summary>
+    /// Prueba de caso de fallo, cuando el nombre del grupo se modifica a null
+    /// </summary>
+    [Test]
+    public void ModificarGrupoNombreNullTest()
+    {
+      Assert.Catch<InvalidCastException>(NombreNullCast);
+    }
+
+    public void NombreNullCast()
+    {
+      peticion.ModificarGrupoBD(null, -1, -1);
     }
 
     //PRUEBAS UNITARIAS DE ELIMINAR LOS INTEGRANTES DE UN GRUPO AL MODIFICAR
@@ -282,6 +368,57 @@ namespace ApiRestPruebas.M3
     {
       Assert.AreEqual(-1, peticion.ObtenerIdUsuario("usuariopruebas1"));
     }
+
+    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //CREADO POR: MARIANGEL PEREZ
+    /// <summary>
+    /// Prueba para obtener los datos del lider del grupo
+    /// </summary>
+    [Test]
+    public void ObtenerLiderTest()
+    {
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerLider(-2, -2);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.AreEqual("Mariangel", usuario.Nombre);
+      Assert.AreEqual("Perez", usuario.Apellido);
+      Assert.AreEqual("usuariopruebas2", usuario.NombreUsuario);
+      Assert.AreEqual(null, usuario.Foto);
+    }
+
+    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //CREADO POR: MARIANGEL PEREZ
+    /// <summary>
+    /// Prueba para obtener los datos de los integrantes del grupo
+    /// Sin el lider
+    /// </summary>
+    [Test]
+    public void ObtenerSinLiderTest()
+    {
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerSinLider(-1);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.AreEqual("Mariangel", usuario.Nombre);
+      Assert.AreEqual("Perez", usuario.Apellido);
+      Assert.AreEqual("usuariopruebas2", usuario.NombreUsuario);
+      Assert.AreEqual(null, usuario.Foto);
+    }
+
+
+
+
+
+
+
+
 
     /// <summary>
     /// Prueba para insertar un grupo dado el id del grupo
