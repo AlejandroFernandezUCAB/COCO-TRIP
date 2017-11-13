@@ -13,7 +13,7 @@
 <ion-list>
   <ion-list >
     <ion-slides pager style="font-family: 'Open Sans'">
-      <ion-slide  *ngFor="let eventos of its1">
+      <ion-slide  *ngFor="let eventos of eve">
         <h2> {{eventos.nombre}} </h2>
         <h2> {{eventos.tipo}} </h2>
         <img src="{{eventos.imagen}}" alt="">
@@ -25,7 +25,7 @@
   </ion-list>
   <ion-list>
     <ion-slides pager>
-      <ion-slide  *ngFor="let lugares of its2">
+      <ion-slide  *ngFor="let lugares of lts">
           <h2> {{lugares.nombre}} </h2>
           <h2> {{lugares.tipo}} </h2>
           <img src="{{lugares.imagen}}" alt="">

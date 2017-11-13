@@ -339,7 +339,7 @@ namespace ApiRestPruebas
     public void TestEventosSegunPreferenciasControler()
     {
       List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
-      listaEventoprueba = controlador.EventoSegunPreferencias(1, fechaPrueba);
+      listaEventoprueba = controlador.EventoSegunPreferencias(1);
 
       fechaPrueba = new DateTime(2017, 03, 09);
       Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
@@ -363,6 +363,24 @@ namespace ApiRestPruebas
       Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
       Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
       Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en LugarTuristicoSegunPreferencias
+    /// que se encuentra en el controlador M1_LoginController.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestLugarTuristicoSegunPreferencias()
+    {
+      List<LugarTuristicoPreferencia> listaLT = new List<LugarTuristicoPreferencia>();
+      listaLT = controlador.LugarTuristicoSegunPreferencias(1);
+      Assert.AreEqual(lugarTuristico1.NombreLT, listaLT[0].NombreLT);
+      Assert.AreEqual(lugarTuristico1.Costo, listaLT[0].Costo);
+      Assert.AreEqual(lugarTuristico1.Descripcion, listaLT[0].Descripcion);
+      Assert.AreEqual(lugarTuristico1.Direccion, listaLT[0].Direccion);
+      Assert.AreEqual(lugarTuristico1.LugarFotoRuta, listaLT[0].LugarFotoRuta);
+      Assert.AreEqual(lugarTuristico1.NombreCategoria, listaLT[0].NombreCategoria);
     }
 
 
