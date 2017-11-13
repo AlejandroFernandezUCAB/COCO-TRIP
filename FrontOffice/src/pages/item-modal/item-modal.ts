@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpCProvider } from '../../providers/http-c/http-c';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,8 @@ export class ItemModalPage {
     private viewCtrl: ViewController,
     public alertCtrl: AlertController,
     public eventos: EventosCalendarioService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    public http: HttpCProvider
   ) {
     this.itinerario= this.navParams.get('itinerario');
     this.initializeItems();
@@ -56,50 +58,51 @@ export class ItemModalPage {
       let val = ev.target.value;
       if (val && val.trim() != ''){
         this.items= this.items.filter((item) => {
-          return (item.titulo.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          //return (item.titulo.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          
+          /////////////////////////////////////////////
+          if (this.tipo_item == 'Evento'){
+            this.items = this.http.ConsultarEventos(this.searchTerm, this.FechaInicio, this.FechaFin);
+            console.log(this.items);
+          }
+          else{
+            if (this.tipo_item == 'Lugar Turistico'){
+              this.items = this.http.ConsultarLugarTuristico(this.searchTerm);
+            }
+            else{
+              if (this.tipo_item == 'Actividad'){
+                this.items = this.http.ConsultarActividades(this.searchTerm);
+              }
+              else{
+                /*
+                En el jardin hay algo
+                que esta esperando, 
+                tal cual lo dejaste 
+                boca abajo quedo, 
+                y cuando lo encuentres, 
+                se habra descolorado, 
+                mas claro es el reverso si lo haces girar, 
+                todo esta, tal cual lo dejaste, 
+                todo esta siempre cambiando, 
+                ligeramente de dia y noche 
+                un poco mas 
+                pero todo estas.
+                */
+              }      
+            }
+          }
+          /////////////////////////////////////////////
+          
+          return (this.items);
         })
       }
     }
-
+    
   agregarItem(item_id){
     //ARREGLAR ESTO
         let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
         console.log(vlista);
         console.log(this.translateService.currentLang);
-
-        /////////////////////////////////////////////////
-
-        if (this.tipo_item == 'Evento'){
-          
-        }
-        else{
-          if (this.tipo_item == 'Lugar Turistico'){
-            
-          }
-          else{
-            if (this.tipo_item == 'Actividad'){
-              
-            }
-            else{
-              /*
-              En el jardin hay algo
-              que esta esperando, 
-              tal cual lo dejaste 
-              boca arriba quedo, 
-              y cuando lo encuentres, 
-              se habra descolorado, 
-              mas claro es el reverso si lo haces girar, 
-              todo esta, tal cual lo dejaste, 
-              todo esta siempre cambiando, 
-              ligeramente de dia y noche 
-              un poco mas 
-              pero todo estas.
-              */
-            }      
-          }
-        }
-
-        /////////////////////////////////////////////////
 
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
