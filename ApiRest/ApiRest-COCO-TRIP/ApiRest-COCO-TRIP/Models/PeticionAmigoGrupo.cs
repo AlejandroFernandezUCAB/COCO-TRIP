@@ -8,7 +8,10 @@ using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
 using NpgsqlTypes;
-
+/// <summary>
+/// Clase de peticiones del MODULO 3
+/// Se encarga de hacer las peticiones a la base de datos
+/// </summary>
 namespace ApiRest_COCO_TRIP.Models
 {
   public class PeticionAmigoGrupo 
@@ -31,6 +34,12 @@ namespace ApiRest_COCO_TRIP.Models
       return parametro;
     }
 
+    /// <summary>
+    /// Peticion para insertar un amigo en la base de datos
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <param name="nombreAmigo">Nombre de usuario del amigo a ser agregado</param>
+    /// <returns></returns>
     public int AgregarAmigosBD(int idUsuario, string nombreAmigo)
     {
       int respuesta = 0;
@@ -62,6 +71,11 @@ namespace ApiRest_COCO_TRIP.Models
       return respuesta;
     }
 
+    /// <summary>
+    /// Metodo que obtiene los datos de un amigo para visualizar el perfil
+    /// </summary>
+    /// <param name="nombreUsuario">Nombre del usuario amigo</param>
+    /// <returns>Los datos del usuario amigo</returns>
     public Usuario VisualizarPerfilAmigoBD(string nombreUsuario)
     {
       Usuario usuario = new Usuario();
@@ -84,7 +98,7 @@ namespace ApiRest_COCO_TRIP.Models
           }
           usuario.NombreUsuario = leerDatos.GetString(4);
 
-          //usuario.Foto[0] = leerDatos.GetString(3);
+          
         }
         else
         {
@@ -143,7 +157,12 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
 
-
+    /// <summary>
+    /// Metodo para eliminar un integrante del grupo (Salir del grupo)
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario que se quiere salir del grupo</param>
+    /// <returns></returns>
     public int SalirGrupoBD(int idGrupo, int idUsuario)
     {
       int resultado = 0;
@@ -175,7 +194,11 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
 
-
+    /// <summary>
+    /// Metodo que obtiene la lista de solicitudes de un usuario
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns>Datos de los usuarios que quieren amistad</returns>
     public List<Usuario> ObtenerListaNotificacionesBD(int idUsuario)
     {
 
@@ -217,7 +240,12 @@ namespace ApiRest_COCO_TRIP.Models
       return ListaUsuario;
     }
 
-
+    /// <summary>
+    /// Metodo que elimina una solicitud de amistad (Rechazar la solicitud)
+    /// </summary>
+    /// <param name="nombreUsuarioRechazado">Nombre del usuario rechazado</param>
+    /// <param name="idUsuario">Identificador del usuario que rechaza</param>
+    /// <returns></returns>
     public int RechazarNotificacionBD(string nombreUsuarioRechazado, int idUsuario)
     {
       int result = 0;
@@ -250,6 +278,12 @@ namespace ApiRest_COCO_TRIP.Models
       return result;
     }
 
+    /// <summary>
+    /// Metodo para aceptar una solicitud de amistad 
+    /// </summary>
+    /// <param name="nombreUsuarioAceptado">Nombre del usuario aceptado</param>
+    /// <param name="idUsuario">Identificador del usuario que que acepto la solicitud</param>
+    /// <returns></returns>
     public int AceptarNotificacionBD(string nombreUsuarioAceptado, int idUsuario)
     {
       int result = 0;
@@ -286,7 +320,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo que se encarga de buscar amigos en la app
     /// </summary>
     /// <param name="dato">nombre o iniciales del amigo</param>
-    /// <returns></returns>
+    /// <param name="idUsuario">Identificador del usuario que busca (Para que no aparezca en el buscador)</param>
+    /// <returns>Retorna la lista de usuarios que no son tus amigos</returns>
     public List<Usuario> BuscarAmigo(string dato, int idUsuario)
     {
       var listausuarios = new List<Usuario>();
@@ -333,7 +368,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo que se encarga de devolver la lista de grupos a los que pertenece
     /// el usuario
     /// </summary>
-    /// <param name="nombreusuario">nombre del usuario por el cual se busca el id</param>
+    /// <param name="idUsuario">nombre del usuario por el cual se busca el id</param>
     /// <returns></returns>
     public List<Grupo> Listagrupo(int idUsuario)
     {
@@ -376,6 +411,12 @@ namespace ApiRest_COCO_TRIP.Models
       return listagrupos;
     }
 
+    /// <summary>
+    /// Metodo que se encarga de pedir los datos de los usuarios integrantes
+    /// de un grupo
+    /// </summary>
+    /// <param name="idgrupo">Identificador del grupo</param>
+    /// <returns>La lista de usuarios integrantes</returns>
     public List<Usuario> Listamiembro(int idgrupo)
     {
       
@@ -422,7 +463,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo que se encarga de devolver el perfil del grupo
     /// </summary>
     /// <param name="dato">id del grupo</param>
-    /// <returns></returns>
+    /// <returns>Los datos para armar el perfil del grupo</returns>
     public List<Grupo> ConsultarPerfilGrupo(int dato)
     {
       var listagrupo = new List<Grupo>();
@@ -616,7 +657,6 @@ namespace ApiRest_COCO_TRIP.Models
       return result;
     }
 
-    
 
     /// <summary>
     /// Metodo que se encarga de obtener de la base de datos la lista de
@@ -704,7 +744,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo para modificar los atributos de un grupo
     /// </summary>
     /// <param name="nombreGrupo">El nombre del grupo</param>
-    /// <param name="nombreUsuario">Nombre del usuario que modificara el grupo</param>
+    /// <param name="idUsuario">Identificador del usuario que modificara el grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns></returns>
     public int ModificarGrupoBD(string nombreGrupo, int idUsuario, /*string foto,*/ int idGrupo)
@@ -821,7 +861,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="idUsuario">identificador del usuario</param>
-    /// <returns>retorna la lista de usuarios lider</returns>
+    /// <returns>retorna los datos del usuario lider</returns>
     public List<Usuario> ObtenerLider(int idGrupo, int idUsuario)
     {
 
@@ -868,7 +908,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo para obtener la lista de integrantes sin el lider
     /// </summary>
     /// <param name="idGrupo">identificsdor del grupo</param>
-    /// <returns>retorna la lista de usaruios integrantes del grupo sin el usuario lider</returns>
+    /// <returns>retorna la lista de usuarios integrantes del grupo sin el usuario lider</returns>
     public List<Usuario> ObtenerSinLider(int idGrupo)
     {
 
