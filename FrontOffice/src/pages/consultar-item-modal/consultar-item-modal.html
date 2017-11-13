@@ -19,27 +19,46 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header style="margin-bottom: 0px; display: grid" text-wrap>
-      <p text-uppercase style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px">{{evento.titulo}}</p>
+      <p text-uppercase style="font-size:17px; margin-top: 20px; color: #3B8686; letter-spacing: 0.3em; margin-bottom:20px">{{evento1.Nombre}}</p>
     </ion-list-header>
     <ion-item-group>
       <ion-item>
       <ion-slides loop="true" style="height: 100px">
         <ion-slide *ngFor="let foto of fotos">
-          <img [src]="foto.foto">
+          <img [src]="foto.Ruta">
         </ion-slide>
       </ion-slides>
     </ion-item>
       <ion-item text-capitalize>
-        {{evento.tipo}}
+        {{evento.Tipo}}
       </ion-item>
-      <ion-item text-wrap>
-        <ion-label><p>Comienza:</p> {{evento.startTime | date : 'dd/MM/yyyy'}} - {{evento.horaInicio}}</ion-label>
-        <ion-label><p>Termina:</p> {{evento.endTime | date : 'dd/MM/yyyy'}} - {{evento.horaFin}}</ion-label>
+      <ion-item text-wrap *ngIf="evento.Tipo=='Evento'">
+        <ion-label><p>Comienza:</p> {{evento.FechaInicio | date : 'dd/MM/yyyy'}} - {{evento.horaInicio}}</ion-label>
+        <ion-label><p>Termina:</p> {{evento.FechaFin | date : 'dd/MM/yyyy'}} - {{evento.horaFin}}</ion-label>
       </ion-item>
+      <div *ngIf="evento.Tipo=='Lugar Turistico'">
+      <ion-item class="item-borderless"><ion-label><p>Horario: </p>
+      </ion-label></ion-item>
+      <ion-item text-wrap no-lines>
+        <ion-label><p color="sf">Dia</p></ion-label>
+        <ion-label><p color="sf">Apertura</p></ion-label>
+        <ion-label><p color="sf">Cierre</p></ion-label>
+      </ion-item>
+      <ion-item text-wrap *ngFor="let horario of evento1.Horario" no-lines>
+        <ion-label>{{horario.DiaSemana}}</ion-label>
+        <ion-label>{{horario.HoraApertura}}</ion-label>
+        <ion-label>{{horario.HoraCierre}}</ion-label>
+      </ion-item>
+    </div>
+    <ion-item text-wrap *ngIf="(evento.Tipo=='Lugar Turistico' || evento.Tipo=='Evento')" text-justify>
+      <ion-label><p>Costo:</p> {{evento1.Costo}}</ion-label>
+    </ion-item>
+    <ion-item text-wrap *ngIf="(evento.Tipo=='Actividad')" text-justify>
+      <ion-label><p>Duración:</p> {{evento1.Duracion}}</ion-label>
+    </ion-item>
       <ion-item text-wrap text-justify>
         <ion-label><p style="margin-bottom: 7px">Descripción: </p>
-           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-           Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          {{evento1.Descripcion}}
         </ion-label>
       </ion-item>
     </ion-item-group>
