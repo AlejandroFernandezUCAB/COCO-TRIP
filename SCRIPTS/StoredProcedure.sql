@@ -780,6 +780,99 @@ AS $BODY$
     END;
 $BODY$;
 
+-----------------Consultar Eventos---------------------------
+CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, DateTime fechainicio, DateTime fechafin )
+RETURNS TABLE (id_evento integer, nombre_evento varchar) AS $$
+
+DECLARE
+    s varchar;
+
+BEGIN
+  s := '%' || busqueda || '%';
+
+    RETURN QUERY SELECT
+  ev_id, ev_nombre
+  FROM evento
+  WHERE (ev_nombre like s) and (ev_fecha_inicio BETWEEN fechainicio and fechafin);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-----------------Consultar Lugares Turisticos---------------------------
+CREATE OR REPLACE FUNCTION consultar_lugarturistico( busqueda varchar )
+RETURNS TABLE (id_lugarturistico integer, nombre_lugarturistico varchar) AS $$
+
+DECLARE
+    s varchar;
+
+BEGIN
+  s := '%' || busqueda || '%';
+
+    RETURN QUERY SELECT
+  lu_id, lu_nombre
+  FROM lugar_turistico
+  WHERE lu_nombre like s;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-----------------Consultar Actividades---------------------------
+CREATE OR REPLACE FUNCTION consultar_actividades( busqueda varchar )
+RETURNS TABLE (id_actividad integer, nombre_actividad varchar) AS $$
+
+DECLARE
+    s varchar;
+
+BEGIN
+  s := '%' || busqueda || '%';
+
+    RETURN QUERY SELECT
+  ac_id, ac_nombre
+  FROM actividad
+  WHERE ac_nombre like s;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+------------------- Consultar Itinerarios por correo --------------------
+CREATE OR REPLACE FUNCTION public.consultar_itinerarios(idusuario integer)
+    RETURNS TABLE(
+    id integer, 
+    nombre character varying, 
+    a_fechainicio date, 
+    a_fechafin date, 
+    lu_nombre character varying, 
+    lu_descripcion character varying, 
+    ac_nombre character varying, 
+    ac_descripcion character varying, 
+    ev_nombre character varying, 
+    ev_descripcion character varying)
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE
+    ROWS 1000
+AS $BODY$
+
+    BEGIN
+      RETURN QUERY
+    SELECT i.it_id as "ID", i.it_nombre as "Nombre",
+        a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
+        lt.lu_nombre as "lu_nombre", lt.lu_descripcion as "lu_descripcion",
+        ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion",
+        e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion"
+        FROM agenda a
+        FULL OUTER JOIN itinerario as i ON a.ag_iditinerario = i.it_id
+        LEFT OUTER JOIN evento e ON a.ag_idevento = e.ev_id
+        LEFT OUTER JOIN actividad ac ON a.ag_idactividad = ac.ac_id
+        LEFT OUTER JOIN lugar_turistico lt ON a.ag_idlugarturistico = lt.lu_id
+        WHERE (i.it_idusuario=idusuario) and (a.ag_fechainicio BETWEEN date(now()) and (date(now()) + 7))
+    ORDER BY i.it_id, a.ag_fechainicio;
+    END;
+$BODY$;
+
+
 ALTER FUNCTION public.consultar_itinerarios(integer)
     OWNER TO admin_cocotrip;
 

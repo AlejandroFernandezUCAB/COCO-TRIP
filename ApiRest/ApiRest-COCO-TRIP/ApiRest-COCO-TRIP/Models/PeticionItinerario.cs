@@ -329,38 +329,40 @@ namespace ApiRest_COCO_TRIP.Models
           }
     }
 
-        /// <summary>
-        /// Consulta los eventos por nombre, o similiares.
-        /// </summary>
-        /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del evento que se esta buscando.</param>
-        /// <returns>Retorna una lista con los eventos que tengan coincidencia.</returns>
-     /* public List<Evento> ConsultarEventos(string busqueda)
+    /// <summary>
+    /// Consulta los eventos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del evento que se esta buscando.</param>
+    /// <returns>Retorna una lista con los eventos que tengan coincidencia.</returns>
+    public List<Evento> ConsultarEventos(string busqueda, DateTime fechainicio, DateTime fechafin)
+    {
+      List<Evento> list_eventos = new List<Evento>();
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultar_eventos", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechainicio);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, fechafin);
+        pgread = comm.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        while (pgread.Read())
         {
-          List<Evento> list_eventos = new List<Evento>();
-          try
-          {
-            con = new ConexionBase();
-            con.Conectar();
-            comm = new NpgsqlCommand("consultar_eventos", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
-            pgread = comm.ExecuteReader();
+          Evento evento = new Evento(pgread.GetInt32(0), pgread.GetString(1));
+          list_eventos.Add(evento);
+        }
 
-            //Se recorre los registros devueltos.
-            while (pgread.Read())
-            {
-              Evento evento = new Evento(pgread.GetInt32(0), pgread.GetString(1));
-              list_eventos.Add(evento);
-            }
-
-            con.Desconectar();
-            return list_eventos;
-          }
-          catch (NpgsqlException e)
-          {
-            throw e;
-          }
-        } */
+        con.Desconectar();
+        return list_eventos;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
 
     /// <summary>
     /// Consulta los lugares turisticos por nombre, o similiares.
@@ -555,10 +557,12 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     /// <summary>
-    /// 
+    /// Se encarga de buscar todas las notificaciones de eventos, actividad y lugares turisticos
+    /// con una semana de intervalo, es decir, buscar esos eventos pendientes entre hoy a una semana,
+    /// con el fin de enviarlo por correo.
     /// </summary>
-    /// <param name="datos"></param>
-    /// <returns></returns>
+    /// <param name="id_usuario">Id del usuario a quien se le buscara la información</param>
+    /// <returns>Devuelve "Exitoso" en caso de no haber incovenientes, y una excepcion en caso contrario</returns>
     public string EnviarCorreo(int id_usuario)
     {
       Usuario usuario;
