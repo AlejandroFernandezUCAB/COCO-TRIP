@@ -1586,8 +1586,8 @@ END; $$
 
   -------------------------PROCEDIMIENTO BUSCAR CATEGORIA POR STATUS HABILITADO-------------
 
-  CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada
-  (_status boolean)
+  CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada()
+ /** (_status boolean)**/
   RETURNS TABLE
   (
 
@@ -1606,7 +1606,7 @@ END; $$
     RETURN QUERY
     SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_fkcategoriasuperior,ca_nivel
      FROM categoria
-    WHERE ca_status=_status;
+    WHERE ca_status=true;
   END;
   $$
   LANGUAGE plpgsql;
