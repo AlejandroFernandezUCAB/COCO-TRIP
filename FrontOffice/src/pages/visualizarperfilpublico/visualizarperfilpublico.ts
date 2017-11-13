@@ -18,7 +18,7 @@ export class VisualizarPerfilPublicoPage {
 
   
   toast: any;
-  nombreUsuarioAmigo : string;
+  nombreUsuario : string;
   amigo : any;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
@@ -53,12 +53,12 @@ export class VisualizarPerfilPublicoPage {
    * Metodo para cargar la lista de amigos
    */
   ionViewWillEnter() {
+    this.nombreUsuario = this.navParams.get('nombreUsuario');
     this.cargando();
-     this.restapiService.obtenerPerfilPublico("usuario1")
+     this.restapiService.obtenerPerfilPublico(this.nombreUsuario)
        .then(data => {
          if (data == 0 || data == -1) {
            console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-
          }
          else {
            this.amigo = data;

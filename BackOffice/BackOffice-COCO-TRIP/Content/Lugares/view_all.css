@@ -41,18 +41,20 @@
     right: 60%;
 }
 
-.icon-detail, .fa-circle{
+.icon-detail{
 	color: black;
 	font-size: 20px;
 }
 
-.fa-circle{
+.active{
 	color: #029a73;
 	font-size: 20px;
 	cursor: pointer;
 }
 
-.fa-circle:active{
+.inactive{
+	font-size: 20px;
+	cursor: pointer;
 	color: #fe1132;
 }
 
