@@ -17,7 +17,9 @@ export class ConversacionPage {
   @ViewChild('content') content: Content;
   conversacion: any;
   nuevoMensaje: any;
-  usuarioId: any;
+  idAmigo: any;
+  idGrupo: any;
+  idUsuario: any;
   todosLosMensajes = [];
   //mensajes: Array<msgs> = [
    // {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
@@ -26,6 +28,7 @@ export class ConversacionPage {
 constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
   this.conversacion = this.chatService.conversacion;
   this.scrollto();
+  this.idUsuario =
   this.events.subscribe('nuevoMensaje', () => {
     this.todosLosMensajes = [];
     this.zone.run(() => {
@@ -75,7 +78,7 @@ tapEvent2(){
   });
   alert.present();
 }
-
+      
 pressEvent1(){
   let actionSheet = this.actionsheetCtrl.create({
     title: 'Opciones del chat',
@@ -143,15 +146,26 @@ pressEvent1(){
   actionSheet.present();
   }
 
-  agregarMensaje() {
-    this.chatService.agregarNuevoMensaje(this.nuevoMensaje,this.usuarioId).then(() => {
+  agregarMensajeAmigo() {
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idAmigo,this.idUsuario).then(() => {
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+    })
+  }
+
+  agregarMensajeGrupo() {
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario).then(() => {
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
     })
   }
 
   ionViewDidEnter() {
-    this.chatService.obtenerMensajesConversacion;
+    if(this.idAmigo){
+      this.chatService.obtenerMensajesConversacionAmigo(this.idAmigo);
+    }else if(this.idGrupo){
+      this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
+    }    
   }
 
   scrollto() {

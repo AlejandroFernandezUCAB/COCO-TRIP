@@ -12,6 +12,7 @@ import { Storage } from '@ionic/storage';
 export class ModificarGrupoPage {
   grupo: any;
   miembro: any;
+  lider: any;
   id: any;
   nombreGrupo: string;
   toast: any;
@@ -38,14 +39,35 @@ export class ModificarGrupoPage {
           }
           else {
             this.grupo = data;
-            this.cargarmiembros(this.id);
+            this.cargarlider(this.id);
           }
   
         });
     }
+    
+cargarlider(id){
+  this.storage.get('id').then((val) => {
+    
+            this.restapiService.obtenerLider(id, val)
+          .then(data => {
+            if (data == 0 || data == -1) {
+              console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+      
+            }
+            else {
+              this.lider = data;
+              this.cargarmiembros(id);
+            }
+      
+          });
+          });
+
+
+
+}
 
     cargarmiembros(id){
-      this.restapiService.listamiembroGrupo(id)
+      this.restapiService.obtenerSinLider(id)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -78,7 +100,7 @@ export class ModificarGrupoPage {
             }
           },
           {
-            text: 'Aceptar',
+            text: 'Aceptar',  
             handler: () => {
               this.eliminarIntegrante(nombreUsuario, index); 
               this.restapiService.eliminarIntegrante(nombreUsuario,4);

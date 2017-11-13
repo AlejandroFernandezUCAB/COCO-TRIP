@@ -111,9 +111,35 @@ export class GruposPage {
     this.edit=false;
     this.detail=false;
     this.delete=false;
-    this.navCtrl.push(ModificarGrupoPage,{
-      idGrupo: id
+    
+    this.storage.get('id').then((val) => {
+      this.restapiService.verificarLider(id,val)
+      .then(data => {
+        if (data == 0 || data == -1) {
+    
+          this.alertaIntegrante();
+
+        }
+        else {
+          
+          this.navCtrl.push(ModificarGrupoPage,{
+            idGrupo: id
+          });
+        }
+
+      });
+      this.delete = false;
     });
+   
+  } 
+
+  alertaIntegrante() {
+    let alert = this.alertCtrl.create({
+      title: 'No puedes modificar',
+      subTitle: 'No puedes modificar este grupo porque no eres el lider',
+      buttons: ['Esta bien']
+    });
+    alert.present();
   }
 
   realizarToast(mensaje) {

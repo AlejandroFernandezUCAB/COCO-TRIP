@@ -91,7 +91,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.EliminarItem_It(tipo, idit, iditem);
       }
-      catch (NpgsqlException)
+      catch (NpgsqlException e)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -109,7 +109,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.ConsultarItinerarios(id_usuario);
       }
-      catch (NpgsqlException)
+      catch (NpgsqlException e)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -147,5 +147,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       return peti.EnviarCorreo(id_usuario);
     }
+
+
+    [HttpGet]
+    public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
+    {
+      return peti.SetVisible(idusuario, iditinerario, visible);
+    }
+
+
   }
 }

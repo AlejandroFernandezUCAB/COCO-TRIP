@@ -221,6 +221,55 @@ export class RestapiService {
         });
     });
   }
+
+  listaNotificaciones(usuario) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ObtenerListaNotificaciones/?idusuario='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  aceptarNotificacion(usuarioAceptado,my_id) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M3_AmigosGrupos/AceptarNotificacion/?nombreUsuarioAceptado='+usuarioAceptado+'&idusuario='+my_id,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          alert("aceptar notificacion restapi "+data);
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  rechazarNotificacion(usuarioRechazado,my_id) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/rechazarNotificacion/?nombreUsuarioRechazado='+usuarioRechazado+'&idusuario='+my_id,"")
+      .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
   
  /**
   * [MODULO 3] 
@@ -288,10 +337,10 @@ eliminarGrupo(usuario, idGrupo){
  * @param nombreUsuario nombre del usuario o iniciales
  */
 
-  buscaramigo( nombreUsuario )
+  buscaramigo( nombreUsuario ,my_id)
   {
      return new Promise( resolve => {
-       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario,"")
+       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario+'&idUsuario='+my_id,"")
        .map(res => res.json())
        .subscribe(data => {
 
@@ -375,6 +424,20 @@ eliminarGrupo(usuario, idGrupo){
 agregarAmigo(idUsuario,nombreAmigo) {  
   return new Promise(resolve => {
     this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {  
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/EnviarNotificacionCorreo/?nombreUsuarioRecibe='+nombreAmigo
+    +'&correoElectronico='+correoAmigo +'&idUsuarioEnvia='+idUsuario,"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -480,5 +543,67 @@ agregarIntegrante(idGrupo,nombreAmigo) {
       });
   });
 }
+
+/**
+ * [MODULO 3]
+ * Metodo para verificar que un usuario es lider
+ * @param idGrupo Identificador del grupo
+ * @param idUsuario Identificador del usuario
+ */
+verificarLider(idGrupo, idUsuario) 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/VerificarLider/?idGrupo='+idGrupo
+    +'&idUsuario='+idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+/**
+ * [MODULO 3]
+ * Metodo para obtener al usuario lider
+ * @param idGrupo identificador del grupo
+ * @param idUsuario identificador del usuario 
+ */
+obtenerLider(idGrupo, idUsuario) 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarLider/?idGrupo='+idGrupo
+    +'&idUsuario='+idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
+/**
+ * [MODULO 3]
+ * Metodo que obtiene la lista de integrantes, sin el integrante lider
+ * @param idGrupo 
+ */
+obtenerSinLider(idGrupo) 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembrosSinLider/?idGrupo='+idGrupo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
 
 }

@@ -72,21 +72,29 @@ export class VisualizarPerfilPublicoPage {
       //alert(item.NombreUsuario);
       this.cargando();
       this.storage.get('id').then((val) => {
+        
       this.restapiService.agregarAmigo(val,item.NombreUsuario)
         .then(data => {
           if (data == 0 || data == -1) {
             console.log("DIO ERROR PORQUE ENTRO EN EL IF");
- 
           }
           else {
             //this.amigo = data;
             this.loading.dismiss();
             this.realizarToast('Agregado exitosamente');
-
           }
-  
         });
       });
+
+      this.storage.get('id').then((val) => {
+        this.restapiService.enviarCorreo(val,item.Nombre,item.Correo)
+          .then(data => {
+            if (data == 0 || data == -1) {
+              console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+            }
+          });
+        });
+
    }
 
 

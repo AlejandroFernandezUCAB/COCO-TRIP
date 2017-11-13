@@ -80,20 +80,28 @@ namespace ApiRest_COCO_TRIP.Models
     public List<Evento> ListaEventosPorCategoria(int id_categoria)
     {
       List<Evento> list = new List<Evento>();
-      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
       //PeticionCategoria peticionCategoria = new PeticionCategoria();
       try
       {
-        comando = new NpgsqlCommand("ConsultarEventosPorId", conexion.SqlConexion);
+        comando = new NpgsqlCommand("ConsultarEventoPorIdCategoria", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer,id_categoria);
         read = comando.ExecuteReader();
         while (read.Read())
         {
-          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(11));
+          PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10));
           //Categoria categoria = peticionCategoria.ObtenerCategorias
+          DateTime horaInicio = new DateTime();
+          horaInicio.AddHours(read.GetTimeSpan(6).Hours);
+          horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
+
+          DateTime horaFin = new DateTime();
+          horaFin.AddHours(read.GetTimeSpan(7).Hours);
+          horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
+
           Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
-            read.GetDateTime(6), read.GetDateTime(7), read.GetString(8), localidad.Id);
+            horaInicio, horaFin, read.GetString(8), localidad.Id);
           list.Add(evento);
         }
         conexion.Desconectar();
@@ -180,20 +188,29 @@ namespace ApiRest_COCO_TRIP.Models
     public List<Evento> ListaEventosPorFecha(DateTime fecha)
     {
       List<Evento> list = new List<Evento>();
-      PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
       //PeticionCategoria peticionCategoria = new PeticionCategoria();
       try
       {
         comando = new NpgsqlCommand("ConsultarEventosPorFecha", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
-        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp,fecha);
         read = comando.ExecuteReader();
         while (read.Read())
         {
-          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(11));
+          PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10));
+
+          DateTime horaInicio = new DateTime();
+          horaInicio.AddHours(read.GetTimeSpan(6).Hours);
+          horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
+          
+          DateTime horaFin = new DateTime();
+          horaFin.AddHours(read.GetTimeSpan(7).Hours);
+          horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
+          
           //Categoria categoria = peticionCategoria.ObtenerCategorias
           Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3),read.GetDateTime(4), read.GetDateTime(5),
-            read.GetDateTime(6), read.GetDateTime(7), read.GetString(8),localidad.Id);
+            horaInicio,horaFin, read.GetString(8),localidad.Id);
           list.Add(evento);
         }
         conexion.Desconectar();
