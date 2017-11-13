@@ -35,7 +35,7 @@ namespace ApiRestPruebas
         FechaNacimiento = new DateTime(2017, 03, 09),
         Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
-        Foto = new byte[28480]
+        //Foto = new byte[28480]
       };
 
       evento1 = new EventoPreferencia
