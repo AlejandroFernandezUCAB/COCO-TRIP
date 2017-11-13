@@ -118,8 +118,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         if (leerDatos.Read())
         {
           lugarTuristico.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
         }
+
+        leerDatos.Close();
 
         return lugarTuristico.Id;
 
@@ -185,8 +186,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           if (leerDatos.Read())
           {
             actividad.Id = leerDatos.GetInt32(0);
-            leerDatos.Close();
           }
+
+          leerDatos.Close();
 
           archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id);
 
@@ -258,8 +260,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         if (leerDatos.Read())
         {
           horario.Id = leerDatos.GetInt32(0);
-          leerDatos.Close();
         }
+
+        leerDatos.Close();
 
         return horario.Id;
       }
@@ -322,8 +325,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           if (leerDatos.Read())
           {
             foto.Id = leerDatos.GetInt32(0);
-            leerDatos.Close();
           }
+
+          leerDatos.Close();
 
           archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id);
         }
@@ -869,9 +873,9 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
           lugarTuristico.Latitud = leerDatos.GetDouble(6);
           lugarTuristico.Longitud = leerDatos.GetDouble(7);
           lugarTuristico.Activar = leerDatos.GetBoolean(8);
-
-          leerDatos.Close();
         }
+
+        leerDatos.Close();
 
         return lugarTuristico;
       }
