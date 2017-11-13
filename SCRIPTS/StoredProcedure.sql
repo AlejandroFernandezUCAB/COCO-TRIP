@@ -926,7 +926,7 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
     DECLARE 
     i integer;
     BEGIN
-    SELECT ag_idEvento FROM Agenda WHERE (idevento=ag_idEvento) into i;
+    SELECT ag_idEvento FROM Agenda WHERE (idevento=ag_idEvento) AND (iditinerario=ag_idItinerario) into i;
     IF i is null THEN
       INSERT INTO Agenda (ag_id,ag_idItinerario,ag_fechainicio,ag_fechafin, ag_idEvento) VALUES (nextval('seq_Agenda'),iditinerario,fechaini,fechafin,idevento);
       return true;
