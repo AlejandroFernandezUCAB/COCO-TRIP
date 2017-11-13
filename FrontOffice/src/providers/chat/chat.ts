@@ -22,37 +22,31 @@ export class ChatProvider {
 
   agregarNuevoMensajeAmigo(mensaje,idAmigo,idRemitente) {
     if (this.conversacion) {
-      var promise = new Promise((resolve, reject) => {
-        this.fireConversacionChatsAmigo.child(idAmigo).push({
-          enviadorPor: idRemitente,
-          mensaje: mensaje,
-          eliminado: false,
-          modificado: false,
-          fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
-        })
-      })
-      return promise;
+      this.fireConversacionChatsAmigo.child(idAmigo).push({
+        enviadorPor: idRemitente,
+        mensaje: mensaje,
+        eliminado: false,
+        modificado: false,
+        fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
+      })    
     }
   }
 
   agregarNuevoMensajeGrupo(mensaje,idGrupo,idRemitente) {
     if (this.conversacion) {
-      var promise = new Promise((resolve, reject) => {
-        this.fireConversacionChatsGrupo.child(idGrupo).push({
-          enviadorPor: idRemitente,
-          eliminado: false,
-          modificado: false,
-          mensaje: mensaje,
-          fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
-        })
-      }).catch();
-      return promise;
+      this.fireConversacionChatsGrupo.child(idGrupo).push({
+        enviadorPor: idRemitente,
+        eliminado: false,
+        modificado: false,
+        mensaje: mensaje,
+        fechaDeEnvio: firebase.database.ServerValue.TIMESTAMP
+      })   
     }
   }
 
   obtenerMensajesConversacionAmigo(idAmigo) {
     let temp;
-    this.fireConversacionChatsGrupo.child(idAmigo).on('value', (snapshot) => {
+    this.fireConversacionChatsAmigo.child(idAmigo).on('value', (snapshot) => {
       this.mensajesConversacion = [];
       temp = snapshot.val();
       for (var tempkey in temp) {
@@ -75,34 +69,58 @@ export class ChatProvider {
   }
 
   modificarMensajeAmigo(idAmigo,idMensaje,mensajeModificado){
-    this.fireConversacionChatsAmigo.child(idAmigo).set({
-      modificado: true,
-      mensaje: "mensaje modificado:"+mensajeModificado,
-      fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
-    });
+    if(this.conversacion){
+      this.fireConversacionChatsAmigo.child(idAmigo).set({
+        modificado: true,
+        mensaje: "mensaje modificado:"+mensajeModificado,
+        fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
+      });
+    }
   }
 
   modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado){
-    this.fireConversacionChatsAmigo.child(idGrupo).set({
-      modificado: true,
-      mensaje: "mensaje modificado:"+mensajeModificado,
-      fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
-    });
+    if(this.conversacion){  
+      this.fireConversacionChatsGrupo.child(idGrupo).set({
+        modificado: true,
+        mensaje: "mensaje modificado:"+mensajeModificado,
+        fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
+      });
+    }
   }
 
   eliminarMensajeAmigo(idAmigo,idMensaje,mensajeModificado){
-    this.fireConversacionChatsAmigo.child(idAmigo).set({
-      eliminado: true,
-      mensaje: "mensaje eliminado",
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
-    });
+    if(this.conversacion){
+      this.fireConversacionChatsAmigo.child(idAmigo).set({
+        eliminado: true,
+        mensaje: "mensaje eliminado",
+        fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      });
+    }
   }
 
   eliminarMensajeGrupo(idGrupo,idMensaje){
-    this.fireConversacionChatsAmigo.child(idGrupo).set({
-      eliminado: true,
-      mensaje: "mensaje eliminado",
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
-    });
+    if(this.conversacion){
+      this.fireConversacionChatsGrupo.child(idGrupo).set({
+        eliminado: true,
+        mensaje: "mensaje eliminado",
+        fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      });
+    }
+  }
+
+  crearChatAmigo(idAmigo){
+    this.fireConversacionChatsAmigo.child(idAmigo)
+  }
+
+  crearChatGrupo(idGrupo){
+    this.fireConversacionChatsGrupo.child(idGrupo)
+  }
+  
+  eliminarChatAmigo(idAmigo){
+    this.fireConversacionChatsAmigo.remove(idAmigo)
+  }
+
+  eliminarChatGrupo(idGrupo){
+    this.fireConversacionChatsGrupo.remove(idGrupo)
   }
 }
