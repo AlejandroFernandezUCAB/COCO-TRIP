@@ -959,24 +959,22 @@ ALTER FUNCTION public.setvisible(integer, boolean, integer)
     IF i is null THEN
     return false;
     else
+    If (tipo='Lugar Turistico' OR tipo='Actividad' OR tipo='Evento' ) THEN
       IF tipo='Lugar Turistico' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idlugarturistico) AND (iditinerario=ag_idItinerario);
       return true;
-      else
-      return false;
       END IF;
       IF tipo='Actividad' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idactividad) AND (iditinerario=ag_idItinerario);
       return true;
-      else 
-      return false;
       END IF;
       IF tipo='Evento' THEN
       DELETE FROM Agenda WHERE (iditem=ag_idevento) AND (iditinerario=ag_idItinerario);
       return true;
-      else 
-      return false;
       END IF;
+	ELSE
+    return false;
+    END IF;
 	END IF;
     END
 	$BODY$

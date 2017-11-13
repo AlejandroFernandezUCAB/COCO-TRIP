@@ -192,18 +192,109 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
+    [HttpGet]
+    public List<Usuario> ObtenerListaNotificaciones(string idUsuario)
+    {
+      List<Usuario> respuesta = null ;
+      peticion = new PeticionAmigoGrupo();
+      try
+      {
+        respuesta = peticion.ObtenerListaNotificacionesBD(Convert.ToInt32(idUsuario));
+      }catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return respuesta;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nombreUsuarioRechazado"></param>
+    /// <param name="idUsuario"></param>
+    /// <returns></returns>
+    //[HttpDelete]
+    [HttpDelete]
+    public int RechazarNotificacion(string nombreUsuarioRechazado, string idUsuario)
+    {
+      int respuesta = 0;
+      peticion = new PeticionAmigoGrupo();
+
+      try
+      {
+        respuesta = peticion.RechazarNotificacionBD(nombreUsuarioRechazado , Convert.ToInt32(idUsuario));
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return respuesta;
+    }
+
+    [HttpPost]
+    public int AceptarNotificacion(string nombreUsuarioAceptado, string idUsuario)
+    {
+      int respuesta = 0;
+      peticion = new PeticionAmigoGrupo();
+
+      try
+      {
+        respuesta = peticion.AceptarNotificacionBD(nombreUsuarioAceptado, Convert.ToInt32(idUsuario));
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      return respuesta;
+    }
+
     /// <summary>
     /// Buscar amigo en la aplicacion
     /// </summary>
     /// <param name="nombre">nombre del amigo a buscar</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Usuario> BuscarAmigo(string nombre)
+    public List<Usuario> BuscarAmigo(string nombre, string idUsuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.BuscarAmigo(nombre);
+        return peticion.BuscarAmigo(nombre, Convert.ToInt32(idUsuario));
       }
       catch (NpgsqlException)
       {

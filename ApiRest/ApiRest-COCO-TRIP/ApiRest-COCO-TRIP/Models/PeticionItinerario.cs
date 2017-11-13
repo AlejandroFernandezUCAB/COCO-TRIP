@@ -24,7 +24,11 @@ namespace ApiRest_COCO_TRIP.Models
           con = new ConexionBase();
         }
 
-
+    /// <summary>
+    /// Metodo para consultar todos los itinerarios, con sus respectivos eventos, de un usuario
+    /// </summary>
+    /// <param name="id_usuario"></param>
+    /// <returns></returns>
         public List<Itinerario> ConsultarItinerarios(int id_usuario)
         {
             List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
@@ -193,17 +197,20 @@ namespace ApiRest_COCO_TRIP.Models
           {
             con = new ConexionBase();
             con.Conectar();
-            if (tipo == "Lugar Turistico")
+            if ((tipo == "Lugar Turistico") || (tipo == "Actividad") || (tipo == "Evento"))
             {
-              comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
-            }
-            if (tipo == "Actividad")
-            {
-              comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
-            }
-            if (tipo == "Evento")
-            {
-              comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
+              if (tipo == "Lugar Turistico")
+              {
+                 comm = new NpgsqlCommand("add_lugar_it", con.SqlConexion);
+              }
+              if (tipo == "Actividad")
+              {
+                comm = new NpgsqlCommand("add_actividad_it", con.SqlConexion);
+              }
+              if (tipo == "Evento")
+              {
+                comm = new NpgsqlCommand("add_evento_it", con.SqlConexion);
+              }
             }
             else
             {

@@ -9,6 +9,7 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
   templateUrl: 'consultar-item-modal.html',
 })
 export class ConsultarItemModalPage {
+
   evento: any;
   itinerario: any;
   evento1: any;
@@ -16,26 +17,20 @@ export class ConsultarItemModalPage {
   toast: any;
   loading:any;
   base_url = '../assets/images/';
-  constructor(
+  constructor
+  (
     public navCtrl: NavController,
     public navParams: NavParams,
     private viewCtrl: ViewController,
     public httpc: HttpCProvider,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController
-  ) {
+  )
+  {
     this.evento= this.navParams.get('evento');
     this.evento1=this.navParams.get('evento1');
     this.itinerario = this.navParams.get('itinerario');
     this.fotos = Array();
-    console.log(this.evento1);
-    // this.fotos = [
-    //   {id: 1, foto: this.base_url+'epcot.jpg'},
-    //   {id: 2, foto: this.base_url+'epcot-2.jpg'},
-    //   {id: 1, foto: this.base_url+'epcot-3.jpg'},
-    //   {id: 1, foto: this.base_url+'epcot-4.jpg'}
-    // ]
-    console.log(this.evento1.Foto);
     if (this.evento1.Foto.length != 0){
       this.fotos.push(this.evento1.Foto);
     }
@@ -46,7 +41,8 @@ export class ConsultarItemModalPage {
     }
   }
 
-  closeModal() {
+    public closeModal()
+    {
         this.navCtrl.pop();
     }
 
@@ -60,7 +56,7 @@ export class ConsultarItemModalPage {
         this.toast.present();
     }
 
-    presentLoading()
+    public presentLoading()
     {
           this.loading = this.loadingCtrl.create({
           content: 'Please wait...',
@@ -68,10 +64,4 @@ export class ConsultarItemModalPage {
         });
         this.loading.present();
     }
-
-
-    ionViewWillEnter()
-    {
-    }
-
 }

@@ -33,7 +33,6 @@ export class ItemModalPage {
     this.initializeItems();
   }
   filterItems(searchTerm){
-
       return this.items.filter((item) => {
           return item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
       });
