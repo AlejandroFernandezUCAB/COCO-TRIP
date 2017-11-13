@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,AlertController,LoadingController,T
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
  * Generated class for the SeleccionarIntegrantesPage page.
@@ -22,9 +23,13 @@ export class SeleccionarIntegrantesPage {
   });
   nombreGrupo: string;
   toast: any;
+  myForm: FormGroup;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public alerCtrl: AlertController,private storage: Storage,public loadingCtrl: LoadingController,
-    public restapiService: RestapiService,public toastCtrl: ToastController) {
+    public restapiService: RestapiService,public toastCtrl: ToastController,public formBuilder: FormBuilder) {
+      this.myForm = this.formBuilder.group({
+        namegroup: ['', [Validators.required]]
+      });
   }
 
 
@@ -37,6 +42,9 @@ export class SeleccionarIntegrantesPage {
   }
 
   agregarGrupo(){
+    if ( this.myForm.get('namegroup').errors)
+    this.realizarToast('Por favor, rellene los campos');
+    else{
       var nombreRestApi = this.nombreGrupo;
       this.cargando();
       this.storage.get('id').then((val) => {
@@ -56,6 +64,7 @@ export class SeleccionarIntegrantesPage {
     
           });
         });
+      }
      }
 
      realizarToast(mensaje) {
