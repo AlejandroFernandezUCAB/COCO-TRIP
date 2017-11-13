@@ -35,7 +35,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarItinerario()
     {
-      itinerario = new Itinerario("Michel", 1);
+      itinerario = new Itinerario("Michel", 2);
       it = controller.AgregarItinerario(itinerario);
       Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
       Assert.AreEqual("Michel", it.Nombre);
@@ -113,10 +113,10 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarActividad_It()
     {
-      Itinerario itinerario = new Itinerario(9);
+      itinerario = new Itinerario(6);
       Actividad ac = new Actividad
       {
-        Id = 1
+        Id = 2
       };
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
