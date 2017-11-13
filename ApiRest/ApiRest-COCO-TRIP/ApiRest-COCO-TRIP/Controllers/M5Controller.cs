@@ -147,5 +147,8 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       return peti.EnviarCorreo(id_usuario);
     }
+
+
+
   }
 }

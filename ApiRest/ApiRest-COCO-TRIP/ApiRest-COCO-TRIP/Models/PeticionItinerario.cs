@@ -98,16 +98,52 @@ namespace ApiRest_COCO_TRIP.Models
             }
             catch (NpgsqlException sql)
             {
-                throw sql;
+              con.Desconectar();
+              throw sql;
             }catch (ArgumentException arg)
             {
+              con.Desconectar();
               throw arg;
             }
             catch (InvalidCastException cast)
             {
-                throw cast;
+              con.Desconectar();
+              throw cast;
             }
         }
+
+
+
+
+    public Boolean setVisible(int idusuario, int iditinerario, Boolean visible)
+    {
+      Boolean visible_sql = false;
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("setVisible", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idusuario);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditinerario);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, visible);
+        pgread = comm.ExecuteReader();
+        pgread.Read();
+        visible_sql = pgread.GetBoolean(0);
+        con.Desconectar();
+        return visible_sql;
+      }
+      catch (NpgsqlException sql)
+      {
+        con.Desconectar();
+        throw sql;
+      }
+      catch (InvalidCastException cast)
+      {
+        con.Desconectar();
+        throw cast;
+      }
+    }
 
     /// <summary>
     /// Metodo que elimina un item existente de un itinerario existente

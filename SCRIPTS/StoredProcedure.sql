@@ -171,18 +171,18 @@ $$ LANGUAGE plpgsql;
 --Consulta los lugares turisticos segun las preferencias del usuario
 --se le da un id y retorna lista con lugares turisticos
 CREATE OR REPLACE FUNCTION BuscarLugarTuristicoSegunPreferencias ( _idUsuario int)
-RETURNS TABLE( 
+RETURNS TABLE(
   nombre VARCHAR,
   costo  DECIMAL,
   descripcion VARCHAR,
   direccion VARCHAR,
-  ca_nombre VARCHAR	
+  ca_nombre VARCHAR
 ) AS $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
 	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,ca_nombre
 	FROM usuario, preferencia, categoria, lugar_turistico
-	WHERE 
+	WHERE
 	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (lu_categoria= ca_id);
 END;
 $$ LANGUAGE plpgsql;
@@ -190,7 +190,7 @@ $$ LANGUAGE plpgsql;
 --Consulta los eventos que van a ocurrir segun las preferencias del usuario
 --se le da un id y la fecha actual (del sistema por ejemplo) retorna lista con los eventos
 CREATE OR REPLACE FUNCTION BuscarEventoSegunPreferencias( _idUsuario int, _fechaActual date)
-RETURNS TABLE( 
+RETURNS TABLE(
   nombre VARCHAR,
   fecha_ini TIMESTAMP,
   fecha_fin TIMESTAMP,
@@ -200,13 +200,13 @@ RETURNS TABLE(
   descripcion VARCHAR,
   nombre_local VARCHAR,
   ruta_foto VARCHAR,
-  categoria_nombre VARCHAR	
+  categoria_nombre VARCHAR
 ) AS $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
 	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ev_foto, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
-	 WHERE 
+	 WHERE
 	  (pr_usuario =_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
@@ -798,7 +798,36 @@ ALTER FUNCTION public.consultar_itinerarios(integer)
 
 
 
+--Cambiar visibilidad de un itinerario
+-- FUNCTION: public.setvisible(integer, boolean, integer)
 
+-- DROP FUNCTION public.setvisible(integer, boolean, integer);
+
+CREATE OR REPLACE FUNCTION public.setvisible(
+	idusuario integer,
+	visible boolean,
+	iditinerario integer)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE
+    ROWS 0
+AS $BODY$
+
+    BEGIN
+
+    UPDATE Itinerario
+      SET it_visible=visible
+      WHERE
+          it_id=iditinerario and it_idusuario = idusuario;
+      return true;
+    END;
+
+$BODY$;
+
+ALTER FUNCTION public.setvisible(integer, boolean, integer)
+    OWNER TO postgres;
 
 
 

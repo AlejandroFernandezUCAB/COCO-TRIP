@@ -81,6 +81,7 @@ CREATE TABLE Itinerario
     it_nombre character varying(80) NOT NULL,
     it_fechaInicio date,
     it_fechaFin date,
+    it_visible boolean DEFAULT true NOT NULL,
     it_idUsuario integer NOT NULL,
     CONSTRAINT pk_Itinerario PRIMARY KEY (it_id),
     CONSTRAINT fk_idUsuario FOREIGN KEY (it_idUsuario)
@@ -101,8 +102,8 @@ CREATE TABLE Agenda
     CONSTRAINT pk_Agenda PRIMARY KEY (ag_id),
     CONSTRAINT fk_idItinerario FOREIGN KEY (ag_idItinerario)
         REFERENCES Itinerario (it_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE CASCADE,
-)
+        ON UPDATE NO ACTION ON DELETE CASCADE
+);
 --Fin de modulo
 --Modulo 6
 --Fin de modulo
@@ -218,7 +219,7 @@ CREATE TABLE categoria
 --Modulo 4
 --Fin de modulo
 --Modulo 5
-ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES categoria (ca_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES lugar_turistico (lu_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
