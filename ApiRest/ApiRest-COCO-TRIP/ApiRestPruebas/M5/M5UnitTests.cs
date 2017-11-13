@@ -35,7 +35,7 @@ namespace ApiRestPruebas
     [Test]
     public void Prueba_AgregarItinerario()
     {
-      itinerario = new Itinerario("Michel", 1);
+      itinerario = new Itinerario("Michel", 2);
       it = controller.AgregarItinerario(itinerario);
       Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
       Assert.AreEqual("Michel", it.Nombre);
@@ -106,35 +106,35 @@ namespace ApiRestPruebas
          fechaini = new DateTime(2017, 11, 15);
          fechafin = new DateTime(2017, 11, 18);
          M5Controller controller = new M5Controller();
-         Boolean x = controller.AgregarEvento_It(itinerario.Id, ev.Id,fechaini, fechafin);
+         Boolean x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
          Assert.True(x);
        }*/
 
     [Test]
     public void Prueba_AgregarActividad_It()
     {
-      Itinerario itinerario = new Itinerario(9);
+      itinerario = new Itinerario(6);
       Actividad ac = new Actividad
       {
-        Id = 1
+        Id = 2
       };
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarActividad_It(itinerario.Id,ac.Id,fechaini, fechafin);
+      x = controller.AgregarItem_It("Actividad",itinerario.Id,ac.Id,fechaini, fechafin);
       Assert.True(x);
     }
 
     [Test]
     public void Prueba_AgregarLugar_It()
     {
-      itinerario = new Itinerario(4);
+      itinerario = new Itinerario(6);
       LugarTuristico lt = new LugarTuristico()
       {
         Id = 1
       };
       fechaini = new DateTime(2017,11,15);
-      fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarLugar_It(itinerario.Id, lt.Id,fechaini,fechafin);
+      fechafin = new DateTime(2017,11,18);
+      x = controller.AgregarItem_It("Lugar Turistico",itinerario.Id, lt.Id,fechaini,fechafin);
       Assert.True(x);
     }
 

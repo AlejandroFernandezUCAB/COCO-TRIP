@@ -193,7 +193,7 @@ namespace ApiRestPruebas.M2
     }
 
     [Test]
-    public void cambiarPass()
+    public void CambiarPass()
     {
       string username, passActual, passNueva;
       username = "conexion";
@@ -202,7 +202,23 @@ namespace ApiRestPruebas.M2
       probar = apiRest.CambiarPass(username, passActual, passNueva);
       Assert.AreEqual(true, probar);
     }
-    
+
+    [Test]
+    [Category("Consultar")]
+    public void BuscarPreferenciasDeUsuarioSegunParteDelString()
+    {
+      string consulta;
+      string consultaCompleta;
+      List<Categoria> lista = new List<Categoria>();
+      consulta = "turis";
+      consultaCompleta = "Turismo";
+
+      lista = apiRest.BuscarCategorias( 1, consulta);
+      Assert.AreEqual(consultaCompleta, lista[0].Nombre);
+
+    }
+
+
     [TearDown]
     public void TearDown() {
 

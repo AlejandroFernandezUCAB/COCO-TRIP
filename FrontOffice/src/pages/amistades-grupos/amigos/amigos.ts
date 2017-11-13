@@ -1,10 +1,11 @@
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import { BuscarAmigoPage } from '../../buscar-amigo/buscar-amigo';
 import { Component } from '@angular/core';
-import { Platform, ActionSheetController } from 'ionic-angular';
+import { Platform, ActionSheetController, ToastController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
 import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-amigos',
@@ -15,13 +16,17 @@ export class AmigosPage {
   edit= false;
   detail=false;
   amigo: any;
+  toast: any;
+  
+  nombreUsuario : string;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
   
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
-      public restapiService: RestapiService, public loadingCtrl: LoadingController) {
+      public restapiService: RestapiService, public loadingCtrl: LoadingController,
+      public toastCtrl: ToastController, private storage: Storage) {
       
   }
   
@@ -50,20 +55,20 @@ export class AmigosPage {
    */
    ionViewWillEnter() {
      this.cargando();
-      this.restapiService.listaAmigos(1)
-        .then(data => {
-          if (data == 0 || data == -1) {
-            console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-            this.loading.dismiss();
-            
-          }
-          else {
-            this.amigo = data;
-            this.loading.dismiss();
-          }
-  
-        });
-    }
+     this.storage.get('id').then((val) => {
+      this.restapiService.listaAmigos(val)
+      .then(data => {
+        if (data == 0 || data == -1) {
+          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+          this.loading.dismiss();
+        }
+        else {
+          this.amigo = data;
+          this.loading.dismiss();
+        }
+      });
+      });
+  }
 
 agregarAmigo(){
  this.edit=false;
@@ -123,8 +128,11 @@ eliminarAmigo(nombreUsuario, index) {
       text: 'Aceptar',
       handler: () => {
         this.eliminarAmigos(nombreUsuario, index);
-        this.restapiService.eliminarAmigo(nombreUsuario,1);
+        this.storage.get('id').then((val) => {
+        this.restapiService.eliminarAmigo(nombreUsuario,val);
+        });
         this.delete = false;
+        this.realizarToast('Eliminado Exitosamente');
         }
       }
     ]
@@ -142,8 +150,19 @@ eliminarAmigos(nombreUsuario, index){
   var removed_elements = this.amigo.splice(index, 1);
 }
 
-verPerfil() {
-  this.navCtrl.push(VisualizarPerfilPage);
+verPerfil(item) {
+  this.navCtrl.push(VisualizarPerfilPage,{
+      nombreUsuario : item
+  });
+}
+
+realizarToast(mensaje) {
+  this.toast = this.toastCtrl.create({
+    message: mensaje,
+    duration: 3000,
+    position: 'top'
+  });
+  this.toast.present();
 }
 
 }

@@ -44,6 +44,7 @@ export class RestapiService {
         resolve(this.data);
       },error=>{
         resolve(-1);
+        console.log(error);
       });
      });
 
@@ -68,6 +69,7 @@ export class RestapiService {
 
   iniciarSesionFacebook(usuario)
   {
+    console.log('USUARIO: '+JSON.stringify(usuario));
     return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/iniciarsesionsocial/?datos='+JSON.stringify(usuario),"")
         .map(res => res.json())
@@ -119,6 +121,47 @@ export class RestapiService {
 
         });
       });
+   }
+
+   buscarPreferenciasFiltrado( idUsuario, nombrePreferencia)
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BuscarCategorias?idUsuario=' + idUsuario 
+        +'&preferencia=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   agregarPreferencias( idUsuario, nombrePreferencia)
+   {
+
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/AgregarPreferencias?idUsuario=' + idUsuario 
+        +'&idCategoria=' + nombrePreferencia,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+
    }
 
    eliminarPreferencias( idUsuario ,nombrePreferencia )
@@ -331,7 +374,7 @@ eliminarGrupo(usuario, idGrupo){
  */
 agregarAmigo(idUsuario,nombreAmigo) {  
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -342,9 +385,15 @@ agregarAmigo(idUsuario,nombreAmigo) {
   });
 }
 
+/**
+ * [MODULO 3]
+ * Metodo para salir de un grupo
+ * @param usuario 
+ * @param idGrupo 
+ */
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
-      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/SalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
       .subscribe(res => {
         resolve(res);
       }, (err) => {
@@ -392,4 +441,24 @@ agregarAmigo(idUsuario,nombreAmigo) {
       });
   });
 }
+
+/**
+ * [MODULO 3]
+ * Metodo para agregar un integrante al grupo al modificar
+ * @param idGrupo Identificador del grupo
+ * @param nombreAmigo Nombre del amigo a agregar
+ */
+agregarIntegrante(idGrupo,nombreAmigo) {  
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarIntegranteModificar/?idGrupo='+idGrupo+'&nombreUsuario='+nombreAmigo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
 }

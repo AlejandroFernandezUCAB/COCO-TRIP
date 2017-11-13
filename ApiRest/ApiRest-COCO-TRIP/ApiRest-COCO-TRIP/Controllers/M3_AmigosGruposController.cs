@@ -26,7 +26,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario1">ID del usuario que esta usando la aplicacion y desea agregar un amigo</param>
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPut]
     public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
     {
       try
@@ -99,18 +99,63 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public void RecomendarApp(String correoElectronico)
     {
-      SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-      var mail = new MailMessage();
-      mail.From = new MailAddress("cocotrip17@gmail.com");
-      mail.To.Add(correoElectronico);
-      mail.Subject = "Hola, te estamos esperando";
-      mail.IsBodyHtml = false;
-      mail.Body = "Hola";
-      SmtpServer.Port = 587;
-      SmtpServer.UseDefaultCredentials = false;
-      SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
-      SmtpServer.EnableSsl = true;
-      SmtpServer.Send(mail);
+      try
+      {
+        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+        var mail = new MailMessage();
+        mail.From = new MailAddress("cocotrip17@gmail.com");
+        mail.To.Add(correoElectronico);
+        mail.Subject = "Hola, te estamos esperando";
+        mail.IsBodyHtml = false;
+        mail.Body = "Hola";
+        SmtpServer.Port = 587;
+        SmtpServer.UseDefaultCredentials = false;
+        SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+        SmtpServer.EnableSsl = true;
+        SmtpServer.Send(mail);
+      } catch(FormatException e)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+    }
+
+    [HttpDelete]
+    public int EliminarSalirGrupo(string idGrupo, string idUsuario)
+    {
+
+      int respuesta = 0;
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        if (peticion.VerificarLider(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario)))
+        {
+          respuesta = 1;
+          respuesta = peticion.EliminarGrupoBD(Convert.ToInt32(idUsuario), Convert.ToInt32(idGrupo));
+        }
+        else
+        {
+          respuesta = 2;
+          respuesta = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
+        }
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      
+      return respuesta;
     }
     /// <summary>
     /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
@@ -119,9 +164,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
     /// <returns>true si sale exitossamente, false en caso contrario</returns>
     [HttpDelete]
-    public bool SalirGrupo(string idGrupo, string idUsuario)
+    public int SalirGrupo(string idGrupo, string idUsuario)
     {
-      bool salio = false;
+      int salio = 0;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -195,7 +240,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         if (foto != "null")
 
         {
-          return peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto), nombreusuario);
+          return peticion.AgregarGrupoBD(nombre, foto, nombreusuario);
         }
 
         else
@@ -463,7 +508,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPut]
     public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
     {
       int resultado;

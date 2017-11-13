@@ -40,7 +40,7 @@ agregarItinerario(itinerario){
     this.http.put(this.apiUrl+'/M5/AgregarItinerario', itinerario).subscribe(res => {
         resolve(res);
       }, (err) => {
-        console.log(err)
+        err => resolve(-1)
       });
   });
 }
@@ -86,5 +86,29 @@ NotificacionUsuario(id_usuario)
     );
   });
 }
+
+verItem(id, tipo)
+{ let item;
+  if (tipo=='Lugar Turistico'){
+    let params = new HttpParams().set("id", id);
+    return new Promise((resolve, reject) => {
+      this.http.get(this.apiUrl+'/M7_LugaresTuristicos/GetLugar', { params: params })
+      .subscribe(data => resolve(data),
+        err => resolve(-1)
+      );
+    });
+  }else {
+    if(tipo=='Actividad'){
+      let params = new HttpParams().set("id", id);
+      return new Promise((resolve, reject) => {
+        this.http.get(this.apiUrl+'/M7_LugaresTuristicos/GetActividad', { params: params })
+        .subscribe(data => resolve(data),
+          err => resolve(-1)
+        );
+      });
+    }
+  }
+}
+
 
 }

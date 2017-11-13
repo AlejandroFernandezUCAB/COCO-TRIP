@@ -19,6 +19,7 @@ import 'rxjs/add/observable/throw';
   templateUrl: 'itinerario.html',
 })
 export class ItinerarioPage {
+  @ViewChild(Slides) slides: Slides;
   // @ViewChild('slider') slider: Slides;
   //****************** DECLARACION DE VARIABLES *********************
   base_url = '../assets/images/';
@@ -99,7 +100,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario:2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario: 2 }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
@@ -158,7 +159,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario:2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario: 2 }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
@@ -359,15 +360,35 @@ export class ItinerarioPage {
   verItem(evento, itinerario){
     //Si el click no es en eliminar, entra
     if (this.delete == false){
-      let modal = this.modalCtrl.create('ConsultarItemModalPage', {evento: evento, itinerario: itinerario});
-      modal.present();
-      modal.onDidDismiss(data => {
-      if (data) {
-        console.log("volvio de la vista")
-      }
-      })
+      let evento1;
+      this.presentLoading();
+      this.httpc.verItem(evento.Id,evento.Tipo).then(data =>{
+        if (data== 0 || data == -1){
+          this.loading.dismiss();
+          this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+        }else{
+          this.loading.dismiss();
+          evento1 = data;
+          console.log(data);
+          let modal = this.modalCtrl.create('ConsultarItemModalPage', {evento: evento, itinerario: itinerario, evento1: evento1});
+          modal.present();
+          modal.onDidDismiss(data => {
+          if (data) {
+
+          }
+          })
+        }
+      });
     }
   }
+
+  goToSlide(index) {
+    this.list=false;
+    console.log(index);
+    setTimeout(() => {
+      this.slides.slideTo(index, 500);
+    }, 500);
+    }
 
   listar(){
     for(var i = 0;i< this.its.length;i++) {
@@ -398,6 +419,7 @@ export class ItinerarioPage {
   ionViewWillEnter()
   {
     this.presentLoading();
+    //this.storage.get('id').then((val) =>
     this.httpc.loadItinerarios(2)
     .then(data => {
       if (data== 0 || data == -1){
