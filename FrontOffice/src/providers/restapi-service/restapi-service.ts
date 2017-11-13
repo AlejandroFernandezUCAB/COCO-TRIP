@@ -251,6 +251,55 @@ eveSegunPreferencias(idUser){
         });
     });
   }
+
+  listaNotificaciones(usuario) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ObtenerListaNotificaciones/?idusuario='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  aceptarNotificacion(usuarioAceptado,my_id) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M3_AmigosGrupos/AceptarNotificacion/?nombreUsuarioAceptado='+usuarioAceptado+'&idusuario='+my_id,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          alert("aceptar notificacion restapi "+data);
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  rechazarNotificacion(usuarioRechazado,my_id) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/rechazarNotificacion/?nombreUsuarioRechazado='+usuarioRechazado+'&idusuario='+my_id,"")
+      .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
   
  /**
   * [MODULO 3] 
@@ -318,10 +367,10 @@ eliminarGrupo(usuario, idGrupo){
  * @param nombreUsuario nombre del usuario o iniciales
  */
 
-  buscaramigo( nombreUsuario )
+  buscaramigo( nombreUsuario ,my_id)
   {
      return new Promise( resolve => {
-       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario,"")
+       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario+'&idUsuario='+my_id,"")
        .map(res => res.json())
        .subscribe(data => {
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import * as moment from 'moment';
 import { MenuController } from 'ionic-angular';
+import { HttpCProvider } from '../../providers/http-c/http-c';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { LoginPage } from '../login/login';
@@ -15,14 +16,23 @@ lts : any;
 eve: any;
 idUser: any;
 
-  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public restapiService: RestapiService) {
+
+  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public http: HttpCProvider) {
     //console.log(this.its2);
+ //   this.IniciarNotificaciones();
     this.menu.enable(true);
     this.eveSegunPreferencia();
     this.ltSegunPreferencia();
   }
  
  ltSegunPreferencia(){
+ /* IniciarNotificaciones() {
+    this.http.NotificacionUsuario(1)
+    .then(data => {
+      this._itis = data;
+      console.log(this._itis);
+    });
+  }*/
 
     this.storage.get('id').then(idUser=>{
       this.idUser=idUser;

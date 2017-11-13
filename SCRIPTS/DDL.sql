@@ -63,6 +63,7 @@ CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id)
 Create Table Amigo
 (
 am_id int NOT NULL,
+am_aceptado boolean NOT NULL,
 fk_usuario_conoce int NOT NULL,
 fk_usuario_posee int NOT NULL,
 
@@ -70,7 +71,6 @@ CONSTRAINT pk_amigo PRIMARY KEY (am_id),
 CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id) on delete cascade,
 CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
 );
-
 --Fin de modulo
 --Modulo 4
 --Fin de modulo
@@ -81,6 +81,7 @@ CREATE TABLE Itinerario
     it_nombre character varying(80) NOT NULL,
     it_fechaInicio date,
     it_fechaFin date,
+    it_visible boolean DEFAULT true NOT NULL,
     it_idUsuario integer NOT NULL,
     CONSTRAINT pk_Itinerario PRIMARY KEY (it_id),
     CONSTRAINT fk_idUsuario FOREIGN KEY (it_idUsuario)
@@ -101,8 +102,8 @@ CREATE TABLE Agenda
     CONSTRAINT pk_Agenda PRIMARY KEY (ag_id),
     CONSTRAINT fk_idItinerario FOREIGN KEY (ag_idItinerario)
         REFERENCES Itinerario (it_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE CASCADE,
-)
+        ON UPDATE NO ACTION ON DELETE CASCADE
+);
 --Fin de modulo
 --Modulo 6
 --Fin de modulo
@@ -183,7 +184,7 @@ create table evento
 	ev_fecha_fin timestamp,
 	ev_hora_inicio time,
 	ev_hora_fin time,
-	ev_foto bytea,
+	ev_foto varchar,
 	ev_localidad int,
 	ev_categoria int
 );
@@ -191,8 +192,7 @@ create table localidad(
 	lo_id int primary key,
 	lo_nombre varchar(200),
 	lo_descripcion varchar(500),
-	lo_coord_x int,
-  lo_coord_y int
+	lo_coordenada varchar(50)
 );
 --Fin de modulo
 --Modulo 9
@@ -218,7 +218,7 @@ CREATE TABLE categoria
 --Modulo 4
 --Fin de modulo
 --Modulo 5
-ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES categoria (ca_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES lugar_turistico (lu_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
@@ -228,8 +228,8 @@ ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENC
 --Modulo 7
 --Fin de modulo
 --Modulo 8
-alter table evento add constraint fk_categoria foreign key (ev_categoria) references categoria (ca_id);
-alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id);
+alter table evento add constraint fk_categoria foreign key (ev_categoria) references categoria (ca_id) on delete cascade;
+alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id) on delete cascade;
 --Fin de modulo
 --Modulo 9
 

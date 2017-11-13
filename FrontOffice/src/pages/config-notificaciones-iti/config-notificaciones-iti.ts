@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
+import { HttpCProvider } from '../../providers/http-c/http-c';
 
 @IonicPage()
 @Component({
@@ -12,23 +13,65 @@ export class ConfigNotificacionesItiPage {
     correo: false,
     push: false
   };
+  loading:any;
+  toast: any;
   _itinerarios = Array();
-  constructor(public navCtrl: NavController, public navParams: NavParams, public servicio: EventosCalendarioService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public servicio: EventosCalendarioService, public http: HttpCProvider,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,) {
     this._itinerarios= this.servicio.getItinerarios();
+    console.log(this._itinerarios);
   }
 
   closeModal() {
     this.navCtrl.pop();
   }
 
+
+    presentLoading(){
+        this.loading = this.loadingCtrl.create({
+        content: 'Please wait...',
+        dismissOnPageChange: true
+      });
+      this.loading.present();
+    }
+
   setConfig(tipo, valor){
     console.log(tipo + " " + valor);
   }
 
-  updateVisible(itinerario){
-    console.log(itinerario);
-    this.servicio.updateItinerarioVisible(itinerario);
+  public realizarToast(mensaje)
+  {
+      this.toast = this.toastCtrl.create({
+        message: mensaje,
+        duration: 3000,
+        position: 'middle'
+      });
+      this.toast.present();
   }
+
+  updateVisible(itinerario){
+    this.presentLoading();
+    let up_itinerario = Array();
+    this._itinerarios.forEach(iti => {
+      console.log(iti);
+      if (iti.Id == itinerario.Id){
+        this.http.setVisible(itinerario.IdUsuario,itinerario.Id,itinerario.Visible).then(
+          data=> {
+            if (data== 0 || data == -1){
+              this.loading.dismiss();
+              this.realizarToast('Por favor intente mas tarde :(');
+            }else{
+              this.loading.dismiss();
+              iti.Visible = itinerario.Visible;
+            }
+          }
+        )
+      }
+    })
+
+  }
+
 
   ionViewWillEnter(){
     this._notif = this.servicio.getNotifcacionesConfig();
