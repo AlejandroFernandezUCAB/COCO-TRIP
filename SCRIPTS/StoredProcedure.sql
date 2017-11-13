@@ -1656,15 +1656,14 @@ CREATE OR REPLACE FUNCTION InsertarLocalidad
 (
   _nombreLocalidad varchar(20),
   _descripcionLocalidad varchar(500),
-  _coordenadaXLocalidad integer,
-  _coordenadaYLocalidad integer
+  _coordenada varchar(50)
 )
 RETURNS integer AS
 $$
 BEGIN
 
     INSERT INTO localidad VALUES
-      (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenadaXLocalidad, _coordenadaYLocalidad);
+      (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenada);
 
       RETURN currval('SEQ_Localidad');
     END;
@@ -1679,14 +1678,22 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
   _id integer
 )
 RETURNS boolean AS
-$$
+$BODY$
+DECLARE
+    i varchar;
 
 BEGIN
+  SELECT ev_nombre FROM evento where (ev_id=_id) into i;
+      IF i is null THEN
+      return false;
 
+      else
     DELETE from evento where ev_id = _id;
     return true;
+    end if;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql volatile;
+cost 100;
 
 --elimina evento por su nombre
 CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
@@ -1694,46 +1701,66 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
   _nombreEvento varchar(50)
 )
 RETURNS boolean AS
-$$
+$BODY$
+DECLARE
+    i varchar;
 BEGIN
+  SELECT ev_nombre FROM evento where (ev_nombre=_nombreEvento) into i;
+      IF i is null THEN
+      return false;
 
+      else
     DELETE from evento where ev_nombre = _nombreEvento;
     return true;
+    end if;
 END;
-$$ LANGUAGE plpgsql;
+$BODY$
+LANGUAGE plpgsql volatile;
+cost 100;
 
 
 --elimina localidad por su id
+
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
 returns boolean AS  
-$$
+$BODY$
+    DECLARE
+    i varchar;
  begin
+  SELECT lo_nombre FROM localidad where (lo_id=_id) into i;
+      IF i is null THEN
+      return false;
 
-delete
-    from localidad
-    where lo_id = _id;
-    return true;
-
+      else
+  delete from localidad where lo_nombre = i;
+      return true;
+      end if;
  END;
- $$
- LANGUAGE plpgsql ;
+ $BODY$
+ LANGUAGE plpgsql volatile
+cost 100;
 
 --elimina localidad por su nombre
-CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
-(
-  _nombreLocalidad varchar(50)
-)
-RETURNS boolean AS
-$$
-BEGIN
-
-    DELETE from localidad where lo_nombre = _nombreLocalidad;
-    return true;
-END;
-$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre()
+    RETURNS boolean AS
+  $BODY$
+    DECLARE
+    i integer;
+    BEGIN
+    SELECT lo_id FROM localidad where (lo_nombre='plaza altamira') into i;
+      IF i is null THEN
+      return false;
+      else
+      DELETE from localidad where (lo_id = i);
+      return true;
+      END IF;
+    END;
+  $BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
 
 /*SELECT*/
 
@@ -1866,14 +1893,13 @@ RETURNS TABLE
      id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
-     coordenadaXLocalidad integer,
-     coordenadaYLocalidad integer
+     coordenada varchar
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad, evento
     where lo_id = ev_localidad
     group by lo_id;
@@ -1891,14 +1917,13 @@ RETURNS TABLE
      id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
-     coordenadaXLocalidad integer,
-     coordenadaYLocalidad integer
+     coordenada varchar
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_id=_id;
 END;
@@ -1915,14 +1940,13 @@ RETURNS TABLE
      id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
-     coordenadaXLocalidad integer,
-     coordenadaYLocalidad integer
+     coordenada varchar
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_nombre=_nombreLocalidad;
 END;
@@ -1972,8 +1996,7 @@ CREATE OR REPLACE FUNCTION actualizarLocalidadPorId
   _id integer,
   _nombreLocalidad varchar(20),
   _descripcionLocalidad varchar(500),
-  _coordenadaXLocalidad integer,
-  _coordenadaYLocalidad integer
+  _coordenada varchar(50)
 )
 RETURNS void AS
 $$
@@ -1981,8 +2004,7 @@ BEGIN
   UPDATE localidad SET
     lo_nombre=_nombreLocalidad,
     lo_descripcion=_descripcionLocalidad,
-    lo_coord_x=_coordenadaXLocalidad,
-    lo_coord_y=_coordenadaYLocalidad
+    lo_coordenada=_coordenada
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
