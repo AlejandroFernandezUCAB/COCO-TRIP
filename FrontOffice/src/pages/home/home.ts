@@ -13,17 +13,23 @@ import { LoginPage } from '../login/login';
 export class HomePage {
 lts : any;
 eve: any;
+idUser: any;
 
   constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController, public restapiService: RestapiService) {
     //console.log(this.its2);
     this.menu.enable(true);
+    this.ltSegunPreferencia();
   }
  
  ltSegunPreferencia(){
 
-    var idUser=this.storage.get('id');
-    if(idUser){
-      this.restapiService.ltSegunPreferencias(idUser)
+    this.storage.get('id').then(idUser=>{
+      this.idUser=idUser;
+      console.log(this.idUser+"id en el .get");
+    });
+    console.log(this.idUser+"id despues del .get");
+    if(this.idUser!=null){
+      this.restapiService.ltSegunPreferencias(this.idUser)
       .then(data=>{
 
         if(data==-1){
@@ -36,13 +42,14 @@ eve: any;
 
         else{
         this.lts = data;
+        console.log(this.lts);
         }
       });
 
     }
     else{
     console.log('error al recibir el id del storage');
-    this.navCtrl.setRoot(LoginPage);
+    //this.navCtrl.setRoot(LoginPage);
     }
  } 
 
