@@ -133,35 +133,35 @@ export class GruposPage {
         text: 'Cancelar',
         role: 'cancel',
         handler: () => {
-          //console.log('Cancel clicked');
+      
         }
       },
       {
         text: 'Aceptar',
         handler: () => {
-          //this.eliminarItinerario(id, index);
-            this.restapiService.salirGrupo(2,id)
+          
+          
+          this.storage.get('id').then((val) => {
+            console.log('El id del usuario es ', val);
+            this.restapiService.salirGrupo(val,id)
             .then(data => {
               if (data == 0 || data == -1) {
                 console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-                //this.loading.dismiss();
+          
                 this.realizarToast('Hubo un error');
 
               }
               else {
-                //this.amigo = data;
-                //this.loading.dismiss();
+                
                 console.log("la data es "+data);
                 this.realizarToast('Haz salido del grupo exitosamente');
-                
+                 
                 this.eliminarGrupos(id, index);
               }
       
             });
             this.delete = false;
-          //this.eliminarGrupos(id, index);
-          //this.restapiService.eliminarGrupo(1,id);
-          //this.delete = false;
+          });
           }
         }
       ]
@@ -179,8 +179,10 @@ eliminarGrupos(id, index){
   var removed_elements = this.grupo.splice(index, 1);
 }
 
-  verDetalleGrupo() {
-    this.navCtrl.push(DetalleGrupoPage);
+  verDetalleGrupo(id, index) {
+    this.navCtrl.push(DetalleGrupoPage,{
+      idGrupo: id
+    });
   
   }
   
