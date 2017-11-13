@@ -447,7 +447,7 @@ export class ItinerarioPage {
         de mas reciente a mas antiguo, y viceversa.
       Parametros de salida: no aplica
       Parametros de entrada: no aplica
-
+ionview
       Autores:
         Arguelles, Marialette
         Jraiche, Michel
@@ -642,8 +642,8 @@ export class ItinerarioPage {
   public ionViewWillEnter()
   {
     this.presentLoading();
-    this.storage.get('id').then((val) => {
-      console.log("val :::::::::::::: " + val);
+   /* this.storage.get('id').then((val) => {
+      console.log("val :::::::::::::: " + val);*/
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
     this.httpc.loadItinerarios(2)
     .then(data => {
@@ -659,7 +659,7 @@ export class ItinerarioPage {
         }
       }
     });
-  });
+ // });
   }
 
   /** Metodo: realizarToast
