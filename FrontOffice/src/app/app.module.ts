@@ -33,6 +33,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
+import { ChatProvider } from '../providers/chat/chat';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -120,7 +121,7 @@ export function createTranslateLoader(http: HttpClient) {
          driverOrder: ['indexeddb', 'sqlite', 'websql']
     })
   ],
-  
+
   bootstrap: [IonicApp],
   entryComponents: [
     CocoTrip,
@@ -165,6 +166,7 @@ export function createTranslateLoader(http: HttpClient) {
     Transfer,
     Camera,
     FilePath,
+    ChatProvider
   ]
 })
 export class AppModule {}

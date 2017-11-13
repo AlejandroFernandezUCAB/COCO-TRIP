@@ -184,7 +184,7 @@ create table evento
 	ev_fecha_fin timestamp,
 	ev_hora_inicio time,
 	ev_hora_fin time,
-	ev_foto bytea,
+	ev_foto varchar,
 	ev_localidad int,
 	ev_categoria int
 );

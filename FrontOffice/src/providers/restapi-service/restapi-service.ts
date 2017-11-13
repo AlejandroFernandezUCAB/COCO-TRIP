@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.105:8091/api';
+  apiUrl = 'http://localhost:8091/api';
   data : any;
   userData: any;
   constructor(public http: Http) {
@@ -385,6 +385,12 @@ agregarAmigo(idUsuario,nombreAmigo) {
   });
 }
 
+/**
+ * [MODULO 3]
+ * Metodo para salir de un grupo
+ * @param usuario 
+ * @param idGrupo 
+ */
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
       this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")

@@ -240,7 +240,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         if (foto != "null")
 
         {
-          return peticion.AgregarGrupoBD(nombre, Convert.ToByte(foto), nombreusuario);
+          return peticion.AgregarGrupoBD(nombre, foto, nombreusuario);
         }
 
         else
