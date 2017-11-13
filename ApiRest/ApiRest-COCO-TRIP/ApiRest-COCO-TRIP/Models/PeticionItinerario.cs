@@ -8,6 +8,8 @@ using System.Web.Http.Cors;
 using System.Collections.Generic;
 using System.Data;
 using ApiRest_COCO_TRIP.Models.Dato;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -47,7 +49,6 @@ namespace ApiRest_COCO_TRIP.Models
                   {
                     iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), true);
                   }
-                    
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
                     foreach (Itinerario itinerario in itinerarios)
