@@ -113,6 +113,15 @@ verItem(id, tipo)
           err => resolve(-1)
         );
       });
+    }else
+    if(tipo=='Evento'){
+      let params = new HttpParams().set("id", id);
+      return new Promise((resolve, reject) => {
+        this.http.get(this.apiUrl+'/M8_Eventos/ConsultarEvento', { params: params })
+        .subscribe(data => resolve(data),
+          err => resolve(-1)
+        );
+      });
     }
   }
 }
