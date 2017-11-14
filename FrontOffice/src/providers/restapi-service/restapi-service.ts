@@ -14,6 +14,7 @@ export class RestapiService {
   apiUrl = 'http://localhost:8091/api';
   data : any;
   userData: any;
+  idUser: any;
   constructor(public http: Http) {
   }
   iniciarSesion(usuario,clave) 
@@ -28,6 +29,7 @@ export class RestapiService {
           this.data = data;
           resolve(this.data);
         },error=>{
+          console.log('ERROR '+error);
           resolve(-1);
 
         });
@@ -53,7 +55,8 @@ export class RestapiService {
 
   registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
   {   
-      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: foto};
+      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: ""};
+      console.log('Enviando: '+JSON.stringify(this.userData));
       return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/registrarusuario/?datos='+JSON.stringify(this.userData),"")
       .map(res => res.json())
@@ -61,6 +64,7 @@ export class RestapiService {
         this.data = data;
         resolve(this.data);
       },error=>{
+        console.log('ERROR: '+error);
         resolve(-1);
 
       });
@@ -69,7 +73,6 @@ export class RestapiService {
 
   iniciarSesionFacebook(usuario)
   {
-    console.log('USUARIO: '+JSON.stringify(usuario));
     return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/iniciarsesionsocial/?datos='+JSON.stringify(usuario),"")
         .map(res => res.json())
@@ -96,6 +99,35 @@ export class RestapiService {
 
         });
     });
+  }
+ltSegunPreferencias(idUser){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M1_Login/LugarTuristicoSegunPreferencias/?idUsuario='+JSON.stringify(idUser),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+      });
+  });
+
+}
+
+eveSegunPreferencias(idUser){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M1_Login/EventoSegunPreferencias/?idUsuario='+JSON.stringify(idUser),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+      });
+  });  
+  
+  
+    
   }
 
 
@@ -184,9 +216,79 @@ export class RestapiService {
     });
    }
 
+   modificarDatosUsuario(usuario){     
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' + 
+      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido + 
+      "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
    ObtenerDatosUsuario(idUsuario){
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ObtenerDatosUsuario?idUsuario=' + idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   /**
+     * [Modulo 2]
+     * Metodo para cambiar la contraseña del usuario
+     * @param username user del usuario
+     * @param passActual contraseña actual (a cambiar)
+     * @param passNueva contraseña nueva 
+     */
+
+   cambiarPass(username, passActual, passNueva){
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + username
+       +"&passwordActual=" + passActual +"&passwordNuevo=" +passNueva ,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   /**
+     * [Modulo 2]
+     * Metodo para borrar al usuario
+     * @param username user del usuario
+     * @param passAct contraseña del usuario 
+     */
+
+   borrarUser(username, passwordAct){
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + username
+       +"&password=" + passwordAct ,"")
       .map(res => res.json())
       .subscribe(data => {
 
@@ -342,7 +444,7 @@ eliminarGrupo(usuario, idGrupo){
        this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario+'&idUsuario='+my_id,"")
        .map(res => res.json())
        .subscribe(data => {
-
+ 
          this.data = data;
          resolve(this.data);
 

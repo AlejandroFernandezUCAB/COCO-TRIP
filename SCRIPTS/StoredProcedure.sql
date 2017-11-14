@@ -1,5 +1,4 @@
-
-
+﻿
 /**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
 
@@ -16,7 +15,7 @@ CREATE OR REPLACE FUNCTION InsertarUsuario
 (_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
  _apellido VARCHAR(30), _fechaNacimiento date,
  _genero VARCHAR(1), _correo VARCHAR(30),
- _clave VARCHAR(20), _foto bytea)
+ _clave VARCHAR(20), _foto VARCHAR(100))
 RETURNS integer AS
 $$
 BEGIN
@@ -58,7 +57,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -80,7 +79,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -103,12 +102,13 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar,
+   password varchar)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto, us_password
 	FROM usuario
 	WHERE us_email=_correo;
 END;
@@ -124,7 +124,7 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -144,7 +144,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -174,17 +174,17 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION BuscarLugarTuristicoSegunPreferencias ( _idUsuario int)
 RETURNS TABLE(
   nombre VARCHAR,
-  costo  DECIMAL,
+  costo  NUMERIC,
   descripcion VARCHAR,
   direccion VARCHAR,
-  ca_nombre VARCHAR
+  categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
-  RETURN QUERY
-	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,ca_nombre
-	FROM usuario, preferencia, categoria, lugar_turistico
-	WHERE
-	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (lu_categoria= ca_id);
+  RETURN QUERY 
+	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion, ca_nombre
+  FROM usuario, preferencia, categoria, lugar_turistico, lt_c
+  WHERE 
+	 (pr_usuario =_idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = id_lugar_turistico);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -200,15 +200,14 @@ RETURNS TABLE(
   precio  INTEGER,
   descripcion VARCHAR,
   nombre_local VARCHAR,
-  ruta_foto VARCHAR,
-  categoria_nombre VARCHAR
+  categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
-  RETURN QUERY
-	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ev_foto, ca_nombre
+  RETURN QUERY 
+	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
-	 WHERE
-	  (pr_usuario =_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
+	 WHERE 
+	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -219,6 +218,18 @@ $$
 BEGIN
 	UPDATE usuario SET us_validacion=true
 	WHERE us_email=_correo AND us_id = _id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ActualizarUsuario(_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
+ _apellido VARCHAR(30), _fechaNacimiento date,
+ _genero VARCHAR(1), _correo VARCHAR(30),
+ _clave VARCHAR(20), _foto VARCHAR(100))
+RETURNS void AS
+$$
+BEGIN
+	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, _genero = us_genero, us_email=_correo, us_password=_clave, us_foto =_foto
+	WHERE us_email=_correo;
 END;
 $$ LANGUAGE plpgsql;
 /**
@@ -1564,7 +1575,16 @@ CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_cat
   RETURNS void
    AS $$
 BEGIN
-    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+    UPDATE categoria
+   SET ca_status=estatus
+   from (select c.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria  
+	union
+select ca.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria   
+	union
+select cat.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria  
+) as ca
+   
+ WHERE ca.id = ca_id;
 END; $$
   LANGUAGE plpgsql;
 
@@ -1649,6 +1669,9 @@ Autores:
 /*INSERT*/
 
 --inserta un evento en una localidad
+
+
+
 CREATE OR REPLACE FUNCTION InsertarEvento
 (
   _nombreEvento VARCHAR(100),
@@ -1681,15 +1704,14 @@ CREATE OR REPLACE FUNCTION InsertarLocalidad
 (
   _nombreLocalidad varchar(20),
   _descripcionLocalidad varchar(500),
-  _coordenadaXLocalidad integer,
-  _coordenadaYLocalidad integer
+  _coordenada varchar(50)
 )
 RETURNS integer AS
 $$
 BEGIN
 
     INSERT INTO localidad VALUES
-      (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenadaXLocalidad, _coordenadaYLocalidad);
+      (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenada);
 
       RETURN currval('SEQ_Localidad');
     END;
@@ -1704,14 +1726,22 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorId
   _id integer
 )
 RETURNS boolean AS
-$$
+$BODY$
+DECLARE
+    i varchar;
 
 BEGIN
+  SELECT ev_nombre FROM evento where (ev_id=_id) into i;
+      IF i is null THEN
+      return false;
 
+      else
     DELETE from evento where ev_id = _id;
     return true;
+    end if;
 END;
-$$ LANGUAGE plpgsql;
+$BODY$ LANGUAGE plpgsql volatile;
+
 
 --elimina evento por su nombre
 CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
@@ -1719,46 +1749,65 @@ CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
   _nombreEvento varchar(50)
 )
 RETURNS boolean AS
-$$
+$BODY$
+DECLARE
+    i varchar;
 BEGIN
+  SELECT ev_nombre FROM evento where (ev_nombre=_nombreEvento) into i;
+      IF i is null THEN
+      return false;
 
+      else
     DELETE from evento where ev_nombre = _nombreEvento;
     return true;
+    end if;
 END;
-$$ LANGUAGE plpgsql;
+$BODY$
+LANGUAGE plpgsql volatile;
+
 
 
 --elimina localidad por su id
+
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-returns boolean AS
-$$
+returns boolean AS  
+$BODY$
+    DECLARE
+    i varchar;
+
  begin
+  SELECT lo_nombre FROM localidad where (lo_id=_id) into i;
+      IF i is null THEN
+      return false;
 
-delete
-    from localidad
-    where lo_id = _id;
-    return true;
-
+      else
+  delete from localidad where lo_nombre = i;
+      return true;
+      end if;
  END;
- $$
- LANGUAGE plpgsql ;
+ $BODY$
+ LANGUAGE plpgsql volatile;
 
 --elimina localidad por su nombre
-CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre
-(
-  _nombreLocalidad varchar(50)
-)
-RETURNS boolean AS
-$$
-BEGIN
-
-    DELETE from localidad where lo_nombre = _nombreLocalidad;
-    return true;
-END;
-$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre()
+    RETURNS boolean AS
+  $BODY$
+    DECLARE
+    i integer;
+    BEGIN
+    SELECT lo_id FROM localidad where (lo_nombre='plaza altamira') into i;
+      IF i is null THEN
+      return false;
+      else
+      DELETE from localidad where (lo_id = i);
+      return true;
+      END IF;
+    END;
+  $BODY$
+    LANGUAGE plpgsql  VOLATILE;
 
 /*SELECT*/
 
@@ -1891,19 +1940,19 @@ RETURNS TABLE
      id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
-     coordenadaXLocalidad integer,
-     coordenadaYLocalidad integer
+     coordenada varchar
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad, evento
     where lo_id = ev_localidad
     group by lo_id;
 END;
 $$ LANGUAGE plpgsql;
+
 
 -- Consulta una localidad por su id
 -- devuelve la informacion de la localidad
@@ -1916,14 +1965,13 @@ RETURNS TABLE
      id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
-     coordenadaXLocalidad integer,
-     coordenadaYLocalidad integer
+     coordenada varchar
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_id=_id;
 END;
@@ -1940,14 +1988,13 @@ RETURNS TABLE
      id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
-     coordenadaXLocalidad integer,
-     coordenadaYLocalidad integer
+     coordenada varchar
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coord_x, lo_coord_y
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_nombre=_nombreLocalidad;
 END;
@@ -1997,8 +2044,7 @@ CREATE OR REPLACE FUNCTION actualizarLocalidadPorId
   _id integer,
   _nombreLocalidad varchar(20),
   _descripcionLocalidad varchar(500),
-  _coordenadaXLocalidad integer,
-  _coordenadaYLocalidad integer
+  _coordenada varchar(50)
 )
 RETURNS void AS
 $$
@@ -2006,8 +2052,11 @@ BEGIN
   UPDATE localidad SET
     lo_nombre=_nombreLocalidad,
     lo_descripcion=_descripcionLocalidad,
-    lo_coord_x=_coordenadaXLocalidad,
-    lo_coord_y=_coordenadaYLocalidad
+    lo_coordenada=_coordenada
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+
