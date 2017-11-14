@@ -18,7 +18,7 @@
           <div class="form-group">
             <label for="name" class="col-sm-2 control-label" style="margin-left: -3%; margin-right: 3%;">Nombre</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="name" placeholder="Nombre lugar turístico...">
+              <input type="text" class="form-control" id="name" placeholder="Nombre lugar tur&iacute;stico...">
             </div>
           </div>
         </div>
@@ -441,11 +441,20 @@
           </div>
         </div>
 
-        <div class="row">
-          <label for="coords" class="col-sm-2 control-label">Coordenadas(GD)</label>
-          <input type="text" id="coords" />
-          
+        <div class="row form-group">
+          <div class="col-md-5">
+            <label for="latitud" class="col-sm-2 control-label label-latitud">Latitud(GD)</label>
+            <input type="text" id="latitud" />
+          </div>
+          <div class="col-md-5">
+            <label for="longitud" class="col-sm-2 control-label label-longitud">Longitud(GD)</label>
+            <div class="col-sm-9">
+              <input type="text" id="longitud" />
+            </div>
+          </div>
+
           <div id="map" class="text-center"></div>
+
         </div>
 
         <div class="form-group">

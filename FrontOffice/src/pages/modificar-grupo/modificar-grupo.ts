@@ -4,6 +4,8 @@ import{NuevosIntegrantesPage} from '../nuevos-integrantes/nuevos-integrantes';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'modificar-grupo-page',
@@ -12,9 +14,17 @@ import { Storage } from '@ionic/storage';
 export class ModificarGrupoPage {
   grupo: any;
   miembro: any;
+  lider: any;
   id: any;
   nombreGrupo: string;
   toast: any;
+  title: any;
+  accept: any;
+  cancel: any;
+  text: any;
+  message: any;
+  succesful: any;
+  edited: any;
 
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
@@ -22,11 +32,13 @@ export class ModificarGrupoPage {
     constructor(public navCtrl: NavController, private navParams: NavParams,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public alerCtrl: AlertController, public toastCtrl: ToastController,
-      private storage: Storage) {
+      private storage: Storage, private translateService: TranslateService) {
           
     }
+    
 
     ionViewWillEnter() {
+      
       this.id = this.navParams.get('idGrupo');
       this.restapiService.verperfilGrupo(this.id)
         .then(data => {
@@ -36,14 +48,35 @@ export class ModificarGrupoPage {
           }
           else {
             this.grupo = data;
-            this.cargarmiembros(this.id);
+            this.cargarlider(this.id);
           }
   
         });
     }
+    
+cargarlider(id){
+  this.storage.get('id').then((val) => {
+    
+            this.restapiService.obtenerLider(id, val)
+          .then(data => {
+            if (data == 0 || data == -1) {
+              console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+      
+            }
+            else {
+              this.lider = data;
+              this.cargarmiembros(id);
+            }
+      
+          });
+          });
+
+
+
+}
 
     cargarmiembros(id){
-      this.restapiService.listamiembroGrupo(id)
+      this.restapiService.obtenerSinLider(id)
       .then(data => {
         if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -63,24 +96,29 @@ export class ModificarGrupoPage {
  * @param index 
  */
     eliminarIntegrantes(nombreUsuario, index){
+      this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
+      this.translateService.get('Deseas Borrar a:').subscribe(value => {this.message = value;})
+      this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+      this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+      this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
       
       const alert = this.alerCtrl.create({
-        title: 'Por favor, confirmar',
-        message: '¿Deseas borrar a: '+nombreUsuario+'?',
+        title: this.title,
+        message: '¿'+this.message+nombreUsuario+'?',
         buttons: [
           {
-            text: 'Cancelar',
+            text: this.cancel,
             role: 'cancel',
             handler: () => {
              
             }
           },
           {
-            text: 'Aceptar',
+            text: this.accept,  
             handler: () => {
               this.eliminarIntegrante(nombreUsuario, index); 
               this.restapiService.eliminarIntegrante(nombreUsuario,4);
-              this.realizarToast('Eliminado Exitosamente');
+              this.realizarToast(this.succesful);
               
               }
             }
@@ -96,17 +134,18 @@ export class ModificarGrupoPage {
       }
 
 modificarNombre(evento){
+  this.translateService.get('Modificado Exitosamente').subscribe(value => {this.edited = value;})
   this.storage.get('id').then((val) => {
   if(this.nombreGrupo == undefined){
     this.restapiService.verperfilGrupo(this.id)
     .then(data => {this.grupo = data;});
       var nombreRestApi = this.grupo.filter(item => item.Nombre)[1];
-      this.realizarToast('Modificado Exitosamente');
+      this.realizarToast(this.edited);
      
   } else {
        nombreRestApi = this.nombreGrupo;
         this.restapiService.modificarGrupo(nombreRestApi,val,this.id);
-        this.realizarToast('Modificado Exitosamente');
+        this.realizarToast(this.edited);
   }
 });
 }

@@ -4,7 +4,7 @@
             <ion-icon name="menu"></ion-icon>
           </button>
       <ion-title>
-        Notificaciones
+        {{'Notificaciones' | translate}}
       </ion-title>
     </ion-navbar>
   </ion-header>
@@ -22,11 +22,11 @@
       <ion-item-options side="right">
           <button ion-button color="primary" (click)="aceptarAmigo(item.NombreUsuario,i)" icon-start>
             <ion-icon name="checkmark"></ion-icon>
-            Aceptar
+            {{'Aceptar' | translate}}
           </button>
           <button ion-button color="danger" (click)="rechazarAmigo(item.NombreUsuario,i)" icon-start>
             <ion-icon name="close"></ion-icon>
-            Declinar
+            {{'Declinar' | translate}}
           </button>
         </ion-item-options>   
     </ion-item-sliding>  
