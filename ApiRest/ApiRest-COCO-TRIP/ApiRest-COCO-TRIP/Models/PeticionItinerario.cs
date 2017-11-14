@@ -377,6 +377,7 @@ namespace ApiRest_COCO_TRIP.Models
         while (pgread.Read())
         {
           Evento evento = new Evento(pgread.GetInt32(0), pgread.GetString(1));
+          evento.Foto = pgread.GetString(2);
           list_eventos.Add(evento);
         }
 
@@ -431,35 +432,37 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="busqueda">Palabra cuya similitud se busca en el nombre de la actividad que se esta buscando.</param>
     /// <returns>Retorna una lista con las actividades que tengan coincidencia.</returns>
     public List<Actividad> ConsultarActividades(string busqueda)
+    {
+      List<Actividad> list_actividades = new List<Actividad>();
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultar_actividades", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
+        pgread = comm.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        while (pgread.Read())
         {
-          List<Actividad> list_actividades = new List<Actividad>();
-          try
-          {
-            con = new ConexionBase();
-            con.Conectar();
-            comm = new NpgsqlCommand("consultar_actividades", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
-            pgread = comm.ExecuteReader();
+          Actividad actividad = new Actividad();
+          actividad.Id = pgread.GetInt32(0);
+          actividad.Nombre = pgread.GetString(1);
+          //actividad.Foto = pgread.GetString(2);
 
-            //Se recorre los registros devueltos.
-            while (pgread.Read())
-            {
-              Actividad actividad = new Actividad();
-              actividad.Id = pgread.GetInt32(0);
-              actividad.Nombre = pgread.GetString(1);
 
-              list_actividades.Add(actividad);
-            }
-
-            con.Desconectar();
-            return list_actividades;
-          }
-          catch (NpgsqlException e)
-          {
-            throw e;
-          }
+          list_actividades.Add(actividad);
         }
+
+        con.Desconectar();
+        return list_actividades;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
 
     /// <summary>
     /// Clase provisional para buscar usuario.
