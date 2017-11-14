@@ -37,7 +37,7 @@ export class CalendarioPage {
       this.its.forEach(it => {
         if (it.Visible ==true){
           it.Items_agenda.forEach( ev => {
-            if (moment(ev.FechaInicio).format('DD/MM/YYYY') == moment($event._d).format('MM/DD/YYYY')){
+            if (moment(ev.FechaInicio).format('DD-MM-YYYY') == moment($event._d).format('DD-MM-YYYY')){
               items_agenda.push({
                 Nombre: ev.Nombre,
                 // HoraInicio: ev.HoraInicio,

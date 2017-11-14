@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ConversacionPage } from '../chat/conversacion/conversacion';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import {ChatProvider} from '../../providers/chat/chat';
+import { ChatProvider } from '../../providers/chat/chat';
 
 /**
  * Generated class for the ChatPage page.
@@ -88,7 +88,7 @@ export class ChatPage {
 
   inicializarConversacion(conversacion){
     this.chatService.inicializarConversacion(conversacion);
-    this.navCtrl.push('conversacionPage');
+    this.navCtrl.push(ConversacionPage);
   }
 }
 

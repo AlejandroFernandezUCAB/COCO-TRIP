@@ -6,7 +6,7 @@
     "Amistades y Grupos":"Amistades y Grupos",
     "Salir":"Salir",
 
-    "Configuracion": "Configuracion",
+    "Configuracion": "Configuración",
     "Eventos": "Eventos",
     "Chat": "Chat",
     "Cuentas Vinculadas": "Cuentas Vinculadas",
@@ -63,6 +63,9 @@
     "NoItinerarios" : "- No tienes ningún itinerario -",
     "Eliminar": "Eliminar",
     "Fecha Inicio": "Fecha Inicio",
-    "Fecha Fin": "Fecha Fin"
-    
+    "Fecha Fin": "Fecha Fin",
+    "Mis Itinerarios": "Mis Itinerarios",
+    "Notificaciones" : "Notificaciones",
+    "Correo Electrónico": "Correo Electrnónico",
+    "Itinerarios del Calendario" : "Itinerarios del Calendario"
 }

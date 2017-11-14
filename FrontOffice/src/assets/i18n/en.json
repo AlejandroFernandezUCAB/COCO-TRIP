@@ -71,6 +71,10 @@
     "NoItinerarios" : "- You don't have any itineraries -",
     "Eliminar": "Delete",
     "Fecha Inicio": "Start Date",
-    "Fecha Fin": "End Date"
+    "Fecha Fin": "End Date",
+    "Mis Itinerarios" : "My Itineraries",
+    "Notificaciones": "Notifications",
+    "Correo Electrónico": "Email",
+    "Itinerarios del Calendario" : "Calendar's Itineraries"
 
 }

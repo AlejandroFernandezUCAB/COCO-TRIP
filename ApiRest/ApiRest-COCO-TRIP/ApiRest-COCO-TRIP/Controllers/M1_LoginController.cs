@@ -10,6 +10,9 @@ using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Web.Http.Cors;
+using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -79,7 +82,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     public int IniciarSesionSocial(String datos)
     {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
-      usuario.Foto = new byte[1000];
       peticion = new PeticionLogin();
       try
       {
@@ -107,12 +109,15 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="datos">datos del usuario. Formato JSON</param>
     /// <returns>El id del usuario(-1 o -2 si hubo un error). Formato JSON</returns>
     [HttpPost]
-    public int RegistrarUsuario(String datos)
+     public int RegistrarUsuario(String datos)
     {
       usuario = JsonConvert.DeserializeObject<Usuario>(datos);
       peticion = new PeticionLogin();
+      string clave;
+      //usuario.Foto = "";
       try
       {
+        clave = usuario.Clave;
         usuario.Id = peticion.ConsultarUsuarioSocial(usuario);
         if (usuario.Id == 0)
         {
@@ -122,10 +127,10 @@ namespace ApiRest_COCO_TRIP.Controllers
             usuario.Id = peticion.InsertarUsuario(usuario);
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            string uri = "http://localhost:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
+            string uri = "http://192.168.0.105:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
             mail.From = new MailAddress("cocotrip17@gmail.com");
             mail.To.Add(usuario.Correo);
-            mail.Subject = "Recuperar contrasena";
+            mail.Subject = "Registro Cocotrip";
             mail.Body = "Querido Usuario, hemos recibido una solicitud para registrarse en cocotrip, ingrese al siguiente link para completar su proceso de registro: "+uri; 
 
             SmtpServer.Port = 587;
@@ -135,10 +140,53 @@ namespace ApiRest_COCO_TRIP.Controllers
             SmtpServer.Send(mail);
           }
           else
-          { usuario.Id = -3; }
+          {
+            usuario.Id = -3;
+          }
         }
         else
-        { usuario.Id = -2; }
+        {
+          if(usuario.Valido)
+          {
+            usuario.Id = -2;
+          }
+          else
+          {
+            if(usuario.Clave==null)
+            {
+              int idusr = usuario.Id;
+              usuario.Id = peticion.ConsultarUsuarioSoloNombre(usuario);
+              usuario.Clave = clave;
+              if (usuario.Id == 0)
+              {
+                usuario.Id = idusr;
+                peticion.ActualizarUsuario(usuario);// aqui hay que colocar actualizar
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                string uri = "http://192.168.0.105:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
+                mail.From = new MailAddress("cocotrip17@gmail.com");
+                mail.To.Add(usuario.Correo);
+                mail.Subject = "Registro Cocotrip";
+                mail.Body = "Querido Usuario, hemos recibido una solicitud para registrarse en cocotrip, ingrese al siguiente link para completar su proceso de registro: " + uri;
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+              }
+              else
+              {
+                usuario.Id = -3;
+              }
+            }
+            else
+            {
+             usuario.Id = -4;//tienes que validar la cuenta mediante el correo 
+            }
+          }
+          
+        }
       }
       catch (NpgsqlException)
       {
@@ -236,6 +284,52 @@ namespace ApiRest_COCO_TRIP.Controllers
       return "Usuario validado";
 
     }
+    //codigo de Pedro Garcia
+    [HttpGet]
+    public List<EventoPreferencia> EventoSegunPreferencias(int idUsuario) {
+         peticion = new PeticionLogin();
+         List<EventoPreferencia> listaEvento = new List<EventoPreferencia>();
+         DateTime fechaActual = DateTime.Now;
+      try
+         {
+           listaEvento = peticion.ConsultarEventosSegunPreferencias(idUsuario,fechaActual);
+           return listaEvento;
+         }
+         catch (NpgsqlException e)
+         {
+             throw e;
+         }
+         catch (FormatException e)
+         {
+             throw e;
+         }
+
+
+
+     }
+    [HttpGet]
+    public List<LugarTuristicoPreferencia> LugarTuristicoSegunPreferencias(int idUsuario) {
+      List<LugarTuristicoPreferencia> ltp = new List<LugarTuristicoPreferencia>();
+      
+      try
+      {
+        peticion = new PeticionLogin();
+        ltp = peticion.ConsultarLugarTuristicoSegunPreferencias(idUsuario);
+        return ltp;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+
+
+    }
+  }
 
   }
-}
+

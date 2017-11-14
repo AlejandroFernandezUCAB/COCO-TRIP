@@ -11,9 +11,10 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://localhost:51049/api';
+  apiUrl = 'http://192.168.0.104:8091/api';
   data : any;
   userData: any;
+  idUser: any;
   constructor(public http: Http) {
   }
   iniciarSesion(usuario,clave) 
@@ -28,6 +29,7 @@ export class RestapiService {
           this.data = data;
           resolve(this.data);
         },error=>{
+          console.log('ERROR '+error);
           resolve(-1);
 
         });
@@ -44,6 +46,7 @@ export class RestapiService {
         resolve(this.data);
       },error=>{
         resolve(-1);
+        console.log(error);
       });
      });
 
@@ -52,7 +55,8 @@ export class RestapiService {
 
   registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
   {   
-      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: foto};
+      this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: ""};
+      console.log('Enviando: '+JSON.stringify(this.userData));
       return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/registrarusuario/?datos='+JSON.stringify(this.userData),"")
       .map(res => res.json())
@@ -60,6 +64,7 @@ export class RestapiService {
         this.data = data;
         resolve(this.data);
       },error=>{
+        console.log('ERROR: '+error);
         resolve(-1);
 
       });
@@ -94,6 +99,35 @@ export class RestapiService {
 
         });
     });
+  }
+ltSegunPreferencias(idUser){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M1_Login/LugarTuristicoSegunPreferencias/?idUsuario='+JSON.stringify(idUser),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+      });
+  });
+
+}
+
+eveSegunPreferencias(idUser){
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M1_Login/EventoSegunPreferencias/?idUsuario='+JSON.stringify(idUser),"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        resolve(-1);
+      });
+  });  
+  
+  
+    
   }
 
 
@@ -289,6 +323,55 @@ export class RestapiService {
         });
     });
   }
+
+  listaNotificaciones(usuario) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/M3_AmigosGrupos/ObtenerListaNotificaciones/?idusuario='+usuario,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  aceptarNotificacion(usuarioAceptado,my_id) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/M3_AmigosGrupos/AceptarNotificacion/?nombreUsuarioAceptado='+usuarioAceptado+'&idusuario='+my_id,"")
+        .map(res => res.json())
+        .subscribe(data => {
+          alert("aceptar notificacion restapi "+data);
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
+
+  rechazarNotificacion(usuarioRechazado,my_id) 
+  {  
+  
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/rechazarNotificacion/?nombreUsuarioRechazado='+usuarioRechazado+'&idusuario='+my_id,"")
+      .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        },error=>{
+          console.log("Ocurrio un error")
+
+        });
+    });
+  }
   
  /**
   * [MODULO 3] 
@@ -356,10 +439,10 @@ eliminarGrupo(usuario, idGrupo){
  * @param nombreUsuario nombre del usuario o iniciales
  */
 
-  buscaramigo( nombreUsuario )
+  buscaramigo( nombreUsuario ,my_id)
   {
      return new Promise( resolve => {
-       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario,"")
+       this.http.get(this.apiUrl+'/M3_AmigosGrupos/BuscarAmigo/?nombre=' + nombreUsuario+'&idUsuario='+my_id,"")
        .map(res => res.json())
        .subscribe(data => {
 
@@ -442,7 +525,7 @@ eliminarGrupo(usuario, idGrupo){
  */
 agregarAmigo(idUsuario,nombreAmigo) {  
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -455,7 +538,7 @@ agregarAmigo(idUsuario,nombreAmigo) {
 
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
-      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/SalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
+      this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
       .subscribe(res => {
         resolve(res);
       }, (err) => {
@@ -503,4 +586,24 @@ agregarAmigo(idUsuario,nombreAmigo) {
       });
   });
 }
+
+/**
+ * [MODULO 3]
+ * Metodo para agregar un integrante al grupo al modificar
+ * @param idGrupo Identificador del grupo
+ * @param nombreAmigo Nombre del amigo a agregar
+ */
+agregarIntegrante(idGrupo,nombreAmigo) {  
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarIntegranteModificar/?idGrupo='+idGrupo+'&nombreUsuario='+nombreAmigo,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
 }

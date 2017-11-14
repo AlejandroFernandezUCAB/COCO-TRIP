@@ -1,3 +1,23 @@
+/*
+
+delete from lt_horario;
+delete from lt_foto;
+delete from actividad;
+delete from lt_c;
+delete from lugar_turistico;
+
+drop sequence seq_lugar_turistico;
+drop sequence seq_lt_foto;
+drop sequence seq_lt_horario;
+drop sequence seq_actividad;
+
+create sequence seq_lugar_turistico;
+create sequence seq_lt_foto;
+create sequence seq_lt_horario;
+create sequence seq_actividad;
+
+*/
+
 --Datos de prueba del Modulo 7
 
 INSERT INTO public.categoria(

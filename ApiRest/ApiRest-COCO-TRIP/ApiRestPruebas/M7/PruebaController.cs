@@ -133,9 +133,6 @@ namespace ApiRestPruebas.M7
       lugar.Foto.Add(foto);
       lugar.Horario.Add(horario);
 
-      string x = Newtonsoft.Json.JsonConvert.SerializeObject(lugar);
-      string y = Newtonsoft.Json.JsonConvert.SerializeObject(controlador.GetLugar(lugar.Id));
-
       Assert.AreEqual(true, lugar.Equals(controlador.GetLugar(lugar.Id)));
     }
 
@@ -199,15 +196,7 @@ namespace ApiRestPruebas.M7
       lugar.Foto.Add(foto);
 
       idLugar = controlador.PostLugar(lugar);
-      lugar.Id = idLugar;
-
-      lugar.Foto[0].Contenido = null;
-      lugar.Foto[0].Ruta += "lt-fo-" + lugar.Foto[0].Id;
-
-      lugar.Actividad[0].Foto.Contenido = null;
-      lugar.Actividad[0].Foto.Ruta += "ac-" + lugar.Actividad[0].Id;
-
-      Assert.AreEqual(true, lugar.Equals(controlador.GetLugarActividades(lugar.Id)));
+      Assert.AreEqual(true, idLugar > 0);
     }
 
     /// <summary>
@@ -244,12 +233,7 @@ namespace ApiRestPruebas.M7
     public void TestPostActividad()
     {
       idActividad = controlador.PostActividad(actividad, lugar.Id);
-      actividad.Id = idActividad;
-
-      actividad.Foto.Contenido = null;
-      actividad.Foto.Ruta = archivo.Ruta + "ac-" + actividad.Id;
-
-      Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
+      Assert.AreEqual(true, idActividad > 0);
     }
 
     /// <summary>
@@ -286,9 +270,7 @@ namespace ApiRestPruebas.M7
     public void TestPostHorario()
     {
       idHorario = controlador.PostHorario(horario, lugar.Id);
-      horario.Id = idHorario;
-
-      Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Horario.Contains(horario));
+      Assert.AreEqual(true, idHorario > 0);
     }
 
     /// <summary>
@@ -326,12 +308,7 @@ namespace ApiRestPruebas.M7
     public void TestPostFoto()
     {
       idFoto = controlador.PostFoto(foto, lugar.Id);
-      foto.Id = idFoto;
-
-      foto.Contenido = null;
-      foto.Ruta += "lt-fo-" + foto.Id;
-
-      Assert.AreEqual(true, controlador.GetLugar(lugar.Id).Foto.Contains(foto));
+      Assert.AreEqual(true, idFoto > 0);
     }
 
     /// <summary>

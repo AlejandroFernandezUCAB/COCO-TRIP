@@ -37,7 +37,11 @@ namespace ApiRest_COCO_TRIP.Models
     public Archivo()
     {
       ruta = "/Images/";
-      rutaCompleta = Directory.GetCurrentDirectory() + "/Images/";
+      rutaCompleta = Assembly.GetExecutingAssembly().CodeBase;
+
+      var uri = new UriBuilder(rutaCompleta);
+      rutaCompleta = Uri.UnescapeDataString(uri.Path);
+      rutaCompleta = Path.GetDirectoryName(rutaCompleta) + ruta;
     }
 
     /// <summary>

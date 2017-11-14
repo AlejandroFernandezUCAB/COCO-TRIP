@@ -23,8 +23,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.AgregarItinerario(it);
       }
-      catch (NpgsqlException)
-      {
+      catch (NpgsqlException e)
+      { 
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (InvalidCastException)
@@ -70,40 +70,13 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
-
-    /* [HttpPut]
-       public Boolean AgregarEvento_It(int it, int lt,DateTime fechaini,DateTime fechafin)
-       { try
-         {
-           return peti.AgregarEvento_It(it, lt,fechaini,fechafin);
-         }
-         catch (NpgsqlException)
-        {
-          throw new HttpResponseException(HttpStatusCode.InternalServerError);
-        }
-       }*/
-
-
-    [HttpPut]
-    public Boolean AgregarActividad_It(int it, int lt,DateTime fechaini,DateTime fechafin)
-    {
-      try
-      {
-        return peti.AgregarActividad_It(it, lt, fechaini, fechafin);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-    }
-
     
     [HttpPut]
-    public Boolean AgregarLugar_It(int it, int lt,DateTime fechaini,DateTime fechafin)
+    public Boolean AgregarItem_It(string tipo,int idit, int iditem,DateTime fechaini,DateTime fechafin)
     {
       try
       {
-        return peti.AgregarLugar_It(it, lt, fechaini, fechafin);
+        return peti.AgregarItem_It(tipo,idit, iditem, fechaini, fechafin);
       }
       catch (NpgsqlException)
       {
@@ -118,7 +91,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.EliminarItem_It(tipo, idit, iditem);
       }
-      catch (NpgsqlException)
+      catch (NpgsqlException e)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -136,7 +109,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.ConsultarItinerarios(id_usuario);
       }
-      catch (NpgsqlException)
+      catch (NpgsqlException e)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -174,5 +147,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       return peti.EnviarCorreo(id_usuario);
     }
+
+
+    [HttpGet]
+    public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
+    {
+      return peti.SetVisible(idusuario, iditinerario, visible);
+    }
+
+
   }
 }

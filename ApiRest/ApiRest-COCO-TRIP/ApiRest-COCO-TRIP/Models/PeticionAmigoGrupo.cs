@@ -80,11 +80,11 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.Correo = leerDatos.GetString(2);
           if (!leerDatos.IsDBNull(3))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
+            usuario.Foto = leerDatos.GetString(3);
           }
           usuario.NombreUsuario = leerDatos.GetString(4);
 
-          //usuario.Foto[0] = leerDatos.GetByte(3);
+          //usuario.Foto[0] = leerDatos.GetString(3);
         }
         else
         {
@@ -106,9 +106,47 @@ namespace ApiRest_COCO_TRIP.Models
       return usuario;
     }
 
-    public bool SalirGrupoBD(int idGrupo, int idUsuario)
+    /// <summary>
+    /// Metodo que verifica si el usuario es el lider del grupo o solo un miembro
+    /// </summary>
+    /// <param name="idGrupo">id del grupo a verificar</param>
+    /// <param name="idUsuario">id del usuario que desea eliminar / salir deel grupo</param>
+    /// <returns></returns>
+    public bool VerificarLider(int idGrupo, int idUsuario)
     {
-      bool resultado = false;
+      bool respuesta = false;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "VerificarLider";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          respuesta = true;
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return respuesta;
+    }
+
+
+
+    public int SalirGrupoBD(int idGrupo, int idUsuario)
+    {
+      int resultado = 0;
       try
       {
         conexion.Conectar();
@@ -120,11 +158,7 @@ namespace ApiRest_COCO_TRIP.Models
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
         {
-          
-          if (leerDatos.GetInt32(0) == 1)
-          {
-            resultado = true;
-          }
+            resultado = leerDatos.GetInt32(0);
         }
         leerDatos.Close();
         conexion.Desconectar();
@@ -140,12 +174,120 @@ namespace ApiRest_COCO_TRIP.Models
       return resultado;
     }
 
+
+
+    public List<Usuario> ObtenerListaNotificacionesBD(int idUsuario)
+    {
+
+      List<Usuario> ListaUsuario = new List<Usuario>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "obtenerlistadeNotificaciones";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        while (leerDatos.Read())
+        {
+          Usuario usuario = new Usuario();
+          usuario.Nombre = leerDatos.GetString(0);
+          usuario.Apellido = leerDatos.GetString(1);
+          usuario.NombreUsuario = leerDatos.GetString(2);
+          if (!leerDatos.IsDBNull(3))
+          {
+            usuario.Foto = leerDatos.GetString(3);
+          }
+          ListaUsuario.Add(usuario);
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return ListaUsuario;
+    }
+
+
+    public int RechazarNotificacionBD(string nombreUsuarioRechazado, int idUsuario)
+    {
+      int result = 0;
+      int ideUsuarioRechazado = ObtenerIdUsuario(nombreUsuarioRechazado);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "RechazarNotificacion";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, ideUsuarioRechazado));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          result = leerDatos.GetInt32(0);
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return result;
+    }
+
+    public int AceptarNotificacionBD(string nombreUsuarioAceptado, int idUsuario)
+    {
+      int result = 0;
+      int ideUsuarioAceptado = ObtenerIdUsuario(nombreUsuarioAceptado);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "AceptarNotificacion";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, ideUsuarioAceptado));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          result = leerDatos.GetInt32(0);
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return result;
+    }
+
     /// <summary>
     /// Metodo que se encarga de buscar amigos en la app
     /// </summary>
     /// <param name="dato">nombre o iniciales del amigo</param>
     /// <returns></returns>
-    public List<Usuario> BuscarAmigo(string dato)
+    public List<Usuario> BuscarAmigo(string dato, int idUsuario)
     {
       var listausuarios = new List<Usuario>();
       try
@@ -155,6 +297,8 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandText = "BuscarAmigos";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, dato));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+
         leerDatos = conexion.Comando.ExecuteReader();
         while (leerDatos.Read())
         {
@@ -163,7 +307,7 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.NombreUsuario = leerDatos.GetString(1);
           if (!leerDatos.IsDBNull(2))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
+            usuario.Foto = leerDatos.GetString(3);
           }
 
           listausuarios.Add(usuario);
@@ -210,7 +354,7 @@ namespace ApiRest_COCO_TRIP.Models
           grupo.Nombre = leerDatos.GetString(1);
           if (!leerDatos.IsDBNull(2))
           {
-            grupo.Foto[0] = leerDatos.GetByte(2);
+            grupo.Foto = leerDatos.GetString(2);
           }
 
           listagrupos.Add(grupo);
@@ -253,7 +397,7 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.NombreUsuario = leerDatos.GetString(3);
           if (!leerDatos.IsDBNull(4))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
+            usuario.Foto = leerDatos.GetString(3);
           }
 
           listamiembro.Add(usuario);
@@ -298,7 +442,7 @@ namespace ApiRest_COCO_TRIP.Models
           grupo.Nombre = leerDatos.GetString(0);
           if (!leerDatos.IsDBNull(1))
           {
-            grupo.Foto[0] = leerDatos.GetByte(3);
+            grupo.Foto = leerDatos.GetString(3);
           }
 
           listagrupo.Add(grupo);
@@ -327,7 +471,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreusuario">nombre de usuario del creador del grupo</param>
     /// <returns></returns>
 
-    public int AgregarGrupoBD(String nombre, byte foto, string nombreusuario)
+    public int AgregarGrupoBD(String nombre, string foto, string nombreusuario)
     {
       int idUsuario = ObtenerIdUsuario(nombreusuario);
       int result = 0;
@@ -338,7 +482,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandText = "AgregarGrupo";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombre));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())
@@ -471,6 +615,9 @@ namespace ApiRest_COCO_TRIP.Models
 
       return result;
     }
+
+    
+
     /// <summary>
     /// Metodo que se encarga de obtener de la base de datos la lista de
     /// amigos de un usuario
@@ -498,7 +645,7 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.NombreUsuario = leerDatos.GetString(2);
           if (!leerDatos.IsDBNull(3))
           {
-            usuario.Foto[0] = leerDatos.GetByte(3);
+            usuario.Foto = leerDatos.GetString(3);
           }
           ListaUsuario.Add(usuario);
         }
@@ -560,7 +707,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreUsuario">Nombre del usuario que modificara el grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns></returns>
-    public int ModificarGrupoBD(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
+    public int ModificarGrupoBD(string nombreGrupo, int idUsuario, /*string foto,*/ int idGrupo)
     {
       int result = 0;
       try
@@ -571,7 +718,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.CommandType = CommandType.StoredProcedure;
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombreGrupo));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
-        //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, foto));
+        //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
         leerDatos = conexion.Comando.ExecuteReader();
         if (leerDatos.Read())

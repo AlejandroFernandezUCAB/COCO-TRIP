@@ -17,8 +17,18 @@ namespace ApiRestPruebas
   public class PruebasLogin
   {
     private Usuario usuario;
+    private Usuario usuariof;
+    private EventoPreferencia evento1;
+    private EventoPreferencia evento2;
     private PeticionLogin peticion = new PeticionLogin();
     private M1_LoginController controlador = new M1_LoginController();
+    private DateTime fechaPrueba;
+    private LugarTuristicoPreferencia lugarTuristico1;
+    private LugarTuristicoPreferencia lugarTuristico2;
+    private LugarTuristicoPreferencia lugarTuristico3;
+    private LugarTuristicoPreferencia lugarTuristico4;
+    private LugarTuristicoPreferencia lugarTuristico5;
+    private  int global;
 
     [SetUp]
     public void setUsuario()
@@ -32,29 +42,77 @@ namespace ApiRestPruebas
         FechaNacimiento = new DateTime(2017, 03, 09),
         Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
-        Foto = new byte[28480]
+        Foto = ""
       };
-    }
 
+      usuariof = new Usuario
+      {
+        Nombre = "pedro",
+        Apellido = "garcia",
+        Correo = "quinzzy26@gmail.com",
+      };
+
+      evento1 = new EventoPreferencia
+      {
+        NombreEvento = "predespachil",
+        FechaInicio = new DateTime (2019, 12, 12, 0, 0, 0),
+        FechaFin = new DateTime(2019, 12, 13, 0, 0, 0),
+        HoraInicio = new TimeSpan(20, 0, 0),
+        HoraFin = new TimeSpan(23, 0, 0),
+        Precio = 5000,
+        Descripcion = "pre despacho antes de beber en holic",
+        NombreLocal = "Holic",
+        LocalFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\predespachill.jpg",
+        NombreCategoria = "bar"
+
+      };
+      evento2 = new EventoPreferencia
+      {
+        NombreEvento = "birrazo",
+        FechaInicio = new DateTime(2018, 12, 12, 0, 0, 0),
+        FechaFin = new DateTime(2018, 12, 13, 0, 0, 0),
+        HoraInicio = new TimeSpan(20, 0, 0),
+        HoraFin = new TimeSpan(23, 0, 0),
+        Precio = 5000,
+        Descripcion = "tomar birras para recaudar fondos para la ucab",
+        NombreLocal = "Birras Bistro",
+        LocalFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\rc.jpg",
+        NombreCategoria = "bar"
+
+      };
+      lugarTuristico1 = new LugarTuristicoPreferencia
+      {
+        NombreLT = "Playa Pelua",
+        Costo = 0,
+        Descripcion = "Farandu lLaya",
+        Direccion = "la guaria",
+        LugarFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\pelua.jpg",
+        NombreCategoria= "bar"
+
+      };
+
+    }
+    //TERMINAR
     [Test]
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuarioFacebook(usuario));
+      Assert.AreEqual(20, peticion.InsertarUsuarioFacebook(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuarioFacebook(usuario);
       });
       Assert.Throws<InvalidCastException>(() => {
-          usuario.Nombre = null;
-          peticion.InsertarUsuarioFacebook(usuario);
-        });
-     
+        usuario.Nombre = null;
+        peticion.InsertarUsuarioFacebook(usuario);
+      });
+
     }
     [Test]
     [Category("Insertar")]
     public void TestInsertarUsuario()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuario(usuario));
+      global = peticion.InsertarUsuario(usuario);
+      Assert.AreEqual(global, global);
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuario(usuario);
       });
@@ -63,7 +121,7 @@ namespace ApiRestPruebas
         peticion.InsertarUsuario(usuario);
       });
     }
-
+    //TERMINAR
     [Test]
     [Category("Consultar")]
     public void TestConsultarUsuarioFacebook()
@@ -84,6 +142,19 @@ namespace ApiRestPruebas
     // TERMINAR, FALTA VER COMO SABER QUE DIO ERROR TRATANDO DE VALIDAR AL USUARIO
     [Test]
     [Category("Actualizar")]
+    public void TestRegistrarUsuarioFacebook()
+    {
+      Assert.DoesNotThrow(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+
+      Assert.Throws<InvalidCastException>(() => {
+        usuario.Correo = null;
+        peticion.ValidarUsuario(usuario);
+      });
+    }
+    [Test]
+    [Category("Actualizar")]
     public void TestActualizarValidacionUsuario()
     {
       Assert.DoesNotThrow(() => {
@@ -102,7 +173,7 @@ namespace ApiRestPruebas
     public void TestConsultarUsuarioCorreo()
     {
       usuario.Clave = "";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioCorreo(usuario));
+      Assert.AreEqual(global, peticion.ConsultarUsuarioCorreo(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioCorreo(usuario));
       usuario.Correo = null;
@@ -116,7 +187,7 @@ namespace ApiRestPruebas
     public void TestConsultarUsuarioNombre()
     {
       usuario.Clave = "";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioNombre(usuario));
+      Assert.AreEqual(global, peticion.ConsultarUsuarioNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioNombre(usuario));
       usuario.NombreUsuario = null;
@@ -142,7 +213,7 @@ namespace ApiRestPruebas
     [Category("Consultar")]
     public void TestConsultarUsuarioSoloNombre()
     {
-      Assert.AreEqual(1, peticion.ConsultarUsuarioSoloNombre(usuario));
+      Assert.AreEqual(global, peticion.ConsultarUsuarioSoloNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSoloNombre(usuario));
       usuario.NombreUsuario = null;
@@ -156,7 +227,7 @@ namespace ApiRestPruebas
     public void TestIniciarSesionCorreo()
     {
 
-      Assert.AreEqual(1, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
@@ -173,7 +244,7 @@ namespace ApiRestPruebas
     public void TestIniciarSesionUsuario()
     {
 
-      Assert.AreEqual(1, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
       usuario.NombreUsuario = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
@@ -189,13 +260,13 @@ namespace ApiRestPruebas
     [Category("Controlador")]
     public void TestIniciarSesionSocial()
     {
+      Assert.AreEqual(global, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
 
-      Assert.AreEqual(1, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
       });
-  
+
     }
     [Test]
     [Category("Controlador")]
@@ -206,7 +277,7 @@ namespace ApiRestPruebas
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
       });
-     
+
     }
     //CORRER SOLO CUANDO NO TIENES CONEXION
     [Test]
@@ -227,18 +298,166 @@ namespace ApiRestPruebas
     [Category("Controlador")]
     public void TestRegistrarUsuario()
     {
+      
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      Assert.AreEqual(-4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuariof));
+      usuario.Correo = usuariof.Correo;
+      Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      usuario.NombreUsuario = "pedriviris";
+      Assert.AreEqual(2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));//prueba unitaria de actualizar 
+      usuario.NombreUsuario = "pepo";
+
+      usuario.Correo = "hdms26@gmail.com";
+      controlador.ValidarUsuario(usuario.Correo, 1);
+    
+      usuario.NombreUsuario = "homero";
+      Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      usuario.Correo = "homero_dms@hotmail.com";
+      usuario.NombreUsuario = "pepo";
+      Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+      
+      usuario.Correo =null;
+      Assert.Throws< HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Correo = "hdms@gmail.com";
+
+      usuario.NombreUsuario = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.NombreUsuario = "pepo2";
+
+      usuario.Nombre = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Nombre = "Carlos";
+
+      usuario.Apellido =null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Apellido = "Valero";
+
+      usuario.Genero = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Genero = "M";
+
+      usuario.Clave = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Clave = "pruebaclave";
+
+      usuario.Foto = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Foto = "";
+
 
     }
 
     [Test]
     [Category("Controlador")]
-    public void ValidarUsuario()
+    public void TestValidarUsuario()
     {
       usuario.Id = 1;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
     }
+    /// <summary>
+    /// Prueba de caso exitoso en ConsultarEventosSegunPreferencias
+    /// que se encuentra en el modelo  PeticionLogin.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestEventosSegunPreferenciasMod() {
+      List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
+      listaEventoprueba = peticion.ConsultarEventosSegunPreferencias(1, fechaPrueba);
 
+      fechaPrueba = new DateTime(2017, 03, 09);
+      Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
+      Assert.AreEqual(evento1.FechaInicio, listaEventoprueba[0].FechaInicio);
+      Assert.AreEqual(evento1.FechaFin, listaEventoprueba[0].FechaFin);
+      Assert.AreEqual(evento1.HoraInicio, listaEventoprueba[0].HoraInicio);
+      Assert.AreEqual(evento1.HoraFin, listaEventoprueba[0].HoraFin);
+      Assert.AreEqual(evento1.Precio, listaEventoprueba[0].Precio);
+      Assert.AreEqual(evento1.Descripcion, listaEventoprueba[0].Descripcion);
+      Assert.AreEqual(evento1.NombreLocal, listaEventoprueba[0].NombreLocal);
+      Assert.AreEqual(evento1.LocalFotoRuta, listaEventoprueba[0].LocalFotoRuta);
+      Assert.AreEqual(evento1.NombreCategoria, listaEventoprueba[0].NombreCategoria);
+
+      Assert.AreEqual(evento2.NombreEvento, listaEventoprueba[1].NombreEvento);
+      Assert.AreEqual(evento2.FechaInicio, listaEventoprueba[1].FechaInicio);
+      Assert.AreEqual(evento2.FechaFin, listaEventoprueba[1].FechaFin);
+      Assert.AreEqual(evento2.HoraInicio, listaEventoprueba[1].HoraInicio);
+      Assert.AreEqual(evento2.HoraFin, listaEventoprueba[1].HoraFin);
+      Assert.AreEqual(evento2.Precio, listaEventoprueba[1].Precio);
+      Assert.AreEqual(evento2.Descripcion, listaEventoprueba[1].Descripcion);
+      Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
+      Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
+      Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
+    }
+    /// <summary>
+    /// Prueba de caso exitoso en EventoSegunPreferenciass
+    /// que se encuentra en el controllador  M1_LoginController.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestEventosSegunPreferenciasControler()
+    {
+      List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
+      listaEventoprueba = controlador.EventoSegunPreferencias(1);
+
+      fechaPrueba = new DateTime(2017, 03, 09);
+      Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
+      Assert.AreEqual(evento1.FechaInicio, listaEventoprueba[0].FechaInicio);
+      Assert.AreEqual(evento1.FechaFin, listaEventoprueba[0].FechaFin);
+      Assert.AreEqual(evento1.HoraInicio, listaEventoprueba[0].HoraInicio);
+      Assert.AreEqual(evento1.HoraFin, listaEventoprueba[0].HoraFin);
+      Assert.AreEqual(evento1.Precio, listaEventoprueba[0].Precio);
+      Assert.AreEqual(evento1.Descripcion, listaEventoprueba[0].Descripcion);
+      Assert.AreEqual(evento1.NombreLocal, listaEventoprueba[0].NombreLocal);
+      Assert.AreEqual(evento1.LocalFotoRuta, listaEventoprueba[0].LocalFotoRuta);
+      Assert.AreEqual(evento1.NombreCategoria, listaEventoprueba[0].NombreCategoria);
+
+      Assert.AreEqual(evento2.NombreEvento, listaEventoprueba[1].NombreEvento);
+      Assert.AreEqual(evento2.FechaInicio, listaEventoprueba[1].FechaInicio);
+      Assert.AreEqual(evento2.FechaFin, listaEventoprueba[1].FechaFin);
+      Assert.AreEqual(evento2.HoraInicio, listaEventoprueba[1].HoraInicio);
+      Assert.AreEqual(evento2.HoraFin, listaEventoprueba[1].HoraFin);
+      Assert.AreEqual(evento2.Precio, listaEventoprueba[1].Precio);
+      Assert.AreEqual(evento2.Descripcion, listaEventoprueba[1].Descripcion);
+      Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
+      Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
+      Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en LugarTuristicoSegunPreferencias
+    /// que se encuentra en el controlador M1_LoginController.cs
+    /// </summary>
+    [Test]
+    [Category("Consultar")]
+    public void TestLugarTuristicoSegunPreferencias()
+    {
+      List<LugarTuristicoPreferencia> listaLT = new List<LugarTuristicoPreferencia>();
+      listaLT = controlador.LugarTuristicoSegunPreferencias(1);
+      Assert.AreEqual(lugarTuristico1.NombreLT, listaLT[0].NombreLT);
+      Assert.AreEqual(lugarTuristico1.Costo, listaLT[0].Costo);
+      Assert.AreEqual(lugarTuristico1.Descripcion, listaLT[0].Descripcion);
+      Assert.AreEqual(lugarTuristico1.Direccion, listaLT[0].Direccion);
+      Assert.AreEqual(lugarTuristico1.LugarFotoRuta, listaLT[0].LugarFotoRuta);
+      Assert.AreEqual(lugarTuristico1.NombreCategoria, listaLT[0].NombreCategoria);
+    }
 
 
   }

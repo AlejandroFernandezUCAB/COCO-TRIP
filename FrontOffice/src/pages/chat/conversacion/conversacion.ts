@@ -5,7 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
 import { Firebase } from '@ionic-native/firebase';
-import {ChatProvider} from '../../../providers/chat/chat';
+import { ChatProvider } from '../../../providers/chat/chat';
 
 @IonicPage()
 @Component({
@@ -17,7 +17,9 @@ export class ConversacionPage {
   @ViewChild('content') content: Content;
   conversacion: any;
   nuevoMensaje: any;
-  usuarioId: any;
+  idAmigo: any;
+  idGrupo: any;
+  idUsuario: any;
   todosLosMensajes = [];
   //mensajes: Array<msgs> = [
    // {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
@@ -25,7 +27,8 @@ export class ConversacionPage {
 
 constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
   this.conversacion = this.chatService.conversacion;
-  this.scrollto();
+  //this.scrollto();
+  this.idUsuario =
   this.events.subscribe('nuevoMensaje', () => {
     this.todosLosMensajes = [];
     this.zone.run(() => {
@@ -142,16 +145,27 @@ pressEvent1(){
   });
   actionSheet.present();
   }
-  
-  agregarMensaje() {
-    this.chatService.agregarNuevoMensaje(this.nuevoMensaje,this.usuarioId).then(() => {
+
+  agregarMensajeAmigo() {
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idAmigo,this.idUsuario).then(() => {
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+    })
+  }
+
+  agregarMensajeGrupo() {
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario).then(() => {
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
     })
   }
 
   ionViewDidEnter() {
-    this.chatService.obtenerMensajesConversacion;
+    if(this.idAmigo){
+      this.chatService.obtenerMensajesConversacionAmigo(this.idAmigo);
+    }else if(this.idGrupo){
+      this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
+    }
   }
 
   scrollto() {
