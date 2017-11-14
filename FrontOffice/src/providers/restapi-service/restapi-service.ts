@@ -535,7 +535,46 @@ agregarAmigo(idUsuario,nombreAmigo) {
       });
   });
 }
+enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {  
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M3_AmigosGrupos/EnviarNotificacionCorreo/?nombreUsuarioRecibe='+nombreAmigo
+    +'&correoElectronico='+correoAmigo +'&idUsuarioEnvia='+idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
 
+/**
+* [MODULO 3] 
+* Metodo para agregar el grupo 
+* @param idusuario id del usuario logeado
+* @param nombre nombre de grupo
+* @param foto foto del grupo
+*/
+agregarGrupo(idusuario,nombre,foto,) {  
+ return new Promise(resolve => {
+   this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarGrupo/?nombre='+nombre+'&foto='+foto+'&idusuario='+idusuario,"")
+     .map(res => res.json())
+     .subscribe(data => {
+       this.data = data;
+       resolve(this.data);
+     },error=>{
+       console.log("Ocurrio un error");
+     });
+ });
+}
+
+/**
+ * [MODULO 3]
+ * Metodo para salir de un grupo
+ * @param usuario 
+ * @param idGrupo 
+ */
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
       this.http.delete(this.apiUrl+'/M3_AmigosGrupos/EliminarSalirGrupo/?idGrupo='+idGrupo+'&idUsuario='+usuario,"")
@@ -605,6 +644,12 @@ agregarIntegrante(idGrupo,nombreAmigo) {
       });
   });
 }
+/**
+ * [MODULO 3]
+ * Metodo para verificar que un usuario es lider
+ * @param idGrupo Identificador del grupo
+ * @param idUsuario Identificador del usuario
+ */
 verificarLider(idGrupo, idUsuario) 
 {  
   return new Promise(resolve => {
