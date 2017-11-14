@@ -802,7 +802,7 @@ ALTER FUNCTION consultar_itinerarios(integer)
 
 -----------------Consultar Eventos---------------------------
 CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, fechainicio date, fechafin date )
-RETURNS TABLE (id_evento integer, nombre_evento varchar) AS $$
+RETURNS TABLE (id_evento integer, nombre_evento varchar, foto varchar) AS $$
 
 DECLARE
     s varchar;
@@ -811,9 +811,9 @@ BEGIN
   s := '%' || busqueda || '%';
 
     RETURN QUERY SELECT
-  ev_id, ev_nombre
+  ev_id, ev_nombre, ev_foto
   FROM evento
-  WHERE (ev_nombre like s) and (ev_fecha_inicio BETWEEN fechainicio and fechafin);
+  WHERE (LOWER(ev_nombre) like LOWER(s)) and (ev_fecha_inicio BETWEEN fechainicio and fechafin);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -831,14 +831,14 @@ BEGIN
     RETURN QUERY SELECT
   lu_id, lu_nombre
   FROM lugar_turistico
-  WHERE lu_nombre like s;
+  WHERE lower(lu_nombre) like lower(s);
 END;
 $$ LANGUAGE plpgsql;
 
 
 -----------------Consultar Actividades---------------------------
 CREATE OR REPLACE FUNCTION consultar_actividades( busqueda varchar )
-RETURNS TABLE (id_actividad integer, nombre_actividad varchar) AS $$
+RETURNS TABLE (id_actividad integer, nombre_actividad varchar, foto varchar) AS $$
 
 DECLARE
     s varchar;
@@ -847,16 +847,16 @@ BEGIN
   s := '%' || busqueda || '%';
 
     RETURN QUERY SELECT
-  ac_id, ac_nombre
+  ac_id, ac_nombre, ac_foto
   FROM actividad
-  WHERE ac_nombre like s;
+  WHERE lower(ac_nombre) like lower(s);
 END;
 $$ LANGUAGE plpgsql;
 
 
 
 ------------------- Consultar Itinerarios por correo --------------------
-CREATE OR REPLACE FUNCTION public.consultar_itinerarios(idusuario integer)
+CREATE OR REPLACE FUNCTION consultar_itinerarios_correo(idusuario integer)
     RETURNS TABLE(
     id integer,
     nombre character varying,
