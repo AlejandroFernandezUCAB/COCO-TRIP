@@ -18,7 +18,8 @@ export class ItinerarioPage {
   @ViewChild(Slides) slides: Slides;
 
   //***************************** DECLARACION DE VARIABLES ***********************
-  base_url = '../assets/images/';
+  base_url = 'http://localhost:8091';
+  noFoto = '/Images/empty-image.png';
   items = [];
   edit = false;
   delete= false;
@@ -27,6 +28,10 @@ export class ItinerarioPage {
   its: any;
   newitinerario: any;
   users: any;
+  _notif={
+    correo: {},
+    push: {}
+  };
   toast: any;
   datos:any;
   IdUsuario: any;
@@ -732,13 +737,33 @@ ionview
         Orrillo, Horacio
    **/
   public configurarNotificaciones()
-  {
-    let modal = this.modalCtrl.create('ConfigNotificacionesItiPage');
-    modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-      }
-    })
+  { this.presentLoading();
+    this.storage.get('id').then((val) => {
+    this.IdUsuario = val;
+    this.storage.get( this.IdUsuario.toString() ).then((ok) => {
+              //verificamos que posee configuracion previa de idioma
+              if(ok != null || ok != undefined){
+                this.translateService.use(ok);
+              }
+              this.httpc.getNotificacionesConfig(this.IdUsuario)
+              .then(data =>{
+                console.log(data);
+                this.loading.dismiss();
+                this._notif.correo =data;
+                this._notif.push=false;
+
+                console.log(data);
+                let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
+                modal.present();
+                modal.onDidDismiss(data => {
+                  if (data) {
+                  }
+                })
+
+              })
+            });
+  });
+
   }
 
 }

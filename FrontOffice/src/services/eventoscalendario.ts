@@ -120,9 +120,14 @@ export class EventosCalendarioService {
     return this._eventos;
   }
 
-  public getNotifcacionesConfig()
+  public getNotifcacionesConfig(idusuario)
   {
-    return this._notificaciones;
+    this.http.getNotificacionesConfig(idusuario)
+    .then(data =>{
+      this._notificaciones.correo = data;
+      this._notificaciones.push = false;
+      return this._notificaciones;
+    })
   }
 
   public consultarItinerarios(id_usuario)

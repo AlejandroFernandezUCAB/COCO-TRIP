@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Models.Dato;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
 using Npgsql;
+using Newtonsoft.Json;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -158,11 +159,11 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     //-------------------------------------------------------------------------------
     [HttpPut]
-    public bool AgregarNotificacionConfiguracion(int id_usuario)
+    public bool AgregarNotificacionConfiguracion(string id_usuario)
     {
       try
-      {
-        return peti.AgregarNotificacion(id_usuario);
+      { int dato = JsonConvert.DeserializeObject<int>(id_usuario);
+        return peti.AgregarNotificacion(dato);
       }
       catch (NpgsqlException e)
       {
@@ -195,11 +196,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
 
-    [HttpPost]
+    [HttpGet]
     public bool ModificarNotificacionConfiguracion(int id_usuario, bool correo)
     {
       try
-      {
+      {// dynamic req = new System.Dynamic.ExpandoObject();
+        //req = JsonConvert.DeserializeObject<dynamic>(datos);
         return peti.ModificarNotificacion(id_usuario, correo);
       }
       catch (NpgsqlException)

@@ -174,4 +174,28 @@ public agregarItem_It(tipo, idit,iditem,fechainicio,fechafin)
   });
 }
 
+
+public modificarNotificacionCorreo(idusuario, correo)
+{
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/ModificarNotificacionConfiguracion', {params :{id_usuario: idusuario, correo: correo}}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        err => resolve(-1);
+      });
+  });
+}
+
+
+public getNotificacionesConfig(idusuario)
+{
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/ConsultarNotificacion', {params :{id_usuario: idusuario}}).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        err => resolve(-1);
+      });
+  });
+}
+
 }
