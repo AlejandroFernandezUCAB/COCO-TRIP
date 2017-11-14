@@ -6,6 +6,7 @@ import { NavController } from 'ionic-angular';
 import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-amigos',
@@ -26,7 +27,8 @@ export class AmigosPage {
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
-      public toastCtrl: ToastController, private storage: Storage) {
+      public toastCtrl: ToastController, private storage: Storage,
+      private translateService: TranslateService ) {
       
   }
   

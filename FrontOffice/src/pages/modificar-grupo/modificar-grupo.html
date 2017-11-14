@@ -9,7 +9,7 @@
                   </button>
                  </ion-buttons> 
           <ion-title>
-            Modificar Grupo
+            {{ 'Modificar Grupo' | translate }}
           </ion-title>
         </ion-navbar>
       </ion-header>
@@ -25,7 +25,7 @@
     
     <ion-list >
             <ion-list-header>
-              Lider del Grupo
+              {{'Lider Del Grupo' | translate}}
              </ion-list-header>
                 <ion-item *ngFor="let item of lider">
                   <ion-avatar item-left>
@@ -39,7 +39,7 @@
     </ion-list> 
     <ion-list>
             <ion-list-header>
-                Integrantes
+                {{ 'Integrantes' | translate }}
             </ion-list-header>
         <ion-item-sliding *ngFor="let item of miembro; let i = index">
         <ion-item>
@@ -53,12 +53,12 @@
         <ion-item-options side="right">
         <button ion-button color="danger" icon-start (click)="eliminarIntegrantes(item.NombreUsuario, i)"> 
             <ion-icon name="close"></ion-icon>
-            Eliminar
+            {{ 'Eliminar' | translate }}
         </button>
         </ion-item-options>   
         </ion-item-sliding>
         </ion-list>
 
     <button ion-button type="submit" block
-    (click)="modificarNombre($event)">Guardar Cambios</button>
+    (click)="modificarNombre($event)">{{ 'Guardar Cambios' | translate }}</button>
 </ion-content>    

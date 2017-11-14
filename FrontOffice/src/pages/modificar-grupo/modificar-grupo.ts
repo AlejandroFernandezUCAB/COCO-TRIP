@@ -4,6 +4,8 @@ import{NuevosIntegrantesPage} from '../nuevos-integrantes/nuevos-integrantes';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'modificar-grupo-page',
@@ -23,7 +25,7 @@ export class ModificarGrupoPage {
     constructor(public navCtrl: NavController, private navParams: NavParams,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public alerCtrl: AlertController, public toastCtrl: ToastController,
-      private storage: Storage) {
+      private storage: Storage, private translateService: TranslateService) {
           
     }
     

@@ -71,6 +71,22 @@
     "Mis Itinerarios" : "My Itineraries",
     "Notificaciones": "Notifications",
     "Correo Electrónico": "Email",
-    "Itinerarios del Calendario" : "Calendar's Itineraries"
+    "Itinerarios del Calendario" : "Calendar's Itineraries",
 
+    "Amigos" : "Friends",
+    "Grupos" : "Groups",
+    "Mis Amigos" : "My Friends",
+    "Eliminar Amigo" : "Delete Friend",
+    "Eliminar Grupo" : "Delete Group",
+    "Modificar Grupo" : "Edit Group",
+    "Ver Perfil" : "See Profile",
+    "Mis Grupos" : "My Groups",
+    "Ver Detalle Del Grupo" : "Group's Detail",
+    "Lider Del Grupo" : "Group Leader",
+    "Integrantes" : "Members",
+    "Buscar Amigo" : "Search Friend",
+    "Agregar Integrantes" : "Add Members",
+    "Crear Grupo" : "Add Group",
+    "Nombre del Grupo" : "Group's Name",
+    "Detalle del Grupo" : "Group's Detail"
 }

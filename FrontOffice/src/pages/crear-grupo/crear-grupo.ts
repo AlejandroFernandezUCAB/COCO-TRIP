@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import{SeleccionarIntegrantesPage} from '../seleccionar-integrantes/seleccionar-integrantes';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { TranslateService } from '@ngx-translate/core';
 /**
  * Generated class for the CrearGrupoPage page.
  *
@@ -22,7 +23,7 @@ export class CrearGrupoPage {
   items: string[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public restapiService: RestapiService) {
+    public restapiService: RestapiService, private translateService: TranslateService) {
    this.toggled = false;  
    
 

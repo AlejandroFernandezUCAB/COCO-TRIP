@@ -7,7 +7,7 @@
 <ion-header>
   
     <ion-navbar >
-      <ion-title>Crear Grupo</ion-title>
+      <ion-title>{{'Crear Grupo' | translate}}</ion-title>
       <ion-buttons end>
         <button ion-button icon-only (click)="agregarGrupo()">
         <ion-icon name="arrow-forward"></ion-icon>
@@ -29,7 +29,7 @@
               </ion-buttons>
         
               <ion-item>
-                  <ion-input type="text" placeholder="Nombre del grupo"
+                  <ion-input type="text" placeholder="{{'Nombre del Grupo' | translate}}"
                     [(ngModel)]="nombreGrupo" formControlName="namegroup" required>
                   </ion-input>
                 </ion-item>

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ToastController
 import{ModificarGrupoPage} from '../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,7 @@ export class NuevosIntegrantesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private storage: Storage, public loadingCtrl: LoadingController,
               private toastCtrl: ToastController, public restapiService: RestapiService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController, private translateService: TranslateService) {
   
   }
   onLink(url: string) {

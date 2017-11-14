@@ -63,5 +63,23 @@
     "Mis Itinerarios": "Mis Itinerarios",
     "Notificaciones" : "Notificaciones",
     "Correo Electrónico": "Correo Electrnónico",
-    "Itinerarios del Calendario" : "Itinerarios del Calendario"
+    "Itinerarios del Calendario" : "Itinerarios del Calendario",
+
+    "Amigos" : "Amigos",
+    "Grupos" : "Grupos",
+    "Mis Amigos" : "Mis Amigos",
+    "Eliminar Amigo" : "Eliminar Amigo",
+    "Eliminar Grupo" : "Eliminar Grupo",
+    "Modificar Grupo" : "Modificar Grupo",
+    "Ver Perfil" : "Ver Perfil",
+    "Mis Grupos" : "Mis Grupos",
+    "Ver Detalle Del Grupo" : "Ver Detalle Del Grupo",
+    "Lider Del Grupo" : "Lider Del Grupo",
+    "Integrantes" : "Integrantes",
+    "Buscar Amigo" : "Buscar Amigo",
+    "Agregar Integrantes" : "Agregar Integrantes",
+    "Crear Grupo" : "Crear Grupo",
+    "Nombre del Grupo" : "Nombre del Grupo",
+    "Detalle del Grupo" : "Detalle Del Grupo"
+
 }

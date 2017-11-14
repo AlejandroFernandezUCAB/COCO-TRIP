@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams,Platform, ActionSheetController,Ale
 import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
+
 
 /**
  * Generated class for the AgregarAmigoPage page.
@@ -30,7 +32,8 @@ export class BuscarAmigoPage {
       public actionsheetCtrl: ActionSheetController,
       public alerCtrl: AlertController,
       public restapiService: RestapiService,
-      private storage: Storage ) {
+      private storage: Storage,
+      private translateService: TranslateService ) {
       //this.cargarListas();       
   }
 

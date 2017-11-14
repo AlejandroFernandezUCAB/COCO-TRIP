@@ -7,7 +7,7 @@
 <ion-header>
   
     <ion-navbar  >
-      <ion-title>Detalle del Grupo</ion-title>
+      <ion-title>{{'Detalle del Grupo' | translate}}</ion-title>
     </ion-navbar>
     
   
@@ -23,7 +23,7 @@
   
           <ion-list>
             <ion-list-header>
-              Integrantes
+              {{'Integrantes' | translate}}
             </ion-list-header>
             <ion-item *ngFor="let item of miembro">
               <h2>{{item.Nombre}} {{item.Apellido}}</h2>

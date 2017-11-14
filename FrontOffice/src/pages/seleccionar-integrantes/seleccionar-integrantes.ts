@@ -4,6 +4,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Generated class for the SeleccionarIntegrantesPage page.
@@ -26,7 +27,8 @@ export class SeleccionarIntegrantesPage {
   myForm: FormGroup;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public alerCtrl: AlertController,private storage: Storage,public loadingCtrl: LoadingController,
-    public restapiService: RestapiService,public toastCtrl: ToastController,public formBuilder: FormBuilder) {
+    public restapiService: RestapiService,public toastCtrl: ToastController,public formBuilder: FormBuilder,
+    private translateService: TranslateService) {
       this.myForm = this.formBuilder.group({
         namegroup: ['', [Validators.required]]
       });
