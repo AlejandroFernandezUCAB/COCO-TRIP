@@ -1557,7 +1557,7 @@ $$ LANGUAGE plpgsql;
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
 CREATE FUNCTION m9_modificarcategoria
-(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer,_nivel integer)
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _nivel integer, _categoriapadre integer)
 RETURNS integer
     AS $$
     BEGIN
