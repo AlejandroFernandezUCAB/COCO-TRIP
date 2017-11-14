@@ -199,12 +199,13 @@ RETURNS TABLE(
   hora_fin TIME,
   precio  INTEGER,
   descripcion VARCHAR,
+  foto_evento  VARCHAR,
   nombre_local VARCHAR,
   categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
   RETURN QUERY 
-	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ca_nombre
+	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion,ev_foto, lo_nombre, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
 	 WHERE 
 	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);

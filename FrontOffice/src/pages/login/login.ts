@@ -73,7 +73,7 @@ export class LoginPage {
 
           }
           else {
-            this.storage.set('id', data).then(bien =>this.navCtrl.setRoot(HomePage));
+            this.storage.set('id', 1).then(bien =>this.navCtrl.setRoot(HomePage));
             
           }
 

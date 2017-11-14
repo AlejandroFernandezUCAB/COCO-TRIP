@@ -15,6 +15,7 @@ import { IonicPage, NavController,ModalController,NavParams  } from 'ionic-angul
 })
 export class DetalleEventoPage {
 eve:any;
+apiUrl = 'http://localhost:8091/';
   constructor(public navCtrl: NavController,public navParams: NavParams, private modalCtrl: ModalController) {
     this.eve= this.navParams.get('eventos'); 
 

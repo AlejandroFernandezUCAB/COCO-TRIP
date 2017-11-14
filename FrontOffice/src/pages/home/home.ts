@@ -15,7 +15,8 @@ export class HomePage {
 lts : any;
 eve: any;
 idUser: any;
-
+apiUrl = 'http://localhost:8091/fotos/';
+aux: string;
 
   constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController) {
     //console.log(this.its2);
@@ -79,8 +80,14 @@ detalleEvento(eventos){
           else{
           this.eve = data;
           this.eve.forEach(eve => {
+            //console.log(eve.LocalFotoRuta);
+            this.aux = eve.LocalFotoRuta;
+            //console.log(this.aux);
+            eve.LocalFotoRuta = this.apiUrl + this.aux;
+            //console.log(this.eve.LocalFotoRuta);
             eve.FechaInicio= moment(eve.FechaInicio).format('DD-MM-YYYY');
             eve.FechaFin= moment(eve.FechaFin).format('DD-MM-YYYY');
+            console.log(this.eve);
           });
           }
         });

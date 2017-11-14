@@ -24,6 +24,7 @@
         <h1>Eventos:</h1>
       <ion-slides pager style="font-family: 'Open Sans'">
         <ion-slide>
+            <img src="{{eve.LocalFotoRuta}}" >
           <h2> Evento: {{eve.NombreEvento}} </h2>
           <h2> Desde: {{eve.FechaInicio}} </h2>
           <h2> Hasta: {{eve.FechaFin}} </h2>
@@ -32,7 +33,6 @@
           <h2> Precio: Bs.{{eve.Precio}}  </h2>
           <h4> {{eve.Descripcion}} </h4>
           <h2> En: {{eve.NombreLocal}} </h2>
-         <!-- <img src="{{eve.LocalRutaFoto}}" alt="">-->
           <h2> Preferencias: {{eve.NombreCategoria}} </h2>
           <br>
         </ion-slide>
