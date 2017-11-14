@@ -31,14 +31,17 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario1">ID del usuario que esta usando la aplicacion y desea agregar un amigo</param>
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
-    [HttpPut]
+    [HttpGet]
     public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
     {
       try
       {
+
         peticion = new PeticionAmigoGrupo();
-        int result = 0;
-        result = peticion.AgregarAmigosBD(Convert.ToInt32(idUsuario1), nombreUsuario2);
+        if (peticion.ExisteSolicitud( Convert.ToInt32(idUsuario1), nombreUsuario2) == -1 )
+        {
+          peticion.AgregarAmigosBD(Convert.ToInt32(idUsuario1), nombreUsuario2);
+        }
       }
       catch (NpgsqlException)
       {

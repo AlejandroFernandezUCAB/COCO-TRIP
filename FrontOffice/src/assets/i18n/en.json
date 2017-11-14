@@ -110,5 +110,12 @@
     "Salir Grupo": "You successfully removed this group",
     "Modificado Exitosamente": "Successfully Edited",
     "Deseas Agregar a:": "Do you want to add: ",
+    "Amigo Aceptado" : "You have a new friend",
+    "Algo ha salido mal" : "Something went wrong",
+    "Peticion eliminada" : "Deleted request",
+    "Si" : "Yes",
+    "Agregar?" : "Add?",
+    "Desea agregar a esta persona como amigo?" : "Do you want to add this person as a friend?",
+    "Por favor, espere" : "Please, wait",
     "Grupo Exitoso":"Group added successfully"
 }

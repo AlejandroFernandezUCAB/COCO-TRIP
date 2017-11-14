@@ -18,8 +18,11 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 })
 export class VisualizarPerfilPublicoPage {
 
-  
+  tituloAlert:any;
+  siAlert : any;
+  mensajeAlert : any;
   toast: any;
+  mensajeCargando: any;
   nombreUsuario : string;
   amigo : any;
   public mensajeToast : any;
@@ -54,8 +57,15 @@ export class VisualizarPerfilPublicoPage {
    * Metodo que carga un LoadingCTRL
    */
   cargando(){
+    this.translateService.get('Por favor, espere').subscribe(
+      value => {
+        // value is our translated string
+         this.mensajeCargando = value;
+      }
+    )
+
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: this.mensajeCargando,
       dismissOnPageChange: true
     });
     this.loading.present();
@@ -112,18 +122,36 @@ export class VisualizarPerfilPublicoPage {
 
 
   doConfirm(item) {
+    this.translateService.get('Agregar?').subscribe(
+      value => {
+        // value is our translated string
+         this.tituloAlert = value;
+      }
+    )
+    this.translateService.get('Desea agregar a esta persona como amigo?').subscribe(
+      value => {
+        // value is our translated string
+         this.mensajeAlert = value;
+      }
+    )
+    this.translateService.get('Si').subscribe(
+      value => {
+        // value is our translated string
+         this.siAlert = value;
+      }
+    )
     let confirm = this.alerCtrl.create({
-      title: 'Agregar?',
-      message: 'Desea agregar a esta persona como amigo?',
+      title: this.tituloAlert,
+      message: this.mensajeAlert,
       buttons: [
         {
-          text: 'No',
-          handler: () => {
+            text: 'No',
+            handler: () => {
             console.log('No clicked');
           }
         },
         {
-          text: 'Si',
+          text: this.siAlert,
           handler: () => {
             this.agregarAmigo(item);
             console.log('Si clicked');

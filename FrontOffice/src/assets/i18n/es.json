@@ -103,6 +103,14 @@
     "Salir Grupo": "Saliste exitosamente del grupo",
     "Modificado Exitosamente": "Modificado Exitosamente",
     "Deseas Agregar a:": "Deseas Agregar a: ",
+    "Amigo Aceptado" : "Tienes un nuevo amigo!",
+    "Algo ha salido mal" : "Algo salió mal",
+    "Peticion eliminada" : "Petición eliminada",
+    "Si" : "Yes",
+    "Agregar?" : "Add?",
+    "Desea agregar a esta persona como amigo?" : "Do you want to add this person as a friend?",
+    "Por favor, espere" : "Please, wait",
+    
     "Grupo Exitoso":"Grupo Agregado Exitosamente"
 
 }

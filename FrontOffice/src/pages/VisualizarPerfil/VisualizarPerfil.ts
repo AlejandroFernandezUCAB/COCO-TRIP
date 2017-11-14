@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController , LoadingController, NavParams } from 'ionic-angular';
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 @Component({
@@ -11,13 +11,14 @@ export class VisualizarPerfilPage {
 
   nombreUsuario : any;
   amigo : any;
+  mensajeCargando:any;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
 
   constructor(public navCtrl: NavController, public alerCtrl: AlertController, 
       public restapiService: RestapiService, public loadingCtrl: LoadingController, 
-      private navParams: NavParams, translate : TranslateModule) {
+      private navParams: NavParams, public translateService : TranslateService) {
 
   }
 
@@ -25,8 +26,15 @@ export class VisualizarPerfilPage {
    * Metodo que carga un LoadingCTRL
    */
   cargando(){
+    this.translateService.get('Por favor, espere').subscribe(
+      value => {
+        // value is our translated string
+         this.mensajeCargando = value;
+      }
+    )
+
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: this.mensajeCargando,
       dismissOnPageChange: true
     });
     this.loading.present();
