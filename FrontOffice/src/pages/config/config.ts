@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the ConfigPage page.
@@ -19,7 +20,7 @@ export class ConfigPage {
 
   idioms: any[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private translateService: TranslateService)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private translateService: TranslateService, private storage: Storage)
   {
     this.idioms = [
       {
@@ -34,6 +35,8 @@ export class ConfigPage {
   }
 
   choose(lang) {
+    let idUsuario = this.navParams.data;
+    this.storage.set(idUsuario.toString(), lang);    
     this.translateService.use(lang);
   }
 

@@ -17,6 +17,7 @@ namespace ApiRestPruebas
   public class PruebasLogin
   {
     private Usuario usuario;
+    private Usuario usuariof;
     private EventoPreferencia evento1;
     private EventoPreferencia evento2;
     private PeticionLogin peticion = new PeticionLogin();
@@ -42,6 +43,13 @@ namespace ApiRestPruebas
         Correo = "hdms26@gmail.com",
         Clave = "pruebaclave",
         Foto = ""
+      };
+
+      usuariof = new Usuario
+      {
+        Nombre = "pedro",
+        Apellido = "garcia",
+        Correo = "quinzzy26@gmail.com",
       };
 
       evento1 = new EventoPreferencia
@@ -132,6 +140,19 @@ namespace ApiRestPruebas
     }
 
     // TERMINAR, FALTA VER COMO SABER QUE DIO ERROR TRATANDO DE VALIDAR AL USUARIO
+    [Test]
+    [Category("Actualizar")]
+    public void TestRegistrarUsuarioFacebook()
+    {
+      Assert.DoesNotThrow(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+
+      Assert.Throws<InvalidCastException>(() => {
+        usuario.Correo = null;
+        peticion.ValidarUsuario(usuario);
+      });
+    }
     [Test]
     [Category("Actualizar")]
     public void TestActualizarValidacionUsuario()
@@ -277,26 +298,79 @@ namespace ApiRestPruebas
     [Category("Controlador")]
     public void TestRegistrarUsuario()
     {
-
+      
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
+      Assert.AreEqual(-4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuariof));
+      usuario.Correo = usuariof.Correo;
+      Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+
+      usuario.NombreUsuario = "pedriviris";
+      Assert.AreEqual(2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));//prueba unitaria de actualizar 
+      usuario.NombreUsuario = "pepo";
+
+      usuario.Correo = "hdms26@gmail.com";
+      controlador.ValidarUsuario(usuario.Correo, 1);
+    
       usuario.NombreUsuario = "homero";
       Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       usuario.Correo = "homero_dms@hotmail.com";
+      usuario.NombreUsuario = "pepo";
       Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+      
+      usuario.Correo =null;
+      Assert.Throws< HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Correo = "hdms@gmail.com";
 
-      usuario.Correo = null;
+      usuario.NombreUsuario = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
       });
+      usuario.NombreUsuario = "pepo2";
+
+      usuario.Nombre = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Nombre = "Carlos";
+
+      usuario.Apellido =null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Apellido = "Valero";
+
+      usuario.Genero = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Genero = "M";
+
+      usuario.Clave = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Clave = "pruebaclave";
+
+      usuario.Foto = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.Foto = "";
+
+
     }
 
     [Test]
     [Category("Controlador")]
     public void TestValidarUsuario()
     {
-      usuario.Id = global;
+      usuario.Id = 1;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
     }
     /// <summary>

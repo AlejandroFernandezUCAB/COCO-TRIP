@@ -102,12 +102,13 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto varchar)
+   foto varchar,
+   password varchar)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto, us_password
 	FROM usuario
 	WHERE us_email=_correo;
 END;
@@ -1574,7 +1575,16 @@ CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_cat
   RETURNS void
    AS $$
 BEGIN
-    UPDATE categoria SET ca_status = estatus WHERE ca_id = id_categoria;
+    UPDATE categoria
+   SET ca_status=estatus
+   from (select c.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria  
+	union
+select ca.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria   
+	union
+select cat.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria  
+) as ca
+   
+ WHERE ca.id = ca_id;
 END; $$
   LANGUAGE plpgsql;
 

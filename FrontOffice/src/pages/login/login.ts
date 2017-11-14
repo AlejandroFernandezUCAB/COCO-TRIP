@@ -73,8 +73,8 @@ export class LoginPage {
 
           }
           else {
-            this.storage.set('id', data);
-            this.navCtrl.setRoot(HomePage);
+            this.storage.set('id', data).then(bien =>this.navCtrl.setRoot(HomePage));
+            
           }
 
         });
@@ -119,8 +119,7 @@ export class LoginPage {
                 this.realizarToast('Error con los datos de Facebook');
               }
               else {
-                this.storage.set('id', data);
-                this.navCtrl.setRoot(HomePage);
+                this.storage.set('id', data).then(bien =>this.navCtrl.setRoot(HomePage));
               }
 
             });

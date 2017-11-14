@@ -27,7 +27,7 @@ import {CalendarioPage } from '../pages/calendario/calendario';
 export class CocoTrip {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = ItinerarioPage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 
