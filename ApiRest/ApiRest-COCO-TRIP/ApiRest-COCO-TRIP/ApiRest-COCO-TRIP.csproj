@@ -68,7 +68,6 @@
     <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -145,7 +144,7 @@
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
-    <Compile Include="Controllers\M5Controller.cs" />
+    <Compile Include="Controllers\M5_ItinerarioController.cs" />
     <Compile Include="Controllers\M7_LugaresTuristicosController.cs" />
     <Compile Include="Controllers\M8_EventosController.cs" />
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
@@ -162,7 +161,9 @@
     <Compile Include="Models\Excepcion\ArchivoExcepcion.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
+    <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Grupo.cs" />

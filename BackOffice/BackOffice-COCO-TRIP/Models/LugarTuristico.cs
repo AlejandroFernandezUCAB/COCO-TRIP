@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace BackOffice_COCO_TRIP.Models.Dato
+namespace BackOffice_COCO_TRIP.Models
 {
   /// <summary>
   /// Clase que contiene los datos de lugar turistico
@@ -50,6 +51,8 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Nombre
     /// </summary>
+    [Required(ErrorMessage = "Debe llenar este campo")]
+    [MaxLength(400)]
     public string Nombre
     {
       get { return nombre; }
@@ -59,6 +62,8 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Costo
     /// </summary>
+    [Required(ErrorMessage = "Debe llenar este campo")]
+    [RegularExpression("[0-9]*", ErrorMessage = "El costo debe ser positivo")]
     public double Costo
     {
       get { return costo; }
@@ -68,6 +73,8 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Descripcion
     /// </summary>
+    [Required(ErrorMessage = "Debe llenar este campo")]
+    [MaxLength(2000)]
     public string Descripcion
     {
       get { return descripcion; }
@@ -77,6 +84,8 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Direccion
     /// </summary>
+    [Required(ErrorMessage = "Debe llenar este campo")]
+    [MaxLength(2000)]
     public string Direccion
     {
       get { return direccion; }
@@ -86,6 +95,8 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Correo
     /// </summary>
+    [Required(ErrorMessage = "Debe llenar este campo")]
+    [MaxLength(320)]
     public string Correo
     {
       get { return correo; }
@@ -95,6 +106,8 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Telefono
     /// </summary>
+    [Required]
+    [RegularExpression("[0-9]*", ErrorMessage = "Solo se aceptan numeros")]
     public long Telefono
     {
       get { return telefono; }
@@ -104,6 +117,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Latitud
     /// </summary>
+    [Required(ErrorMessage = "Debe seleccionar una ubicacion en el mapa")]
     public double Latitud
     {
       get { return latitud; }
@@ -113,6 +127,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Longitud
     /// </summary>
+    [Required(ErrorMessage = "Debe seleccionar una ubicacion en el mapa")]
     public double Longitud
     {
       get { return longitud; }
@@ -122,6 +137,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Activar
     /// </summary>
+    [Required(ErrorMessage = "Debe seleccionar una opcion")]
     public bool Activar
     {
       get { return activar; }
@@ -131,6 +147,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Foto
     /// </summary>
+    [Required(ErrorMessage = "Debe agregar al menos una foto")]
     public List<Foto> Foto
     {
       get { return foto; }
@@ -140,6 +157,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Horario
     /// </summary>
+    [Required(ErrorMessage = "Debe agregar al menos un horario")]
     public List<Horario> Horario
     {
       get { return horario; }
@@ -149,6 +167,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Horario
     /// </summary>
+    [Required(ErrorMessage = "Debe agregar al menos una actividad")]
     public List<Actividad> Actividad
     {
       get { return actividad; }
@@ -159,6 +178,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo Categoria
     /// </summary>
+    [Required(ErrorMessage = "Debe seleccionar al menos una categoria")]
     public List<Categoria> Categoria
     {
       get { return categoria; }
@@ -169,6 +189,7 @@ namespace BackOffice_COCO_TRIP.Models.Dato
     /// <summary>
     /// Getters y Setters del atributo SubCategoria
     /// </summary>
+    [Required(ErrorMessage = "Debe seleccionar al menos una subcategoria")]
     public List<Categoria> SubCategoria
     {
       get { return subCategoria; }

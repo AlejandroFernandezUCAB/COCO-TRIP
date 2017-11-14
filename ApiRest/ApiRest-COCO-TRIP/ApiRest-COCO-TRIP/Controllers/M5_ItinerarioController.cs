@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace ApiRest_COCO_TRIP.Controllers
 {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
-  public class M5Controller : ApiController
+  public class M5_ItinerarioController : ApiController
   {
 
     List<Itinerario> itinerarios = new List<Itinerario>();
