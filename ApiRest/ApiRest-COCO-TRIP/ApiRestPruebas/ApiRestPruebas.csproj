@@ -72,6 +72,8 @@
     <Compile Include="M7\PruebaController.cs" />
     <Compile Include="M8\M8EventsUnitTests.cs" />
     <Compile Include="M8\M8UnitTests.cs" />
+    <Compile Include="M9\PruebaPeticionCategoria.cs" />
+    <Compile Include="M9\PruebaValidacionWS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +87,6 @@
     <Folder Include="Library\" />
     <Folder Include="M4\" />
     <Folder Include="M6\" />
-    <Folder Include="M9\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ApiRest-COCO-TRIP\ApiRest-COCO-TRIP.csproj">
