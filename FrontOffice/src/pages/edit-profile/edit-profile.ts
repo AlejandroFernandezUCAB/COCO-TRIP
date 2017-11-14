@@ -5,16 +5,24 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChangepassPage} from '../changepass/changepass';
 import { TranslateService } from '@ngx-translate/core';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
-//import { Storage } from '@ionic/storage'; //storage no es necesario, pues el objeto se pasa por parametros
+import { transition } from '@angular/core/src/animation/dsl';
+// storage no es necesario, pues el objeto se pasa por parametros
+//import { Storage } from '@ionic/storage'; 
 
 @IonicPage()
 @Component({
   selector: 'page-edit-profile',
   templateUrl: 'edit-profile.html',
 })
-export class EditProfilePage {
+export class EditProfilePage {  
 
+  change = ChangepassPage;
+
+  // variable asociada al campo genero en el formulario
+  genero: string;
+  apiRestResponse: any;
   myForm: FormGroup;
+
   // datos a cargar por defecto
   // se sobre escriben si la llamada al
   // apirest fue exitosa
@@ -25,23 +33,18 @@ export class EditProfilePage {
     Genero: "F"
   };
 
-  change = ChangepassPage;
-
-  genero: string;
-  
-  apiRestResponse: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, 
     public restapiService: RestapiService )
   {
-
+    // se obtiene el genero del usuario
     this.genero = this.usuario.Genero;
 
-    console.log(navParams.data)
     // obtengo los datos recibidos de la vista anterior
     // la verificacion de la fecha permite evitar la excepcion de RangeError
     if(navParams.data != 0 && navParams.data.FechaNacimiento != undefined){
+      // inyectando datos al objeto usuario
       this.usuario = navParams.data;
       this.usuario.FechaNacimiento = new Date(navParams.data.FechaNacimiento).toISOString();
       this.genero = navParams.data.Genero;
@@ -60,18 +63,11 @@ export class EditProfilePage {
 
   }
 
-  //function ejecutada al hacer submit del formulario
+  // function ejecutada al hacer submit del formulario
   saveData(){
-    // //guardamos datos previos
-    // let nombreViejo = this.usuario.Nombre;
-    // let apellidoViejo = this.usuario.Apellido;
-    // //inyectamos datos nuevos
-    // this.usuario.Nombre = this.myForm.value.nombre;
-    // this.usuario.Apellido = this.myForm.value.apellido;
-
-      //guardamos datos previos
+      // guardamos datos previos
     let datosPrevios = this.usuario;
-      //inyectamos datos nuevos
+      // inyectamos datos nuevos
     this.usuario.Nombre = this.myForm.value.nombre;
     this.usuario.Apellido = this.myForm.value.apellido;
     // notar que el toISOString es muy importante para que el apirest reconozca a FechaNacimiento
@@ -85,7 +81,8 @@ export class EditProfilePage {
           this.regresarAvistaAnterior(this.apiRestResponse);
       }
       else{
-        //restauramos los nombres anteriores
+        // en caso de fallo:
+        // restauramos los nombres anteriores...
         this.usuario = datosPrevios;
         this.apiRestResponse = false;
         this.regresarAvistaAnterior(this.apiRestResponse);
@@ -94,36 +91,25 @@ export class EditProfilePage {
     );
   }
 
+  // funcion para retornar el resultado de la operacion en un toast
+  // y luego volver a la vista anterior
   regresarAvistaAnterior(apiRestResponse){
     this.showToastWithCloseButton(apiRestResponse);
     this.navCtrl.pop();
   }
 
+  // funcion para mostrar un mensaje toast en pantalla
   showToastWithCloseButton(apiRestResponse) {
+    // se determina el mensaje a mostrar
     let result;
     if (apiRestResponse == true) {
-      this.translateService.get("Se guardaron tus cambios").subscribe(
-        value => {
-          // value is our translated string
-          result = value;
-        }
-      );
+      result = this.translateToastMessage("Se guardaron tus cambios");
     }
     else if (apiRestResponse == "datosIguales") {
-      this.translateService.get("No hay cambios en los campos").subscribe(
-        value => {
-          // value is our translated string
-          result = value;
-        }
-      );
+        result = this.translateToastMessage("No hay cambios en los campos");
     }
     else{
-      this.translateService.get("Error Modificando los datos").subscribe(
-        value => {
-          // value is our translated string
-          result = value;
-        }
-      );
+        result = this.translateToastMessage("Error Modificando los datos");
     }
     
     const toast = this.toastCtrl.create({
@@ -131,7 +117,18 @@ export class EditProfilePage {
       showCloseButton: true,
       closeButtonText: 'Ok'
     });
+    // se muestra el mensaje
     toast.present();
+  }
+
+  translateToastMessage(message){
+    let translation;
+    this.translateService.get(message).subscribe(
+      value => {
+        translation = value;
+      }
+    );
+    return translation;
   }
 
   //Este OpenMenu es para el ActionSheet de cambiar foto

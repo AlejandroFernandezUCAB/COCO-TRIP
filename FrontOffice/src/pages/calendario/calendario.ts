@@ -36,12 +36,25 @@ export class CalendarioPage {
       console.log(this.its);
       this.its.forEach(it => {
         if (it.Visible ==true){
+          console.log("VISIBLE");
           it.Items_agenda.forEach( ev => {
             if (moment(ev.FechaInicio).format('DD-MM-YYYY') == moment($event._d).format('DD-MM-YYYY')){
+              console.log("ev.horaInicio ", ev.HoraInicio);
+              console.log("ev.horafin ", ev.HoraFin);
+              if (ev.HoraFin!=undefined && ev.HoraFin!=null && ev.HoraInicio!= undefined &&ev.HoraInicio!=null){
+                items_agenda.push({
+                  Nombre: ev.Nombre,
+                  Tipo: ev.Tipo,
+                  HoraInicio: ev.HoraInicio,
+                  HoraFin: ev.HoraFin,
+                  itinerario: it.Nombre
+                });
+              }else
               items_agenda.push({
                 Nombre: ev.Nombre,
-                // HoraInicio: ev.HoraInicio,
-                // HoraFin: ev.HoraFin,
+                Tipo: ev.Tipo,
+                HoraInicio: '',
+                HoraFin: '',
                 itinerario: it.Nombre
               });
             }

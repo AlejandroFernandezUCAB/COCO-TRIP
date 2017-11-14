@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import { DayConfig } from 'ion2-calendar';
 import * as moment from 'moment';
 import { HttpCProvider } from '../providers/http-c/http-c';
+import { Storage } from '@ionic/storage';
 
 @Injectable()
 
@@ -18,8 +19,10 @@ export class EventosCalendarioService {
   _notificaciones = Object();
   _itis:any;
   _itinerarios1= [];
+  IdUsuario:any;
   constructor
-  (public http: HttpCProvider)
+  (public http: HttpCProvider,
+  private storage: Storage)
   {
 
     this._notificaciones = {
@@ -83,14 +86,17 @@ export class EventosCalendarioService {
         horaFin: '2:00 PM'
       },
     ];
-
-      this.consultarItinerarios(2);
+    this.storage.get('id').then((val) => {
+      this.IdUsuario = val;
+      this.consultarItinerarios(this.IdUsuario);
+    })
   }
 
   public getEventosItinerario()
   {
       for (let i= 0 ; i < this._itis.length; i++){
         if (this._itis[i].Visible == true){
+          console.log("entro");
           for (let j =0;  j< this._itis[i].Items_agenda.length; j++)
           {
             this._daysConfig.push({
@@ -114,9 +120,14 @@ export class EventosCalendarioService {
     return this._eventos;
   }
 
-  public getNotifcacionesConfig()
+  public getNotifcacionesConfig(idusuario)
   {
-    return this._notificaciones;
+    this.http.getNotificacionesConfig(idusuario)
+    .then(data =>{
+      this._notificaciones.correo = data;
+      this._notificaciones.push = false;
+      return this._notificaciones;
+    })
   }
 
   public consultarItinerarios(id_usuario)

@@ -48,15 +48,15 @@ export class LoginPage {
         if(idUsuario!=null)
         this.navCtrl.setRoot(HomePage);},
       error =>{
-  
+
       }
-  
+
       );
 
     });
   });
-    
-  
+
+
   }
 
 
@@ -74,7 +74,7 @@ export class LoginPage {
           }
           else {
             this.storage.set('id', data).then(bien =>this.navCtrl.setRoot(HomePage));
-            
+
           }
 
         });
@@ -99,7 +99,7 @@ export class LoginPage {
 
   }
   facebookLogin() {
-    
+
     this.realizarLoading();
     this.facebook.getLoginStatus().then(loginstatus => {
       if (loginstatus.status == "connected") {
