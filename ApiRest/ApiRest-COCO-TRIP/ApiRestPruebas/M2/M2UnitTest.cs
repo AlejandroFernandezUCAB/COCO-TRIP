@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Controllers;
 using Npgsql;
@@ -163,6 +164,7 @@ namespace ApiRestPruebas.M2
 
     // Usuario con id 15 agregado previo a la PU
     [TestCase(7,"ronald", "navas")]
+    [TestCase(15, "gianfranco", "verrocchi")]
     [Category("Usuario")]
     public void Model_ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
@@ -183,7 +185,7 @@ namespace ApiRestPruebas.M2
 
     }
 
-    [TestCase(4, "ronald", "navas")]
+    [TestCase(7, "ronald", "navas")]
     [Category("Usuario")]
     public void ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
@@ -216,6 +218,56 @@ namespace ApiRestPruebas.M2
       lista = apiRest.BuscarCategorias( 1, consulta);
       Assert.AreEqual(consultaCompleta, lista[0].Nombre);
 
+    }
+
+    [Test]
+    public void ObtenerPass()
+    {
+      string username, pass, passobtenida;
+      username = "jelo";
+      pass = "123";
+
+      passobtenida = peticion.ObtenerPassword(username);
+      Assert.AreEqual(pass, passobtenida);
+    }
+
+    [Test]
+    public void ConsultarIdTest()
+    {
+      int test, testing;
+      string username;
+      testing = 2;
+      username = "jelo";
+
+      test = peticion.ConsultarIdDelUsuario(username);
+      Assert.AreEqual(test, testing);
+    }
+
+    [Test]
+    public void BorrarUsuarioTest()
+    {
+      string username, pass;
+      username = "jelo";
+      pass = "wwe";
+
+      probar = apiRest.BorrarUsuario(username, pass);
+      Assert.AreEqual(true, probar);
+
+    }
+
+    [Test]
+    [Category("Excepciones")]
+    public void ExcepcionAgregarUsuario()
+    {
+
+      Assert.Throws(typeof(BaseDeDatosExcepcion), AgregarUsuarioEx);
+
+
+    }
+
+    public void AgregarUsuarioEx()
+    {
+      apiRest.AgregarPreferencias(-1, -1);
     }
 
 

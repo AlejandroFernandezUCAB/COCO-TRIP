@@ -15,7 +15,7 @@
   
   <ion-content padding>
   
-        <ion-list inset>
+        <!-- <ion-list inset>
             <ion-item>
                 <ion-label><ion-icon name="notifications" ></ion-icon> {{ 'Recibir Notificaciones' | translate }}</ion-label>
                 <ion-toggle checked="false" (ionChange)="toggleToast()" ></ion-toggle>
@@ -29,7 +29,7 @@
                 <ion-label>{{ 'Chat' | translate }}</ion-label>
                 <ion-checkbox [(ngModel)]="chat" (click)="toast()"></ion-checkbox>
               </ion-item>
-        </ion-list>
+        </ion-list> -->
   
         <ion-list inset>
             <ion-item>
@@ -42,7 +42,7 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>Google</ion-label>
-                    <ion-checkbox [(ngModel)]="google" (click)="toast()"></ion-checkbox>
+                    <ion-checkbox [(ngModel)]="google" (click)="toast()" disabled="true"></ion-checkbox>
                   </ion-item>              
         </ion-list>
   
