@@ -33,8 +33,8 @@
         {{evento.Tipo}}
       </ion-item>
       <ion-item text-wrap *ngIf="evento.Tipo=='Evento'">
-        <ion-label><p>Comienza:</p> {{evento.FechaInicio | date : 'dd/MM/yyyy'}} - {{evento.horaInicio}}</ion-label>
-        <ion-label><p>Termina:</p> {{evento.FechaFin | date : 'dd/MM/yyyy'}} - {{evento.horaFin}}</ion-label>
+        <ion-label><p>Comienza:</p> {{evento.FechaInicio | date : 'dd/MM/yyyy'}} - {{evento.HoraInicio}}</ion-label>
+        <ion-label><p>Termina:</p> {{evento.FechaFin | date : 'dd/MM/yyyy'}} - {{evento.HoraFin}}</ion-label>
       </ion-item>
       <div *ngIf="evento.Tipo=='Lugar Turistico'">
       <ion-item class="item-borderless"><ion-label><p>Horario: </p>

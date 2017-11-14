@@ -62,10 +62,10 @@ export class RegisterPage {
     });
     this.facebook.getLoginStatus().then(loginstatus => {
       if (loginstatus.status == "connected") {
-        this.facebook.api('me?fields=id,email,first_name,last_name,birthday,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+        this.facebook.api('me?fields=id,email,first_name,last_name', []).then(profile => {
           this.userData = {
             correo: profile['email'], nombre: profile['first_name'],
-            apellido: profile['last_name'], fechaNacimiento: new Date(profile['birthday']).toISOString()
+            apellido: profile['last_name']
           };
           this.correo = this.userData.correo;
           this.nombre = this.userData.nombre;

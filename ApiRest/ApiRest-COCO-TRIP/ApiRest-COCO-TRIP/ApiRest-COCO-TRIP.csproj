@@ -122,6 +122,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\COCOTRIP.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -169,6 +171,7 @@
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\LocalidadEvento.cs" />
+    <Compile Include="Models\LugarTuristicoPreferencia.cs" />
     <Compile Include="Models\PeticionAmigoGrupo.cs" />
     <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionItinerario.cs" />
@@ -183,9 +186,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
@@ -211,7 +212,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51049</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

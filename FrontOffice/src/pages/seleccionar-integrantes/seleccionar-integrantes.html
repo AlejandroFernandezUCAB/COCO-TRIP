@@ -7,12 +7,12 @@
 <ion-header>
   
     <ion-navbar >
-      <ion-title>Crear Grupo</ion-title>
+      <ion-title>{{'Crear Grupo' | translate}}</ion-title>
       <ion-buttons end>
-          <button ion-button icon-only >
-              <ion-icon name="checkmark-circle"></ion-icon>
-        </button>
-          </ion-buttons>
+        <button ion-button icon-only (click)="agregarGrupo()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+        </ion-buttons>
       
     </ion-navbar>
   
@@ -20,6 +20,7 @@
   
   
   <ion-content padding>
+      <form [formGroup]="myForm">
       <ion-list>
           <ion-buttons>
               <button ion-button icon-only >
@@ -28,10 +29,11 @@
               </ion-buttons>
         
               <ion-item>
-                  <ion-input type="text" placeholder="Nombre del grupo"></ion-input>
+                  <ion-input type="text" placeholder="{{'Nombre del Grupo' | translate}}"
+                    [(ngModel)]="nombreGrupo" formControlName="namegroup" required>
+                  </ion-input>
                 </ion-item>
-          
-          
           </ion-list>
+        </form>
   </ion-content>
   

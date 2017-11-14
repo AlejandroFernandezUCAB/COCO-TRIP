@@ -51,18 +51,19 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.Id = 0;
         }
 
-        leerDatos.Close();
-        conexion.Desconectar();
+        leerDatos.Close(); 
       }
       catch (NpgsqlException e)
       {
-        conexion.Desconectar();
         throw e;
       }
       catch (FormatException e)
       {
-        conexion.Desconectar();
         throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
       }
       return usuario.Id;
     }
@@ -90,7 +91,6 @@ namespace ApiRest_COCO_TRIP.Models
         }
 
         leerDatos.Close();
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -99,6 +99,10 @@ namespace ApiRest_COCO_TRIP.Models
       catch (FormatException e)
       {
         throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
       }
       return usuario.Id;
     }
@@ -117,18 +121,25 @@ namespace ApiRest_COCO_TRIP.Models
         if (leerDatos.Read())
         {
           usuario.Id = leerDatos.GetInt32(0);
-          usuario.Correo = leerDatos.GetString(2);
-          usuario.Nombre = leerDatos.GetString(3);
-          usuario.Apellido = leerDatos.GetString(4);
-          usuario.FechaNacimiento = leerDatos.GetDateTime(5);
+          //usuario.Correo = leerDatos.GetString(2);
+          //usuario.Nombre = leerDatos.GetString(3);
+          //usuario.Apellido = leerDatos.GetString(4);
           usuario.Valido = leerDatos.GetBoolean(7);
+          try
+          {
+            usuario.Clave = leerDatos.GetString(9);
+          }
+          catch (InvalidCastException)
+          {
+            usuario.Clave = null;
+          }
+
         }
         else
         {
           usuario.Id = 0;
         }
         leerDatos.Close();
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -137,6 +148,11 @@ namespace ApiRest_COCO_TRIP.Models
       catch (FormatException e)
       {
         throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
       }
       return usuario.Id;
     }
@@ -157,7 +173,7 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Genero));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Clave));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Bytea, usuario.Foto));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Foto));
 
         leerDatos = conexion.Comando.ExecuteReader();
 
@@ -167,17 +183,18 @@ namespace ApiRest_COCO_TRIP.Models
           leerDatos.Close();
         }
 
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
-        conexion.Desconectar();
         throw e;
       }
       catch (InvalidCastException e)
       {
-        conexion.Desconectar();
         throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
       }
       return usuario.Id;
     }
@@ -240,7 +257,6 @@ namespace ApiRest_COCO_TRIP.Models
         }
 
         leerDatos.Close();
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -249,6 +265,11 @@ namespace ApiRest_COCO_TRIP.Models
       catch (FormatException e)
       {
         throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
       }
       return usuario.Clave;
     }
@@ -264,7 +285,6 @@ namespace ApiRest_COCO_TRIP.Models
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
         conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, usuario.Id));
         conexion.Comando.ExecuteNonQuery();
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -274,7 +294,45 @@ namespace ApiRest_COCO_TRIP.Models
       {
         throw e;
       }
+      finally
+      {
+        conexion.Desconectar();
+      }
     }
+
+    public void ActualizarUsuario(Usuario usuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ActualizarUsuario";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.NombreUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Nombre));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Apellido));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Date, usuario.FechaNacimiento));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Genero));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Correo));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Clave));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, usuario.Foto));
+        conexion.Comando.ExecuteNonQuery();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      finally {
+        conexion.Desconectar();
+      }
+    }
+
+
+
 
     public int ConsultarUsuarioSoloNombre(Usuario usuario)
     {
@@ -301,7 +359,6 @@ namespace ApiRest_COCO_TRIP.Models
           usuario.Id = 0;
         }
         leerDatos.Close();
-        conexion.Desconectar();
       }
       catch (NpgsqlException e)
       {
@@ -311,47 +368,55 @@ namespace ApiRest_COCO_TRIP.Models
       {
         throw e;
       }
+      finally
+      {
+        conexion.Desconectar();
+      }
       return usuario.Id;
     }
-    //codigo Pedro Garcia
-    /*public List<LugarTuristico> ConsultarLugarTuristicoSegunPreferencias(int idUsuario) {
-        try
-        {
-            conexion.Conectar();
-            conexion.Comando = conexion.SqlConexion.CreateCommand();
-            conexion.Comando.CommandText = "BuscarLugarTuristicoSegunPreferencias";
-            conexion.Comando.CommandType = CommandType.StoredProcedure;
-            conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
-            leerDatos = conexion.Comando.ExecuteReader();
-            var listaLugarTuristico = new List<LugarTuristico>();
+    public List<LugarTuristicoPreferencia> ConsultarLugarTuristicoSegunPreferencias(int idUsuario)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "BuscarLugarTuristicoSegunPreferencias";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        leerDatos = conexion.Comando.ExecuteReader();
+        List<LugarTuristicoPreferencia> ltp = new List<LugarTuristicoPreferencia>();
 
         while (leerDatos.Read()) //Recorre las filas retornadas de la base de datos
         {
-          var lugarTuristico = new LugarTuristico();
-          lugarTuristico.Nombre = leerDatos.GetString(0);
-          lugarTuristico.Costo = leerDatos.GetDouble(1);
-          lugarTuristico.Descripcion = leerDatos.GetString(2);
-          lugarTuristico.Direccion = leerDatos.GetString(3);
-          lugarTuristico.Categoria = leerDatos.
-
-          listaLugarTuristico.Add(lugarTuristico);
+          var lugarPreferencia = new LugarTuristicoPreferencia();
+          lugarPreferencia.NombreLT = leerDatos.GetString(0);
+          lugarPreferencia.Costo = leerDatos.GetDouble(1);
+          lugarPreferencia.Descripcion = leerDatos.GetString(2);
+          lugarPreferencia.Direccion = leerDatos.GetString(3);
+          //lugarPreferencia.LugarFotoRuta = leerDatos.GetString(4);
+          lugarPreferencia.NombreCategoria = leerDatos.GetString(4);
+          ltp.Add(lugarPreferencia);
         }
-
+        
         leerDatos.Close();
-
-        return listaLugarTuristico;
+        return ltp;
       }
-        catch (NpgsqlException e)
-        {
-            throw e;
-        }
-        catch (FormatException e)
-        {
-            throw e;
-        }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
+      }
 
 
-    }*/
+    }
     public List<EventoPreferencia> ConsultarEventosSegunPreferencias(int idUsuario, DateTime fechaActual) {
         try
         {
@@ -375,10 +440,9 @@ namespace ApiRest_COCO_TRIP.Models
           eventoPreferencia.Precio = leerDatos.GetDouble(5);
           eventoPreferencia.Descripcion = leerDatos.GetString(6);
           eventoPreferencia.NombreLocal = leerDatos.GetString(7);
-          eventoPreferencia.LocalFotoRuta = leerDatos.GetString(8);
-          eventoPreferencia.NombreCategoria = leerDatos.GetString(9);
+         // eventoPreferencia.LocalFotoRuta = leerDatos.GetString(8);
+          eventoPreferencia.NombreCategoria = leerDatos.GetString(8);
           listaEventos.Add(eventoPreferencia);
-          Console.WriteLine(listaEventos);
         }
 
         leerDatos.Close();
@@ -393,7 +457,10 @@ namespace ApiRest_COCO_TRIP.Models
         {
             throw e;
         }
-
+      finally
+      {
+        conexion.Desconectar();
+      }
 
     }
   }
