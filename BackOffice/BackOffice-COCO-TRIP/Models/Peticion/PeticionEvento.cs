@@ -1,8 +1,11 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Web;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
@@ -27,7 +30,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       throw new NotImplementedException();
     }
 
-    public override JObject Post(LocalidadEvento data)
+    public override JObject Post(Evento data)
     {
       try
       {
@@ -40,11 +43,19 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
             { "nombre", data.Nombre },
             { "descripcion", data.Descripcion },
-             { "coordenadas", data.Coordenadas }
+             { "precio", data.Precio },
+            { "fechaInicio",data.FechaInicio.ToString()},
+            {"fechaFin",data.FechaFin.ToString() },
+            {"horaInicio",data.HoraInicio.ToString() },
+            {"horaFin",data.HoraFin.ToString() },
+            {"foto",data.Foto },
+            { "idCategoria",data.IdCategoria},
+            {"idLocalidad",data.IdLocalidad }
+           
 
 
           };
-          var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarLocalidadEvento", jsonData);
+          var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/agregarEvento", jsonData);
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
@@ -120,10 +131,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Post(Evento data)
-    {
-      throw new NotImplementedException();
-    }
+   
 
     public override JObject Put(Evento data)
     {

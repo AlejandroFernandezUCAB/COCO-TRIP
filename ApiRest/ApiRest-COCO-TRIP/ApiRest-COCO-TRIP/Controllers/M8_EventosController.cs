@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using ApiRest_COCO_TRIP.Models;
+using System.Reflection;
 using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ using System.Web.Http.Description;
 using System.Collections;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -29,32 +31,38 @@ namespace ApiRest_COCO_TRIP.Controllers
      * **/
     [ResponseType(typeof(IDictionary))]
     [ActionName("agregarEvento")]
-    [HttpPut]
+    [HttpPost]
     public IDictionary AgregarEvento([FromBody] JObject data)
     {
       try
       {
         Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
         {
-          "idEvento","nombre","descripcion","precio","fechaInicio","fechaFin","horaInicio","horaFin","foto","idCategoria","idLocalidad"
+          "nombre","descripcion","precio","fechaInicio","fechaFin","horaInicio","horaFin","foto",
+          "idCategoria","idLocalidad"
         });
-        Evento evento = data.ToObject<Evento>();
-        PeticionEvento peticionEvento = new PeticionEvento();
-        int idEvento = peticionEvento.AgregarEvento(evento);
-        respuesta.Add("dato", idEvento);
+          Evento evento = data.ToObject<Evento>();
+       
+          PeticionEvento peticionEvento = new PeticionEvento();
+          int idEvento = peticionEvento.AgregarEvento(evento);
+          respuesta.Add("dato", idEvento); 
+       
       }
       catch (BaseDeDatosExcepcion e)
       {
-        respuesta.Add("Error AgregarEvento", e.Message);
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        e.Mensaje = "Error en Evento Controlador Insertar";
+        respuesta.Add("Error", e.Message);
       }
       catch (ParametrosNullException e)
       {
-        respuesta.Add("Error AgregarEvento", e.Mensaje);
+        respuesta.Add("Error", e.Mensaje);
 
       }
       catch (Exception e)
       {
-        respuesta.Add("Error AgregarEvento", "Error noo esperado ");
+        respuesta.Add("Error", "Error noo esperado ");
 
       }
 
