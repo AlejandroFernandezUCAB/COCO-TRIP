@@ -769,7 +769,7 @@ Autores:
 
 CREATE OR REPLACE FUNCTION consultar_itinerarios(
 	idusuario integer)
-    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date,
+    RETURNS TABLE(id integer, id_usuario integer, nombre character varying, fechainicio date, fechafin date, a_fechainicio date, a_fechafin date, visible boolean,
                   lu_id integer, lu_nombre character varying, lu_descripcion character varying, lu_costo numeric,
                   ac_id integer, ac_nombre character varying, ac_descripcion character varying, ac_duracion time without time zone, ac_foto character varying,
                   ev_id integer, ev_nombre character varying, ev_descripcion character varying, ev_precio integer, ev_fechaini timestamp without time zone, ev_fechafin timestamp without time zone, ev_horainicio time without time zone, ev_horafin time without time zone,ev_foto character varying)
@@ -783,7 +783,7 @@ AS $BODY$
     BEGIN
       RETURN QUERY
 
-	SELECT  i.it_id as "ID", i.it_idusuario as "ID_usuario", i.it_nombre as "Nombre", i.it_fechainicio as "FechaInicio", i.it_fechafin as "FechaFin", a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin",
+	SELECT  i.it_id as "ID", i.it_idusuario as "ID_usuario", i.it_nombre as "Nombre", i.it_fechainicio as "FechaInicio", i.it_fechafin as "FechaFin", a.ag_fechainicio as "A.FechaInicio", a.ag_fechafin as "A.FechaFin", i.it_visible as "visible",
 		  a.ag_idlugarturistico as "lu_id", lt.lu_nombre as "lu_nombre", lt.lu_descripcion as "lu_descripcion", lt.lu_costo as "lu_costo",
           a.ag_idactividad as "ac_id", ac.ac_nombre as "ac_nombre", ac.ac_descripcion as "ac_descripcion", ac.ac_duracion as "ac_duracion", ac.ac_foto as "ac_foto",
           a.ag_idevento as "ev_id", e.ev_nombre as "ev_nombre", e.ev_descripcion as "ev_descripcion", e.ev_precio as "ev_precio", e.ev_fecha_inicio as "ev_fechaini", e.ev_fecha_fin as "ev_fechafin", e.ev_hora_inicio as "ev_horainicio", e.ev_hora_fin as "ev_horafin", e.ev_foto as "ev_foto"
@@ -804,7 +804,7 @@ ALTER FUNCTION consultar_itinerarios(integer)
 
 -----------------Consultar Eventos---------------------------
 CREATE OR REPLACE FUNCTION consultar_eventos( busqueda varchar, fechainicio date, fechafin date )
-RETURNS TABLE (id_evento integer, nombre_evento varchar) AS $$
+RETURNS TABLE (id_evento integer, nombre_evento varchar, foto varchar) AS $$
 
 DECLARE
     s varchar;
@@ -813,9 +813,9 @@ BEGIN
   s := '%' || busqueda || '%';
 
     RETURN QUERY SELECT
-  ev_id, ev_nombre
+  ev_id, ev_nombre, ev_foto
   FROM evento
-  WHERE (ev_nombre like s) and (ev_fecha_inicio BETWEEN fechainicio and fechafin);
+  WHERE (LOWER(ev_nombre) like LOWER(s)) and (ev_fecha_inicio BETWEEN fechainicio and fechafin);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -833,14 +833,14 @@ BEGIN
     RETURN QUERY SELECT
   lu_id, lu_nombre
   FROM lugar_turistico
-  WHERE lu_nombre like s;
+  WHERE lower(lu_nombre) like lower(s);
 END;
 $$ LANGUAGE plpgsql;
 
 
 -----------------Consultar Actividades---------------------------
 CREATE OR REPLACE FUNCTION consultar_actividades( busqueda varchar )
-RETURNS TABLE (id_actividad integer, nombre_actividad varchar) AS $$
+RETURNS TABLE (id_actividad integer, nombre_actividad varchar, foto varchar) AS $$
 
 DECLARE
     s varchar;
@@ -849,16 +849,16 @@ BEGIN
   s := '%' || busqueda || '%';
 
     RETURN QUERY SELECT
-  ac_id, ac_nombre
+  ac_id, ac_nombre, ac_foto
   FROM actividad
-  WHERE ac_nombre like s;
+  WHERE lower(ac_nombre) like lower(s);
 END;
 $$ LANGUAGE plpgsql;
 
 
 
 ------------------- Consultar Itinerarios por correo --------------------
-CREATE OR REPLACE FUNCTION public.consultar_itinerarios(idusuario integer)
+CREATE OR REPLACE FUNCTION consultar_itinerarios_correo(idusuario integer)
     RETURNS TABLE(
     id integer,
     nombre character varying,
@@ -899,7 +899,6 @@ ALTER FUNCTION public.consultar_itinerarios(integer)
     OWNER TO admin_cocotrip;
 
 
-
 --Cambiar visibilidad de un itinerario
 -- FUNCTION: public.setvisible(integer, boolean, integer)
 
@@ -936,7 +935,7 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
   CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date)
     RETURNS boolean AS
     $BODY$
-    DECLARE 
+    DECLARE
     i integer;
     BEGIN
     SELECT ag_idEvento FROM Agenda WHERE (idevento=ag_idEvento) AND (iditinerario=ag_idItinerario) into i;
@@ -1094,6 +1093,78 @@ AS $BODY$
     END;
 
 $BODY$;
+
+
+----------------------Insertar notificacion
+    CREATE OR REPLACE FUNCTION agregar_notificacion(id_usuario integer)
+    RETURNS boolean AS
+  $BODY$
+
+    DECLARE
+    i integer;
+    
+    BEGIN
+    SELECT no_id FROM Notificacion WHERE (id_usuario = no_idUsuario) into i;
+    IF i is null THEN
+      INSERT INTO Notificacion (no_id, no_correo, no_push, no_idUsuario) 
+      VALUES (nextval('SEQ_Notificacion'), true, true, id_usuario);
+      return true;
+    ELSE
+    return true;
+    END IF;
+    END;
+  $BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+----------------------Eliminar notificacion
+    CREATE OR REPLACE FUNCTION eliminar_notificacion(id_usuario integer)
+    RETURNS boolean AS
+  $BODY$
+
+    DECLARE
+    i integer;
+    
+    BEGIN
+    SELECT no_id FROM Notificacion where (id_usuario = no_id) into i;
+    IF i is null THEN
+    return true;
+    else      
+      DELETE FROM Notificacion WHERE (id_usuario = no_idUsuario);
+        return true;      
+  END IF;
+    END
+  $BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+----------------------------- Modificar Notificacion ------------------------
+    CREATE OR REPLACE FUNCTION modificar_notificacion(
+  id_usuario integer,
+  correo boolean,
+  push boolean)
+    RETURNS void AS $$
+  
+  BEGIN
+    UPDATE Notificacion
+      SET no_correo = correo,
+          no_push = push
+      WHERE
+          id_usuario = no_idUsuario;
+  END;
+  $$ LANGUAGE plpgsql;
+
+
+------------------------------- Consultar Notificaciones ---------------------------------
+CREATE OR REPLACE FUNCTION consultar_notificaciones( id_usuario integer )
+RETURNS TABLE (correo boolean) AS $$
+
+BEGIN
+    RETURN QUERY SELECT no_correo
+        FROM Notificacion
+        WHERE no_idUsuario = id_usuario;
+END;
+$$ LANGUAGE plpgsql;
 
 
     /* fin de procedimientos de Modulo_5 */
@@ -1521,20 +1592,20 @@ $$ LANGUAGE plpgsql;
 
 -------------------------------------------
 
-CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
+CREATE OR REPLACE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
     LANGUAGE plpgsql
     AS $$
     BEGIN
       INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
-          VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
+          VALUES (nextval('seq_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
-CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
+CREATE OR REPLACE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
     LANGUAGE plpgsql
     AS $$
     BEGIN
         INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
-              VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
+              VALUES (nextval('seq_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
 CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS
@@ -1559,13 +1630,13 @@ $$ LANGUAGE plpgsql;
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
 CREATE FUNCTION m9_modificarcategoria
-(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer)
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _nivel integer, _categoriapadre integer)
 RETURNS integer
     AS $$
     BEGIN
         UPDATE categoria
         SET
-        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre
+        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre,ca_nivel=_nivel
         WHERE ca_id=_id;
         return 1;
 
@@ -1628,6 +1699,31 @@ BEGIN
   RETURN NEXT;
    END LOOP;
 END; $$
+  LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION m9_ObtenerCategoriaPorId(idCategoria INT)
+  RETURNS TABLE
+  (
+
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_nivel integer,
+      categoria_fkcategoriasuperior integer
+
+  )
+  AS
+  $$
+  BEGIN
+
+    RETURN QUERY
+    SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_nivel, ca_fkcategoriasuperior
+     FROM categoria
+    WHERE ca_id=idCategoria;
+  END;
+  $$
   LANGUAGE plpgsql;
 
 

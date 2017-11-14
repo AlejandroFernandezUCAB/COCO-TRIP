@@ -7,7 +7,7 @@
 <ion-header>
   
     <ion-navbar  >
-      <ion-title>Detalle del Grupo</ion-title>
+      <ion-title>{{'Detalle del Grupo' | translate}}</ion-title>
     </ion-navbar>
     
   
@@ -19,12 +19,11 @@
           <ion-card *ngFor="let item of grupo" >
             <img src="https://pbs.twimg.com/profile_images/920719751843909633/NLNA_kQu_400x400.jpg"/>
             <div class="card-title">{{item.Nombre}}</div>
-            <div class="card-subtitle">3 Integrantes</div>
           </ion-card>
   
           <ion-list>
             <ion-list-header>
-              Integrantes
+              {{'Integrantes' | translate}}
             </ion-list-header>
             <ion-item *ngFor="let item of miembro">
               <h2>{{item.Nombre}} {{item.Apellido}}</h2>

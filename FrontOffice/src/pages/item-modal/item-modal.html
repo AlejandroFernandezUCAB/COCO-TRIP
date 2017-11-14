@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>{{itinerario}}</ion-title>
+    <ion-title>{{itinerario.Nombre}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="closeModal()">
         <ion-icon item-right name="close"></ion-icon>
@@ -17,23 +17,26 @@
 
 
 <ion-content padding>
+  <form [formGroup]="searchForm">
   <ion-item>
   <ion-label>{{'Type' | translate}}</ion-label>
-  <ion-select [(ngModel)]="tipo_item" required>
-    <ion-option value="evento">{{'Evento' | translate}}</ion-option>
-    <ion-option value="lugar">{{'Lugar Turistico' | translate}}</ion-option>
-    <ion-option value="actividad">{{'Actividad' | translate}}</ion-option>
+  <ion-select [(ngModel)]="Tipo_item" formControlName="Tipo_item">
+    <ion-option value="Evento">{{'Evento' | translate}}</ion-option>
+    <ion-option value="Lugar Turistico">{{'Lugar Turistico' | translate}}</ion-option>
+    <ion-option value="Actividad">{{'Actividad' | translate}}</ion-option>
   </ion-select>
 </ion-item>
 <ion-item>
   <ion-label>{{'Fecha Inicio' | translate }}</ion-label>
-  <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="FechaInicio"  min="2017-11-16" max="2026-12-12" required></ion-datetime>
+  <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="FechaInicio"  formControlName="FechaInicio" min="2017-11-16" max="2026-12-12" ></ion-datetime>
 </ion-item>
 <ion-item>
   <ion-label>{{'Fecha Fin' | translate }}</ion-label>
-  <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="FechaFin"  min="2017-11-16" max="2026-12-12" required></ion-datetime>
+  <ion-datetime displayFormat="MMM DD, YYYY" [(ngModel)]="FechaFin"  formControlName="FechaFin" min="2017-11-16" max="2026-12-12" ></ion-datetime>
 </ion-item>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+</form>
+  <ion-searchbar *ngIf="this.searchForm.valid" [(ngModel)]="searchTerm" (ionInput)="getItems($event)"></ion-searchbar>
+
   <ion-list>
         <ion-item *ngFor="let item of items" (click)="agregarItem(item.Id)">
           <ion-avatar item-start>

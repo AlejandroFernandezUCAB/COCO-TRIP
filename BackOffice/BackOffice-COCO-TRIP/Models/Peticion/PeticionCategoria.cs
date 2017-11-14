@@ -115,7 +115,96 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     public override JObject Post(Categories data)
     {
-      throw new NotImplementedException();
+      try
+      {
+        using (var cliente = new HttpClient())
+        {
+          cliente.BaseAddress = new Uri(BaseUri);
+          cliente.DefaultRequestHeaders.Accept.Clear();
+          JObject jsonData = new JObject
+          {
+            { "nombre", data.Name },
+            { "descripcion", data.Description },
+            { "nivel", data.Nivel },
+            { "categoriaSuperior", data.UpperCategories }
+          };
+          var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarCategoria", jsonData);
+          responseTask.Wait();
+          var response = responseTask.Result;
+          var readTask = response.Content.ReadAsAsync<JObject>();
+          readTask.Wait();
+
+          responseData = readTask.Result;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+
+      catch (WebException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (SocketException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (AggregateException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonSerializationException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonReaderException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (Exception ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+
+          };
+      }
+
+      return responseData;
+
+
+
     }
 
     public override JObject Put(Categories data)
@@ -221,7 +310,8 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
             { "IdCategoria", data.Id },
             { "nombre",data.Name },
             { "descripcion", data.Description },
-            { "categoriaSuperior",data.UpperCategories }
+            { "categoriaSuperior",data.UpperCategories },
+            {"nivel", data.Nivel }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);
           responseTask.Wait();
@@ -384,6 +474,92 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
 
     }
+
+    public JObject GetPorId(int id)
+    {
+
+      try
+      {
+        using (var cliente = new HttpClient())
+        {
+          cliente.BaseAddress = new Uri(BaseUri);
+          cliente.DefaultRequestHeaders.Accept.Clear();
+          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/obtenerCategoriasPorId/{id}");
+          responseTask.Wait();
+          var response = responseTask.Result;
+          var readTask = response.Content.ReadAsAsync<JObject>();
+          readTask.Wait();
+          responseData = readTask.Result;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+
+      catch (WebException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (SocketException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (AggregateException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonSerializationException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonReaderException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (Exception ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+
+          };
+      }
+
+      return responseData;
+
+    }
+
 
 
 
