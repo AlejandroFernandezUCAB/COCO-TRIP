@@ -1629,6 +1629,31 @@ END; $$
   LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION m9_ObtenerCategoriaPorId(idCategoria INT)
+  RETURNS TABLE
+  (
+
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_nivel integer,
+      categoria_fkcategoriasuperior integer
+
+  )
+  AS
+  $$
+  BEGIN
+
+    RETURN QUERY
+    SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_nivel, ca_fkcategoriasuperior
+     FROM categoria
+    WHERE ca_id=idCategoria;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
+
   -------------------------PROCEDIMIENTO BUSCAR CATEGORIA POR STATUS HABILITADO-------------
 
   CREATE OR REPLACE FUNCTION m9_ConsultarCategoriaHabilitada()
