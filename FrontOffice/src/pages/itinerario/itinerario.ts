@@ -18,7 +18,8 @@ export class ItinerarioPage {
   @ViewChild(Slides) slides: Slides;
 
   //***************************** DECLARACION DE VARIABLES ***********************
-  base_url = '../assets/images/';
+  base_url = 'http://localhost:8091';
+  noFoto = '/Images/empty-image.png';
   items = [];
   edit = false;
   delete= false;
@@ -27,7 +28,13 @@ export class ItinerarioPage {
   its: any;
   newitinerario: any;
   users: any;
+  _notif={
+    correo: {},
+    push: {}
+  };
   toast: any;
+  datos:any;
+  IdUsuario: any;
   list = false;
   nuevoViejo = true;
   originalEventDates = Array();
@@ -129,7 +136,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario: 2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
@@ -209,7 +216,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario: 2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
@@ -218,12 +225,13 @@ export class ItinerarioPage {
                     this.realizarToast('No se pudo agregar el itinerario. Por favor intente mas tarde :(');
                   }else{
                     this.loading.dismiss();
-                    let datos = data;
-                    console.log(datos);
+                    this.datos = data;
                     this.its.push({
+                      Id: this.datos.Id,
                       Nombre: name,
                       Items_agenda: Array()
                     })
+                    console.log(this.its);
                   }
                 }
               )
@@ -413,15 +421,22 @@ export class ItinerarioPage {
    **/
   public done()
   {
-    this.edit = false;
     this.delete=false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       console.log(this.its[i].edit);
-      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
-      this.httpc.modificarItinerario(moditinerario).then(data=>{
-
-      })
+      if (this.its[i].FechaInicio > this.its[i].FechaFin)
+      {
+        this.realizarToast('Fechas Invalidas');
+        this.edit=true;
+      }
+      else
+      {
+        this.edit = false;
+        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+        this.httpc.modificarItinerario(moditinerario).then(data=>{
+        })
+      }
     }
   }
 
@@ -514,14 +529,17 @@ ionview
     modal.onDidDismiss(data => {
       if (data) {
         let eventoData = data;
+        console.log("eventoData");
+        console.log(data.evento_nuevo);
         let itinerario_nuevo = data.itinerario;
         eventoData.Id = data.evento_nuevo.Id;
         eventoData.Nombre = data.evento_nuevo.Nombre;
-        eventoData.Imagen = data.evento_nuevo.imagen;
-        eventoData.FechaInicio = data.evento_nuevo.startTime;
-        eventoData.FechaFin = data.evento_nuevo.endTime;
+        eventoData.Tipo = data.evento_nuevo.Tipo;
+        eventoData.Foto = data.evento_nuevo.Foto;
+        eventoData.FechaInicio = data.evento_nuevo.FechaInicio;
+        eventoData.FechaFin = data.evento_nuevo.FechaFin;
         for(var i = 0;i< this.its.length;i++) {
-          if (this.its[i].Nombre == itinerario_nuevo) {
+          if (this.its[i].Nombre == itinerario_nuevo.Nombre) {
             //si el itinerario no tiene eventos, se inicializa el arreglo eventos
             if (this.its[i].Items_agenda == undefined){
               this.its[i].Items_agenda = Array();
@@ -642,10 +660,11 @@ ionview
   public ionViewWillEnter()
   {
     this.presentLoading();
-    // this.storage.get('id').then((val) => {
-    //   console.log("val :::::::::::::: " + val);
+     this.storage.get('id').then((val) => {
+       this.IdUsuario = val;
+       console.log("usu :::::::::::::: " + val);
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
-    this.httpc.loadItinerarios(2)
+    this.httpc.loadItinerarios(this.IdUsuario)
     .then(data => {
       if (data== 0 || data == -1){
         this.loading.dismiss();
@@ -658,7 +677,7 @@ ionview
           this.noIts = true;
         }
       }
-  //  });
+    });
   });
   }
 
@@ -718,13 +737,33 @@ ionview
         Orrillo, Horacio
    **/
   public configurarNotificaciones()
-  {
-    let modal = this.modalCtrl.create('ConfigNotificacionesItiPage');
-    modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-      }
-    })
+  { this.presentLoading();
+    this.storage.get('id').then((val) => {
+    this.IdUsuario = val;
+    this.storage.get( this.IdUsuario.toString() ).then((ok) => {
+              //verificamos que posee configuracion previa de idioma
+              if(ok != null || ok != undefined){
+                this.translateService.use(ok);
+              }
+              this.httpc.getNotificacionesConfig(this.IdUsuario)
+              .then(data =>{
+                console.log(data);
+                this.loading.dismiss();
+                this._notif.correo =data;
+                this._notif.push=false;
+
+                console.log(data);
+                let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
+                modal.present();
+                modal.onDidDismiss(data => {
+                  if (data) {
+                  }
+                })
+
+              })
+            });
+  });
+
   }
 
 }

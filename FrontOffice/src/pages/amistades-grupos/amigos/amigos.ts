@@ -6,17 +6,27 @@ import { NavController } from 'ionic-angular';
 import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-amigos',
   templateUrl: 'amigos.html'
 })
+
+
 export class AmigosPage {
   delete= false;
   edit= false;
   detail=false;
   amigo: any;
   toast: any;
+  title: any;
+  accept: any;
+  cancel: any;
+  text: any;
+  message: any;
+  succesful: any;
+  loader: any;
   
   nombreUsuario : string;
   public loading = this.loadingCtrl.create({
@@ -26,7 +36,8 @@ export class AmigosPage {
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
-      public toastCtrl: ToastController, private storage: Storage) {
+      public toastCtrl: ToastController, private storage: Storage,
+      private translateService: TranslateService ) {
       
   }
   
@@ -37,14 +48,14 @@ export class AmigosPage {
 
   tapEvent() {
   }
-    //AQUI SE COLOCAN LAS LLAMADAS PARA ABRIR EL CHAT 
 
 /**
  * Metodo que carga un LoadingCTRL
  */
   cargando(){
+    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: this.loader,
       dismissOnPageChange: true
     });
     this.loading.present();
@@ -113,26 +124,33 @@ perfil(){
  * @param index 
  */
 eliminarAmigo(nombreUsuario, index) {
+  this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
+  this.translateService.get('Deseas Borrar a:').subscribe(value => {this.message = value;})
+  this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+  this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+  this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
+
   const alert = this.alerCtrl.create({
-  title: 'Por favor, confirmar',
-  message: '¿Deseas borrar a: '+nombreUsuario+'?',
+    
+  title: this.title,
+  message: '¿'+this.message+nombreUsuario+'?',
   buttons: [
     {
-      text: 'Cancelar',
+      text: this.cancel,
       role: 'cancel',
       handler: () => {
        
       }
     },
     {
-      text: 'Aceptar',
+      text: this.accept,
       handler: () => {
         this.eliminarAmigos(nombreUsuario, index);
         this.storage.get('id').then((val) => {
         this.restapiService.eliminarAmigo(nombreUsuario,val);
         });
         this.delete = false;
-        this.realizarToast('Eliminado Exitosamente');
+        this.realizarToast(this.succesful);
         }
       }
     ]
