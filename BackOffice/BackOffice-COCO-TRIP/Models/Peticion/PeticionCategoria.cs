@@ -221,7 +221,8 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
             { "IdCategoria", data.Id },
             { "nombre",data.Name },
             { "descripcion", data.Description },
-            { "categoriaSuperior",data.UpperCategories }
+            { "categoriaSuperior",data.UpperCategories },
+            {"nivel", data.Nivel }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);
           responseTask.Wait();
