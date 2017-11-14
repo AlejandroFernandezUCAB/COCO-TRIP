@@ -80,7 +80,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Library\" />
     <Folder Include="M4\" />
     <Folder Include="M6\" />
     <Folder Include="M9\" />
@@ -90,6 +89,9 @@
       <Project>{2b0950d9-df8d-460c-a46d-d9be5ec9d6ce}</Project>
       <Name>ApiRest-COCO-TRIP</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Library\Newtonsoft.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

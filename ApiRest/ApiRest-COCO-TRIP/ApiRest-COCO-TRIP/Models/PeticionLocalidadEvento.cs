@@ -33,26 +33,42 @@ namespace ApiRest_COCO_TRIP.Models
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+
     }
     /**
      * <summary>Metodo para agregar una localidad a la base de datos</summary>
      * **/
     public int AgregarLocalidadEvento(LocalidadEvento lEvento)
     {
-      int respuesta = -1;
+      int respuesta = 0;
       try
       {
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
         comando = new NpgsqlCommand("InsertarLocalidad", conexion.SqlConexion);
+        
         comando.CommandType = CommandType.StoredProcedure;
         //Aqui se registran los valores de localidad evento
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Nombre);
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Descripcion);
-        //comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Coordenadas);
-        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, 4);
-        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, 4);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Coordenadas);
         read = comando.ExecuteReader();
-        read.Read();
-        respuesta = read.GetInt32(0);
+
+        try {
+          if (read.Read())
+          {
+            Int32.TryParse(read.GetValue(0).ToString(), out respuesta);
+          }
+          if (respuesta == 0)
+          {
+            throw new ItemNoEncontradoException($"No se encontro el evento con el nombre {lEvento.Nombre}");
+          }
+        }
+        catch (System.InvalidCastException e) {
+          Console.WriteLine(e.Message);
+        }
+        
+
+
         conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
@@ -60,6 +76,7 @@ namespace ApiRest_COCO_TRIP.Models
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      
       return respuesta;
     }
     /**
