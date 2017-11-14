@@ -12,9 +12,9 @@ using System.Web;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {
-  public class PeticionM8_Localidad : BasePeticion<JObject, M8_Localidad>
+  public class PeticionM8_Localidad : BasePeticion<JObject, LocalidadEvento>
   {
-    private const string ControllerUri = "M8_Localidad";
+    private const string ControllerUri = "M8_LocalidadEvento";
     private JObject responseData;
 
     public override JObject Delete(int id)
@@ -27,12 +27,12 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       throw new NotImplementedException();
     }
 
-    public override JObject Patch(M8_Localidad data)
+    public override JObject Patch(LocalidadEvento data)
     {
       throw new NotImplementedException();
     }
 
-    public override JObject Post(M8_Localidad data)
+    public override JObject Post(LocalidadEvento data)
     {
       try
       {
@@ -42,7 +42,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "id", data.Id },
+            
             { "nombre", data.Nombre },
             { "descripcion", data.Descripcion },
              { "coordenadas", data.Coordenadas }
@@ -125,7 +125,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Put(M8_Localidad data)
+    public override JObject Put(LocalidadEvento data)
     {
       throw new NotImplementedException();
     }

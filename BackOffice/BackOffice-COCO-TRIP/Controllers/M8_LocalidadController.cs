@@ -29,9 +29,9 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     // POST: M8_Localidad/Create
     [HttpPost]
-    public ActionResult Create(M8_Localidad localidad)
+    public ActionResult Create(LocalidadEvento localidad)
     {
-
+      
       // TODO: Add insert logic here
       JObject respuesta = peticion.Post(localidad);
       if (respuesta.Property("dato") == null)
@@ -43,7 +43,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       }
       else
       {
-        return RedirectToAction("Index");
+        ModelState.AddModelError(string.Empty, "Se hizo con exito");
       }
 
       

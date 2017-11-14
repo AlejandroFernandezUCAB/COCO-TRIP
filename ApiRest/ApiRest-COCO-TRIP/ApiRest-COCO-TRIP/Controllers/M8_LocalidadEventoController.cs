@@ -7,7 +7,7 @@ using System.Collections;
 using System.Web.Http.Description;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Models.Excepcion;
-
+using System.Data.SqlClient;
 namespace ApiRest_COCO_TRIP.Controllers
 {
 
@@ -26,33 +26,38 @@ namespace ApiRest_COCO_TRIP.Controllers
      * <returns>Retorna el ID de la localidad agregada</returns>
      * **/
     [ResponseType(typeof(IDictionary))]
-    [ActionName("agregarEvento")]
-    [HttpPut]
+    [ActionName("agregarLocalidadEvento")]
+    [HttpPost]
     public IDictionary AgregarLocalidadEvento([FromBody] JObject data)
     {
       try
       {
         Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
         {
-          "idEvento","nombre","descripcion","coordenada"
+          "nombre","descripcion","coordenadas"
         });
-        LocalidadEvento lEvento = data.ToObject<LocalidadEvento>();
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
-        respuesta.Add("dato", idEvento);
+        LocalidadEvento lEvento =(LocalidadEvento) data.ToObject<LocalidadEvento>();
+          PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+          int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
+          respuesta.Add("dato", "Se ha creado una localidad");
+        
       }
       catch (BaseDeDatosExcepcion e)
       {
-        respuesta.Add("Error AgregarEvento", e.Message);
+        respuesta.Add("Error", e.Message);
       }
       catch (ParametrosNullException e)
       {
-        respuesta.Add("Error AgregarEvento", e.Mensaje);
-       
+        respuesta.Add("dato", e.Mensaje);
+
+      }
+      catch (System.InvalidCastException e)
+      {
+        Console.WriteLine(e.Message);
       }
       catch (Exception e)
       {
-        respuesta.Add("Error AgregarEvento", "Error noo esperado ");
+        respuesta.Add("Error", "Error noo esperado "+ e.Message);
        
       }
 

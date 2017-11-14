@@ -6,7 +6,7 @@ using System.Web;
 
 namespace BackOffice_COCO_TRIP.Models
 {
-  public class M8_Localidad
+  public class LocalidadEvento
   {
     private int id;
     private string nombre;
@@ -22,6 +22,16 @@ namespace BackOffice_COCO_TRIP.Models
     [JsonProperty(PropertyName = "id")]
     public int Id { get => id; set => id = value; }
 
+    public LocalidadEvento(string _nombre, string _descripcion, string _coordenadas)
+    {
+      nombre = _nombre;
+      descripcion = _descripcion;
+      coordenadas = _coordenadas;
 
+    }
+    public LocalidadEvento()
+    {
+
+    }
   }
 }

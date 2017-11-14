@@ -160,7 +160,7 @@
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Models\Categories.cs" />
-    <Compile Include="Models\M8_Localidad.cs" />
+    <Compile Include="Models\LocalidadEvento.cs" />
     <Compile Include="Models\Peticion\BasePeticion.cs" />
     <Compile Include="Models\Peticion\PeticionCategoria.cs" />
     <Compile Include="Models\Peticion\PeticionM8_Localidad.cs" />
