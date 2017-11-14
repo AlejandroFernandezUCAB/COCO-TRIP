@@ -19,10 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -161,7 +159,9 @@
     <Compile Include="Models\Excepcion\ArchivoExcepcion.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
+    <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Grupo.cs" />
