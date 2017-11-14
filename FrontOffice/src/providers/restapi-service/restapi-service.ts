@@ -11,14 +11,14 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.0.104:8091/api';
+  apiUrl = 'http://localhost:8091/api';
   data : any;
   userData: any;
   idUser: any;
   constructor(public http: Http) {
   }
-  iniciarSesion(usuario,clave) 
-  {  
+  iniciarSesion(usuario,clave)
+  {
 
     if(usuario.includes("@")){
       this.userData={correo : usuario, clave : clave};
@@ -53,8 +53,8 @@ export class RestapiService {
     }
   }
 
-  registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
-  {   
+  registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto)
+  {
       this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: ""};
       console.log('Enviando: '+JSON.stringify(this.userData));
       return new Promise(resolve => {
@@ -124,10 +124,10 @@ eveSegunPreferencias(idUser){
       },error=>{
         resolve(-1);
       });
-  });  
-  
-  
-    
+  });
+
+
+
   }
 
 
@@ -147,7 +147,7 @@ eveSegunPreferencias(idUser){
           this.data = data;
           resolve(this.data);
 
-        }, error=>{      
+        }, error=>{
 
           resolve(0);
 
@@ -159,7 +159,7 @@ eveSegunPreferencias(idUser){
    {
 
     return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BuscarCategorias?idUsuario=' + idUsuario 
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BuscarCategorias?idUsuario=' + idUsuario
         +'&preferencia=' + nombrePreferencia,"")
       .map(res => res.json())
       .subscribe(data => {
@@ -167,7 +167,7 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
@@ -179,7 +179,7 @@ eveSegunPreferencias(idUser){
    {
 
     return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/AgregarPreferencias?idUsuario=' + idUsuario 
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/AgregarPreferencias?idUsuario=' + idUsuario
         +'&idCategoria=' + nombrePreferencia,"")
       .map(res => res.json())
       .subscribe(data => {
@@ -187,7 +187,7 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
@@ -200,7 +200,7 @@ eveSegunPreferencias(idUser){
    {
 
     return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/EliminarPreferencias?idUsuario=' + idUsuario 
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/EliminarPreferencias?idUsuario=' + idUsuario
         +'&idCategoria=' + nombrePreferencia,"")
       .map(res => res.json())
       .subscribe(data => {
@@ -208,7 +208,7 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
@@ -216,10 +216,10 @@ eveSegunPreferencias(idUser){
     });
    }
 
-   modificarDatosUsuario(usuario){     
+   modificarDatosUsuario(usuario){
     return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' + 
-      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido + 
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' +
+      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido +
       "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
       .map(res => res.json())
       .subscribe(data => {
@@ -227,7 +227,7 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
@@ -244,7 +244,7 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
@@ -257,7 +257,7 @@ eveSegunPreferencias(idUser){
      * Metodo para cambiar la contraseña del usuario
      * @param username user del usuario
      * @param passActual contraseña actual (a cambiar)
-     * @param passNueva contraseña nueva 
+     * @param passNueva contraseña nueva
      */
 
    cambiarPass(username, passActual, passNueva){
@@ -270,7 +270,7 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
@@ -282,7 +282,7 @@ eveSegunPreferencias(idUser){
      * [Modulo 2]
      * Metodo para borrar al usuario
      * @param username user del usuario
-     * @param passAct contraseña del usuario 
+     * @param passAct contraseña del usuario
      */
 
    borrarUser(username, passwordAct){
@@ -295,22 +295,22 @@ eveSegunPreferencias(idUser){
         this.data = data;
         resolve(this.data);
 
-      }, error=>{      
+      }, error=>{
 
         resolve(0);
 
       });
     });
    }
-  
+
 /**
  * [MODULO3]
  * Metodo para obtener la lista de amigos
  * @param usuario Identificador del usuario
  */
-  listaAmigos(usuario) 
-  {  
-  
+  listaAmigos(usuario)
+  {
+
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M3_AmigosGrupos/VisualizarListaAmigos/?idusuario='+usuario,"")
         .map(res => res.json())
@@ -324,9 +324,9 @@ eveSegunPreferencias(idUser){
     });
   }
 
-  listaNotificaciones(usuario) 
-  {  
-  
+  listaNotificaciones(usuario)
+  {
+
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M3_AmigosGrupos/ObtenerListaNotificaciones/?idusuario='+usuario,"")
         .map(res => res.json())
@@ -340,9 +340,9 @@ eveSegunPreferencias(idUser){
     });
   }
 
-  aceptarNotificacion(usuarioAceptado,my_id) 
-  {  
-  
+  aceptarNotificacion(usuarioAceptado,my_id)
+  {
+
     return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M3_AmigosGrupos/AceptarNotificacion/?nombreUsuarioAceptado='+usuarioAceptado+'&idusuario='+my_id,"")
         .map(res => res.json())
@@ -357,9 +357,9 @@ eveSegunPreferencias(idUser){
     });
   }
 
-  rechazarNotificacion(usuarioRechazado,my_id) 
-  {  
-  
+  rechazarNotificacion(usuarioRechazado,my_id)
+  {
+
     return new Promise(resolve => {
       this.http.delete(this.apiUrl+'/M3_AmigosGrupos/rechazarNotificacion/?nombreUsuarioRechazado='+usuarioRechazado+'&idusuario='+my_id,"")
       .map(res => res.json())
@@ -372,9 +372,9 @@ eveSegunPreferencias(idUser){
         });
     });
   }
-  
+
  /**
-  * [MODULO 3] 
+  * [MODULO 3]
   * Metodo para eliminar un amigo
   * @param amigo Nombre de usuario del amigo
   * @param usuario Identificador del usuario
@@ -394,7 +394,7 @@ eveSegunPreferencias(idUser){
 }
 
 /**
- * [MODULO 3] 
+ * [MODULO 3]
  * Metodo para eliminar un grupo
  * @param usuario Identificador del usuario
  * @param idGrupo Identificador del grupo
@@ -413,13 +413,13 @@ eliminarGrupo(usuario, idGrupo){
 }
 
 /**
- * [MODULO 3] 
+ * [MODULO 3]
  * Metodo para visualizar la lista de grupos
  * @param usuario nombre del usuario
  */
-  listaGrupo(usuario) 
-  {  
-  
+  listaGrupo(usuario)
+  {
+
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarListaGrupos/?idusuario='+usuario,"")
         .map(res => res.json())
@@ -434,7 +434,7 @@ eliminarGrupo(usuario, idGrupo){
   }
 
   /**
- * [MODULO 3] 
+ * [MODULO 3]
  * Metodo para buscar los amigos
  * @param nombreUsuario nombre del usuario o iniciales
  */
@@ -449,7 +449,7 @@ eliminarGrupo(usuario, idGrupo){
          this.data = data;
          resolve(this.data);
 
-       }, error=>{      
+       }, error=>{
 
          resolve(-1);
 
@@ -457,13 +457,13 @@ eliminarGrupo(usuario, idGrupo){
      });
   }
 /**
- * [MODULO 3] 
+ * [MODULO 3]
  * Metodo para visualizar el perfil del grupo
  * @param usuario nombre de usuario
  */
-  verperfilGrupo(usuario) 
-  {  
-  
+  verperfilGrupo(usuario)
+  {
+
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarPerfilGrupos/?id='+usuario,"")
         .map(res => res.json())
@@ -480,13 +480,13 @@ eliminarGrupo(usuario, idGrupo){
 
 
   /**
-   * [MODULO 3] 
+   * [MODULO 3]
    * Metodo para visualizar la lista de integrantes de un grupo
    * @param usuario nombre de usuario
    */
-  listamiembroGrupo(usuario) 
-  {  
-  
+  listamiembroGrupo(usuario)
+  {
+
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembroGrupo/?idgrupo='+usuario,"")
         .map(res => res.json())
@@ -500,12 +500,12 @@ eliminarGrupo(usuario, idGrupo){
     });
   }
 /**
- * [MODULO 3] 
+ * [MODULO 3]
  * Metodo para visualizar el perfil del usuario
  * @param usuario nombre de usuario
  */
-  obtenerPerfilPublico(usuario) 
-  {  
+  obtenerPerfilPublico(usuario)
+  {
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/M3_AmigosGrupos/VisualizarPerfilAmigo/?nombreUsuario='+usuario,"")
         .map(res => res.json())
@@ -519,11 +519,11 @@ eliminarGrupo(usuario, idGrupo){
   }
 
     /**
- * [MODULO 3] 
+ * [MODULO 3]
  * Metodo para agregar el amigo solicitado
  * @param usuario nombre de usuario
  */
-agregarAmigo(idUsuario,nombreAmigo) {  
+agregarAmigo(idUsuario,nombreAmigo) {
   return new Promise(resolve => {
     this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarAmigo/?idUsuario1='+idUsuario+'&nombreUsuario2='+nombreAmigo,"")
       .map(res => res.json())
@@ -549,11 +549,11 @@ agregarAmigo(idUsuario,nombreAmigo) {
   });
 }
   /**
-   * [MODULO 3] 
+   * [MODULO 3]
    * Metodo para modificar los atributos de un grupo
-   * @param nombreGrupo 
-   * @param idUsuario 
-   * @param idGrupo 
+   * @param nombreGrupo
+   * @param idUsuario
+   * @param idGrupo
    */
   modificarGrupo(nombreGrupo, idUsuario, idGrupo){
     return new Promise(resolve => {
@@ -593,7 +593,7 @@ agregarAmigo(idUsuario,nombreAmigo) {
  * @param idGrupo Identificador del grupo
  * @param nombreAmigo Nombre del amigo a agregar
  */
-agregarIntegrante(idGrupo,nombreAmigo) {  
+agregarIntegrante(idGrupo,nombreAmigo) {
   return new Promise(resolve => {
     this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarIntegranteModificar/?idGrupo='+idGrupo+'&nombreUsuario='+nombreAmigo,"")
       .map(res => res.json())

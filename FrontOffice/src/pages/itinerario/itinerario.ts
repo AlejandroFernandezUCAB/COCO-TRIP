@@ -29,6 +29,7 @@ export class ItinerarioPage {
   users: any;
   toast: any;
   datos:any;
+  IdUsuario: any;
   list = false;
   nuevoViejo = true;
   originalEventDates = Array();
@@ -130,7 +131,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario: 2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
@@ -210,7 +211,7 @@ export class ItinerarioPage {
               console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
-              let newitinerario ={ Nombre:data.Nombre, IdUsuario: 2 }
+              let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
               this.presentLoading();
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
@@ -419,7 +420,7 @@ export class ItinerarioPage {
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       console.log(this.its[i].edit);
-      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
       this.httpc.modificarItinerario(moditinerario).then(data=>{
 
       })
@@ -643,10 +644,11 @@ ionview
   public ionViewWillEnter()
   {
     this.presentLoading();
-    // this.storage.get('id').then((val) => {
-    //   console.log("val :::::::::::::: " + val);
+     this.storage.get('id').then((val) => {
+       this.IdUsuario = val;
+       console.log("usu :::::::::::::: " + val);
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
-    this.httpc.loadItinerarios(2)
+    this.httpc.loadItinerarios(this.IdUsuario)
     .then(data => {
       if (data== 0 || data == -1){
         this.loading.dismiss();
@@ -659,7 +661,7 @@ ionview
           this.noIts = true;
         }
       }
-  //  });
+    });
   });
   }
 
