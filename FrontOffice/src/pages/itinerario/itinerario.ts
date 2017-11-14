@@ -257,6 +257,7 @@ export class ItinerarioPage {
    **/
   public presentConfirm(idit, index)
   {
+    if (this.translateService.currentLang == 'es'){
     const alert = this.alertCtrl.create({
     title: 'Por favor, confirmar',
     message: '¿Desea borrar este itinerario?',
@@ -286,6 +287,38 @@ export class ItinerarioPage {
     });
     alert.present();
   }
+  else
+  {
+    const alert = this.alertCtrl.create({
+      title: 'Please, confirm',
+      message: '¿Do you want to delete this itinirary?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Accept',
+          handler: () => {
+            this.presentLoading();
+            this.httpc.eliminarItinerario(idit).then(data => {
+              if (data==0 || data==-1){
+                this.loading.dismiss();
+                console.log("hubo un error");
+              }else{
+                this.loading.dismiss();
+                this.eliminarItinerario(idit, index);
+              }
+            });
+            }
+          }
+        ]
+      });
+      alert.present();
+    }
+  }
 
   /** Metodo: presentConfirmItem
       Descripcion: Metodo para confirmar la eliminacion de un item dado un
@@ -300,6 +333,7 @@ export class ItinerarioPage {
    **/
   public presentConfirmItem(id_itinerario, id_evento, index)
   {
+    if (this.translateService.currentLang == 'es'){
     const alert = this.alertCtrl.create({
     title: 'Por favor, confirmar',
     message: '¿Desea borrar este elemento?',
@@ -330,6 +364,39 @@ export class ItinerarioPage {
     });
     alert.present();
   }
+  else
+  {
+    const alert = this.alertCtrl.create({
+      title: 'Please, confirm',
+      message: '¿Do you wish to delete this item?',
+      buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+        }
+      },
+      {
+        text: 'Accept',
+        handler: () => {
+          this.presentLoading();
+          let tipo=this.getTipoItem(id_evento);
+          this.httpc.eliminarItem(tipo,id_itinerario, id_evento).then(data=>{
+            if (data==0 || data==-1){
+              this.loading.dismiss();
+              console.log("ERROR:: no se pudo eliminar el item");
+            }else {
+              this.loading.dismiss();
+              this.eliminarItem(id_itinerario, id_evento, index);
+            }
+          });
+            }
+          }
+        ]
+      });
+      alert.present();
+    }
+}
 
   /** Metodo: eliminar
       Descripcion: Metodo para habilitar opciones de eliminacion del modulo
@@ -668,7 +735,11 @@ ionview
     .then(data => {
       if (data== 0 || data == -1){
         this.loading.dismiss();
+        if (this.translateService.currentLang == 'es'){
         this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+      }else{
+        this.realizarToast('Service not currently available. Please try again later');
+      }
       }else{
         this.its = data;
         this.loading.dismiss();

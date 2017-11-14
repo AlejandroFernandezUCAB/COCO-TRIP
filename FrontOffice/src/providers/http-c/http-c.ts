@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:8091/api';
+apiUrl = 'http://localhost:51049/api';
   constructor(public http: HttpClient) {
 }
 

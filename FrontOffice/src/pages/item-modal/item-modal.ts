@@ -190,7 +190,7 @@ export class ItemModalPage {
                   console.log(this.FechaInicio);
                   if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
                   {
-                    this.realizarToast('Fechas Invalidas');
+                    this.realizarToast('Invalid Dates');
                   }
                   else
                   {
