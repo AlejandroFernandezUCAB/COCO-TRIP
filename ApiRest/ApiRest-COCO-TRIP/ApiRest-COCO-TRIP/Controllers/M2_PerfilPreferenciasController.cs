@@ -62,7 +62,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     public List<Categoria> BuscarPreferencias(int idUsuario)
     {
 
-      List<Categoria> preferencias = null;
+      List<Categoria> preferencias;
       peticion = new PeticionPerfil();
       preferencias = peticion.BuscarPreferencias( idUsuario );
       return preferencias;
