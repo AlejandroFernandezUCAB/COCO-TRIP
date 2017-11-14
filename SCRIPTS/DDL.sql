@@ -231,7 +231,7 @@ CREATE TABLE categoria
 --Fin de modulo
 --Modulo 5
 ALTER TABLE Agenda add CONSTRAINT fk_idLugarTuristico FOREIGN KEY (ag_idLugarTuristico) REFERENCES lugar_turistico (lu_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
-ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_fk_lugar_turistico, ag_idActividad) REFERENCES Actividad (fk_ac_lugar_turistico,ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE Agenda add CONSTRAINT fk_idActividad FOREIGN KEY (ag_idActividad) REFERENCES Actividad (ac_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENCES Evento (ev_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
 --Fin de modulo
