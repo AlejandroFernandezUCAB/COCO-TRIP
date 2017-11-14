@@ -102,13 +102,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       return View();
     }
 
-    /**
-    // GET: M8Events
-        [HttpPost]
-        public ActionResult FilterEvent()
-        {
-          return View();
-        }
-    **/
+   
   }
 }
