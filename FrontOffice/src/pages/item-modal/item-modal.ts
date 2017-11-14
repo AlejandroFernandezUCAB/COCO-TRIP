@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController,ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
@@ -21,6 +21,7 @@ export class ItemModalPage {
   items: any; //Donde metrere la busqueda
   Tipo_item: any; //Evento -----  Lugar Turistico -------   Actividad
   searching: any = false;
+  toast:any
   showSearchBar: any =false;
   FechaInicio: any;
   FechaFin: any;
@@ -29,6 +30,7 @@ export class ItemModalPage {
     public navParams: NavParams,
     private viewCtrl: ViewController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public eventos: EventosCalendarioService,
     private translateService: TranslateService,
     public http: HttpCProvider,
@@ -153,8 +155,15 @@ export class ItemModalPage {
                 handler: data => {
                   console.log(this.FechaFin);
                   console.log(this.FechaInicio);
-                  this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
-                  this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
+                  if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
+                  { 
+                    this.realizarToast('Fechas Invalidas');
+                  }
+                  else
+                  {
+                    this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
+                   }
                 }
               }
             ]
@@ -188,6 +197,16 @@ export class ItemModalPage {
 
   closeModal() {
         this.navCtrl.pop();
+    }
+
+    public realizarToast(mensaje)
+    {
+        this.toast = this.toastCtrl.create({
+          message: mensaje,
+          duration: 3000,
+          position: 'middle'
+        });
+        this.toast.present();
     }
 
 }

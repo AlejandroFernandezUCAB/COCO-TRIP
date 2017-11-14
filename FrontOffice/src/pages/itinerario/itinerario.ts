@@ -420,10 +420,16 @@ export class ItinerarioPage {
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       console.log(this.its[i].edit);
-      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
-      this.httpc.modificarItinerario(moditinerario).then(data=>{
-
-      })
+      if (this.its[i].FechaInicio > this.its[i].FechaFin)
+      {
+        this.realizarToast('Fechas Invalidas');
+      }
+      else 
+      {
+        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+        this.httpc.modificarItinerario(moditinerario).then(data=>{
+        })
+      }
     }
   }
 
@@ -519,7 +525,7 @@ ionview
         let itinerario_nuevo = data.itinerario;
         eventoData.Id = data.evento_nuevo.Id;
         eventoData.Nombre = data.evento_nuevo.Nombre;
-        eventoData.Foto = data.evento_nuevo.Foto;
+        eventoData.Imagen = data.evento_nuevo.Foto;
         eventoData.FechaInicio = data.evento_nuevo.FechaInicio;
         eventoData.FechaFin = data.evento_nuevo.FechaFin;
         for(var i = 0;i< this.its.length;i++) {
