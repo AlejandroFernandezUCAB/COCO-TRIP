@@ -154,13 +154,16 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LugaresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\M8_LocalidadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\LocalidadEvento.cs" />
     <Compile Include="Models\Peticion\BasePeticion.cs" />
     <Compile Include="Models\Peticion\PeticionCategoria.cs" />
+    <Compile Include="Models\Peticion\PeticionM8_Localidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +240,7 @@
     <Content Include="Views\Lugares\ActivityDetail.cshtml" />
     <Content Include="Views\Lugares\Modify.cshtml" />
     <Content Include="Views\Lugares\LugarDetail.cshtml" />
+    <Content Include="Views\M8_Localidad\Create.cshtml" />
     <Content Include="Views\Events\CreateEvent.cshtml" />
     <Content Include="Views\Events\FilterEvent.cshtml" />
     <Content Include="Views\Locations\CreateLocationEvent.cshtml" />
