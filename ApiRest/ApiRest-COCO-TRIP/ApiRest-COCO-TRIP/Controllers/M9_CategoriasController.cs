@@ -417,6 +417,22 @@ namespace ApiRest_COCO_TRIP.Controllers
                 */
             }
 
+            catch (NombreDuplicadoException ex)
+            {
+
+              response.Add(Response_Error, ex.Mensaje);
+              response.Add("MensajeError", "Este nombre de categoria ya existe");
+              /*
+              response.Add(Response_Error, ex.Message);
+              var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+              {
+                Content = new StringContent(response.ToString()),
+              };
+
+              throw new HttpResponseException(resp);
+              */
+            }
+
             catch (JsonReaderException ex)
             {
                 response.Add(Response_Error, ex.Message);
@@ -469,9 +485,11 @@ namespace ApiRest_COCO_TRIP.Controllers
 
                 throw new HttpResponseException(resp);
                 */
-            } 
+            }
 
-            return response;
+            
+
+      return response;
         }
         
 

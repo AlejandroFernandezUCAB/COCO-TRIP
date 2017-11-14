@@ -344,6 +344,14 @@ namespace ApiRest_COCO_TRIP
 
 
       }
+
+      catch (PostgresException ex)
+      {
+
+
+        throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+
+      }
       catch (NpgsqlException ex)
       {
         BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
