@@ -245,10 +245,11 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="genero">Genero del usuario</param>
     public void ModificarDatos(int idUsuario, string nombre, string apellido, string fechaDeNacimiento, string genero)
     {
-
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       DateTime convertedDate;
+
+      // verificamos que la fecha recibida posea el formato correcto
       try
       {
         convertedDate = Convert.ToDateTime(fechaDeNacimiento);
@@ -258,17 +259,38 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
 
-      conexion.Conectar();
-      command = new NpgsqlCommand("ModificarDatosUsuario", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombre);
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, apellido);
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, convertedDate);
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Char, genero[0]);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      conexion.Desconectar();
+      try
+      {
+        conexion.Conectar();
+        command = new NpgsqlCommand("ModificarDatosUsuario", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombre);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, apellido);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, convertedDate);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Char, genero[0]);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+      }
+      catch (NpgsqlException e)
+      {
+
+        throw new BaseDeDatosExcepcion(e);
+
+      }
+      catch (Exception e)
+      {
+
+        throw e;
+
+      }
+      finally
+      {
+
+        conexion.Desconectar();
+
+      }
+
     }
 
     /// <summary>
@@ -336,7 +358,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Se obtiene de la base de datos los datos del usuario
     /// </summary>
     /// <param name="userId"></param>
-    /// <returns>Obteto Usuario</returns>
+    /// <returns>Retrona un objeto Usuario</returns>
     public Usuario ObtenerDatosUsuario(int userId)
     {
       NpgsqlCommand command;
@@ -362,7 +384,15 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
-        return null;
+
+        throw new BaseDeDatosExcepcion(e);
+
+      }
+      catch (Exception e)
+      {
+
+        throw e;
+
       }
 
     }
