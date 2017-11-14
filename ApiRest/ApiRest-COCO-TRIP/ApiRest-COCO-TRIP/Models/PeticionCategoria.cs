@@ -15,6 +15,7 @@ namespace ApiRest_COCO_TRIP
   {
 
     private ConexionBase conexion;
+
     private NpgsqlDataReader leerDatos;
 
     public PeticionCategoria()
@@ -140,7 +141,6 @@ namespace ApiRest_COCO_TRIP
 
     }
 
-
     public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
     {
       try
@@ -203,7 +203,6 @@ namespace ApiRest_COCO_TRIP
 
       return listaCategorias;
     }
-
 
     public void ModificarCategoria(Categoria categoria)
     {
@@ -290,14 +289,24 @@ namespace ApiRest_COCO_TRIP
             {
                 conexion.Conectar();
                 conexion.Comando = conexion.SqlConexion.CreateCommand();
-                conexion.Comando.CommandText = "m9_agregarcategoria";
+                conexion.Comando.CommandText = "m9_agregarsubcategoria";
                 conexion.Comando.CommandType = CommandType.StoredProcedure;
 
                 conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.nombre); //Nombre de la categoria
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.descripcion); //descripcion de la categoría
+                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.descripcion); //descripcion de la categorÃ­a
                 conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.nivel); //nivel de la categoria
                 conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
+               
 
+                     if (categoria.CategoriaSuperior == 0)
+                {
+                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
+
+                }
+                else
+                {
+                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+                }
                 exitoso = conexion.Comando.ExecuteNonQuery();
 
 

@@ -358,7 +358,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       return response;
     }
 
-        public IDictionary agregarCategoria([FromBody] JObject data)
+    public IDictionary agregarCategoria([FromBody] JObject data)
         {
 
             try
