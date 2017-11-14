@@ -17,13 +17,15 @@ eve: any;
 idUser: any;
 apiUrl = 'http://localhost:8091/fotos/';
 aux: string;
-
+//validarEve:boolean;
+//validarlts:boolean;
   constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController) {
     //console.log(this.its2);
  //   this.IniciarNotificaciones();
     this.menu.enable(true);
     this.eveSegunPreferencia();
     this.ltSegunPreferencia();
+
   }
  
  ltSegunPreferencia(){
@@ -47,6 +49,8 @@ aux: string;
   
   
           else{
+            
+            console.log(data);  
           this.lts = data;
           //console.log(this.lts);
           }
@@ -78,6 +82,7 @@ detalleEvento(eventos){
 
           }
           else{
+            console.log(data);  
           this.eve = data;
           this.eve.forEach(eve => {
             //console.log(eve.LocalFotoRuta);
@@ -87,7 +92,7 @@ detalleEvento(eventos){
             //console.log(this.eve.LocalFotoRuta);
             eve.FechaInicio= moment(eve.FechaInicio).format('DD-MM-YYYY');
             eve.FechaFin= moment(eve.FechaFin).format('DD-MM-YYYY');
-            console.log(this.eve);
+            //console.log(this.eve);
           });
           }
         });

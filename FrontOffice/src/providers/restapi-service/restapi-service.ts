@@ -27,6 +27,7 @@ export class RestapiService {
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
+          //console.log(this.data);
           resolve(this.data);
         },error=>{
           resolve(-1);

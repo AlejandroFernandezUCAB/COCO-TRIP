@@ -10,9 +10,9 @@
 </ion-header>
 
 <ion-content padding style="background-color:#f4f4f4">
-<ion-list>
-  <ion-list >
-      <h1>Eventos:</h1>
+<ion-list >
+  <ion-list ngif="eve.length !=0">
+      <h2>Eventos: Recuerda Agregar tus Preferencias</h2>
     <ion-slides pager style="font-family: 'Open Sans'">
       <ion-slide  *ngFor="let eventos of eve" (click)="detalleEvento(eventos)">
         <h2> Evento: {{eventos.NombreEvento}} </h2>
@@ -29,8 +29,8 @@
       </ion-slide>
     </ion-slides>
   </ion-list>
-  <ion-list>
-    <h1>Lugares Turisticos:</h1>
+  <ion-list ngif="lts.length !=0">
+    <h2>Lugares Turisticos: Recuerda Agregar tus Preferencias </h2>
     <ion-slides pager>
       <ion-slide  *ngFor="let lugares of lts">
           <h2> Nombre: {{lugares.NombreLT}} </h2>
