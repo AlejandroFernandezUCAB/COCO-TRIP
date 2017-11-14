@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace BackOffice_COCO_TRIP.Models.Dato
+namespace BackOffice_COCO_TRIP.Models
 {
   public class Categoria
   {

@@ -1,6 +1,7 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace BackOffice_COCO_TRIP.Models.Dato
+namespace BackOffice_COCO_TRIP.Models
 {
   /// <summary>
   /// Clase que contiene los datos asociados a los horarios de los lugares turisticos
