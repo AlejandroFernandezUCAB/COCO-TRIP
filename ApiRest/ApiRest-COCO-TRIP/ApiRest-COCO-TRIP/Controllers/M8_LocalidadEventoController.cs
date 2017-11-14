@@ -82,12 +82,12 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (ParametrosNullException e)
       {
-        respuesta.Add("Error Eliminar Evento", e.Mensaje);
+        respuesta.Add("Error Eliminar Localidad Evento", e.Mensaje);
 
       }
       catch (Exception e)
       {
-        respuesta.Add("Error Eliminar Evento", "Error noo esperado ");
+        respuesta.Add("Error Eliminar Localidad Evento", "Error noo esperado ");
 
       }
 

@@ -2,6 +2,7 @@ using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Models;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,7 @@ namespace ApiRestPruebas.M8
     public void casoBorde1Agregar()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento();
+      
       controlador.AgregarLocalidadEvento(localidadEvento);
     }
 
@@ -72,7 +74,7 @@ namespace ApiRestPruebas.M8
     {
       LocalidadEvento localidadEvento = new LocalidadEvento();
       localidadEvento.Coordenadas = "prueba1";
-      controlador.AgregarLocalidadEvento(localidadEvento);
+     IDictionary controlador = controlador.AgregarLocalidadEvento(localidadEvento);
     }
     /**[Test]
     public void PruebaFalloBasedeDatosAgregar()
