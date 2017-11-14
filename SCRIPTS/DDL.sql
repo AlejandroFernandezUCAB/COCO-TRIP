@@ -211,7 +211,7 @@ create table localidad(
 CREATE TABLE categoria
 (
   ca_id integer UNIQUE NOT NULL,
-  ca_nombre character varying(500) not null,
+  ca_nombre character varying(500) UNIQUE not null,
   ca_descripcion character varying(2000) not null,
   ca_status boolean default true not null,
   ca_fkcategoriasuperior integer,

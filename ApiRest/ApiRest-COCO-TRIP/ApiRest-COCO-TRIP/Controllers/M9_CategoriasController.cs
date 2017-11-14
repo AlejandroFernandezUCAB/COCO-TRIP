@@ -239,6 +239,22 @@ namespace ApiRest_COCO_TRIP.Controllers
         */
       }
 
+      catch (NombreDuplicadoException ex)
+      {
+
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", "Este nombre de categoria ya existe");
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+
       catch (JsonSerializationException ex)
       {
 
@@ -294,20 +310,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(resp);
         */
       }
-      catch (Exception ex)
-      {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-        {
-          Content = new StringContent(response.ToString()),
-        };
-
-        throw new HttpResponseException(resp);
-        */
-      }
-
+      
 
       return response;
 
