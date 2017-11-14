@@ -577,7 +577,7 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual(0, peticion.ObtenerIdUsuario("usuarioRandom1"));
     }
 
-    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //PRUEBAS UNITARIAS DE OBTENER LIDER DEL GRUPO
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para obtener los datos del lider del grupo
@@ -647,7 +647,7 @@ namespace ApiRestPruebas.M3
       Assert.IsEmpty(lista);
     }
 
-    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //PRUEBAS UNITARIAS DE OBTENER EL LIDER DEL GRUPO
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para obtener los datos de los integrantes del grupo
@@ -685,8 +685,82 @@ namespace ApiRestPruebas.M3
       Assert.IsEmpty(lista);
     }
 
+    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //CREADO POR: MARIANGEL PEREZ
+    /// <summary>
+    ///  Prueba para obtener los datos de los amigos que no estan
+    ///  agregados al grupo
+    /// </summary>
+   [Test]
+    public void ObtenerMiembroSinGrupoTest()
+    {
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      peticion.AceptarNotificacionBD("usuariopruebas2", -1);
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerMiembrosSinGrupo(-2,-2);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.AreEqual("Aquiles", usuario.Nombre);
+      Assert.AreEqual("pulido", usuario.Apellido);
+      Assert.AreEqual("usuariopruebas1", usuario.NombreUsuario);
+      Assert.AreEqual(null, usuario.Foto);
+    }
 
+    /// <summary>
+    /// Caso de fallo, cuando el grupo no existe
+    /// </summary>
+    [Test]
+    public void ObtenerMiembroSinGrupoFallaTest()
+    {
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      peticion.AceptarNotificacionBD("usuariopruebas2", -1);
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerMiembrosSinGrupo(-2, -4);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
 
+    /// <summary>
+    /// Caso de fallo, el usuario lider no existe
+    /// </summary>
+    [Test]
+    public void ObtenerMiembroSinGrupoSinLiderTest()
+    {
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      peticion.AceptarNotificacionBD("usuariopruebas2", -1);
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerMiembrosSinGrupo(-4, -2);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
+    /// <summary>
+    /// Caso de fallo, no existe lider, no existe el grupo
+    /// </summary>
+    [Test]
+    public void MiembroSinGrupoSinLiderTest()
+    {
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      peticion.AceptarNotificacionBD("usuariopruebas2", -1);
+      List<Usuario> lista = new List<Usuario>();
+      lista = peticion.ObtenerMiembrosSinGrupo(-4, -4);
+      Usuario usuario = new Usuario();
+      foreach (Usuario u in lista)
+      {
+        usuario = u;
+      }
+      Assert.IsEmpty(lista);
+    }
 
 
 

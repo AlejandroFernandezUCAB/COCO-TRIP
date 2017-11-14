@@ -958,7 +958,6 @@ namespace ApiRest_COCO_TRIP.Models
         while (leerDatos.Read())
         {
           Usuario usuario = new Usuario();
-          usuario.Nombre = leerDatos.GetString(0);
           usuario.Nombre = leerDatos.GetString(1);
           usuario.Apellido = leerDatos.GetString(2);
           usuario.NombreUsuario = leerDatos.GetString(3);
@@ -984,6 +983,53 @@ namespace ApiRest_COCO_TRIP.Models
       return ListaUsuario;
     }
 
+    /// <summary>
+    /// Metodo para obtener la lista de usuarios que no estan agregados en un cierto grupo
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario lider del grupo</param>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <returns></returns>
+    public List<Usuario> ObtenerMiembrosSinGrupo(int idUsuario, int idGrupo)
+    {
+
+      List<Usuario> ListaUsuario = new List<Usuario>();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "listaAmigosSinGrupo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        while (leerDatos.Read())
+        {
+          Usuario usuario = new Usuario();
+          usuario.Nombre = leerDatos.GetString(0);
+          usuario.Apellido = leerDatos.GetString(1);
+          usuario.NombreUsuario = leerDatos.GetString(2);
+          if (!leerDatos.IsDBNull(3))
+          {
+            usuario.Foto = leerDatos.GetString(3);
+          }
+          ListaUsuario.Add(usuario);
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return ListaUsuario;
+    }
 
   }
 }

@@ -817,6 +817,38 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
+    /// <summary>
+    /// Metodo para obtener la lista de amigos que no estan agregados al grupo
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario lider</param>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <returns>La lista de usuarios que no estan agregados en el grupo</returns>
+    [HttpGet]
+    public List<Usuario> ConsultarMiembrosSinGrupo(int idUsuario, int idGrupo)
+    {
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.ObtenerMiembrosSinGrupo(idUsuario, idGrupo);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+    }
+
 
   }
 

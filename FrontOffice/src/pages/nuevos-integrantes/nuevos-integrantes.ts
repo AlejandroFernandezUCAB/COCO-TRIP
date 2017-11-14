@@ -28,7 +28,7 @@ export class NuevosIntegrantesPage {
               private storage: Storage, public loadingCtrl: LoadingController,
               private toastCtrl: ToastController, public restapiService: RestapiService,
               private alertCtrl: AlertController, private translateService: TranslateService) {
-  
+                this.idGrupo = this.navParams.get('idGrupo');  
   }
   onLink(url: string) {
     window.open(url);
@@ -49,8 +49,8 @@ cargando(){
 
     this.storage.get('id').then((val) => {
         console.log('El id del usuario es: ', val);
-        
-     this.restapiService.listaAmigos(val)
+   
+     this.restapiService.obtenerMiembrosSinGrupo(val,this.idGrupo)
      .then(data => {
        if (data == 0 || data == -1) {
          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
@@ -93,7 +93,7 @@ cargando(){
         {
           text: this.accept,
           handler: () => {
-            this.idGrupo = this.navParams.get('idGrupo');
+
             this.restapiService.agregarIntegrante(this.idGrupo,nombreUsuario);
             
             this.realizarToast(this.succesful);
