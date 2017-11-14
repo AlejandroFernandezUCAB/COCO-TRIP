@@ -245,6 +245,8 @@
     <Content Include="Views\Events\FilterEvent.cshtml" />
     <Content Include="Views\Locations\CreateLocationEvent.cshtml" />
     <Content Include="Views\Locations\ListLocationEvent.cshtml" />
+    <Content Include="Views\M8_Localidad\Edit.cshtml" />
+    <Content Include="Views\M8_Localidad\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -72,7 +72,7 @@ namespace ApiRest_COCO_TRIP.Controllers
      * **/
     [ResponseType(typeof(IDictionary))]
     [ActionName("EliminarLocalidadEventoPorId")]
-    [HttpGet]
+    [HttpDelete]
     public IDictionary EliminarLocalidadEvento(int id)
     {
       try
@@ -144,7 +144,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
         PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        List<LocalidadEvento> list = peticionLocalidadEvento.ListaLocalidadEventos();
+        IList<LocalidadEvento> list = peticionLocalidadEvento.ListaLocalidadEventos();
         respuesta.Add("dato", list);
       }
       catch (BaseDeDatosExcepcion e)
@@ -165,6 +165,54 @@ namespace ApiRest_COCO_TRIP.Controllers
       return respuesta;
     }
 
+
+    /**
+     * <summary>Metodo de controlador para Agregar un Localidad de Evento a la BBDD</summary>
+     * <param name="lEvento">Objeto con infomarcion de la localidad evento a agregar</param>
+     * <exception cref="BaseDeDatosExcepcion"></exception>
+     * <exception cref="ParametrosNullException"></exception>
+     * <returns>Retorna el ID de la localidad agregada</returns>
+     * **/
+    [ResponseType(typeof(IDictionary))]
+    [ActionName("actualizarLocalidadEvento")]
+    [HttpPut]
+    public IDictionary ActualizarLocalidadEvento([FromBody] JObject data)
+    {
+      try
+      {
+        Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
+        {
+          "id","nombre","descripcion","coordenadas"
+        });
+        LocalidadEvento lEvento = (LocalidadEvento)data.ToObject<LocalidadEvento>();
+        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+        int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
+        respuesta.Add("dato", "Se ha actualizado una localidad");
+
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        respuesta.Add("Error", e.Message);
+      }
+      catch (ParametrosNullException e)
+      {
+        respuesta.Add("dato", e.Mensaje);
+
+      }
+      catch (System.InvalidCastException e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      catch (Exception e)
+      {
+        respuesta.Add("Error", "Error noo esperado " + e.Message);
+
+      }
+
+      return respuesta;
+
+
+    }
 
   }
 }

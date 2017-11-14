@@ -156,17 +156,17 @@ namespace ApiRest_COCO_TRIP.Models
     /**
      * <summary>Metodo para listar todas las localidades de la base de datos</summary>
      * **/
-    public List<LocalidadEvento> ListaLocalidadEventos()
+    public IList<LocalidadEvento> ListaLocalidadEventos()
     {
-      List<LocalidadEvento> localidades = new List<LocalidadEvento>();
+      IList<LocalidadEvento> localidades = new List<LocalidadEvento>();
       try
       {
-        comando = new NpgsqlCommand("ConsultarLocalidadesConEventosAsignados", conexion.SqlConexion);
+        comando = new NpgsqlCommand("consultarlocalidades", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         read = comando.ExecuteReader();
         while (read.Read())
         {
-          LocalidadEvento localidad = new LocalidadEvento(read.GetString(0), read.GetString(1), read.GetString(2));
+          LocalidadEvento localidad = new LocalidadEvento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3));
           localidades.Add(localidad);
         }
         conexion.Desconectar();
@@ -177,6 +177,55 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
       return localidades;
+    }
+
+
+    /**
+     * <summary>Metodo para agregar una localidad a la base de datos</summary>
+     * **/
+    public int ActualizarLocalidadEvento(LocalidadEvento lEvento)
+    {
+      int respuesta = 0;
+      try
+      {
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        comando = new NpgsqlCommand("actualizarlocalidadporid", conexion.SqlConexion);
+
+        comando.CommandType = CommandType.StoredProcedure;
+        //Aqui se registran los valores de localidad evento
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lEvento.Id);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Nombre);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Descripcion);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Coordenadas);
+        read = comando.ExecuteReader();
+
+        try
+        {
+          if (read.Read())
+          {
+            Int32.TryParse(read.GetValue(0).ToString(), out respuesta);
+          }
+          if (respuesta == 0)
+          {
+            throw new ItemNoEncontradoException($"No se encontro el evento con el nombre {lEvento.Nombre}");
+          }
+        }
+        catch (System.InvalidCastException e)
+        {
+          Console.WriteLine(e.Message);
+        }
+
+
+
+        conexion.Desconectar();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+
+      return respuesta;
     }
   }
 }
