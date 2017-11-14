@@ -416,7 +416,6 @@ export class ItinerarioPage {
    **/
   public done()
   {
-    this.edit = false;
     this.delete=false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
@@ -424,9 +423,11 @@ export class ItinerarioPage {
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
         this.realizarToast('Fechas Invalidas');
+        this.edit=true;
       }
       else
       {
+        this.edit = false;
         let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
         this.httpc.modificarItinerario(moditinerario).then(data=>{
         })

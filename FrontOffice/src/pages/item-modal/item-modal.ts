@@ -155,6 +155,8 @@ export class ItemModalPage {
                 handler: data => {
                   console.log(this.FechaFin);
                   console.log(this.FechaInicio);
+                  console.log(this.itinerario.FechaFin);
+                  console.log(this.itinerario.FechaInicio);
                   if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
                   {
                     this.realizarToast('Fechas Invalidas');
@@ -186,7 +188,15 @@ export class ItemModalPage {
                 handler: data => {
                   console.log(this.FechaFin);
                   console.log(this.FechaInicio);
-                  this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                  if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
+                  {
+                    this.realizarToast('Fechas Invalidas');
+                  }
+                  else
+                  {
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
+                    this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                   }
                 }
               }
             ]
