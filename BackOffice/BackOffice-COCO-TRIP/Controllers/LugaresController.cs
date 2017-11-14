@@ -136,7 +136,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
             if (respuesta == HttpStatusCode.InternalServerError.ToString())
             {
-              return RedirectToAction(""); //Error del servicio web
+              return RedirectToAction("PageDown"); //Error del servicio web
             }
 
             var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
@@ -158,13 +158,13 @@ namespace BackOffice_COCO_TRIP.Controllers
             var respuesta = peticion.PutActivarLugar(id, activar); //Actualiza el estado
             if (respuesta == HttpStatusCode.InternalServerError.ToString())
             {
-              return RedirectToAction(""); //Error del servicio web al realizar la actualizacion
+              return RedirectToAction("PageDown"); //Error del servicio web al realizar la actualizacion
             }
 
             respuesta = peticion.GetLista(1, int.MaxValue); //Nuev
             if (respuesta == HttpStatusCode.InternalServerError.ToString())
             {
-              return RedirectToAction(""); //Error del servicio web al solicitar la lista de lugares turisticos
+              return RedirectToAction("PageDown"); //Error del servicio web al solicitar la lista de lugares turisticos
             }
 
             var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
@@ -194,6 +194,14 @@ namespace BackOffice_COCO_TRIP.Controllers
             {
                 return View();
             }
+        }
+
+        // GET:Lugares/PageDown
+        public ActionResult PageDown()
+        {
+          ViewBag.Title = "Lugares Turísticos";
+
+          return View();
         }
     }
 }

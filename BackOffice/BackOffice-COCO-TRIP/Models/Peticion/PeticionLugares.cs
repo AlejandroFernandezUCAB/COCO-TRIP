@@ -13,8 +13,8 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     private HttpClient cliente; //Almacena la direccion del servicio web y realiza la peticion
     private Task<HttpResponseMessage> mensajeAsincrono; //Almacena el resultado a medida que es recibido
 
-    private const string direccionBase = "http://192.168.0.101:8090/api";
-    private const string controlador = "M7_LugaresTuristicos";
+    private const string DireccionBase = "http://192.168.0.101:8090/api";
+    private const string Controlador = "M7_LugaresTuristicos";
 
     /// <summary>
     /// Constructor que instancia el cliente que realizara pedidos al servicio web
@@ -22,7 +22,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     public PeticionLugares()
     {
       cliente = new HttpClient();
-      cliente.BaseAddress = new Uri(direccionBase); //Sujeto a cambios -> localhost:puerto que decidan en Slack
+      cliente.BaseAddress = new Uri(DireccionBase); //Sujeto a cambios -> localhost:puerto que decidan en Slack
       cliente.DefaultRequestHeaders.Accept.Clear();
       cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
@@ -37,7 +37,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lista de lugares turisticos en formato JSON</returns>
     public string GetLista(int desde, int hasta)
     {
-      mensajeAsincrono = cliente.GetAsync($"{direccionBase}/{controlador}/GetLista?desde={desde}&hasta={hasta}");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetLista?desde={desde}&hasta={hasta}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -62,7 +62,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lugar Turistico en formato JSON</returns>
     public string GetLugar(int id)
     {
-      mensajeAsincrono = cliente.GetAsync($"{direccionBase}/{controlador}/GetLugar?id={id}");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetLugar?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -87,7 +87,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lugar Turistico en formato JSON</returns>
     public string GetLugarActividades(int id)
     {
-      mensajeAsincrono = cliente.GetAsync($"{direccionBase}/{controlador}/GetLugarActividades?id={id}");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetLugarActividades?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -112,7 +112,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lista de actividades en formato JSON</returns>
     public string GetActividades(int id)
     {
-      mensajeAsincrono = cliente.GetAsync($"{direccionBase}/{controlador}/GetActividades?id={id}");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetActividades?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -136,7 +136,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lista de categorias en formato JSON</returns>
     public string GetCategoria()
     {
-      mensajeAsincrono = cliente.GetAsync($"{direccionBase}/{controlador}/GetCategoria");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetCategoria");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -161,7 +161,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lista de subcategorias en formato JSON</returns>
     public string GetSubCategoria(int id)
     {
-      mensajeAsincrono = cliente.GetAsync($"{direccionBase}/{controlador}/GetSubCategoria?id={id}");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetSubCategoria?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -188,7 +188,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Id del lugar turistico insertado</returns>
     public int PostLugar(LugarTuristico lugar)
     {
-      mensajeAsincrono = cliente.PostAsJsonAsync($"{direccionBase}/{controlador}/PostLugar", lugar);
+      mensajeAsincrono = cliente.PostAsJsonAsync($"{DireccionBase}/{Controlador}/PostLugar", lugar);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -213,7 +213,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Id de la actividad insertada</returns>
     public int PostActividad(Actividad actividad, int id)
     {
-      mensajeAsincrono = cliente.PostAsJsonAsync($"{direccionBase}/{controlador}/PostActividad?id={id}", actividad);
+      mensajeAsincrono = cliente.PostAsJsonAsync($"{DireccionBase}/{Controlador}/PostActividad?id={id}", actividad);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -239,7 +239,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Id del horario insertado</returns>
     public int PostHorario(Horario horario, int id)
     {
-      mensajeAsincrono = cliente.PostAsJsonAsync($"{direccionBase}/{controlador}/PostHorario?id={id}", horario);
+      mensajeAsincrono = cliente.PostAsJsonAsync($"{DireccionBase}/{Controlador}/PostHorario?id={id}", horario);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -265,7 +265,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Id de la foto insertada</returns>
     public int PostFoto(Foto foto, int id)
     {
-      mensajeAsincrono = cliente.PostAsJsonAsync($"{direccionBase}/{controlador}/PostFoto?id={id}", foto);
+      mensajeAsincrono = cliente.PostAsJsonAsync($"{DireccionBase}/{Controlador}/PostFoto?id={id}", foto);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -291,7 +291,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string PostCategoria(int id, int idCategoria)
     {
-      mensajeAsincrono = cliente.PostAsync($"{direccionBase}/{controlador}/PostCategoria?id={id}&idCategoria={idCategoria}", null);
+      mensajeAsincrono = cliente.PostAsync($"{DireccionBase}/{Controlador}/PostCategoria?id={id}&idCategoria={idCategoria}", null);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -315,7 +315,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string PutLugar(LugarTuristico lugar)
     {
-      mensajeAsincrono = cliente.PutAsJsonAsync($"{direccionBase}/{controlador}/PutLugar", lugar);
+      mensajeAsincrono = cliente.PutAsJsonAsync($"{DireccionBase}/{Controlador}/PutLugar", lugar);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -338,7 +338,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string PutActivarLugar(int id, bool activar)
     {
-      mensajeAsincrono = cliente.PutAsync($"{direccionBase}/{controlador}/PutActivarLugar?id={id}&activar={activar}", null);
+      mensajeAsincrono = cliente.PutAsync($"{DireccionBase}/{Controlador}/PutActivarLugar?id={id}&activar={activar}", null);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -361,7 +361,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string PutActivarActividad(int id, bool activar)
     {
-      mensajeAsincrono = cliente.PutAsync($"{direccionBase}/{controlador}/PutActivarActividad?id={id}&activar={activar}", null);
+      mensajeAsincrono = cliente.PutAsync($"{DireccionBase}/{Controlador}/PutActivarActividad?id={id}&activar={activar}", null);
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -383,7 +383,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string DeleteActividad(int id)
     {
-      mensajeAsincrono = cliente.DeleteAsync($"{direccionBase}/{controlador}/DeleteActividad?id={id}");
+      mensajeAsincrono = cliente.DeleteAsync($"{DireccionBase}/{Controlador}/DeleteActividad?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -405,7 +405,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string DeleteFoto(int id)
     {
-      mensajeAsincrono = cliente.DeleteAsync($"{direccionBase}/{controlador}/DeleteFoto?id={id}");
+      mensajeAsincrono = cliente.DeleteAsync($"{DireccionBase}/{Controlador}/DeleteFoto?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -427,7 +427,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string DeleteHorario(int id)
     {
-      mensajeAsincrono = cliente.DeleteAsync($"{direccionBase}/{controlador}/DeleteHorario?id={id}");
+      mensajeAsincrono = cliente.DeleteAsync($"{DireccionBase}/{Controlador}/DeleteHorario?id={id}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
@@ -450,7 +450,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Estado de la peticion</returns>
     public string DeleteCategoria(int id, int idCategoria)
     {
-      mensajeAsincrono = cliente.DeleteAsync($"{direccionBase}/{controlador}/DeleteCategoria?id={id}&idCategoria={idCategoria}");
+      mensajeAsincrono = cliente.DeleteAsync($"{DireccionBase}/{Controlador}/DeleteCategoria?id={id}&idCategoria={idCategoria}");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
