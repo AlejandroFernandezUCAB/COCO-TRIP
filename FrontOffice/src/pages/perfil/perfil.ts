@@ -6,7 +6,10 @@ import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
 import { PreferenciasPage } from '../preferencias/preferencias';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
-import { Storage } from '@ionic/storage'; //para acceder a las variables que guarde en la vista de 'Editar Datos Personales'
+// usos del @ionic/storage:
+// para acceder a las variables que guarde en la vista de 'Configuracion'
+// para acceder a la variable id alamcenada durante el login
+import { Storage } from '@ionic/storage'; 
 
 /**
  * Generated class for the PerfilPage page.
@@ -27,6 +30,8 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
+
+  // valores por defecto para el usuario
   usuario: any = {
     Id: 0,
     Nombre: 'Nombre',
@@ -47,42 +52,32 @@ export class PerfilPage {
     this.cargarUsuario();
   }
 
+  // metodo para obtener desde el apirest la informacion del usuario
+  // ademas obtiene el lenguaje previamente seleccionado de la memoria del
+  // dispositivo
   cargarUsuario(){
     //obtenemos el id ya almacenado desde el login
-    this.storage.get('id').then((val) => { //obtieniene el id guardado localmente
+    this.storage.get('id').then((val) => { 
 
       this.idUsuario = val;
-      console.log('id de usuario => ',this.idUsuario);
       //hacemos la llamada al apirest con el id obtenido
       this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
         if(data != 0)
         {  
           this.usuario = data;
           this.usuario.id = this.idUsuario; 
-          console.log(data);
 
               //cargamos el idioma
               this.storage.get(this.usuario.id.toString()).then((val) => {
-                console.log('idioma guardado => ', val);
+                //verificamos que posee configuracion previa de idioma
                 if(val != null || val != undefined){
                   this.translateService.use(val);
                 }
               });
-
         }
       });
 
     });
   }
-
-
-  // este metodo se dispara cada vez que se entra en esta pagina
-  // antes de que este activa
-  ionViewWillEnter(){
-    // this.storage.get('nombre').then((val) => {
-    //   console.log('Nombre guardado', val);
-    // });
-  }
-
 
 }
