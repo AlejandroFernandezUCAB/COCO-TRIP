@@ -39,7 +39,11 @@ namespace ApiRest_COCO_TRIP.Models
     {
       try
       {
-        sqlConexion.Open();
+        if(SqlConexion.State != System.Data.ConnectionState.Open)
+        {
+          sqlConexion.Open();
+        }
+          
       }
       catch (NpgsqlException e)
       {

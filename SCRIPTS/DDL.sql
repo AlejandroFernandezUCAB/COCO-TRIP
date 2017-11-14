@@ -211,7 +211,7 @@ create table localidad(
 CREATE TABLE categoria
 (
   ca_id integer UNIQUE NOT NULL,
-  ca_nombre character varying(500) not null,
+  ca_nombre character varying(500) UNIQUE not null,
   ca_descripcion character varying(2000) not null,
   ca_status boolean default true not null,
   ca_fkcategoriasuperior integer,
@@ -337,5 +337,6 @@ CREATE SEQUENCE SEQ_Localidad
 --Fin de modulo
 --Modulo 9
 GRANT ALL PRIVILEGES ON TABLE categoria TO admin_cocotrip;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO admin_cocotrip;
 --Fin de modulo
 --Fin Creates tables
