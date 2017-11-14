@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,ModalController,NavParams } from 'ionic-angular';
 import * as moment from 'moment';
 import { MenuController } from 'ionic-angular';
 import { HttpCProvider } from '../../providers/http-c/http-c';
@@ -17,7 +17,7 @@ eve: any;
 idUser: any;
 
 
-  constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider) {
+  constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController) {
     //console.log(this.its2);
  //   this.IniciarNotificaciones();
     this.menu.enable(true);
@@ -47,7 +47,7 @@ idUser: any;
   
           else{
           this.lts = data;
-          console.log(this.lts);
+          //console.log(this.lts);
           }
         });
   
@@ -59,7 +59,10 @@ idUser: any;
     });
     
  } 
-
+detalleEvento(eventos){
+  let modal = this.modalCtrl.create('DetalleEventoPage', {eventos:eventos});
+  modal.present();
+}
  eveSegunPreferencia(){
      // var ev= Array();
       this.storage.get('id').then(idUser=>{      

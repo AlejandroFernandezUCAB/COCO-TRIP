@@ -1,0 +1,43 @@
+<!--
+  Generated template for the DetalleEventoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Detalles del evento</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon item-right name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding style="background-color:#f4f4f4">
+  <ion-list>
+    <ion-list >
+        <h1>Eventos:</h1>
+      <ion-slides pager style="font-family: 'Open Sans'">
+        <ion-slide>
+          <h2> Evento: {{eve.NombreEvento}} </h2>
+          <h2> Desde: {{eve.FechaInicio}} </h2>
+          <h2> Hasta: {{eve.FechaFin}} </h2>
+          <h2> Hora: {{eve.HoraInicio}} </h2>
+          <h2> Fin: {{eve.HoraFin}} </h2>
+          <h2> Precio: Bs.{{eve.Precio}}  </h2>
+          <h4> {{eve.Descripcion}} </h4>
+          <h2> En: {{eve.NombreLocal}} </h2>
+         <!-- <img src="{{eve.LocalRutaFoto}}" alt="">-->
+          <h2> Preferencias: {{eve.NombreCategoria}} </h2>
+          <br>
+        </ion-slide>
+      </ion-slides>
+    </ion-list>
+  </ion-list>
+  </ion-content>
+   
