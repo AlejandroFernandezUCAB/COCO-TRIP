@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:51049/api';
+apiUrl = 'http://localhost:8091/api';
   constructor(public http: HttpClient) {
 }
 
@@ -129,30 +129,33 @@ verItem(id, tipo)
 ConsultarEventos(busqueda, finicio, ffin)
 {
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M5/ConsultarEventos',{params:{ busq: busqueda , fechai: finicio , fechaf: ffin}}).subscribe(res => {
+    this.http.get(this.apiUrl+'/M5/ConsultarEventos',{params:{ busqueda: busqueda , fechainicio: finicio , fechafin: ffin}}).subscribe(res => {
         resolve(res);
+        console.log("ola");
+        console.log(res);
       }, (err) => {
-        console.log(err)
+        err => resolve(-1);
       });
   });
 }
 
 ConsultarLugarTuristico(busqueda){
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M5/ConsultarLugaresTuristicos',{params:{ busq: busqueda }}).subscribe(res => {
+    this.http.get(this.apiUrl+'/M5/ConsultarLugaresTuristicos',{params:{ busqueda: busqueda }}).subscribe(res => {
         resolve(res);
       }, (err) => {
-        console.log(err)
+        err => resolve(-1);
       });
   });
 }
 
 ConsultarActividades(busqueda){
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M5/ConsultarActividad',{params:{ busq: busqueda }}).subscribe(res => {
+    console.log(busqueda, "busqueda");
+    this.http.get(this.apiUrl+'/M5/ConsultarActividad',{params:{ busqueda: busqueda }}).subscribe(res => {
         resolve(res);
       }, (err) => {
-        console.log(err)
+        err => resolve(-1);
       });
   });
 }

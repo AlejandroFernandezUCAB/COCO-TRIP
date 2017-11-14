@@ -124,11 +124,11 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
- /* [HttpGet]
-    public List<Evento> ConsultarEventos(string busqueda)
+     [HttpGet]
+    public List<Evento> ConsultarEventos(string busqueda, DateTime fechainicio, DateTime fechafin)
     {
-      return peti.ConsultarEventos(busqueda);
-    }*/
+      return peti.ConsultarEventos(busqueda, fechainicio, fechafin);
+    }
 
     [HttpGet]
     public List<LugarTuristico> ConsultarLugaresTuristicos(string busqueda)
