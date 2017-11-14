@@ -331,7 +331,7 @@ export class ItinerarioPage {
         Jraiche, Michel
         Orrillo, Horacio
    **/
-  public presentConfirmItem(id_itinerario, id_evento, index)
+  public presentConfirmItem(id_itinerario, evento, index)
   {
     if (this.translateService.currentLang == 'es'){
     const alert = this.alertCtrl.create({
@@ -348,14 +348,14 @@ export class ItinerarioPage {
       text: 'Aceptar',
       handler: () => {
         this.presentLoading();
-        let tipo=this.getTipoItem(id_evento);
-        this.httpc.eliminarItem(tipo,id_itinerario, id_evento).then(data=>{
+        let tipo=this.getTipoItem(evento);
+        this.httpc.eliminarItem(tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
             console.log("ERROR:: no se pudo eliminar el item");
           }else {
             this.loading.dismiss();
-            this.eliminarItem(id_itinerario, id_evento, index);
+            this.eliminarItem(id_itinerario, evento.Id, index);
           }
         });
           }
@@ -380,14 +380,14 @@ export class ItinerarioPage {
         text: 'Accept',
         handler: () => {
           this.presentLoading();
-          let tipo=this.getTipoItem(id_evento);
-          this.httpc.eliminarItem(tipo,id_itinerario, id_evento).then(data=>{
+          let tipo=this.getTipoItem(evento);
+          this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
             if (data==0 || data==-1){
               this.loading.dismiss();
               console.log("ERROR:: no se pudo eliminar el item");
             }else {
               this.loading.dismiss();
-              this.eliminarItem(id_itinerario, id_evento, index);
+              this.eliminarItem(id_itinerario, evento.Id, index);
             }
           });
             }
