@@ -36,6 +36,7 @@ export class CalendarioPage {
       console.log(this.its);
       this.its.forEach(it => {
         if (it.Visible ==true){
+          console.log("VISIBLE");
           it.Items_agenda.forEach( ev => {
             if (moment(ev.FechaInicio).format('DD-MM-YYYY') == moment($event._d).format('DD-MM-YYYY')){
               console.log("ev.horaInicio ", ev.HoraInicio);
