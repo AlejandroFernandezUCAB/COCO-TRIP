@@ -1,3 +1,5 @@
+using BackOffice_COCO_TRIP.Models.Peticion;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +10,10 @@ namespace BackOffice_COCO_TRIP.Views.Events
 {
     public class EventsController : Controller
     {
-        // GET: Events
-        public ActionResult Index()
+    private PeticionEvento peticion = new PeticionEvento();
+
+    // GET: Events
+    public ActionResult Index()
         {
             return View();
         }
@@ -21,10 +25,18 @@ namespace BackOffice_COCO_TRIP.Views.Events
         }
 
         // GET: Events/Create
-        public ActionResult CreateEvent()
+        public ActionResult Create(Evento evento)
         {
-            
-            return View();
+        JObject respuesta = peticion.Post(evento);
+      if (respuesta.Property("dato") == null)
+      {
+        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+      }
+      else
+      {
+        ModelState.AddModelError(string.Empty, "Se hizo con exito");
+      }
+         return View();
         }
 
         // POST: Events/Create
