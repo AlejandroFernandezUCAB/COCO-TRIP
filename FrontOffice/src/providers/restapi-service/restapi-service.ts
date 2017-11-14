@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://192.168.1.105:8091/api';
+  apiUrl = 'http://192.168.0.104:8091/api';
   data : any;
   userData: any;
   idUser: any;
@@ -29,7 +29,6 @@ export class RestapiService {
           this.data = data;
           resolve(this.data);
         },error=>{
-          console.log('ERROR '+error);
           resolve(-1);
 
         });
@@ -46,7 +45,6 @@ export class RestapiService {
         resolve(this.data);
       },error=>{
         resolve(-1);
-        console.log(error);
       });
      });
 
@@ -56,7 +54,6 @@ export class RestapiService {
   registrarse(nombreUsuario,correo,nombre,apellido,genero,fechaNacimiento,clave,foto) 
   {   
       this.userData={nombreUsuario : nombreUsuario,correo: correo,nombre: nombre,apellido: apellido,genero: genero,fechaNacimiento: fechaNacimiento, clave : clave,foto: ""};
-      console.log('Enviando: '+JSON.stringify(this.userData));
       return new Promise(resolve => {
       this.http.post(this.apiUrl+'/M1_Login/registrarusuario/?datos='+JSON.stringify(this.userData),"")
       .map(res => res.json())
@@ -64,7 +61,6 @@ export class RestapiService {
         this.data = data;
         resolve(this.data);
       },error=>{
-        console.log('ERROR: '+error);
         resolve(-1);
 
       });

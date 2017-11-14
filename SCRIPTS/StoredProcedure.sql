@@ -86,7 +86,7 @@ BEGIN
 	RETURN QUERY SELECT
 	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
 	FROM usuario
-	WHERE us_email=_correo AND _clave = us_password AND us_validacion= true;
+	WHERE us_email=_correo AND  us_password=_clave  AND us_validacion= true;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -228,7 +228,7 @@ CREATE OR REPLACE FUNCTION ActualizarUsuario(_nombreUsuario VARCHAR(20), _nombre
 RETURNS void AS
 $$
 BEGIN
-	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, _genero = us_genero, us_email=_correo, us_password=_clave, us_foto =_foto
+	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, us_genero = _genero , us_email=_correo, us_password=_clave, us_foto =_foto
 	WHERE us_email=_correo;
 END;
 $$ LANGUAGE plpgsql;
