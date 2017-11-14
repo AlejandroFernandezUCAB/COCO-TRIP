@@ -125,7 +125,6 @@ export class EventosCalendarioService {
     this.http.loadItinerarios(id_usuario)
     .then(data => {
       this._itis = data;
-      return this._itis;
     });
   }
 

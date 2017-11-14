@@ -73,6 +73,7 @@ export class ItemModalPage {
                 console.log("hubo un error");
               }else{
                 this.items = data;
+                console.log("EL CDLM " + this.items[0].Id)
                 console.log(this.items);
               }
             }
@@ -99,7 +100,7 @@ export class ItemModalPage {
                     console.log("hubo un error");
                   }else{
                     this.items = data;
-                    console.log(this.items);
+                    console.log(this.items[0].Id);
                   }
                 }
               );
@@ -124,19 +125,17 @@ export class ItemModalPage {
           }
         }
 
-        this.items= this.items.filter((item) => {
+        //this.items= this.items.filter((item) => {
           //return (item.titulo.toLowerCase().indexOf(val.toLowerCase()) > -1);
           return (this.items);
-        })
+        //})
       }
     }
 
   agregarItem(item_id){
     //ARREGLAR ESTO
-        let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
-        console.log(vlista);
-        console.log(this.translateService.currentLang);
-
+    console.log(item_id);
+        let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
           let alert = this.alertCtrl.create({
