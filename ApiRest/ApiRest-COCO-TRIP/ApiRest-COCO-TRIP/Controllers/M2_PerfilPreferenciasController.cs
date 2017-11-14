@@ -79,7 +79,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="apellido">Id de la categoria</param>
     /// <param name="fechaDeNacimiento">Id del usuario </param>
     /// <param name="genero">Id de la categoria</param>
-    /// <returns>bool</returns>
+    /// <returns>Retorna verdadero si el procedimiento fue exitoso, o falso para cualquier otro caso</returns>
     [HttpPost]
     public bool ModificarDatosUsuario(string nombreUsuario, string nombre, string apellido, string fechaDeNacimiento, string genero)
     {
@@ -188,7 +188,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Metodo Post para obtener los datos del usuario.
     /// </summary>
     /// <param name="idUsuario"></param>
-    /// <returns>Objeto Usuario</returns>
+    /// <returns>Retorna un Objeto Usuario, o null en caso de fallo</returns>
     [HttpPost]
     public Usuario ObtenerDatosUsuario(int idUsuario)
     {
