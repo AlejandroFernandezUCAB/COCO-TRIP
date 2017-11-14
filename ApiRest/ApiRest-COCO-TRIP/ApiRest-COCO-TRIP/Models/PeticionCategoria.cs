@@ -284,20 +284,22 @@ namespace ApiRest_COCO_TRIP
     }
 
     public void AgregarCategoria(Categoria categoria)
-        {  //Endpoint CREAR UNA NUEVA CATEGORIA
-            try
-            {
-                conexion.Conectar();
-                conexion.Comando = conexion.SqlConexion.CreateCommand();
-                conexion.Comando.CommandText = "m9_agregarsubcategoria";
-                conexion.Comando.CommandType = CommandType.StoredProcedure;
+    {
+      try
+      {
+        int exitoso = 0;
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "m9_agregarsubcategoria";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
 
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.nombre); //Nombre de la categoria
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.descripcion); //descripcion de la categoría
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.nivel); //nivel de la categoria
-                conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
-               
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre); //Nombre de la categoria
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion); //descripcion de la categoría
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
 
+        exitoso = conexion.Comando.ExecuteNonQuery();
+        
                      if (categoria.CategoriaSuperior == 0)
                 {
                     conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
@@ -309,28 +311,59 @@ namespace ApiRest_COCO_TRIP
                 }
                 exitoso = conexion.Comando.ExecuteNonQuery();
 
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
+          Mensaje = $"Error al momento de agregar la catgoria {categoria.Id}"
+        };
+        throw bdException;
 
-            }
-            catch (NpgsqlException ex)
-            {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
-                    Mensaje = $"Error al momento de agregar la catgoria {categoria.Id}"
-                };
+      }
+      finally
+      {
+        conexion.Desconectar();
 
-                throw bdException;
+      }
+    }
 
-            }
-            finally
-            {
-                conexion.Desconectar();
 
-            }
-        }
+    public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_ObtenerCategoriaPorId";/* aqui va el stored procedure */
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();
+        
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
 
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
 
     }
+
+
+  }
 
 
 

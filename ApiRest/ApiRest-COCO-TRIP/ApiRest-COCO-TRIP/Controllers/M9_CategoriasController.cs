@@ -449,8 +449,68 @@ namespace ApiRest_COCO_TRIP.Controllers
         }
 
 
+    [ResponseType(typeof(IDictionary))]
+    [HttpGet]
+    [ActionName("obtenerCategoriasPorId")]
+    public IDictionary ObtenerCategoriaPorId(int id)
+    {
+      try
+      {
 
+
+        Categoria categoria = new Categoria(id);
+        PeticionCategoria peticion = new PeticionCategoria();
+        IList<Categoria> lista = peticion.ObtenerCategoriaPorId(categoria);
+
+        response.Add(Response_Data, lista);
+
+      }
+      catch (BaseDeDatosExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Message);
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+      catch (ParametrosNullException ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+      catch (Exception ex)
+      {
+        response.Add(Response_Error, "Ocurrio un error inesperado");
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+
+      return response;
     }
+
+
+
+  }
 
     
 

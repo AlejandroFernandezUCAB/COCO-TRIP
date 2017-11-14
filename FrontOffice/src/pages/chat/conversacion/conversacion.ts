@@ -27,7 +27,7 @@ export class ConversacionPage {
 
 constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
   this.conversacion = this.chatService.conversacion;
-  this.scrollto();
+  //this.scrollto();
   this.idUsuario =
   this.events.subscribe('nuevoMensaje', () => {
     this.todosLosMensajes = [];
@@ -78,7 +78,7 @@ tapEvent2(){
   });
   alert.present();
 }
-      
+
 pressEvent1(){
   let actionSheet = this.actionsheetCtrl.create({
     title: 'Opciones del chat',
@@ -165,7 +165,7 @@ pressEvent1(){
       this.chatService.obtenerMensajesConversacionAmigo(this.idAmigo);
     }else if(this.idGrupo){
       this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
-    }    
+    }
   }
 
   scrollto() {
