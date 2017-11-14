@@ -156,6 +156,68 @@ namespace ApiRest_COCO_TRIP.Controllers
       return peti.SetVisible(idusuario, iditinerario, visible);
     }
 
+    //-------------------------------------------------------------------------------
+    [HttpPut]
+    public bool AgregarNotificacionConfiguracion(int id_usuario)
+    {
+      try
+      {
+        return peti.AgregarNotificacion(id_usuario);
+      }
+      catch (NpgsqlException e)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (NullReferenceException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+    }
+
+
+    [HttpDelete]
+    public bool EliminarNotificacionConfiguracion(int id_usuario)
+    {
+      try
+      {
+        return peti.EliminarNotificacion(id_usuario);
+      }
+      catch (NpgsqlException)
+      {
+        return false;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+    }
+
+
+
+    [HttpPost]
+    public bool ModificarNotificacionConfiguracion(int id_usuario, bool correo)
+    {
+      try
+      {
+        return peti.ModificarNotificacion(id_usuario, correo);
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+    }
+
+    [HttpGet]
+    public bool ConsultarNotificacion(int id_usuario)
+    {
+      return peti.ConsultarNotificacion(id_usuario);
+    }
+    //----------------------------------------------------------
 
   }
 }

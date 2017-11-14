@@ -669,5 +669,135 @@ namespace ApiRest_COCO_TRIP.Models
       return "Exitoso";
     }
 
+    //----------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Metodo que agrega en la base de datos si el usuario desea recibir notificaciones por correo
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario a que se le agregara el registro</param>
+    /// <returns>true si agrega existosamente, false en caso de error</>
+    public bool AgregarNotificacion(int id_usuario)
+    {
+      bool rs;
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("agregar_notificacion", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        pgread = comm.ExecuteReader();
+        pgread.Read();
+        rs = pgread.GetBoolean(0);
+        con.Desconectar();
+        return rs;
+      }
+      catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (NullReferenceException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que elimina el registro de la base de datos que determina si el usuario quiere notificaciones por correo
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea eliminar el registro</param>
+    /// <returns>true si elimina existosamente, false en caso de error</returns>
+    public Boolean EliminarNotificacion(int id_usuario)
+    {
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("eliminar_notificacion", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que modifica si el registro de notificaciones por correo  de la base de datos
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea modificar las notificaciones</param>
+    /// <param name="correo">Variable que determina si se desea recibir o no, notificaciones por correo</param>
+    /// <returns>True si modifica existosamente, false en caso de error</returns>
+    public bool ModificarNotificacion(int id_usuario, bool correo)
+    {
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("modificar_notificacion", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, correo);
+        //La siguiente linea determina si se desea recibir notificaciones push, en caso de implementarlo.
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, true);
+        pgread = comm.ExecuteReader();
+        con.Desconectar();
+        return true;
+      }
+      catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Consulta si se desea recibir notificaciones por correo.
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea verificar si desea notificaciones por correo..</param>
+    /// <returns>Retorna True en caso que se desee notificaciones y False en caso contrario</returns>
+    public bool ConsultarNotificacion(int id_usuario)
+    {      
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultar_notificaciones", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        pgread = comm.ExecuteReader();
+
+        pgread.Read();
+        bool rs = pgread.GetBoolean(0);
+        
+        con.Desconectar();
+        return rs;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
+    //---------------------------------------------------------------------------------------------------
   }
 }
