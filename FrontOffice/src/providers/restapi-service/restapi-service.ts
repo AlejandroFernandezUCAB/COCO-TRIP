@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class RestapiService {
-  apiUrl = 'http://localhost:8091/api';
+  apiUrl = 'http://localhost:51049/api';
   data : any;
   userData: any;
   idUser: any;

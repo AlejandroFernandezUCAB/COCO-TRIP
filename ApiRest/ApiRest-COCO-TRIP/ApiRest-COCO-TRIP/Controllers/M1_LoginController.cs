@@ -61,9 +61,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         usuario.Id = peticion.ConsultarUsuarioNombre(usuario);
       }
-      catch (NpgsqlException)
+      catch (NpgsqlException e)
       {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        //throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        throw e;
       }
       catch (InvalidCastException)
       {

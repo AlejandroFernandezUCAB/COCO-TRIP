@@ -897,7 +897,6 @@ ALTER FUNCTION public.consultar_itinerarios(integer)
     OWNER TO admin_cocotrip;
 
 
-
 --Cambiar visibilidad de un itinerario
 -- FUNCTION: public.setvisible(integer, boolean, integer)
 
@@ -1092,6 +1091,78 @@ AS $BODY$
     END;
 
 $BODY$;
+
+
+----------------------Insertar notificacion
+    CREATE OR REPLACE FUNCTION agregar_notificacion(id_usuario integer)
+    RETURNS boolean AS
+  $BODY$
+
+    DECLARE
+    i integer;
+    
+    BEGIN
+    SELECT no_id FROM Notificacion WHERE (id_usuario = no_idUsuario) into i;
+    IF i is null THEN
+      INSERT INTO Notificacion (no_id, no_correo, no_push, no_idUsuario) 
+      VALUES (nextval('SEQ_Notificacion'), true, true, id_usuario);
+      return true;
+    ELSE
+    return true;
+    END IF;
+    END;
+  $BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+----------------------Eliminar notificacion
+    CREATE OR REPLACE FUNCTION eliminar_notificacion(id_usuario integer)
+    RETURNS boolean AS
+  $BODY$
+
+    DECLARE
+    i integer;
+    
+    BEGIN
+    SELECT no_id FROM Notificacion where (id_usuario = no_id) into i;
+    IF i is null THEN
+    return true;
+    else      
+      DELETE FROM Notificacion WHERE (id_usuario = no_idUsuario);
+        return true;      
+  END IF;
+    END
+  $BODY$
+    LANGUAGE plpgsql  VOLATILE
+    COST 100;
+
+----------------------------- Modificar Notificacion ------------------------
+    CREATE OR REPLACE FUNCTION modificar_notificacion(
+  id_usuario integer,
+  correo boolean,
+  push boolean)
+    RETURNS void AS $$
+  
+  BEGIN
+    UPDATE Notificacion
+      SET no_correo = correo,
+          no_push = push
+      WHERE
+          id_usuario = no_idUsuario;
+  END;
+  $$ LANGUAGE plpgsql;
+
+
+------------------------------- Consultar Notificaciones ---------------------------------
+CREATE OR REPLACE FUNCTION consultar_notificaciones( id_usuario integer )
+RETURNS TABLE (correo boolean) AS $$
+
+BEGIN
+    RETURN QUERY SELECT no_correo
+        FROM Notificacion
+        WHERE no_idUsuario = id_usuario;
+END;
+$$ LANGUAGE plpgsql;
 
 
     /* fin de procedimientos de Modulo_5 */
