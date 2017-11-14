@@ -232,7 +232,7 @@ namespace ApiRest_COCO_TRIP
         else
         {
           //categories = listaCategorias.Where(s => s.Id == id).First();
-          IList<Categoria> Listacategoria  = peticion.ObtenerTodasLasCategorias();
+          IList<Categoria> Listacategoria = peticion.ObtenerTodasLasCategorias();
           var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).First();
           if (hijos == null)
           {
@@ -258,6 +258,15 @@ namespace ApiRest_COCO_TRIP
         exitoso = conexion.Comando.ExecuteNonQuery();
 
       }
+
+      catch (PostgresException ex)
+      {
+      
+        
+        throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+
+      }
+
       catch (NpgsqlException ex)
       {
         BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
