@@ -385,6 +385,92 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
+    public JObject GetPorId(int id)
+    {
+
+      try
+      {
+        using (var cliente = new HttpClient())
+        {
+          cliente.BaseAddress = new Uri(BaseUri);
+          cliente.DefaultRequestHeaders.Accept.Clear();
+          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/obtenerCategoriasPorId/{id}");
+          responseTask.Wait();
+          var response = responseTask.Result;
+          var readTask = response.Content.ReadAsAsync<JObject>();
+          readTask.Wait();
+          responseData = readTask.Result;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+
+      catch (WebException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (SocketException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (AggregateException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonSerializationException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonReaderException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (Exception ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+
+          };
+      }
+
+      return responseData;
+
+    }
+
+
 
 
   }
