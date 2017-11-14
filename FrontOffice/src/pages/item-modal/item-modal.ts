@@ -12,7 +12,7 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
   templateUrl: 'item-modal.html',
 })
 export class ItemModalPage {
-  itinerario = '';
+  itinerario : any;
   searchForm: FormGroup;
   submitAttempt: boolean = false;
   searchTerm: string = ''; //Lo que esta buscando
@@ -133,7 +133,7 @@ export class ItemModalPage {
 
   agregarItem(item_id){
     //ARREGLAR ESTO
-        let vlista= this.items.filter(function(e,i){ return e.id==item_id})[1];
+        let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[1];
         console.log(vlista);
         console.log(this.translateService.currentLang);
 
@@ -154,6 +154,7 @@ export class ItemModalPage {
                 handler: data => {
                   console.log(this.FechaFin);
                   console.log(this.FechaInicio);
+                  this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
                   this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                 }
               }
