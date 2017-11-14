@@ -18,6 +18,13 @@ export class AmigosPage {
   detail=false;
   amigo: any;
   toast: any;
+  title: any;
+  accept: any;
+  cancel: any;
+  text: any;
+  message: any;
+  succesful: any;
+  loader: any;
   
   nombreUsuario : string;
   public loading = this.loadingCtrl.create({
@@ -45,8 +52,9 @@ export class AmigosPage {
  * Metodo que carga un LoadingCTRL
  */
   cargando(){
+    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: this.loader,
       dismissOnPageChange: true
     });
     this.loading.present();
@@ -115,26 +123,33 @@ perfil(){
  * @param index 
  */
 eliminarAmigo(nombreUsuario, index) {
+  this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
+  this.translateService.get('Deseas Borrar a:').subscribe(value => {this.message = value;})
+  this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+  this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+  this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
+
   const alert = this.alerCtrl.create({
-  title: 'Por favor, confirmar',
-  message: '¿Deseas borrar a: '+nombreUsuario+'?',
+    
+  title: this.title,
+  message: '¿'+this.message+nombreUsuario+'?',
   buttons: [
     {
-      text: 'Cancelar',
+      text: this.cancel,
       role: 'cancel',
       handler: () => {
        
       }
     },
     {
-      text: 'Aceptar',
+      text: this.accept,
       handler: () => {
         this.eliminarAmigos(nombreUsuario, index);
         this.storage.get('id').then((val) => {
         this.restapiService.eliminarAmigo(nombreUsuario,val);
         });
         this.delete = false;
-        this.realizarToast('Eliminado Exitosamente');
+        this.realizarToast(this.succesful);
         }
       }
     ]

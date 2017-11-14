@@ -25,6 +25,10 @@ export class SeleccionarIntegrantesPage {
   nombreGrupo: string;
   toast: any;
   myForm: FormGroup;
+  loader: any;
+  requerido: any;
+  succesful: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public alerCtrl: AlertController,private storage: Storage,public loadingCtrl: LoadingController,
     public restapiService: RestapiService,public toastCtrl: ToastController,public formBuilder: FormBuilder,
@@ -34,18 +38,21 @@ export class SeleccionarIntegrantesPage {
       });
   }
 
-
   cargando(){
+    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: this.loader,
       dismissOnPageChange: true
     });
     this.loading.present();
   }
 
+
   agregarGrupo(){
+    this.translateService.get('Este campo es requerido').subscribe(value => {this.requerido = value;})
+    this.translateService.get('Agregado exitosamente').subscribe(value => {this.succesful = value;})
     if ( this.myForm.get('namegroup').errors)
-      this.realizarToast('Por favor, rellene los campos');
+    this.realizarToast(this.requerido);
     else{
       
       var nombreRestApi = this.nombreGrupo;
@@ -56,18 +63,20 @@ export class SeleccionarIntegrantesPage {
        .then(data => {
          if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-          this.loading.dismiss();
-        }
-        else {
-          //this.amigo = data;
-          this.loading.dismiss();
-          this.realizarToast('Agregado Grupo exitosamente');
-          this.navCtrl.pop();
-        }
-      });
-    });
-    }
-  }
+   
+            }
+            else {
+              //this.amigo = data;
+              this.loading.dismiss();
+              this.navCtrl.pop();
+              this.realizarToast(this.succesful);
+  
+            }
+    
+          });
+        });
+      }
+     }
 
      realizarToast(mensaje) {
       this.toast = this.toastCtrl.create({

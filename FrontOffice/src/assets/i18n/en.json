@@ -90,8 +90,20 @@
     "Nombre del Grupo" : "Group's Name",
     "Detalle del Grupo" : "Group's Detail",
     "Agregar" : "Add",
-    "Agregado exitosamente" : "added successfully",
+    "Agregado exitosamente" : "Successfully Added",
     "Aceptar" : "Accept",
     "Declinar" : "Decline",
-    "Mensaje agregar" : "A notification has been sended"
+    "Mensaje agregar" : "A notification has been sended",
+    "Por favor, Confirmar" : "Please, Confirm",
+    "Eliminado Exitosamente" : "Successfully Removed",
+    "Cancelar" : "Cancel",
+    "Deseas Borrar a:" : "Do you want to delete: ",
+    "Por Favor Espere" : "Please Wait...",
+    "No puedes modificar": "You can't edit",
+    "No eres lider": "You can't edit this group because you're not the leader",
+    "Esta bien": "Ok",
+    "Borrar Grupo": "Do you want to delete this group?",
+    "Salir Grupo": "You successfully removed this group",
+    "Modificado Exitosamente": "Successfully Edited",
+    "Deseas Agregar a:": "Do you want to add: "
 }

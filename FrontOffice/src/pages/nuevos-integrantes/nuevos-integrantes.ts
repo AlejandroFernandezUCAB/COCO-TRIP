@@ -14,6 +14,13 @@ export class NuevosIntegrantesPage {
   amigo: any;
   toast: any;
   idGrupo: any;
+  title: any;
+  accept: any;
+  cancel: any;
+  text: any;
+  message: any;
+  succesful: any;
+  loader: any;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
@@ -26,13 +33,16 @@ export class NuevosIntegrantesPage {
   onLink(url: string) {
     window.open(url);
 }
-  cargando(){
-    this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
-      dismissOnPageChange: true
-    });
-    this.loading.present();
-  }
+
+cargando(){
+  this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
+  this.loading = this.loadingCtrl.create({
+    content: this.loader,
+    dismissOnPageChange: true
+  });
+  this.loading.present();
+}
+
 
   ionViewWillEnter() {
     this.cargando();
@@ -64,25 +74,29 @@ export class NuevosIntegrantesPage {
 }
 
   agregarIntegrantes(event,nombreUsuario){
-
+    this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
+    this.translateService.get('Deseas Agregar a:').subscribe(value => {this.message = value;})
+    this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+    this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+    this.translateService.get('Agregado exitosamente').subscribe(value => {this.succesful = value;})
     const alert = this.alertCtrl.create({
-      title: 'Por favor, confirmar',
-      message: '¿Deseas agregar a: '+nombreUsuario+'?',
+      title: this.title,
+      message: '¿'+this.message+nombreUsuario+'?',
       buttons: [
         {
-          text: 'Cancelar',
+          text: this.cancel,
           role: 'cancel',
           handler: () => {
            
           }
         },
         {
-          text: 'Aceptar',
+          text: this.accept,
           handler: () => {
             this.idGrupo = this.navParams.get('idGrupo');
             this.restapiService.agregarIntegrante(this.idGrupo,nombreUsuario);
             
-            this.realizarToast('Agregado Exitosamente');
+            this.realizarToast(this.succesful);
             }
           }
         ]

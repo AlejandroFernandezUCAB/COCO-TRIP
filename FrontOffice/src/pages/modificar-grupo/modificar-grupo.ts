@@ -18,6 +18,13 @@ export class ModificarGrupoPage {
   id: any;
   nombreGrupo: string;
   toast: any;
+  title: any;
+  accept: any;
+  cancel: any;
+  text: any;
+  message: any;
+  succesful: any;
+  edited: any;
 
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
@@ -89,24 +96,29 @@ cargarlider(id){
  * @param index 
  */
     eliminarIntegrantes(nombreUsuario, index){
+      this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
+      this.translateService.get('Deseas Borrar a:').subscribe(value => {this.message = value;})
+      this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+      this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+      this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
       
       const alert = this.alerCtrl.create({
-        title: 'Por favor, confirmar',
-        message: '¿Deseas borrar a: '+nombreUsuario+'?',
+        title: this.title,
+        message: '¿'+this.message+nombreUsuario+'?',
         buttons: [
           {
-            text: 'Cancelar',
+            text: this.cancel,
             role: 'cancel',
             handler: () => {
              
             }
           },
           {
-            text: 'Aceptar',  
+            text: this.accept,  
             handler: () => {
               this.eliminarIntegrante(nombreUsuario, index); 
               this.restapiService.eliminarIntegrante(nombreUsuario,4);
-              this.realizarToast('Eliminado Exitosamente');
+              this.realizarToast(this.succesful);
               
               }
             }
@@ -122,17 +134,18 @@ cargarlider(id){
       }
 
 modificarNombre(evento){
+  this.translateService.get('Modificado Exitosamente').subscribe(value => {this.edited = value;})
   this.storage.get('id').then((val) => {
   if(this.nombreGrupo == undefined){
     this.restapiService.verperfilGrupo(this.id)
     .then(data => {this.grupo = data;});
       var nombreRestApi = this.grupo.filter(item => item.Nombre)[1];
-      this.realizarToast('Modificado Exitosamente');
+      this.realizarToast(this.edited);
      
   } else {
        nombreRestApi = this.nombreGrupo;
         this.restapiService.modificarGrupo(nombreRestApi,val,this.id);
-        this.realizarToast('Modificado Exitosamente');
+        this.realizarToast(this.edited);
   }
 });
 }
