@@ -421,10 +421,16 @@ export class ItinerarioPage {
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       console.log(this.its[i].edit);
-      let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
-      this.httpc.modificarItinerario(moditinerario).then(data=>{
-
-      })
+      if (this.its[i].FechaInicio > this.its[i].FechaFin)
+      {
+        this.realizarToast('Fechas Invalidas');
+      }
+      else
+      {
+        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+        this.httpc.modificarItinerario(moditinerario).then(data=>{
+        })
+      }
     }
   }
 
