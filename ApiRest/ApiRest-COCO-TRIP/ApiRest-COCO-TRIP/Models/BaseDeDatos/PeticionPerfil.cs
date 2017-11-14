@@ -177,11 +177,14 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlDataReader pgread;
       Categoria categoria;
       Usuario usuario;
+      bool condicion;
 
       try
       {
+        condicion = false;
         usuario = new Usuario();
-        categoria = new Categoria();
+        categoria = null;
+        usuario.Preferencias = null;
         conexion.Conectar();
         command = new NpgsqlCommand("BuscarPreferencias", conexion.SqlConexion);
         command.CommandType = CommandType.StoredProcedure;
@@ -189,6 +192,13 @@ namespace ApiRest_COCO_TRIP.Models
         pgread = command.ExecuteReader();
 
         while (pgread.Read()) {
+
+          if (condicion == false) {
+
+            usuario.Preferencias = new List<Categoria>();
+            condicion = true;
+
+          }
 
           categoria = new Categoria();
           categoria.Id = pgread.GetInt32(0);

@@ -117,23 +117,23 @@ namespace ApiRest_COCO_TRIP.Controllers
     public bool CambiarPass(string username, string passwordActual, string passwordNuevo)
     {
       peticion = new PeticionPerfil();
-      idUsuario = peticion.ConsultarIdDelUsuario(username);
-      string storedPassword = peticion.ObtenerPassword(username);
+      idUsuario = peticion.ConsultarIdDelUsuario(username); //Esta peticion trae el id del usuario, para ello se debe enviar el username del usuario
+      string storedPassword = peticion.ObtenerPassword(username); //almacena la contraseña del usuario
 
       if (storedPassword != passwordActual)
       {
-        return false;
+        return false; //Si retorna falso es porque la contraseña suministrada no concuerda con el de la base de datos
       }
 
       try
       {
         if (idUsuario == -1)
         {
-          return false;
+          return false; //Si el id del usuario es -1 (no existe) retorna falso
         }
         else
         {
-          peticion.CambiarPassword(idUsuario, passwordNuevo);
+          peticion.CambiarPassword(idUsuario, passwordNuevo); //En caso contrario, se procede a cambiar la contraseña.
           return true;
         }
       }
@@ -157,24 +157,24 @@ namespace ApiRest_COCO_TRIP.Controllers
     public bool BorrarUsuario(string username, string password)
     {
       peticion = new PeticionPerfil();
-      idUsuario = peticion.ConsultarIdDelUsuario(username);
-
-      string storedPassword = peticion.ObtenerPassword(username);
+      idUsuario = peticion.ConsultarIdDelUsuario(username); //Esta peticion trae el id del usuario, para ello se debe enviar el username del usuario
+      
+      string storedPassword = peticion.ObtenerPassword(username); //almacena la contraseña del usuario
 
       if (storedPassword != password)
       {
-        return false;
+        return false; //Si retorna falso es porque la contraseña suministrada no concuerda con el de la base de datos
       }
 
       try
       {
         if (idUsuario == -1)
         {
-          return false;
-        }
+          return false; //Si el id del usuario es -1 (no existe) retorna falso
+        } 
         else
         {
-          peticion.BorrarUsuario(idUsuario, password);
+          peticion.BorrarUsuario(idUsuario, password);  //En caso contrario, se procede a borrar al usuario.
           return true;
         }
       }

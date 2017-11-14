@@ -31,10 +31,11 @@ export class ChangepassPage {
     public fb: FormBuilder, public restapiService: RestapiService) 
   {
     console.log(navParams);
-    this.NombreUsuario = navParams.data;
+    this.NombreUsuario = navParams.data; //Este es el username, se lo asignamos a un string (NombreUsuario)
     console.log(this.NombreUsuario);
-    this.myForm = this.fb.group(
+    this.myForm = this.fb.group( 
       {
+        //Estas seran las validaciones para los campos de la vista.
         contraActual: ['', [Validators.required]],
         newpass: ['', [Validators.required]],
         confirmpass: ['',[Validators.required]]
@@ -45,10 +46,12 @@ export class ChangepassPage {
 
   //funcion que se ejecuta al hacer submit del formulario
   saveData(){
-    //Inyectamos los datos nuevos (los que vienen del formulario)
+    //Inyectamos los datos que vienen del formulario.
     this.passAct = this.myForm.value.contraActual;
     this.passNueva = this.myForm.value.newpass;
 
+    /*Aqui haremos el llamado al restapi llamado CambiarPass, aqui le enviaremos los datos suministrados
+     en el formulario.*/
     this.restapiService.cambiarPass(this.NombreUsuario, this.passAct, this.passNueva).then(data =>{
       if(data != 0){
         this.apiRestResponse = data;
@@ -63,12 +66,15 @@ export class ChangepassPage {
   }
 
   
-
+  /*Aqui te regresa a la ventana anterior (Edit-Profile) junto con el toast*/ 
   regresarAvistaAnterior(apiRestResponse){
     this.showToastWithCloseButton(apiRestResponse);
     this.navCtrl.pop();
   }
 
+  /*Te dispara un toast dependiendo de lo que haya respondido saveData(), en caso de ser verdadero (true)
+  lanzara un toast con el mensaje "Seguardaron tus cambios", en caso contrario te lanzará un toast con el
+  mensaje "Error Modificando los datos"*/ 
   showToastWithCloseButton(apiRestResponse) {
     let result;
     if (apiRestResponse == true) {
