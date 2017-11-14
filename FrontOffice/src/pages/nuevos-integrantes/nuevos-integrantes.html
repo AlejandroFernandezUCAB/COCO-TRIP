@@ -1,7 +1,7 @@
 <ion-header>
     
       <ion-navbar >
-        <ion-title>Agregar Integrante</ion-title>
+        <ion-title>{{'Agregar Integrantes' | translate}}</ion-title>
         
       </ion-navbar>
     
@@ -11,7 +11,7 @@
     <ion-content padding>
         <ion-list>
         <ion-list-header>
-          Mis Amigos
+          {{'Mis Amigos' | translate}}
         </ion-list-header>
       <ion-item *ngFor="let item of amigo ; let i = index"  (tap)="agregarIntegrantes($event,item.NombreUsuario)">
               <ion-avatar item-left>

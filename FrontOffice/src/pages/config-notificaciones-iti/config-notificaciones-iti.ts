@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { HttpCProvider } from '../../providers/http-c/http-c';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -9,17 +10,19 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
   templateUrl: 'config-notificaciones-iti.html',
 })
 export class ConfigNotificacionesItiPage {
-  _notif: Object = {
-    correo: false,
-    push: false
-  };
+  _notif: any;
   loading:any;
   toast: any;
+  IdUsuario: any;
   _itinerarios = Array();
   constructor(public navCtrl: NavController, public navParams: NavParams, public servicio: EventosCalendarioService, public http: HttpCProvider,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController,) {
+    public toastCtrl: ToastController,
+    private storage: Storage
+    ) {
     this._itinerarios= this.servicio.getItinerarios();
+    this._notif= this.navParams.get('config');
+    console.log(this._notif);
     console.log(this._itinerarios);
   }
 
@@ -38,6 +41,9 @@ export class ConfigNotificacionesItiPage {
 
   setConfig(tipo, valor){
     console.log(tipo + " " + valor);
+    this.http.modificarNotificacionCorreo(2, valor).then(data =>{
+      console.log(data);
+    })
   }
 
   public realizarToast(mensaje)
@@ -69,11 +75,17 @@ export class ConfigNotificacionesItiPage {
         )
       }
     })
-
   }
 
-
-  ionViewWillEnter(){
-    this._notif = this.servicio.getNotifcacionesConfig();
-  }
+  // ionViewWillEnter(){
+  //   // this.presentLoading();
+  //   // this.storage.get('id').then((val) => {
+  //   //   this.IdUsuario = val;
+  //   //   this.http.getNotificacionesConfig(this.IdUsuario)
+  //   //   .then(data =>{
+  //   //     this.loading.dismiss();
+  //   //     console.log(data);
+  //   //   })
+  //   // });
+  // }
 }
