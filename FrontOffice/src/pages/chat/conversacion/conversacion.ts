@@ -6,6 +6,9 @@ import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
 import { Firebase } from '@ionic-native/firebase';
 import { ChatProvider } from '../../../providers/chat/chat';
+import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @IonicPage()
 @Component({
@@ -21,12 +24,22 @@ export class ConversacionPage {
   idGrupo: any;
   idUsuario: any;
   todosLosMensajes = [];
-  //mensajes: Array<msgs> = [
-   // {contenido: '¡Adoro este sitio!', tiempo: moment().fromNow() }
-  //];
+  nombreUsuario: string;
 
-constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, private firebase: Firebase , public chatService: ChatProvider, public events: Events, public zone: NgZone) {
-  this.conversacion = this.chatService.conversacion;
+constructor(public navCtrl: NavController, public navParams: NavParams,
+  public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
+  public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
+  public events: Events, public zone: NgZone, private storage: Storage) {
+
+  let idUsuario     //Obtiene ID de Usuario
+  this.storage.get('id').then((val) => {
+    idUsuario = val;
+  });
+
+  this.idAmigo = this.navParams.get('nombreUsuario');
+  this.nombreUsuario = this.idAmigo;
+
+  this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
   //this.scrollto();
   this.idUsuario =
   this.events.subscribe('nuevoMensaje', () => {
@@ -35,6 +48,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams, public a
       this.todosLosMensajes = this.chatService.mensajesConversacion;
     })
   })
+
  // this.firebase.getToken()
     //.then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
     //.catch(error => console.log('Error obteniendo el token', error));
@@ -44,22 +58,10 @@ constructor(public navCtrl: NavController, public navParams: NavParams, public a
 
 }
 
-tapEvent1(){
-  //let alert = this.alertCtrl.create({ ESTA ERA UNA ALERTA DE FUNCIONALIDAD
-    //title: 'Ver Perfil',
-    //message: 'Pronto visualizarás perfiles por aquí',
-    //buttons: [
-      //{
-        //text:'Dismiss',
-        //role: 'dismiss',
-        //handler: () => {
-          //console.log('Alerta visualizada');
-        //}
-      //}
-    //]
-  //});
-  //alert.present();
-  this.navCtrl.push(VisualizarPerfilPage); //PERMITE VER EL PERFIL DEL AMIGO
+tapEvent1(item){
+  this.navCtrl.push(VisualizarPerfilPage, {
+    nombreUsuario : item
+  }); //PERMITE VER EL PERFIL DEL AMIGO
 }
 
 tapEvent2(){

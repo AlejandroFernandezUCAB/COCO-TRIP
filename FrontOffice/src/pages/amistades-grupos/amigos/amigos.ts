@@ -7,6 +7,7 @@ import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { ConversacionPage } from '../../chat/conversacion/conversacion';
 
 @Component({
   selector: 'page-amigos',
@@ -27,26 +28,29 @@ export class AmigosPage {
   message: any;
   succesful: any;
   loader: any;
-  
+
   nombreUsuario : string;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
-  
+
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public toastCtrl: ToastController, private storage: Storage,
       private translateService: TranslateService ) {
-      
+
   }
-  
+
   onLink(url: string) {
       window.open(url);
   }
 
 
-  tapEvent() {
+  tapEvent(item) {
+    this.navCtrl.push(ConversacionPage,{
+      nombreUsuario : item
+    });
   }
 
 /**
@@ -100,7 +104,7 @@ eliminar(){
   else{
     this.delete=false;
   }
-  
+
 }
 
 perfil(){
@@ -114,14 +118,14 @@ perfil(){
 
     this.detail=false;
   }
-  
+
 }
 
 
 /**
  * Metodo para confirmar eliminacion de un amigo
  * @param nombreUsuario Nombre del amigo a eliminar
- * @param index 
+ * @param index
  */
 eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
@@ -131,7 +135,7 @@ eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
 
   const alert = this.alerCtrl.create({
-    
+
   title: this.title,
   message: '¿'+this.message+nombreUsuario+'?',
   buttons: [
@@ -139,7 +143,7 @@ eliminarAmigo(nombreUsuario, index) {
       text: this.cancel,
       role: 'cancel',
       handler: () => {
-       
+
       }
     },
     {
@@ -161,7 +165,7 @@ eliminarAmigo(nombreUsuario, index) {
 /**
  * Metodo para borrar desde pantalla
  * @param nombreUsuario Nombre del amigo a eliminar
- * @param index 
+ * @param index
  */
 eliminarAmigos(nombreUsuario, index){
   let eliminado = this.amigo.filter(item => item.NombreUsuario === nombreUsuario)[8];
