@@ -225,7 +225,6 @@ export class ItinerarioPage {
                       Nombre: name,
                       Items_agenda: Array()
                     })
-                    console.log(this.its);
                   }
                 }
               )

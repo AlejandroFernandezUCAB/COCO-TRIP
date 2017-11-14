@@ -91,6 +91,7 @@ export class EventosCalendarioService {
   {
       for (let i= 0 ; i < this._itis.length; i++){
         if (this._itis[i].Visible == true){
+          console.log("entro");
           for (let j =0;  j< this._itis[i].Items_agenda.length; j++)
           {
             this._daysConfig.push({
@@ -124,6 +125,7 @@ export class EventosCalendarioService {
     this.http.loadItinerarios(id_usuario)
     .then(data => {
       this._itis = data;
+      return this._itis;
     });
   }
 

@@ -47,11 +47,11 @@ namespace ApiRest_COCO_TRIP.Models
                   Itinerario iti;
                   if (!pgread.IsDBNull(3) && (!pgread.IsDBNull(4)))
                   {
-                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), pgread.GetBoolean(7));
                   }
                   else
                   {
-                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), true);
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), pgread.GetBoolean(7));
                   }
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
@@ -64,13 +64,13 @@ namespace ApiRest_COCO_TRIP.Models
 
                     //Agregamos los eventos, actividades y lugares a la lista correspondiente
                     //Si existe lugar turistico en este registro
-                    if (!pgread.IsDBNull(7))
+                    if (!pgread.IsDBNull(8))
                     {
                         dynamic lugar = new System.Dynamic.ExpandoObject();
-                        lugar.Id = pgread.GetInt32(7);
-                        lugar.Nombre = pgread.GetString(8);
-                        lugar.Descripcion = pgread.GetString(9);
-                        lugar.Costo = pgread.GetDouble(10);
+                        lugar.Id = pgread.GetInt32(8);
+                        lugar.Nombre = pgread.GetString(9);
+                        lugar.Descripcion = pgread.GetString(10);
+                        lugar.Costo = pgread.GetDouble(11);
                         lugar.Tipo = "Lugar Turistico";
                         if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
                         {
@@ -80,14 +80,14 @@ namespace ApiRest_COCO_TRIP.Models
                         itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
                     }
                     //Si existe actividad en este registro
-                    if (!pgread.IsDBNull(11))
+                    if (!pgread.IsDBNull(12))
                     {
                       dynamic actividad = new System.Dynamic.ExpandoObject();
-                      actividad.Id = pgread.GetInt32(11);
-                      actividad.Nombre = pgread.GetString(12);
-                      actividad.Descripcion = pgread.GetString(13);
-                      actividad.Duracion = pgread.GetTimeSpan(14);
-                      actividad.Foto = pgread.GetString(15);
+                      actividad.Id = pgread.GetInt32(12);
+                      actividad.Nombre = pgread.GetString(13);
+                      actividad.Descripcion = pgread.GetString(14);
+                      actividad.Duracion = pgread.GetTimeSpan(15);
+                      actividad.Foto = pgread.GetString(16);
                       actividad.Tipo = "Actividad";
                       if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
                       {
@@ -97,18 +97,18 @@ namespace ApiRest_COCO_TRIP.Models
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
                     //Si existe evento en este registro
-                    if (!pgread.IsDBNull(16))
+                    if (!pgread.IsDBNull(17))
                     {
                       dynamic evento = new System.Dynamic.ExpandoObject();
-                      evento.Id = pgread.GetInt32(16);
-                      evento.Nombre = pgread.GetString(17);
-                      evento.Descripcion = pgread.GetString(18);
-                      evento.Precio = pgread.GetInt32(19);
-                      evento.FechaInicio = pgread.GetDateTime(20);
-                      evento.FechaFin = pgread.GetDateTime(21);
-                      evento.HoraInicio = pgread.GetTimeSpan(22);
-                      evento.HoraFin = pgread.GetTimeSpan(23);
-                      evento.Foto = pgread.GetString(24);
+                      evento.Id = pgread.GetInt32(17);
+                      evento.Nombre = pgread.GetString(18);
+                      evento.Descripcion = pgread.GetString(19);
+                      evento.Precio = pgread.GetInt32(20);
+                      evento.FechaInicio = pgread.GetDateTime(21);
+                      evento.FechaFin = pgread.GetDateTime(22);
+                      evento.HoraInicio = pgread.GetTimeSpan(23);
+                      evento.HoraFin = pgread.GetTimeSpan(24);
+                      evento.Foto = pgread.GetString(25);
                       evento.Tipo = "Evento";
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(evento);
                     }
