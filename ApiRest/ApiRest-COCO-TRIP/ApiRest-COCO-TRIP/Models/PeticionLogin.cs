@@ -331,7 +331,30 @@ namespace ApiRest_COCO_TRIP.Models
       }
     }
 
+    public void EliminarUsuario(int id) {
 
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "EliminarUsuario";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
+        conexion.Comando.ExecuteNonQuery();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
+      }
+    }
 
 
     public int ConsultarUsuarioSoloNombre(Usuario usuario)

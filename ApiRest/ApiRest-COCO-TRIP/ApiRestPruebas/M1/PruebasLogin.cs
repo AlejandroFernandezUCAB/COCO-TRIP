@@ -24,6 +24,8 @@ namespace ApiRestPruebas.M1
     private PeticionLogin peticion = new PeticionLogin();
     private M1_LoginController controlador = new M1_LoginController();
     private DateTime fechaPrueba;
+    private int global;
+    private int globalf;
     private LugarTuristicoPreferencia lugarTuristico1;
     private LugarTuristicoPreferencia lugarTuristico2;
     private LugarTuristicoPreferencia lugarTuristico3;
@@ -31,7 +33,7 @@ namespace ApiRestPruebas.M1
     private LugarTuristicoPreferencia lugarTuristico5;
 
     [SetUp]
-    public void setUsuario()
+    public void SetPrueba()
     {
       usuario = new Usuario
       {
@@ -92,14 +94,22 @@ namespace ApiRestPruebas.M1
         NombreCategoria= "bar"
 
       };
+      globalf = peticion.InsertarUsuarioFacebook(usuariof);
+      global = peticion.InsertarUsuario(usuario);
+    }
+
+    [TearDown]
+    public void ResetPrueba() {
+
+      peticion.EliminarUsuario(global);
+      peticion.EliminarUsuario(globalf);
 
     }
-    //TERMINAR
     [Test]
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
     {
-      Assert.AreEqual(1, peticion.InsertarUsuarioFacebook(usuariof));
+      Assert.AreNotEqual(0, globalf);
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuarioFacebook(usuariof);
       });
@@ -113,7 +123,7 @@ namespace ApiRestPruebas.M1
     [Category("Insertar")]
     public void TestInsertarUsuario()
     {
-      Assert.AreEqual(3, peticion.InsertarUsuario(usuario));
+      Assert.AreNotEqual(0, global);
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuario(usuario);
       });
@@ -137,8 +147,8 @@ namespace ApiRestPruebas.M1
       });
 
       Assert.Throws<InvalidCastException>(() => {
-        usuariof.Correo = null;
-        peticion.ValidarUsuario(usuariof);
+        usuariof.Genero = null;
+        peticion.ActualizarUsuario(usuariof);
       });
     }
     [Test]
@@ -146,9 +156,9 @@ namespace ApiRestPruebas.M1
     public void TestActualizarValidacionUsuario()
     {
       Assert.DoesNotThrow(() => {
-        usuario.Id = 3;
+        usuario.Id = global;
         peticion.ValidarUsuario(usuario);
-        usuariof.Id = 1;
+        usuariof.Id = globalf;
         peticion.ValidarUsuario(usuariof);
       });
 
@@ -163,10 +173,11 @@ namespace ApiRestPruebas.M1
     [Category("Consultar")]
     public void TestConsultarUsuarioFacebook()
     {
-      Assert.AreEqual(3, peticion.ConsultarUsuarioSocial(usuario));
+      
+      Assert.AreEqual(global, peticion.ConsultarUsuarioSocial(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuario));
-      Assert.AreEqual(1, peticion.ConsultarUsuarioSocial(usuariof));
+      Assert.AreEqual(globalf, peticion.ConsultarUsuarioSocial(usuariof));
       usuariof.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuariof));
 
@@ -181,12 +192,22 @@ namespace ApiRestPruebas.M1
     [Category("Consultar")]
     public void TestConsultarUsuarioCorreo()
     {
-      Assert.AreEqual(3, peticion.ConsultarUsuarioCorreo(usuario));
+      usuariof.FechaNacimiento = DateTime.Now;
+      usuariof.Clave = "clavef";
+      usuariof.Genero = "M";
+      usuariof.NombreUsuario = "facebookuser";
+      peticion.ActualizarUsuario(usuariof);
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
+      usuariof.Id = globalf;
+      peticion.ValidarUsuario(usuariof);
+
+      Assert.AreEqual(global, peticion.ConsultarUsuarioCorreo(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioCorreo(usuario));
 
       usuariof.Clave = "clavef";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioCorreo(usuariof));
+      Assert.AreEqual(globalf, peticion.ConsultarUsuarioCorreo(usuariof));
       usuariof.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioCorreo(usuariof));
 
@@ -200,13 +221,23 @@ namespace ApiRestPruebas.M1
     [Category("Consultar")]
     public void TestConsultarUsuarioNombre()
     {
-      Assert.AreEqual(3, peticion.ConsultarUsuarioNombre(usuario));
+      usuariof.FechaNacimiento = DateTime.Now;
+      usuariof.Clave = "clavef";
+      usuariof.Genero = "M";
+      usuariof.NombreUsuario = "facebookuser";
+      peticion.ActualizarUsuario(usuariof);
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
+      usuariof.Id = globalf;
+      peticion.ValidarUsuario(usuariof);
+
+      Assert.AreEqual(global, peticion.ConsultarUsuarioNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioNombre(usuario));
 
       usuariof.Clave = "clavef";
       usuariof.NombreUsuario = "facebookuser";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioNombre(usuariof));
+      Assert.AreEqual(globalf, peticion.ConsultarUsuarioNombre(usuariof));
       usuariof.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioNombre(usuariof));
 
@@ -219,6 +250,17 @@ namespace ApiRestPruebas.M1
     [Test]
     [Category("Consultar")]
     public void TestRecuperarContrasena() {
+
+      usuariof.FechaNacimiento = DateTime.Now;
+      usuariof.Clave = "clavef";
+      usuariof.Genero = "M";
+      usuariof.NombreUsuario = "facebookuser";
+      peticion.ActualizarUsuario(usuariof);
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
+      usuariof.Id = globalf;
+      peticion.ValidarUsuario(usuariof);
+
       Assert.AreEqual("pruebaclave", peticion.RecuperarContrasena(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual("", peticion.RecuperarContrasena(usuario));
@@ -238,12 +280,22 @@ namespace ApiRestPruebas.M1
     [Category("Consultar")]
     public void TestConsultarUsuarioSoloNombre()
     {
-      Assert.AreEqual(3, peticion.ConsultarUsuarioSoloNombre(usuario));
+      usuariof.FechaNacimiento = DateTime.Now;
+      usuariof.Clave = "clavef";
+      usuariof.Genero = "M";
+      usuariof.NombreUsuario = "facebookuser";
+      peticion.ActualizarUsuario(usuariof);
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
+      usuariof.Id = globalf;
+      peticion.ValidarUsuario(usuariof);
+
+      Assert.AreEqual(global, peticion.ConsultarUsuarioSoloNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSoloNombre(usuario));
 
       usuariof.NombreUsuario = "facebookuser";
-      Assert.AreEqual(1, peticion.ConsultarUsuarioSoloNombre(usuariof));
+      Assert.AreEqual(globalf, peticion.ConsultarUsuarioSoloNombre(usuariof));
       usuariof.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSoloNombre(usuariof));
 
@@ -329,7 +381,7 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestValidarUsuario()
     {
-      usuario.Id = 1;
+      usuario.Id = global;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
     }
     //TERMINAR, FALTA PROBAR NpgsqlException
@@ -337,8 +389,10 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestIniciarSesionCorreo()
     {
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
 
-      Assert.AreEqual(3, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
@@ -355,8 +409,10 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestIniciarSesionUsuario()
     {
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
 
-      Assert.AreEqual(3, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
       usuario.NombreUsuario = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
@@ -372,7 +428,7 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestIniciarSesionSocial()
     {
-      Assert.AreEqual(3, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
 
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
@@ -384,6 +440,8 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestCorreoRecuperar()
     {
+      usuario.Id = global;
+      peticion.ValidarUsuario(usuario);
       Assert.AreEqual(HttpStatusCode.OK, controlador.CorreoRecuperar(JsonConvert.SerializeObject(usuario)));
       usuario.Correo = null;
       Assert.Throws<HttpResponseException>(() => {
