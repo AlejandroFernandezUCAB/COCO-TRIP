@@ -256,18 +256,17 @@
     <Content Include="Views\Lugares\Modify.cshtml" />
     <Content Include="Views\Lugares\LugarDetail.cshtml" />
     <Content Include="Views\M8_Localidad\Create.cshtml" />
-    <Content Include="Views\Events\CreateEvent.cshtml" />
-    <Content Include="Views\Events\FilterEvent.cshtml" />
     <Content Include="Views\Locations\CreateLocationEvent.cshtml" />
     <Content Include="Views\Locations\ListLocationEvent.cshtml" />
     <Content Include="Views\M8_Localidad\Edit.cshtml" />
     <Content Include="Views\M8_Localidad\Index.cshtml" />
     <Content Include="Views\M8_Localidad\Select.cshtml" />
+    <Content Include="Views\M8Events\FilterEvent.cshtml" />
+    <Content Include="Views\M8Events\CreateEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Events\App_LocalResources\" />
-    <Folder Include="Views\M8Events\" />
+    <Folder Include="Views\M8Events\App_LocalResources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
