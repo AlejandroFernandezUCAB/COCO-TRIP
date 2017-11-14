@@ -11,13 +11,14 @@ using Newtonsoft.Json;
 using System.Web.Http;
 using System.Net;
 
-namespace ApiRestPruebas
+namespace ApiRestPruebas.M1
 {
   [TestFixture]
   public class PruebasLogin
   {
     private Usuario usuario;
     private Usuario usuariof;
+    private Usuario usuarioFace;
     private EventoPreferencia evento1;
     private EventoPreferencia evento2;
     private PeticionLogin peticion = new PeticionLogin();
@@ -28,7 +29,6 @@ namespace ApiRestPruebas
     private LugarTuristicoPreferencia lugarTuristico3;
     private LugarTuristicoPreferencia lugarTuristico4;
     private LugarTuristicoPreferencia lugarTuristico5;
-    private  int global;
 
     [SetUp]
     public void setUsuario()
@@ -40,7 +40,7 @@ namespace ApiRestPruebas
         Genero = "M",
         NombreUsuario = "pepo",
         FechaNacimiento = new DateTime(2017, 03, 09),
-        Correo = "hdms26@gmail.com",
+        Correo = "kilordpepo@gmail.com",
         Clave = "pruebaclave",
         Foto = ""
       };
@@ -50,7 +50,9 @@ namespace ApiRestPruebas
         Nombre = "pedro",
         Apellido = "garcia",
         Correo = "quinzzy26@gmail.com",
+        Foto = ""
       };
+
 
       evento1 = new EventoPreferencia
       {
@@ -97,13 +99,13 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
     {
-      Assert.AreEqual(20, peticion.InsertarUsuarioFacebook(usuario));
+      Assert.AreEqual(1, peticion.InsertarUsuarioFacebook(usuariof));
       Assert.Throws<PostgresException>(() => {
-        peticion.InsertarUsuarioFacebook(usuario);
+        peticion.InsertarUsuarioFacebook(usuariof);
       });
       Assert.Throws<InvalidCastException>(() => {
-        usuario.Nombre = null;
-        peticion.InsertarUsuarioFacebook(usuario);
+        usuariof.Nombre = null;
+        peticion.InsertarUsuarioFacebook(usuariof);
       });
 
     }
@@ -111,8 +113,7 @@ namespace ApiRestPruebas
     [Category("Insertar")]
     public void TestInsertarUsuario()
     {
-      global = peticion.InsertarUsuario(usuario);
-      Assert.AreEqual(global, global);
+      Assert.AreEqual(3, peticion.InsertarUsuario(usuario));
       Assert.Throws<PostgresException>(() => {
         peticion.InsertarUsuario(usuario);
       });
@@ -121,36 +122,23 @@ namespace ApiRestPruebas
         peticion.InsertarUsuario(usuario);
       });
     }
-    //TERMINAR
-    [Test]
-    [Category("Consultar")]
-    public void TestConsultarUsuarioFacebook()
-    {
-      usuario.Apellido = null;
-      usuario.Nombre = null;
-      usuario.FechaNacimiento = DateTime.Now;
-      Assert.AreEqual(1, peticion.ConsultarUsuarioSocial(usuario));
-      usuario.Correo = "cualquierotro@gmail.com";
-      Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuario));
-
-      usuario.Correo = null;
-      Assert.Throws<InvalidCastException>(() => {
-        peticion.ConsultarUsuarioSocial(usuario);
-      });
-    }
 
     // TERMINAR, FALTA VER COMO SABER QUE DIO ERROR TRATANDO DE VALIDAR AL USUARIO
     [Test]
     [Category("Actualizar")]
-    public void TestRegistrarUsuarioFacebook()
+    public void TestActualizarUsuario()
     {
+      usuariof.FechaNacimiento = DateTime.Now;
+      usuariof.Clave = "clavef";
+      usuariof.Genero = "M";
+      usuariof.NombreUsuario = "facebookuser";
       Assert.DoesNotThrow(() => {
-        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+        peticion.ActualizarUsuario(usuariof);
       });
 
       Assert.Throws<InvalidCastException>(() => {
-        usuario.Correo = null;
-        peticion.ValidarUsuario(usuario);
+        usuariof.Correo = null;
+        peticion.ValidarUsuario(usuariof);
       });
     }
     [Test]
@@ -158,8 +146,10 @@ namespace ApiRestPruebas
     public void TestActualizarValidacionUsuario()
     {
       Assert.DoesNotThrow(() => {
-        usuario.Id = peticion.ConsultarUsuarioSocial(usuario);
+        usuario.Id = 3;
         peticion.ValidarUsuario(usuario);
+        usuariof.Id = 1;
+        peticion.ValidarUsuario(usuariof);
       });
 
       Assert.Throws<InvalidCastException>(() => {
@@ -168,14 +158,38 @@ namespace ApiRestPruebas
       });
     }
 
+    //TERMINAR
+    [Test]
+    [Category("Consultar")]
+    public void TestConsultarUsuarioFacebook()
+    {
+      Assert.AreEqual(3, peticion.ConsultarUsuarioSocial(usuario));
+      usuario.Correo = "cualquierotro@gmail.com";
+      Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuario));
+      Assert.AreEqual(1, peticion.ConsultarUsuarioSocial(usuariof));
+      usuariof.Correo = "cualquierotro@gmail.com";
+      Assert.AreEqual(0, peticion.ConsultarUsuarioSocial(usuariof));
+
+      usuario.Correo = null;
+      Assert.Throws<InvalidCastException>(() => {
+        peticion.ConsultarUsuarioSocial(usuario);
+      });
+    }
+
+  
     [Test]
     [Category("Consultar")]
     public void TestConsultarUsuarioCorreo()
     {
-      usuario.Clave = "";
-      Assert.AreEqual(global, peticion.ConsultarUsuarioCorreo(usuario));
+      Assert.AreEqual(3, peticion.ConsultarUsuarioCorreo(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual(0, peticion.ConsultarUsuarioCorreo(usuario));
+
+      usuariof.Clave = "clavef";
+      Assert.AreEqual(1, peticion.ConsultarUsuarioCorreo(usuariof));
+      usuariof.Correo = "cualquierotro@gmail.com";
+      Assert.AreEqual(0, peticion.ConsultarUsuarioCorreo(usuariof));
+
       usuario.Correo = null;
       Assert.Throws<InvalidCastException>(() => {
         peticion.ConsultarUsuarioCorreo(usuario);
@@ -186,10 +200,16 @@ namespace ApiRestPruebas
     [Category("Consultar")]
     public void TestConsultarUsuarioNombre()
     {
-      usuario.Clave = "";
-      Assert.AreEqual(global, peticion.ConsultarUsuarioNombre(usuario));
+      Assert.AreEqual(3, peticion.ConsultarUsuarioNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioNombre(usuario));
+
+      usuariof.Clave = "clavef";
+      usuariof.NombreUsuario = "facebookuser";
+      Assert.AreEqual(1, peticion.ConsultarUsuarioNombre(usuariof));
+      usuariof.NombreUsuario = "cualquierotro";
+      Assert.AreEqual(0, peticion.ConsultarUsuarioNombre(usuariof));
+
       usuario.NombreUsuario = null;
       Assert.Throws<InvalidCastException>(() => {
         peticion.ConsultarUsuarioNombre(usuario);
@@ -202,6 +222,11 @@ namespace ApiRestPruebas
       Assert.AreEqual("pruebaclave", peticion.RecuperarContrasena(usuario));
       usuario.Correo = "cualquierotro@gmail.com";
       Assert.AreEqual("", peticion.RecuperarContrasena(usuario));
+
+      Assert.AreEqual("clavef", peticion.RecuperarContrasena(usuariof));
+      usuariof.Correo = "cualquierotro@gmail.com";
+      Assert.AreEqual("", peticion.RecuperarContrasena(usuariof));
+
       usuario.Correo = null;
       Assert.Throws<InvalidCastException>(() => {
         peticion.RecuperarContrasena(usuario);
@@ -213,92 +238,26 @@ namespace ApiRestPruebas
     [Category("Consultar")]
     public void TestConsultarUsuarioSoloNombre()
     {
-      Assert.AreEqual(global, peticion.ConsultarUsuarioSoloNombre(usuario));
+      Assert.AreEqual(3, peticion.ConsultarUsuarioSoloNombre(usuario));
       usuario.NombreUsuario = "cualquierotro";
       Assert.AreEqual(0, peticion.ConsultarUsuarioSoloNombre(usuario));
+
+      usuariof.NombreUsuario = "facebookuser";
+      Assert.AreEqual(1, peticion.ConsultarUsuarioSoloNombre(usuariof));
+      usuariof.NombreUsuario = "cualquierotro";
+      Assert.AreEqual(0, peticion.ConsultarUsuarioSoloNombre(usuariof));
+
       usuario.NombreUsuario = null;
       Assert.Throws<InvalidCastException>(() => {
         peticion.ConsultarUsuarioSoloNombre(usuario);
       });
-    }
-    //TERMINAR, FALTA PROBAR NpgsqlException
-    [Test]
-    [Category("Controlador")]
-    public void TestIniciarSesionCorreo()
-    {
-
-      Assert.AreEqual(global, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
-      usuario.Correo = null;
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
-      });
-      usuario.Correo = "kilordpepo@gmail.com";
-      usuario.Clave = null;
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
-      });
-    }
-
-    [Test]
-    [Category("Controlador")]
-    public void TestIniciarSesionUsuario()
-    {
-
-      Assert.AreEqual(global, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
-      usuario.NombreUsuario = null;
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
-      });
-      usuario.NombreUsuario = "pepo";
-      usuario.Clave = null;
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
-      });
-    }
-
-    [Test]
-    [Category("Controlador")]
-    public void TestIniciarSesionSocial()
-    {
-      Assert.AreEqual(global, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
-
-      usuario.Correo = null;
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
-      });
-
-    }
-    [Test]
-    [Category("Controlador")]
-    public void TestCorreoRecuperar()
-    {
-      Assert.AreEqual(HttpStatusCode.OK, controlador.CorreoRecuperar(JsonConvert.SerializeObject(usuario)));
-      usuario.Correo = null;
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
-      });
-
-    }
-    //CORRER SOLO CUANDO NO TIENES CONEXION
-    [Test]
-    [Category("Controlador")]
-    public void TestCorreoRecuperarSinConexion()
-    {
-      Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
-      });
-
-      /*Assert.Throws<HttpResponseException>(() => {
-        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
-      });
-      */
     }
 
     [Test]
     [Category("Controlador")]
     public void TestRegistrarUsuario()
     {
-      
+
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       Assert.AreEqual(-4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
@@ -313,16 +272,16 @@ namespace ApiRestPruebas
 
       usuario.Correo = "hdms26@gmail.com";
       controlador.ValidarUsuario(usuario.Correo, 1);
-    
+
       usuario.NombreUsuario = "homero";
       Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       usuario.Correo = "homero_dms@hotmail.com";
       usuario.NombreUsuario = "pepo";
       Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
-      
-      usuario.Correo =null;
-      Assert.Throws< HttpResponseException>(() => {
+
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
         controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
       });
       usuario.Correo = "hdms@gmail.com";
@@ -339,7 +298,7 @@ namespace ApiRestPruebas
       });
       usuario.Nombre = "Carlos";
 
-      usuario.Apellido =null;
+      usuario.Apellido = null;
       Assert.Throws<HttpResponseException>(() => {
         controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
       });
@@ -373,6 +332,83 @@ namespace ApiRestPruebas
       usuario.Id = 1;
       Assert.AreEqual("Usuario validado", controlador.ValidarUsuario(usuario.Correo, usuario.Id));
     }
+    //TERMINAR, FALTA PROBAR NpgsqlException
+    [Test]
+    [Category("Controlador")]
+    public void TestIniciarSesionCorreo()
+    {
+
+      Assert.AreEqual(3, controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario)));
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
+        controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuariof));
+      });
+      usuario.Correo = "kilordpepo@gmail.com";
+      usuario.Clave = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionCorreo(JsonConvert.SerializeObject(usuario));
+      });
+    }
+
+    [Test]
+    [Category("Controlador")]
+    public void TestIniciarSesionUsuario()
+    {
+
+      Assert.AreEqual(3, controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario)));
+      usuario.NombreUsuario = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
+      });
+      usuario.NombreUsuario = "pepo";
+      usuario.Clave = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionUsuario(JsonConvert.SerializeObject(usuario));
+      });
+    }
+
+    [Test]
+    [Category("Controlador")]
+    public void TestIniciarSesionSocial()
+    {
+      Assert.AreEqual(3, controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario)));
+
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+
+    }
+    [Test]
+    [Category("Controlador")]
+    public void TestCorreoRecuperar()
+    {
+      Assert.AreEqual(HttpStatusCode.OK, controlador.CorreoRecuperar(JsonConvert.SerializeObject(usuario)));
+      usuario.Correo = null;
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+
+    }
+    //CORRER SOLO CUANDO NO TIENES CONEXION
+    [Test]
+    [Category("Controlador")]
+    public void TestCorreoRecuperarSinConexion()
+    {
+      Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+
+      /*Assert.Throws<HttpResponseException>(() => {
+        controlador.IniciarSesionSocial(JsonConvert.SerializeObject(usuario));
+      });
+      */
+    }
+
+    
+
+  
     /// <summary>
     /// Prueba de caso exitoso en ConsultarEventosSegunPreferencias
     /// que se encuentra en el modelo  PeticionLogin.cs
