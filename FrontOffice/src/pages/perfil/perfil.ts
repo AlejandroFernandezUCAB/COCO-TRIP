@@ -40,6 +40,12 @@ export class PerfilPage {
   };
   idUsuario = 0;
 
+  //parametros para la pagina de configuracion
+  configParams: any = {
+    idUsuario: 0,
+    NombreUsuario: 'default'
+  };
+
   constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage, private translateService: TranslateService) {
   
   }
@@ -56,24 +62,28 @@ export class PerfilPage {
   // ademas obtiene el lenguaje previamente seleccionado de la memoria del
   // dispositivo
   cargarUsuario(){
-    //obtenemos el id ya almacenado desde el login
+    // obtenemos el id ya almacenado desde el login
     this.storage.get('id').then((val) => { 
 
       this.idUsuario = val;
-      //hacemos la llamada al apirest con el id obtenido
+      // hacemos la llamada al apirest con el id obtenido
       this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
         if(data != 0)
         {  
           this.usuario = data;
           this.usuario.id = this.idUsuario; 
 
-              //cargamos el idioma
+              // cargamos el idioma
               this.storage.get(this.usuario.id.toString()).then((val) => {
                 //verificamos que posee configuracion previa de idioma
                 if(val != null || val != undefined){
                   this.translateService.use(val);
                 }
               });
+
+              // cargamos los datos para la vista de configuracion
+              this.configParams.idUsuario = this.idUsuario;
+              this.configParams.NombreUsuario = this.usuario.NombreUsuario;
         }
       });
 
