@@ -12,6 +12,7 @@ import { LoginPage } from '../login/login';
   templateUrl: 'home.html'
 })
 export class HomePage {
+_itis : any;
 lts : any;
 eve: any;
 idUser: any;
@@ -19,7 +20,7 @@ idUser: any;
 
   constructor(public navCtrl: NavController,private storage: Storage,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider) {
     //console.log(this.its2);
- //   this.IniciarNotificaciones();
+    this.IniciarNotificaciones();
     this.menu.enable(true);
     this.eveSegunPreferencia();
     this.ltSegunPreferencia();
@@ -86,11 +87,49 @@ idUser: any;
 
    } 
 
-    /* IniciarNotificaciones() {
-    this.http.NotificacionUsuario(1)
-    .then(data => {
-      this._itis = data;
-      console.log(this._itis);
-    });
-  }*/
+    IniciarNotificaciones() {
+      console.log("Llego al metodo");
+      this.storage.get('id').then(idUser=>{      
+        this.idUser=idUser;
+        
+        if(this.idUser){
+          this.http.agregarNotificacion(this.idUser).then(agre => {
+            if(agre == true){
+              this.http.getNotificacionesConfig(this.idUser).then(confic => {
+                
+                console.log("Llego al get notificaciones");
+                console.log(confic);
+                
+                if(confic == true){
+                  setInterval(() => {
+                    this.http.NotificacionUsuario(this.idUser).then(data => {
+                      this._itis = data;
+                      
+                      console.log(this._itis);
+                    });
+                  }, 10000);
+                  /*
+                  this.http.NotificacionUsuario(this.idUser).then(data => {
+                    this._itis = data;
+                    
+                    console.log(this._itis);
+                  });            
+                  */
+                }
+                else{
+                  console.log("No desea recibir notificaciones.");
+                }
+              });
+            }
+            else{
+              console.log("Algo ocurrio agregando.");
+            }
+          });          
+        }
+        else{
+          console.log('error al recibir el id del storage');
+        }
+      });  
+  }
+
 }
