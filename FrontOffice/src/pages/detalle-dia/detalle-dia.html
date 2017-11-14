@@ -21,6 +21,8 @@
     <ion-item *ngFor="let item of items_agendaa">
       <p><strong>{{item.Nombre}}</strong></p>
       <!-- <p>Comienza: {{evento.horaInicio}} | Termina: {{evento.horaFin}}</p> -->
+      <p style="padding-left:1pc">{{((item.HoraInicio !== '') ? (item.HoraInicio) : '' )}}  | {{((item.HoraFin !== '') ? (item.HoraFin) : '' )}}
+      <p>{{item.Tipo}}</p>
       <p>Itinerario: <em>{{item.itinerario}}</em></p>
     </ion-item>
   </ion-item-group>
