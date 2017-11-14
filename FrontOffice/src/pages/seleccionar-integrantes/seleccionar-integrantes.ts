@@ -5,6 +5,7 @@ import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 
 /**
  * Generated class for the SeleccionarIntegrantesPage page.
@@ -28,6 +29,8 @@ export class SeleccionarIntegrantesPage {
   loader: any;
   requerido: any;
   succesful: any;
+  lista:any;
+  numero:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public alerCtrl: AlertController,private storage: Storage,public loadingCtrl: LoadingController,
@@ -66,14 +69,18 @@ export class SeleccionarIntegrantesPage {
    
             }
             else {
-              //this.amigo = data;
+              this.restapiService.obtenerultimoGrupo()
+              .then(data => {
+              this.lista = data;
+              this.navCtrl.push(CrearGrupoPage,{
+                idGrupo: this.lista
+              });
               this.loading.dismiss();
-              this.navCtrl.pop();
               this.realizarToast(this.succesful);
   
             }
     
-          });
+       )}});
         });
       }
      }

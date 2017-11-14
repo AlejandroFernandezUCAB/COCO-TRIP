@@ -817,6 +817,33 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
+    [HttpGet]
+    public int ConsultarultimoGrupo()
+    {
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.ObtenerultimoGrupo();
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+    }
+
+
 
   }
 

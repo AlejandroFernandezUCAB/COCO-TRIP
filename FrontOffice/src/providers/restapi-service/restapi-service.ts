@@ -604,5 +604,24 @@ obtenerSinLider(idGrupo)
   });
 }
 
+/**
+ * [MODULO 3]
+ * Metodo que obtiene la lista de integrantes, sin el integrante lider
+ * @param idGrupo 
+ */
+obtenerultimoGrupo() 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarultimoGrupo',"")
+      .map(res => res.json())
+      .subscribe(data => {
+        this.data = data;
+        resolve(this.data);
+      },error=>{
+        console.log("Ocurrio un error");
+      });
+  });
+}
+
 
 }
