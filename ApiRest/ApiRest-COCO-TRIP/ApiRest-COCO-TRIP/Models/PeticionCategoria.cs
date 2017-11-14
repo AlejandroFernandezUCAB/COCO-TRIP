@@ -300,7 +300,7 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
 
         exitoso = conexion.Comando.ExecuteNonQuery();
-
+        
 
       }
       catch (NpgsqlException ex)
@@ -319,6 +319,39 @@ namespace ApiRest_COCO_TRIP
         conexion.Desconectar();
 
       }
+    }
+
+
+    public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_ObtenerCategoriaPorId";/* aqui va el stored procedure */
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();
+        
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
+
     }
 
 
