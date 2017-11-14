@@ -203,7 +203,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="idUsuario">Id del usuario</param>
     /// <param name="preferencia"> String de preferencia del usuario</param>
-    /// <returns></returns>
+    /// <returns>Lista de categorias que hacen match con preferencia</returns>
     [HttpPost]
     public List<Categoria> BuscarCategorias( int idUsuario, string preferencia)
     {
