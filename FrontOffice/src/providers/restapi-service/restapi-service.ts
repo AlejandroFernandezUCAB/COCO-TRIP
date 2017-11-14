@@ -218,6 +218,14 @@ export class RestapiService {
     });
    }
 
+   /**
+     * [Modulo 2]
+     * Metodo para cambiar la contraseña del usuario
+     * @param username user del usuario
+     * @param passActual contraseña actual (a cambiar)
+     * @param passNueva contraseña nueva 
+     */
+
    cambiarPass(username, passActual, passNueva){
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + username
@@ -235,6 +243,13 @@ export class RestapiService {
       });
     });
    }
+
+   /**
+     * [Modulo 2]
+     * Metodo para borrar al usuario
+     * @param username user del usuario
+     * @param passAct contraseña del usuario 
+     */
 
    borrarUser(username, passwordAct){
     return new Promise( resolve => {

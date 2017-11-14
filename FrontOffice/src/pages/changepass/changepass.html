@@ -12,7 +12,8 @@
 
 </ion-header>
 
-
+<!-- Este formulario se usará para cambiar la contraseña, una vez se le de al boton "Guardar Contraseña"
+      este procederá a cambiarlo. Cada campo del formulario posee validaciones.-->
 <ion-content padding>
 
   <form [formGroup]="myForm" (ngSubmit)="saveData()" novalidate>
@@ -21,6 +22,7 @@
             <ion-label floating>{{ 'Contraseña actual' | translate }}</ion-label>
             <ion-input type="password" formControlName="contraActual" clearInput="true"></ion-input>
         </ion-item>
+        <!-- Validación -->
         <ion-item *ngIf="myForm.get('contraActual').errors && myForm.get('contraActual').dirty">
           <p color="danger" ion-text *ngIf="myForm.get('contraActual').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
         </ion-item>
@@ -30,18 +32,20 @@
             <ion-label floating>{{ 'Nueva contraseña' | translate }}</ion-label>
             <ion-input type="password" formControlName="newpass" clearInput="true"></ion-input>
         </ion-item>
+        <!-- Validación -->
         <ion-item *ngIf="myForm.get('newpass').errors && myForm.get('newpass').dirty">
           <p color="danger" ion-text *ngIf="myForm.get('newpass').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
         </ion-item>
-
+<!--
         <ion-item>
             <ion-label floating>{{ 'Confirma contraseña' | translate }}</ion-label>
             <ion-input type="password" formControlName="confirmpass" clearInput="true"></ion-input>
         </ion-item>
+         Validación 
         <ion-item *ngIf="myForm.get('confirmpass').errors && myForm.get('confirmpass').dirty">
           <p color="danger" ion-text *ngIf="myForm.get('confirmpass').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
         </ion-item>
-
+-->
     </ion-list>
     <button ion-button type="submit" block>{{ 'Guardar Contraseña' | translate }}</button>
   </form>
