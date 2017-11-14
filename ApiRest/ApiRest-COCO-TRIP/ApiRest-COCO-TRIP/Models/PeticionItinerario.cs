@@ -47,11 +47,11 @@ namespace ApiRest_COCO_TRIP.Models
                   Itinerario iti;
                   if (!pgread.IsDBNull(3) && (!pgread.IsDBNull(4)))
                   {
-                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), true);
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetDateTime(3), pgread.GetDateTime(4), pgread.GetInt32(1), pgread.GetBoolean(7));
                   }
                   else
                   {
-                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), true);
+                    iti = new Itinerario(pgread.GetInt32(0), pgread.GetString(2), pgread.GetInt32(1), pgread.GetBoolean(7));
                   }
                     //Se revisa si el registro de itinerario en la base ya se encuentra en la lista de itinerarios del usuario
                     if (itinerarios.Count == 0) itinerarios.Add(iti);
@@ -64,13 +64,13 @@ namespace ApiRest_COCO_TRIP.Models
 
                     //Agregamos los eventos, actividades y lugares a la lista correspondiente
                     //Si existe lugar turistico en este registro
-                    if (!pgread.IsDBNull(7))
+                    if (!pgread.IsDBNull(8))
                     {
                         dynamic lugar = new System.Dynamic.ExpandoObject();
-                        lugar.Id = pgread.GetInt32(7);
-                        lugar.Nombre = pgread.GetString(8);
-                        lugar.Descripcion = pgread.GetString(9);
-                        lugar.Costo = pgread.GetDouble(10);
+                        lugar.Id = pgread.GetInt32(8);
+                        lugar.Nombre = pgread.GetString(9);
+                        lugar.Descripcion = pgread.GetString(10);
+                        lugar.Costo = pgread.GetDouble(11);
                         lugar.Tipo = "Lugar Turistico";
                         if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
                         {
@@ -80,14 +80,14 @@ namespace ApiRest_COCO_TRIP.Models
                         itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
                     }
                     //Si existe actividad en este registro
-                    if (!pgread.IsDBNull(11))
+                    if (!pgread.IsDBNull(12))
                     {
                       dynamic actividad = new System.Dynamic.ExpandoObject();
-                      actividad.Id = pgread.GetInt32(11);
-                      actividad.Nombre = pgread.GetString(12);
-                      actividad.Descripcion = pgread.GetString(13);
-                      actividad.Duracion = pgread.GetTimeSpan(14);
-                      actividad.Foto = pgread.GetString(15);
+                      actividad.Id = pgread.GetInt32(12);
+                      actividad.Nombre = pgread.GetString(13);
+                      actividad.Descripcion = pgread.GetString(14);
+                      actividad.Duracion = pgread.GetTimeSpan(15);
+                      actividad.Foto = pgread.GetString(16);
                       actividad.Tipo = "Actividad";
                       if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
                       {
@@ -97,18 +97,18 @@ namespace ApiRest_COCO_TRIP.Models
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
                     }
                     //Si existe evento en este registro
-                    if (!pgread.IsDBNull(16))
+                    if (!pgread.IsDBNull(17))
                     {
                       dynamic evento = new System.Dynamic.ExpandoObject();
-                      evento.Id = pgread.GetInt32(16);
-                      evento.Nombre = pgread.GetString(17);
-                      evento.Descripcion = pgread.GetString(18);
-                      evento.Precio = pgread.GetInt32(19);
-                      evento.FechaInicio = pgread.GetDateTime(20);
-                      evento.FechaFin = pgread.GetDateTime(21);
-                      evento.HoraInicio = pgread.GetTimeSpan(22);
-                      evento.HoraFin = pgread.GetTimeSpan(23);
-                      evento.Foto = pgread.GetString(24);
+                      evento.Id = pgread.GetInt32(17);
+                      evento.Nombre = pgread.GetString(18);
+                      evento.Descripcion = pgread.GetString(19);
+                      evento.Precio = pgread.GetInt32(20);
+                      evento.FechaInicio = pgread.GetDateTime(21);
+                      evento.FechaFin = pgread.GetDateTime(22);
+                      evento.HoraInicio = pgread.GetTimeSpan(23);
+                      evento.HoraFin = pgread.GetTimeSpan(24);
+                      evento.Foto = pgread.GetString(25);
                       evento.Tipo = "Evento";
                       itinerarios[itinerarios.Count - 1].Items_agenda.Add(evento);
                     }
@@ -377,6 +377,7 @@ namespace ApiRest_COCO_TRIP.Models
         while (pgread.Read())
         {
           Evento evento = new Evento(pgread.GetInt32(0), pgread.GetString(1));
+          evento.Foto = pgread.GetString(2);
           list_eventos.Add(evento);
         }
 
@@ -431,35 +432,37 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="busqueda">Palabra cuya similitud se busca en el nombre de la actividad que se esta buscando.</param>
     /// <returns>Retorna una lista con las actividades que tengan coincidencia.</returns>
     public List<Actividad> ConsultarActividades(string busqueda)
+    {
+      List<Actividad> list_actividades = new List<Actividad>();
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultar_actividades", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
+        pgread = comm.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        while (pgread.Read())
         {
-          List<Actividad> list_actividades = new List<Actividad>();
-          try
-          {
-            con = new ConexionBase();
-            con.Conectar();
-            comm = new NpgsqlCommand("consultar_actividades", con.SqlConexion);
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, busqueda);
-            pgread = comm.ExecuteReader();
+          Actividad actividad = new Actividad();
+          actividad.Id = pgread.GetInt32(0);
+          actividad.Nombre = pgread.GetString(1);
+          //actividad.Foto = pgread.GetString(2);
 
-            //Se recorre los registros devueltos.
-            while (pgread.Read())
-            {
-              Actividad actividad = new Actividad();
-              actividad.Id = pgread.GetInt32(0);
-              actividad.Nombre = pgread.GetString(1);
 
-              list_actividades.Add(actividad);
-            }
-
-            con.Desconectar();
-            return list_actividades;
-          }
-          catch (NpgsqlException e)
-          {
-            throw e;
-          }
+          list_actividades.Add(actividad);
         }
+
+        con.Desconectar();
+        return list_actividades;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
 
     /// <summary>
     /// Clase provisional para buscar usuario.
@@ -666,5 +669,135 @@ namespace ApiRest_COCO_TRIP.Models
       return "Exitoso";
     }
 
+    //----------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Metodo que agrega en la base de datos si el usuario desea recibir notificaciones por correo
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario a que se le agregara el registro</param>
+    /// <returns>true si agrega existosamente, false en caso de error</>
+    public bool AgregarNotificacion(int id_usuario)
+    {
+      bool rs;
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("agregar_notificacion", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        pgread = comm.ExecuteReader();
+        pgread.Read();
+        rs = pgread.GetBoolean(0);
+        con.Desconectar();
+        return rs;
+      }
+      catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (NullReferenceException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que elimina el registro de la base de datos que determina si el usuario quiere notificaciones por correo
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea eliminar el registro</param>
+    /// <returns>true si elimina existosamente, false en caso de error</returns>
+    public Boolean EliminarNotificacion(int id_usuario)
+    {
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("eliminar_notificacion", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        pgread = comm.ExecuteReader();
+        pgread.Read();
+        Boolean resp = pgread.GetBoolean(0);
+        con.Desconectar();
+        return resp;
+      }
+      catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+
+    }
+
+    /// <summary>
+    /// Metodo que modifica si el registro de notificaciones por correo  de la base de datos
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea modificar las notificaciones</param>
+    /// <param name="correo">Variable que determina si se desea recibir o no, notificaciones por correo</param>
+    /// <returns>True si modifica existosamente, false en caso de error</returns>
+    public bool ModificarNotificacion(int id_usuario, bool correo)
+    {
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("modificar_notificacion", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, correo);
+        //La siguiente linea determina si se desea recibir notificaciones push, en caso de implementarlo.
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, true);
+        pgread = comm.ExecuteReader();
+        con.Desconectar();
+        return true;
+      }
+      catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Consulta si se desea recibir notificaciones por correo.
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea verificar si desea notificaciones por correo..</param>
+    /// <returns>Retorna True en caso que se desee notificaciones y False en caso contrario</returns>
+    public bool ConsultarNotificacion(int id_usuario)
+    {      
+      try
+      {
+        con = new ConexionBase();
+        con.Conectar();
+        comm = new NpgsqlCommand("consultar_notificaciones", con.SqlConexion);
+        comm.CommandType = CommandType.StoredProcedure;
+        comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
+        pgread = comm.ExecuteReader();
+
+        pgread.Read();
+        bool rs = pgread.GetBoolean(0);
+        
+        con.Desconectar();
+        return rs;
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+    }
+    //---------------------------------------------------------------------------------------------------
   }
 }

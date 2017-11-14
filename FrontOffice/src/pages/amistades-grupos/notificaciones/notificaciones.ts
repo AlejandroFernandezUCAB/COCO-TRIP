@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController , ToastController} from 'ionic-angular';
-
+import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 
@@ -11,10 +11,12 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 export class NotificacionesPage {
   
   toast: any;
+  mensajeToast: any;
 
   notificaciones : any;
   constructor(public navCtrl: NavController, public restapiService: RestapiService,  
-              private storage: Storage, public toastCtrl: ToastController) {
+              private storage: Storage, public toastCtrl: ToastController,
+              private translateService: TranslateService) {
    
   }
 //comentario
@@ -42,7 +44,6 @@ ionViewWillEnter() {
       }
       else {
         this.notificaciones = data;
-        
         //this.loading.dismiss();
       }
     });
@@ -59,13 +60,23 @@ aceptarAmigo(nombreUsuarioAceptado,index){
       }
       else {
         if(data == 1){
-            
-          this.realizarToast('Amigo Acepatado');
+          this.translateService.get('Mensaje agregar').subscribe(
+            value => {
+              // value is our translated string
+               this.mensajeToast = value;
+            }
+          )
+          this.realizarToast(this.mensajeToast);
           
           this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
         }else {
-          
-        this.realizarToast('Algo ha salido mal');
+          this.translateService.get('Algo ha salido mal').subscribe(
+            value => {
+              // value is our translated string
+               this.mensajeToast = value;
+            }
+          )
+          this.realizarToast('Algo ha salido mal');
         }
         
         //this.notificaciones = data;
@@ -86,13 +97,22 @@ rechazarAmigo(nombreUsuarioRechazado, index){
       else {
         
         if(data == 1){
-            
-          this.realizarToast('Peticion eliminada');
-          
+          this.translateService.get('Peticion eliminada').subscribe(
+            value => {
+              // value is our translated string
+               this.mensajeToast = value;
+            }
+          )
+          this.realizarToast(this.mensajeToast);
           this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
         }else {
-          
-        this.realizarToast('Algo ha salido mal');
+          this.translateService.get('Algo ha salido mal').subscribe(
+            value => {
+              // value is our translated string
+               this.mensajeToast = value;
+            }
+          )
+          this.realizarToast('Algo ha salido mal');
         }
       }
     });

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AmigosPage } from '../amistades-grupos/amigos/amigos';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { NotificacionesPage } from '../amistades-grupos/notificaciones/notificaciones';
-
+import { TranslateModule } from '@ngx-translate/core';
 /**
  * Generated class for the AmistadesGruposPage page.
  *

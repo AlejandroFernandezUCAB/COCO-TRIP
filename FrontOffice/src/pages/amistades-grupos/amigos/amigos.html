@@ -4,7 +4,7 @@
             <ion-icon name="menu"></ion-icon>
           </button>
       <ion-title>
-        Mis Amigos
+        {{ 'Mis Amigos' | translate }} 
       </ion-title>
     </ion-navbar>
   </ion-header>
@@ -25,7 +25,7 @@
       <ion-icon name="remove" style="width:100%" color="danger">
       </ion-icon>
       <p style="color: red; font-size: smaller;">
-        Eliminar Amigo</p>
+        {{ 'Eliminar Amigo' | translate }}</p>
       </button>
       <button ion-button small icon-only clear *ngIf="detail" 
       style="width:auto; display: flex; margin-top: 0px;" 
@@ -33,7 +33,7 @@
       <ion-icon name="remove" style="width:100%" color="blue">
       </ion-icon>
       <p style="color: blue; font-size: smaller;">
-        Ver Perfil</p>
+        {{ 'Ver Perfil' | translate }}</p>
       </button>
       </ion-item>
     </ion-list>

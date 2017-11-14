@@ -37,7 +37,7 @@
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
               <select class="form-control" id="category">
-                <option>Elige una estado</option>
+                <option selected disabled>Elige una estado</option>
                 <option selected="true">Activo</option>
                 <option>Inactivo</option>
               </select>
@@ -70,7 +70,7 @@
                         <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
                           <select class="form-control" id="categoria">
-                            <option>Elige una categor&iacute;a</option>
+                            <option selected disabled>Elige una categor&iacute;a</option>
                             <option>Zool&oacute;gico</option>
                             <option>Parque tem&aacute;tico</option>
                             <option>Parque infantil</option>
@@ -85,7 +85,7 @@
                         <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
                           <select class="form-control" id="subcategoria">
-                            <option>Elige una sub-categor&iacute;a</option>
+                            <option selected disabled>Elige una sub-categor&iacute;a</option>
                             <option>Para mayores de 18 a&ntilde;os</option>
                             <option>Para todas las edades</option>
                             <option>Edad 5+</option>
@@ -151,7 +151,7 @@
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
                         <select class="form-control" id="dia">
-                          <option selected="true">Elige d&iacute;a</option>
+                          <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
                           <option>Miercoles</option>
@@ -399,16 +399,25 @@
           </div>
         </div>
 
-        <div class="row">
-          <label for="coords" class="col-sm-2 control-label">Coordenadas(GD)</label>
-          <input type="text" id="coords" />
+        <div class="row form-group">
+          <div class="col-md-5">
+            <label for="latitud" class="col-sm-2 control-label label-latitud">Latitud(GD)</label>
+            <input type="text" id="latitud" />
+          </div>
+          <div class="col-md-5">
+            <label for="longitud" class="col-sm-2 control-label label-longitud">Longitud(GD)</label>
+            <div class="col-sm-9">
+              <input type="text" id="longitud" />
+            </div>
+          </div>
 
           <div id="map" class="text-center"></div>
+
         </div>
 
         <div class="form-group">
           <div class="col-sm-12" align="center">
-            <a href="index.html">
+            <a href="@Url.Action("ViewAll", "Lugares")">
               <button class="btn btn-lugar-turistico-add">Guardar Cambios</button>
             </a>
           </div>
