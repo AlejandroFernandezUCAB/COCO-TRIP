@@ -390,7 +390,7 @@ namespace ApiRest_COCO_TRIP.Models
 
         while (pgread.Read())
         {
-
+          categoria = new Categoria();
           categoria.Id = pgread.GetInt32(0);
           categoria.Nombre = pgread.GetString(1);
           usuario.AgregarPreferencia(categoria);

@@ -14,6 +14,9 @@ export class PreferenciasPage {
   preferenciasEnLista: any; //Aquí se guardarán los items de preferencias.
   preferenciasEnBusqueda: any; //Aquí se irán guardando los que se traigan de la Base de datos.
   idUsuario: any;
+  stringBusqueda:any;
+  agregado:any;
+  borrado:any;
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
@@ -43,6 +46,8 @@ export class PreferenciasPage {
 
           this.preferenciasEnLista = data;
           console.log( this.preferenciasEnLista );
+          this.voidPreferenciasFiltrado();
+          
         }
 
       });
@@ -52,6 +57,7 @@ export class PreferenciasPage {
         closeButtonText: 'Ok'
       });
       toast.present();
+     
 
     } else {
 
@@ -66,6 +72,8 @@ export class PreferenciasPage {
 
           this.preferenciasEnLista = data;
           console.log( this.preferenciasEnLista );
+          this.inicializarListas();
+
         }
 
       });
@@ -107,6 +115,22 @@ export class PreferenciasPage {
       
     }
 
+    voidPreferenciasFiltrado()
+    {
+      
+      this.restapiService.buscarPreferenciasFiltrado( this.idUsuario , this.stringBusqueda)
+      .then(data => {
+
+        if(data != 0)
+        {
+
+          this.preferenciasEnBusqueda = data;
+          console.log(data);
+
+        }
+
+      });
+    }
 
     buscarFiltrado(ev: any) {
         //Este será el valor que uno escribe en el search bar
@@ -114,20 +138,9 @@ export class PreferenciasPage {
         if(val.lenght == 0){
           this.preferenciasEnBusqueda = null;
         }else{
-
-                this.restapiService.buscarPreferenciasFiltrado( this.idUsuario , val)
-                .then(data => {
-          
-                  if(data != 0)
-                  {
-          
-                    this.preferenciasEnBusqueda = data;
-                    console.log(data);
-          
-                  }
-          
-                });
-      }
+                this.stringBusqueda = val;
+                this.voidPreferenciasFiltrado();
+        }
       }
 
 
