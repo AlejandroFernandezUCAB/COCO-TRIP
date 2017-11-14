@@ -854,12 +854,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 /// </summary>
 /// <returns>Ultimo grupo agregado de un usuario</returns>
 [HttpGet]
-    public int ConsultarultimoGrupo()
+    public int ConsultarultimoGrupo(int idUsuario)
     {
       try
       {
         peticion = new PeticionAmigoGrupo();
-        return peticion.ObtenerultimoGrupo();
+        return peticion.ObtenerultimoGrupo(idUsuario);
       }
       catch (NpgsqlException)
       {

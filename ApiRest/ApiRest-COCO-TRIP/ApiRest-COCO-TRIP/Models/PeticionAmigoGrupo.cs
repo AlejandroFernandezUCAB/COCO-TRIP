@@ -1035,7 +1035,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodo para obtener el ultimo grupo agregado de un usuario
     /// </summary>
     /// <returns>Ultimo grupo agregado de un usuario</returns>
-public int ObtenerultimoGrupo()
+public int ObtenerultimoGrupo(int IdUsuario)
     {
 
       Grupo grupo = new Grupo();
@@ -1045,6 +1045,7 @@ public int ObtenerultimoGrupo()
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandText = "Consultarultimo";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, IdUsuario));
         leerDatos = conexion.Comando.ExecuteReader();
 
        if (leerDatos.Read())
