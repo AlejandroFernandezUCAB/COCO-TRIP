@@ -194,6 +194,8 @@ namespace ApiRestPruebas.M2
       Assert.AreEqual(apellido, usuario.Apellido);
     }
 
+    /* Esta Prueba Unitaria confirma si en efecto se cambia la contraseña, se pasan como paramatros el username,
+        la contraseña actual y la contraseña nueva*/
     [Test]
     public void CambiarPass()
     {
@@ -220,6 +222,7 @@ namespace ApiRestPruebas.M2
 
     }
 
+    /*Esta Prueba Unitaria confirma si se puede obtener la contraseña, para ello se pasan como parametros el username*/
     [Test]
     public void ObtenerPass()
     {
@@ -231,6 +234,7 @@ namespace ApiRestPruebas.M2
       Assert.AreEqual(pass, passobtenida);
     }
 
+    /*Esta Prueba Unitaria confirma si puede consultar el id del usario, para ello se pasa como parametro el username*/
     [Test]
     public void ConsultarIdTest()
     {
@@ -243,6 +247,7 @@ namespace ApiRestPruebas.M2
       Assert.AreEqual(test, testing);
     }
 
+    /*Esta Prueba Unitaria confirma si se borra el usuario, para ello se pasa como parametros el username y la contraseña*/
     [Test]
     public void BorrarUsuarioTest()
     {
