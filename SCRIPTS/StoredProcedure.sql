@@ -15,7 +15,7 @@ CREATE OR REPLACE FUNCTION InsertarUsuario
 (_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
  _apellido VARCHAR(30), _fechaNacimiento date,
  _genero VARCHAR(1), _correo VARCHAR(30),
- _clave VARCHAR(20), _foto bytea)
+ _clave VARCHAR(20), _foto VARCHAR(100))
 RETURNS integer AS
 $$
 BEGIN
@@ -57,7 +57,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -79,7 +79,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -102,12 +102,13 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar,
+   password varchar)
 AS
 $$
 BEGIN
 	RETURN QUERY SELECT
-	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto
+	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero, us_validacion,us_foto, us_password
 	FROM usuario
 	WHERE us_email=_correo;
 END;
@@ -123,7 +124,7 @@ RETURNS TABLE
    fechNacimiento date,
    genero varchar,
    validacion boolean,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -143,7 +144,7 @@ RETURNS TABLE
    apellido varchar,
    fechNacimiento date,
    genero varchar,
-   foto bytea)
+   foto varchar)
 AS
 $$
 BEGIN
@@ -173,17 +174,17 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION BuscarLugarTuristicoSegunPreferencias ( _idUsuario int)
 RETURNS TABLE(
   nombre VARCHAR,
-  costo  DECIMAL,
+  costo  NUMERIC,
   descripcion VARCHAR,
   direccion VARCHAR,
-  ca_nombre VARCHAR
+  categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
-  RETURN QUERY
-	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion,ca_nombre
-	FROM usuario, preferencia, categoria, lugar_turistico
-	WHERE
-	 (pr_usuario =_idUsuario)  and (pr_categoria = ca_id) and (lu_categoria= ca_id);
+  RETURN QUERY 
+	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion, ca_nombre
+  FROM usuario, preferencia, categoria, lugar_turistico, lt_c
+  WHERE 
+	 (pr_usuario =_idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = id_lugar_turistico);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -199,15 +200,14 @@ RETURNS TABLE(
   precio  INTEGER,
   descripcion VARCHAR,
   nombre_local VARCHAR,
-  ruta_foto VARCHAR,
-  categoria_nombre VARCHAR
+  categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
-  RETURN QUERY
-	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ev_foto, ca_nombre
+  RETURN QUERY 
+	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
-	 WHERE
-	  (pr_usuario =_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
+	 WHERE 
+	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -218,6 +218,18 @@ $$
 BEGIN
 	UPDATE usuario SET us_validacion=true
 	WHERE us_email=_correo AND us_id = _id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ActualizarUsuario(_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
+ _apellido VARCHAR(30), _fechaNacimiento date,
+ _genero VARCHAR(1), _correo VARCHAR(30),
+ _clave VARCHAR(20), _foto VARCHAR(100))
+RETURNS void AS
+$$
+BEGIN
+	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, _genero = us_genero, us_email=_correo, us_password=_clave, us_foto =_foto
+	WHERE us_email=_correo;
 END;
 $$ LANGUAGE plpgsql;
 /**

@@ -37,7 +37,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
-          responseData =  readTask.Result;
+          responseData = readTask.Result;
         }
       }
       catch (HttpRequestException ex)
@@ -208,7 +208,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
-    public  JObject PutEditarCategoria(Categories data)
+    public JObject PutEditarCategoria(Categories data)
     {
       try
       {
@@ -300,7 +300,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
-    public  JObject GetCategoriasHabilitadas()
+    public JObject GetCategoriasHabilitadas()
     {
 
       try
