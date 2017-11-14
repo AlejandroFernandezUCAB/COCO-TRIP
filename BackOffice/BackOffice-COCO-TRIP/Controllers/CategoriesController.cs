@@ -69,11 +69,6 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(int id)
     {
       ViewBag.Title = "Editar Categoría";
-     /* IList<Categories> MyList = new List<Categories>(){
-            new Categories(){Id=1, Name="UK"},
-            new Categories(){Id=2, Name="VE"}
-      };
-      */
       IList<Categories> listCategories = null;
       JObject respuesta = peticion.GetCategoriasHabilitadas();
       if (respuesta.Property("data") != null)
@@ -98,7 +93,21 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       else
       {
-        categories = new Categories() { Id = 4, Name = "Sin data", Description = "Sin data", Status = false, UpperCategories = 1 };
+        JObject respuestaCategoria = peticion.GetPorId(id);
+        if (respuestaCategoria.Property("data") != null)
+        {
+          categories = (respuestaCategoria["data"].HasValues ? respuestaCategoria["data"][0].ToObject<Categories>() : null) ;
+          if (categories == null)
+          {
+            return RedirectToAction("Index");
+          }
+        }
+
+        else
+        {
+          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+        }
+
       }
       
       return View(categories);
