@@ -216,9 +216,64 @@ eveSegunPreferencias(idUser){
     });
    }
 
+   modificarDatosUsuario(usuario){     
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' + 
+      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido + 
+      "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
    ObtenerDatosUsuario(idUsuario){
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ObtenerDatosUsuario?idUsuario=' + idUsuario,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   cambiarPass(username, passActual, passNueva){
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + username
+       +"&passwordActual=" + passActual +"&passwordNuevo=" +passNueva ,"")
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.data = data;
+        resolve(this.data);
+
+      }, error=>{      
+
+        resolve(0);
+
+      });
+    });
+   }
+
+   borrarUser(username, passwordAct){
+    return new Promise( resolve => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + username
+       +"&password=" + passwordAct ,"")
       .map(res => res.json())
       .subscribe(data => {
 

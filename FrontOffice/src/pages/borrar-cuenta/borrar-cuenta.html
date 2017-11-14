@@ -14,6 +14,22 @@
 
 
 <ion-content padding>
+  <form [formGroup]="myForm" (ngSubmit)="borrarData()" novalidate>
+    <ion-list>
+        <ion-item>
+            <ion-label floating>{{ 'Introduzca su contraseña' | translate }}</ion-label>
+            <ion-input type="password" formControlName="pass" clearInput="true"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="myForm.get('pass').errors && myForm.get('pass').dirty">
+            <p color="danger" ion-text *ngIf="myForm.get('pass').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
+        </ion-item>
+    </ion-list>
+    <button ion-button type="submit" block>{{ 'Confirmar' | translate }}</button>
+  </form>
+</ion-content>
+
+<!--
+<ion-content padding>
 
   <ion-grid>
     <ion-row>
@@ -32,3 +48,4 @@
   </ion-grid>
   
 </ion-content>
+-->

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Platform, ActionSheetController } from 'ionic-angular';
 
 import { AlertController } from 'ionic-angular';
-
-/**
- * Generated class for the BorrarCuentaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -17,12 +14,88 @@ import { AlertController } from 'ionic-angular';
 })
 export class BorrarCuentaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  myForm : FormGroup;
+  NombreUsuario: string;
+  password: string;
+  apiRestResponse: any;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public toastCtrl: ToastController, public platform: Platform,
+    public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, 
+    public fb: FormBuilder, public restapiService: RestapiService)
+    {
+      console.log(navParams);
+      this.NombreUsuario = navParams.data;
+      console.log(this.NombreUsuario);
+      this.myForm = this.fb.group(
+        {
+          pass: ['', [Validators.required]]
+        }
+      )
+    }
+
+  borrarData(){
+    this.password = this.myForm.value.pass;
+    this.restapiService.borrarUser(this.NombreUsuario, this.password).then(data =>{
+      if(data != 0){
+        this.apiRestResponse = data;
+        this.regresarAvistaAnterior(this.apiRestResponse);
+    }
+    else{
+      this.apiRestResponse = false;
+      this.regresarAvistaAnterior(this.apiRestResponse);
+    }
+  }
+  );
   }
 
-  //source:
-  //https://ionicframework.com/docs/api/components/alert/AlertController/
+  regresarAvistaAnterior(apiRestResponse){
+
+    if (apiRestResponse == true){
+      this.showToastWithCloseButton(apiRestResponse);
+      this.navCtrl.setRoot(LoginPage);
+    }
+    else{
+      this.showToastWithCloseButton("incorrecto");
+      this.navCtrl.pop();
+    }
+  }
+
+  showToastWithCloseButton(apiRestResponse) {
+    let result;
+    if (apiRestResponse == true) {
+      this.translateService.get("Se borro la cuenta").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    else if(apiRestResponse == "incorrecto"){
+      this.translateService.get("Contraseña incorrecta").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    else{
+      this.translateService.get("Error Modificando los datos").subscribe(
+        value => {
+          // value is our translated string
+          result = value;
+        }
+      );
+    }
+    
+    const toast = this.toastCtrl.create({
+      message: result ,
+      showCloseButton: true,
+      closeButtonText: 'Ok'
+    });
+    toast.present();
+  }
+
+  /*
   presentConfirm() {
     const alert = this.alertCtrl.create({
       title: 'Confirmar Borrar',
@@ -44,7 +117,7 @@ export class BorrarCuentaPage {
       ]
     });
     alert.present();
-  }
+  }*/
 
 
   ionViewDidLoad() {

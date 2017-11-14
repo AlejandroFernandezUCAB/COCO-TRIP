@@ -2,6 +2,7 @@ using System.Data;
 using Npgsql;
 using System.Collections.Generic;
 using System;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -31,6 +32,7 @@ namespace ApiRest_COCO_TRIP.Models
       id = 0;
       try
       {
+
         conexion.Conectar();
         ConexionBase con = new ConexionBase();
         NpgsqlCommand comm = new NpgsqlCommand("consultarusuariosolonombre", conexion.SqlConexion);
@@ -51,7 +53,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        return -1;
+        throw new BaseDeDatosExcepcion( e );
 
       }
       catch (Exception e)
@@ -99,7 +101,7 @@ namespace ApiRest_COCO_TRIP.Models
       catch (NpgsqlException e)
       {
 
-        Console.WriteLine("Error en la consulta");
+        throw new BaseDeDatosExcepcion(e);
 
       }
       catch (Exception e)
@@ -121,6 +123,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     /// <param name="idUsuario">Id del usuario </param>
     /// <param name="idCategoria">Id de la categoria</param>
+    /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+    /// <exception cref="Excepcion">Error desconocido</exception>
     public void AgregarPreferencia( int idUsuario, int idCategoria)
     {
 
@@ -137,13 +141,12 @@ namespace ApiRest_COCO_TRIP.Models
         command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idCategoria);
         pgread = command.ExecuteReader();
         pgread.Read();
-        conexion.Desconectar();
 
       }
       catch (NpgsqlException e)
       {
 
-        Console.WriteLine("Error en la consulta");
+        throw new BaseDeDatosExcepcion(e);
 
       }
       catch (Exception e)
@@ -165,6 +168,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// Metodoque devuelve la lista de preferencias de un usuario
     /// </summary>
     /// <param name="idUsuario">Id del usuario</param>
+    /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+    /// <exception cref="Excepcion">Error desconocido</exception>
     /// <returns>Lista de preferencias del usuario</returns>
     public List<Categoria> BuscarPreferencias(int idUsuario)
     {
@@ -184,12 +189,13 @@ namespace ApiRest_COCO_TRIP.Models
         pgread = command.ExecuteReader();
 
         while (pgread.Read()) {
+
           categoria = new Categoria();
           categoria.Id = pgread.GetInt32(0);
           categoria.Nombre = pgread.GetString(1);
           categoria.Descripcion = pgread.GetString(2);
           categoria.Estatus = pgread.GetBoolean(3);
-          usuario.AgregarPreferencia( categoria );
+          usuario.AgregarPreferencia(categoria);
 
         }
 
@@ -213,7 +219,6 @@ namespace ApiRest_COCO_TRIP.Models
 
         conexion.Desconectar();
         
-
       }
 
     }
@@ -327,25 +332,45 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       Usuario user = new Usuario();
-      
-      conexion.Conectar();
-      command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      user.NombreUsuario = pgread.GetString(0);
-      user.Correo = pgread.GetString(1);
-      user.Nombre = pgread.GetString(2);
-      user.Apellido = pgread.GetString(3);
-      user.FechaNacimiento = pgread.GetDateTime(4);
-      user.Genero = pgread.GetString(5);
-      conexion.Desconectar();
-      return user;
+
+      try
+      {
+        conexion.Conectar();
+        command = new NpgsqlCommand("ConsultarUsuarioSoloId", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, userId);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        user.NombreUsuario = pgread.GetString(0);
+        user.Correo = pgread.GetString(1);
+        user.Nombre = pgread.GetString(2);
+        user.Apellido = pgread.GetString(3);
+        user.FechaNacimiento = pgread.GetDateTime(4);
+        user.Genero = pgread.GetString(5);
+        conexion.Desconectar();
+        return user;
+      }
+      catch (NpgsqlException e)
+      {
+        return null;
+      }
+
     }
 
+
+
+    /// <summary>
+    /// Se obtienen las preferencias del usuario segun lo que haya en preferencia, puede
+    /// o no estar completo ya que el hace una busqueda por palabra o similar
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario</param>
+    /// <param name="preferencia">Preferencia a buscar(Puede ser la palabra completa o no)</param>
+    /// <returns>Lista de categorias encontradas segun la preferencia dada</returns>
+    /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+    /// <exception cref="Excepcion">Error desconocido</exception>
     public List<Categoria> ObtenerCategorias(int idUsuario, string preferencia)
     {
+
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       Categoria categoria;
@@ -353,6 +378,7 @@ namespace ApiRest_COCO_TRIP.Models
 
       try
       {
+
         usuario = new Usuario();
         categoria = new Categoria();
         conexion.Conectar();
@@ -364,6 +390,7 @@ namespace ApiRest_COCO_TRIP.Models
 
         while (pgread.Read())
         {
+          categoria = new Categoria();
           categoria.Id = pgread.GetInt32(0);
           categoria.Nombre = pgread.GetString(1);
           usuario.AgregarPreferencia(categoria);
