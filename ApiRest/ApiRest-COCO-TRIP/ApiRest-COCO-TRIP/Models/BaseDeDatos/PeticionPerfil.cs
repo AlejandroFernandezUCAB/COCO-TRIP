@@ -193,6 +193,7 @@ namespace ApiRest_COCO_TRIP.Models
 
         while (pgread.Read()) {
 
+          //Si es falsa la condicion ya el objeto fue inicializado
           if (condicion == false) {
 
             usuario.Preferencias = new List<Categoria>();
@@ -320,17 +321,40 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="password">Password del usuario </param>
     public void BorrarUsuario (int idUsuario, string password)
     {
+
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
 
-      conexion.Conectar();
-      command = new NpgsqlCommand("BorrarUsuario", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, password);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      conexion.Desconectar();
+      try
+      {
+
+        conexion.Conectar();
+        command = new NpgsqlCommand("BorrarUsuario", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, password);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+
+      }
+      catch (NpgsqlException e)
+      {
+
+        throw new BaseDeDatosExcepcion(e);
+
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine("Error desconocido");
+      }
+      finally
+      {
+
+        conexion.Desconectar();
+
+      }
+
+      
     }
 
     /// <summary>
