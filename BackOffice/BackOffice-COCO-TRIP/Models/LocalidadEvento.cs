@@ -29,9 +29,22 @@ namespace BackOffice_COCO_TRIP.Models
       coordenadas = _coordenadas;
 
     }
+    public LocalidadEvento(int id, string _nombre, string _descripcion, string _coordenadas)
+    {
+      this.id = id;
+      nombre = _nombre;
+      descripcion = _descripcion;
+      coordenadas = _coordenadas;
+
+    }
+    public LocalidadEvento(int id)
+    {
+      this.id = id;
+    }
+
     public LocalidadEvento()
     {
-
+     
     }
   }
 }

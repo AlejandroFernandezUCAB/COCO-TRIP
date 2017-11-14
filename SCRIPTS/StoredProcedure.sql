@@ -1743,8 +1743,22 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
-
-
+ //Lista de todas las localidades
+CREATE OR REPLACE FUNCTION consultarlocalidades()
+  RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
+$BODY$
+BEGIN
+  RETURN QUERY
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    from localidad;
+    
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION consultarlocalidadesconeventosasignados()
+  OWNER TO postgres;
 
 --elimina localidad por su id
 

@@ -13,10 +13,30 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
         private PeticionM8_Localidad peticion = new PeticionM8_Localidad();
 
-      
+    // GET: M8_Localidad/Index
+    public ActionResult Index()
+    {
+      ViewBag.Title = "Localidades de los Eventos";
+      IList<LocalidadEvento> listLocalidadEvento = null;
+      JObject respuesta = peticion.GetAll();
+      if (respuesta.Property("dato") != null)
+      {
+        listLocalidadEvento = respuesta["dato"].ToObject<List<LocalidadEvento>>();
+      }
 
-        // GET: M8_Localidad/Details/5
-        public ActionResult Details(int id)
+      else
+      {
+        listLocalidadEvento = new List<LocalidadEvento>();
+        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+      }
+
+      TempData["listaLocalidadEvento"] = listLocalidadEvento;
+
+      return View(listLocalidadEvento);
+    }
+
+      // GET: M8_Localidad/Details/5
+      public ActionResult Details(int id)
         {
             return View();
         }
@@ -53,45 +73,102 @@ namespace BackOffice_COCO_TRIP.Controllers
         // GET: M8_Localidad/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
-        }
+          JObject respuesta = peticion.Get(id);
+
+            if (respuesta.Property("dato") == null)
+            {
+
+
+              ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+
+            }
+            else
+            {
+              ModelState.AddModelError(string.Empty, "Se hizo con exito");
+              LocalidadEvento localidadActualizar = respuesta["dato"].ToObject<LocalidadEvento>();
+              return View(localidadActualizar);
+            }
+
+
+      return RedirectToAction("Index");
+    }
 
         // POST: M8_Localidad/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        public ActionResult Edit(LocalidadEvento localidad)
+                {
+                      JObject respuesta = peticion.Put(localidad);
+              if (respuesta.Property("dato") == null)
+              {
 
+
+                ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+
+              }
+              else
+              {
+                ModelState.AddModelError(string.Empty, "Se hizo con exito");
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+              }
 
-        // GET: M8_Localidad/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+
+              return View();
+    }
+
+      
 
         // POST: M8_Localidad/Delete/5
-        [HttpPost]
+        
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            // TODO: Add insert logic here
+            JObject respuesta = peticion.Delete(id);
+            if (respuesta.Property("dato") == null)
             {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+
+              ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+
             }
-            catch
+            else
             {
-                return View();
+              ModelState.AddModelError(string.Empty, "Se hizo con exito");
+        
             }
-        }
+
+
+            return RedirectToAction("Index");
+
+
+
+         }
+
+          // POST: M8_Localidad/Select/5
+
+          public ActionResult Select(int id)
+          {
+            // TODO: Add insert logic here
+            JObject respuesta = peticion.Get(id);
+            if (respuesta.Property("dato") == null)
+            {
+
+
+              ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+              
+       
+            }
+            else
+            {
+              ModelState.AddModelError(string.Empty, "Se hizo con exito");
+              LocalidadEvento localidadSelect = respuesta["dato"] .ToObject<LocalidadEvento>();
+              return View(localidadSelect);
+            }
+
+
+      return RedirectToAction("Index");
+
+
+
     }
+  }
 }
