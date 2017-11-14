@@ -337,5 +337,6 @@ CREATE SEQUENCE SEQ_Localidad
 --Fin de modulo
 --Modulo 9
 GRANT ALL PRIVILEGES ON TABLE categoria TO admin_cocotrip;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO admin_cocotrip;
 --Fin de modulo
 --Fin Creates tables

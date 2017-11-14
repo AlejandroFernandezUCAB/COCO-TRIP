@@ -320,8 +320,6 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
 
-        exitoso = conexion.Comando.ExecuteNonQuery();
-
         
                      if (categoria.CategoriaSuperior == 0)
                 {
@@ -332,7 +330,8 @@ namespace ApiRest_COCO_TRIP
                 {
                     conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
                 }
-                exitoso = conexion.Comando.ExecuteNonQuery();
+
+        exitoso = conexion.Comando.ExecuteNonQuery();
 
 
       }
