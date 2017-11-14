@@ -1,9 +1,5 @@
-@using BackOffice_COCO_TRIP.Helpers
 @model BackOffice_COCO_TRIP.Models.LocalidadEvento
-@{
-    ViewBag.Title = "Crear Localidad Evento";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+
 
 <h2>Create Localidad para un Evento</h2>
 
@@ -36,6 +32,7 @@
         @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Coordenadas, "", new { @class = "text-danger" })
       </div>
+
     </div>
 
 

@@ -186,7 +186,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         });
         LocalidadEvento lEvento = (LocalidadEvento)data.ToObject<LocalidadEvento>();
         PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
+
+        int idEvento = peticionLocalidadEvento.ActualizarLocalidadEvento(lEvento);
         respuesta.Add("dato", "Se ha actualizado una localidad");
 
       }

@@ -85,7 +85,7 @@ namespace BackOffice_COCO_TRIP.Controllers
             else
             {
               ModelState.AddModelError(string.Empty, "Se hizo con exito");
-              LocalidadEvento localidadActualizar = respuesta.ToObject<LocalidadEvento>();
+              LocalidadEvento localidadActualizar = respuesta["dato"].ToObject<LocalidadEvento>();
               return View(localidadActualizar);
             }
 
@@ -142,5 +142,33 @@ namespace BackOffice_COCO_TRIP.Controllers
 
 
          }
+
+          // POST: M8_Localidad/Select/5
+
+          public ActionResult Select(int id)
+          {
+            // TODO: Add insert logic here
+            JObject respuesta = peticion.Get(id);
+            if (respuesta.Property("dato") == null)
+            {
+
+
+              ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+              
+       
+            }
+            else
+            {
+              ModelState.AddModelError(string.Empty, "Se hizo con exito");
+              LocalidadEvento localidadSelect = respuesta["dato"] .ToObject<LocalidadEvento>();
+              return View(localidadSelect);
+            }
+
+
+      return RedirectToAction("Index");
+
+
+
     }
+  }
 }
