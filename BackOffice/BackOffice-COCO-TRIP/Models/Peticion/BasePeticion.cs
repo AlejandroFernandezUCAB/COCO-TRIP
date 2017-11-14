@@ -10,7 +10,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
   /// </summary>
   /// <typeparam name="T1">Parametro que indica el tipo de dato que devolveran los metodos</typeparam>
   /// <typeparam name="T2">Parametro que indica el tipo de dato que recibiran los metodos Post, Put, Patch</typeparam>
-  public abstract class BasePeticion<T1,T2>
+  public abstract class BasePeticion<T1, T2>
   {
     protected const string BaseUri = "http://localhost:8082/api";
 
