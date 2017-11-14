@@ -358,6 +358,9 @@ namespace ApiRest_COCO_TRIP.Controllers
       return response;
     }
 
+    [ResponseType(typeof(IDictionary))]
+    [ActionName("AgregarCategoria")]
+    [HttpPost]
     public IDictionary agregarCategoria([FromBody] JObject data)
         {
 
@@ -366,7 +369,8 @@ namespace ApiRest_COCO_TRIP.Controllers
                 ValidacionWS.validarParametrosNotNull(data, new List<string> {
                     "nombre",
                     "descripcion",
-                    "categoriaSuperior"
+                    "categoriaSuperior",
+                    "nivel"
                  });
 
                 Categoria categoria = data.ToObject<Categoria>();
@@ -443,7 +447,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
                 throw new HttpResponseException(resp);
                 */
-            }
+            } 
 
             return response;
         }

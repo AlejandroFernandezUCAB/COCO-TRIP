@@ -1519,20 +1519,20 @@ $$ LANGUAGE plpgsql;
 
 -------------------------------------------
 
-CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
+CREATE OR REPLACE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
     LANGUAGE plpgsql
     AS $$
     BEGIN
       INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
-          VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
+          VALUES (nextval('seq_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
-CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
+CREATE OR REPLACE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
     LANGUAGE plpgsql
     AS $$
     BEGIN
         INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
-              VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
+              VALUES (nextval('seq_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
 CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS
