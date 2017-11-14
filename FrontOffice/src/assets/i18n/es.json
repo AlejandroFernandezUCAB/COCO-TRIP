@@ -80,6 +80,10 @@
     "Agregar Integrantes" : "Agregar Integrantes",
     "Crear Grupo" : "Crear Grupo",
     "Nombre del Grupo" : "Nombre del Grupo",
-    "Detalle del Grupo" : "Detalle Del Grupo"
-
+    "Detalle del Grupo" : "Detalle Del Grupo",
+    "Agregar" : "Agregar",
+    "Agregado exitosamente" : "Agregado exitosamente",
+    "Aceptar" : "Aceptar",
+    "Declinar" : "Declinar"
+    
 }

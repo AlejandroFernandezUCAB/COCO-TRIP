@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController , LoadingController, NavParams } from 'ionic-angular';
-
+import { TranslateModule } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 @Component({
@@ -17,7 +17,7 @@ export class VisualizarPerfilPage {
 
   constructor(public navCtrl: NavController, public alerCtrl: AlertController, 
       public restapiService: RestapiService, public loadingCtrl: LoadingController, 
-      private navParams: NavParams,) {
+      private navParams: NavParams, translate : TranslateModule) {
 
   }
 

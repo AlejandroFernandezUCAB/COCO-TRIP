@@ -88,5 +88,9 @@
     "Agregar Integrantes" : "Add Members",
     "Crear Grupo" : "Add Group",
     "Nombre del Grupo" : "Group's Name",
-    "Detalle del Grupo" : "Group's Detail"
+    "Detalle del Grupo" : "Group's Detail",
+    "Agregar" : "Add",
+    "Agregado exitosamente" : "added successfully",
+    "Aceptar" : "Accept",
+    "Declinar" : "Decline"
 }
