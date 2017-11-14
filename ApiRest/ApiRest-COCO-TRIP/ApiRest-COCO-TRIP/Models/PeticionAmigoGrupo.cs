@@ -1031,5 +1031,48 @@ namespace ApiRest_COCO_TRIP.Models
       return ListaUsuario;
     }
 
+    /// <summary>
+    /// Metodo para obtener el ultimo grupo agregado de un usuario
+    /// </summary>
+    /// <returns>Ultimo grupo agregado de un usuario</returns>
+public int ObtenerultimoGrupo()
+    {
+
+      Grupo grupo = new Grupo();
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "Consultarultimo";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        leerDatos = conexion.Comando.ExecuteReader();
+
+       if (leerDatos.Read())
+        {
+          grupo.Id = leerDatos.GetInt32(0);
+          grupo.Nombre = leerDatos.GetString(1);
+          if (!leerDatos.IsDBNull(2))
+          {
+            grupo.Foto = leerDatos.GetString(2);
+          }
+        }
+
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+
+      return grupo.Id;
+    }
+
+
+
   }
 }

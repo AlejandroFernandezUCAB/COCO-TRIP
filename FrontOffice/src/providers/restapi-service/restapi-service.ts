@@ -706,11 +706,35 @@ obtenerSinLider(idGrupo)
   });
 }
 
+/**
+ * [MODULO 3]
+ * Metodo que obtiene la lista de integrantes, sin el integrante lider
+ * @param idUsuario Identificador de usuario
+ * @param idGrupo Identificador del grupo
+ */
 obtenerMiembrosSinGrupo(idUsuario, idGrupo) 
 {  
   return new Promise(resolve => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembrosSinGrupo/?idUsuario='+idUsuario
     +'&idGrupo='+idGrupo,"")
+    .map(res => res.json())
+    .subscribe(data => {
+      this.data = data;
+      resolve(this.data);
+    },error=>{
+      console.log("Ocurrio un error");
+    });
+});
+}
+
+/**
+ * [MODULO 3]
+ * Metodo que obtiene el ultimo grupo agregado
+ */
+obtenerultimoGrupo() 
+{  
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarultimoGrupo',"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
@@ -720,5 +744,6 @@ obtenerMiembrosSinGrupo(idUsuario, idGrupo)
       });
   });
 }
+
 
 }

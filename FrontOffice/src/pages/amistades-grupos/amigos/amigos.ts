@@ -12,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'page-amigos',
   templateUrl: 'amigos.html'
 })
+
+
 export class AmigosPage {
   delete= false;
   edit= false;
@@ -46,7 +48,6 @@ export class AmigosPage {
 
   tapEvent() {
   }
-    //AQUI SE COLOCAN LAS LLAMADAS PARA ABRIR EL CHAT 
 
 /**
  * Metodo que carga un LoadingCTRL

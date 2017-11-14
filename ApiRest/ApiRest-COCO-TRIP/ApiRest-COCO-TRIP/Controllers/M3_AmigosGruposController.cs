@@ -849,7 +849,36 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
+/// <summary>
+/// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
+/// </summary>
+/// <returns>Ultimo grupo agregado de un usuario</returns>
+[HttpGet]
+    public int ConsultarultimoGrupo()
+    {
+      try
+      {
+        peticion = new PeticionAmigoGrupo();
+        return peticion.ObtenerultimoGrupo();
+      }
+      catch (NpgsqlException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ArgumentNullException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (InvalidCastException)
+      {
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (HttpResponseException)
+      {
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+    }
+
 
   }
-
   }

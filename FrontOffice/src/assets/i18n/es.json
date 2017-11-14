@@ -102,6 +102,7 @@
     "Borrar Grupo": "¿Deseas borrar este grupo?",
     "Salir Grupo": "Saliste exitosamente del grupo",
     "Modificado Exitosamente": "Modificado Exitosamente",
-    "Deseas Agregar a:": "Deseas Agregar a: "
+    "Deseas Agregar a:": "Deseas Agregar a: ",
+    "Grupo Exitoso":"Grupo Agregado Exitosamente"
 
 }
