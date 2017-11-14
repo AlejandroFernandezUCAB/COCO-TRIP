@@ -113,7 +113,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       ModelState.Remove("UpperCategories");
       if (ModelState.IsValid)
       {
-        categories.UpperCategories = Int32.Parse(Request["Mover a la categoria"]) ;
+        var idNivel = Request["Mover a la categoria"].ToString().Split('-');
+        categories.UpperCategories = Int32.Parse(idNivel[0]);
+        categories.Nivel = Int32.Parse(idNivel[1]) + 1;
         JObject respuesta = peticion.PutEditarCategoria(categories);
         if (respuesta.Property("data") != null)
         {
