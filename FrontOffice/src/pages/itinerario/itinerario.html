@@ -106,8 +106,8 @@
             </ion-buttons>
           </section>
             <ion-avatar item-start>
-              <!-- <img *ngIf="evento.Foto" [src]="evento.Foto"> -->
-              <img src="http://localhost:8091/bin/Images/foto1.png">
+              <img *ngIf="evento.Foto" [src]="base_url + evento.Foto">
+              <!-- <img src="http://localhost:8091/Images/foto1.png"> -->
             </ion-avatar>
             <p style="font-weight:semibold">{{evento.Nombre}}</p>
             <p><small>{{evento.FechaInicio | date: 'dd/MM/yyyy' }}  -  {{evento.FechaFin | date: 'dd/MM/yyyy' }}</small></p>

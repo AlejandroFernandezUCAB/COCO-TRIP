@@ -18,7 +18,7 @@ export class ItinerarioPage {
   @ViewChild(Slides) slides: Slides;
 
   //***************************** DECLARACION DE VARIABLES ***********************
-  base_url = '../assets/images/';
+  base_url = 'http://localhost:8091';
   items = [];
   edit = false;
   delete= false;
