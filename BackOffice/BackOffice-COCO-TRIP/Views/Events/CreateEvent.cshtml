@@ -1,42 +1,140 @@
 
-
+@model BackOffice_COCO_TRIP.Models.Events
 @{
-    ViewBag.Title = "Create Event";
+    ViewBag.Title = "Crear Eventos";
 }
 
-<div class="card color-texto">
-  <div class="container-fluid pad-top">
-    <div><h4>Ingrese los datos:</h4></div>
-    <hr>
-    <form class="form-horizontal">
-      <div class="form-group row">
-        <label for="inputEmail3" class="col-sm-2 control-label">Nombre</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="NombreEventoCrear" placeholder="Categoria">
+@using (Html.BeginForm())
+{
+
+  @Html.AntiForgeryToken()
+
+  <div class="card color-texto">
+    <div class="container-fluid pad-top">
+      @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+      <div><h4>Ingrese los datos:</h4></div>
+      <hr>
+      <form class="form-horizontal">
+        <div class="form-group row">
+          @Html.LabelFor(model => model.NameEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-4">
+            @Html.EditorFor(model => model.NameEvent, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NameEvent, "", new { @class = "text-danger" })
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputPassword3" class="col-sm-2 control-label">Descripcion</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="DescripcionEventoCrear" placeholder="Descripcion">
+        <div class="form-group row">
+          @Html.LabelFor(model => model.descriptionEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-10">
+            @Html.EditorFor(model => model.descriptionEvent, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.descriptionEvent, "", new { @class = "text-danger" })
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputCategorie" class="col-sm-2 control-label">Categoria</label>
-        <div class="col-sm-10">
-          <select id="CategoriaEventoCrear" class="form-control">
-            <option selected>Elegir</option>
-            <option>Evento</option>
-            <option>Lugar</option>
-            <option>Turista</option>
-          </select>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.priceEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-2">
+            @Html.EditorFor(model => model.priceEvent, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.priceEvent, "", new { @class = "text-danger" })
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-sm-10 col-sm-offset-2">
-          <button type="submit" class="btn btn-primary pull-right">Agregar Categoría</button>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.dateInitEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-8">
+            <input type="date" name="dateInitEvent" step="1" min="2000-01-01" max="2030-12-31" value="2000-01-01" class="control-label col-md-2">
+          </div>
         </div>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.dateEndEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-8">
+            <input type="date" name="dateEndEvent" step="1" min="2000-01-01" max="2030-12-31" value="2000-01-01" class="control-label col-md-2">
+
+          </div>
+        </div>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.timeInitEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-8">
+            <div class="col-sm-2">
+              <select class="form-control" id="timeInitEvent">
+                <option>7:00</option>
+                <option>8:00</option>
+                <option>9:00</option>
+                <option>10:00</option>
+                <option>11:00</option>
+                <option>12:00</option>
+                <option>13:00</option>
+                <option>14:00</option>
+                <option>15:00</option>
+                <option>16:00</option>
+                <option>17:00</option>
+                <option>18:00</option>
+                <option>19:00</option>
+                <option>20:00</option>
+                <option>21:00</option>
+                <option>22:00</option>
+                <option>23:00</option>
+                <option>24:00</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.timeEndEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-8">
+            <div class="col-sm-2">
+              <select class="form-control" id="timeEndEvent">
+                <option>7:00</option>
+                <option>8:00</option>
+                <option>9:00</option>
+                <option>10:00</option>
+                <option>11:00</option>
+                <option>12:00</option>
+                <option>13:00</option>
+                <option>14:00</option>
+                <option>15:00</option>
+                <option>16:00</option>
+                <option>17:00</option>
+                <option>18:00</option>
+                <option>19:00</option>
+                <option>20:00</option>
+                <option>21:00</option>
+                <option>22:00</option>
+                <option>23:00</option>
+                <option>24:00</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.picEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-5">
+
+
+            <input class="col-sm-6" type="file" multiple="" id="perfilphoto">
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+          @Html.LabelFor(model => model.categoryEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-10">
+            @Html.EditorFor(model => model.categoryEvent, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.categoryEvent, "", new { @class = "text-danger" })
+          </div>
+        </div>
+        <div class="form-group row">
+          @Html.LabelFor(model => model.locationEvent, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-sm-10">
+
+          </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="form-group row">
+      <div class="col-sm-10 col-sm-offset-2">
+        <button type="submit" class="btn btn-primary pull-right">Agregar Categoría</button>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+
+}
