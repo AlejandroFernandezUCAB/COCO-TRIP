@@ -76,7 +76,7 @@ export class ChatProvider {
 
   modificarMensajeAmigo(idAmigo,idMensaje,mensajeModificado){
     if(this.conversacion){
-      this.fireConversacionChatsAmigo.child(idAmigo).set({
+      this.fireConversacionChatsAmigo.child(idAmigo).child(idMensaje).set({
         modificado: true,
         mensaje: "mensaje modificado:"+mensajeModificado,
         fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
@@ -86,7 +86,7 @@ export class ChatProvider {
 
   modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado){
     if(this.conversacion){  
-      this.fireConversacionChatsGrupo.child(idGrupo).set({
+      this.fireConversacionChatsGrupo.child(idGrupo).child(idMensaje).set({
         modificado: true,
         mensaje: "mensaje modificado:"+mensajeModificado,
         fechaDeModificacion: firebase.database.ServerValue.TIMESTAMP 
@@ -96,7 +96,7 @@ export class ChatProvider {
 
   eliminarMensajeAmigo(idAmigo,idMensaje,mensajeModificado){
     if(this.conversacion){
-      this.fireConversacionChatsAmigo.child(idAmigo).set({
+      this.fireConversacionChatsAmigo.child(idAmigo).child(idMensaje).set({
         eliminado: true,
         mensaje: "mensaje eliminado",
         fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
@@ -106,7 +106,7 @@ export class ChatProvider {
 
   eliminarMensajeGrupo(idGrupo,idMensaje){
     if(this.conversacion){
-      this.fireConversacionChatsGrupo.child(idGrupo).set({
+      this.fireConversacionChatsGrupo.child(idGrupo).child(idMensaje).set({
         eliminado: true,
         mensaje: "mensaje eliminado",
         fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
