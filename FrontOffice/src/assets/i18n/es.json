@@ -84,6 +84,18 @@
     "Agregar" : "Agregar",
     "Agregado exitosamente" : "Agregado exitosamente",
     "Aceptar" : "Aceptar",
-    "Declinar" : "Declinar"
-    
+    "Declinar" : "Declinar",
+    "Por favor, Confirmar" : "Por favor, Confirmar",
+    "Eliminado Exitosamente" : "Eliminado Exitosamente",
+    "Cancelar" : "Cancelar",
+    "Deseas Borrar a:" : "Deseas Borrar a: ",
+    "Por Favor Espere" : "Por Favor Espere...",
+    "No puedes modificar": "No puedes modificar",
+    "No eres lider": "No puedes modificar este grupo porque no eres el lider",
+    "Esta bien": "Esta bien",
+    "Borrar Grupo": "¿Deseas borrar este grupo?",
+    "Salir Grupo": "Saliste exitosamente del grupo",
+    "Modificado Exitosamente": "Modificado Exitosamente",
+    "Deseas Agregar a:": "Deseas Agregar a: "
+
 }

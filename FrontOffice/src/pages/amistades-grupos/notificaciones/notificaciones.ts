@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController , ToastController} from 'ionic-angular';
-
+import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 
@@ -14,7 +14,8 @@ export class NotificacionesPage {
 
   notificaciones : any;
   constructor(public navCtrl: NavController, public restapiService: RestapiService,  
-              private storage: Storage, public toastCtrl: ToastController) {
+              private storage: Storage, public toastCtrl: ToastController,
+              private translateService: TranslateService) {
    
   }
 //comentario
