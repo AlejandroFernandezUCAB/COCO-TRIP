@@ -69,7 +69,8 @@ export class SeleccionarIntegrantesPage {
    
             }
             else {
-              this.restapiService.obtenerultimoGrupo()
+              this.storage.get('id').then((val) => {
+                this.restapiService.obtenerultimoGrupo(val)
               .then(data => {
               this.lista = data;
               this.navCtrl.push(CrearGrupoPage,{
@@ -77,13 +78,15 @@ export class SeleccionarIntegrantesPage {
               });
               this.loading.dismiss();
               this.realizarToast(this.succesful);
-  
+  });
+              
             }
     
        )}});
         });
       }
      }
+
 
      realizarToast(mensaje) {
       this.toast = this.toastCtrl.create({

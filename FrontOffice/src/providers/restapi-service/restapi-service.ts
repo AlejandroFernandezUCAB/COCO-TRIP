@@ -731,10 +731,10 @@ obtenerMiembrosSinGrupo(idUsuario, idGrupo)
  * [MODULO 3]
  * Metodo que obtiene el ultimo grupo agregado
  */
-obtenerultimoGrupo() 
+obtenerultimoGrupo(idUsuario) 
 {  
   return new Promise(resolve => {
-    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarultimoGrupo',"")
+    this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarultimoGrupo/?idUsuario='+idUsuario,"")
       .map(res => res.json())
       .subscribe(data => {
         this.data = data;
