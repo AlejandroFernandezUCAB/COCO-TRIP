@@ -1,3 +1,4 @@
+using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using Npgsql;
@@ -15,7 +16,9 @@ namespace ApiRest_COCO_TRIP
   {
 
     private ConexionBase conexion;
+
     private NpgsqlDataReader leerDatos;
+
 
     public PeticionCategoria()
     {
@@ -140,7 +143,6 @@ namespace ApiRest_COCO_TRIP
 
     }
 
-
     public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
     {
       try
@@ -204,7 +206,6 @@ namespace ApiRest_COCO_TRIP
       return listaCategorias;
     }
 
-
     public void ModificarCategoria(Categoria categoria)
     {
 
@@ -216,32 +217,52 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandText = "m9_ModificarCategoria";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
+        PeticionCategoria peticion = new PeticionCategoria();
+        IList<Categoria> Lcategoria = peticion.ObtenerCategoriaPorId(categoria);
 
-        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
-        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
-        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
 
+
+        if (Lcategoria.First<Categoria>().Nivel == categoria.Nivel)
+        {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
+        }
+        else
+        {
+          //categories = listaCategorias.Where(s => s.Id == id).First();
+          IList<Categoria> Listacategoria  = peticion.ObtenerTodasLasCategorias();
+          var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).First();
+          if (hijos == null)
+          {
+            conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+            conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+            conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
+            conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
+          }
+          else
+          {
+
+            throw new HijoConDePendenciaException($"Esta categoria id:{categoria.Id} nombre:{categoria.Nombre} tiene hijos");
+          }
+        }
         if (categoria.CategoriaSuperior == 0)
         {
           conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
-
         }
         else
         {
           conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
         }
-
-        
-
         exitoso = conexion.Comando.ExecuteNonQuery();
-
 
       }
       catch (NpgsqlException ex)
       {
         BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
         {
-          DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior} ",
+          DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior}, NIVEL : {categoria.Nivel} ",
           Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
         };
         throw bdException;
@@ -291,7 +312,7 @@ namespace ApiRest_COCO_TRIP
         int exitoso = 0;
         conexion.Conectar();
         conexion.Comando = conexion.SqlConexion.CreateCommand();
-        conexion.Comando.CommandText = "m9_agregarcategoria";
+        conexion.Comando.CommandText = "m9_agregarsubcategoria";
         conexion.Comando.CommandType = CommandType.StoredProcedure;
 
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre); //Nombre de la categoria
@@ -300,6 +321,18 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
 
         exitoso = conexion.Comando.ExecuteNonQuery();
+
+        
+                     if (categoria.CategoriaSuperior == 0)
+                {
+                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
+
+                }
+                else
+                {
+                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+                }
+                exitoso = conexion.Comando.ExecuteNonQuery();
 
 
       }
@@ -310,7 +343,6 @@ namespace ApiRest_COCO_TRIP
           DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
           Mensaje = $"Error al momento de agregar la catgoria {categoria.Id}"
         };
-
         throw bdException;
 
       }
@@ -319,6 +351,39 @@ namespace ApiRest_COCO_TRIP
         conexion.Desconectar();
 
       }
+    }
+
+
+    public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
+    {
+      IList<Categoria> listaCategorias;
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.CommandText = "m9_ObtenerCategoriaPorId";/* aqui va el stored procedure */
+        conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+        leerDatos = conexion.Comando.ExecuteReader();
+        listaCategorias = SetListaCategoria();
+
+      }
+      catch (NpgsqlException ex)
+      {
+        BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
+        {
+          Mensaje = $"Error al momento de buscar las todas categorias"
+        };
+        throw bdException;
+
+      }
+      finally
+      {
+        conexion.Desconectar();
+
+      }
+      return listaCategorias;
+
     }
 
 
