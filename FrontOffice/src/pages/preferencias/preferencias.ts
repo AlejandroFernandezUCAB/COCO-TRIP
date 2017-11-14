@@ -47,7 +47,7 @@ export class PreferenciasPage {
           this.preferenciasEnLista = data;
           console.log( this.preferenciasEnLista );
           this.voidPreferenciasFiltrado();
-          
+
         }
 
       });
@@ -135,7 +135,11 @@ export class PreferenciasPage {
     buscarFiltrado(ev: any) {
         //Este será el valor que uno escribe en el search bar
         let val = ev.target.value;
-        if(val.lenght == 0){
+        console.log('esto es val' + val);
+        if(!val){
+          this.preferenciasEnBusqueda = null;          
+        }
+        else if(val.lenght == 0){
           this.preferenciasEnBusqueda = null;
         }else{
                 this.stringBusqueda = val;
