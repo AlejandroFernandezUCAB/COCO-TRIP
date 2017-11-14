@@ -39,26 +39,27 @@
 
      
 
-    <!--
+    
       <ion-item>
           <ion-label floating>{{ 'Fecha de Nacimiento' | translate }}</ion-label>
-          <ion-datetime formControlNamename="fechanac" displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
+          <!-- <ion-datetime displayFormat="MM DD YYYY" [(ngModel)]="myDate" ></ion-datetime> -->
+          <ion-datetime displayFormat="DD-MM-YYYY" formControlName="fechanac"></ion-datetime>
       </ion-item>
-      
+      <!--  -->
       
       <ion-item>
           <ion-label stacked >{{ 'Sexo' | translate }}</ion-label>
-          <ion-select interface="popover" formControlNamename="sexo">
-            <ion-option value="hom" selected="true">{{ 'Hombre' | translate }}</ion-option>
-            <ion-option value="muj">{{ 'Mujer' | translate }}</ion-option>
+          <ion-select formControlName="genero">
+            <ion-option selected value="M" >{{ 'Hombre' | translate }}</ion-option>
+            <ion-option selected value="F" >{{ 'Mujer' | translate }}</ion-option>
           </ion-select>
       </ion-item>
-      -->
+     
         
     </ion-list>
     <div>
-      <button ion-button block [navPush]="change">{{ 'Cambiar Contraseña' | translate }}</button>
-      <button ion-button type="submit" block (click)="showToastWithCloseButton()">{{ 'Guardar Cambios' | translate }}</button>
+      <button ion-button block [navPush]="change" [navParams]="usuario.NombreUsuario">{{ 'Cambiar Contraseña' | translate }}</button>
+      <button ion-button type="submit" block >{{ 'Guardar Cambios' | translate }}</button>
     </div>
     
 
