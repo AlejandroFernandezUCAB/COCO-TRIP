@@ -153,8 +153,8 @@ export class ItemModalPage {
                 handler: data => {
                   console.log(this.FechaFin);
                   console.log(this.FechaInicio);
-                  this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
                   this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                  this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
                 }
               }
             ]

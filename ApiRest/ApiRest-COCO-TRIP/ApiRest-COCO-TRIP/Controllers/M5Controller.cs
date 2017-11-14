@@ -71,7 +71,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
     
-    [HttpPut]
+    [HttpGet]
     public Boolean AgregarItem_It(string tipo,int idit, int iditem,DateTime fechaini,DateTime fechafin)
     {
       try

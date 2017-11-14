@@ -163,7 +163,7 @@ ConsultarActividades(busqueda){
 public agregarItem_It(tipo, idit,iditem,fechainicio,fechafin)
 {
   return new Promise(resolve => {
-    this.http.put(this.apiUrl+'/M5/AgregarItem_It',{params:{ tipo: tipo , idit: idit , iditem: iditem,fechaini:fechainicio,fechafin:fechafin}}
+    this.http.get(this.apiUrl+'/M5/AgregarItem_It',{params:{ tipo: tipo , idit: idit , iditem: iditem,fechaini:fechainicio,fechafin:fechafin}}
     ).subscribe(res => {
         resolve(res);
         console.log("res");
