@@ -12,7 +12,7 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
   templateUrl: 'item-modal.html',
 })
 export class ItemModalPage {
-  itinerario = '';
+  itinerario : any;
   searchForm: FormGroup;
   submitAttempt: boolean = false;
   searchTerm: string = ''; //Lo que esta buscando
@@ -154,6 +154,7 @@ export class ItemModalPage {
                   console.log(this.FechaFin);
                   console.log(this.FechaInicio);
                   this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                  this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
                 }
               }
             ]

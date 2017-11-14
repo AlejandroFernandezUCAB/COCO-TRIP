@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:8091/api';
+apiUrl = 'http://localhost:51049/api';
   constructor(public http: HttpClient) {
 }
 
@@ -156,6 +156,20 @@ ConsultarActividades(busqueda){
         resolve(res);
       }, (err) => {
         err => resolve(-1);
+      });
+  });
+}
+
+public agregarItem_It(tipo, idit,iditem,fechainicio,fechafin)
+{
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5/AgregarItem_It',{params:{ tipo: tipo , idit: idit , iditem: iditem,fechaini:fechainicio,fechafin:fechafin}}
+    ).subscribe(res => {
+        resolve(res);
+        console.log("res");
+        console.log(res);
+      }, (err) => {
+        err => resolve(-1)
       });
   });
 }

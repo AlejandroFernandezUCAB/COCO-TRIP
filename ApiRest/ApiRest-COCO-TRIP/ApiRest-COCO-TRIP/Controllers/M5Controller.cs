@@ -71,7 +71,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
     
-    [HttpPut]
+    [HttpGet]
     public Boolean AgregarItem_It(string tipo,int idit, int iditem,DateTime fechaini,DateTime fechafin)
     {
       try
@@ -117,8 +117,9 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      catch (InvalidCastException)
+      catch (InvalidCastException e)
       {
+        throw e;
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
 

@@ -73,7 +73,7 @@
         </button>
         <!-- (ionChange)="pre-delete(itinerario.nombre)" -->
       <div style="justify-content:space-between;">
-        <button ion-button small icon-only clear *ngIf="!edit&&!delete" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario.Nombre)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">{{'Agregar Items' | translate}}</p>
+        <button ion-button small icon-only clear *ngIf="!edit&&!delete" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">{{'Agregar Items' | translate}}</p>
         </button>
         <button ion-button small icon-only clear *ngIf="nuevoViejo" (click)="ordenar()">
           <ion-icon name="arrow-down"></ion-icon>
@@ -124,7 +124,7 @@
        {{"Mis Itinerarios" | translate}}</p>
     <ion-item text-center>
       <div style="justify-content:space-between;">
-        <button ion-button small icon-only clear *ngIf="!edit&&!delete&&!list" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario.Nombre)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">Agregar items</p>
+        <button ion-button small icon-only clear *ngIf="!edit&&!delete&&!list" style="width:auto; display: flex; margin-top: 0px;" (click)="agregarItem(itinerario)"> <ion-icon name="add" style="width:100%" color="sf"></ion-icon><p style="color: #A8DBA8; font-size: smaller;">Agregar items</p>
         </button>
         <button ion-button small icon-only clear *ngIf="nuevoViejo" (click)="ordenarIt()">
           <ion-icon name="arrow-down"></ion-icon>

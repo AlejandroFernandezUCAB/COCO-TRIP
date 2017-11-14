@@ -19,8 +19,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -122,6 +124,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\COCOTRIP.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -185,7 +188,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
