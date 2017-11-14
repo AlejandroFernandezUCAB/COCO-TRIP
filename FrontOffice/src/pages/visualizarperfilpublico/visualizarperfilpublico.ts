@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { TranslateModule } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
 /**
@@ -26,7 +27,7 @@ export class VisualizarPerfilPublicoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alerCtrl: AlertController,
               public restapiService: RestapiService, public loadingCtrl: LoadingController,
-              public toastCtrl: ToastController, private storage: Storage  ) {
+              public toastCtrl: ToastController, private storage: Storage , translate : TranslateModule) {
   }
 
   realizarToast(mensaje) {

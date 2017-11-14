@@ -71,6 +71,14 @@
     "Mis Itinerarios" : "My Itineraries",
     "Notificaciones": "Notifications",
     "Correo Electrónico": "Email",
-    "Itinerarios del Calendario" : "Calendar's Itineraries"
+    "Itinerarios del Calendario" : "Calendar's Itineraries",
 
+
+
+
+    "Agregar" : "Add",
+    "Agregado exitosamente" : "added successfully",
+    "Aceptar" : "Accept",
+    "Declinar" : "Decline",
+    "" : ""
 }

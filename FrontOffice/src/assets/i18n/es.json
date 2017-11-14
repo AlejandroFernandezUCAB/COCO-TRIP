@@ -63,5 +63,12 @@
     "Mis Itinerarios": "Mis Itinerarios",
     "Notificaciones" : "Notificaciones",
     "Correo Electrónico": "Correo Electrnónico",
-    "Itinerarios del Calendario" : "Itinerarios del Calendario"
+    "Itinerarios del Calendario" : "Itinerarios del Calendario",
+
+    
+    "Agregar" : "Agregar",
+    "Agregado exitosamente" : "Agregado exitosamente",
+    "Aceptar" : "Aceptar",
+    "Declinar" : "Declinar"
+    
 }
