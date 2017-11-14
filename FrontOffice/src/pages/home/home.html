@@ -12,31 +12,33 @@
 <ion-content padding style="background-color:#f4f4f4">
 <ion-list>
   <ion-list >
+      <h1>Eventos:</h1>
     <ion-slides pager style="font-family: 'Open Sans'">
       <ion-slide  *ngFor="let eventos of eve">
-        <h2> {{eventos.NombreEvento}} </h2>
-        <h2> {{eventos.FechaInicio}} </h2>
-        <h2> {{eventos.FechaFin}} </h2>
-        <h2> {{eventos.HoraInicio}} </h2>
-        <h2> {{eventos.HoraFin}} </h2>
-        <h2> {{eventos.Precio}} " Bs" </h2>
-        <h2> {{eventos.Descripcion}} </h2>
-        <h2> {{eventos.NombreLocal}} </h2>
-        <img src="{{eventos.LocalRutaFoto}}" alt="">
-        <h2> {{eventos.NombreCategoria}} </h2>
+        <h2> Evento: {{eventos.NombreEvento}} </h2>
+        <h2> Desde: {{eventos.FechaInicio}} </h2>
+       <!-- <h2> Hasta: {{eventos.FechaFin}} </h2>-->
+        <h2> Hora: {{eventos.HoraInicio}} </h2>
+        <!--<h2> Fin: {{eventos.HoraFin}} </h2>
+        <h2> Precio: Bs.{{eventos.Precio}}  </h2>
+        <h4> {{eventos.Descripcion}} </h4>-->
+        <h2> En: {{eventos.NombreLocal}} </h2>
+       <!-- <img src="{{eventos.LocalRutaFoto}}" alt="">-->
+        <h2> Preferencias: {{eventos.NombreCategoria}} </h2>
         <br>
       </ion-slide>
     </ion-slides>
   </ion-list>
   <ion-list>
+    <h1>Lugares Turisticos:</h1>
     <ion-slides pager>
       <ion-slide  *ngFor="let lugares of lts">
-          <h2> {{lugares.NombreLT}} </h2>
-          <h2> {{lugares.Costo}}"Bs" </h2>
-          <h2> {{lugares.Descripcion}} </h2>
-          <h2> {{lugares.Direccion}} </h2>
-          <img src="{{lugares.LugarFotoRuta}}" alt="">
-          <h2> {{lugares.NombreCategoria}} </h2>
+          <h2> Nombre: {{lugares.NombreLT}} </h2>
+          <h2> Costo: Bs.{{lugares.Costo}} </h2>
+          <!--<h4> {{lugares.Descripcion}} </h4>-->
+          <h4> Direccion: {{lugares.Direccion}} </h4>
+          <!--<img src="{{lugares.LugarFotoRuta}}" alt="">-->
+          <h2> Preferencias: {{lugares.NombreCategoria}} </h2>
           <br>
       </ion-slide>
     </ion-slides>

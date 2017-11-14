@@ -30,9 +30,9 @@ idUser: any;
 
     this.storage.get('id').then(idUser=>{
       this.idUser=idUser;
-      console.log(this.idUser+"id en el .get");
+      //console.log(this.idUser+"id en el .get");
 
-      console.log(this.idUser+"id despues del .get");
+      //console.log(this.idUser+"id despues del .get");
       if(this.idUser!=null){
         this.restapiService.ltSegunPreferencias(this.idUser)
         .then(data=>{
@@ -61,7 +61,7 @@ idUser: any;
  } 
 
  eveSegunPreferencia(){
-
+     // var ev= Array();
       this.storage.get('id').then(idUser=>{      
         this.idUser=idUser;
         if(this.idUser){
@@ -69,18 +69,22 @@ idUser: any;
         .then(data=>{
 
           if(data==-1){
-            console.log('error al recibir del webservice');
+            //console.log('error al recibir del webservice');
             //this.navCtrl.setRoot(LoginPage);
 
           }
           else{
           this.eve = data;
+          this.eve.forEach(eve => {
+            eve.FechaInicio= moment(eve.FechaInicio).format('DD-MM-YYYY');
+            eve.FechaFin= moment(eve.FechaFin).format('DD-MM-YYYY');
+          });
           }
         });
   
       }
       else{
-      console.log('error al recibir el id del storage');
+      //console.log('error al recibir el id del storage');
       //this.navCtrl.setRoot(LoginPage);
       }}) ;   
 
