@@ -192,8 +192,7 @@ create table localidad(
 	lo_id int primary key,
 	lo_nombre varchar(200),
 	lo_descripcion varchar(500),
-	lo_coord_x int,
-  lo_coord_y int
+	lo_coordenada varchar(50)
 );
 --Fin de modulo
 --Modulo 9
@@ -229,8 +228,8 @@ ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENC
 --Modulo 7
 --Fin de modulo
 --Modulo 8
-alter table evento add constraint fk_categoria foreign key (ev_categoria) references categoria (ca_id);
-alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id);
+alter table evento add constraint fk_categoria foreign key (ev_categoria) references categoria (ca_id) on delete cascade;
+alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id) on delete cascade;
 --Fin de modulo
 --Modulo 9
 

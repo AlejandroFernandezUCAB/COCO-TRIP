@@ -294,7 +294,163 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
-  }
+    /// <summary>
+    /// EndPoint para obtener las categorias hijas a partir de una categoria padre dado un ID,
+    /// si el id no viene en la peticion se devuelve las categorias padres absolutas
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [ResponseType(typeof(IDictionary))]
+    [ActionName("CategoriasHabilitadas")]
+    [HttpGet]
+    public IDictionary ObtenerCategoriasHabilitadas( )
+    {
+      try
+      {
+
+       
+        PeticionCategoria peticion = new PeticionCategoria();
+        IList<Categoria> lista = peticion.ObtenerCategoriasHabilitadas();
+
+        response.Add(Response_Data, lista);
+
+      }
+      catch (BaseDeDatosExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Message);
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+      catch (ParametrosNullException ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+      catch (Exception ex)
+      {
+        response.Add(Response_Error, "Ocurrio un error inesperado");
+        /*
+        response.Add(Response_Error, ex.Message);
+        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+        {
+          Content = new StringContent(response.ToString()),
+        };
+
+        throw new HttpResponseException(resp);
+        */
+      }
+
+      return response;
+    }
+
+        public IDictionary agregarCategoria([FromBody] JObject data)
+        {
+
+            try
+            {
+                ValidacionWS.validarParametrosNotNull(data, new List<string> {
+                    "nombre",
+                    "descripcion",
+                    "categoriaSuperior"
+                 });
+
+                Categoria categoria = data.ToObject<Categoria>();
+                Peticion = new PeticionCategoria();
+                Peticion.AgregarCategoria(categoria);
+                response.Add(Response_Data, "Se agrego la categoria de forma exitosa.");
+
+            }
+
+            catch (JsonSerializationException ex)
+            {
+
+                response.Add(Response_Error, ex.Message);
+                /*
+                response.Add(Response_Error, ex.Message);
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                  Content = new StringContent(response.ToString()),
+                };
+
+                throw new HttpResponseException(resp);
+                */
+            }
+
+            catch (JsonReaderException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+                /*
+                response.Add(Response_Error, ex.Message);
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                  Content = new StringContent(response.ToString()),
+                };
+
+                throw new HttpResponseException(resp);
+                */
+            }
+
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Message);
+                /*
+                response.Add(Response_Error, ex.Message);
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                  Content = new StringContent(response.ToString()),
+                };
+
+                throw new HttpResponseException(resp);
+                */
+            }
+            catch (ParametrosNullException ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                /*
+                response.Add(Response_Error, ex.Message);
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                  Content = new StringContent(response.ToString()),
+                };
+
+                throw new HttpResponseException(resp);
+                */
+            }
+            catch (Exception ex)
+            {
+                response.Add(Response_Error, "Ocurrio un error inesperado");
+                /*
+                response.Add(Response_Error, ex.Message);
+                var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                  Content = new StringContent(response.ToString()),
+                };
+
+                throw new HttpResponseException(resp);
+                */
+            }
+
+            return response;
+        }
+
+
+
+    }
 
     
 
