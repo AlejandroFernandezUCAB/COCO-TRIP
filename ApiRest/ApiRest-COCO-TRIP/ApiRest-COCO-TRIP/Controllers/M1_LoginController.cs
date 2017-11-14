@@ -153,12 +153,14 @@ namespace ApiRest_COCO_TRIP.Controllers
           else
           {
             if(usuario.Clave==null)
-            {    
+            {
+              int idusr = usuario.Id;
               usuario.Id = peticion.ConsultarUsuarioSoloNombre(usuario);
               usuario.Clave = clave;
               if (usuario.Id == 0)
               {
-                //usuario.Id = peticion.InsertarUsuario(usuario);// aqui hay que colocar actualizar
+                usuario.Id = idusr;
+                peticion.ActualizarUsuario(usuario);// aqui hay que colocar actualizar
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
                 string uri = "http://192.168.0.105:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;

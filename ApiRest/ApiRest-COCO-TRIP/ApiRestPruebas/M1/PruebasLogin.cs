@@ -142,6 +142,19 @@ namespace ApiRestPruebas
     // TERMINAR, FALTA VER COMO SABER QUE DIO ERROR TRATANDO DE VALIDAR AL USUARIO
     [Test]
     [Category("Actualizar")]
+    public void TestRegistrarUsuarioFacebook()
+    {
+      Assert.DoesNotThrow(() => {
+        controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
+      });
+
+      Assert.Throws<InvalidCastException>(() => {
+        usuario.Correo = null;
+        peticion.ValidarUsuario(usuario);
+      });
+    }
+    [Test]
+    [Category("Actualizar")]
     public void TestActualizarValidacionUsuario()
     {
       Assert.DoesNotThrow(() => {
