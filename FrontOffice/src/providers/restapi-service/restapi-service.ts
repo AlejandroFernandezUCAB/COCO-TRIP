@@ -245,7 +245,6 @@ export class RestapiService {
       this.http.post(this.apiUrl+'/M3_AmigosGrupos/AceptarNotificacion/?nombreUsuarioAceptado='+usuarioAceptado+'&idusuario='+my_id,"")
         .map(res => res.json())
         .subscribe(data => {
-          alert("aceptar notificacion restapi "+data);
           this.data = data;
           resolve(this.data);
         },error=>{

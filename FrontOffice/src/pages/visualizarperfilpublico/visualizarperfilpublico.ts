@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslateModule , TranslateService  } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+
 
 /**
  * Generated class for the VisualizarPerfilPublicoPage page.
@@ -21,18 +22,28 @@ export class VisualizarPerfilPublicoPage {
   toast: any;
   nombreUsuario : string;
   amigo : any;
+  public mensajeToast : any;
   public loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alerCtrl: AlertController,
               public restapiService: RestapiService, public loadingCtrl: LoadingController,
-              public toastCtrl: ToastController, private storage: Storage , translate : TranslateModule) {
+              public toastCtrl: ToastController, private storage: Storage , translate : TranslateModule,
+              public translateService : TranslateService ) {
+               
+                
   }
 
-  realizarToast(mensaje) {
+  realizarToast() {
+    this.translateService.get('Mensaje agregar').subscribe(
+      value => {
+        // value is our translated string
+         this.mensajeToast = value;
+      }
+    )
     this.toast = this.toastCtrl.create({
-      message: mensaje,
+      message: this.mensajeToast,
       duration: 3000,
       position: 'top'
     });
@@ -82,7 +93,8 @@ export class VisualizarPerfilPublicoPage {
           else {
             //this.amigo = data;
             this.loading.dismiss();
-            this.realizarToast('Agregado exitosamente');
+            this.realizarToast();
+            this.navCtrl.pop();
           }
         });
       });

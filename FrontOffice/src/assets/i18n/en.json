@@ -92,5 +92,6 @@
     "Agregar" : "Add",
     "Agregado exitosamente" : "added successfully",
     "Aceptar" : "Accept",
-    "Declinar" : "Decline"
+    "Declinar" : "Decline",
+    "Mensaje agregar" : "A notification has been sended"
 }

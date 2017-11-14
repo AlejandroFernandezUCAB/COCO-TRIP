@@ -45,29 +45,29 @@ export class SeleccionarIntegrantesPage {
 
   agregarGrupo(){
     if ( this.myForm.get('namegroup').errors)
-    this.realizarToast('Por favor, rellene los campos');
+      this.realizarToast('Por favor, rellene los campos');
     else{
+      
       var nombreRestApi = this.nombreGrupo;
       this.cargando();
+      
       this.storage.get('id').then((val) => {
       this.restapiService.agregarGrupo(val,nombreRestApi,"123")
        .then(data => {
          if (data == 0 || data == -1) {
           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-   
-            }
-            else {
-              //this.amigo = data;
-              this.loading.dismiss();
-              this.navCtrl.push(GruposPage);
-              this.realizarToast('Agregado Grupo exitosamente');
-  
-            }
-    
-          });
-        });
-      }
-     }
+          this.loading.dismiss();
+        }
+        else {
+          //this.amigo = data;
+          this.loading.dismiss();
+          this.realizarToast('Agregado Grupo exitosamente');
+          this.navCtrl.pop();
+        }
+      });
+    });
+    }
+  }
 
      realizarToast(mensaje) {
       this.toast = this.toastCtrl.create({
