@@ -350,6 +350,39 @@ namespace ApiRest_COCO_TRIP.Models
       return result;
     }
 
+    public int ExisteSolicitud(int idUsuario, string nombreAmigo)
+    {
+      int respuesta = -1;
+
+      int idAmigo = ObtenerIdUsuario(nombreAmigo);
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "ExisteSolicitud";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idAmigo));
+        leerDatos = conexion.Comando.ExecuteReader();
+        if (leerDatos.Read())
+        {
+          respuesta = leerDatos.GetInt32(0);
+        }
+        leerDatos.Close();
+        conexion.Desconectar();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      return respuesta;
+    }
+
+
     /// <summary>
     /// Metodo que se encarga de buscar amigos en la app
     /// </summary>
