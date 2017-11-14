@@ -517,14 +517,17 @@ ionview
     modal.onDidDismiss(data => {
       if (data) {
         let eventoData = data;
+        console.log("eventoData");
+        console.log(data.evento_nuevo);
         let itinerario_nuevo = data.itinerario;
         eventoData.Id = data.evento_nuevo.Id;
         eventoData.Nombre = data.evento_nuevo.Nombre;
+        eventoData.Tipo = data.evento_nuevo.Tipo;
         eventoData.Foto = data.evento_nuevo.Foto;
         eventoData.FechaInicio = data.evento_nuevo.FechaInicio;
         eventoData.FechaFin = data.evento_nuevo.FechaFin;
         for(var i = 0;i< this.its.length;i++) {
-          if (this.its[i].Nombre == itinerario_nuevo) {
+          if (this.its[i].Nombre == itinerario_nuevo.Nombre) {
             //si el itinerario no tiene eventos, se inicializa el arreglo eventos
             if (this.its[i].Items_agenda == undefined){
               this.its[i].Items_agenda = Array();

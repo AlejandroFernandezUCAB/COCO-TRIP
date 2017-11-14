@@ -110,7 +110,7 @@
             </ion-avatar>
             <p style="font-weight:semibold">{{evento.Nombre}}</p>
             <p><small>{{evento.FechaInicio | date: 'dd/MM/yyyy' }}  -  {{evento.FechaFin | date: 'dd/MM/yyyy' }}</small></p>
-            <p style="color: #3B8686" text-capitalize><small>{{getTipoItem(evento) | translate}}</small></p>
+            <p style="color: #3B8686" text-capitalize><small>{{'evento.Tipo' | translate}}</small></p>
 
         </ion-item>
       </ion-item-group>
