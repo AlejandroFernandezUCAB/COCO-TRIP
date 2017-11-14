@@ -1,4 +1,6 @@
 using BackOffice_COCO_TRIP.Models;
+using BackOffice_COCO_TRIP.Models.Peticion;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 {
   public class M8EventsController : Controller
   {
+    private PeticionCategoria peticion = new PeticionCategoria();
     // GET: M8Events
     public ActionResult Index()
     {
@@ -20,17 +23,39 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       return View();
     }
-
+    [HttpGet]
     // GET: M8Events/Create
-    public ActionResult CreateEvent()
+    public ActionResult CreateEvent(int id = -1)
     {
-      ViewBag.Title = "Crear Categoría";
       //buscar categorias para el select
-      IList<Categories> MyList = new List<Categories>(){
+      /*IList<Categories> MyList = new List<Categories>(){
                 new Categories(){Id=1, Name="UK"},
                 new Categories(){Id=2, Name="VE"}
           };
+      */
+      ViewBag.Title = "Categorías";
+      IList<Categories> MyList = null;
+      try
+      {
+        JObject respuesta = peticion.Get(id);
+        if (respuesta.Property("data") != null)
+        {
+          MyList = respuesta["data"].ToObject<List<Categories>>();
+        }
 
+        else
+        {
+          MyList = new List<Categories>();
+          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+        }
+
+        TempData["listaCategorias"] = MyList;
+      }
+      catch (Exception e)
+      {
+
+        throw e;
+      }
       ViewBag.MyList = MyList;
       return View();
     }
