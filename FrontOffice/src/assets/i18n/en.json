@@ -51,6 +51,10 @@
     "Nueva contraseña":"New password",
     "Guardar Contraseña": "Save password",
     "Contraseña actual":"Current password",
+    "Se guardaron tus cambios": "Your changes have been saved",
+    "Error al modificando los datos" : "Error occured when modifying data",
+    "Contraseña incorrecta": "Wrong password",
+    "No hay cambios en los campos": "There were no changes within the fields",
 
     "Comienza": "Starts: ",
     "Termina": "Ends: ",

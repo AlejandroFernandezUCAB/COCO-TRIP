@@ -12,23 +12,22 @@
 
 </ion-header>
 
-
+<!-- Este formulario se usará para borrar al usuario, una vez se le de al boton "Confirmar"
+      este procederá a borrarlo. Si se borra exitosamente te redirige a la ventana de Login, de caso
+      contrario te enviará a la ventana anterior. Cada campo del formulario posee validaciones.-->
 <ion-content padding>
-
-  <ion-grid>
-    <ion-row>
-      <ion-item>
-        <ion-label>{{ 'Introduzca su contraseña' | translate }}</ion-label>
-      </ion-item>
-    </ion-row>
-    <ion-row>
+  <form [formGroup]="myForm" (ngSubmit)="borrarData()" novalidate>
+    <ion-list>
         <ion-item>
-            <ion-input clearInput required></ion-input>
-          </ion-item>
-    </ion-row>
-    <ion-row>
-        <button full ion-button (click)="presentConfirm()">{{ 'Confirmar' | translate }}</button>
-    </ion-row>
-  </ion-grid>
-  
+            <ion-label floating>{{ 'Introduzca su contraseña' | translate }}</ion-label>
+            <ion-input type="password" formControlName="pass" clearInput="true"></ion-input>
+        </ion-item>
+        <!-- Validación -->
+        <ion-item *ngIf="myForm.get('pass').errors && myForm.get('pass').dirty">
+            <p color="danger" ion-text *ngIf="myForm.get('pass').hasError('required')">{{ 'Este campo es requerido' | translate }}</p>
+        </ion-item>
+    </ion-list>
+    <button ion-button type="submit" block>{{ 'Confirmar' | translate }}</button>
+  </form>
 </ion-content>
+-->

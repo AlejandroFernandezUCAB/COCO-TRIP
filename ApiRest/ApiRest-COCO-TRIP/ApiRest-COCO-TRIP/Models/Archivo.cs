@@ -36,16 +36,16 @@ namespace ApiRest_COCO_TRIP.Models
     /// </summary>
     public Archivo()
     {
-      ruta = "/Images/";
+      ruta = "/bin/Images/";
       rutaCompleta = Assembly.GetExecutingAssembly().CodeBase;
 
       var uri = new UriBuilder(rutaCompleta);
       rutaCompleta = Uri.UnescapeDataString(uri.Path);
-      rutaCompleta = Path.GetDirectoryName(rutaCompleta) + ruta;
+      rutaCompleta = Path.GetDirectoryName(rutaCompleta) + "/Images/";
     }
 
     /// <summary>
-    /// Crea o sobreescribe el archivo 
+    /// Crea o sobreescribe el archivo
     /// </summary>
     /// <param name="contenido">Bytes del archivo</param>
     /// <param nombreArchivo="nombreArchivo">Nombre del archivo a escribir</param>
