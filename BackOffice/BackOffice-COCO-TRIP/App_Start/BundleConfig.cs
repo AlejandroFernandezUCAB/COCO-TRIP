@@ -81,6 +81,9 @@ namespace BackOffice_COCO_TRIP
             bundles.Add(new StyleBundle("~/bundles/lugares_viewallCSS").Include(
                     "~/Content/Lugares/view_all.css"
                     ));
+            bundles.Add(new StyleBundle("~/bundles/lugares_alertsCSS").Include(
+                    "~/Content/Lugares/alerts.css"
+                    ));
             bundles.Add(new StyleBundle("~/bundles/sweetAlertCSS").Include(
                     "~/Content/sweetalert2.min.css"
                     ));
