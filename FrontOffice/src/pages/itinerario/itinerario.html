@@ -101,7 +101,7 @@
         <ion-item *ngFor="let evento of itinerario.Items_agenda; let i=index" (click) ="verItem(evento, itinerario)" text-wrap>
           <section>
             <ion-buttons start *ngIf="delete">
-              <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirmItem(itinerario.Id, evento.Id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">{{'Eliminar' | translate}}</p>
+              <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="presentConfirmItem(itinerario.Id, evento, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">{{'Eliminar' | translate}}</p>
               </button>
             </ion-buttons>
           </section>
