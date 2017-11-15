@@ -124,8 +124,8 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
              { "precio", data.Precio },
             { "fechaInicio",data.FechaInicio.ToString()},
             {"fechaFin",data.FechaFin.ToString() },
-            {"horaInicio",data.HoraInicio.ToString() },
-            {"horaFin",data.HoraFin.ToString() },
+            {"horaInicio",data.HoraInicio.Hour+":"+data.FechaInicio.Minute+":00" },
+            {"horaFin",data.HoraInicio.Hour+":"+data.FechaInicio.Minute+":00" },
             {"foto",data.Foto },
             { "idCategoria",data.IdCategoria},
             {"idLocalidad",data.IdLocalidad }

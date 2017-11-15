@@ -74,10 +74,18 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       try
       {
-        // var idLocalidad = Request["Localidades"].ToString();
-        // evento.IdLocalidad = Int32.Parse(idLocalidad);
+         //var idLocalidad = Request["Localidades"].ToString();
+        //evento.IdLocalidad = Int32.Parse(idLocalidad);
         evento.IdLocalidad = 1;
         evento.Foto = "jorge";
+        System.Console.Write("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        /*evento.FechaInicio = new DateTime(12, 12, 12);
+        evento.FechaFin = new DateTime(12, 12, 12);
+        evento.HoraInicio.AddHours(12);
+        evento.HoraInicio.AddMinutes(12);
+        evento.HoraFin.AddHours(12);
+        evento.HoraFin.AddMinutes(12);*/
+
         var idCategoria = Request["Categoria"].ToString();
         evento.IdCategoria = Int32.Parse(idCategoria);
 
@@ -102,9 +110,9 @@ namespace BackOffice_COCO_TRIP.Controllers
 
         throw e;
       }
-        
-      
-      return View();
+
+
+      return RedirectToAction("FilterEvent");
     }
 
     // GET: M8Events/Edit/5

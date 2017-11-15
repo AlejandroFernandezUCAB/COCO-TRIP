@@ -30,7 +30,7 @@ namespace BackOffice_COCO_TRIP.Models
     [StringLength(60)]
     public string Coordenadas { get => coordenadas; set => coordenadas = value; }
     [JsonProperty(PropertyName = "id")]
-    [StringLength(36)]
+   
     public int Id { get => id; set => id = value; }
 
     public LocalidadEvento(string _nombre, string _descripcion, string _coordenadas)

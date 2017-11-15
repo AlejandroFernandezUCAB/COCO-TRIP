@@ -46,7 +46,7 @@ namespace ApiRest_COCO_TRIP.Controllers
        
           PeticionEvento peticionEvento = new PeticionEvento();
           int idEvento = peticionEvento.AgregarEvento(evento);
-          respuesta.Add("dato", idEvento); 
+          respuesta.Add("dato", "Se ha agregado"); 
        
       }
       catch (BaseDeDatosExcepcion e)
