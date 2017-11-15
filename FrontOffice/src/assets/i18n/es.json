@@ -111,6 +111,14 @@
     "Desea agregar a esta persona como amigo?" : "Do you want to add this person as a friend?",
     "Por favor, espere" : "Please, wait",
     
-    "Grupo Exitoso":"Grupo Agregado Exitosamente"
-
+    "Grupo Exitoso":"Grupo Agregado Exitosamente",
+    "Eventos: Recuerda Agregar tus Preferencias":"Eventos: Recuerda Agregar tus Perefencias",
+    "Fecha":"Date",
+    "Lugares Turisticos: Recuerda Agregar tus Preferencias":"Lugares Turisticos: Recuerda Agregar tus Preferencias",
+    "Costo":"Costo",
+    "Direccion":"Direccion",
+    "Inicia":"Inicia",
+    "Finaliza":"Finaliza",
+    "En":"En",
+    "Preferencias":"Preferencias"
 }
