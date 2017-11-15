@@ -66,7 +66,7 @@ namespace ApiRestPruebas.M1
         Precio = 5000,
         Descripcion = "pre despacho antes de beber en holic",
         NombreLocal = "Holic",
-        LocalFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\predespachill.jpg",
+        LocalFotoRuta = "predespachill.jpg",
         NombreCategoria = "bar"
 
       };
@@ -80,7 +80,7 @@ namespace ApiRestPruebas.M1
         Precio = 5000,
         Descripcion = "tomar birras para recaudar fondos para la ucab",
         NombreLocal = "Birras Bistro",
-        LocalFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\rc.jpg",
+        LocalFotoRuta = "rc.jpg",
         NombreCategoria = "bar"
 
       };
@@ -90,12 +90,13 @@ namespace ApiRestPruebas.M1
         Costo = 0,
         Descripcion = "Farandu lLaya",
         Direccion = "la guaria",
-        LugarFotoRuta = "C:\\Users\\pedro\\OneDrive\\Documentos\\GitKraken\\COCO-TRIP\\FrontOffice\\src\\assets\\images\\pelua.jpg",
+        LugarFotoRuta = "pelua.jpg",
         NombreCategoria= "bar"
 
       };
       globalf = peticion.InsertarUsuarioFacebook(usuariof);
       global = peticion.InsertarUsuario(usuario);
+      //globalEveHome =
     }
 
     [TearDown]
