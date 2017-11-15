@@ -149,22 +149,22 @@ pressEvent1(){
   }
 
   agregarMensajeAmigo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idAmigo,this.idUsuario).then(() => {
-      this.content.scrollToBottom();
-      this.nuevoMensaje = '';
-    })
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idUsuario,this.idAmigo);
+    this.content.scrollToBottom();
+    this.nuevoMensaje = '';
+  
   }
 
   agregarMensajeGrupo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario).then(() => {
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario);
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
-    })
+    
   }
 
   ionViewDidEnter() {
     if(this.idAmigo){
-      this.chatService.obtenerMensajesConversacionAmigo(this.idAmigo);
+      this.chatService.obtenerMensajesConversacionAmigo(this.idUsuario,this.idAmigo);
     }else if(this.idGrupo){
       this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
     }
