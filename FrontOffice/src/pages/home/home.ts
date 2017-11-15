@@ -6,22 +6,23 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { LoginPage } from '../login/login';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+_itis : any;
 lts : any;
 eve: any;
 idUser: any;
 apiUrl = 'http://localhost:8091/fotos/';
 aux: string;
-//validarEve:boolean;
-//validarlts:boolean;
-  constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController) {
+
+  constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController,public translateService: TranslateService) {
     //console.log(this.its2);
- //   this.IniciarNotificaciones();
+    this.IniciarNotificaciones();
     this.menu.enable(true);
     this.eveSegunPreferencia();
     this.ltSegunPreferencia();
@@ -50,7 +51,7 @@ aux: string;
   
           else{
             
-            console.log(data);  
+            //console.log(data);  
           this.lts = data;
           //console.log(this.lts);
           }
@@ -68,6 +69,10 @@ detalleEvento(eventos){
   let modal = this.modalCtrl.create('DetalleEventoPage', {eventos:eventos});
   modal.present();
 }
+detalleLTS(lugares){
+  let modal = this.modalCtrl.create('DetalleLtPage', {lugares:lugares});
+  modal.present();
+}
  eveSegunPreferencia(){
      // var ev= Array();
       this.storage.get('id').then(idUser=>{      
@@ -82,7 +87,7 @@ detalleEvento(eventos){
 
           }
           else{
-            console.log(data);  
+            //console.log(data);  
           this.eve = data;
           this.eve.forEach(eve => {
             //console.log(eve.LocalFotoRuta);
@@ -105,11 +110,40 @@ detalleEvento(eventos){
 
    } 
 
-    /* IniciarNotificaciones() {
-    this.http.NotificacionUsuario(1)
-    .then(data => {
-      this._itis = data;
-      console.log(this._itis);
-    });
-  }*/
+    IniciarNotificaciones() {
+      this.storage.get('id').then(idUser=>{      
+        this.idUser=idUser;
+        
+        if(this.idUser){
+          let idusu ={ id_usuario: idUser }
+          this.http.agregarNotificacion(this.idUser).then(agre => {
+            if(agre == true){
+              this.http.getNotificacionesConfig(this.idUser).then(confic => {
+
+                if(confic == true){
+                  setInterval(() => {
+                    this.http.NotificacionUsuario(this.idUser).then(data => {
+                      this._itis = data;
+                      
+                      console.log(this._itis);
+                    });
+                  }, 1000 * 60 * 12);
+                 
+                }
+                else{
+                  //No desea recibir notificaciones.
+                }
+              });
+            }
+            else{
+              console.log("Error agregando.");
+            }
+          });          
+        }
+        else{
+          console.log('Error al recibir el id del storage');
+        }
+      });  
+  }
+
 }

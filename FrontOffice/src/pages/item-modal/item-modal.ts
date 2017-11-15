@@ -169,17 +169,25 @@ export class ItemModalPage {
                   {
                     this.realizarToast('Fecha inicio debe ser menor que fecha fin');
                   }
+                  else
                   if (this.FechaFin > this.itinerario.FechaFin)
                   {
                     this.realizarToast('Fecha fin del item debe ser menor que fecha fin del itinerario');
                   }
+                  else
                   if (this.FechaInicio < this.itinerario.FechaInicio)
                   {
                     this.realizarToast('Fecha inicio del item debe ser mayor que fecha inicio del itinerario');
                   }
                   else
                   {
-                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
+                      if (data==false){
+                        this.realizarToast('Item ya esta agregado');
+                      }else {
+                        this.realizarToast('Item ya esta agregado');
+                      }
+                    });
                     this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                    }
                 }
