@@ -13,6 +13,7 @@ namespace BackOffice_COCO_TRIP.Controllers
   {
     private PeticionCategoria peticionCategoria = new PeticionCategoria();
     private PeticionM8_Localidad peticionLocalidad = new PeticionM8_Localidad();
+    private PeticionEvento peticionEvento = new PeticionEvento();
     // GET: M8Events
     public ActionResult Index()
     {
@@ -131,13 +132,15 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     // GET: M8Events
     [HttpGet]
-    public ActionResult FilterEvent(int id = -1)
+    public ActionResult FilterEvent()
     {
-      ViewBag.Title = "Categorías";
+
+     
+      ViewBag.Title = "Eventos por Categorias";
       IList<Categories> MyList = null;
       try
       {
-        JObject respuesta = peticion.Get(id);
+        JObject respuesta = peticionCategoria.Get(-1);
         if (respuesta.Property("data") != null)
         {
           MyList = respuesta["data"].ToObject<List<Categories>>();
@@ -160,7 +163,34 @@ namespace BackOffice_COCO_TRIP.Controllers
       return View();
     }
 
+    [HttpGet]
+    public ActionResult enviarFilterEvent()
+    {
+     var IdCategoria = Request["Mover a la categoria"].ToString();
+     int Id= Int32.Parse(IdCategoria);
 
-   
+      JObject respuesta = peticionEvento.Get(Id);
+      IList<Evento> evento = null;
+      if (respuesta.Property("dato") == null)
+      {
+
+
+        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+
+
+      }
+      else
+      {
+        ModelState.AddModelError(string.Empty, "Se hizo con exito");
+
+        evento = respuesta["dato"].ToObject<List<Evento>>();
+
+        TempData["evento"] = evento;
+        return RedirectToAction("FilterEvent", "M8Events", evento);
+      }
+
+      return RedirectToAction("FilterEvent");
+    }
+
   }
 }

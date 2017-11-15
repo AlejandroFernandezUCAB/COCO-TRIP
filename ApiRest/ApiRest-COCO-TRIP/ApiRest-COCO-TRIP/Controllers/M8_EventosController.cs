@@ -29,6 +29,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /**
      * <summary>Metodo de controlador para Agregar un Evento a la BBDD</summary>
      * **/
+    
     [ResponseType(typeof(IDictionary))]
     [ActionName("agregarEvento")]
     [HttpPost]
@@ -166,26 +167,27 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return respuesta;
     }
+
     /**
      * <summary>Metodo de controlador para listar todas las categorias desde la fecha danda</summary>
      * <param name="date">Fecha desde donde se buscaran los eventos</param>
      * */
-     /**
-    [ResponseType(typeof(IDictionary))]
-    [ActionName("listarEventosPorFecha")]
-    [HttpGet]
-    public IDictionary ListarEventosPorFecha([FromBody] JObject data)
-    {
-      Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
-        {
-          "dia","mes","ano"
-        });
-      DateTime date =new DateTime()
-      PeticionEvento peticionEvento = new PeticionEvento();
-      peticionEvento.ListaEventosPorFecha(date);
+    /**
+   [ResponseType(typeof(IDictionary))]
+   [ActionName("listarEventosPorFecha")]
+   [HttpGet]
+   public IDictionary ListarEventosPorFecha([FromBody] JObject data)
+   {
+     Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
+       {
+         "dia","mes","ano"
+       });
+     DateTime date =new DateTime()
+     PeticionEvento peticionEvento = new PeticionEvento();
+     peticionEvento.ListaEventosPorFecha(date);
 
-      return
-    }
-  **/
+     return
+   }
+ **/
   }
 }
