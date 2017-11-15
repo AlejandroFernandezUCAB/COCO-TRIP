@@ -63,7 +63,7 @@ Create Table Grupo
 (
 gr_id int NOT NULL,
 gr_nombre varchar(100) NOT NULL,
-gr_foto bytea,
+gr_foto varchar,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),

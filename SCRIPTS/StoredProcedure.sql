@@ -2031,7 +2031,7 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
- //Lista de todas las localidades
+ --Lista de todas las localidades
 CREATE OR REPLACE FUNCTION consultarlocalidades()
   RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
 $BODY$
