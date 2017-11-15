@@ -98,7 +98,7 @@ aceptarAmigo(nombreUsuarioAceptado,index){
     this.restapiService.aceptarNotificacion(nombreUsuarioAceptado , val)
       .then(data => {
       if (data == 0 || data == -1) {
-        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+       
       }
       else {
         if(data == 1){
