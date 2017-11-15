@@ -53,69 +53,30 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       catch (JsonReaderException ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (ParametrosNullException ex)
       {
         response.Add(Response_Error, ex.Mensaje);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
+
       }
       catch (Exception ex)
       {
         response.Add(Response_Error, "Ocurrio un error inesperado");
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
 
@@ -148,41 +109,17 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (ParametrosNullException ex)
       {
         response.Add(Response_Error, ex.Mensaje);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (Exception ex)
       {
         response.Add(Response_Error, "Ocurrio un error inesperado");
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       return response;
@@ -228,15 +165,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         response.Add(Response_Error, ex.Mensaje);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
+        response.Add("MensajeError", "No se puede mover porque tiene categorias asociadas");
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       catch (NombreDuplicadoException ex)
@@ -244,73 +174,33 @@ namespace ApiRest_COCO_TRIP.Controllers
 
         response.Add(Response_Error, ex.Mensaje);
         response.Add("MensajeError", "Este nombre de categoria ya existe");
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       catch (JsonSerializationException ex)
       {
 
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       catch (JsonReaderException ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (ParametrosNullException ex)
       {
         response.Add(Response_Error, ex.Mensaje);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
-      
+
 
       return response;
 
@@ -340,41 +230,17 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (ParametrosNullException ex)
       {
         response.Add(Response_Error, ex.Mensaje);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (Exception ex)
       {
         response.Add(Response_Error, "Ocurrio un error inesperado");
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       return response;
@@ -395,103 +261,53 @@ namespace ApiRest_COCO_TRIP.Controllers
                     "nivel"
                  });
 
-                Categoria categoria = data.ToObject<Categoria>();
-                Peticion = new PeticionCategoria();
-                Peticion.AgregarCategoria(categoria);
-                response.Add(Response_Data, "Se agrego la categoria de forma exitosa.");
+        Categoria categoria = data.ToObject<Categoria>();
+        Peticion = new PeticionCategoria();
+        Peticion.AgregarCategoria(categoria);
+        response.Add(Response_Data, "Se agrego la categoria de forma exitosa.");
 
-            }
+      }
 
-            catch (JsonSerializationException ex)
-            {
+      catch (JsonSerializationException ex)
+      {
 
-                response.Add(Response_Error, ex.Message);
-                /*
-                response.Add(Response_Error, ex.Message);
-                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                  Content = new StringContent(response.ToString()),
-                };
+        response.Add(Response_Error, ex.Message);
 
-                throw new HttpResponseException(resp);
-                */
-            }
+      }
 
-            catch (NombreDuplicadoException ex)
-            {
+      catch (NombreDuplicadoException ex)
+      {
 
-              response.Add(Response_Error, ex.Mensaje);
-              response.Add("MensajeError", "Este nombre de categoria ya existe");
-              /*
-              response.Add(Response_Error, ex.Message);
-              var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-              {
-                Content = new StringContent(response.ToString()),
-              };
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", "Este nombre de categoria ya existe");
 
-              throw new HttpResponseException(resp);
-              */
-            }
+      }
 
-            catch (JsonReaderException ex)
-            {
-                response.Add(Response_Error, ex.Message);
-                /*
-                response.Add(Response_Error, ex.Message);
-                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                  Content = new StringContent(response.ToString()),
-                };
+      catch (JsonReaderException ex)
+      {
+        response.Add(Response_Error, ex.Message);
 
-                throw new HttpResponseException(resp);
-                */
-            }
+      }
 
-            catch (BaseDeDatosExcepcion ex)
-            {
-                response.Add(Response_Error, ex.Message);
-                /*
-                response.Add(Response_Error, ex.Message);
-                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                  Content = new StringContent(response.ToString()),
-                };
+      catch (BaseDeDatosExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Message);
 
-                throw new HttpResponseException(resp);
-                */
-            }
-            catch (ParametrosNullException ex)
-            {
-                response.Add(Response_Error, ex.Mensaje);
-                /*
-                response.Add(Response_Error, ex.Message);
-                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                  Content = new StringContent(response.ToString()),
-                };
+      }
+      catch (ParametrosNullException ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
 
-                throw new HttpResponseException(resp);
-                */
-            }
-            catch (Exception ex)
-            {
-                response.Add(Response_Error, "Ocurrio un error inesperado");
-                /*
-                response.Add(Response_Error, ex.Message);
-                var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                {
-                  Content = new StringContent(response.ToString()),
-                };
+      }
+      catch (Exception ex)
+      {
+        response.Add(Response_Error, "Ocurrio un error inesperado");
 
-                throw new HttpResponseException(resp);
-                */
-            }
-
-            
+      }
 
       return response;
-        }
-        
+    }
+
 
 
     [ResponseType(typeof(IDictionary))]
@@ -513,52 +329,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Message);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (ParametrosNullException ex)
       {
         response.Add(Response_Error, ex.Mensaje);
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
       catch (Exception ex)
       {
         response.Add(Response_Error, "Ocurrio un error inesperado");
-        /*
-        response.Add(Response_Error, ex.Message);
-        var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-        {
-          Content = new StringContent(response.ToString()),
-        };
 
-        throw new HttpResponseException(resp);
-        */
       }
 
       return response;
     }
 
-
-
   }
-
-
-
-
 
 }
