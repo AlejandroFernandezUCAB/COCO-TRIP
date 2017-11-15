@@ -91,7 +91,7 @@ namespace BackOffice_COCO_TRIP.Controllers
         /// <param name="collection"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Create(LugarTuristico lugar, string activarTextual)
+        public ActionResult Create(LugarTuristico lugar/*, string activarTextual*/)
         {
             peticion = new PeticionLugares();
 
@@ -106,7 +106,7 @@ namespace BackOffice_COCO_TRIP.Controllers
                 }
                 else
                 {
-                    if(activarTextual == "Activo")
+                    /*if(activarTextual == "Activo")
                     {
                       lugar.Activar = true;
                     }
@@ -114,7 +114,7 @@ namespace BackOffice_COCO_TRIP.Controllers
                     {
                       lugar.Activar = false;
 
-                    }
+                    }*/
 
                     var respuesta = peticion.PostLugar(lugar);
 

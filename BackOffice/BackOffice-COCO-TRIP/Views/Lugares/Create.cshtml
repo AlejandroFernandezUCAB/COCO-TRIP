@@ -8,7 +8,7 @@
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;genes del lugar</label>
         <input class="col-sm-6" type="file" id="perfilphoto" name="Foto[0].Contenido">
-        <p class="help-block col-sm-9">La foto seleccionada se ver&aacute;n en el lugar tur&iacute;stico</p>
+        <p class="help-block col-sm-9">La foto seleccionada se ver&aacute; en el lugar tur&iacute;stico</p>
       </div>
 
       
@@ -36,10 +36,10 @@
           <div class="form-group">
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
-              <select class="form-control" id="category" name="activarTextual">
+              <select class="form-control" id="category" name="Activar">
                 <option selected disabled>Elige una estado</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
               </select>
             </div>
           </div>
@@ -296,13 +296,13 @@
                         <label for="name" class="control-label">D&iacute;a</label>
                         <select class="form-control" id="dia">
                           <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
+                          <option id="1">Lunes</option>
+                          <option id="2">Martes</option>
+                          <option id="3">Miercoles</option>
+                          <option id="4">Jueves</option>
+                          <option id="5">Viernes</option>
+                          <option id="6">Sabado</option>
+                          <option id="0">Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -650,7 +650,7 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInput2">Descripci&oacute;n</label>
-                          <textarea class="form-control"></textarea>
+                          <textarea class="form-control" name=""></textarea>
                         </div>
                       </div>
                     </div>
@@ -728,7 +728,7 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInput4">Descripci&oacute;n</label>
-                          <textarea class="form-control"></textarea>
+                          <textarea class="form-control" name=""></textarea>
                         </div>
                       </div>
                     </div> 
@@ -745,7 +745,7 @@
           <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Direcci&oacute;n</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="name" placeholder="Ingrese direcci&oacute;n...">
+              <input type="text" class="form-control" id="name" placeholder="Ingrese direcci&oacute;n..." name="Direccion">
             </div>
           </div>
         </div>
@@ -755,7 +755,7 @@
             <div class="form-group form-group-correo">
               <label for="email" class="col-sm-2 control-label">Correo</label>
               <div class="col-sm-9">
-                <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com">
+                <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com" name="Correo">
               </div>
             </div>
           </div>
@@ -764,7 +764,7 @@
             <div class="form-group form-group-telefono">
               <label for="telefono" class="col-sm-2 control-label">Tel&eacute;fono</label>
               <div class="col-sm-9">
-                <input type="tel" class="form-control" id="telefono" placeholder="N&uacute;mero de tel&eacute;fono...">
+                <input type="tel" class="form-control" id="telefono" placeholder="N&uacute;mero de tel&eacute;fono..." name="Telefono">
               </div>
             </div>  
           </div>
@@ -775,7 +775,7 @@
           <div class="form-group">
             <label for="category" class="col-sm-2 control-label">Descripci&oacute;n</label>
             <div class="col-sm-9">
-              <textarea class="form-control" rows="4"></textarea>
+              <textarea class="form-control" rows="4" name="Descripcion"></textarea>
             </div>
           </div>
         </div>
@@ -783,12 +783,12 @@
         <div class="row form-group">
           <div class="col-md-5">
             <label for="latitud" class="col-sm-2 control-label label-latitud">Latitud(GD)</label>
-            <input type="text" id="latitud" />
+            <input type="text" id="latitud" name="Latitud"/>
           </div>
           <div class="col-md-5">
             <label for="longitud" class="col-sm-2 control-label label-longitud">Longitud(GD)</label>
             <div class="col-sm-9">
-              <input type="text" id="longitud" />
+              <input type="text" id="longitud" name="Longitud" />
             </div>
           </div>
 
