@@ -153,10 +153,35 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     // GET: M8Events
     [HttpGet]
-    public ActionResult FilterEvent()
+    public ActionResult FilterEvent(int id = -1)
     {
+      ViewBag.Title = "Categorías";
+      IList<Categories> MyList = null;
+      try
+      {
+        JObject respuesta = peticion.Get(id);
+        if (respuesta.Property("data") != null)
+        {
+          MyList = respuesta["data"].ToObject<List<Categories>>();
+        }
+
+        else
+        {
+          MyList = new List<Categories>();
+          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+        }
+
+        TempData["listaCategorias"] = MyList;
+      }
+      catch (Exception e)
+      {
+
+        throw e;
+      }
+      ViewBag.MyList = MyList;
       return View();
     }
+
 
    
   }
