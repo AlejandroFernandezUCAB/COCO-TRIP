@@ -225,12 +225,6 @@ create table localidad(
 --Fin de modulo
 --Modulo 9
 
-
-INSERT INTO public.categoria(
-            ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, 
-            ca_nivel)
-    VALUES (0, 'test', 'test', true);
-
 --Fin de modulo 9
 
 
