@@ -104,6 +104,10 @@ export class RegisterPage {
             {
               this.realizarToast('Registro denegado, el nombre de usuario introducido se encuentra en uso');
             }
+            if (data==-4)
+            {
+              this.realizarToast('Registro denegado, el correo introducido se encuentra en proceso de validacion');
+            }
             if(data>0){
               this.realizarToast('Se le ha enviado un correo para confirmar su registro');
               this.navCtrl.setRoot(LoginPage);

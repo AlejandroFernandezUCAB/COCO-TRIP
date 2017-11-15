@@ -309,7 +309,9 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestRegistrarUsuario()
     {
-
+      peticion.EliminarUsuario(1);
+      peticion.EliminarUsuario(2);
+      usuario.Correo = "hdms26@gmail.com";
       Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       Assert.AreEqual(-4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
@@ -373,8 +375,6 @@ namespace ApiRestPruebas.M1
         controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario));
       });
       usuario.Foto = "";
-
-
     }
 
     [Test]
