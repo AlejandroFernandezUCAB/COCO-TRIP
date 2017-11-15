@@ -185,10 +185,13 @@ export class ItemModalPage {
                     vlista.FechaInicio = this.FechaInicio;
                     vlista.FechaFin = this.FechaFin;
                     this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
-                      if (data==false){
-                        this.realizarToast('Item ya esta agregado');
+                      console.log(data);
+                      if (data == null){
+                        this.realizarToast('El item ya esta en el itinerario');
+                        this.viewCtrl.dismiss();
                       }else {
-                        this.realizarToast('Item ya esta agregado');
+                        this.realizarToast('wohole');
+                        this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                       }
                     });
                     this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
