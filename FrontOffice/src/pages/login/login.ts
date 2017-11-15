@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { MenuController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 /**
  * Generated class for the LoginPage page.
  *
@@ -34,13 +35,18 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
     public alertCtrl: AlertController, public facebook: Facebook, public googleAuth: GoogleAuth, public user: User,
     public restapiService: RestapiService, public menu: MenuController, public formBuilder: FormBuilder,
-    private storage: Storage, public plt: Platform, public navParams: NavParams) {
+    private storage: Storage, public plt: Platform,public translateService: TranslateService, public navParams: NavParams) {
     this.myForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
     this.vista = false;
     this.menu.enable(false);
+    this.storage.get('id').then((val) => {
+      if(val != null || val != undefined){
+        this.translateService.use(val);
+      }
+    });
     this.plt.ready().then(ready=>{
     this.facebook.getLoginStatus().then( (estado : FacebookLoginResponse) =>{
       if(estado.status != 'connected')
