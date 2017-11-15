@@ -432,8 +432,24 @@ namespace ApiRest_COCO_TRIP.Models
         user.Correo = pgread.GetString(1);
         user.Nombre = pgread.GetString(2);
         user.Apellido = pgread.GetString(3);
-        user.FechaNacimiento = pgread.GetDateTime(4);
-        user.Genero = pgread.GetString(5);
+        // Verificamos que la fecha no sea null
+        if (pgread.IsDBNull(4))
+        {
+          user.FechaNacimiento = DateTime.Now;
+        }
+        else
+        {
+          user.FechaNacimiento = pgread.GetDateTime(4);
+        }
+        // Verificamos que el genero no sea null
+        if (pgread.IsDBNull(5))
+        {
+          user.Genero = "M";
+        }
+        else
+        {
+          user.Genero = pgread.GetString(5);
+        }
         conexion.Desconectar();
         return user;
       }

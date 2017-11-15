@@ -1,0 +1,34 @@
+
+@model BackOffice_COCO_TRIP.Models.LocalidadEvento
+
+
+<h2>Localidad</h2>
+
+
+  <div class="form-horizontal">
+    <hr />
+
+    <div class="form-group">
+      @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.DisplayFor(model => model.Nombre, "nombre")
+      </div>
+    </div>
+
+    <div class="form-group">
+      @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.DisplayFor(model => model.Descripcion)
+      </div>
+    </div>
+
+    <div class="form-group">
+      @Html.LabelFor(model => model.Coordenadas, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.DisplayFor(model => model.Coordenadas)
+      </div>
+
+    </div>
+
+  </div>
+
