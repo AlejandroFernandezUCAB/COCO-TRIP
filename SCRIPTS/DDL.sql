@@ -63,7 +63,7 @@ Create Table Grupo
 (
 gr_id int NOT NULL,
 gr_nombre varchar(100) NOT NULL,
-gr_foto bytea,
+gr_foto varchar,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
@@ -228,13 +228,29 @@ create table localidad(
 	lo_coordenada varchar(50)
 );
 --Fin de modulo
+--Modulo 9
+CREATE TABLE categoria
+(
+  ca_id integer UNIQUE NOT NULL,
+  ca_nombre character varying(500) UNIQUE not null,
+  ca_descripcion character varying(2000) not null,
+  ca_status boolean default true not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+INSERT INTO public.categoria(
+            ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, 
+            ca_nivel)
+    VALUES (0, 'test', 'test', true);
+
+--Fin de modulo 9
 
 
 --ALTERS
 --Modulo 1
 --Fin de modulo
 --Modulo 2
---alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
+alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
 --Fin de modulo
 --Modulo 3
 --Fin de modulo
@@ -287,12 +303,12 @@ CREATE SEQUENCE SEQ_LT_Horario;
 CREATE SEQUENCE SEQ_LT_Foto;
 --Fin de modulo
 --Modulo 8
-CREATE SEQUENCE SEQ_Evento;
-CREATE SEQUENCE SEQ_Localidad;
+
+
 --Fin de modulo
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
-    START WITH 1
+    START WITH 5
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE

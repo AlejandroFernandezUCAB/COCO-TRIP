@@ -1,15 +1,20 @@
 @Styles.Render("~/bundles/lugares_activityCSS")
 
 <div class="content-page-actividad card">
+
+  <!---->
+    @foreach (var actividad in Model)
+    {
+
   <div class="row">
     <div class="title-actividad" align="center">
-      Paseo en lanchas a pedal
+      @actividad.Nombre
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
       <div class="content-image-actividad">
-        <img src="@Url.Content("~/Images/Lugares/lanchitas.jpg")" alt="">
+        <img src="@actividad.Foto.Ruta" alt="">
       </div>
     </div>
     <div class="col-md-6">
@@ -23,7 +28,7 @@
 
         <div class="col-md-2">
           <div class="text-descripcion-actividad">
-            3 horas
+            @Convert.ToInt32(actividad.Duracion.TotalMinutes) minutos
           </div>
         </div>
 
@@ -39,7 +44,10 @@
 
         <div class="col-md-2">
           <div class="text-descripcion-actividad">
-            Activo
+            @if (actividad.Activar)
+            { <text>Activo</text> }
+            else
+            { <text>Inactivo</text> }
           </div>
         </div>
 
@@ -48,181 +56,24 @@
       <div class="row">
         <div class="title-descripcion-actividad">Descripci&oacute;n</div>
         <div class="text-descripcion-actividad">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus reiciendis repellendus perspiciatis doloremque neque, totam quos cupiditate saepe, qui? Dolorem officia provident sit aut. Dolorum placeat iure aut ipsa impedit repellendus est tenetur velit quas illo suscipit sit, saepe nesciunt architecto, dolores, autem optio! Laboriosam reprehenderit laborum provident alias, esse!
+          @actividad.Descripcion
         </div>
       </div>
     </div>
   </div>
+
 
   <hr>
 
-  <div class="row">
-    <div class="title-actividad" align="center">
-      Visita al barco de col&oacute;n
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="content-image-actividad">
-        <img src="@Url.Content("~/Images/Lugares/barco_colon.jpg")" alt="">
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row">
+    }
 
-        <div class="col-md-2">
-          <div class="title-duracion-actividad">
-            Duraci&oacute;n:
-          </div>
-        </div>
+  <!---->
 
-        <div class="col-md-2">
-          <div class="text-descripcion-actividad">
-            3 horas
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-
-        <div class="col-md-2">
-          <div class="title-duracion-actividad">
-            Estado:
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="text-descripcion-actividad">
-            Inactivo
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="title-descripcion-actividad">Descripci&oacute;n</div>
-        <div class="text-descripcion-actividad">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus reiciendis repellendus perspiciatis doloremque neque, totam quos cupiditate saepe, qui? Dolorem officia provident sit aut. Dolorum placeat iure aut ipsa impedit repellendus est tenetur velit quas illo suscipit sit, saepe nesciunt architecto, dolores, autem optio! Laboriosam reprehenderit laborum provident alias, esse!
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row">
-    <div class="title-actividad" align="center">
-      Canchas multiusos
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="content-image-actividad">
-        <img src="@Url.Content("~/Images/Lugares/canchas.jpg")" alt="">
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row">
-
-        <div class="col-md-2">
-          <div class="title-duracion-actividad">
-            Duraci&oacute;n:
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="text-descripcion-actividad">
-            3 horas
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-
-        <div class="col-md-2">
-          <div class="title-duracion-actividad">
-            Estado:
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="text-descripcion-actividad">
-            Activo
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="title-descripcion-actividad">Descripci&oacute;n</div>
-        <div class="text-descripcion-actividad">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus reiciendis repellendus perspiciatis doloremque neque, totam quos cupiditate saepe, qui? Dolorem officia provident sit aut. Dolorum placeat iure aut ipsa impedit repellendus est tenetur velit quas illo suscipit sit, saepe nesciunt architecto, dolores, autem optio! Laboriosam reprehenderit laborum provident alias, esse!
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row">
-    <div class="title-actividad" align="center">
-      &Aacute;reas verdes
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="content-image-actividad">
-        <img src="@Url.Content("~/Images/Lugares/areas_verdes.jpg")" alt="">
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row">
-
-        <div class="col-md-2">
-          <div class="title-duracion-actividad">
-            Duraci&oacute;n:
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="text-descripcion-actividad">
-            3 horas
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-
-        <div class="col-md-2">
-          <div class="title-duracion-actividad">
-            Estado:
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="text-descripcion-actividad">
-            Inactivo
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="title-descripcion-actividad">Descripci&oacute;n</div>
-        <div class="text-descripcion-actividad">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus reiciendis repellendus perspiciatis doloremque neque, totam quos cupiditate saepe, qui? Dolorem officia provident sit aut. Dolorum placeat iure aut ipsa impedit repellendus est tenetur velit quas illo suscipit sit, saepe nesciunt architecto, dolores, autem optio! Laboriosam reprehenderit laborum provident alias, esse!
-        </div>
-      </div>
-    </div>
-  </div>
 
   <br>
 
   <div class="row" align="center">
-    <a href="@Url.Action("LugarDetail", "Lugares")">
+    <a href="@Url.Action("LugarDetail", "Lugares", new { id = Model[0].Id })">
       <button class="btn btn-lugar-turistico-actividad">Regresar</button>
     </a>
   </div>

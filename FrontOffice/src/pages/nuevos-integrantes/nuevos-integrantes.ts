@@ -75,7 +75,7 @@ cargando(){
      this.restapiService.obtenerMiembrosSinGrupo(val,this.idGrupo)
      .then(data => {
        if (data == 0 || data == -1) {
-         console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+        
          this.loading.dismiss();
        }
        else {

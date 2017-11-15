@@ -245,6 +245,31 @@ BEGIN
 	WHERE us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION InsertarCategoria
+(_nombreCategoria VARCHAR(20), _descripcionCategoria VARCHAR(200),
+ _status BOOLEAN, _idCategoriaSup integer,
+ _nivel integer)
+RETURNS integer AS
+$$
+BEGIN
+
+INSERT INTO categoria VALUES
+ (nextval('SEQ_Categoria'), _nombreCategoria,_descripcionCategoria,_status,_idCategoriaSup,_nivel);
+
+   RETURN currval('SEQ_Categoria');
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION EliminarCategoria(_id integer)
+RETURNS void AS
+$$
+BEGIN
+	DELETE FROM categoria
+	WHERE ca_id = _id;
+END;
+$$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
 
@@ -2031,7 +2056,7 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
- //Lista de todas las localidades
+ --Lista de todas las localidades
 CREATE OR REPLACE FUNCTION consultarlocalidades()
   RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
 $BODY$

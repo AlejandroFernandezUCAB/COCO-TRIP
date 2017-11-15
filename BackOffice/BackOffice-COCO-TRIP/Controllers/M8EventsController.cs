@@ -74,9 +74,18 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       try
       {
-        // var idLocalidad = Request["Localidades"].ToString();
-        // evento.IdLocalidad = Int32.Parse(idLocalidad);
+         //var idLocalidad = Request["Localidades"].ToString();
+        //evento.IdLocalidad = Int32.Parse(idLocalidad);
         evento.IdLocalidad = 1;
+        evento.Foto = "jorge";
+        System.Console.Write("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        /*evento.FechaInicio = new DateTime(12, 12, 12);
+        evento.FechaFin = new DateTime(12, 12, 12);
+        evento.HoraInicio.AddHours(12);
+        evento.HoraInicio.AddMinutes(12);
+        evento.HoraFin.AddHours(12);
+        evento.HoraFin.AddMinutes(12);*/
+
         var idCategoria = Request["Categoria"].ToString();
         evento.IdCategoria = Int32.Parse(idCategoria);
 
@@ -85,13 +94,15 @@ namespace BackOffice_COCO_TRIP.Controllers
         if (respuesta.Property("dato") == null)
         {
 
-
+          
           ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
 
         }
         else
         {
+          
           ModelState.AddModelError(string.Empty, "Se hizo con exito");
+          return RedirectToAction("FilterEvent");
         }
       }
       catch (NullReferenceException e)
@@ -99,9 +110,9 @@ namespace BackOffice_COCO_TRIP.Controllers
 
         throw e;
       }
-        
-      
-      return View();
+
+
+      return RedirectToAction("FilterEvent");
     }
 
     // GET: M8Events/Edit/5
@@ -152,9 +163,63 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpGet]
     public ActionResult FilterEvent()
     {
+
+     
+      ViewBag.Title = "Eventos por Categorias";
+      IList<Categories> MyList = null;
+      try
+      {
+        JObject respuesta = peticionCategoria.Get(-1);
+        if (respuesta.Property("data") != null)
+        {
+          MyList = respuesta["data"].ToObject<List<Categories>>();
+        }
+
+        else
+        {
+          MyList = new List<Categories>();
+          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+        }
+
+        TempData["listaCategorias"] = MyList;
+      }
+      catch (Exception e)
+      {
+
+        throw e;
+      }
+      ViewBag.MyList = MyList;
       return View();
     }
 
-   
+    [HttpGet]
+    public ActionResult enviarFilterEvent()
+    {
+     var IdCategoria = Request["Mover a la categoria"].ToString();
+     int Id= Int32.Parse(IdCategoria);
+
+      JObject respuesta = peticionEvento.Get(Id);
+      IList<Evento> evento = null;
+      if (respuesta.Property("dato") == null)
+      {
+
+
+        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+
+
+      }
+      else
+      {
+        ModelState.AddModelError(string.Empty, "Se hizo con exito");
+
+        evento = respuesta["dato"].ToObject<List<Evento>>();
+
+        TempData["evento"] = evento;
+        return RedirectToAction("FilterEvent", "M8Events", evento);
+      }
+
+      return RedirectToAction("FilterEvent");
+    }
+
   }
 }
