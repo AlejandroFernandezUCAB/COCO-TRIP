@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using ApiRest_COCO_TRIP.Models;
 using Npgsql;
-using System.Data;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Web.Http.Cors;
-using ApiRest_COCO_TRIP.Models.Dato;
-using ApiRest_COCO_TRIP.Models.Excepcion;
-using ApiRest_COCO_TRIP.Models.BaseDeDatos;
+
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
