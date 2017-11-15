@@ -12,6 +12,8 @@ import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
+import { TranslateService } from '@ngx-translate/core';
+
 declare var cordova: any;
 /**
  * Generated class for the RegisterPage page.
@@ -49,7 +51,9 @@ export class RegisterPage {
   //constructor(public navCtrl: NavController, public navParams: NavParams)
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController,
     public alertCtrl: AlertController, public restapiService: RestapiService, public menu: MenuController,
-    public formBuilder: FormBuilder, private storage: Storage, public facebook: Facebook, public navParams: NavParams,private camera: Camera, private transfer: Transfer, private file: File, private filePath: FilePath,public actionSheetCtrl: ActionSheetController,public platform: Platform) {
+    public formBuilder: FormBuilder, private storage: Storage, public facebook: Facebook, public navParams: NavParams,
+    private camera: Camera, private transfer: Transfer, private file: File, private filePath: FilePath,
+    public actionSheetCtrl: ActionSheetController,public platform: Platform, public translateService: TranslateService) {
     this.myForm = this.formBuilder.group({
       userName: ['', [Validators.required, Validators.pattern(/^([A-ZÁÉÍÓÚa-zñáéíóú0-9])+$/), Validators.minLength(5), Validators.maxLength(20)]],
       name: ['', [Validators.required, Validators.pattern(/^([A-ZÁÉÍÓÚa-zñáéíóú])+$/), Validators.minLength(5), Validators.maxLength(30)]],
@@ -59,6 +63,11 @@ export class RegisterPage {
       password: ['', [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚa-zñáéíóú0-9.,$@$!%*?&_-]+$/), Validators.minLength(5), Validators.maxLength(20)]],
       passwordConfirmation: ['', [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚa-zñáéíóú0-9.,$@$!%*?&_-]+$/), Validators.minLength(5), Validators.maxLength(20)]],
       gender: ['', Validators.required],
+    });
+    this.storage.get('id').then((val) => {
+      if(val != null || val != undefined){
+        this.translateService.use(val);
+      }
     });
     this.facebook.getLoginStatus().then(loginstatus => {
       if (loginstatus.status == "connected") {
@@ -74,7 +83,7 @@ export class RegisterPage {
         });
       }
     });
-
+      
   }
 
 
