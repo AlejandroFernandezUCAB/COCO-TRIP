@@ -88,18 +88,15 @@ idUser: any;
    } 
 
     IniciarNotificaciones() {
-      console.log("Llego al metodo");
       this.storage.get('id').then(idUser=>{      
         this.idUser=idUser;
         
         if(this.idUser){
+          let idusu ={ id_usuario: idUser }
           this.http.agregarNotificacion(this.idUser).then(agre => {
             if(agre == true){
               this.http.getNotificacionesConfig(this.idUser).then(confic => {
-                
-                console.log("Llego al get notificaciones");
-                console.log(confic);
-                
+
                 if(confic == true){
                   setInterval(() => {
                     this.http.NotificacionUsuario(this.idUser).then(data => {
@@ -107,27 +104,21 @@ idUser: any;
                       
                       console.log(this._itis);
                     });
-                  }, 10000);
-                  /*
-                  this.http.NotificacionUsuario(this.idUser).then(data => {
-                    this._itis = data;
-                    
-                    console.log(this._itis);
-                  });            
-                  */
+                  }, 1000 * 60 * 12);
+                 
                 }
                 else{
-                  console.log("No desea recibir notificaciones.");
+                  //No desea recibir notificaciones.
                 }
               });
             }
             else{
-              console.log("Algo ocurrio agregando.");
+              console.log("Error agregando.");
             }
           });          
         }
         else{
-          console.log('error al recibir el id del storage');
+          console.log('Error al recibir el id del storage');
         }
       });  
   }
