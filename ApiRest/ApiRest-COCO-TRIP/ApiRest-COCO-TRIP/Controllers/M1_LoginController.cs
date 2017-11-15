@@ -21,6 +21,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
     private Usuario usuario;
     private PeticionLogin peticion;
+    private string url= "http://192.168.0.105:8091";
 
     /// <summary>
     /// Consulta un usuario con los datos recibidos (correo y clave)
@@ -128,7 +129,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             usuario.Id = peticion.InsertarUsuario(usuario);
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            string uri = "http://192.168.0.105:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
+            string uri = url+"/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
             mail.From = new MailAddress("cocotrip17@gmail.com");
             mail.To.Add(usuario.Correo);
             mail.Subject = "Registro Cocotrip";
@@ -164,7 +165,7 @@ namespace ApiRest_COCO_TRIP.Controllers
                 peticion.ActualizarUsuario(usuario);// aqui hay que colocar actualizar
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                string uri = "http://192.168.0.105:8091/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
+                string uri = url + "/api/M1_Login/ValidarUsuario/?email=" + usuario.Correo + "&" + "id=" + usuario.Id;
                 mail.From = new MailAddress("cocotrip17@gmail.com");
                 mail.To.Add(usuario.Correo);
                 mail.Subject = "Registro Cocotrip";
