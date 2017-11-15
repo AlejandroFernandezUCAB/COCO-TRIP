@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:8091/api';
+apiUrl = 'http://localhost:51049/api';
   constructor(public http: HttpClient) {
 }
 
@@ -166,7 +166,6 @@ public agregarItem_It(tipo, idit,iditem,fechainicio,fechafin)
     this.http.get(this.apiUrl+'/M5_Itinerario/AgregarItem_It',{params:{ tipo: tipo , idit: idit , iditem: iditem,fechaini:fechainicio,fechafin:fechafin}}
     ).subscribe(res => {
         resolve(res);
-        console.log("res");
         console.log(res);
       }, (err) => {
         err => resolve(-1)
