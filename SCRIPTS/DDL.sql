@@ -135,7 +135,7 @@ CREATE TABLE Notificacion
     CONSTRAINT pk_Notificacion PRIMARY KEY (no_id),
     CONSTRAINT fk_idUsuario FOREIGN KEY (no_idUsuario)
         REFERENCES Usuario (us_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+        ON UPDATE NO ACTION ON DELETE CASCADE
 );
 --Fin de modulo
 --Modulo 6
