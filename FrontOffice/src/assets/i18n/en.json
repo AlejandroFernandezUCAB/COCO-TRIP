@@ -126,7 +126,7 @@
     "Inicia":"Starts",
     "Finaliza":"Finish",
     "En":"At",
-    "Preferencias":"Preferences"
-
-
+    "Preferencias":"Preferences",
+    "Sin Resultados": "- No Results -",
+    "eventos":"events"
 }
