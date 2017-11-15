@@ -2,13 +2,22 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
+
+//****************************************************************************************************// 
+//********************************PAGE DETALLE DE UN GRUPO MODULO 3***********************************//
+//****************************************************************************************************//  
+
 /**
- * Generated class for the DetalleGrupoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
  */
 
+/**
+ * Descripcion de la clase:
+ * Carga el detalle de un grupo
+ */
 @IonicPage()
 @Component({
   selector: 'page-detalle-grupo',
@@ -24,6 +33,9 @@ export class DetalleGrupoPage {
  
   }
 
+  /**
+   * Carga los atributos del grupo, nombre y foto
+   */
   ionViewWillEnter() {
     this.idGrupo = this.navParams.get('idGrupo');
       this.restapiService.verperfilGrupo(this.idGrupo)
@@ -41,6 +53,10 @@ export class DetalleGrupoPage {
  
   }
 
+  /**
+   * Carga los integrantes del grupo
+   * @param id Identificador del grupo
+   */
   cargarmiembros(id){
     this.restapiService.listamiembroGrupo(id)
     .then(data => {

@@ -8,6 +8,23 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
+//****************************************************************************************************// 
+//*************************************PAGE DE GRUPOS MODULO 3****************************************//
+//****************************************************************************************************//  
+
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga la lista de grupos de un usuario
+ * Floating button para eliminar grupos, agregar grupos,
+ * ver detalle del grupo y modificar grupo
+ */
 @Component({
   selector: 'page-grupos',
   templateUrl: 'grupos.html'
@@ -28,11 +45,7 @@ export class GruposPage {
   text: any;
   message: any;
   succesful: any;
-
-
-  public loading = this.loadingCtrl.create({
-    content: 'Please wait...'
-  });
+  public loading = this.loadingCtrl.create({});
 
   
     constructor(public navCtrl: NavController, public platform: Platform,
@@ -42,7 +55,12 @@ export class GruposPage {
       private translateService: TranslateService) {
  
    }
-   
+
+/**
+ * Metodo que carga un loading controller al iniciar 
+ * la lista de amigos
+ * (Por favor espere/ please wait)
+ */
    cargando(){
     this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
@@ -52,6 +70,10 @@ export class GruposPage {
     this.loading.present();
   }
 
+  /**
+   * Metodo que carga la lista de grupos automaticamente
+   * al entrar a la vista
+   */
    ionViewWillEnter() {
      this.cargando();
     this.storage.get('id').then((val) => {
@@ -70,6 +92,10 @@ export class GruposPage {
     });
   }
 
+  /**
+   * Metodo que coloca los textos de las cartas
+   * en false e inicia la pagina de crear grupo
+   */
   crearGrupo(){
     this.edit=false;
     this.detail=false;
@@ -78,6 +104,10 @@ export class GruposPage {
     this.navCtrl.push(SeleccionarIntegrantesPage);
   }
 
+  /**
+   * Metodo que coloca los textos de las cartas en false
+   * (Cuando dice eliminar grupo)
+   */
   eliminar(){
     this.edit=false;
     this.detail=false;
@@ -92,6 +122,10 @@ export class GruposPage {
     
   }
 
+  /**
+   * Metodo que coloca los textos de las cartas en false
+   * (Cuando dice modificar grupo)
+   */
   editar(){
     this.delete=false;
     this.detail=false;
@@ -106,7 +140,10 @@ export class GruposPage {
     
   }
 
-
+/**
+ *Metodo que coloca los textos de las cartas en false
+ (Cuando dice ver detalle del grupo) 
+ */
   detallegrupo(){
     this.delete=false;
     this.edit=false;
@@ -121,6 +158,12 @@ export class GruposPage {
     
   }
 
+  /**
+   * Metodo que verifica si un usario es lider o solo integrante del grupo
+   * Si es lider inicia la pagina de modificar grupo, si no, envia alert
+   * @param id Identificador del usuario
+   * @param index Posicion en la lista
+   */
   modificarGrupo(id, index){
     this.edit=false;
     this.detail=false;
@@ -146,7 +189,9 @@ export class GruposPage {
     });
    
   } 
-
+/**
+ * Alert que explica que el usuario no es lider del grupo
+ */
   alertaIntegrante() {
     this.translateService.get('No puedes modificar').subscribe(value => {this.NoEdit = value;})
     this.translateService.get('No eres lider').subscribe(value => {this.subtitle = value;})
@@ -159,6 +204,10 @@ export class GruposPage {
     alert.present();
   }
 
+  /**
+   * Metodo que despliega un toast
+   * @param mensaje Texto para el toast
+   */
   realizarToast(mensaje) {
     this.toast = this.toastCtrl.create({
       message: mensaje,
@@ -168,6 +217,12 @@ export class GruposPage {
     this.toast.present();
   }
 
+  /**
+   * Metodo que coloca un alert para confirmar que el grupo se desea eliminar
+   * Verifica si es lider o solo integrante para eliminar el grupo o solo salir de el
+   * @param id Identificador del grupo
+   * @param index Posicion de la lista
+   */
   eliminarGrupo(id, index) {
     this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
     this.translateService.get('Borrar Grupo').subscribe(value => {this.message = value;})
@@ -228,6 +283,11 @@ eliminarGrupos(id, index){
   var removed_elements = this.grupo.splice(index, 1);
 }
 
+/**
+ * Metodo para iniciar la pagina del detalle del grupo
+ * @param id Identificador del grupo
+ * @param index Posicion de la lista
+ */
   verDetalleGrupo(id, index) {
     this.navCtrl.push(DetalleGrupoPage,{
       idGrupo: id

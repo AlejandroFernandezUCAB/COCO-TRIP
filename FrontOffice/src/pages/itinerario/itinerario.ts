@@ -344,8 +344,7 @@ export class ItinerarioPage {
       text: 'Aceptar',
       handler: () => {
         this.presentLoading();
-        let tipo=this.getTipoItem(evento);
-        this.httpc.eliminarItem(tipo,id_itinerario, evento.Id).then(data=>{
+        this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
             console.log("ERROR:: no se pudo eliminar el item");
@@ -376,7 +375,6 @@ export class ItinerarioPage {
         text: 'Accept',
         handler: () => {
           this.presentLoading();
-          let tipo=this.getTipoItem(evento);
           this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
             if (data==0 || data==-1){
               this.loading.dismiss();
