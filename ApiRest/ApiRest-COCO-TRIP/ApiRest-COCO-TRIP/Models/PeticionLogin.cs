@@ -331,7 +331,30 @@ namespace ApiRest_COCO_TRIP.Models
       }
     }
 
+    public void EliminarUsuario(int id) {
 
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "EliminarUsuario";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
+        conexion.Comando.ExecuteNonQuery();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
+      }
+    }
 
 
     public int ConsultarUsuarioSoloNombre(Usuario usuario)
@@ -439,9 +462,9 @@ namespace ApiRest_COCO_TRIP.Models
           eventoPreferencia.HoraFin = leerDatos.GetTimeSpan(4);
           eventoPreferencia.Precio = leerDatos.GetDouble(5);
           eventoPreferencia.Descripcion = leerDatos.GetString(6);
-          eventoPreferencia.NombreLocal = leerDatos.GetString(7);
-         // eventoPreferencia.LocalFotoRuta = leerDatos.GetString(8);
-          eventoPreferencia.NombreCategoria = leerDatos.GetString(8);
+          eventoPreferencia.NombreLocal = leerDatos.GetString(8);
+          eventoPreferencia.LocalFotoRuta = leerDatos.GetString(7);
+          eventoPreferencia.NombreCategoria = leerDatos.GetString(9);
           listaEventos.Add(eventoPreferencia);
         }
 

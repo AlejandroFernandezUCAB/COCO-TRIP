@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using BackOffice_COCO_TRIP.Models.Dato;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {
@@ -14,7 +13,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     private HttpClient cliente; //Almacena la direccion del servicio web y realiza la peticion
     private Task<HttpResponseMessage> mensajeAsincrono; //Almacena el resultado a medida que es recibido
 
-    private const string direccionBase = "http://localhost:8082/api";
+    private const string direccionBase = "http://192.168.0.101:8090/api";
     private const string controlador = "M7_LugaresTuristicos";
 
     /// <summary>
