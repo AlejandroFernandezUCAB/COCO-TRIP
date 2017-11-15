@@ -41,14 +41,14 @@
         <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="crear()">
           <ion-icon name="add"></ion-icon>
         </button>
-        <button *ngIf="!list" ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
+        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf" style="color: white" (click)="configurarNotificaciones()">
+          <ion-icon name="cog"></ion-icon>
+        </button>
+        <button *ngIf="!list" ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss"  style="color: white" (click)="editar()">
           <ion-icon name="create"></ion-icon>
         </button>
         <button *ngIf="!list" ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
           <ion-icon name="trash"></ion-icon>
-        </button>
-        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="configurarNotificaciones()">
-          <ion-icon name="cog"></ion-icon>
         </button>
       </ion-fab-list>
     </ion-fab>

@@ -36,7 +36,15 @@ namespace ApiRest_COCO_TRIP
       return parametro;
     }
 
-    public void ActualizarEstatus(Categoria categoria)
+
+        /// <summary>
+        /// Actualizar el status de una categoria
+        /// </summary>
+        /// <param name="categoria"></param>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+
+
+        public void ActualizarEstatus(Categoria categoria)
     {
 
       int exitoso = 0;
@@ -72,7 +80,14 @@ namespace ApiRest_COCO_TRIP
       }
     }
 
-    public IList<Categoria> ObtenerCategorias(Categoria categoria)
+
+        /// <summary>
+        /// Obtener la lista de la categoria
+        /// </summary>
+        /// <param name="categoria"></param>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+
+        public IList<Categoria> ObtenerCategorias(Categoria categoria)
     {
       IList<Categoria> listaCategorias = new List<Categoria>();
       try
@@ -113,7 +128,14 @@ namespace ApiRest_COCO_TRIP
 
     }
 
-    public IList<Categoria> ObtenerTodasLasCategorias()
+
+        /// <summary>
+        /// Obtener las listas de la categorias
+        /// </summary>
+        /// <param name="categoria"></param>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+
+        public IList<Categoria> ObtenerTodasLasCategorias()
     {
       IList<Categoria> listaCategorias;
       try
@@ -143,7 +165,13 @@ namespace ApiRest_COCO_TRIP
 
     }
 
-    public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
+
+        /// <summary>
+        /// Obtener el id de una categorida dado el nombre de la misma
+        /// </summary>
+        /// <param name="categoria"></param>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
     {
       try
       {
@@ -185,7 +213,11 @@ namespace ApiRest_COCO_TRIP
       return categoria;
     }
 
-    private IList<Categoria> SetListaCategoria()
+        /// <summary>
+        ///Lee los datos de la categoria
+        /// </summary>
+       
+        private IList<Categoria> SetListaCategoria()
     {
 
       IList<Categoria> listaCategorias = new List<Categoria>();
@@ -206,7 +238,15 @@ namespace ApiRest_COCO_TRIP
       return listaCategorias;
     }
 
-    public void ModificarCategoria(Categoria categoria)
+        /// <summary>
+        /// Modifica los datos de una categoria 
+        /// </summary>
+        /// <param name="categoria"></param>
+        /// <exception cref="PostgresException"></exception>
+        /// <exception cref="HijoConDePendenciaException"></exception>
+        /// <exception cref="NombreDuplicadoException"></exception>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        public void ModificarCategoria(Categoria categoria)
     {
 
       int exitoso = 0;
@@ -233,8 +273,8 @@ namespace ApiRest_COCO_TRIP
         {
           //categories = listaCategorias.Where(s => s.Id == id).First();
           IList<Categoria> Listacategoria = peticion.ObtenerTodasLasCategorias();
-          var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).First();
-          if (hijos == null)
+          var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
+          if (hijos.Count == 0)
           {
             conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
             conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
@@ -261,8 +301,8 @@ namespace ApiRest_COCO_TRIP
 
       catch (PostgresException ex)
       {
-      
-        
+
+
         throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
 
       }
@@ -284,7 +324,12 @@ namespace ApiRest_COCO_TRIP
       }
     }
 
-    public IList<Categoria> ObtenerCategoriasHabilitadas()
+        /// <summary>
+        ///Ovtiene las categorias Habilitadas
+        /// </summary>  
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+      
+        public IList<Categoria> ObtenerCategoriasHabilitadas()
     {
       IList<Categoria> listaCategorias;
       try
@@ -314,7 +359,17 @@ namespace ApiRest_COCO_TRIP
 
     }
 
-    public void AgregarCategoria(Categoria categoria)
+
+        /// <summary>
+        /// Agrea una categoria con sub categoria
+        /// </summary>
+        /// <param name="categoria"></param>
+
+        /// <exception cref="NombreDuplicadoException"></exception>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        /// <exception cref="PostgresException"></exception>
+
+        public void AgregarCategoria(Categoria categoria)
     {
       try
       {
@@ -329,16 +384,16 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
 
-        
-                     if (categoria.CategoriaSuperior == 0)
-                {
-                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
 
-                }
-                else
-                {
-                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
-                }
+        if (categoria.CategoriaSuperior == 0)
+        {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
+
+        }
+        else
+        {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+        }
 
         exitoso = conexion.Comando.ExecuteNonQuery();
 
@@ -370,7 +425,13 @@ namespace ApiRest_COCO_TRIP
     }
 
 
-    public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
+        /// <summary>
+        /// Obtener la categorida dado un Id
+        /// </summary>
+        /// <param name="categoria"></param>
+        /// <exception cref="BaseDeDatosExcepcion"></exception>
+
+        public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
     {
       IList<Categoria> listaCategorias;
       try
@@ -378,7 +439,7 @@ namespace ApiRest_COCO_TRIP
         conexion.Conectar();
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.CommandText = "m9_ObtenerCategoriaPorId";/* aqui va el stored procedure */
+        conexion.Comando.CommandText = "m9_ObtenerCategoriaPorId";
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
         leerDatos = conexion.Comando.ExecuteReader();
         listaCategorias = SetListaCategoria();

@@ -19,7 +19,7 @@ create sequence seq_actividad;
 */
 
 --Datos de prueba del Modulo 7
-
+/*
 INSERT INTO public.categoria(
 	ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
 	VALUES (1, 'Sitios Naturales', 'Naturaleza', true, null, 0);
@@ -35,7 +35,7 @@ INSERT INTO public.categoria(
 INSERT INTO public.categoria(
   ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
   VALUES (4, 'Bosques', 'Todo tipo de ecosistema', true, 1, 0);
-
+*/
 SELECT InsertarLugarTuristico
 (
   'Parque Generalisimo de Miranda',
@@ -229,3 +229,18 @@ SELECT InsertarCategoriaLugarTuristico
   2,
   2
 );
+
+
+--INSERTS MODULO 9
+
+INSERT INTO categoria (
+  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
+  VALUES (1, 'Lugares', 'Categoria asociada a los lugares', true, null, 1);
+
+INSERT INTO categoria(
+  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
+  VALUES (2, 'Eventos', 'Categoria asociada a los eventos', true, null, 1);
+
+INSERT INTO categoria(
+  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
+  VALUES (3, 'Turismo', 'Categoria asociada al turismo', true, null, 1);

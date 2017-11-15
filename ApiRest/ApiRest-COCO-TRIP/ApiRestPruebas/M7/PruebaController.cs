@@ -107,7 +107,7 @@ namespace ApiRestPruebas.M7
       horario.Id = 0;
       horario.DiaSemana = 0;
 
-      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Ruta += "lt-fo-" + foto.Id + ".jpg";
       foto.Contenido = null;
 
       lugar.Horario.Add(horario);
@@ -126,7 +126,7 @@ namespace ApiRestPruebas.M7
       var pruebaActividad = new Actividad();
       pruebaActividad.Nombre = "Parque Generalisimo de Miranda";
 
-      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Ruta += "lt-fo-" + foto.Id + ".jpg";
       foto.Contenido = null;
 
       lugar.Actividad.Add(pruebaActividad);
@@ -143,10 +143,10 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetLugarActividades()
     {
-      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Ruta += "lt-fo-" + foto.Id + ".jpg";
       foto.Contenido = null;
 
-      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id + ".jpg";
       actividad.Foto.Contenido = null;
 
       lugar.Actividad.Add(actividad);
@@ -163,7 +163,7 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetActividades()
     {
-      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id + ".jpg";
       actividad.Foto.Contenido = null;
 
       Assert.AreEqual(true, controlador.GetActividades(lugar.Id).Contains(actividad));
@@ -176,7 +176,7 @@ namespace ApiRestPruebas.M7
     [Test]
     public void TestGetActividad()
     {
-      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id + ".jpg";
       actividad.Foto.Contenido = null;
 
       Assert.AreEqual(true, actividad.Equals(controlador.GetActividad(actividad.Id)));
