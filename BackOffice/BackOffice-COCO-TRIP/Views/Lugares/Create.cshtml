@@ -73,7 +73,7 @@
                       <div class="form-group ">
                         <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="categoria" name="categoria_@contador++">
+                          <select class="form-control" id="categoria" name="categoria_@contador">
                             <option selected disabled>Elige una categor&iacute;a</option>
 
                               <option>@categoria.Nombre</option>
@@ -88,7 +88,7 @@
                       <div class="form-group">
                         <label for="subcategoria" class="col-sm-4 control-laahgbel">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria" name="subcategoria_@contador++">
+                          <select class="form-control" id="subcategoria" name="subcategoria_@contador">
                             <option selected disabled>Elige una sub-categor&iacute;a</option>
 
                             @foreach (var subCategoria in ViewBag.SubCategoria)
@@ -108,6 +108,7 @@
 
                   </div>
 
+              contador++;
 
             }
 
