@@ -57,8 +57,6 @@ namespace BackOffice_COCO_TRIP.Controllers
           listaLocalidades = new List<LocalidadEvento>();
           ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen localidades");
         }
-
-        TempData["listaLocalidad"] = listaLocalidades;
       }
       catch (Exception e)
       {
@@ -72,18 +70,41 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     // POST: M8Events/Create
     [HttpPost]
-    public ActionResult CreateEvent(FormCollection collection)
+    public ActionResult CreateEvent(Evento evento)
     {
       try
       {
-        // TODO: Add insert logic here
+        // var idLocalidad = Request["Localidades"].ToString();
+        // evento.IdLocalidad = Int32.Parse(idLocalidad);
+        evento.IdLocalidad = 1;
+        evento.Foto = "jorge";
+        var idCategoria = Request["Categoria"].ToString();
+        evento.IdCategoria = Int32.Parse(idCategoria);
 
-        return RedirectToAction("Index");
+
+        JObject respuesta = peticionEvento.Post(evento);
+        if (respuesta.Property("dato") == null)
+        {
+
+          
+          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+
+        }
+        else
+        {
+          
+          ModelState.AddModelError(string.Empty, "Se hizo con exito");
+          return RedirectToAction("FilterEvent");
+        }
       }
-      catch
+      catch (NullReferenceException e)
       {
-        return View();
+
+        throw e;
       }
+        
+      
+      return View();
     }
 
     // GET: M8Events/Edit/5

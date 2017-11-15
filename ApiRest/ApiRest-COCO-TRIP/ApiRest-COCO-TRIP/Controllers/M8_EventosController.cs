@@ -110,7 +110,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ResponseType(typeof(IDictionary))]
     [ActionName("ConsultarEventoPorId")]
     [HttpGet]
-    public IDictionary ConsultarEvento(int id)
+    public IDictionary ConsultarEventoBO(int id)
     {
       try
       {
@@ -167,6 +167,21 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return respuesta;
     }
+
+    [HttpGet]
+    public Evento ConsultarEvento(int id)
+    {
+      PeticionEvento peticionEvento = new PeticionEvento();
+      return peticionEvento.ConsultarEvento(id);
+    }
+
+    [HttpGet]
+    public List<Evento> ListarEventosPorFecha(DateTime date)
+    {
+      PeticionEvento peticionEvento = new PeticionEvento();
+      return peticionEvento.ListaEventosPorFecha(date);
+    }
+
 
     /**
      * <summary>Metodo de controlador para listar todas las categorias desde la fecha danda</summary>
