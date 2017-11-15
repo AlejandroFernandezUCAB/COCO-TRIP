@@ -172,7 +172,33 @@ public agregarItem_It(tipo, idit,iditem,fechainicio,fechafin)
       });
   });
 }
+/*
+public agregarNotificacion(idusuario)
+{
+  return new Promise(resolve => {
+    this.http.put(this.apiUrl+'/M5_Itinerario/AgregarNotificacionConfiguracion', idusuario).subscribe(res => {
+        resolve(res);
+        console.log("res");
+        console.log(res);
+      }, (err) => {
+        err => resolve(-1)
+      });
+  });
+}
+*/
 
+public agregarNotificacion(idusuario)
+{
+  return new Promise(resolve => {
+    this.http.get(this.apiUrl+'/M5_Itinerario/AgregarNotificacionConfiguracion', {params :{id_usuario: idusuario}}).subscribe(res => {
+        resolve(res);
+        console.log("res");
+        console.log(res);
+      }, (err) => {
+        err => resolve(-1)
+      });
+  });
+}
 
 public modificarNotificacionCorreo(idusuario, correo)
 {
@@ -184,7 +210,6 @@ public modificarNotificacionCorreo(idusuario, correo)
       });
   });
 }
-
 
 public getNotificacionesConfig(idusuario)
 {
