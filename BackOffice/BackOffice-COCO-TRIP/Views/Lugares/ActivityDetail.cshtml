@@ -3,9 +3,8 @@
 <div class="content-page-actividad card">
 
   <!---->
-
-  @foreach (var actividad in Model)
-  {
+    @foreach (var actividad in Model)
+    {
 
   <div class="row">
     <div class="title-actividad" align="center">
@@ -45,7 +44,10 @@
 
         <div class="col-md-2">
           <div class="text-descripcion-actividad">
-            @if (actividad.Activar) { <text>Activo</text> } else { <text>Inactivo</text> }
+            @if (actividad.Activar)
+            { <text>Activo</text> }
+            else
+            { <text>Inactivo</text> }
           </div>
         </div>
 
@@ -63,7 +65,7 @@
 
   <hr>
 
-  }
+    }
 
   <!---->
 

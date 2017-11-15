@@ -100,7 +100,7 @@ cargarlider(id){
       this.restapiService.obtenerSinLider(id)
       .then(data => {
         if (data == 0 || data == -1) {
-          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+          console.log("La data es 0 o -1");
   
         }
         else {
@@ -138,7 +138,7 @@ cargarlider(id){
             text: this.accept,  
             handler: () => {
               this.eliminarIntegrante(nombreUsuario, index); 
-              this.restapiService.eliminarIntegrante(nombreUsuario,4);
+              this.restapiService.eliminarIntegrante(nombreUsuario,this.id);
               this.realizarToast(this.succesful);
               
               }

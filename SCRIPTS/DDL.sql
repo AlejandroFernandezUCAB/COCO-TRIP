@@ -135,7 +135,7 @@ CREATE TABLE Notificacion
     CONSTRAINT pk_Notificacion PRIMARY KEY (no_id),
     CONSTRAINT fk_idUsuario FOREIGN KEY (no_idUsuario)
         REFERENCES Usuario (us_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+        ON UPDATE NO ACTION ON DELETE CASCADE
 );
 --Fin de modulo
 --Modulo 6
@@ -228,6 +228,22 @@ create table localidad(
 	lo_coordenada varchar(50)
 );
 --Fin de modulo
+--Modulo 9
+CREATE TABLE categoria
+(
+  ca_id integer UNIQUE NOT NULL,
+  ca_nombre character varying(500) UNIQUE not null,
+  ca_descripcion character varying(2000) not null,
+  ca_status boolean default true not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+INSERT INTO public.categoria(
+            ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, 
+            ca_nivel)
+    VALUES (0, 'test', 'test', true);
+
+--Fin de modulo 9
 
 
 --ALTERS
