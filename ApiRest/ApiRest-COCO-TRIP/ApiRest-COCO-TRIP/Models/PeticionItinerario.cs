@@ -27,8 +27,8 @@ namespace ApiRest_COCO_TRIP.Models
     /// <summary>
     /// Metodo para consultar todos los itinerarios, con sus respectivos eventos, de un usuario
     /// </summary>
-    /// <param name="id_usuario"></param>
-    /// <returns></returns>
+    /// <param name="id_usuario">id del usuario al cual se le consultara sus itinerarios</param>
+    /// <returns>Lista de itinerarios con sus respectivos items</returns>
         public List<Itinerario> ConsultarItinerarios(int id_usuario)
         {
             List<Itinerario> itinerarios = new List<Itinerario>(); // Lista de itinerarios de un usuario
@@ -134,7 +134,13 @@ namespace ApiRest_COCO_TRIP.Models
 
 
 
-
+    /// <summary>
+    /// Activar o desactivar la visibilidad del itinerario en el calendario
+    /// </summary>
+    /// <param name="idusuario">id del usuario al cual le pertenecen los itinerarios</param>
+    /// <param name="iditinerario">id del itinerario a Activar/Desactivar</param>
+    /// <param name="visible">parametro que determina si se activa(true) o desactiva(false) el itinerario en el calendario</param>
+    /// <returns>true si se Activo/Desactivo exitosamente, false de lo contrario</returns>
     public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
     {
       Boolean visible_sql = false;
