@@ -146,9 +146,17 @@ export class ItemModalPage {
               {
                 text: 'AGREGAR',
                 handler: data => {
-                  if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
+                  if (this.FechaInicio > this.FechaFin) 
                   {
-                    this.realizarToast('Fechas Invalidas');
+                    this.realizarToast('Fecha inicio debe ser menor que fecha fin');
+                  }
+                  if (this.FechaFin > this.itinerario.FechaFin)
+                  {
+                    this.realizarToast('Fecha fin del item debe ser menor que fecha fin del itinerario');
+                  }
+                  if (this.FechaInicio < this.itinerario.FechaInicio)
+                  {
+                    this.realizarToast('Fecha inicio del item debe ser mayor que fecha inicio del itinerario');
                   }
                   else
                   {
