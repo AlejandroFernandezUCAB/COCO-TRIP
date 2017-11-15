@@ -2,6 +2,10 @@ body{
 	overflow-x: hidden;
 }
 
+.ocultar{
+  display: none;
+}
+
 #map {
 	width: 941px;
 	height: 400px;

@@ -11,19 +11,23 @@
   @foreach (var lugar in Model)
   {
 
-  <div class="col-md-4 col-sm-6 col-xs-12">
-    <div class="content-box-lugar card" id="lu-box-one">
-      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <div class="col-md-4 col-sm-6 col-xs-12">
+      <div class="content-box-lugar card" id="lu-box-one">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
-        @foreach (var fotos in lugar.Foto)
-        {
+        
           <div class="carousel-inner" role="listbox">
-            <div class="item active">
-              <img src="@fotos.Ruta" alt="">
-              <div class="carousel-caption"></div>
-            </div>
 
+            @foreach (var fotos in
+              lugar.Foto)
+            {
+                <div class="item @if (fotos == lugar.Foto[0]) { <text>active</text> }">
+                  <img src="@fotos.Ruta" alt="">
+                <div class="carousel-caption"></div>
+                </div>
+            }
 
+          </div>
 
             <!-- Controls -->
             <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -34,8 +38,9 @@
               <span class="glyphicon glyphicon-chevron-right"></span>
               <span class="sr-only">Next</span>
             </a>
-          </div>
-        }
+        
+     </div>
+        
 
 
           <div class="content-box-info">
@@ -98,28 +103,47 @@
 
             <hr>
 
+            <!-- Botonsitos-->
+
+            
+
             <div class="row">
-              <ul class="list-inline">
-                <li class="list-inline-item">
-                  <a href="@Url.Action("Modify", "Lugares")">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <a href="@Url.Action("LugarDetail", "Lugares")">
-                    <i class="fa fa-eye icon-detail" aria-hidden="true"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <i id="lu-status-one" class="fa fa-circle active" aria-hidden="true" onclick="cambiarEstado(id);"></i>
-                </li>
-              </ul>
+              <form method="post" action="ViewAll">
+                <input class="ocultar" type="text" name="id" value="@lugar.Id" />
+                <input class="ocultar" type="text" name="activar" value="@if (lugar.Activar) {<text>True</text>} else { <text>False</text> } " />
+                <ul class="list-inline">
+                  <li class="list-inline-item">
+                    <a href="@Url.Action("Modify", "Lugares", new { id = lugar.Id } )">
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="@Url.Action("LugarDetail", "Lugares", new { id = lugar.Id })">
+                      <i class="fa fa-eye icon-detail" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <input type="Submit" value="Estado">
+                      <i id="lu-status-one" class="fa fa-circle @if (lugar.Activar)
+                                                              {
+                                                                <text>active</text>
+                                                              }
+                                                              else
+                                                              {
+                                                                <text>inactive</text>
+                                                              }" aria-hidden="true">
+          
+                      </i>
+                  </li>
+                </ul>
+              </form>
             </div>
 
-          </div>
-        </div>
+            <!--Botonsitos-->
+
+      </div>
+     </div>
     </div>
-  </div>
 
   }
 

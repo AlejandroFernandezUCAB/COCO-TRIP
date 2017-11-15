@@ -1,6 +1,7 @@
 using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
@@ -73,11 +74,35 @@ namespace BackOffice_COCO_TRIP.Controllers
             }
         }
 
+      
         // GET:Lugares/DetailLugar
-        public ActionResult LugarDetail()
+        /// <summary>
+        /// Metodo GET que se dispara al acceder a la pantalla detalle de lugar turistico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult LugarDetail(int id)
         {
             ViewBag.Title = "Detalle de Lugar Turístico";
-            return View();
+
+            peticion = new PeticionLugares();
+
+            var respuesta = peticion.GetLugar(id);
+
+            if (respuesta == HttpStatusCode.InternalServerError.ToString())
+            {
+              return RedirectToAction("PageDown"); //Error del servicio web
+            }
+
+            var lugarTuristico = JsonConvert.DeserializeObject<LugarTuristico>(respuesta);
+
+            foreach (var foto in lugarTuristico.Foto)
+            {
+                foto.Ruta = peticion.DireccionBase + foto.Ruta;
+            }
+
+            return View(lugarTuristico);
+
         }
 
         // POST:Lugares/DetailLugar
@@ -158,12 +183,12 @@ namespace BackOffice_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
         public ActionResult ViewAll(int id, bool activar)
         {
             peticion = new PeticionLugares();
 
-            var respuesta = peticion.PutActivarLugar(id, activar); //Actualiza el estado
+            var respuesta = peticion.PutActivarLugar(id, !activar); //Actualiza el estado
             if (respuesta == HttpStatusCode.InternalServerError.ToString())
             {
               return RedirectToAction("PageDown"); //Error del servicio web al realizar la actualizacion
