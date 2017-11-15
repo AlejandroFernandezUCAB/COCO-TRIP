@@ -309,10 +309,12 @@ namespace ApiRestPruebas.M1
     [Category("Controlador")]
     public void TestRegistrarUsuario()
     {
-      peticion.EliminarUsuario(1);
-      peticion.EliminarUsuario(2);
+      peticion.EliminarUsuario(globalf);
+      peticion.EliminarUsuario(global);
+      globalf += 3;
+      global += 1;
       usuario.Correo = "hdms26@gmail.com";
-      Assert.AreEqual(1, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
+      Assert.AreEqual(global, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       Assert.AreEqual(-4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
@@ -321,11 +323,11 @@ namespace ApiRestPruebas.M1
       Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       usuario.NombreUsuario = "pedriviris";
-      Assert.AreEqual(2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));//prueba unitaria de actualizar 
+      Assert.AreEqual(4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));//prueba unitaria de actualizar 
       usuario.NombreUsuario = "pepo";
 
       usuario.Correo = "hdms26@gmail.com";
-      controlador.ValidarUsuario(usuario.Correo, 1);
+      controlador.ValidarUsuario(usuario.Correo, global);
 
       usuario.NombreUsuario = "homero";
       Assert.AreEqual(-2, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
