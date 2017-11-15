@@ -6,6 +6,7 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { LoginPage } from '../login/login';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-home',
@@ -18,9 +19,8 @@ eve: any;
 idUser: any;
 apiUrl = 'http://localhost:8091/fotos/';
 aux: string;
-//validarEve:boolean;
-//validarlts:boolean;
-  constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController) {
+
+  constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController,public translateService: TranslateService) {
     //console.log(this.its2);
     this.IniciarNotificaciones();
     this.menu.enable(true);
@@ -51,7 +51,7 @@ aux: string;
   
           else{
             
-            console.log(data);  
+            //console.log(data);  
           this.lts = data;
           //console.log(this.lts);
           }
@@ -69,6 +69,10 @@ detalleEvento(eventos){
   let modal = this.modalCtrl.create('DetalleEventoPage', {eventos:eventos});
   modal.present();
 }
+detalleLTS(lugares){
+  let modal = this.modalCtrl.create('DetalleLtPage', {lugares:lugares});
+  modal.present();
+}
  eveSegunPreferencia(){
      // var ev= Array();
       this.storage.get('id').then(idUser=>{      
@@ -83,7 +87,7 @@ detalleEvento(eventos){
 
           }
           else{
-            console.log(data);  
+            //console.log(data);  
           this.eve = data;
           this.eve.forEach(eve => {
             //console.log(eve.LocalFotoRuta);

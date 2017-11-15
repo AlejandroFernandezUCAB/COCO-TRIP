@@ -151,6 +151,7 @@ export class ItemModalPage {
 
   agregarItem(item_id){
         let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
+        vlista.Tipo= this.Tipo_item;
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
           let alert = this.alertCtrl.create({
@@ -165,7 +166,7 @@ export class ItemModalPage {
               {
                 text: 'AGREGAR',
                 handler: data => {
-                  if (this.FechaInicio > this.FechaFin) 
+                  if (this.FechaInicio > this.FechaFin)
                   {
                     this.realizarToast('Fecha inicio debe ser menor que fecha fin');
                   }
@@ -181,14 +182,16 @@ export class ItemModalPage {
                   }
                   else
                   {
+                    vlista.FechaInicio = this.FechaInicio;
+                    vlista.FechaFin = this.FechaFin;
                     this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
-                      if (data==false){
-                        this.realizarToast('Item ya esta agregado');
+                      if (data == null){
+                        this.realizarToast('El item ya esta en el itinerario');
+                        this.viewCtrl.dismiss();
                       }else {
-                        this.realizarToast('Item ya esta agregado');
+                        this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                       }
                     });
-                    this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                    }
                 }
               }
@@ -207,16 +210,32 @@ export class ItemModalPage {
                 }
               } ,
               {
-                text: 'ADD',
+                text: 'AGREGAR',
                 handler: data => {
-                  if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
+                  if (this.FechaInicio > this.FechaFin) 
                   {
-                    this.realizarToast('Invalid Dates');
+                    this.realizarToast('Start date must be less than end date');
+                  }
+                  else
+                  if (this.FechaFin > this.itinerario.FechaFin)
+                  {
+                    this.realizarToast('The items end date must be less than the itinerarys');
+                  }
+                  else
+                  if (this.FechaInicio < this.itinerario.FechaInicio)
+                  {
+                    this.realizarToast('The items start date must be greater than the itinerarys');
                   }
                   else
                   {
-                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
-                    this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
+                      if (data==null){
+                        this.realizarToast('Item is already added');
+                        this.viewCtrl.dismiss();
+                      }else {
+                        this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
+                      }
+                    });
                    }
                 }
               }
