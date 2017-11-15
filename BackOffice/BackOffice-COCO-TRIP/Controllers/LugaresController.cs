@@ -501,7 +501,7 @@ namespace BackOffice_COCO_TRIP.Controllers
               }
               else
               {
-                  return View();
+                return RedirectToAction("ViewAll");
               }
             }
             catch (SocketException)
