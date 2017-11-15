@@ -26,7 +26,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// </summary>
     public PeticionLugares()
     {
-      direccionBase = "http://190.36.84.114:80";
+      direccionBase = "http://localhost:8082";
 
       cliente = new HttpClient();
       cliente.BaseAddress = new Uri(DireccionBase); //Sujeto a cambios -> localhost:puerto que decidan en Slack
