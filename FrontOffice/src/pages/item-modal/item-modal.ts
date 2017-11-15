@@ -67,16 +67,13 @@ export class ItemModalPage {
       let val = ev.target.value;
       if (val && val.trim() != ''){
         if (this.searchForm.valid){
-          console.log(this.searchTerm); //SOLO SI ENTRA AQUI SE LE PERMITE BUSCAR EN EL BUSCADOR Y SE LLAMAN A LAS RUTAS
+         //SOLO SI ENTRA AQUI SE LE PERMITE BUSCAR EN EL BUSCADOR Y SE LLAMAN A LAS RUTAS
           if (this.Tipo_item == 'Evento'){
             this.http.ConsultarEventos(this.searchTerm, this.FechaInicio, this.FechaFin).then(
               data =>{
               if (data==0 || data==-1){
-                console.log("hubo un error");
               }else{
                 this.items = data;
-                console.log("EL CDLM " + this.items[0].Id)
-                console.log(this.items);
               }
             }
           );
@@ -86,10 +83,8 @@ export class ItemModalPage {
               this.http.ConsultarLugarTuristico(this.searchTerm).then(data=>
               {
                 if (data==0 || data==-1){
-                  console.log("hubo un error");
                 }else{
                   this.items = data;
-                  console.log(this.items);
                 }
               }
             );
@@ -99,10 +94,8 @@ export class ItemModalPage {
                 this.http.ConsultarActividades(this.searchTerm).then(data=>
                 {
                   if (data==0 || data==-1){
-                    console.log("hubo un error");
                   }else{
                     this.items = data;
-                    console.log(this.items[0].Id);
                   }
                 }
               );
@@ -136,7 +129,6 @@ export class ItemModalPage {
 
   agregarItem(item_id){
     //ARREGLAR ESTO
-    console.log(item_id);
         let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
@@ -147,16 +139,11 @@ export class ItemModalPage {
               text: 'CANCELAR',
               role: 'cancel',
               handler: data => {
-                console.log('Cancel clicked');
                 }
               } ,
               {
                 text: 'AGREGAR',
                 handler: data => {
-                  console.log(this.FechaFin);
-                  console.log(this.FechaInicio);
-                  console.log(this.itinerario.FechaFin);
-                  console.log(this.itinerario.FechaInicio);
                   if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
                   {
                     this.realizarToast('Fechas Invalidas');
@@ -180,17 +167,14 @@ export class ItemModalPage {
               text: 'CANCEL',
               role: 'cancel',
               handler: data => {
-                console.log('Cancel clicked');
                 }
               } ,
               {
                 text: 'ADD',
                 handler: data => {
-                  console.log(this.FechaFin);
-                  console.log(this.FechaInicio);
                   if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
                   {
-                    this.realizarToast('Fechas Invalidas');
+                    this.realizarToast('Invalid Dates');
                   }
                   else
                   {
