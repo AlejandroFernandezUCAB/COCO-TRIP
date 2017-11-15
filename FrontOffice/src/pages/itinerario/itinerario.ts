@@ -269,6 +269,7 @@ export class ItinerarioPage {
           this.httpc.eliminarItinerario(idit).then(data => {
             if (data==0 || data==-1){
               this.loading.dismiss();
+              console.log("hubo un error");
             }else{
               this.loading.dismiss();
               this.eliminarItinerario(idit, index);
@@ -299,6 +300,7 @@ export class ItinerarioPage {
             this.httpc.eliminarItinerario(idit).then(data => {
               if (data==0 || data==-1){
                 this.loading.dismiss();
+                console.log("hubo un error");
               }else{
                 this.loading.dismiss();
                 this.eliminarItinerario(idit, index);
@@ -344,6 +346,7 @@ export class ItinerarioPage {
         this.httpc.eliminarItem(tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
+            console.log("ERROR:: no se pudo eliminar el item");
           }else {
             this.loading.dismiss();
             this.eliminarItem(id_itinerario, evento.Id, index);
@@ -375,6 +378,7 @@ export class ItinerarioPage {
           this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
             if (data==0 || data==-1){
               this.loading.dismiss();
+              console.log("ERROR:: no se pudo eliminar el item");
             }else {
               this.loading.dismiss();
               this.eliminarItem(id_itinerario, evento.Id, index);
@@ -422,6 +426,7 @@ export class ItinerarioPage {
      var removed_elements = this.its.splice(index, 1);
      if (this.its.length == 0){
        this.noIts = true;
+       console.log("no its")
      }
    }
 
@@ -482,6 +487,7 @@ export class ItinerarioPage {
       this.its[i].edit = this.its[i].Nombre;
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
+        this.realizarToast('Fechas Invalidas');
         this.edit=true;
       }
       else
@@ -627,7 +633,6 @@ ionview
         }else{
           this.loading.dismiss();
           evento1 = data;
-          console.log(data);
           let modal = this.modalCtrl.create('ConsultarItemModalPage', {evento: evento, itinerario: itinerario, evento1: evento1});
           modal.present();
           modal.onDidDismiss(data => {
@@ -803,7 +808,6 @@ ionview
                 this.loading.dismiss();
                 this._notif.correo =data;
                 this._notif.push=false;
-
                 let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
                 modal.present();
                 modal.onDidDismiss(data => {

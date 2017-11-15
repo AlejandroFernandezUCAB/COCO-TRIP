@@ -1,4 +1,20 @@
 page-visualizarperfil {
-    
+    .imagen-perfil{
+        display: inline-block;
+        position: center;
+        max-width:90vw;
+        max-height:50vh;
+        width: auto;
+        height: auto;
+        border-radius: 10%;
+    }
+    ion-card {
+        position: relative;
+        text-align: center;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+          }
     }
     
