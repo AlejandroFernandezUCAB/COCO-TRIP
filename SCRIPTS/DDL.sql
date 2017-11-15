@@ -292,7 +292,7 @@ CREATE SEQUENCE SEQ_Localidad;
 --Fin de modulo
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
-    START WITH 1
+    START WITH 5
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
