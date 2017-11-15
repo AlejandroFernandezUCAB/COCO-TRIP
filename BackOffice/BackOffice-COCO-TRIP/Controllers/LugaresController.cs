@@ -134,6 +134,8 @@ namespace BackOffice_COCO_TRIP.Controllers
                 actividad.Foto.Ruta = peticion.DireccionBase + actividad.Foto.Ruta;
               }
 
+              listaActividad[0].Id = id;
+
               return View(listaActividad);
 
             }
