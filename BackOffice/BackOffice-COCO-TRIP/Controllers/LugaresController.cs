@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using System.Web.Mvc;
 
 namespace BackOffice_COCO_TRIP.Controllers
@@ -105,42 +106,40 @@ namespace BackOffice_COCO_TRIP.Controllers
 
         }
 
-        // POST:Lugares/DetailLugar
-        [HttpPost]
-        public ActionResult LugarDetail(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET:Lugares/DetailActivity
-        public ActionResult ActivityDetail()
+        /// <summary>
+        /// Metodo GET que se dispara al acceder a la pantalla de ver todos los lugares turisticos (ViewAll)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ActivityDetail(int id )
         {
             ViewBag.Title = "Detalle de Actividad";
-            return View();
-        }
 
-        // POST:Lugares/DetailActivity
-        [HttpPost]
-        public ActionResult ActivityDetail(FormCollection collection)
-        {
+            peticion = new PeticionLugares();
+
             try
             {
-                // TODO: Add insert logic here
+              var respuesta = peticion.GetActividades(id);
 
-                return RedirectToAction("Index");
+              if (respuesta == HttpStatusCode.InternalServerError.ToString())
+              {
+                return RedirectToAction("PageDown"); //Error del servicio web
+              }
+
+              var listaActividad = JsonConvert.DeserializeObject<List<Actividad>>(respuesta);
+
+              foreach (var actividad in listaActividad)
+              {
+                actividad.Foto.Ruta = peticion.DireccionBase + actividad.Foto.Ruta;
+              }
+
+              return View(listaActividad);
+
             }
-            catch
+            catch (SocketException)
             {
-                return View();
+              return RedirectToAction("PageDown");
             }
         }
 
@@ -157,24 +156,32 @@ namespace BackOffice_COCO_TRIP.Controllers
 
             peticion = new PeticionLugares();
 
-            var respuesta = peticion.GetLista(1,int.MaxValue);
-
-            if (respuesta == HttpStatusCode.InternalServerError.ToString())
+            try
             {
-              return RedirectToAction("PageDown"); //Error del servicio web
-            }
+              var respuesta = peticion.GetLista(1, int.MaxValue);
 
-            var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
-
-            foreach (var lugar in listaLugarTuristico)
-            {
-              foreach (var foto in lugar.Foto)
+              if (respuesta == HttpStatusCode.InternalServerError.ToString())
               {
-                foto.Ruta = peticion.DireccionBase + foto.Ruta;
+                return RedirectToAction("PageDown"); //Error del servicio web
               }
-            }
 
-            return View(listaLugarTuristico);
+              var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
+
+              foreach (var lugar in listaLugarTuristico)
+              {
+                foreach (var foto in lugar.Foto)
+                {
+                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
+                }
+              }
+
+              return View(listaLugarTuristico);
+
+            }
+            catch (SocketException)
+            {
+                return RedirectToAction("PageDown");
+            }
         }
 
         // PUT:Lugares/ViewAll?id={0}&activar={1}
@@ -188,29 +195,38 @@ namespace BackOffice_COCO_TRIP.Controllers
         {
             peticion = new PeticionLugares();
 
-            var respuesta = peticion.PutActivarLugar(id, !activar); //Actualiza el estado
-            if (respuesta == HttpStatusCode.InternalServerError.ToString())
+            try
             {
-              return RedirectToAction("PageDown"); //Error del servicio web al realizar la actualizacion
-            }
 
-            respuesta = peticion.GetLista(1, int.MaxValue); //Nuev
-            if (respuesta == HttpStatusCode.InternalServerError.ToString())
-            {
-              return RedirectToAction("PageDown"); //Error del servicio web al solicitar la lista de lugares turisticos
-            }
-
-            var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
-
-            foreach (var lugar in listaLugarTuristico)
-            {
-              foreach (var foto in lugar.Foto)
+              var respuesta = peticion.PutActivarLugar(id, !activar); //Actualiza el estado
+              if (respuesta == HttpStatusCode.InternalServerError.ToString())
               {
-                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
+                return RedirectToAction("PageDown"); //Error del servicio web al realizar la actualizacion
               }
+
+              respuesta = peticion.GetLista(1, int.MaxValue); //Nuev
+              if (respuesta == HttpStatusCode.InternalServerError.ToString())
+              {
+                return RedirectToAction("PageDown"); //Error del servicio web al solicitar la lista de lugares turisticos
+              }
+
+              var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
+
+              foreach (var lugar in listaLugarTuristico)
+              {
+                foreach (var foto in lugar.Foto)
+                {
+                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
+                }
+              }
+
+              return View(listaLugarTuristico);
+
             }
-            
-            return View(listaLugarTuristico);
+            catch (SocketException)
+            {
+              return RedirectToAction("PageDown");
+            }
         }
 
         //
