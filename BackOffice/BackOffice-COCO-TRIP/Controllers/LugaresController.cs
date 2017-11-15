@@ -1,7 +1,6 @@
 using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -29,26 +28,113 @@ namespace BackOffice_COCO_TRIP.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Metodo GET que se dispara al acceder a la pantalla Create
+        /// </summary>
+        /// <returns></returns>
         // GET:Lugares/Create
         public ActionResult Create()
         {
             ViewBag.Title = "Agregar Lugar Turístico";
-            return View();
+
+            peticion = new PeticionLugares();
+
+            try
+            {
+              var respuesta = peticion.GetCategoria();
+
+              if(respuesta == HttpStatusCode.InternalServerError.ToString())
+              {
+                return RedirectToAction("PageDown");
+              }
+              else if (respuesta == HttpStatusCode.NotFound.ToString())
+              {
+                return View();
+              }
+              else
+              {
+                ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
+                ViewBag.SubCategoria = new List<Categoria>();
+
+                foreach(var elemento in ViewBag.Categoria)
+                {
+                  respuesta = peticion.GetSubCategoria(elemento.Id);
+
+                  if (respuesta == HttpStatusCode.InternalServerError.ToString())
+                  {
+                    return RedirectToAction("PageDown");
+                  }
+                  else if (respuesta != HttpStatusCode.NotFound.ToString())
+                  {
+                    var respuestaSubCategoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
+
+                    foreach (var subElemento in respuestaSubCategoria)
+                    {
+                      ViewBag.SubCategoria.Add(subElemento);
+                    }
+                  }
+                }
+
+                return View();
+              }
+            }
+            catch (SocketException)
+            {
+              return RedirectToAction("PageDown");
+            }
         }
 
         // POST:Lugares/Create
+        /// <summary>
+        /// Metodo POST que se dispara al insertar un lugar turistico
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(LugarTuristico lugar, string activarTextual)
         {
+            peticion = new PeticionLugares();
+
             try
             {
-                // TODO: Add insert logic here
+                if(string.IsNullOrEmpty(lugar.Nombre) || string.IsNullOrEmpty(lugar.Correo) || string.IsNullOrEmpty(lugar.Descripcion) ||
+                string.IsNullOrEmpty(lugar.Direccion) || lugar.Categoria == null ||
+                lugar.Categoria.Count == 0 || lugar.SubCategoria.Count == 0 || lugar.SubCategoria == null || lugar.Foto == null
+                || lugar.Foto.Count == 0 || lugar.Horario == null || lugar.Horario.Count == 0 || lugar.Actividad == null || lugar.Actividad.Count == 0)
+                {
+                  return View("Por favor llene todos los campos correctamente");
+                }
+                else
+                {
+                    if(activarTextual == "Activo")
+                    {
+                      lugar.Activar = true;
+                    }
+                    else
+                    {
+                      lugar.Activar = false;
 
-                return RedirectToAction("Index");
+                    }
+
+                    var respuesta = peticion.PostLugar(lugar);
+
+                    if (respuesta == (int) HttpStatusCode.InternalServerError * -1)
+                    {
+                      return RedirectToAction("PageDown");
+                    }
+                    else if (respuesta == (int) HttpStatusCode.BadRequest * -1 )
+                    {
+                      return View("Por favor llene todos los campos correctamente");
+                    }
+                    else
+                    {
+                      return RedirectToAction("ViewAll");
+                    }
+                }
             }
-            catch
+            catch (SocketException)
             {
-                return View();
+              return RedirectToAction("PageDown");
             }
         }
 
@@ -88,27 +174,34 @@ namespace BackOffice_COCO_TRIP.Controllers
 
             peticion = new PeticionLugares();
 
-            var respuesta = peticion.GetLugar(id);
-
-            if (respuesta == HttpStatusCode.InternalServerError.ToString())
+            try
             {
-              return RedirectToAction("PageDown"); //Error del servicio web
-            }
+              var respuesta = peticion.GetLugar(id);
 
-            var lugarTuristico = JsonConvert.DeserializeObject<LugarTuristico>(respuesta);
+              if (respuesta == HttpStatusCode.InternalServerError.ToString())
+              {
+                return RedirectToAction("PageDown"); //Error del servicio web
+              }
 
-            foreach (var foto in lugarTuristico.Foto)
-            {
+              var lugarTuristico = JsonConvert.DeserializeObject<LugarTuristico>(respuesta);
+
+              foreach (var foto in lugarTuristico.Foto)
+              {
                 foto.Ruta = peticion.DireccionBase + foto.Ruta;
-            }
+              }
 
-            return View(lugarTuristico);
+              return View(lugarTuristico);
+            }
+            catch (SocketException)
+            {
+              return RedirectToAction("PageDown");
+            }
 
         }
 
         // GET:Lugares/DetailActivity
         /// <summary>
-        /// Metodo GET que se dispara al acceder a la pantalla de ver todos los lugares turisticos (ViewAll)
+        /// Metodo GET que se dispara al acceder a la pantalla de detalles de actividades
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
