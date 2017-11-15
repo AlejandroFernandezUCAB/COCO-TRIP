@@ -151,6 +151,7 @@ export class ItemModalPage {
 
   agregarItem(item_id){
         let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
+        vlista.Tipo= this.Tipo_item;
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
           let alert = this.alertCtrl.create({
@@ -165,7 +166,7 @@ export class ItemModalPage {
               {
                 text: 'AGREGAR',
                 handler: data => {
-                  if (this.FechaInicio > this.FechaFin) 
+                  if (this.FechaInicio > this.FechaFin)
                   {
                     this.realizarToast('Fecha inicio debe ser menor que fecha fin');
                   }
@@ -178,7 +179,8 @@ export class ItemModalPage {
                     this.realizarToast('Fecha inicio del item debe ser mayor que fecha inicio del itinerario');
                   }
                   else
-                  {
+                  { vlista.FechaInicio = this.FechaInicio;
+                    vlista.FechaFin = this.FechaFin;
                     this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
                     this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                    }
