@@ -8,7 +8,7 @@
     <form class="form-horizontal">
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;gen del lugar</label>
-        <input class="col-sm-6" type="file" id="perfilphoto" name="Foto[0].Contenido">
+        <input class="col-sm-6" type="file" id="perfilphoto" name="lugarFoto">
         <p class="help-block col-sm-9">La foto seleccionada se ver&aacute; en el lugar tur&iacute;stico</p>
       </div>
       
@@ -36,7 +36,7 @@
           <div class="form-group">
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
-              <select class="form-control" id="category" name="Activar">
+              <select class="form-control" id="category" name="activar">
                 <option selected disabled>Elige una estado</option>
                 <option value="true" selected= "@if (Model.Activar) { <text>true</text> }">Activo</option>
                 <option value="false" selected= "@if (!Model.Activar) { <text>true</text> }">Inactivo</option>
@@ -74,7 +74,7 @@
 
                             @foreach (var categoria in ViewBag.Categoria)
                             {
-                              <option id="@categoria.Id">@categoria.Nombre</option>
+                              <option>@categoria.Nombre</option>
                             }
 
 
@@ -92,7 +92,7 @@
 
                             @foreach (var subCategoria in ViewBag.SubCategoria)
                             {
-                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
+                              <option>@subCategoria.Nombre</option>
                             }
 
 
