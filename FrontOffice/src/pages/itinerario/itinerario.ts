@@ -221,6 +221,7 @@ export class ItinerarioPage {
                     this.realizarToast('No se pudo agregar el itinerario. Por favor intente mas tarde :(');
                   }else{
                     this.loading.dismiss();
+                    this.noIts=false;
                     this.datos = data;
                     this.its.push({
                       Id: this.datos.Id,
@@ -270,9 +271,11 @@ export class ItinerarioPage {
           this.httpc.eliminarItinerario(idit).then(data => {
             if (data==0 || data==-1){
               this.loading.dismiss();
+              this.delete= !this.delete;
               console.log("hubo un error");
             }else{
               this.loading.dismiss();
+              this.delete= !this.delete;
               this.eliminarItinerario(idit, index);
             }
           });
@@ -301,9 +304,11 @@ export class ItinerarioPage {
             this.httpc.eliminarItinerario(idit).then(data => {
               if (data==0 || data==-1){
                 this.loading.dismiss();
+                this.delete= !this.delete;
                 console.log("hubo un error");
               }else{
                 this.loading.dismiss();
+                this.delete= !this.delete;
                 this.eliminarItinerario(idit, index);
               }
             });
@@ -583,8 +588,6 @@ ionview
    **/
   public agregarItem(iti)
   {
-    console.log(iti.FechaInicio);
-    console.log(iti.FechaFin);
     if ((iti.FechaInicio=='0001-01-01T00:00:00')||(iti.FechaFin=='0001-01-01T00:00:00'))
     {
       if (this.translateService.currentLang == 'es'){
@@ -831,7 +834,7 @@ ionview
                   this._notif.correo =data;
                   this._notif.push=false;
                   console.log(data);
-                  let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
+                  let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif, itinerarios: this.its});
                   modal.present();
                   modal.onDidDismiss(data => {
                     if (data) {

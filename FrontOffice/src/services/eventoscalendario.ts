@@ -96,7 +96,7 @@ export class EventosCalendarioService {
   {
       for (let i= 0 ; i < this._itis.length; i++){
         if (this._itis[i].Visible == true){
-          console.log("entro");
+          this.consultarItinerarios(this.IdUsuario);
           for (let j =0;  j< this._itis[i].Items_agenda.length; j++)
           {
             this._daysConfig.push({
