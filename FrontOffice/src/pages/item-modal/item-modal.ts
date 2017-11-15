@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController,ToastController, LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
@@ -13,6 +13,8 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
 })
 export class ItemModalPage {
   itinerario : any;
+  NoResults = false;
+  loading:any;
   searchForm: FormGroup;
   submitAttempt: boolean = false;
   searchTerm: string = ''; //Lo que esta buscando
@@ -34,7 +36,9 @@ export class ItemModalPage {
     public eventos: EventosCalendarioService,
     private translateService: TranslateService,
     public http: HttpCProvider,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+  public loadingCtrl: LoadingController,
+
   ) {
     this.itinerario= this.navParams.get('itinerario');
     this.searchForm = formBuilder.group({
@@ -62,20 +66,29 @@ export class ItemModalPage {
     this.items = this.eventos.getEventosGlobales();
     }
 
+    public presentLoading()
+    {
+        this.loading = this.loadingCtrl.create({
+        content: 'Please wait...',
+        dismissOnPageChange: true
+      });
+      this.loading.present();
+    }
+
     getItems(ev:any){
       this.items = Array();
       let val = ev.target.value;
       if (val && val.trim() != ''){
-        if (this.searchForm.valid){
+        if (this.searchForm.valid &&this.searchTerm!=undefined && this.searchTerm!=''){
           console.log(this.searchTerm); //SOLO SI ENTRA AQUI SE LE PERMITE BUSCAR EN EL BUSCADOR Y SE LLAMAN A LAS RUTAS
           if (this.Tipo_item == 'Evento'){
             this.http.ConsultarEventos(this.searchTerm, this.FechaInicio, this.FechaFin).then(
               data =>{
-              if (data==0 || data==-1){
-                console.log("hubo un error");
+              if (data==-1 || data==0){
+                this.NoResults = true;
               }else{
+                this.NoResults= false;
                 this.items = data;
-                console.log("EL CDLM " + this.items[0].Id)
                 console.log(this.items);
               }
             }
@@ -86,8 +99,10 @@ export class ItemModalPage {
               this.http.ConsultarLugarTuristico(this.searchTerm).then(data=>
               {
                 if (data==0 || data==-1){
+                  this.NoResults= true;
                   console.log("hubo un error");
                 }else{
+                  this.NoResults= false;
                   this.items = data;
                   console.log(this.items);
                 }
@@ -99,8 +114,10 @@ export class ItemModalPage {
                 this.http.ConsultarActividades(this.searchTerm).then(data=>
                 {
                   if (data==0 || data==-1){
+                    this.NoResults= true;
                     console.log("hubo un error");
                   }else{
+                    this.NoResults= false;
                     this.items = data;
                     console.log(this.items[0].Id);
                   }

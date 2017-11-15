@@ -146,6 +146,7 @@ export class ItinerarioPage {
                   }else{
                     this.loading.dismiss();
                     console.log(data);
+                    this.noIts=false;
                     this.its.push({
                       Nombre: name,
                       Items_agenda: Array()
@@ -175,7 +176,8 @@ export class ItinerarioPage {
         Orrillo, Horacio
    **/
   public crear()
-  {
+  { this.edit=false;
+    this.delete=false;
     if (this.translateService.currentLang == 'es') this.crearEspanol();
     else this.crearIngles();
   }
@@ -411,7 +413,7 @@ export class ItinerarioPage {
    **/
   public eliminar()
   {
-    this.delete = true;
+    this.delete = !this.delete;
     this.edit = false;
   }
 
@@ -468,7 +470,7 @@ export class ItinerarioPage {
    **/
   public editar()
   {
-    this.edit = true;
+    this.edit = !this.edit;
     this.delete = false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
@@ -692,6 +694,8 @@ ionview
         this.its[i].Items_agenda = Array();
       }
     }
+    this.edit=false;
+    this.delete=false;
     if(this.list==true){
       this.list = false;
     }
@@ -733,7 +737,7 @@ ionview
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
     this.httpc.loadItinerarios(this.IdUsuario)
     .then(data => {
-      if (data== 0 || data == -1){
+      if (data == -1){
         this.loading.dismiss();
         if (this.translateService.currentLang == 'es'){
         this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
@@ -818,19 +822,21 @@ ionview
               }
               this.httpc.getNotificacionesConfig(this.IdUsuario)
               .then(data =>{
-                console.log(data);
-                this.loading.dismiss();
-                this._notif.correo =data;
-                this._notif.push=false;
-
-                console.log(data);
-                let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
-                modal.present();
-                modal.onDidDismiss(data => {
-                  if (data) {
-                  }
-                })
-
+                if(data==-1|| data==0){
+                  this.loading.dismiss();
+                  this.realizarToast('Error. Por favor intente mas tarde :(');
+                }else{
+                  this.loading.dismiss();
+                  this._notif.correo =data;
+                  this._notif.push=false;
+                  console.log(data);
+                  let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
+                  modal.present();
+                  modal.onDidDismiss(data => {
+                    if (data) {
+                    }
+                  })
+                }
               })
             });
   });
