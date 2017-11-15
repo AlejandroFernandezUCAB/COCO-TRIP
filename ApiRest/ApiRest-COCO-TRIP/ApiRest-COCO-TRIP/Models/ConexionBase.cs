@@ -9,7 +9,6 @@ namespace ApiRest_COCO_TRIP.Models
   /// </summary>
   public class ConexionBase
   {
-    private const string Configuracion = "Host=localhost;Port=5433;Username=admin_cocotrip;Password=ds1718a;Database=cocotrip";
     private const string Configuracion = "Host=localhost;Port=5432;Username=admin_cocotrip;Password=ds1718a;Database=cocotrip";
     private NpgsqlConnection sqlConexion; //Conexion con la base de datos PostgreSQL
     private NpgsqlCommand comando; //Instrucion SQL a ejecutar

@@ -4,6 +4,8 @@ import { ConversacionPage } from '../chat/conversacion/conversacion';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
+import { TranslateService } from '@ngx-translate/core';
+
 
 /**
  * Generated class for the ChatPage page.

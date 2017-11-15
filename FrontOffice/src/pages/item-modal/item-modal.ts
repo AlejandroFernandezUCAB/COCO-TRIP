@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController,ToastController, LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
@@ -13,6 +13,8 @@ import { HttpCProvider } from '../../providers/http-c/http-c';
 })
 export class ItemModalPage {
   itinerario : any;
+  NoResults = false;
+  loading:any;
   searchForm: FormGroup;
   submitAttempt: boolean = false;
   searchTerm: string = ''; //Lo que esta buscando
@@ -34,7 +36,9 @@ export class ItemModalPage {
     public eventos: EventosCalendarioService,
     private translateService: TranslateService,
     public http: HttpCProvider,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+  public loadingCtrl: LoadingController,
+
   ) {
     this.itinerario= this.navParams.get('itinerario');
     this.searchForm = formBuilder.group({
@@ -62,21 +66,28 @@ export class ItemModalPage {
     this.items = this.eventos.getEventosGlobales();
     }
 
+    public presentLoading()
+    {
+        this.loading = this.loadingCtrl.create({
+        content: 'Please wait...',
+        dismissOnPageChange: true
+      });
+      this.loading.present();
+    }
+
     getItems(ev:any){
       this.items = Array();
       let val = ev.target.value;
       if (val && val.trim() != ''){
-        if (this.searchForm.valid){
-          console.log(this.searchTerm); //SOLO SI ENTRA AQUI SE LE PERMITE BUSCAR EN EL BUSCADOR Y SE LLAMAN A LAS RUTAS
+        if (this.searchForm.valid &&this.searchTerm!=undefined && this.searchTerm!=''){ //SOLO SI ENTRA AQUI SE LE PERMITE BUSCAR EN EL BUSCADOR Y SE LLAMAN A LAS RUTAS
           if (this.Tipo_item == 'Evento'){
             this.http.ConsultarEventos(this.searchTerm, this.FechaInicio, this.FechaFin).then(
               data =>{
-              if (data==0 || data==-1){
-                console.log("hubo un error");
+              if (data==-1 || data==0){
+                this.NoResults = true;
               }else{
+                this.NoResults= false;
                 this.items = data;
-                console.log("EL CDLM " + this.items[0].Id)
-                console.log(this.items);
               }
             }
           );
@@ -86,10 +97,11 @@ export class ItemModalPage {
               this.http.ConsultarLugarTuristico(this.searchTerm).then(data=>
               {
                 if (data==0 || data==-1){
+                  this.NoResults= true;
                   console.log("hubo un error");
                 }else{
+                  this.NoResults= false;
                   this.items = data;
-                  console.log(this.items);
                 }
               }
             );
@@ -99,10 +111,11 @@ export class ItemModalPage {
                 this.http.ConsultarActividades(this.searchTerm).then(data=>
                 {
                   if (data==0 || data==-1){
+                    this.NoResults= true;
                     console.log("hubo un error");
                   }else{
+                    this.NoResults= false;
                     this.items = data;
-                    console.log(this.items[0].Id);
                   }
                 }
               );
@@ -125,6 +138,8 @@ export class ItemModalPage {
               }
             }
           }
+        }else{
+          this.NoResults=false;
         }
 
         //this.items= this.items.filter((item) => {
@@ -135,8 +150,6 @@ export class ItemModalPage {
     }
 
   agregarItem(item_id){
-    //ARREGLAR ESTO
-    console.log(item_id);
         let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
@@ -147,19 +160,22 @@ export class ItemModalPage {
               text: 'CANCELAR',
               role: 'cancel',
               handler: data => {
-                console.log('Cancel clicked');
                 }
               } ,
               {
                 text: 'AGREGAR',
                 handler: data => {
-                  console.log(this.FechaFin);
-                  console.log(this.FechaInicio);
-                  console.log(this.itinerario.FechaFin);
-                  console.log(this.itinerario.FechaInicio);
-                  if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
+                  if (this.FechaInicio > this.FechaFin) 
                   {
-                    this.realizarToast('Fechas Invalidas');
+                    this.realizarToast('Fecha inicio debe ser menor que fecha fin');
+                  }
+                  if (this.FechaFin > this.itinerario.FechaFin)
+                  {
+                    this.realizarToast('Fecha fin del item debe ser menor que fecha fin del itinerario');
+                  }
+                  if (this.FechaInicio < this.itinerario.FechaInicio)
+                  {
+                    this.realizarToast('Fecha inicio del item debe ser mayor que fecha inicio del itinerario');
                   }
                   else
                   {
@@ -180,14 +196,11 @@ export class ItemModalPage {
               text: 'CANCEL',
               role: 'cancel',
               handler: data => {
-                console.log('Cancel clicked');
                 }
               } ,
               {
                 text: 'ADD',
                 handler: data => {
-                  console.log(this.FechaFin);
-                  console.log(this.FechaInicio);
                   if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
                   {
                     this.realizarToast('Invalid Dates');

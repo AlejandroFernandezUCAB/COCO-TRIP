@@ -344,3 +344,4 @@ __pycache__/
 
 # OpenCover UI analysis results
 OpenCover/
+FrontOffice/src/pages/login/login\.ts

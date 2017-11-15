@@ -80,6 +80,19 @@ namespace BackOffice_COCO_TRIP.Controllers
         }
         else
         {
+          var listaCategorias = ConsutarCategoriasSelect();
+          if (listaCategorias != null)
+          {
+            listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
+            ViewBag.MyList = listaCategorias;
+
+          }
+
+          else
+          {
+            listaCategorias = new List<Categories>();
+            ViewBag.MyList = listaCategorias;
+          }
           ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
           return View(categories);
         }
@@ -157,7 +170,20 @@ namespace BackOffice_COCO_TRIP.Controllers
         }
 
         else
-        { 
+        {
+          var listaCategorias = ConsutarCategoriasSelect();
+          if (listaCategorias != null)
+          {
+            listaCategorias = listaCategorias.Where(s => s.Nivel < 3 && s.Id != id).ToList();
+            ViewBag.MyList = listaCategorias;
+
+          }
+
+          else
+          {
+            listaCategorias = new List<Categories>();
+            ViewBag.MyList = listaCategorias;
+          }
           ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
           return View(categories);
         } 
@@ -171,6 +197,25 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       JObject respuesta = peticion.Put(categories);
       return Json(respuesta);
+    }
+
+    private IList<Categories> ConsutarCategoriasSelect()
+    {
+      IList<Categories> listCategories = null;
+      JObject respuesta = peticion.GetCategoriasHabilitadas();
+      if (respuesta.Property("data") != null)
+      {
+        listCategories = respuesta["data"].ToObject<IList<Categories>>();
+        //listCategories = listCategories.Where(s => s.Nivel < 3 && s.Id != id).ToList();
+      }
+
+      else
+      {
+        listCategories = null;
+       // ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+      }
+
+      return listCategories;
     }
   }
 }

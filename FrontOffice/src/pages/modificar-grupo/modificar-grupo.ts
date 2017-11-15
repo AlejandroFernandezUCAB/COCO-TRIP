@@ -6,7 +6,22 @@ import { AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
+//****************************************************************************************************// 
+//**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
+//****************************************************************************************************//  
 
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga los datos de un grupo para modificarlos y eliminar
+ * los integrantes de ese grupo
+ */
 @Component({
   selector: 'modificar-grupo-page',
   templateUrl: 'modificar-grupo.html',
@@ -25,10 +40,8 @@ export class ModificarGrupoPage {
   message: any;
   succesful: any;
   edited: any;
+  public loading = this.loadingCtrl.create({});
 
-  public loading = this.loadingCtrl.create({
-    content: 'Please wait...'
-  });
     constructor(public navCtrl: NavController, private navParams: NavParams,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public alerCtrl: AlertController, public toastCtrl: ToastController,
@@ -36,8 +49,11 @@ export class ModificarGrupoPage {
           
     }
     
-
-    ionViewWillEnter() {
+/**
+ * Carga la vista del grupo apenas entras a la pagina 
+ * solo los datos del grupo 
+ */
+   ionViewWillEnter() {
       
       this.id = this.navParams.get('idGrupo');
       this.restapiService.verperfilGrupo(this.id)
@@ -53,7 +69,11 @@ export class ModificarGrupoPage {
   
         });
     }
-    
+
+/**
+ * Carga los datos del lider
+ * @param id Iedntificador del grupo
+ */    
 cargarlider(id){
   this.storage.get('id').then((val) => {
     
@@ -70,11 +90,12 @@ cargarlider(id){
       
           });
           });
-
-
-
 }
 
+/**
+ * Carga la lista de los integrantes del grupo (Si incluir al lider)
+ * @param id identificador del grupo
+ */
     cargarmiembros(id){
       this.restapiService.obtenerSinLider(id)
       .then(data => {
@@ -93,7 +114,7 @@ cargarlider(id){
 /**
  * Metodo para confirmar eliminacion de un amigo
  * @param nombreUsuario Nombre del usuario a eliminar
- * @param index 
+ * @param index Posicion en la lista
  */
     eliminarIntegrantes(nombreUsuario, index){
       this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
@@ -127,12 +148,21 @@ cargarlider(id){
         alert.present();
       }
 
-      
-      eliminarIntegrante(nombreUsuario, index){
-        let int_eliminado = this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
-        var removed_elements = this.miembro.splice(index, 1);
-      }
+  /**
+   * Eliminar en pantalla
+   * @param nombreUsuario Nombre del usuario a eliminar
+   * @param index Posicion en la lista
+   */    
+  eliminarIntegrante(nombreUsuario, index){
+    let int_eliminado = this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
+    var removed_elements = this.miembro.splice(index, 1);
+  }
 
+/**
+ * Metodo que verifica si el nombre del grupo
+ * se modifico o no
+ * @param evento evento
+ */
 modificarNombre(evento){
   this.translateService.get('Modificado Exitosamente').subscribe(value => {this.edited = value;})
   this.storage.get('id').then((val) => {
@@ -150,6 +180,11 @@ modificarNombre(evento){
 });
 }
 
+
+/**
+ * Metodo que despliega un toast
+ * @param mensaje Texto para el toast
+ */
 realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
@@ -159,6 +194,9 @@ realizarToast(mensaje) {
   this.toast.present();
 }
 
+/**
+ * Metodo que inicia la pagina para agregar a integrantes
+ */
   Integrantes(){
 
     this.navCtrl.push(NuevosIntegrantesPage, {
