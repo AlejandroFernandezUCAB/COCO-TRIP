@@ -29,6 +29,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /**
      * <summary>Metodo de controlador para Agregar un Evento a la BBDD</summary>
      * **/
+    
     [ResponseType(typeof(IDictionary))]
     [ActionName("agregarEvento")]
     [HttpPost]
@@ -45,7 +46,7 @@ namespace ApiRest_COCO_TRIP.Controllers
        
           PeticionEvento peticionEvento = new PeticionEvento();
           int idEvento = peticionEvento.AgregarEvento(evento);
-          respuesta.Add("dato", idEvento); 
+          respuesta.Add("dato", "Se ha agregado"); 
        
       }
       catch (BaseDeDatosExcepcion e)
@@ -166,6 +167,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return respuesta;
     }
+
     [HttpGet]
     public Evento ConsultarEvento(int id)
     {
@@ -179,6 +181,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       PeticionEvento peticionEvento = new PeticionEvento();
       return peticionEvento.ListaEventosPorFecha(date);
     }
+
 
     /**
      * <summary>Metodo de controlador para listar todas las categorias desde la fecha danda</summary>

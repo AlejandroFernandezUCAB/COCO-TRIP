@@ -8,20 +8,14 @@
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-              <div class="item active">
-                <img class="img-carousel" src="@Url.Content("~/Images/Lugares/casa4_detalle.jpg")" alt="">
-                <div class="carousel-caption"></div>
-              </div>
 
-              <div class="item">
-                <img class="img-carousel" src="@Url.Content("~/Images/Lugares/casa5_detalle.jpg")" alt="">
-                <div class="carousel-caption"></div>
-              </div>
-
-              <div class="item">
-                <img class="img-carousel" src="@Url.Content("~/Images/Lugares/casa6_detalle.jpg")" alt="">
-                <div class="carousel-caption"></div>
-              </div>
+              @foreach (var fotos in Model.Foto)
+              {
+                <div class="item @if (fotos == Model.Foto[0]) { <text>active</text> }">
+                  <img src="@fotos.Ruta" alt="">
+                  <div class="carousel-caption"></div>
+                </div>
+              }
 
             </div>
 
@@ -48,7 +42,7 @@
           <hr>
 
           <div class="row">
-            <div class="name-lugar-turistico text-center">Parque del Este</div>
+            <div class="name-lugar-turistico text-center">@Model.Nombre</div>
           </div>
 
           <br>
@@ -60,74 +54,56 @@
                 Categor&iacute;as
               </div>
               <ul class="list-category">
+              @foreach (var categoria in Model.Categoria)
+              {
+
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                   <div class="panel">
                     <div class="panel-heading" role="tab" id="headingOne">
                       <h4 class="panel-title">
                         <a class="title-category-collapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                          <li>Parque</li>
+                          <li>categoria.Nombre</li>
                         </a>
                       </h4>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                       <div class="panel-body">
-                        <li class="list-subcategory">Para todas las edades</li>
-                        <li class="list-subcategory">Para todas las edades</li>
+
+                        @foreach (var subCategoria in Model.SubCategoria)
+                        {
+                          if (subCategoria.CategoriaSuperior == categoria.Id)
+                          {
+                            <li class="list-subcategory">@subCategoria.Nombre</li>
+                          }
+
+                        }
+
+
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                  <div class="panel">
-                    <div class="panel-heading" role="tab" id="headingTwo">
-                      <h4 class="panel-title">
-                        <a class="title-category-collapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                          <li>Zool&oacute;gico</li>
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                      <div class="panel-body">
-                        <li class="list-subcategory">Para todas las edades</li>
-                        <li class="list-subcategory">Para todas las edades</li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                  <div class="panel">
-                    <div class="panel-heading" role="tab" id="headingThree">
-                      <h4 class="panel-title">
-                        <a class="title-category-collapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                          <li>Entretenimiento</li>
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                      <div class="panel-body">
-                        <li class="list-subcategory">Para todas las edades</li>
-                        <li class="list-subcategory">Para todas las edades</li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              }
               </ul>
             </div>
 
             <div class="col-md-4 col-md-offset-2">
               <div class="subtitle-detalle categoria-detalle">
                 Actividades
-                <a href="@Url.Action("ActivityDetail", "Lugares")">
+                <a href="@Url.Action("ActivityDetail", "Lugares", new { id =  Model.Id })">
                   <i class="fa fa-eye icon-see-detalle" aria-hidden="true"></i>
                 </a>
               </div>
               <ul class="list-category">
-                <li>Paseo lanchas a pedal</li>
-                <li>Visita barco de colón</li>
-                <li>Canchas de deporte</li>
-                <li>Multiples áreas verdes</li>
+
+                @foreach (var actividad in Model.Actividad)
+                {
+
+                <li>@actividad.Nombre</li>
+
+                }
+
               </ul>
             </div>
 
@@ -142,8 +118,12 @@
               </div>
 
               <ul class="list-category">
-                <li>Lunes a Jueves 9am - 7pm</li>
-                <li>Viernes a Domingos 7am - 7pm</li>
+
+              @foreach (var horario in Model.Horario)
+              {
+                <li>@Enum.GetName(typeof(DayOfWeek), horario.DiaSemana) @horario.HoraApertura.ToString("hh\\:mm") - @horario.HoraCierre.ToString("hh\\:mm")</li>
+              }
+
               </ul>
 
             </div>
@@ -154,7 +134,14 @@
               </div>
 
               <ul class="list-category">
-                <li>La entrada al parque es gratuita.</li>
+                <li>@if (@Model.Costo == 0)
+                {
+                  <text>Entrada libre</text>
+                }
+                else
+                {
+                  <text>BsF. @Model.Costo</text>
+                }</li>
               </ul>
 
             </div>
@@ -169,7 +156,7 @@
               Descripci&oacute;n
             </div>
 
-            <p class="text-descripcion-detalle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, quidem eum. Minima, possimus. Quas libero accusamus amet eius laborum, qui? Rem at tempora, atque nemo delectus, iste laboriosam modi eum sapiente architecto culpa maiores saepe illum, sed corporis natus? Inventore.</p>
+            <p class="text-descripcion-detalle">@Model.Descripcion</p>
 
           </div>
 
@@ -183,14 +170,13 @@
               </div>
 
               <address class="address-detalle">
-                <strong>Parque del Este.</strong><br>
-                Avenida Francisco de Miranda.<br>
-                Caracas, 1060 Miranda<br>
-                <abbr title="telefono">telf:</abbr> (212) 456-7890
+                <strong>@Model.Nombre</strong><br>
+                @Model.Direccion<br>
+                <abbr title="telefono">telf:</abbr> @Model.Telefono
               </address>
 
               <address class="address-detalle">
-                <a href="mailto:#">parquedeleste@gmail.com</a>
+                <a href="mailto:#">@Model.Correo</a>
               </address>
             </div>
             <div class="col-md-6">
@@ -198,7 +184,23 @@
                 Ubicaci&oacute;n
               </div>
 
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.094542477876!2d-66.84165418520169!3d10.49321309251406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x30933fb8b4931973!2sParque+General%C3%ADsimo+Francisco+De+Miranda!5e0!3m2!1ses!2s!4v1508602343473" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+              <div class="col-md-5">
+
+                <div class="col-sm-9">
+                  <input type="text" id="latitud" value="@Model.Latitud" style="display:none;"/>
+                </div>
+                
+                
+
+              </div>
+              <div class="col-md-5">
+
+                <div class="col-sm-9">
+                  <input type="text" id="longitud" value="@Model.Longitud" style="display:none;"/>
+                </div>
+              </div>
+
+          <div id="map" class="text-center"></div>
             </div>
 
           </div>
@@ -219,3 +221,8 @@
 
   </div>
 </div>
+
+@section scripts {
+  @Scripts.Render("~/bundles/Lugares_show-coordsJS")
+  @Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")
+}

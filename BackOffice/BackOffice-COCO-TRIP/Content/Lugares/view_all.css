@@ -1,5 +1,9 @@
-.second-row-lugares{
-	margin-top: 5%;
+.ocultar{
+  display:none;
+}
+
+.first-row-lugares{
+	margin-bottom: 5%;
 }
 
 .content-box-info{

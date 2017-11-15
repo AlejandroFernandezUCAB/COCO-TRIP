@@ -1,5 +1,6 @@
 using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Models;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -16,10 +17,12 @@ namespace ApiRestPruebas.M8
   class M8UnitTests
   {
     private M8_LocalidadEventoController controlador;
+    private PeticionLocalidadEvento peticionLocalidadEvento;
     [SetUp]
     public void Init()
     {
       controlador = new M8_LocalidadEventoController();
+      peticionLocalidadEvento = new PeticionLocalidadEvento();
     }
 
     /**
@@ -32,7 +35,8 @@ namespace ApiRestPruebas.M8
     {
       LocalidadEvento localidadEvento = new LocalidadEvento("hola", "Lugar familiar y pasarla bien con amigos",
         "Chacao, Venezuela");
-      //Assert.AreEqual(controlador.AgregarLocalidadEvento(localidadEvento), 9);
+      
+      Assert.AreEqual(peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento), 9);
     }
     /**
      * <summary>Casos de borde cuando falta algun parametro o todos los parametros
@@ -53,28 +57,28 @@ namespace ApiRestPruebas.M8
     {
       LocalidadEvento localidadEvento = new LocalidadEvento();
       
-     // controlador.AgregarLocalidadEvento(localidadEvento);
+      peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
 
     public void casoBorde2Agregar()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento();
       localidadEvento.Nombre = "prueba1";
-      //controlador.AgregarLocalidadEvento(localidadEvento);
+      peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
 
     public void casoBorde3Agregar()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento();
       localidadEvento.Descripcion = "prueba1";
-      //controlador.AgregarLocalidadEvento(localidadEvento);
+      peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
 
     public void casoBorde4Agregar()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento();
       localidadEvento.Coordenadas = "prueba1";
-     //IDictionary controlador = controlador.AgregarLocalidadEvento(localidadEvento);
+      peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
     /**[Test]
     public void PruebaFalloBasedeDatosAgregar()
@@ -95,7 +99,7 @@ namespace ApiRestPruebas.M8
     public void PruebaEliminarLocalidadEvento()
     {
       int idLocalidad = 9;
-      //Assert.IsTrue(controlador.EliminarLocalidadEvento(idLocalidad));
+      Assert.IsTrue(peticionLocalidadEvento.EliminarLocalidadEvento(idLocalidad));
     }
     /**
      * <summary>Prueba de eliminar localidad inexistente</summary>
@@ -104,7 +108,7 @@ namespace ApiRestPruebas.M8
     public void PruebaEliminarLocalidadInexistente()
     {
       int idLocalidad = 200;
-      //Assert.IsFalse(controlador.EliminarLocalidadEvento(idLocalidad));
+      Assert.IsFalse(peticionLocalidadEvento.EliminarLocalidadEvento(idLocalidad));
     }
     //Pruebas de Consultar Localidad
     /**
@@ -114,9 +118,9 @@ namespace ApiRestPruebas.M8
     public void PruebaConsultarLocalidadEvento()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento("Suiza", "Europa", "Europa");
-     // int idLocalidadEvento = controlador.AgregarLocalidadEvento(localidadEvento);
-     // Assert.AreEqual(controlador.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
-        //localidadEvento.Nombre);
+      int idLocalidadEvento = peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
+     Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
+        localidadEvento.Nombre);
     }
       /**
      * <summary>Prueba de consulta casos de borde id inexitente o invalido</summary>
@@ -131,12 +135,12 @@ namespace ApiRestPruebas.M8
     public void casoBorde1Consultar()
     {
       int id = 1111;
-      //LocalidadEvento localidad = controlador.ConsultarLocalidadEvento(id);
+      LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
     }
     public void casoBorde2Consultar()
     {
       int id = -1;
-      //LocalidadEvento localidad = controlador.ConsultarLocalidadEvento(id);
+      LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
     }
 
     /**
@@ -146,7 +150,7 @@ namespace ApiRestPruebas.M8
      public void PruebaListaLocalidades()
     {
       
-      Assert.AreEqual(controlador.ListaLocalidadEventos().Count, 1);
+      Assert.AreEqual(peticionLocalidadEvento.ListaLocalidadEventos().Count, 1);
 
     }
     

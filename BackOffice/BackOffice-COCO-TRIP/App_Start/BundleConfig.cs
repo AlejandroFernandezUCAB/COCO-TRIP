@@ -53,6 +53,10 @@ namespace BackOffice_COCO_TRIP
             bundles.Add(new StyleBundle("~/bundles/Lugares_insert-coordsJS").Include(
                      "~/Scripts/Lugares/google-map.js"
                      ));
+            bundles.Add(new StyleBundle("~/bundles/Lugares_show-coordsJS").Include(
+                     "~/Scripts/Lugares/google-map-detail.js"
+                     ));
+
           // Localidad M8
             bundles.Add(new StyleBundle("~/bundles/Localidad_insert-coordsJS").Include(
                          "~/Scripts/M8_Localidad/google-map.js"
@@ -81,6 +85,9 @@ namespace BackOffice_COCO_TRIP
 
             bundles.Add(new StyleBundle("~/bundles/lugares_viewallCSS").Include(
                     "~/Content/Lugares/view_all.css"
+                    ));
+            bundles.Add(new StyleBundle("~/bundles/lugares_alertsCSS").Include(
+                    "~/Content/Lugares/alerts.css"
                     ));
             bundles.Add(new StyleBundle("~/bundles/sweetAlertCSS").Include(
                     "~/Content/sweetalert2.min.css"
