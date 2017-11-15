@@ -40,21 +40,21 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Create()
     {
       ViewBag.Title = "Agregar Categoría";
-      IList<Categories> listCategories = null;
-      JObject respuesta = peticion.GetCategoriasHabilitadas();
-      if (respuesta.Property("data") != null)
+      var listaCategorias = ConsutarCategoriasSelect();
+      if (listaCategorias != null)
       {
-        listCategories = respuesta["data"].ToObject<IList<Categories>>();
-        listCategories = listCategories.Where(s => s.Nivel < 3).ToList();
+        listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
+        ViewBag.MyList = listaCategorias;
+
       }
 
       else
       {
-        listCategories = new List<Categories>();
-        ModelState.AddModelError(string.Empty, "Error en la conexion.");
+        listaCategorias = new List<Categories>();
+        ViewBag.MyList = listaCategorias;
+        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
-
-      ViewBag.MyList = listCategories;
+      
       Categories categories = null;
 
       return View(categories);
@@ -78,26 +78,25 @@ namespace BackOffice_COCO_TRIP.Controllers
           return RedirectToAction("Index");
 
         }
-        else
-        {
-          var listaCategorias = ConsutarCategoriasSelect();
-          if (listaCategorias != null)
-          {
-            listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
-            ViewBag.MyList = listaCategorias;
-
-          }
-
-          else
-          {
-            listaCategorias = new List<Categories>();
-            ViewBag.MyList = listaCategorias;
-          }
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-          return View(categories);
-        }
+        ValidarErrorPorDuplicidad(respuesta);
       }
 
+      var listaCategorias = ConsutarCategoriasSelect();
+      if (listaCategorias != null)
+      {
+        listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
+        ViewBag.MyList = listaCategorias;
+
+      }
+
+      else
+      {
+        listaCategorias = new List<Categories>();
+        ViewBag.MyList = listaCategorias;
+        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
+      }
+
+      ViewBag.Title = "Agregar Categoría";
       return View(categories);
 
     }
@@ -106,21 +105,21 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(int id)
     {
       ViewBag.Title = "Editar Categoría";
-      IList<Categories> listCategories = null;
-      JObject respuesta = peticion.GetCategoriasHabilitadas();
-      if (respuesta.Property("data") != null)
+      var listaCategoriasSelect = ConsutarCategoriasSelect();
+      if (listaCategoriasSelect != null)
       {
-        listCategories = respuesta["data"].ToObject<IList<Categories>>();
-        listCategories = listCategories.Where(s => s.Nivel <3 && s.Id!=id).ToList();
+        listaCategoriasSelect = listaCategoriasSelect.Where(s => s.Nivel < 3 && s.Id != id).ToList();
+        ViewBag.MyList = listaCategoriasSelect;
+
       }
 
       else
       {
-        listCategories = new List<Categories>();
-        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+        listaCategoriasSelect = new List<Categories>();
+        ViewBag.MyList = listaCategoriasSelect;
+        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
-
-      ViewBag.MyList = listCategories;
+      
       Categories categories = null;
       if (TempData["listaCategorias"] != null)
       {
@@ -168,27 +167,25 @@ namespace BackOffice_COCO_TRIP.Controllers
           return RedirectToAction("Index");
 
         }
-
-        else
-        {
-          var listaCategorias = ConsutarCategoriasSelect();
-          if (listaCategorias != null)
-          {
-            listaCategorias = listaCategorias.Where(s => s.Nivel < 3 && s.Id != id).ToList();
-            ViewBag.MyList = listaCategorias;
-
-          }
-
-          else
-          {
-            listaCategorias = new List<Categories>();
-            ViewBag.MyList = listaCategorias;
-          }
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-          return View(categories);
-        } 
+        ValidarErrorPorDuplicidad(respuesta);
       }
-      
+
+      var listaCategorias = ConsutarCategoriasSelect();
+      if (listaCategorias != null)
+      {
+        listaCategorias = listaCategorias.Where(s => s.Nivel < 3 && s.Id != id).ToList();
+        ViewBag.MyList = listaCategorias;
+
+      }
+
+      else
+      {
+        listaCategorias = new List<Categories>();
+        ViewBag.MyList = listaCategorias;
+        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
+      }
+
+      ViewBag.Title = "Editar Categoría";
       return View(categories);
     }
 
@@ -206,16 +203,32 @@ namespace BackOffice_COCO_TRIP.Controllers
       if (respuesta.Property("data") != null)
       {
         listCategories = respuesta["data"].ToObject<IList<Categories>>();
-        //listCategories = listCategories.Where(s => s.Nivel < 3 && s.Id != id).ToList();
+        
       }
 
       else
       {
         listCategories = null;
-       // ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+       
       }
 
       return listCategories;
+    }
+
+
+    private void ValidarErrorPorDuplicidad(JObject respuesta)
+    {
+
+      if (respuesta.Property("MensajeError") != null)
+      {
+        ModelState.AddModelError(string.Empty, respuesta["MensajeError"].ToString());
+      }
+
+      else
+      {
+        ModelState.AddModelError(string.Empty, "Ocurrio un error, revise su conexion a internet");
+      }
+
     }
   }
 }

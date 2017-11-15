@@ -1,0 +1,38 @@
+<!--
+  Generated template for the DetalleLtPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Detalles del Lugar Turistico</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="closeModal()">
+          <ion-icon item-right name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding style="background-color:#f4f4f4">
+    <ion-list>
+      <ion-list >
+          <h1>Lugar:</h1>
+          <ion-slides pager style="font-family: 'Open Sans'">
+            <ion-slide>
+                <h2> Nombre: {{lugares.NombreLT}} </h2>
+                <h2> Costo: Bs.{{lugares.Costo}} </h2>
+                <h4> {{lugares.Descripcion}} </h4>
+                <h4> Direccion: {{lugares.Direccion}} </h4>
+                <!--<img src="{{lugares.LugarFotoRuta}}" alt="">-->
+                <h2> Preferencias: {{lugares.NombreCategoria}} </h2>
+                <br>
+            </ion-slide>
+          </ion-slides>
+      </ion-list>
+    </ion-list>
+    </ion-content>
