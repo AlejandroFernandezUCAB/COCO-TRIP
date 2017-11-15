@@ -177,13 +177,13 @@ RETURNS TABLE(
   costo  NUMERIC,
   descripcion VARCHAR,
   direccion VARCHAR,
-  categoria_nombre VARCHAR	
+  categoria_nombre VARCHAR
 ) AS $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
 	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion, ca_nombre
   FROM usuario, preferencia, categoria, lugar_turistico, lt_c
-  WHERE 
+  WHERE
 	 (pr_usuario =_idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = id_lugar_turistico);
 END;
 $$ LANGUAGE plpgsql;
@@ -200,13 +200,13 @@ RETURNS TABLE(
   precio  INTEGER,
   descripcion VARCHAR,
   nombre_local VARCHAR,
-  categoria_nombre VARCHAR	
+  categoria_nombre VARCHAR
 ) AS $$
 BEGIN
-  RETURN QUERY 
+  RETURN QUERY
 	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
-	 WHERE 
+	 WHERE
 	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
 END;
 $$ LANGUAGE plpgsql;
@@ -934,7 +934,7 @@ ALTER FUNCTION setvisible(integer, boolean, integer)
   CREATE OR REPLACE FUNCTION add_evento_it(idevento integer, iditinerario integer, fechaini date, fechafin date)
     RETURNS boolean AS
     $BODY$
-    DECLARE 
+    DECLARE
     i integer;
     BEGIN
     SELECT ag_idEvento FROM Agenda WHERE (idevento=ag_idEvento) AND (iditinerario=ag_idItinerario) into i;
@@ -1145,7 +1145,7 @@ BEGIN
    (ac_id, ac_foto, ac_nombre, ac_duracion,
     ac_descripcion, ac_activar, fk_ac_lugar_turistico)
 	VALUES
-    (nextval('seq_actividad'), _foto || currval('seq_actividad'), _nombre,
+    (nextval('seq_actividad'), _foto || currval('seq_actividad') || '.jpg', _nombre,
     _duracion, _descripcion, _activar, _fk);
 
    RETURN currval('seq_actividad');
@@ -1185,7 +1185,7 @@ BEGIN
 	INSERT INTO lt_foto
 	(fo_id, fo_ruta, fk_fo_lugar_turistico)
 	VALUES
-	(nextval('seq_lt_foto'), ruta || currval('seq_lt_foto'), _fk);
+	(nextval('seq_lt_foto'), ruta || currval('seq_lt_foto') || '.jpg', _fk);
 
 	RETURN currval ('seq_lt_foto');
 
@@ -1577,13 +1577,13 @@ CREATE OR REPLACE FUNCTION m9_actualizarEstatusCategoria(estatus Boolean, id_cat
 BEGIN
     UPDATE categoria
    SET ca_status=estatus
-   from (select c.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria  
+   from (select c.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria
 	union
-select ca.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria   
+select ca.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria
 	union
-select cat.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria  
+select cat.ca_id as id from categoria c left join categoria ca on c.ca_id = ca.ca_fkcategoriasuperior left join categoria cat on cat.ca_fkcategoriasuperior = ca.ca_id where c.ca_id = id_categoria
 ) as ca
-   
+
  WHERE ca.id = ca_id;
 END; $$
   LANGUAGE plpgsql;
@@ -1773,7 +1773,7 @@ CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
 (
   _id integer
 )
-returns boolean AS  
+returns boolean AS
 $BODY$
     DECLARE
     i varchar;
@@ -2056,7 +2056,3 @@ BEGIN
   WHERE lo_id=_id;
 END;
 $$ LANGUAGE plpgsql;
-
-
-
-
