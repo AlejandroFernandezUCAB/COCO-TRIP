@@ -126,14 +126,12 @@ export class ItinerarioPage {
           text: 'CANCEL',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'CREATE',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
-              console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
@@ -145,7 +143,6 @@ export class ItinerarioPage {
                     this.realizarToast("Sorry, your itinerary wasn't created. Please, try later :(");
                   }else{
                     this.loading.dismiss();
-                    console.log(data);
                     this.its.push({
                       Nombre: name,
                       Items_agenda: Array()
@@ -206,14 +203,12 @@ export class ItinerarioPage {
           text: 'Cancelar',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'Crear',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
-              console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
@@ -231,7 +226,6 @@ export class ItinerarioPage {
                       Nombre: name,
                       Items_agenda: Array()
                     })
-                    console.log(this.its);
                   }
                 }
               )
@@ -275,7 +269,6 @@ export class ItinerarioPage {
           this.httpc.eliminarItinerario(idit).then(data => {
             if (data==0 || data==-1){
               this.loading.dismiss();
-              console.log("hubo un error");
             }else{
               this.loading.dismiss();
               this.eliminarItinerario(idit, index);
@@ -306,7 +299,6 @@ export class ItinerarioPage {
             this.httpc.eliminarItinerario(idit).then(data => {
               if (data==0 || data==-1){
                 this.loading.dismiss();
-                console.log("hubo un error");
               }else{
                 this.loading.dismiss();
                 this.eliminarItinerario(idit, index);
@@ -352,7 +344,6 @@ export class ItinerarioPage {
         this.httpc.eliminarItem(tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
-            console.log("ERROR:: no se pudo eliminar el item");
           }else {
             this.loading.dismiss();
             this.eliminarItem(id_itinerario, evento.Id, index);
@@ -384,7 +375,6 @@ export class ItinerarioPage {
           this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
             if (data==0 || data==-1){
               this.loading.dismiss();
-              console.log("ERROR:: no se pudo eliminar el item");
             }else {
               this.loading.dismiss();
               this.eliminarItem(id_itinerario, evento.Id, index);
@@ -432,7 +422,6 @@ export class ItinerarioPage {
      var removed_elements = this.its.splice(index, 1);
      if (this.its.length == 0){
        this.noIts = true;
-       console.log("no its")
      }
    }
 
@@ -491,10 +480,8 @@ export class ItinerarioPage {
     this.delete=false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
-      console.log(this.its[i].edit);
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
-        this.realizarToast('Fechas Invalidas');
         this.edit=true;
       }
       else
@@ -596,8 +583,6 @@ ionview
     modal.onDidDismiss(data => {
       if (data) {
         let eventoData = data;
-        console.log("eventoData");
-        console.log(data.evento_nuevo);
         let itinerario_nuevo = data.itinerario;
         eventoData.Id = data.evento_nuevo.Id;
         eventoData.Nombre = data.evento_nuevo.Nombre;
@@ -668,7 +653,6 @@ ionview
   public goToSlide(index)
   {
     this.list=false;
-    console.log(index);
     setTimeout(() => {
       this.slides.slideTo(index, 500);
     }, 500);
@@ -729,7 +713,6 @@ ionview
     this.presentLoading();
      this.storage.get('id').then((val) => {
        this.IdUsuario = val;
-       console.log("usu :::::::::::::: " + val);
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
     this.httpc.loadItinerarios(this.IdUsuario)
     .then(data => {
@@ -743,7 +726,6 @@ ionview
       }else{
         this.its = data;
         this.loading.dismiss();
-        console.log(this.its);
         if (this.its.length == 0){
           this.noIts = true;
         }
@@ -818,12 +800,10 @@ ionview
               }
               this.httpc.getNotificacionesConfig(this.IdUsuario)
               .then(data =>{
-                console.log(data);
                 this.loading.dismiss();
                 this._notif.correo =data;
                 this._notif.push=false;
 
-                console.log(data);
                 let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
                 modal.present();
                 modal.onDidDismiss(data => {
