@@ -234,7 +234,7 @@ create table localidad(
 --Modulo 1
 --Fin de modulo
 --Modulo 2
---alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
+alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
 --Fin de modulo
 --Modulo 3
 --Fin de modulo
