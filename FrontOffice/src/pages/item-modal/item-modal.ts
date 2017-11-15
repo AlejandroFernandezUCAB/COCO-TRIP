@@ -212,7 +212,7 @@ export class ItemModalPage {
               {
                 text: 'AGREGAR',
                 handler: data => {
-                  if (this.FechaInicio > this.FechaFin) 
+                  if (this.FechaInicio > this.FechaFin)
                   {
                     this.realizarToast('Start date must be less than end date');
                   }
@@ -228,6 +228,8 @@ export class ItemModalPage {
                   }
                   else
                   {
+                    vlista.FechaInicio = this.FechaInicio;
+                    vlista.FechaFin = this.FechaFin;
                     this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
                       if (data==null){
                         this.realizarToast('Item is already added');

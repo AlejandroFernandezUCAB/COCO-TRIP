@@ -22,7 +22,6 @@ export class DetalleDiaPage {
     console.log(this.navParams.get('date'));
     this.date = moment(this.navParams.get('date')).format('MMMM Do YYYY');
     this.items_agendaa = this.navParams.get('items_agenda');
-    console.log(this.items_agendaa);
 
   }
 
