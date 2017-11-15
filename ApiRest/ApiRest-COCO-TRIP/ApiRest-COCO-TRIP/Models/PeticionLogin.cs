@@ -486,6 +486,69 @@ namespace ApiRest_COCO_TRIP.Models
       }
 
     }
+    public int InsertarCategoria(Categoria categoria)
+    {
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "InsertarCategoria";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, categoria.Nombre));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, categoria.Descripcion));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, categoria.Estatus));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, categoria.CategoriaSuperior));
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, categoria.Nivel));
+
+        leerDatos = conexion.Comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          categoria.Id = leerDatos.GetInt32(0);
+          leerDatos.Close();
+        }
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
+      }
+      return categoria.Id;
+    }
+    public void EliminarCategoria(int id)
+    {
+
+      try
+      {
+        conexion.Conectar();
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        conexion.Comando.CommandText = "EliminarCategoria";
+        conexion.Comando.CommandType = CommandType.StoredProcedure;
+        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
+        conexion.Comando.ExecuteNonQuery();
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
+      }
+    }
   }
 
 
