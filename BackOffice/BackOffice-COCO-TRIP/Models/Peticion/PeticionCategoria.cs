@@ -12,17 +12,26 @@ using System.Web;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {
+
+  /// <summary>
+  /// Clase  base para realizar peticiones al servicio web
+  /// </summary>
   public class PeticionCategoria : BasePeticion<JObject, Categories>
   {
 
     private const string ControllerUri = "M9_Categorias";
     private JObject responseData;
 
+
+   
     public override JObject Delete(int id)
     {
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Clase que le pide al Api la lista de las categorias existentes
+    /// </summary>
     public override JObject Get(int id)
     {
 
@@ -108,11 +117,17 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
+    /// <summary>
+    /// Clase abstracta base para realizar peticiones al servicio web
+    /// </summary>
     public override JObject Patch(Categories data)
     {
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Clase que permite agregar una nueva categoria mediante peticiones al servicio web 
+    /// </summary>
     public override JObject Post(Categories data)
     {
       try
@@ -207,6 +222,10 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
+
+    /// <summary>
+    /// Clase Para actualizar el Status de una categoria mediante peticiones al servicio web
+    /// </summary>
     public override JObject Put(Categories data)
     {
       try
@@ -297,6 +316,9 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
+    /// <summary>
+    /// Clase Para Modificar una categoria mediante peticiones al servicio web 
+    /// </summary>
     public JObject PutEditarCategoria(Categories data)
     {
       try
@@ -390,6 +412,9 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
+    /// <summary>
+    /// Clase que permite obtener las categorias que estan Habilitadas mediante peticiones al servicio web 
+    /// </summary>
     public JObject GetCategoriasHabilitadas()
     {
 
@@ -475,6 +500,9 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
     }
 
+    /// <summary>
+    /// Clase que permite poder obtener las categorias mediante un Id a traves de  peticiones al servicio web 
+    /// </summary>
     public JObject GetPorId(int id)
     {
 

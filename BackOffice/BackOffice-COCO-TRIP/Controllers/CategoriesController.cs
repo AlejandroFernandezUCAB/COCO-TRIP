@@ -14,6 +14,9 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     private PeticionCategoria peticion = new PeticionCategoria();
 
+    /// <summary>
+    /// Metodo que nos permite obtener la lista de las categorias mediante peticiones al servicio web a la hora de cargar
+    /// </summary>
     // GET: Categories
     public ActionResult Index(int id = -1)
     {
@@ -36,6 +39,10 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     }
 
+
+    /// <summary>
+    /// Metodo que nos permite listar las categorias existentes a la hora de agregar una nueva mediante  peticiones al servicio web
+    /// </summary>
     // GET: Categories/Create
     public ActionResult Create()
     {
@@ -60,6 +67,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       return View(categories);
     }
 
+    /// <summary>
+    /// Metodo que nos permite crear una nueva categoria mediante peticiones al servicio web
+    /// </summary>
     // POST: Categories/Create
     [HttpPost]
     public ActionResult Create(Categories categories)
@@ -101,6 +111,9 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     }
 
+    /// <summary>
+    /// Metodo que nos permite obtener lista de categorias a la cual se va a editar mediante peticiones al servicio web
+    /// </summary>
     // GET: Categories/Edit/5
     public ActionResult Edit(int id)
     {
@@ -150,6 +163,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       
     }
 
+    /// <summary>
+    /// Metodo que nos permite editar una nueva categoria existente mediante peticiones al servicio web
+    /// </summary>
     // POST: Categories/Edit/5
     [HttpPost]
     public ActionResult Edit(int id, Categories categories)
@@ -189,6 +205,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       return View(categories);
     }
 
+    /// <summary>
+    /// Metodo que nos permite cambiar el status de una categoria mediante peticiones al servicio web
+    /// </summary>
     [HttpPost]
     public ActionResult ChangeStatus(Categories categories)
     {
@@ -196,6 +215,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       return Json(respuesta);
     }
 
+    /// <summary>
+    /// Metodo que nos permite obtener la lista de las categorias habilitadas mediante una consulta
+    /// </summary>
     private IList<Categories> ConsutarCategoriasSelect()
     {
       IList<Categories> listCategories = null;
@@ -215,7 +237,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       return listCategories;
     }
 
-
+    /// <summary>
+    /// Metodo que nos permite validar si el nombre existe antes de agregar
+    /// </summary>
     private void ValidarErrorPorDuplicidad(JObject respuesta)
     {
 
