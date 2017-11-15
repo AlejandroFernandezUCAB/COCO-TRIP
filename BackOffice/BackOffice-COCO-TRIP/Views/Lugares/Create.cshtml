@@ -73,7 +73,7 @@
                       <div class="form-group ">
                         <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="categoria" name="categoria_@contador++">
+                          <select class="form-control" id="categoria" name="categoria_@contador">
                             <option selected disabled>Elige una categor&iacute;a</option>
 
                               <option>@categoria.Nombre</option>
@@ -88,7 +88,7 @@
                       <div class="form-group">
                         <label for="subcategoria" class="col-sm-4 control-laahgbel">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria" name="subcategoria_@contador++">
+                          <select class="form-control" id="subcategoria" name="subcategoria_@contador">
                             <option selected disabled>Elige una sub-categor&iacute;a</option>
 
                             @foreach (var subCategoria in ViewBag.SubCategoria)
@@ -108,6 +108,7 @@
 
                   </div>
 
+              contador++;
 
             }
 
@@ -157,7 +158,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[0].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -166,7 +167,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[0].HoraCierre">
                         </div>
                       </div>
                     </div>
@@ -194,7 +195,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[1].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -203,7 +204,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[1].HoraCierre">
                         </div>
                       </div>
                     </div>
@@ -231,7 +232,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[2].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -240,7 +241,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[2].HoraCierre">
                         </div>
                       </div>
                     </div>
@@ -268,7 +269,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[3].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -277,7 +278,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[3].HoraCierre">
                         </div>
                       </div>
                     </div>
@@ -305,7 +306,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[4].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -314,7 +315,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[4].HoraCierre">
                         </div>
                       </div>
                     </div>
@@ -342,7 +343,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[5].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -351,7 +352,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[5].HoraCierre">
                         </div>
                       </div>
                     </div>
@@ -379,7 +380,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[6].HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -388,7 +389,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[6].HoraCierre">
                         </div>
                       </div>
                     </div>
