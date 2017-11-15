@@ -13,14 +13,21 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     private HttpClient cliente; //Almacena la direccion del servicio web y realiza la peticion
     private Task<HttpResponseMessage> mensajeAsincrono; //Almacena el resultado a medida que es recibido
 
-    private const string DireccionBase = "http://192.168.0.101:8090/api";
     private const string Controlador = "M7_LugaresTuristicos";
+    private string direccionBase;
+
+    /// <summary>
+    /// Getter y setters de DireccionBase
+    /// </summary>
+    public string DireccionBase { get => direccionBase; set => direccionBase = value; }
 
     /// <summary>
     /// Constructor que instancia el cliente que realizara pedidos al servicio web
     /// </summary>
     public PeticionLugares()
     {
+      direccionBase = "http://190.36.84.114:80/api";
+
       cliente = new HttpClient();
       cliente.BaseAddress = new Uri(DireccionBase); //Sujeto a cambios -> localhost:puerto que decidan en Slack
       cliente.DefaultRequestHeaders.Accept.Clear();

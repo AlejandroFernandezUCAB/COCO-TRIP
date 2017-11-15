@@ -141,6 +141,14 @@ namespace BackOffice_COCO_TRIP.Controllers
 
             var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
 
+            foreach (var lugar in listaLugarTuristico)
+            {
+              foreach (var foto in lugar.Foto)
+              {
+                foto.Ruta = peticion.DireccionBase + foto.Ruta;
+              }
+            }
+
             return View(listaLugarTuristico);
         }
 
@@ -169,6 +177,14 @@ namespace BackOffice_COCO_TRIP.Controllers
 
             var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
 
+            foreach (var lugar in listaLugarTuristico)
+            {
+              foreach (var foto in lugar.Foto)
+              {
+                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
+              }
+            }
+            
             return View(listaLugarTuristico);
         }
 
