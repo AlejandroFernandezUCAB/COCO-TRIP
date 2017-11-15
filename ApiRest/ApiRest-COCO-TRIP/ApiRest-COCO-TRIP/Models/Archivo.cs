@@ -43,7 +43,7 @@ namespace ApiRest_COCO_TRIP.Models
       rutaCompleta = Uri.UnescapeDataString(uri.Path);
       rutaCompleta = Path.GetDirectoryName(rutaCompleta);
 
-      rutaCompleta.Replace("/bin/", "");
+      rutaCompleta = rutaCompleta.Replace("\\bin", "");
       rutaCompleta += ruta;
     }
 

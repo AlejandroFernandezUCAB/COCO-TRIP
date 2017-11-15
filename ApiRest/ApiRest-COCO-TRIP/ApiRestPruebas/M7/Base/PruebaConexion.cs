@@ -277,7 +277,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestConsultarActividades()
     {
       actividad.Foto.Contenido = null;
-      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id + ".jpg";
 
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarActividades(lugar.Id).Contains(actividad));
@@ -292,7 +292,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestConsultarActividad()
     {
       actividad.Foto.Contenido = null;
-      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id + ".jpg";
 
       conexion.Conectar();
       Assert.AreEqual(true, actividad.Equals(conexion.ConsultarActividad(actividad.Id)));
@@ -349,7 +349,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestConsultarFotos()
     {
       foto.Contenido = null;
-      foto.Ruta += "lt-fo-" + actividad.Id;
+      foto.Ruta += "lt-fo-" + actividad.Id + ".jpg";
 
       conexion.Conectar();
       Assert.AreEqual(true, conexion.ConsultarFotos(lugar.Id).Contains(foto));
@@ -413,7 +413,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestActualizarActividad()
     {
       actividad.Foto.Contenido = new Byte[2];
-      actividad.Foto.Ruta += "ac-" + actividad.Id;
+      actividad.Foto.Ruta += "ac-" + actividad.Id + ".jpg";
       actividad.Nombre = "ABC";
       actividad.Duracion = new TimeSpan(19, 0, 0);
       actividad.Descripcion = "Haciendo PU simples";
@@ -502,7 +502,7 @@ namespace ApiRestPruebas.M7.Base
     public void TestActualizarFoto()
     {
       foto.Contenido = new Byte[12554];
-      foto.Ruta += "lt-fo-" + foto.Id;
+      foto.Ruta += "lt-fo-" + foto.Id + ".jpg";
 
       conexion.Conectar();
       conexion.ActualizarFoto(foto);

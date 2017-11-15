@@ -189,6 +189,7 @@
     <Content Include="Content\Lugares\activity.css" />
     <Content Include="Content\Lugares\detail.css" />
     <Content Include="Content\Lugares\view_all.css" />
+    <Content Include="Content\Lugares\alerts.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\global.css" />
@@ -263,6 +264,7 @@
     <Content Include="Views\M8_Localidad\Select.cshtml" />
     <Content Include="Views\M8Events\FilterEvent.cshtml" />
     <Content Include="Views\M8Events\CreateEvent.cshtml" />
+    <Content Include="Views\Lugares\PageDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
