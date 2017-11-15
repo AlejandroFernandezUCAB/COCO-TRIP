@@ -14,7 +14,7 @@ namespace ApiRestPruebas
   [TestFixture]
   class M5UnitTests
   {
-    private M5Controller controller;
+    private M5_ItinerarioController controller;
     private Itinerario itinerario;
     private Itinerario it;
     private Boolean x;
@@ -25,7 +25,7 @@ namespace ApiRestPruebas
     [OneTimeSetUp]
     protected void OTSU()
     {
-      controller = new M5Controller();
+      controller = new M5_ItinerarioController();
       
     }
 

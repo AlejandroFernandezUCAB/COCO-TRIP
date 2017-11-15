@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace ApiRest_COCO_TRIP.Controllers
 {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
-  public class M5Controller : ApiController
+  public class M5_ItinerarioController : ApiController
   {
 
     List<Itinerario> itinerarios = new List<Itinerario>();
@@ -158,12 +158,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     //-------------------------------------------------------------------------------
-    [HttpPut]
-    public bool AgregarNotificacionConfiguracion(string id_usuario)
+    [HttpGet]
+    public bool AgregarNotificacionConfiguracion(int id_usuario)
     {
       try
-      { int dato = JsonConvert.DeserializeObject<int>(id_usuario);
-        return peti.AgregarNotificacion(dato);
+      { //int dato = JsonConvert.DeserializeObject<int>(id_usuario);
+        return peti.AgregarNotificacion(id_usuario);
       }
       catch (NpgsqlException e)
       {

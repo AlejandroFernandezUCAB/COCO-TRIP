@@ -1,6 +1,6 @@
 using System;
 
-namespace BackOffice_COCO_TRIP.Models.Dato
+namespace BackOffice_COCO_TRIP.Models
 {
   /// <summary>
   /// Clase que contiene los datos asociados a la actividades de los lugares turisticos

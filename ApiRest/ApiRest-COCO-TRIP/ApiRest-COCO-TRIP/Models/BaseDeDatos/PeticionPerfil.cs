@@ -303,16 +303,31 @@ namespace ApiRest_COCO_TRIP.Models
     {
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
+      try
+      {
+          conexion.Conectar();
+          command = new NpgsqlCommand("ModificarPass", conexion.SqlConexion);
+          command.CommandType = CommandType.StoredProcedure;
+          command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
+          command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, password);
+          pgread = command.ExecuteReader();
+          pgread.Read();
+      }
+      catch (NpgsqlException e)
+      {
 
-      conexion.Conectar();
-      command = new NpgsqlCommand("ModificarPass", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idUsuario);
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, password);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      conexion.Desconectar();
-    }
+          throw new BaseDeDatosExcepcion(e);
+
+      }
+      catch (Exception e)
+      {
+          Console.WriteLine("Error desconocido");
+      }
+      finally
+      {
+          conexion.Desconectar();
+      }
+     }
 
     /// <summary>
     /// Se borra al usuario de la base de datos
@@ -345,7 +360,9 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (Exception e)
       {
+
         Console.WriteLine("Error desconocido");
+
       }
       finally
       {
@@ -354,8 +371,7 @@ namespace ApiRest_COCO_TRIP.Models
 
       }
 
-      
-    }
+     }
 
     /// <summary>
     /// Se obtiene de la base de datos el password actual del usuario
@@ -366,16 +382,31 @@ namespace ApiRest_COCO_TRIP.Models
       NpgsqlCommand command;
       NpgsqlDataReader pgread;
       string result = "";
+      try
+      {
 
-      conexion.Conectar();
-      command = new NpgsqlCommand("ConsultarContrasena", conexion.SqlConexion);
-      command.CommandType = CommandType.StoredProcedure;
-      command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, username);
-      pgread = command.ExecuteReader();
-      pgread.Read();
-      result = pgread.GetString(0);
-      conexion.Desconectar();
-      return result;
+        conexion.Conectar();
+        command = new NpgsqlCommand("ConsultarContrasena", conexion.SqlConexion);
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, username);
+        pgread = command.ExecuteReader();
+        pgread.Read();
+        result = pgread.GetString(0);
+        conexion.Desconectar();
+        return result;
+
+       }
+       catch (NpgsqlException e)
+       {
+
+        throw new BaseDeDatosExcepcion(e);
+
+       }
+       catch (Exception e)
+       {
+         throw e;
+       }
+
     }
 
     /// <summary>
