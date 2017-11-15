@@ -101,32 +101,168 @@
                       </div>
                     </div>
 
-                    <div class="col-md-2">
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-md-5">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria">
+                            <option selected disabled>Elige una categor&iacute;a</option>
+
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                              <option id="@categoria.Id">@categoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
                       <div class="form-group">
-                        <div class="col-sm-12" align="center">
-                          <a onclick="agregarCategoria();" class="agregar">
-                            <i class="fa fa-plus-circle icon-add-category" aria-hidden="true"></i>
-                          </a>
+                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="subcategoria">
+                            <option selected disabled>Elige una sub-categor&iacute;a</option>
+
+                            @foreach (var subCategoria in ViewBag.SubCategoria)
+                            {
+                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
+                            }
+
+
+                          </select>
                         </div>
                       </div>
                     </div>
 
                   </div>
 
-                  <div class="row row-table">
-                    <table class="table table-hover table-responsive" id="tabla">
-                      <thead>
-                        <tr>
-                          <th>Nombre Categor&iacute;a</th>
-                          <th>Nombre Subcategor&iacute;a</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        
-                      </tbody>
-                    </table>
+                  <div class="row">
+
+                    <div class="col-md-5">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria">
+                            <option selected disabled>Elige una categor&iacute;a</option>
+
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                              <option id="@categoria.Id">@categoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="subcategoria">
+                            <option selected disabled>Elige una sub-categor&iacute;a</option>
+
+                            @foreach (var subCategoria in ViewBag.SubCategoria)
+                            {
+                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
+
+                  <div class="row">
+
+                    <div class="col-md-5">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria">
+                            <option selected disabled>Elige una categor&iacute;a</option>
+
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                              <option id="@categoria.Id">@categoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="subcategoria">
+                            <option selected disabled>Elige una sub-categor&iacute;a</option>
+
+                            @foreach (var subCategoria in ViewBag.SubCategoria)
+                            {
+                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-md-5">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria">
+                            <option selected disabled>Elige una categor&iacute;a</option>
+
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                              <option id="@categoria.Id">@categoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="subcategoria">
+                            <option selected disabled>Elige una sub-categor&iacute;a</option>
+
+                            @foreach (var subCategoria in ViewBag.SubCategoria)
+                            {
+                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
+                            }
+
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  
 
 
                 </div>
@@ -188,34 +324,231 @@
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <div class="col-sm-12" align="center">
-                          <a onclick="agregarHorario();">
-                            <i class="fa fa-plus-circle icon-add-horario" aria-hidden="true"></i>
-                          </a>
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row row-table">
-                    <table class="table table-hover table-responsive" id="tabla_horario">
-                      <thead>
-                        <tr>
-                          <th>D&iacute;a</th>
-                          <th>Hora Apertura</th>
-                          <th>Hora Cierre</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        
-                      </tbody>
-                    </table>
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
                 </div>
               </div>
             </div>
