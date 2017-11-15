@@ -6,13 +6,21 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
 
+//****************************************************************************************************// 
+//***********************************PAGE BUSCAR AMIGOS MODULO 3**************************************//
+//****************************************************************************************************//  
+
 /**
- * Generated class for the AgregarAmigoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
  */
 
+/**
+ * Descripcion de la clase:
+ * Buscador de amigos
+ */
 @IonicPage()
 @Component({
   selector: 'page-buscar-amigo',
@@ -33,15 +41,22 @@ export class BuscarAmigoPage {
       public alerCtrl: AlertController,
       public restapiService: RestapiService,
       private storage: Storage,
-      private translateService: TranslateService ) {
-      //this.cargarListas();       
+      private translateService: TranslateService ) {   
   }
 
+  /**
+   * Pone en false la lista y en true 
+   * el showBar cuando pasas a otro page
+   */
   ionViewWillEnter() {
     this.showBar = true;
     this.showList = false;
   }
 
+  /**
+   * Metodo que busca a un usuario
+   * @param ev un evento
+   */
   buscar(ev){
     this.showList = true;
     this.storage.get('id').then((val) =>{
@@ -57,53 +72,15 @@ export class BuscarAmigoPage {
   }
   
 
-  /*ionViewDidLeave(){
-    this.lista=false;
-  }*/
-
-  /*cargarListas(){
-  this.storage.get('id').then((val) => {
-  this.idUsuario = val;
-  this.inicializarListas();
-  });
-    }
-
-  inicializarListas( ){
-                
-  this.restapiService.buscaramigo( this.idUsuario )
-  .then(data => {
-  this.lista = data;
-  });
-    }*/
-
- 
+ /**
+  * Metodo que inicia la pagina de ver el perfil publico
+  * @param nombre Nombre de usuario (resultado del buscador)
+  */
   Visualizarpublico(nombre){
         this.navCtrl.push(VisualizarPerfilPublicoPage,{
           nombreUsuario : nombre
         });
         this.showBar = false;
       }
-
-  doConfirm() {
-      let confirm = this.alerCtrl.create({
-        title: 'Recomendar app?',
-        message: 'Desea recomendar la app a su amigo?',
-        buttons: [
-          {
-            text: 'No',
-            handler: () => {
-              console.log('No clicked');
-            }
-          },
-          {
-            text: 'Si',
-            handler: () => {
-              console.log('Si clicked');
-            }
-          }
-        ]
-      });
-      confirm.present()
-    }
 
 }
