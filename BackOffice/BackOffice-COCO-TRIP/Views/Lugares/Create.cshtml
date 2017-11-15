@@ -7,7 +7,7 @@
     <form class="form-horizontal" method="post" action="Create">
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;genes del lugar</label>
-        <input class="col-sm-6" type="file" id="perfilphoto" name="Foto[0].Contenido">
+        <input class="col-sm-6" type="file" id="perfilphoto" name="fotoLugar">
         <p class="help-block col-sm-9">La foto seleccionada se ver&aacute; en el lugar tur&iacute;stico</p>
       </div>
 
@@ -36,10 +36,10 @@
           <div class="form-group">
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
-              <select class="form-control" id="category" name="Activar">
+              <select class="form-control" id="category" name="activar">
                 <option selected disabled>Elige una estado</option>
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
+                <option>Activo</option>
+                <option>Inactivo</option>
               </select>
             </div>
           </div>
@@ -63,19 +63,20 @@
               <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                 <div class="panel-body">
 
+            @foreach (var categoria in ViewBag.Categoria)
+              {
+                  int contador = 0;
+
                   <div class="row">
 
                     <div class="col-md-5">
                       <div class="form-group ">
                         <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="categoria">
+                          <select class="form-control" id="categoria" name="categoria_@contador++">
                             <option selected disabled>Elige una categor&iacute;a</option>
 
-                            @foreach (var categoria in ViewBag.Categoria)
-                            {
-                              <option id="@categoria.Id">@categoria.Nombre</option>
-                            }
+                              <option>@categoria.Nombre</option>
 
 
                           </select>
@@ -85,14 +86,18 @@
 
                     <div class="col-md-5">
                       <div class="form-group">
-                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
+                        <label for="subcategoria" class="col-sm-4 control-laahgbel">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria">
+                          <select class="form-control" id="subcategoria" name="subcategoria_@contador++">
                             <option selected disabled>Elige una sub-categor&iacute;a</option>
 
                             @foreach (var subCategoria in ViewBag.SubCategoria)
                             {
-                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
+
+                              if (subCategoria.CategoriaSuperior == categoria.Id)
+                              {
+                                  <option>@subCategoria.Nombre</option>
+                              }
                             }
 
 
@@ -103,167 +108,8 @@
 
                   </div>
 
-                  <div class="row">
 
-                    <div class="col-md-5">
-                      <div class="form-group ">
-                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="categoria">
-                            <option selected disabled>Elige una categor&iacute;a</option>
-
-                            @foreach (var categoria in ViewBag.Categoria)
-                            {
-                              <option id="@categoria.Id">@categoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria">
-                            <option selected disabled>Elige una sub-categor&iacute;a</option>
-
-                            @foreach (var subCategoria in ViewBag.SubCategoria)
-                            {
-                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="row">
-
-                    <div class="col-md-5">
-                      <div class="form-group ">
-                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="categoria">
-                            <option selected disabled>Elige una categor&iacute;a</option>
-
-                            @foreach (var categoria in ViewBag.Categoria)
-                            {
-                              <option id="@categoria.Id">@categoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria">
-                            <option selected disabled>Elige una sub-categor&iacute;a</option>
-
-                            @foreach (var subCategoria in ViewBag.SubCategoria)
-                            {
-                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="row">
-
-                    <div class="col-md-5">
-                      <div class="form-group ">
-                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="categoria">
-                            <option selected disabled>Elige una categor&iacute;a</option>
-
-                            @foreach (var categoria in ViewBag.Categoria)
-                            {
-                              <option id="@categoria.Id">@categoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria">
-                            <option selected disabled>Elige una sub-categor&iacute;a</option>
-
-                            @foreach (var subCategoria in ViewBag.SubCategoria)
-                            {
-                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="row">
-
-                    <div class="col-md-5">
-                      <div class="form-group ">
-                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="categoria">
-                            <option selected disabled>Elige una categor&iacute;a</option>
-
-                            @foreach (var categoria in ViewBag.Categoria)
-                            {
-                              <option id="@categoria.Id">@categoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria">
-                            <option selected disabled>Elige una sub-categor&iacute;a</option>
-
-                            @foreach (var subCategoria in ViewBag.SubCategoria)
-                            {
-                              <option id="@subCategoria.Id">@subCategoria.Nombre</option>
-                            }
-
-
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                  
-
+            }
 
                 </div>
               </div>
@@ -294,44 +140,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option id="1">Lunes</option>
-                          <option id="2">Martes</option>
-                          <option id="3">Miercoles</option>
-                          <option id="4">Jueves</option>
-                          <option id="5">Viernes</option>
-                          <option id="6">Sabado</option>
-                          <option id="0">Domingo</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group form-group-horario">
-                        <label for="apertura" class="control-label">Horario Apertura</label>
-                        <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group form-group-horario">
-                        <label for="cierre" class="control-label">Horario Cierre</label>
-                        <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row row-horarios">
-
-                    <div class="col-md-3">
-                      <div class="form-group-horario-dia">
-                        <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia" name="dia_1">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -368,7 +177,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia" name="dia_2">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -405,7 +214,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia" name="dia_3">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -442,7 +251,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia" name="dia_4">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -479,7 +288,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia" name="dia_5">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -516,7 +325,44 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia" name="dia_6">
+                          <option selected disabled>Elige d&iacute;a</option>
+                          <option>Lunes</option>
+                          <option>Martes</option>
+                          <option>Miercoles</option>
+                          <option>Jueves</option>
+                          <option>Viernes</option>
+                          <option>Sabado</option>
+                          <option>Domingo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia" name="dia_7">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option>Lunes</option>
                           <option>Martes</option>
@@ -582,14 +428,14 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto">
+                          <input type="file" id="actividadphoto" name="fotoActividad_1">
                         </div>
                       </div>
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInputName2">Duraci&oacute;n(min)</label>
-                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
+                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120" name="Actividad[0].Duracion">
                         </div>
                       </div>
 
@@ -600,18 +446,18 @@
                         <div class="form-group form-group-actividad">
                           <!-- RADIOBOX -->
                           <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
+                            <input type="checkbox" class="custom-control-input" name="Actividad[0].Activar">
                             <span class="custom-control-indicator"></span>
                           </label>
                           <!-- /RADIOBOX -->
                           <label for="exampleInputName2">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. Disneyland">
+                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. Disneyland" name="Actividad[0].Nombre">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInput">Descripci&oacute;n</label>
-                          <textarea class="form-control"></textarea>
+                          <textarea class="form-control" name="Actividad[0].Descripcion"></textarea>
                         </div>
                       </div>
                     </div>
@@ -622,14 +468,14 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto">
+                          <input type="file" id="actividadphoto" name="fotoActividad_2">
                         </div>
                       </div>
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInputName2">Duraci&oacute;n(min)</label>
-                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
+                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120" name="Actividad[1].Duracion">
                         </div>
                       </div>
                     </div>
@@ -639,18 +485,18 @@
                         <div class="form-group form-group-actividad">
                           <!-- RADIOBOX -->
                           <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
+                            <input type="checkbox" class="custom-control-input" name="Actividad[1].Activar">
                             <span class="custom-control-indicator"></span>
                           </label>
                           <!-- /RADIOBOX -->
                           <label for="exampleInputName3">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName3" placeholder="ej. Disneyland">
+                          <input type="text" class="form-control" id="exampleInputName3" placeholder="ej. Disneyland" name="Actividad[1].Nombre">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInput2">Descripci&oacute;n</label>
-                          <textarea class="form-control" name=""></textarea>
+                          <textarea class="form-control" name="Actividad[1].Descripcion"></textarea>
                         </div>
                       </div>
                     </div>
@@ -661,14 +507,14 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto">
+                          <input type="file" id="actividadphoto" name="fotoActividad_3">
                         </div>
                       </div>
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInputName2">Duraci&oacute;n(min)</label>
-                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
+                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120" name="Actividad[2].Duracion">
                         </div>
                       </div>
                     </div>
@@ -678,18 +524,18 @@
                         <div class="form-group form-group-actividad">
                           <!-- RADIOBOX -->
                           <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
+                            <input type="checkbox" class="custom-control-input" name="Actividad[2].Activar">
                             <span class="custom-control-indicator"></span>
                           </label>
                           <!-- /RADIOBOX -->
                           <label for="exampleInputName4">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName4" placeholder="ej. Disneyland">
+                          <input type="text" class="form-control" id="exampleInputName4" placeholder="ej. Disneyland" name="Actividad[2].Nombre">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInput3">Descripci&oacute;n</label>
-                          <textarea class="form-control"></textarea>
+                          <textarea class="form-control" name="Actividad[2].Descripcion"></textarea>
                         </div>
                       </div>
                     </div>
@@ -700,14 +546,14 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto">
+                          <input type="file" id="actividadphoto" name="fotoActividad_4">
                         </div>
                       </div>
 
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInputName2">Duraci&oacute;n(min)</label>
-                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120">
+                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120" name="Actividad[3].Duracion">
                         </div>
                       </div>
                     </div>
@@ -717,18 +563,18 @@
                         <div class="form-group form-group-actividad">
                           <!-- RADIOBOX -->
                           <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input">
+                            <input type="checkbox" class="custom-control-input" name="Actividad[3].Activar">
                             <span class="custom-control-indicator"></span>
                           </label>
                           <!-- /RADIOBOX -->
                           <label for="exampleInputName5">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName5" placeholder="ej. Disneyland">
+                          <input type="text" class="form-control" id="exampleInputName5" placeholder="ej. Disneyland" name="Actividad[3].Nombre">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad-descripcion">
                           <label for="exampleInput4">Descripci&oacute;n</label>
-                          <textarea class="form-control" name=""></textarea>
+                          <textarea class="form-control" name="Actividad[3].Descripcion"></textarea>
                         </div>
                       </div>
                     </div> 
@@ -798,9 +644,7 @@
 
         <div class="form-group">
           <div class="col-sm-12" align="center">
-            <a href="index.html">
-              <button class="btn btn-lugar-turistico-add">Agregar</button>
-            </a>
+              <input type="submit" class="btn btn-lugar-turistico-add" value="Agregar"/>
           </div>
         </div>
 
