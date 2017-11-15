@@ -53,11 +53,12 @@ namespace BackOffice_COCO_TRIP
             bundles.Add(new StyleBundle("~/bundles/Lugares_insert-coordsJS").Include(
                      "~/Scripts/Lugares/google-map.js"
                      ));
+          // Localidad M8
+            bundles.Add(new StyleBundle("~/bundles/Localidad_insert-coordsJS").Include(
+                         "~/Scripts/M8_Localidad/google-map.js"
+                         ));
 
-            bundles.Add(new StyleBundle("~/bundles/Lugares_change-statusJS").Include(
-                     "~/Scripts/Lugares/status.js"
-                     ));
-
+      
             bundles.Add(new StyleBundle("~/bundles/lugares_homeCSS").Include(
                     "~/Content/Lugares/home.css"
                     ));

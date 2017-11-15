@@ -1,3 +1,6 @@
+using BackOffice_COCO_TRIP.Models;
+using BackOffice_COCO_TRIP.Models.Peticion;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +11,10 @@ namespace BackOffice_COCO_TRIP.Views.Events
 {
     public class EventsController : Controller
     {
-        // GET: Events
-        public ActionResult Index()
+    private PeticionEvento peticion = new PeticionEvento();
+
+    // GET: Events
+    public ActionResult Index()
         {
             return View();
         }
@@ -19,16 +24,34 @@ namespace BackOffice_COCO_TRIP.Views.Events
         {
             return View();
         }
-
-        // GET: Events/Create
-        public ActionResult CreateEvent()
+    public ActionResult CreateEvent()
+    {
+      return View();
+    }
+    // Post: Events/CreateEvent
+    [HttpPost]
+    public ActionResult CreateEvent(Evento evento)
         {
-            
-            return View();
+      DateTime fechaInicio = new DateTime(12, 12, 12);
+      DateTime horaInicio = new DateTime();
+      horaInicio.AddHours(10);
+      horaInicio.AddMinutes(00);
+      Evento eventoNew = new Evento("LOLOLAND","MMuy bueno",100,fechaInicio,fechaInicio, horaInicio, horaInicio,
+        "hola.jpg",1,1);
+      JObject respuesta = peticion.Post(eventoNew);
+      if (respuesta.Property("dato") == null)
+      {
+        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+      }
+      else
+      {
+        ModelState.AddModelError(string.Empty, "Se hizo con exito");
+      }
+         return View();
         }
 
         // POST: Events/Create
-        [HttpPost]
+        /**[HttpPost]
         public ActionResult CreateEvents(FormCollection collection)
         {
             try
@@ -41,7 +64,7 @@ namespace BackOffice_COCO_TRIP.Views.Events
             {
                 return View();
             }
-        }
+        }**/
     // GET: Events/FilterEvent/5
     public ActionResult FilterEvent()
     {
