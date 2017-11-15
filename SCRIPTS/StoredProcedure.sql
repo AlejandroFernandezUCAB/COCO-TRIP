@@ -214,6 +214,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 /*UPDATES*/
+--Valida un usuario que no este validado
 CREATE OR REPLACE FUNCTION ValidarUsuario(_correo varchar, _id integer)
 RETURNS void AS
 $$
@@ -222,7 +223,7 @@ BEGIN
 	WHERE us_email=_correo AND us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
-
+-- Actualiza un usuario registrado completando todos sus datos
 CREATE OR REPLACE FUNCTION ActualizarUsuario(_nombreUsuario VARCHAR(20), _nombre VARCHAR(30),
  _apellido VARCHAR(30), _fechaNacimiento date,
  _genero VARCHAR(1), _correo VARCHAR(30),
@@ -232,6 +233,16 @@ $$
 BEGIN
 	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, us_genero = _genero , us_email=_correo, us_password=_clave, us_foto =_foto
 	WHERE us_email=_correo;
+END;
+$$ LANGUAGE plpgsql;
+/*DELETES*/
+-- Elimina un usuario
+CREATE OR REPLACE FUNCTION EliminarUsuario(_id integer)
+RETURNS void AS
+$$
+BEGIN
+	DELETE FROM USUARIO
+	WHERE us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 /**
@@ -2020,8 +2031,22 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
-
-
+ //Lista de todas las localidades
+CREATE OR REPLACE FUNCTION consultarlocalidades()
+  RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
+$BODY$
+BEGIN
+  RETURN QUERY
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    from localidad;
+    
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION consultarlocalidadesconeventosasignados()
+  OWNER TO postgres;
 
 --elimina localidad por su id
 

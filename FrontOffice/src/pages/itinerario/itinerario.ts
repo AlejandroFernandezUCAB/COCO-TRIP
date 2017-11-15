@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { HttpCProvider } from '../../providers/http-c/http-c';
 import { TranslateService } from '@ngx-translate/core';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import 'rxjs/add/observable/throw';
 import { Storage } from '@ionic/storage';
 
@@ -60,9 +61,7 @@ export class ItinerarioPage {
     private storage: Storage
   )
   {
-    for (let x = 0; x < 5; x++) {
-      this.items.push(x);
-    }
+
   }
 /**************************************************************************************
 /*************************** METODOS DE LA CLASE **************************************

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController,ModalController,NavParams  } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the DetalleEventoPage page.
@@ -16,7 +18,12 @@ import { IonicPage, NavController,ModalController,NavParams  } from 'ionic-angul
 export class DetalleEventoPage {
 eve:any;
 apiUrl = 'http://localhost:8091/';
-  constructor(public navCtrl: NavController,public navParams: NavParams, private modalCtrl: ModalController) {
+  constructor(private storage: Storage,public navCtrl: NavController,public navParams: NavParams, private modalCtrl: ModalController,public translateService: TranslateService) {
+    /*t*his.storage.get('id').then((val) => {
+      if(val != null || val != undefined){
+        this.translateService.use(val);
+      }
+    });*/
     this.eve= this.navParams.get('eventos'); 
 
   }

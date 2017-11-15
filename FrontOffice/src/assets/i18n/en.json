@@ -118,6 +118,15 @@
     "Desea agregar a esta persona como amigo?" : "Do you want to add this person as a friend?",
     "Por favor, espere" : "Please, wait",
     "Grupo Exitoso":"Group added successfully",
+    "Eventos: Recuerda Agregar tus Preferencias":"Events: Remember to add your preferences",
+    "Fecha":"Date",
+    "Lugares Turisticos: Recuerda Agregar tus Preferencias":"Tourist Places: Remember to add your preferences",
+    "Costo":"Cost",
+    "Direccion":"Address",
+    "Inicia":"Starts",
+    "Finaliza":"Finish",
+    "En":"At",
+    "Preferencias":"Preferences",
     "Sin Resultados": "- No Results -",
-    "eventos":"events",
+    "eventos":"events"
 }
