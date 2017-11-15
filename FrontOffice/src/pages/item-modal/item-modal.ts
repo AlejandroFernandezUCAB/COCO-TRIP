@@ -185,7 +185,7 @@ export class ItemModalPage {
                       if (data==false){
                         this.realizarToast('Item ya esta agregado');
                       }else {
-                        this.realizarToast('Item ya esta agregado');
+                        this.realizarToast('Item agregado exitosamente');
                       }
                     });
                     this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
@@ -207,15 +207,31 @@ export class ItemModalPage {
                 }
               } ,
               {
-                text: 'ADD',
+                text: 'AGREGAR',
                 handler: data => {
-                  if ((this.FechaInicio > this.FechaFin) || (this.FechaFin > this.itinerario.FechaFin) || (this.FechaInicio < this.itinerario.FechaInicio))
+                  if (this.FechaInicio > this.FechaFin) 
                   {
-                    this.realizarToast('Invalid Dates');
+                    this.realizarToast('Start date must be less than end date');
+                  }
+                  else
+                  if (this.FechaFin > this.itinerario.FechaFin)
+                  {
+                    this.realizarToast('The items end date must be less than the itinerarys');
+                  }
+                  else
+                  if (this.FechaInicio < this.itinerario.FechaInicio)
+                  {
+                    this.realizarToast('The items start date must be greater than the itinerarys');
                   }
                   else
                   {
-                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin);
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
+                      if (data==false){
+                        this.realizarToast('Item is already added');
+                      }else {
+                        this.realizarToast('Item added successfully');
+                      }
+                    });
                     this.viewCtrl.dismiss({evento_nuevo: vlista, itinerario: this.itinerario});
                    }
                 }
