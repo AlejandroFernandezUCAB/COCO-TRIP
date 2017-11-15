@@ -13,6 +13,27 @@ drop SEQUENCE SEQ_Usuario;
 --Fin de modulo
 --Creates Tables
 
+
+
+--Modulo 9
+CREATE TABLE categoria
+(
+  ca_id integer UNIQUE NOT NULL,
+  ca_nombre character varying(500) UNIQUE not null,
+  ca_descripcion character varying(2000) not null,
+  ca_status boolean default true not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+--Fin de modulo 9
+
+--Modulo 9
+
+ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
+ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
+
+--Fin de modulo
+
 --Modulo 1
 CREATE TABLE USUARIO (
     us_id		integer,
@@ -42,7 +63,7 @@ Create Table Grupo
 (
 gr_id int NOT NULL,
 gr_nombre varchar(100) NOT NULL,
-gr_foto bytea,
+gr_foto varchar,
 fk_usuario int NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
@@ -224,11 +245,12 @@ INSERT INTO public.categoria(
 
 --Fin de modulo 9
 
+
 --ALTERS
 --Modulo 1
 --Fin de modulo
 --Modulo 2
---alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
+alter table preferencia add constraint fk_categoria foreign key (pr_categoria) references categoria (ca_id);
 --Fin de modulo
 --Modulo 3
 --Fin de modulo
@@ -248,12 +270,7 @@ ALTER TABLE Agenda add CONSTRAINT fk_idEvento FOREIGN KEY (ag_idEvento) REFERENC
 alter table evento add constraint fk_categoria foreign key (ev_categoria) references categoria (ca_id) on delete cascade;
 alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id) on delete cascade;
 --Fin de modulo
---Modulo 9
 
-ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
-ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
-
---Fin de modulo
 
 --SEQUENCES
 --Modulo 1
@@ -286,12 +303,12 @@ CREATE SEQUENCE SEQ_LT_Horario;
 CREATE SEQUENCE SEQ_LT_Foto;
 --Fin de modulo
 --Modulo 8
-CREATE SEQUENCE SEQ_Evento;
-CREATE SEQUENCE SEQ_Localidad;
+
+
 --Fin de modulo
 --Modulo 9
 CREATE SEQUENCE SEQ_Categoria
-    START WITH 1
+    START WITH 5
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE

@@ -20,10 +20,11 @@ export class ConfigNotificacionesItiPage {
     public toastCtrl: ToastController,
     private storage: Storage
     ) {
-    this._itinerarios= this.servicio.getItinerarios();
+    this._itinerarios= this.navParams.get('itinerarios');
     this._notif= this.navParams.get('config');
-    console.log(this._notif);
-    console.log(this._itinerarios);
+    this.storage.get('id').then((val) => {
+      this.IdUsuario = val;
+    });
   }
 
   closeModal() {
@@ -41,7 +42,7 @@ export class ConfigNotificacionesItiPage {
 
   setConfig(tipo, valor){
     console.log(tipo + " " + valor);
-    this.http.modificarNotificacionCorreo(2, valor).then(data =>{
+    this.http.modificarNotificacionCorreo(this.IdUsuario, valor).then(data =>{
       console.log(data);
     })
   }
@@ -77,15 +78,9 @@ export class ConfigNotificacionesItiPage {
     })
   }
 
-  // ionViewWillEnter(){
-  //   // this.presentLoading();
-  //   // this.storage.get('id').then((val) => {
-  //   //   this.IdUsuario = val;
-  //   //   this.http.getNotificacionesConfig(this.IdUsuario)
-  //   //   .then(data =>{
-  //   //     this.loading.dismiss();
-  //   //     console.log(data);
-  //   //   })
-  //   // });
-  // }
+  ionViewWillEnter(){
+    this.storage.get('id').then((val) => {
+      this.IdUsuario = val;
+    });
+  }
 }

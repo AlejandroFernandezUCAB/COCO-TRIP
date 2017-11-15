@@ -189,6 +189,7 @@
     <Content Include="Content\Lugares\activity.css" />
     <Content Include="Content\Lugares\detail.css" />
     <Content Include="Content\Lugares\view_all.css" />
+    <Content Include="Content\Lugares\alerts.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\global.css" />
@@ -206,6 +207,7 @@
     <Content Include="Scripts\Lugares\delete-line-table.js" />
     <Content Include="Scripts\Lugares\insert-line-table.js" />
     <Content Include="Scripts\Lugares\google-map.js" />
+    <Content Include="Scripts\Lugares\google-map-detail.js" />
     <Content Include="Scripts\Lugares\status.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="fonts\fontawesome-webfont.eot" />
@@ -255,6 +257,7 @@
     <Content Include="Views\Lugares\ActivityDetail.cshtml" />
     <Content Include="Views\Lugares\Modify.cshtml" />
     <Content Include="Views\Lugares\LugarDetail.cshtml" />
+    <Content Include="Views\Lugares\PageDown.cshtml" />
     <Content Include="Views\M8_Localidad\Create.cshtml" />
     <Content Include="Views\Locations\CreateLocationEvent.cshtml" />
     <Content Include="Views\Locations\ListLocationEvent.cshtml" />

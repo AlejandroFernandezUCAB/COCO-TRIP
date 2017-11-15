@@ -179,19 +179,18 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
+        leerDatos = comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          actividad.Id = leerDatos.GetInt32(0);
+        }
+
+        leerDatos.Close();
+
         if (actividad.Foto.Contenido != null)
         {
-          leerDatos = comando.ExecuteReader();
-
-          if (leerDatos.Read())
-          {
-            actividad.Id = leerDatos.GetInt32(0);
-          }
-
-          leerDatos.Close();
-
-          archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id);
-
+          archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id + ".jpg");
         }
         else
         {
@@ -318,18 +317,18 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, archivo.Ruta + nombreArchivo));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
+        leerDatos = comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          foto.Id = leerDatos.GetInt32(0);
+        }
+
+        leerDatos.Close();
+
         if (foto.Contenido != null)
         {
-          leerDatos = comando.ExecuteReader();
-
-          if (leerDatos.Read())
-          {
-            foto.Id = leerDatos.GetInt32(0);
-          }
-
-          leerDatos.Close();
-
-          archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id);
+          archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id + ".jpg");
         }
         else
         {
@@ -490,10 +489,12 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
 
+        comando.ExecuteNonQuery();
+
         if (actividad.Foto.Contenido != null)
         {
-          comando.ExecuteNonQuery();
-          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id);
+
+          archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id + ".jpg");
         }
         else
         {
@@ -600,10 +601,12 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, foto.Id));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto.Ruta));
 
+        comando.ExecuteNonQuery();
+
         if (foto.Contenido != null)
         {
-          comando.ExecuteNonQuery();
-          archivo.EscribirArchivo(foto.Contenido, "lt-fo-" + foto.Id);
+
+          archivo.EscribirArchivo(foto.Contenido, "lt-fo-" + foto.Id + ".jpg");
         }
         else
         {
@@ -725,7 +728,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
         comando.ExecuteNonQuery();
 
-        archivo.EliminarArchivo("ac-" + id);
+        archivo.EliminarArchivo("ac-" + id + ".jpg");
 
       }
       catch (NpgsqlException e)
@@ -760,7 +763,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, id));
         comando.ExecuteNonQuery();
 
-        archivo.EliminarArchivo("lt-fo-" + id);
+        archivo.EliminarArchivo("lt-fo-" + id + ".jpg");
       }
       catch (NpgsqlException e)
       {

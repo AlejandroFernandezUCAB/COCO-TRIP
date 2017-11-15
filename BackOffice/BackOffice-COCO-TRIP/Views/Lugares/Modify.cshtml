@@ -5,11 +5,11 @@
   <div class="content-form card">
     <br><br>
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post" action="Modify">
       <div class="form-group form-group-imagen-lugar">
-        <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;genes del lugar</label>
-        <input class="col-sm-6" type="file" multiple="true" id="perfilphoto">
-        <p class="help-block col-sm-9">Las fotos seleccionadas se ver&aacute;n en el lugar tur&iacute;stico</p>
+        <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;gen del lugar</label>
+        <input class="col-sm-6" type="file" id="perfilphoto" name="lugarFoto">
+        <p class="help-block col-sm-9">La foto seleccionada se ver&aacute; en el lugar tur&iacute;stico</p>
       </div>
       
       <div class="row row-nombre-costo-estado">
@@ -18,7 +18,7 @@
           <div class="form-group">
             <label for="name" class="col-sm-2 control-label" style="margin-left: -3%; margin-right: 3%;">Nombre</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="name" placeholder="Nombre lugar turístico..." value="Parque del este">
+              <input type="text" class="form-control" id="name" placeholder="Nombre lugar turístico..." value="@Model.Nombre" name="Nombre">
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
           <div class="form-group">
             <label for="number" class="col-sm-2 control-label">Costo</label>
             <div class="col-sm-9">
-              <input type="number" class="form-control" id="telefono" placeholder="ej. 120" value="120">
+              <input type="number" class="form-control" id="costo" placeholder="ej. 120" value="@Model.Costo" name="Costo">
             </div>
           </div>
         </div>
@@ -36,23 +36,23 @@
           <div class="form-group">
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
-              <select class="form-control" id="category">
+              <select class="form-control" id="category" name="activar">
                 <option selected disabled>Elige una estado</option>
-                <option selected="true">Activo</option>
-                <option>Inactivo</option>
+                <option value="true" @if (Model.Activar)  { <text>selected="true"</text> }>Activo</option>
+                <option value="false"@if (!Model.Activar) { <text>selected="true"</text> }>Inactivo</option>
               </select>
             </div>
           </div>
         </div>
-
       </div>
 
-      <div class="row">
+
+       <div class="row">
         <div class="col-md-12">
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel">
               <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title">
+                <h4 ifass="panel-title">
 
                   <div class="title-actividades text-center" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                     Categor&iacute;as y Subcategor&iacute;as
@@ -63,63 +63,56 @@
               <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                 <div class="panel-body">
 
-                  <div class="row">
+                @if (Model.Categoria != null)
+                {
+                  foreach (var categoria in Model.Categoria)
+                  {
+                    int contador = 0;
 
-                    <div class="col-md-5">
-                      <div class="form-group ">
-                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="categoria">
-                            <option selected disabled>Elige una categor&iacute;a</option>
-                            <option>Zool&oacute;gico</option>
-                            <option>Parque tem&aacute;tico</option>
-                            <option>Parque infantil</option>
-                            <option>Otro</option>
-                          </select>
+                    <div class="row">
+
+                      <div class="col-md-5">
+                        <div class="form-group ">
+                          <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                          <div class="col-sm-8">
+                            <select class="form-control" id="categoria" name="categoria_@(contador + 1) ">
+                              <option selected disabled>Elige una categor&iacute;a</option>
+
+                              <option>@categoria.Nombre</option>
+
+
+                            </select>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="subcategoria" class="col-sm-4 control-label">Sub-Categor&iacute;a</label>
-                        <div class="col-sm-8">
-                          <select class="form-control" id="subcategoria">
-                            <option selected disabled>Elige una sub-categor&iacute;a</option>
-                            <option>Para mayores de 18 a&ntilde;os</option>
-                            <option>Para todas las edades</option>
-                            <option>Edad 5+</option>
-                            <option>No apto para cardiacos</option>
-                          </select>
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label for="subcategoria" class="col-sm-4 control-laahgbel">Sub-Categor&iacute;a</label>
+                          <div class="col-sm-8">
+                            <select class="form-control" id="subcategoria" name="subcategoria_@(contador + 1) ">
+                              <option selected disabled>Elige una sub-categor&iacute;a</option>
+
+                              @foreach (var subCategoria in ViewBag.SubCategoria)
+                              {
+
+                                if (subCategoria.CategoriaSuperior == categoria.Id)
+                                {
+                                  <option>@subCategoria.Nombre</option>
+                                }
+                              }
+
+
+                            </select>
+                          </div>
                         </div>
                       </div>
+
                     </div>
 
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <div class="col-sm-12" align="center">
-                          <a onclick="agregarCategoria();" class="agregar">
-                            <i class="fa fa-plus-circle icon-add-category" aria-hidden="true"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="row row-table">
-                    <table class="table table-hover table-responsive" id="tabla">
-                      <thead>
-                        <tr>
-                          <th>Nombre Categor&iacute;a</th>
-                          <th>Nombre Subcategor&iacute;a</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
-
+                    contador++;
+                  }
+                }
 
                 </div>
               </div>
@@ -145,20 +138,33 @@
               <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
 
+            @if (Model.Horario != null)
+            {
+               foreach (var horario in Model.Horario)
+               {
+                 int contador = 0;
+
                   <div class="row row-horarios">
 
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia">
+                        <select class="form-control" id="dia_@(contador + 1) ">
                           <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
+                          <option @if (horario.DiaSemana == 1)
+                          { <text>selected="true"</text> }>Lunes</option>
+                          <option @if (horario.DiaSemana == 2)
+                          { <text>selected="true"</text> }>Martes</option>
+                          <option @if (horario.DiaSemana == 3)
+                          { <text>selected="true"</text> }>Miercoles</option>
+                          <option @if (horario.DiaSemana == 4)
+                          { <text>selected="true"</text> }>Jueves</option>
+                          <option @if (horario.DiaSemana == 5)
+                          { <text>selected="true"</text> }>Viernes</option>
+                          <option @if (horario.DiaSemana == 6)
+                          { <text>selected="true"</text> }>Sabado</option>
+                          <option @if (horario.DiaSemana == 0)
+                          { <text>selected="true"</text> }>Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -167,7 +173,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico...">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraApertura" value="@horario.HoraApertura">
                         </div>
                       </div>
                     </div>
@@ -176,35 +182,16 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico...">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <div class="col-sm-12" align="center">
-                          <a onclick="agregarHorario();">
-                            <i class="fa fa-plus-circle icon-add-horario" aria-hidden="true"></i>
-                          </a>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraCierre" value="@horario.HoraCierre">
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row row-table">
-                    <table class="table table-hover table-responsive" id="tabla_horario">
-                      <thead>
-                        <tr>
-                          <th>D&iacute;a</th>
-                          <th>Hora Apertura</th>
-                          <th>Hora Cierre</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
+                 contador++;
+               }
+            }
+
 
                 </div>
               </div>
@@ -230,127 +217,57 @@
               <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
                   <form class="form-inline">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
-                          <figure class="imagen-actividad-modificar">
-                            <img class="img-actividad" src="assets/img/areas_verdes.jpg" alt="">
-                          </figure>
-                          <div class="text-imagen-actividad">
-                            Para cambiar la im&aacute;gen dar click sobre ella.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label for="exampleInputName2">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. Disneyland" value="Paseo por el parque">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput">Descripci&oacute;n</label>
-                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
-                        </div>
-                      </div>
-                    </div>
+                    @if (Model.Actividad != null)
+                    {
+                        foreach (var actividad in Model.Actividad)
+                        {
+                          int contador = 0;
 
-                    <hr>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group form-group-actividad">
+                                    <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
+                                    <figure class="imagen-actividad-modificar">
+                                      <img class="img-actividad" src="@actividad.Foto.Ruta" alt="">
+                                    </figure>
+                                    <div class="text-imagen-actividad">
+                                      Para cambiar la im&aacute;gen dar click sobre ella.
+                                    </div>
+                                  </div>
+                                </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
-                          <figure class="imagen-actividad-modificar">
-                            <img class="img-actividad" src="assets/img/barco_colon.jpg" alt="">
-                          </figure>
-                          <div class="text-imagen-actividad">
-                            Para cambiar la im&aacute;gen dar click sobre ella.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label for="exampleInputName3">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName3" placeholder="ej. Disneyland"  value="Visita barco de colón">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput2">Descripci&oacute;n</label>
-                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
-                        </div>
-                      </div>
-                    </div>
+                                <div class="col-md-6">
+                                  <div class="form-group form-group-actividad-descripcion">
+                                    <label for="exampleInputName2">Duraci&oacute;n(min)</label>
+                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. 120" name="Actividad[@contador].Duracion" value="@actividad.Duracion">
+                                  </div>
+                                </div>
 
-                    <hr>
+                              </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
-                          <figure class="imagen-actividad-modificar">
-                            <img class="img-actividad" src="assets/img/lanchitas.jpg" alt="">
-                          </figure>
-                          <div class="text-imagen-actividad">
-                            Para cambiar la im&aacute;gen dar click sobre ella.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label for="exampleInputName4">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName4" placeholder="ej. Disneyland"  value="Paseo en lanchas a pedal">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput3">Descripci&oacute;n</label>
-                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
-                        </div>
-                      </div>
-                    </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group form-group-actividad">
+                                    <label for="exampleInputName2">Nombre</label>
+                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="ej. Disneyland" value="@actividad.Nombre" name="Actividad[@contador].Nombre">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group form-group-actividad-descripcion">
+                                    <label for="exampleInput">Descripci&oacute;n</label>
+                                    <textarea class="form-control" name="Actividad[@contador].Descripcion">@actividad.Descripcion</textarea>
+                                  </div>
+                                </div>
+                              </div>
 
-                    <hr>
-                    
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label class="control-label" for="actividadphoto">Im&aacute;gen Actividad</label>
-                          <figure class="imagen-actividad-modificar">
-                            <img class="img-actividad" src="assets/img/canchas.jpg" alt="">
-                          </figure>
-                          <div class="text-imagen-actividad">
-                            Para cambiar la im&aacute;gen dar click sobre ella.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad">
-                          <label for="exampleInputName5">Nombre</label>
-                          <input type="text" class="form-control" id="exampleInputName5" placeholder="ej. Disneyland"  value="Juegos multiples en canchas">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group form-group-actividad-descripcion">
-                          <label for="exampleInput4">Descripci&oacute;n</label>
-                          <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</textarea>
-                        </div>
-                      </div>
-                    </div> 
+                              <hr>
+
+                          contador++;
+
+                        }
+                    }
+
                   </form>
                 </div>
               </div>
@@ -364,7 +281,7 @@
           <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Direcci&oacute;n</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="name" placeholder="Ingrese direcci&oacute;n..." value="avenida principal las palmas calle barquisimeto">
+              <input type="text" class="form-control" id="name" placeholder="Ingrese direcci&oacute;n..." value="@Model.Direccion" name="Direccion">
             </div>
           </div>
         </div>
@@ -374,7 +291,7 @@
             <div class="form-group form-group-correo">
               <label for="email" class="col-sm-2 control-label">Correo</label>
               <div class="col-sm-9">
-                <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com" value="ejemplo@gmail.com">
+                <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com" value="@Model.Correo" name="Correo">
               </div>
             </div>
           </div>
@@ -383,7 +300,7 @@
             <div class="form-group form-group-telefono">
               <label for="telefono" class="col-sm-2 control-label">Tel&eacute;fono</label>
               <div class="col-sm-9">
-                <input type="tel" class="form-control" id="telefono" placeholder="N&uacute;mero de tel&eacute;fono..." value="02127941343">
+                <input type="tel" class="form-control" id="telefono" placeholder="N&uacute;mero de tel&eacute;fono..." value="@Model.Telefono" name="Telefono">
               </div>
             </div>  
           </div>
@@ -394,7 +311,7 @@
           <div class="form-group">
             <label for="category" class="col-sm-2 control-label">Descripci&oacute;n</label>
             <div class="col-sm-9">
-              <textarea class="form-control" rows="4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam quam praesentium possimus. Omnis numquam sed vitae assumenda, accusantium debitis voluptas doloribus facere dolor harum facilis atque velit ducimus deserunt blanditiis!</textarea>
+              <textarea class="form-control" rows="4" name="Descripcion">@Model.Descripcion</textarea>
             </div>
           </div>
         </div>
@@ -402,12 +319,12 @@
         <div class="row form-group">
           <div class="col-md-5">
             <label for="latitud" class="col-sm-2 control-label label-latitud">Latitud(GD)</label>
-            <input type="text" id="latitud" />
+            <input type="text" id="latitud" name="Latitud" value="@Model.Latitud"/>
           </div>
           <div class="col-md-5">
             <label for="longitud" class="col-sm-2 control-label label-longitud">Longitud(GD)</label>
             <div class="col-sm-9">
-              <input type="text" id="longitud" />
+              <input type="text" id="longitud" name="Longitud" value="@Model.Longitud"/>
             </div>
           </div>
 
@@ -418,7 +335,7 @@
         <div class="form-group">
           <div class="col-sm-12" align="center">
             <a href="@Url.Action("ViewAll", "Lugares")">
-              <button class="btn btn-lugar-turistico-add">Guardar Cambios</button>
+              <input type="submit" class="btn btn-lugar-turistico-add" value="Guardar Cambios"/>
             </a>
           </div>
         </div>
