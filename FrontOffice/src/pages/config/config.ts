@@ -44,7 +44,7 @@ export class ConfigPage {
     this.translateService.use(lang);
   }
 
-  ionViewDidLoad() {
+  ionViewWillLoad() {
     console.log('ionViewDidLoad ConfigPage');
     this.nombreUsuario = this.navParams.data.NombreUsuario;
           // cargamos la configuracion almacenada de notificaciones

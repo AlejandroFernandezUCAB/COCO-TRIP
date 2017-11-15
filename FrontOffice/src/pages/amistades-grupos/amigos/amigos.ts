@@ -7,7 +7,24 @@ import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { ConversacionPage } from '../../chat/conversacion/conversacion';
 
+//****************************************************************************************************//
+//*************************************PAGE DE AMIGOS MODULO 3****************************************//
+//****************************************************************************************************//
+
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga la lista de amigos de un usuario
+ * Floating button para eliminar amigos, agregar amigos y ver perfil
+ */
 @Component({
   selector: 'page-amigos',
   templateUrl: 'amigos.html'
@@ -27,30 +44,33 @@ export class AmigosPage {
   message: any;
   succesful: any;
   loader: any;
-  
   nombreUsuario : string;
-  public loading = this.loadingCtrl.create({
-    content: 'Please wait...'
-  });
-  
+  public loading = this.loadingCtrl.create({});
+
+
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public toastCtrl: ToastController, private storage: Storage,
       private translateService: TranslateService ) {
-      
+
   }
-  
+
   onLink(url: string) {
       window.open(url);
   }
 
 
-  tapEvent() {
+  tapEvent(item) {
+    this.navCtrl.push(ConversacionPage,{
+      nombreUsuario : item
+    });
   }
 
 /**
- * Metodo que carga un LoadingCTRL
+ * Metodo que carga un loading controller al iniciar
+ * la lista de amigos
+ * (Por favor espere/ please wait)
  */
   cargando(){
     this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
@@ -61,9 +81,10 @@ export class AmigosPage {
     this.loading.present();
   }
 
-  /**
-   * Metodo para cargar la lista de amigos
-   */
+/**
+ * Metodo que carga la lista de amigos automaticamente
+ * al entrar a la vista
+ */
    ionViewWillEnter() {
      this.cargando();
      this.storage.get('id').then((val) => {
@@ -81,6 +102,11 @@ export class AmigosPage {
       });
   }
 
+/**
+ * Metodo que coloca los textos de las cartas
+ * en false e inicia la pagina de buscar amigos
+ * para agregarlo
+ */
 agregarAmigo(){
  this.edit=false;
   this.detail=false;
@@ -89,6 +115,9 @@ agregarAmigo(){
   this.navCtrl.push(BuscarAmigoPage);
 }
 
+/**
+ * Metodo que coloca los textos de las cartas en false
+ */
 eliminar(){
   this.edit=false;
   this.detail=false;
@@ -100,9 +129,12 @@ eliminar(){
   else{
     this.delete=false;
   }
-  
+
 }
 
+/**
+ * Metodo que coloca los textos de las cartas en false
+ */
 perfil(){
   this.delete=false;
   this.edit=false;
@@ -114,14 +146,14 @@ perfil(){
 
     this.detail=false;
   }
-  
+
 }
 
 
 /**
  * Metodo para confirmar eliminacion de un amigo
  * @param nombreUsuario Nombre del amigo a eliminar
- * @param index 
+ * @param index posicion de la lista
  */
 eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
@@ -131,7 +163,7 @@ eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
 
   const alert = this.alerCtrl.create({
-    
+
   title: this.title,
   message: '¿'+this.message+nombreUsuario+'?',
   buttons: [
@@ -139,7 +171,7 @@ eliminarAmigo(nombreUsuario, index) {
       text: this.cancel,
       role: 'cancel',
       handler: () => {
-       
+
       }
     },
     {
@@ -161,19 +193,28 @@ eliminarAmigo(nombreUsuario, index) {
 /**
  * Metodo para borrar desde pantalla
  * @param nombreUsuario Nombre del amigo a eliminar
- * @param index 
+ * @param index Posicion de la lista
  */
 eliminarAmigos(nombreUsuario, index){
   let eliminado = this.amigo.filter(item => item.NombreUsuario === nombreUsuario)[8];
   var removed_elements = this.amigo.splice(index, 1);
 }
 
+/**
+ * Metodo para ingresar a la pagina de visualizar
+ * el perfil de un amigo
+ * @param item Nombre del usuario seleccionado
+ */
 verPerfil(item) {
   this.navCtrl.push(VisualizarPerfilPage,{
       nombreUsuario : item
   });
 }
 
+/**
+ * Metodo que despliega un toast
+ * @param mensaje Texto para el toast
+ */
 realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,

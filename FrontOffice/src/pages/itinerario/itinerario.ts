@@ -126,14 +126,12 @@ export class ItinerarioPage {
           text: 'CANCEL',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'CREATE',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
-              console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
@@ -145,7 +143,7 @@ export class ItinerarioPage {
                     this.realizarToast("Sorry, your itinerary wasn't created. Please, try later :(");
                   }else{
                     this.loading.dismiss();
-                    console.log(data);
+                    this.noIts=false;
                     this.its.push({
                       Nombre: name,
                       Items_agenda: Array()
@@ -175,7 +173,8 @@ export class ItinerarioPage {
         Orrillo, Horacio
    **/
   public crear()
-  {
+  { this.edit=false;
+    this.delete=false;
     if (this.translateService.currentLang == 'es') this.crearEspanol();
     else this.crearIngles();
   }
@@ -206,14 +205,12 @@ export class ItinerarioPage {
           text: 'Cancelar',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'Crear',
           handler: data => {
             if (data.Nombre!= '' && data.Nombre!= undefined) {
-              console.log(data);
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
@@ -231,7 +228,6 @@ export class ItinerarioPage {
                       Nombre: name,
                       Items_agenda: Array()
                     })
-                    console.log(this.its);
                   }
                 }
               )
@@ -348,8 +344,7 @@ export class ItinerarioPage {
       text: 'Aceptar',
       handler: () => {
         this.presentLoading();
-        let tipo=this.getTipoItem(evento);
-        this.httpc.eliminarItem(tipo,id_itinerario, evento.Id).then(data=>{
+        this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
             console.log("ERROR:: no se pudo eliminar el item");
@@ -380,7 +375,6 @@ export class ItinerarioPage {
         text: 'Accept',
         handler: () => {
           this.presentLoading();
-          let tipo=this.getTipoItem(evento);
           this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
             if (data==0 || data==-1){
               this.loading.dismiss();
@@ -411,7 +405,7 @@ export class ItinerarioPage {
    **/
   public eliminar()
   {
-    this.delete = true;
+    this.delete = !this.delete;
     this.edit = false;
   }
 
@@ -468,7 +462,7 @@ export class ItinerarioPage {
    **/
   public editar()
   {
-    this.edit = true;
+    this.edit = !this.edit;
     this.delete = false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
@@ -491,7 +485,6 @@ export class ItinerarioPage {
     this.delete=false;
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
-      console.log(this.its[i].edit);
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
         this.realizarToast('Fechas Invalidas');
@@ -596,8 +589,6 @@ ionview
     modal.onDidDismiss(data => {
       if (data) {
         let eventoData = data;
-        console.log("eventoData");
-        console.log(data.evento_nuevo);
         let itinerario_nuevo = data.itinerario;
         eventoData.Id = data.evento_nuevo.Id;
         eventoData.Nombre = data.evento_nuevo.Nombre;
@@ -642,7 +633,6 @@ ionview
         }else{
           this.loading.dismiss();
           evento1 = data;
-          console.log(data);
           let modal = this.modalCtrl.create('ConsultarItemModalPage', {evento: evento, itinerario: itinerario, evento1: evento1});
           modal.present();
           modal.onDidDismiss(data => {
@@ -668,7 +658,6 @@ ionview
   public goToSlide(index)
   {
     this.list=false;
-    console.log(index);
     setTimeout(() => {
       this.slides.slideTo(index, 500);
     }, 500);
@@ -692,6 +681,8 @@ ionview
         this.its[i].Items_agenda = Array();
       }
     }
+    this.edit=false;
+    this.delete=false;
     if(this.list==true){
       this.list = false;
     }
@@ -729,11 +720,10 @@ ionview
     this.presentLoading();
      this.storage.get('id').then((val) => {
        this.IdUsuario = val;
-       console.log("usu :::::::::::::: " + val);
       //Se consultan todos los itinerarios, con sus items respectivos, de un usuario
     this.httpc.loadItinerarios(this.IdUsuario)
     .then(data => {
-      if (data== 0 || data == -1){
+      if (data == -1){
         this.loading.dismiss();
         if (this.translateService.currentLang == 'es'){
         this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
@@ -743,7 +733,6 @@ ionview
       }else{
         this.its = data;
         this.loading.dismiss();
-        console.log(this.its);
         if (this.its.length == 0){
           this.noIts = true;
         }
@@ -818,19 +807,21 @@ ionview
               }
               this.httpc.getNotificacionesConfig(this.IdUsuario)
               .then(data =>{
-                console.log(data);
-                this.loading.dismiss();
-                this._notif.correo =data;
-                this._notif.push=false;
-
-                console.log(data);
-                let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
-                modal.present();
-                modal.onDidDismiss(data => {
-                  if (data) {
-                  }
-                })
-
+                if(data==-1|| data==0){
+                  this.loading.dismiss();
+                  this.realizarToast('Error. Por favor intente mas tarde :(');
+                }else{
+                  this.loading.dismiss();
+                  this._notif.correo =data;
+                  this._notif.push=false;
+                  console.log(data);
+                  let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
+                  modal.present();
+                  modal.onDidDismiss(data => {
+                    if (data) {
+                    }
+                  })
+                }
               })
             });
   });

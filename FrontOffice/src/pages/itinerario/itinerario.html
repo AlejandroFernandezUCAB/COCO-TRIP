@@ -41,10 +41,10 @@
         <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="ssg" (click)="crear()">
           <ion-icon name="add"></ion-icon>
         </button>
-        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
+        <button *ngIf="!list" ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf"  (click)="editar()">
           <ion-icon name="create"></ion-icon>
         </button>
-        <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
+        <button *ngIf="!list" ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
           <ion-icon name="trash"></ion-icon>
         </button>
         <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="configurarNotificaciones()">
@@ -138,7 +138,7 @@
   </ion-list-header>
   <ion-item-group reorder="true" (ionItemReorder)="$event.applyTo(its)">
     <ion-item *ngFor="let itinerario of its; let i= index" (click)="goToSlide(i+1)">
-      <p style="color: #3B8686;"><strong>{{itinerario.Nombre}}</strong> - {{itinerario.Items_agenda.length}} eventos</p>
+      <p style="color: #3B8686;"><strong>{{itinerario.Nombre}}</strong> - {{itinerario.Items_agenda.length}} {{'eventos' | translate}}</p>
       <p>{{((itinerario.FechaInicio !== '0001-01-01T00:00:00') ? (itinerario.FechaInicio | date: 'dd/MM/yyyy') : '' )}} - {{((itinerario.FechaFin !== '0001-01-01T00:00:00') ? (itinerario.FechaFin | date: 'dd/MM/yyyy') : '' )}}</p>
     </ion-item>
     <ion-label text-wrap text-center>
