@@ -7,10 +7,11 @@ import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { ConversacionPage } from '../../chat/conversacion/conversacion';
 
-//****************************************************************************************************// 
+//****************************************************************************************************//
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
-//****************************************************************************************************//  
+//****************************************************************************************************//
 
 /**
  * Autores:
@@ -46,25 +47,28 @@ export class AmigosPage {
   nombreUsuario : string;
   public loading = this.loadingCtrl.create({});
 
-  
+
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public toastCtrl: ToastController, private storage: Storage,
       private translateService: TranslateService ) {
-      
+
   }
-  
+
   onLink(url: string) {
       window.open(url);
   }
 
 
-  tapEvent() {
+  tapEvent(item) {
+    this.navCtrl.push(ConversacionPage,{
+      nombreUsuario : item
+    });
   }
 
 /**
- * Metodo que carga un loading controller al iniciar 
+ * Metodo que carga un loading controller al iniciar
  * la lista de amigos
  * (Por favor espere/ please wait)
  */
@@ -125,7 +129,7 @@ eliminar(){
   else{
     this.delete=false;
   }
-  
+
 }
 
 /**
@@ -142,7 +146,7 @@ perfil(){
 
     this.detail=false;
   }
-  
+
 }
 
 
@@ -159,7 +163,7 @@ eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
 
   const alert = this.alerCtrl.create({
-    
+
   title: this.title,
   message: '¿'+this.message+nombreUsuario+'?',
   buttons: [
@@ -167,7 +171,7 @@ eliminarAmigo(nombreUsuario, index) {
       text: this.cancel,
       role: 'cancel',
       handler: () => {
-       
+
       }
     },
     {

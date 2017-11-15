@@ -787,13 +787,18 @@ namespace ApiRest_COCO_TRIP.Models
         comm.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id_usuario);
         pgread = comm.ExecuteReader();
 
-        pgread.Read();
-        bool rs = pgread.GetBoolean(0);
-        
+        if (pgread.Read())
+        {
+          return pgread.GetBoolean(0);
+        }
         con.Desconectar();
-        return rs;
+        return false;
       }
       catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch(System.InvalidOperationException e)
       {
         throw e;
       }
