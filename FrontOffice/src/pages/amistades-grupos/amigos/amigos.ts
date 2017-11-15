@@ -7,6 +7,7 @@ import { AlertController, LoadingController } from 'ionic-angular';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { ConversacionPage } from '../../chat/conversacion/conversacion';
 
 //****************************************************************************************************// 
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
@@ -43,24 +44,36 @@ export class AmigosPage {
   message: any;
   succesful: any;
   loader: any;
+<<<<<<< HEAD
+
+  nombreUsuario : string;
+  public loading = this.loadingCtrl.create({
+    content: 'Please wait...'
+  });
+
+=======
   nombreUsuario : string;
   public loading = this.loadingCtrl.create({});
 
   
+>>>>>>> 50f5d94027b453a0fc3c2bb8fdc469f7547eb7b0
     constructor(public navCtrl: NavController, public platform: Platform,
       public actionsheetCtrl: ActionSheetController,public alerCtrl: AlertController,
       public restapiService: RestapiService, public loadingCtrl: LoadingController,
       public toastCtrl: ToastController, private storage: Storage,
       private translateService: TranslateService ) {
-      
+
   }
-  
+
   onLink(url: string) {
       window.open(url);
   }
 
 
-  tapEvent() {
+  tapEvent(item) {
+    this.navCtrl.push(ConversacionPage,{
+      nombreUsuario : item
+    });
   }
 
 /**
@@ -125,7 +138,7 @@ eliminar(){
   else{
     this.delete=false;
   }
-  
+
 }
 
 /**
@@ -142,14 +155,18 @@ perfil(){
 
     this.detail=false;
   }
-  
+
 }
 
 
 /**
  * Metodo para confirmar eliminacion de un amigo
  * @param nombreUsuario Nombre del amigo a eliminar
+<<<<<<< HEAD
+ * @param index
+=======
  * @param index posicion de la lista
+>>>>>>> 50f5d94027b453a0fc3c2bb8fdc469f7547eb7b0
  */
 eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
@@ -159,7 +176,7 @@ eliminarAmigo(nombreUsuario, index) {
   this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
 
   const alert = this.alerCtrl.create({
-    
+
   title: this.title,
   message: '¿'+this.message+nombreUsuario+'?',
   buttons: [
@@ -167,7 +184,7 @@ eliminarAmigo(nombreUsuario, index) {
       text: this.cancel,
       role: 'cancel',
       handler: () => {
-       
+
       }
     },
     {
@@ -189,7 +206,11 @@ eliminarAmigo(nombreUsuario, index) {
 /**
  * Metodo para borrar desde pantalla
  * @param nombreUsuario Nombre del amigo a eliminar
+<<<<<<< HEAD
+ * @param index
+=======
  * @param index Posicion de la lista
+>>>>>>> 50f5d94027b453a0fc3c2bb8fdc469f7547eb7b0
  */
 eliminarAmigos(nombreUsuario, index){
   let eliminado = this.amigo.filter(item => item.NombreUsuario === nombreUsuario)[8];
