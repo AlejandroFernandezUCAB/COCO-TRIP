@@ -5,6 +5,22 @@ import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
 
+//****************************************************************************************************// 
+//****************************PAGE AGREGAR INTEGRANTES AL MODIFICAR MODULO 3**************************//
+//****************************************************************************************************//  
+
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga la lista de amigos que no estan agregados 
+ * en ese grupo
+ */
 @IonicPage()
 @Component({
   selector: 'page-nuevos-integrantes',
@@ -21,9 +37,7 @@ export class NuevosIntegrantesPage {
   message: any;
   succesful: any;
   loader: any;
-  public loading = this.loadingCtrl.create({
-    content: 'Please wait...'
-  });
+  public loading = this.loadingCtrl.create({});
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private storage: Storage, public loadingCtrl: LoadingController,
               private toastCtrl: ToastController, public restapiService: RestapiService,
@@ -34,6 +48,11 @@ export class NuevosIntegrantesPage {
     window.open(url);
 }
 
+/**
+ * Metodo que carga un loading controller al iniciar 
+ * la lista de amigos
+ * (Por favor espere/ please wait)
+ */
 cargando(){
   this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
   this.loading = this.loadingCtrl.create({
@@ -43,7 +62,10 @@ cargando(){
   this.loading.present();
 }
 
-
+/**
+ * Metodo que carga la lista de amigos que
+ * no estan agregados al grupo
+ */
   ionViewWillEnter() {
     this.cargando();
 
@@ -64,6 +86,10 @@ cargando(){
      });
  }
 
+ /**
+ * Metodo que despliega un toast
+ * @param mensaje Texto para el toast
+ */
  realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
@@ -73,6 +99,11 @@ cargando(){
   this.toast.present();
 }
 
+/**
+ * Metodo que agrega a los integrantes al grupo
+ * @param event evento
+ * @param nombreUsuario Nombre del usuario a agregar
+ */
   agregarIntegrantes(event,nombreUsuario){
     this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
     this.translateService.get('Deseas Agregar a:').subscribe(value => {this.message = value;})

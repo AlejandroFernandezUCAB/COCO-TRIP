@@ -3,6 +3,21 @@ import { NavController, AlertController , LoadingController, NavParams } from 'i
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
+//****************************************************************************************************// 
+//********************************PAGE DE VISUALIZAR PERFIL MODULO 3**********************************//
+//****************************************************************************************************//  
+
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga el perfil de un amigo
+ */
 @Component({
   selector: 'page-visualizarperfil',
   templateUrl: 'visualizarperfil.html'
@@ -22,17 +37,13 @@ export class VisualizarPerfilPage {
 
   }
 
-  /**
-   * Metodo que carga un LoadingCTRL
-   */
+/**
+ * Metodo que carga un loading controller al iniciar 
+ * la lista de amigos
+ * (Por favor espere/ please wait)
+ */
   cargando(){
-    this.translateService.get('Por favor, espere').subscribe(
-      value => {
-        // value is our translated string
-         this.mensajeCargando = value;
-      }
-    )
-
+    this.translateService.get('Por favor, espere').subscribe(value => {this.mensajeCargando = value;})
     this.loading = this.loadingCtrl.create({
       content: this.mensajeCargando,
       dismissOnPageChange: true
@@ -40,9 +51,9 @@ export class VisualizarPerfilPage {
     this.loading.present();
   }
 
-  /**
-   * Metodo para cargar la lista de amigos
-   */
+/**
+ * Metodo que carga los datos de un amigo para visualizar su perfil
+ */
   ionViewWillEnter() {
     this.nombreUsuario = this.navParams.get('nombreUsuario');
     this.cargando();
@@ -59,26 +70,4 @@ export class VisualizarPerfilPage {
  
        });
    }
-
-  doConfirm() {
-    let confirm = this.alerCtrl.create({
-      title: 'Agregar?',
-      message: 'Desea agregar a esta persona como amigo?',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            console.log('No clicked');
-          }
-        },
-        {
-          text: 'Si',
-          handler: () => {
-            console.log('Si clicked');
-          }
-        }
-      ]
-    });
-    confirm.present()
-  }
 }

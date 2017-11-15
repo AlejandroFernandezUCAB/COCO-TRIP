@@ -303,6 +303,9 @@ eveSegunPreferencias(idUser){
     });
    }
 
+//****************************************************************************************************// 
+//*************************************METODOS DEL MODULO 3*******************************************//
+//****************************************************************************************************//    
 /**
  * [MODULO3]
  * Metodo para obtener la lista de amigos
@@ -324,6 +327,11 @@ eveSegunPreferencias(idUser){
     });
   }
 
+  /**
+   * [MODULO 3]
+   * Metodo para obtener la lista de notificaciones
+   * @param usuario Identificador del usuario
+   */
   listaNotificaciones(usuario)
   {
 
@@ -340,6 +348,12 @@ eveSegunPreferencias(idUser){
     });
   }
 
+/**
+ * [MODULO 3]
+ * Metodo para aceptar una solicitud de amistad
+ * @param usuarioAceptado Nombre de usuario del usuario aceptado
+ * @param my_id Identificador del usuario que acepto la solicitud
+ */
   aceptarNotificacion(usuarioAceptado,my_id)
   {
 
@@ -347,7 +361,6 @@ eveSegunPreferencias(idUser){
       this.http.post(this.apiUrl+'/M3_AmigosGrupos/AceptarNotificacion/?nombreUsuarioAceptado='+usuarioAceptado+'&idusuario='+my_id,"")
         .map(res => res.json())
         .subscribe(data => {
-          alert("aceptar notificacion restapi "+data);
           this.data = data;
           resolve(this.data);
         },error=>{
@@ -357,6 +370,12 @@ eveSegunPreferencias(idUser){
     });
   }
 
+  /**
+   * [MODULO 3]
+   * Metodo para rechazar la slicitud de amistad
+   * @param usuarioRechazado nombre de usuario del usuario rechazado
+   * @param my_id Identificador del usuario
+   */
   rechazarNotificacion(usuarioRechazado,my_id)
   {
 
@@ -518,7 +537,7 @@ eliminarGrupo(usuario, idGrupo){
     });
   }
 
-    /**
+/**
  * [MODULO 3]
  * Metodo para agregar el amigo solicitado
  * @param usuario nombre de usuario
@@ -535,6 +554,15 @@ agregarAmigo(idUsuario,nombreAmigo) {
       });
   });
 }
+
+/**
+ * [MODULO 3]
+ * Metodo para enviar un correo al usuario para notificar que tiene una
+ * solicitud de amistad en espera
+ * @param idUsuario Identificador del usuario que esta haciendo la solicitud
+ * @param nombreAmigo Nombre del usuario al que se desea agregar
+ * @param correoAmigo Correo del usuario al que se desea agregar
+ */
 enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {  
   return new Promise(resolve => {
     this.http.put(this.apiUrl+'/M3_AmigosGrupos/EnviarNotificacionCorreo/?nombreUsuarioRecibe='+nombreAmigo
@@ -547,7 +575,7 @@ enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {
         console.log("Ocurrio un error");
       });
   });
-}
+} 
 
 /**
 * [MODULO 3] 
@@ -572,8 +600,8 @@ agregarGrupo(idusuario,nombre,foto,) {
 /**
  * [MODULO 3]
  * Metodo para salir de un grupo
- * @param usuario 
- * @param idGrupo 
+ * @param usuario identificador del usuario
+ * @param idGrupo identificador del grupo
  */
   salirGrupo(usuario, idGrupo){
     return new Promise(resolve => {
@@ -590,9 +618,9 @@ agregarGrupo(idusuario,nombre,foto,) {
   /**
    * [MODULO 3]
    * Metodo para modificar los atributos de un grupo
-   * @param nombreGrupo
-   * @param idUsuario
-   * @param idGrupo
+   * @param nombreGrupo Nombre del grupo
+   * @param idUsuario Identificador del usuario lider
+   * @param idGrupo identificador del grupo
    */
   modificarGrupo(nombreGrupo, idUsuario, idGrupo){
     return new Promise(resolve => {
@@ -689,7 +717,7 @@ obtenerLider(idGrupo, idUsuario)
 /**
  * [MODULO 3]
  * Metodo que obtiene la lista de integrantes, sin el integrante lider
- * @param idGrupo 
+ * @param idGrupo identificador del grupo
  */
 obtenerSinLider(idGrupo) 
 {  
@@ -707,7 +735,7 @@ obtenerSinLider(idGrupo)
 
 /**
  * [MODULO 3]
- * Metodo que obtiene la lista de integrantes, sin el integrante lider
+ * Metodo que obtiene la lista de integrantes que no estan agregados al grupo
  * @param idUsuario Identificador de usuario
  * @param idGrupo Identificador del grupo
  */
@@ -727,8 +755,8 @@ obtenerMiembrosSinGrupo(idUsuario, idGrupo)
 }
 
 /**
- * [MODULO 3]
- * Metodo que obtiene el ultimo grupo agregado
+ * Metodo que obtiene el ultimo grupo agregado por un usuario
+ * @param idUsuario Identificador del usuario
  */
 obtenerultimoGrupo(idUsuario) 
 {  
@@ -743,4 +771,10 @@ obtenerultimoGrupo(idUsuario)
       });
   });
 }
+
+//****************************************************************************************************// 
+//********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
+//****************************************************************************************************//   
+
+
 }

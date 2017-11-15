@@ -8,7 +8,9 @@ using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
 using System.Data;
 using Npgsql;
-
+/// <summary>
+/// Clase de pruebas unitarias del MODULO 3
+/// </summary>
 namespace ApiRestPruebas.M3
 {
   [TestFixture]
@@ -30,6 +32,7 @@ namespace ApiRestPruebas.M3
         "INSERT INTO Usuario VALUES (-2 ,'usuariopruebas2', 'Mariangel','Perez',to_date('1963-09-01', 'YYYY-MM-DD') ,'F','usuariopruebas2@gmail.com','123456', null, true);" +
         "INSERT INTO Grupo VALUES (-1,'Grupoprueba1',null,-1);" +
         "INSERT INTO Grupo VALUES (-2,'Grupoprueba2',null,-2);" +
+        "INSERT INTO Grupo VALUES (-3,'Grupoprueba3',null,-1);" +
         "INSERT INTO Miembro VALUES (-1,-1,-1);" +
         "INSERT INTO Miembro VALUES (-2,-1,-2);";
       conexion.Comando.CommandType = CommandType.Text;
@@ -53,6 +56,10 @@ namespace ApiRestPruebas.M3
       conexion.Comando.ExecuteReader();
       conexion.Desconectar();
     }
+
+    //--------------------------------------------------------------------------------------------//
+    //--------------------------------------CASOS DE PRUEBA OSWALDO-------------------------------//
+    //--------------------------------------------------------------------------------------------//
 
     //PRUEBAS UNITARIAS DE AGREGAR AMIGO
     //CREADO POR: OSWALDO LOPEZ
@@ -125,7 +132,6 @@ namespace ApiRestPruebas.M3
       peticion = new PeticionAmigoGrupo();
       peticion.VisualizarPerfilAmigoBD(null);
     }
-
 
     /// <summary>
     /// Test para probar el caso de falla cuando se ingresa nombres de usuarios
@@ -212,7 +218,6 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("Mariangel", usuario.Nombre);
     }
 
-
     /// <summary>
     /// Test para probar el caso de  falla cuando existe un casteo incorrecto
     /// </summary>
@@ -228,7 +233,6 @@ namespace ApiRestPruebas.M3
       peticion = new PeticionAmigoGrupo();
       peticion.ObtenerListaNotificacionesBD(Convert.ToInt32("5ff"));
     }
-
 
 
     //PRUEBAS UNITARIAS DE ACEPNOTIFICACIONES
@@ -251,7 +255,6 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("Mariangel", usuario.Nombre);
     }
 
-
     /// <summary>
     /// Test para probar el caso de  falla cuando existe un casteo incorrecto
     /// </summary>
@@ -269,11 +272,8 @@ namespace ApiRestPruebas.M3
     }
 
 
-
-
     //PRUEBAS UNITARIAS DE RECHAZARNOTIFICACIONES 
     //CREADO POR: OSWALDO LOPEZ 
-
     /// <summary>
     /// Test para probar el caso de exito del metodo AceptarNotificacionesBD
     /// </summary>
@@ -292,7 +292,6 @@ namespace ApiRestPruebas.M3
       Assert.IsNull(usuario.Nombre);
     }
 
-
     /// <summary>
     /// Test para probar el caso de  falla cuando existe un casteo incorrecto
     /// </summary>
@@ -310,11 +309,10 @@ namespace ApiRestPruebas.M3
     }
 
 
-
-    //PRUEBAS UNITARIAS DE ACEPNOTIFICACIONES
+    //PRUEBAS UNITARIAS DE CONSULTAR USUARIO
     //CREADO POR: OSWALDO LOPEZ
     /// <summary>
-    /// 
+    /// Metodo que retorna el nombre del usuario
     /// </summary>
     [Test]
     public void TestObtenerUsuario()
@@ -323,7 +321,7 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("Aquiles",peticion.ConsultarUsuario(-1));
     }
     /// <summary>
-    /// 
+    /// Caso de fallo, cuando el usuario no existe
     /// </summary>
     [Test]
     public void TestObtenerUsuarioFalloNoExiste()
@@ -332,7 +330,9 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("", peticion.ConsultarUsuario(-11));
     }
 
-
+    /// <summary>
+    /// Verifica que no se puede convertir un nombre de usuario en int
+    /// </summary>
     [Test]
     public void TestObtenerUsuarioFalloCast()
     {
@@ -346,12 +346,47 @@ namespace ApiRestPruebas.M3
     }
 
 
+    //PRUEBAS UNITARIAS DE EXISTENOTIFICACION
+    //CREADO POR: OSWALDO LOPEZ
+    /// <summary>
+    /// Test para probar el caso de exito del metodo ExisteNotificacionBD
+    /// </summary>
+    [Test]
+    public void TestExisteNotificacion()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
+      Assert.AreNotEqual(-1, peticion.ExisteSolicitud(-1, "usuariopruebas2"));
+    }
 
-    //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /// <summary>
+    /// Test para probar el caso cuando la solicitud/amistad no existe
+    /// </summary>
+    [Test]
+    public void TestExisteNotificacionFalloNoExiste()
+    {
+      peticion = new PeticionAmigoGrupo();
+      Assert.AreEqual(-1, peticion.ExisteSolicitud(-1, "usuariopruebas2"));
+    }
 
+    /// <summary>
+    /// Test para probar el caso de  falla cuando existe un casteo incorrecto
+    /// </summary>
+    ///
+    [Test]
+    public void TestExisteNotificacionFalloCast()
+    {
+      Assert.Catch<InvalidCastException>(ExcepcionTestExisteNotificacionFalloCast);
+    }
 
-
+    public void ExcepcionTestExisteNotificacionFalloCast()
+    {
+      peticion = new PeticionAmigoGrupo();
+      peticion.ExisteSolicitud(-1, null);
+    }
+    //--------------------------------------------------------------------------------------------//
+    //-------------------------------------CASOS DE PRUEBA MARIANGEL------------------------------//
+    //--------------------------------------------------------------------------------------------//
 
 
     //PRUEBAS UNITARIAS DE ELIMINAR AMIGO
@@ -647,7 +682,8 @@ namespace ApiRestPruebas.M3
       Assert.IsEmpty(lista);
     }
 
-    //PRUEBAS UNITARIAS DE OBTENER EL LIDER DEL GRUPO
+    //PRUEBAS UNITARIAS DE OBTENER LOS INTEGRANTES DE UN GRUPO
+    //SIN EL LIDER
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     /// Prueba para obtener los datos de los integrantes del grupo
@@ -685,7 +721,8 @@ namespace ApiRestPruebas.M3
       Assert.IsEmpty(lista);
     }
 
-    //PRUEBAS UNITARIAS DE OBTENER ID POR NOMBRE DE USUARIO
+    //PRUEBAS UNITARIAS DE OBTENER LA LISTA DE AMIGOS QUE NO 
+    //ESTAN AGREGADOS A UN GRUPO
     //CREADO POR: MARIANGEL PEREZ
     /// <summary>
     ///  Prueba para obtener los datos de los amigos que no estan
@@ -709,23 +746,6 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual(null, usuario.Foto);
     }
 
-    /// <summary>
-    /// Caso de fallo, cuando el grupo no existe
-    /// </summary>
-    [Test]
-    public void ObtenerMiembroSinGrupoFallaTest()
-    {
-      peticion.AgregarAmigosBD(-2, "usuariopruebas1");
-      peticion.AceptarNotificacionBD("usuariopruebas2", -1);
-      List<Usuario> lista = new List<Usuario>();
-      lista = peticion.ObtenerMiembrosSinGrupo(-2, -4);
-      Usuario usuario = new Usuario();
-      foreach (Usuario u in lista)
-      {
-        usuario = u;
-      }
-      Assert.IsEmpty(lista);
-    }
 
     /// <summary>
     /// Caso de fallo, el usuario lider no existe
@@ -763,11 +783,14 @@ namespace ApiRestPruebas.M3
     }
 
 
+    //--------------------------------------------------------------------------------------------//
+    //--------------------------------------CASOS DE PRUEBA AQUILES-------------------------------//
+    //--------------------------------------------------------------------------------------------//
 
 
 
-
-
+    //PRUEBAS UNITARIAS DE AGREGAR UN GRUPO
+    //CREADO POR: AQUILES PULIDO
     /// <summary>
     /// Prueba para insertar un grupo dado el id del grupo
     /// </summary>
@@ -805,6 +828,9 @@ namespace ApiRestPruebas.M3
       peticion.AgregarGrupoBD("usuarioramdon1", -50);
     }
 
+
+    //PRUEBAS UNITARIAS DE VER DETALLE DE GRUPO
+    //CREADO POR: AQUILES PULIDO
     /// <summary>
     /// Prueba que se pueda consultar exitosamente el perfil de grupo
     /// </summary>
@@ -821,13 +847,20 @@ namespace ApiRestPruebas.M3
       }
       Assert.AreEqual("Grupoprueba1", grupo.Nombre);
     }
-
+    /// <summary>
+    /// Caso de fallo, cuando el grupo no existe
+    /// </summary>
     [Test]
     public void TestVisualizarPerfilGrupoNoExiste()
     {
       Assert.IsEmpty(peticion.ConsultarPerfilGrupo(0));
     }
 
+    //PRUEBAS UNITARIAS DE LISTA DE GRUPOS
+    //CREADO POR: AQUILES PULIDO
+    /// <summary>
+    /// Prueba de visualizar la lista de grupos
+    /// </summary>
     [Test]
     public void TestListaGrupo()
     {
@@ -841,6 +874,9 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("Grupoprueba1", grupo.Nombre);
     }
 
+    /// <summary>
+    /// Caso de fallo, cuando la lista es vacia
+    /// </summary>
     [Test]
     public void TestListaGrupoVacio()
     {
@@ -854,6 +890,11 @@ namespace ApiRestPruebas.M3
       Assert.IsEmpty(grupo.Nombre);
     }
 
+    //PRUEBAS UNITARIAS DE BUSCAR GRUPO
+    //CREADO POR: AQUILES PULIDO
+    /// <summary>
+    /// Metodo de prueba para buscar un amigo
+    /// </summary>
     [Test]
     public void BuscarAmigo()
     {
@@ -868,7 +909,9 @@ namespace ApiRestPruebas.M3
       Assert.AreEqual("Aquiles", usuario.Nombre);
 
     }
-
+    /// <summary>
+    /// Caso de fallo, cuando el amigo no existe
+    /// </summary>
     [Test]
     public void BuscarAmigoNoExiste()
     {
@@ -884,6 +927,24 @@ namespace ApiRestPruebas.M3
 
     }
 
-
+    //PRUEBAS UNITARIAS DE OBTENER EL ID DEL ULTIMO
+    //GRUPO AGREGADO
+    //CREADO POR: AQUILES PULIDO
+    /// <summary>
+    /// Metodo para obtener el ultimo grupo creado por un usuario
+    /// </summary>
+    [Test]
+    public void UltimoGrupo()
+    {
+      Assert.AreEqual(-1, peticion.ObtenerultimoGrupo(-1));
+    }
+    /// <summary>
+    /// Caso de fallo, cuando el usuario no existe
+    /// </summary>
+    [Test]
+    public void UltimoGrupoFalla()
+    {
+      Assert.AreEqual(0,peticion.ObtenerultimoGrupo(-55));
+    }
   }
 }
