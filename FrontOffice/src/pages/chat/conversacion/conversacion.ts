@@ -58,11 +58,13 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 
 }
 
+/*
 tapEvent1(item){
   this.navCtrl.push(VisualizarPerfilPage, {
     nombreUsuario : item
   }); //PERMITE VER EL PERFIL DEL AMIGO
 }
+*/
 
 tapEvent2(){
   let alert = this.alertCtrl.create({ //ESTA ES UNA ALERTA DE FUNCIONALIDAD
