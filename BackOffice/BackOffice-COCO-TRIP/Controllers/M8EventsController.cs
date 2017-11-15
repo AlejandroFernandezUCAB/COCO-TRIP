@@ -77,6 +77,7 @@ namespace BackOffice_COCO_TRIP.Controllers
         // var idLocalidad = Request["Localidades"].ToString();
         // evento.IdLocalidad = Int32.Parse(idLocalidad);
         evento.IdLocalidad = 1;
+        evento.Foto = "jorge";
         var idCategoria = Request["Categoria"].ToString();
         evento.IdCategoria = Int32.Parse(idCategoria);
 
@@ -85,13 +86,15 @@ namespace BackOffice_COCO_TRIP.Controllers
         if (respuesta.Property("dato") == null)
         {
 
-
+          
           ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
 
         }
         else
         {
+          
           ModelState.AddModelError(string.Empty, "Se hizo con exito");
+          return RedirectToAction("FilterEvent");
         }
       }
       catch (NullReferenceException e)
