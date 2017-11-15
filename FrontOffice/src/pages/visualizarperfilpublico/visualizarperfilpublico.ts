@@ -4,12 +4,20 @@ import { Storage } from '@ionic/storage';
 import { TranslateModule , TranslateService  } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 
+//****************************************************************************************************// 
+//***************************PAGE DE VISUALIZAR PERFIL PUBLICO MODULO 3*******************************//
+//****************************************************************************************************//  
 
 /**
- * Generated class for the VisualizarPerfilPublicoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga el perfil publico de un usuario
  */
 
 @Component({
@@ -38,10 +46,13 @@ export class VisualizarPerfilPublicoPage {
                 
   }
 
+  /**
+ * Metodo que despliega un toast
+ * @param mensaje Texto para el toast
+ */
   realizarToast() {
     this.translateService.get('Mensaje agregar').subscribe(
       value => {
-        // value is our translated string
          this.mensajeToast = value;
       }
     )
@@ -53,9 +64,11 @@ export class VisualizarPerfilPublicoPage {
     this.toast.present();
   }
   
-  /**
-   * Metodo que carga un LoadingCTRL
-   */
+ /**
+ * Metodo que carga un loading controller al iniciar 
+ * la lista de amigos
+ * (Por favor espere/ please wait)
+ */
   cargando(){
     this.translateService.get('Por favor, espere').subscribe(
       value => {
@@ -90,8 +103,10 @@ export class VisualizarPerfilPublicoPage {
        });
    }
 
+/**
+ * Metodo que carga los datos de un amigo para visualizar su perfil
+ */
    agregarAmigo(item){
-      //alert(item.NombreUsuario);
       this.cargando();
       this.storage.get('id').then((val) => {
         
@@ -101,7 +116,6 @@ export class VisualizarPerfilPublicoPage {
             console.log("DIO ERROR PORQUE ENTRO EN EL IF");
           }
           else {
-            //this.amigo = data;
             this.loading.dismiss();
             this.realizarToast();
             this.navCtrl.pop();
@@ -120,26 +134,14 @@ export class VisualizarPerfilPublicoPage {
 
    }
 
-
-  doConfirm(item) {
-    this.translateService.get('Agregar?').subscribe(
-      value => {
-        // value is our translated string
-         this.tituloAlert = value;
-      }
-    )
-    this.translateService.get('Desea agregar a esta persona como amigo?').subscribe(
-      value => {
-        // value is our translated string
-         this.mensajeAlert = value;
-      }
-    )
-    this.translateService.get('Si').subscribe(
-      value => {
-        // value is our translated string
-         this.siAlert = value;
-      }
-    )
+/**
+ * Metodo para agregar un usuario
+ * @param item Nombre del usuario a agregar
+ */
+doConfirm(item) {
+  this.translateService.get('Agregar?').subscribe(value => {this.tituloAlert = value;})
+  this.translateService.get('Desea agregar a esta persona como amigo?').subscribe(value => {this.mensajeAlert = value;})
+  this.translateService.get('Si').subscribe(value => {this.siAlert = value;})
     let confirm = this.alerCtrl.create({
       title: this.tituloAlert,
       message: this.mensajeAlert,
