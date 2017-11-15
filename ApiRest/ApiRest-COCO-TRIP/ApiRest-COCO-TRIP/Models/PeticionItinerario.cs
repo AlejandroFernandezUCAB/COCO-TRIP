@@ -539,13 +539,7 @@ namespace ApiRest_COCO_TRIP.Models
             lugar.Nombre = pgread.GetString(4);
             lugar.Descripcion = pgread.GetString(5);
             lugar.Tipo = "Lugar Turistico";
-            /*
-            if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
-            {
-              lugar.FechaInicio = pgread.GetDateTime(5);
-              lugar.FechaFin = pgread.GetDateTime(6);
-            }
-            */
+            
             itinerarios[itinerarios.Count - 1].Items_agenda.Add(lugar);
           }
 
@@ -556,16 +550,20 @@ namespace ApiRest_COCO_TRIP.Models
             actividad.Nombre = pgread.GetString(6);
             actividad.Descripcion = pgread.GetString(7);
             actividad.Tipo = "Actividad";
-            /*
-            if ((!pgread.IsDBNull(5)) && (!pgread.IsDBNull(6)))
-            {
-              actividad.FechaInicio = pgread.GetDateTime(5);
-              actividad.FechaFin = pgread.GetDateTime(6);
-            }
-            */
+            
             itinerarios[itinerarios.Count - 1].Items_agenda.Add(actividad);
           }
-          //Falta el caso de que sea un evento...
+
+          //Si existe eventos en este registro.
+          if (!pgread.IsDBNull(8))
+          {
+            dynamic evento = new System.Dynamic.ExpandoObject();
+            evento.Nombre = pgread.GetString(8);
+            evento.Descripcion = pgread.GetString(9);
+            evento.Tipo = "Evento";
+
+            itinerarios[itinerarios.Count - 1].Items_agenda.Add(evento);
+          }
         }
         con.Desconectar();
         return itinerarios;
@@ -599,9 +597,9 @@ namespace ApiRest_COCO_TRIP.Models
       //PeticionLogin peticion;
       //peticion = new PeticionLogin();
 
-      string lugarturistico = "l";
-      string actividad = "a";
-      string evento = "e";
+      string lugarturistico = "";
+      string actividad = "";
+      string evento = "";
 
       try
       {
@@ -615,24 +613,32 @@ namespace ApiRest_COCO_TRIP.Models
           {
             switch (objeto.Tipo) {
               case "Lugar Turistico":
-                lugarturistico = lugarturistico + objeto.Nombre + objeto.Descripcion;
+                lugarturistico = lugarturistico + "{0}" +
+                                  objeto.Nombre + "{0}" +
+                                  objeto.Descripcion;
                 break;
 
               case "Actividad":
-                actividad = actividad + objeto.Nombre + objeto.Descripcion; ;
+                actividad = actividad + "{0}" +
+                            objeto.Nombre + "{0}" +
+                            objeto.Descripcion; ;
                 break;
 
               case "Evento":
-                evento = evento + objeto.Nombre + objeto.Descripcion;
+                evento = evento + "{0}" +
+                          objeto.Nombre + "{0}" +
+                          objeto.Descripcion;
                 break;
             }
           }
         }
-        
-        Body_Correo = "Contenido de su itinerario /n" +
-          lugarturistico + "/n" +
-          actividad + "/n" +
-          evento + "/n";
+       
+        Body_Correo = string.Format(" Hola " + usuario.NombreUsuario + ", {0}   Este es un correo para recordarte tu agenda en CocoTrip {0}" +
+          "     Contenido de su itinerario:{0}" +
+          "       Lugares Turisticos agendados:{0}" + lugarturistico + "{0}{0}{0}" +
+          "       Actividades agendadas:{0}" + actividad + "{0}{0}{0}" +
+          "       Eventos agendadas:{0}" + evento + "{0}{0}{0}", Environment.NewLine);
+
 
         MailMessage mail = new MailMessage();
         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");

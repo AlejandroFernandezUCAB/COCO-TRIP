@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { EventosCalendarioService } from '../../services/eventoscalendario';
 import { HttpCProvider } from '../../providers/http-c/http-c';
 import { TranslateService } from '@ngx-translate/core';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import 'rxjs/add/observable/throw';
 import { Storage } from '@ionic/storage';
 
@@ -60,9 +61,7 @@ export class ItinerarioPage {
     private storage: Storage
   )
   {
-    for (let x = 0; x < 5; x++) {
-      this.items.push(x);
-    }
+
   }
 /**************************************************************************************
 /*************************** METODOS DE LA CLASE **************************************
@@ -584,9 +583,21 @@ ionview
    **/
   public agregarItem(iti)
   {
-    let modal = this.modalCtrl.create('ItemModalPage', {itinerario: iti});
-    modal.present();
-    modal.onDidDismiss(data => {
+    console.log(iti.FechaInicio);
+    console.log(iti.FechaFin);
+    if ((iti.FechaInicio=='0001-01-01T00:00:00')||(iti.FechaFin=='0001-01-01T00:00:00'))
+    {
+      if (this.translateService.currentLang == 'es'){
+        this.realizarToast('El itinerario aun no tiene fechas, por favor ingreselas y vuelvalo a intentar');
+      }else{
+        this.realizarToast('The itinerary does not have dates yet, please select them and try again');
+      }
+    }
+    else
+    {
+      let modal = this.modalCtrl.create('ItemModalPage', {itinerario: iti});
+      modal.present();
+      modal.onDidDismiss(data => {
       if (data) {
         let eventoData = data;
         let itinerario_nuevo = data.itinerario;
@@ -608,6 +619,7 @@ ionview
       }
     })
   }
+}
 
   /** Metodo: verItem
       Descripcion: Metodo para presentar la modal para ver detalle de un item del itinerario
@@ -629,7 +641,11 @@ ionview
       this.httpc.verItem(evento.Id,evento.Tipo).then(data =>{
         if (data== 0 || data == -1){
           this.loading.dismiss();
-          this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+          if (this.translateService.currentLang == 'es'){
+            this.realizarToast('Servicio no disponible. Por favor intente mas tarde :(');
+          }else{
+            this.realizarToast('Service not currently available. Please try again later');
+          }
         }else{
           this.loading.dismiss();
           evento1 = data;
