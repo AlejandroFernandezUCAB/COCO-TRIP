@@ -215,20 +215,34 @@ namespace BackOffice_COCO_TRIP.Controllers
                       contador++;
                     }
 
+                    var temporal = new List<Horario>();
+
                     foreach (var horario in lugar.Horario)
                     {
                         if(horario.HoraApertura == new TimeSpan() && horario.HoraCierre == new TimeSpan())
                         {
-                          lugar.Horario.Remove(horario);
+                          temporal.Add(horario);
                         }
                     }
+
+                    foreach( var eliminar in temporal)
+                    {
+                      lugar.Horario.Remove(eliminar);
+                    }
+
+                    var temporalDos = new List<Actividad>();
 
                     foreach (var actividad in lugar.Actividad)
                     {
                         if(string.IsNullOrEmpty(actividad.Nombre))
                         {
-                          lugar.Actividad.Remove(actividad);
+                          temporalDos.Add(actividad);
                         }
+                    }
+
+                    foreach (var eliminar in temporalDos)
+                    {
+                        lugar.Actividad.Remove(eliminar);
                     }
 
                     var respuestaInsercion = peticion.PostLugar(lugar);
