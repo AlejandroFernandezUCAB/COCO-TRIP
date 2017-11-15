@@ -349,7 +349,13 @@ namespace ApiRest_COCO_TRIP.Models
 
       return result;
     }
-
+    /// <summary>
+    /// Metodo que verifica que exista una solicitud o que ya
+    /// exista la amistad
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <param name="nombreAmigo">Nombre de usuario del amigo</param>
+    /// <returns></returns>
     public int ExisteSolicitud(int idUsuario, string nombreAmigo)
     {
       int respuesta = -1;
@@ -534,7 +540,7 @@ namespace ApiRest_COCO_TRIP.Models
     public List<Grupo> ConsultarPerfilGrupo(int dato)
     {
       var listagrupo = new List<Grupo>();
-      //var grupo = new Grupo();
+  
       try
       {
         conexion.Conectar();
@@ -1067,6 +1073,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// <summary>
     /// Metodo para obtener el ultimo grupo agregado de un usuario
     /// </summary>
+    /// <param name="IdUsuario">Identificador del usuario</param>
     /// <returns>Ultimo grupo agregado de un usuario</returns>
 public int ObtenerultimoGrupo(int IdUsuario)
     {

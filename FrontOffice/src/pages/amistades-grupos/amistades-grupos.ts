@@ -4,11 +4,21 @@ import { AmigosPage } from '../amistades-grupos/amigos/amigos';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { NotificacionesPage } from '../amistades-grupos/notificaciones/notificaciones';
 import { TranslateModule } from '@ngx-translate/core';
+
+//****************************************************************************************************// 
+//**************************************PAGE DE TABS MODULO 3*****************************************//
+//****************************************************************************************************//  
+
 /**
- * Generated class for the AmistadesGruposPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * Carga las tabs
  */
 
 @IonicPage()
@@ -18,8 +28,6 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class AmistadesGruposPage {
 
-  // this tells the tabs component which Pages
-  // should be each tab's root Page
   tab1Root: any = NotificacionesPage;
   tab2Root: any = GruposPage;
   tab3Root: any = AmigosPage;

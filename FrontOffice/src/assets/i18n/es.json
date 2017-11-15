@@ -1,4 +1,10 @@
 {
+    "Registrarse":"Registrarse",
+    "Iniciar Sesión": "Iniciar Sesión",
+    "Con Google":"Con Google",
+    "Con Facebook": "Con Facebook",
+    "¿Olvidaste tu contraseña?": "¿Olvidaste tu contraseña?",
+    "Correo o Usuario":"Correo o Usuario",
 
     "Inicio":"Inicio",
     "Eventos y Actividades":"Eventos y Actividades",
@@ -65,9 +71,10 @@
     "Fecha Inicio": "Fecha Inicio",
     "Fecha Fin": "Fecha Fin",
     "Mis Itinerarios": "Mis Itinerarios",
-    "Notificaciones" : "Notificaciones",
+    "Notificaciones de Itinerarios" : "Notificaciones de Itinerarios",
     "Correo Electrónico": "Correo Electrnónico",
     "Itinerarios del Calendario" : "Itinerarios del Calendario",
+    "eventos":"eventos",
 
     "Amigos" : "Amigos",
     "Grupos" : "Grupos",
@@ -90,7 +97,7 @@
     "Aceptar" : "Aceptar",
     "Declinar" : "Declinar",
     "Mensaje agregar" : "Se le ha enviado una notificación al usuario",
-    
+
     "Por favor, Confirmar" : "Por favor, Confirmar",
     "Eliminado Exitosamente" : "Eliminado Exitosamente",
     "Cancelar" : "Cancelar",
@@ -110,7 +117,8 @@
     "Agregar?" : "Add?",
     "Desea agregar a esta persona como amigo?" : "Do you want to add this person as a friend?",
     "Por favor, espere" : "Please, wait",
-    
-    "Grupo Exitoso":"Grupo Agregado Exitosamente"
+
+    "Grupo Exitoso":"Grupo Agregado Exitosamente",
+    "Sin Resultados": "- Sin Resultados -"
 
 }
