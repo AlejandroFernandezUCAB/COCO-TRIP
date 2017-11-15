@@ -19,12 +19,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -175,7 +172,7 @@
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\LocalidadEvento.cs" />
     <Compile Include="Models\LugarTuristicoPreferencia.cs" />
-    <Compile Include="Models\PeticionAmigoGrupo.cs" />
+    <Compile Include="Models\BaseDeDatos\PeticionAmigoGrupo.cs" />
     <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionItinerario.cs" />
     <Compile Include="Models\PeticionLocalidadEvento.cs" />
