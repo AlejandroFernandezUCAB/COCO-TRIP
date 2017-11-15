@@ -11,7 +11,8 @@ namespace BackOffice_COCO_TRIP.Controllers
 {
   public class M8EventsController : Controller
   {
-    private PeticionCategoria peticion = new PeticionCategoria();
+    private PeticionCategoria peticionCategoria = new PeticionCategoria();
+    private PeticionM8_Localidad peticionLocalidad = new PeticionM8_Localidad();
     // GET: M8Events
     public ActionResult Index()
     {
@@ -27,36 +28,44 @@ namespace BackOffice_COCO_TRIP.Controllers
     // GET: M8Events/Create
     public ActionResult CreateEvent(int id = -1)
     {
-      //buscar categorias para el select
-      /*IList<Categories> MyList = new List<Categories>(){
-                new Categories(){Id=1, Name="UK"},
-                new Categories(){Id=2, Name="VE"}
-          };
-      */
       ViewBag.Title = "Categorías";
-      IList<Categories> MyList = null;
+      IList<Categories> listaCategorias = null;
+      IList<LocalidadEvento> listaLocalidades = null;
       try
       {
-        JObject respuesta = peticion.Get(id);
-        if (respuesta.Property("data") != null)
+        JObject respuestaCategoria = peticionCategoria.Get(id);
+        JObject respuestaLocalidad = peticionLocalidad.GetAll();
+        if (respuestaCategoria.Property("data") != null)
         {
-          MyList = respuesta["data"].ToObject<List<Categories>>();
+          listaCategorias = respuestaCategoria["data"].ToObject<List<Categories>>();
         }
 
         else
         {
-          MyList = new List<Categories>();
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+          listaCategorias = new List<Categories>();
+          ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen Categorias");
         }
 
-        TempData["listaCategorias"] = MyList;
+        if (respuestaLocalidad.Property("dato") != null)
+        {
+          listaLocalidades = respuestaLocalidad["dato"].ToObject<List<LocalidadEvento>>();
+        }
+
+        else
+        {
+          listaLocalidades = new List<LocalidadEvento>();
+          ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen localidades");
+        }
+
+        TempData["listaLocalidad"] = listaLocalidades;
       }
       catch (Exception e)
       {
 
         throw e;
       }
-      ViewBag.MyList = MyList;
+      ViewBag.ListCategoria = listaCategorias;
+      ViewBag.ListLocalidades = listaLocalidades;
       return View();
     }
 
