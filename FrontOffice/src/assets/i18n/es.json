@@ -71,9 +71,10 @@
     "Fecha Inicio": "Fecha Inicio",
     "Fecha Fin": "Fecha Fin",
     "Mis Itinerarios": "Mis Itinerarios",
-    "Notificaciones" : "Notificaciones",
+    "Notificaciones de Itinerarios" : "Notificaciones de Itinerarios",
     "Correo Electrónico": "Correo Electrnónico",
     "Itinerarios del Calendario" : "Itinerarios del Calendario",
+    "eventos":"eventos",
 
     "Amigos" : "Amigos",
     "Grupos" : "Grupos",
@@ -96,7 +97,7 @@
     "Aceptar" : "Aceptar",
     "Declinar" : "Declinar",
     "Mensaje agregar" : "Se le ha enviado una notificación al usuario",
-    
+
     "Por favor, Confirmar" : "Por favor, Confirmar",
     "Eliminado Exitosamente" : "Eliminado Exitosamente",
     "Cancelar" : "Cancelar",
