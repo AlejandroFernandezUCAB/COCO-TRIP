@@ -19,7 +19,7 @@ import { Storage } from '@ionic/storage';
 export class ConfigPage {
 
   idioms: any[] = [];
-  isToggled:boolean;
+  isToggled:boolean = true;
   nombreUsuario;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private translateService: TranslateService, private storage: Storage)
@@ -35,7 +35,7 @@ export class ConfigPage {
         label: 'Ingles'
       }
     ];
-    this.isToggled = true;
+   // this.isToggled = true;
   }
 
   choose(lang) {
@@ -44,7 +44,7 @@ export class ConfigPage {
     this.translateService.use(lang);
   }
 
-  ionViewWillLoad() {
+  ionViewDidLoad() {
     console.log('ionViewDidLoad ConfigPage');
     this.nombreUsuario = this.navParams.data.NombreUsuario;
           // cargamos la configuracion almacenada de notificaciones

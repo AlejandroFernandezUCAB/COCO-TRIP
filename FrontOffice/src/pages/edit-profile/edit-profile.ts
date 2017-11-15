@@ -114,6 +114,7 @@ export class EditProfilePage {
     
     const toast = this.toastCtrl.create({
       message: result ,
+      duration: 2000,
       showCloseButton: true,
       closeButtonText: 'Ok'
     });
