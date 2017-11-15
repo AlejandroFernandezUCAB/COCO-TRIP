@@ -262,6 +262,12 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     }
 
+    /// <summary>
+    /// Valida un usuario segun su id y correo
+    /// </summary>
+    /// <param name="email">Correo del usuario</param>
+    /// /// <param name="datos">id del usuario</param>
+    /// <returns>Un mensaje informando al usuario que ha sido validado</returns>
     [HttpGet]
     public String ValidarUsuario(String email, int id)
     {

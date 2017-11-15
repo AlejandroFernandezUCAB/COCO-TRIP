@@ -31,14 +31,13 @@ $$ LANGUAGE plpgsql;
 -- Inserta el usuario con los datos de Facebook
 -- Devuelve el id del usuario
 CREATE OR REPLACE FUNCTION InsertarUsuarioFacebook
-(_nombre VARCHAR(30), _apellido VARCHAR(30), _fechaNacimiento date, _correo VARCHAR(30),
- _foto bytea)
+(_nombre VARCHAR(30), _apellido VARCHAR(30), _correo VARCHAR(30))
 RETURNS integer AS
 $$
 BEGIN
 
-   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_fechanacimiento, us_email, us_foto, us_validacion) VALUES
-    (nextval('seq_Usuario'), _nombre, _apellido, _fechaNacimiento, _correo, _foto, false);
+   INSERT INTO usuario (us_id,us_nombre, us_apellido, us_email, us_validacion) VALUES
+    (nextval('seq_Usuario'), _nombre, _apellido, _correo, false);
 
    RETURN currval('seq_Usuario');
 
@@ -86,7 +85,7 @@ BEGIN
 	RETURN QUERY SELECT
 	us_id, us_nombreUsuario, us_email, us_nombre, us_apellido, us_fechanacimiento,us_genero,us_foto
 	FROM usuario
-	WHERE us_email=_correo AND _clave = us_password AND us_validacion= true;
+	WHERE us_email=_correo AND  us_password=_clave  AND us_validacion= true;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -184,7 +183,8 @@ BEGIN
 	SELECT lu_nombre, lu_costo, lu_descripcion, lu_direccion, ca_nombre
   FROM usuario, preferencia, categoria, lugar_turistico, lt_c
   WHERE 
-	 (pr_usuario =_idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = id_lugar_turistico);
+	 (pr_usuario =_idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (id_categoria = pr_categoria) and (lu_id = id_lugar_turistico)
+   limit 20;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -199,15 +199,17 @@ RETURNS TABLE(
   hora_fin TIME,
   precio  INTEGER,
   descripcion VARCHAR,
+  foto_evento  VARCHAR,
   nombre_local VARCHAR,
   categoria_nombre VARCHAR	
 ) AS $$
 BEGIN
   RETURN QUERY 
-	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion, lo_nombre, ca_nombre
+	 SELECT ev_nombre, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_precio, ev_descripcion,ev_foto, lo_nombre, ca_nombre
 	 FROM usuario, preferencia, categoria,evento,localidad
 	 WHERE 
-	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual);
+	  (pr_usuario = _idUsuario) and (us_id=_idUsuario) and (pr_categoria = ca_id) and (ev_categoria= ca_id)and (ev_localidad = lo_id) and (ev_fecha_inicio >= _fechaActual)
+    limit 20;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -228,7 +230,7 @@ CREATE OR REPLACE FUNCTION ActualizarUsuario(_nombreUsuario VARCHAR(20), _nombre
 RETURNS void AS
 $$
 BEGIN
-	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, _genero = us_genero, us_email=_correo, us_password=_clave, us_foto =_foto
+	UPDATE usuario SET us_nombreusuario=_nombreUsuario, us_nombre =_nombre, us_apellido= _apellido, us_fechanacimiento =_fechaNacimiento, us_genero = _genero , us_email=_correo, us_password=_clave, us_foto =_foto
 	WHERE us_email=_correo;
 END;
 $$ LANGUAGE plpgsql;
@@ -1748,20 +1750,20 @@ $$ LANGUAGE plpgsql;
 
 -------------------------------------------
 
-CREATE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
+CREATE OR REPLACE FUNCTION m9_agregarcategoria(nombrecategoria character varying, descripcioncategoria character varying, nivel integer, status boolean) RETURNS void
     LANGUAGE plpgsql
     AS $$
     BEGIN
       INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS)
-          VALUES (nextval('secuencia_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
+          VALUES (nextval('seq_categoria'), nombrecategoria, descripcioncategoria, nivel, status);
     END; $$;
 
-CREATE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
+CREATE OR REPLACE FUNCTION m9_agregarsubcategoria(nombresubcategoria character varying, descripcionsubcat character varying, nivel integer, status boolean, categoriapadre integer) RETURNS void
     LANGUAGE plpgsql
     AS $$
     BEGIN
         INSERT INTO CATEGORIA (CA_ID, CA_NOMBRE, CA_DESCRIPCION, CA_NIVEL, CA_STATUS, CA_FKCATEGORIASUPERIOR)
-              VALUES (nextval('secuencia_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
+              VALUES (nextval('seq_categoria'), nombresubcategoria, descripcionsubcat, nivel, status, categoriapadre);
     END; $$;
 
 CREATE OR REPLACE function m9_devolverid(nombrecategoria VARCHAR(50)) RETURNS TEXT AS
@@ -1786,13 +1788,13 @@ $$ LANGUAGE plpgsql;
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
 CREATE FUNCTION m9_modificarcategoria
-(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _categoriapadre integer)
+(_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _nivel integer, _categoriapadre integer)
 RETURNS integer
     AS $$
     BEGIN
         UPDATE categoria
         SET
-        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre
+        ca_nombre=_nombre, ca_descripcion=_descripcion, ca_fkcategoriasuperior=_categoriapadre,ca_nivel=_nivel
         WHERE ca_id=_id;
         return 1;
 
@@ -1855,6 +1857,31 @@ BEGIN
   RETURN NEXT;
    END LOOP;
 END; $$
+  LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION m9_ObtenerCategoriaPorId(idCategoria INT)
+  RETURNS TABLE
+  (
+
+      categoria_id integer ,
+      categoria_nombre character varying(20) ,
+      categoria_descripcion character varying(100),
+      categoria_status boolean ,
+      categoria_nivel integer,
+      categoria_fkcategoriasuperior integer
+
+  )
+  AS
+  $$
+  BEGIN
+
+    RETURN QUERY
+    SELECT ca_id,ca_nombre,ca_descripcion,ca_status,ca_nivel, ca_fkcategoriasuperior
+     FROM categoria
+    WHERE ca_id=idCategoria;
+  END;
+  $$
   LANGUAGE plpgsql;
 
 
