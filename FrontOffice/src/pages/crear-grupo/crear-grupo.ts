@@ -4,13 +4,23 @@ import{ModificarGrupoPage} from '../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
+
+//****************************************************************************************************// 
+//**********************************PAGE AGREGAR INTEGRANTES MODULO 3*********************************//
+//****************************************************************************************************//  
+
 /**
- * Generated class for the CrearGrupoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
  */
 
+/**
+ * Descripcion de la clase:
+ * Carga la lista de amigos de un usuario
+ * Para agregarlos a un grupo
+ */
 @IonicPage()
 @Component({
   selector: 'page-crear-grupo',
@@ -41,6 +51,11 @@ export class CrearGrupoPage {
     window.open(url);
 }
 
+/**
+ * Metodo que carga un loading controller al iniciar 
+ * la lista de amigos
+ * (Por favor espere/ please wait)
+ */
 cargando(){
   this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
   this.loading = this.loadingCtrl.create({
@@ -50,7 +65,9 @@ cargando(){
   this.loading.present();
 }
 
-
+/**
+ * Metodo que carga la lista de amigos apenas se abre la vista
+ */
   ionViewWillEnter() {
     this.cargando();
 
@@ -71,6 +88,10 @@ cargando(){
      });
  }
 
+ /**
+ * Metodo que despliega un toast
+ * @param mensaje Texto para el toast
+ */
  realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
@@ -80,6 +101,11 @@ cargando(){
   this.toast.present();
 }
 
+/**
+ * Metodo que agrega un usuario de la lista de amigos
+ * @param event evento
+ * @param nombreUsuario Nombre del usuario a ser agregado
+ */
   agregarIntegrantes(event,nombreUsuario){
     this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
     this.translateService.get('Deseas Agregar a:').subscribe(value => {this.message = value;})
@@ -110,6 +136,10 @@ cargando(){
       alert.present();
  }
 
+ /**
+  * Metodo que hace pop a las page anteriores y devuelve a la pagina inicial
+  * @param event evento
+  */
  finalizar(event)
  {this.translateService.get('Grupo Exitoso').subscribe(value => {this.succesful = value;})
  this.realizarToast(this.succesful);

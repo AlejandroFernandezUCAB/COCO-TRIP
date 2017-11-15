@@ -72,6 +72,7 @@ export class ItemModalPage {
             this.http.ConsultarEventos(this.searchTerm, this.FechaInicio, this.FechaFin).then(
               data =>{
               if (data==0 || data==-1){
+                console.log("hubo un error");
               }else{
                 this.items = data;
               }
@@ -83,6 +84,7 @@ export class ItemModalPage {
               this.http.ConsultarLugarTuristico(this.searchTerm).then(data=>
               {
                 if (data==0 || data==-1){
+                  console.log("hubo un error");
                 }else{
                   this.items = data;
                 }
@@ -94,6 +96,7 @@ export class ItemModalPage {
                 this.http.ConsultarActividades(this.searchTerm).then(data=>
                 {
                   if (data==0 || data==-1){
+                    console.log("hubo un error");
                   }else{
                     this.items = data;
                   }
@@ -128,7 +131,6 @@ export class ItemModalPage {
     }
 
   agregarItem(item_id){
-    //ARREGLAR ESTO
         let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){

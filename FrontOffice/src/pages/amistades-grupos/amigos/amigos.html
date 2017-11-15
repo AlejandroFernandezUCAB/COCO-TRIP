@@ -4,32 +4,32 @@
             <ion-icon name="menu"></ion-icon>
           </button>
       <ion-title>
-        {{ 'Mis Amigos' | translate }} 
+        {{ 'Mis Amigos' | translate }}
       </ion-title>
     </ion-navbar>
   </ion-header>
-  
+
   <ion-content padding>
     <ion-list >
-      <ion-item *ngFor="let item of amigo ; let i = index" (tap)="tapEvent($event)">
+      <ion-item *ngFor="let item of amigo ; let i = index" (tap)="tapEvent(item.NombreUsuario)">
         <ion-avatar item-left>
-            <img src="https://maxcdn.icons8.com/Share/icon/Food//cherry1600.png">
+            <img src="assets/images/profile.png">
         </ion-avatar>
         <h2>{{item.Nombre}} {{item.Apellido}}</h2>
         <h3>{{item.NombreUsuario}}</h3>
-      
-         
-      <button ion-button small icon-only clear *ngIf="delete" 
-      style="width:auto; display: flex; margin-top: 0px;" 
-      (click)="eliminarAmigo(item.NombreUsuario, i)"> 
+
+
+      <button ion-button small icon-only clear *ngIf="delete"
+      style="width:auto; display: flex; margin-top: 0px;"
+      (click)="eliminarAmigo(item.NombreUsuario, i)">
       <ion-icon name="remove" style="width:100%" color="danger">
       </ion-icon>
       <p style="color: red; font-size: smaller;">
         {{ 'Eliminar Amigo' | translate }}</p>
       </button>
-      <button ion-button small icon-only clear *ngIf="detail" 
-      style="width:auto; display: flex; margin-top: 0px;" 
-      (click)="verPerfil(item.NombreUsuario)"> 
+      <button ion-button small icon-only clear *ngIf="detail"
+      style="width:auto; display: flex; margin-top: 0px;"
+      (click)="verPerfil(item.NombreUsuario)">
       <ion-icon name="remove" style="width:100%" color="blue">
       </ion-icon>
       <p style="color: blue; font-size: smaller;">
@@ -43,7 +43,7 @@
         <ion-icon name="more"></ion-icon>
       </button>
       <ion-fab-list side="top">
-        
+
         <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" style="color: white" color="twcs" (click)="agregarAmigo()">
           <ion-icon name="add"></ion-icon>
         </button>
@@ -56,4 +56,3 @@
       </ion-fab-list>
     </ion-fab>
   </ion-content>
-  

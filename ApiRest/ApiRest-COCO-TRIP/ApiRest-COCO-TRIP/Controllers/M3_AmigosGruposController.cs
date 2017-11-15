@@ -31,7 +31,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario1">ID del usuario que esta usando la aplicacion y desea agregar un amigo</param>
     /// <param name="idUsuario2">ID del usuario que sera agregado</param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPut]
     public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
     {
       try
@@ -855,6 +855,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 /// <summary>
 /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
 /// </summary>
+/// <param name="idUsuario">Identificador del usuario</param>
 /// <returns>Ultimo grupo agregado de un usuario</returns>
 [HttpGet]
     public int ConsultarultimoGrupo(int idUsuario)
