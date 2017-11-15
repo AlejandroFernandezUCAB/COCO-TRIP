@@ -217,6 +217,11 @@ CREATE TABLE categoria
   ca_fkcategoriasuperior integer,
   ca_nivel integer
 );
+INSERT INTO public.categoria(
+            ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, 
+            ca_nivel)
+    VALUES (0, 'test', 'test', true);
+
 --Fin de modulo 9
 
 --ALTERS

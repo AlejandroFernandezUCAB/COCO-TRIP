@@ -10,6 +10,8 @@ using Npgsql;
 using Newtonsoft.Json;
 using System.Web.Http;
 using System.Net;
+using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRestPruebas.M1
 {
@@ -18,19 +20,22 @@ namespace ApiRestPruebas.M1
   {
     private Usuario usuario;
     private Usuario usuariof;
-    private Usuario usuarioFace;
     private EventoPreferencia evento1;
-    private EventoPreferencia evento2;
     private PeticionLogin peticion = new PeticionLogin();
+    private PeticionPerfil peticionPerfil = new PeticionPerfil();
+    private PeticionLugarTuristico peticionLugarTuristico = new PeticionLugarTuristico();
+    private ConexionLugarTuristico conexionLugarTuristico = new ConexionLugarTuristico();
+    private PeticionEvento peticionEvento = new PeticionEvento();
     private M1_LoginController controlador = new M1_LoginController();
     private DateTime fechaPrueba;
     private int global;
     private int globalf;
+    private LugarTuristico lt = new LugarTuristico();
     private LugarTuristicoPreferencia lugarTuristico1;
-    private LugarTuristicoPreferencia lugarTuristico2;
-    private LugarTuristicoPreferencia lugarTuristico3;
-    private LugarTuristicoPreferencia lugarTuristico4;
-    private LugarTuristicoPreferencia lugarTuristico5;
+    private Evento eve = new Evento();
+    private LocalidadEvento localidad = new LocalidadEvento();
+    private Categoria categoria = new Categoria();
+    private PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
 
     [SetUp]
     public void SetPrueba()
@@ -58,7 +63,7 @@ namespace ApiRestPruebas.M1
 
       evento1 = new EventoPreferencia
       {
-        NombreEvento = "predespachil",
+        NombreEvento = "predespachill",
         FechaInicio = new DateTime (2019, 12, 12, 0, 0, 0),
         FechaFin = new DateTime(2019, 12, 13, 0, 0, 0),
         HoraInicio = new TimeSpan(20, 0, 0),
@@ -70,33 +75,65 @@ namespace ApiRestPruebas.M1
         NombreCategoria = "bar"
 
       };
-      evento2 = new EventoPreferencia
-      {
-        NombreEvento = "birrazo",
-        FechaInicio = new DateTime(2018, 12, 12, 0, 0, 0),
-        FechaFin = new DateTime(2018, 12, 13, 0, 0, 0),
-        HoraInicio = new TimeSpan(20, 0, 0),
-        HoraFin = new TimeSpan(23, 0, 0),
-        Precio = 5000,
-        Descripcion = "tomar birras para recaudar fondos para la ucab",
-        NombreLocal = "Birras Bistro",
-        LocalFotoRuta = "rc.jpg",
-        NombreCategoria = "bar"
 
-      };
       lugarTuristico1 = new LugarTuristicoPreferencia
       {
         NombreLT = "Playa Pelua",
         Costo = 0,
-        Descripcion = "Farandu lLaya",
-        Direccion = "la guaria",
+        Descripcion = "Farandu Playa",
+        Direccion = "la guaira",
         LugarFotoRuta = "pelua.jpg",
         NombreCategoria= "bar"
 
       };
+      eve = new Evento {
+        Nombre = "predespachill",
+        Descripcion= "pre despacho antes de beber en holic",
+        Precio= 5000,
+        FechaInicio = new DateTime(2019, 12, 12, 0, 0, 0),
+        FechaFin = new DateTime(2019, 12, 13, 0, 0, 0),
+        HoraInicio= new DateTime().AddHours(20),
+        HoraFin = new DateTime().AddHours(23),
+        Foto = "predespachill.jpg",
+        IdLocalidad = 1,
+        IdCategoria = 1
+      };
+      categoria = new Categoria {
+        Nombre = "bar",
+        Descripcion = "Lugar para beber",
+        Estatus = true,
+        CategoriaSuperior =0,
+        Nivel =0,
+
+      };
+      localidad = new LocalidadEvento {
+        Nombre="Holic",
+        Descripcion="Bar y discoteca",
+        Coordenadas = "5.5"
+      };
+      lt = new LugarTuristico
+      {
+        Nombre = "Plata Pelua",
+        Costo = 0,
+        Descripcion = "Farandu Playa",
+        Direccion = "la guaira",
+        Correo = "correo@msn.com",
+        Telefono = 2893517,
+        Latitud = 5.3,
+        Longitud = 5.4,
+        Activar = true,
+        Categoria = new List<Categoria> {
+          categoria
+        }
+
+    };
       globalf = peticion.InsertarUsuarioFacebook(usuariof);
       global = peticion.InsertarUsuario(usuario);
-      //globalEveHome =
+      peticion.InsertarCategoria(categoria);
+      peticionPerfil.AgregarPreferencia(usuario.Id, categoria.Id);
+      peticionLocalidadEvento.AgregarLocalidadEvento(localidad);
+      peticionEvento.AgregarEvento(eve);
+
     }
 
     [TearDown]
@@ -104,7 +141,10 @@ namespace ApiRestPruebas.M1
 
       peticion.EliminarUsuario(global);
       peticion.EliminarUsuario(globalf);
-
+      peticionPerfil.EliminarPreferencia(usuario.Id, categoria.Id);
+      peticionEvento.EliminarEvento(eve.Id);
+      peticionLocalidadEvento.EliminarLocalidadEvento(localidad.Id);
+      peticion.EliminarCategoria(categoria.Id);
     }
     [Test]
     [Category("Insertar")]
@@ -474,40 +514,8 @@ namespace ApiRestPruebas.M1
     /// Prueba de caso exitoso en ConsultarEventosSegunPreferencias
     /// que se encuentra en el modelo  PeticionLogin.cs
     /// </summary>
-    [Test]
-    [Category("Consultar")]
-    public void TestEventosSegunPreferenciasMod() {
-      List<EventoPreferencia> listaEventoprueba = new List<EventoPreferencia>();
-      listaEventoprueba = peticion.ConsultarEventosSegunPreferencias(1, fechaPrueba);
-
-      fechaPrueba = new DateTime(2017, 03, 09);
-      Assert.AreEqual(evento1.NombreEvento, listaEventoprueba[0].NombreEvento);
-      Assert.AreEqual(evento1.FechaInicio, listaEventoprueba[0].FechaInicio);
-      Assert.AreEqual(evento1.FechaFin, listaEventoprueba[0].FechaFin);
-      Assert.AreEqual(evento1.HoraInicio, listaEventoprueba[0].HoraInicio);
-      Assert.AreEqual(evento1.HoraFin, listaEventoprueba[0].HoraFin);
-      Assert.AreEqual(evento1.Precio, listaEventoprueba[0].Precio);
-      Assert.AreEqual(evento1.Descripcion, listaEventoprueba[0].Descripcion);
-      Assert.AreEqual(evento1.NombreLocal, listaEventoprueba[0].NombreLocal);
-      Assert.AreEqual(evento1.LocalFotoRuta, listaEventoprueba[0].LocalFotoRuta);
-      Assert.AreEqual(evento1.NombreCategoria, listaEventoprueba[0].NombreCategoria);
-
-      Assert.AreEqual(evento2.NombreEvento, listaEventoprueba[1].NombreEvento);
-      Assert.AreEqual(evento2.FechaInicio, listaEventoprueba[1].FechaInicio);
-      Assert.AreEqual(evento2.FechaFin, listaEventoprueba[1].FechaFin);
-      Assert.AreEqual(evento2.HoraInicio, listaEventoprueba[1].HoraInicio);
-      Assert.AreEqual(evento2.HoraFin, listaEventoprueba[1].HoraFin);
-      Assert.AreEqual(evento2.Precio, listaEventoprueba[1].Precio);
-      Assert.AreEqual(evento2.Descripcion, listaEventoprueba[1].Descripcion);
-      Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
-      Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
-      Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
-    }
-    /// <summary>
-    /// Prueba de caso exitoso en EventoSegunPreferenciass
-    /// que se encuentra en el controllador  M1_LoginController.cs
-    /// </summary>
-    [Test]
+ 
+   /* [Test]
     [Category("Consultar")]
     public void TestEventosSegunPreferenciasControler()
     {
@@ -525,17 +533,6 @@ namespace ApiRestPruebas.M1
       Assert.AreEqual(evento1.NombreLocal, listaEventoprueba[0].NombreLocal);
       Assert.AreEqual(evento1.LocalFotoRuta, listaEventoprueba[0].LocalFotoRuta);
       Assert.AreEqual(evento1.NombreCategoria, listaEventoprueba[0].NombreCategoria);
-
-      Assert.AreEqual(evento2.NombreEvento, listaEventoprueba[1].NombreEvento);
-      Assert.AreEqual(evento2.FechaInicio, listaEventoprueba[1].FechaInicio);
-      Assert.AreEqual(evento2.FechaFin, listaEventoprueba[1].FechaFin);
-      Assert.AreEqual(evento2.HoraInicio, listaEventoprueba[1].HoraInicio);
-      Assert.AreEqual(evento2.HoraFin, listaEventoprueba[1].HoraFin);
-      Assert.AreEqual(evento2.Precio, listaEventoprueba[1].Precio);
-      Assert.AreEqual(evento2.Descripcion, listaEventoprueba[1].Descripcion);
-      Assert.AreEqual(evento2.NombreLocal, listaEventoprueba[1].NombreLocal);
-      Assert.AreEqual(evento2.LocalFotoRuta, listaEventoprueba[1].LocalFotoRuta);
-      Assert.AreEqual(evento2.NombreCategoria, listaEventoprueba[1].NombreCategoria);
     }
 
     /// <summary>
@@ -554,7 +551,7 @@ namespace ApiRestPruebas.M1
       Assert.AreEqual(lugarTuristico1.Direccion, listaLT[0].Direccion);
       Assert.AreEqual(lugarTuristico1.LugarFotoRuta, listaLT[0].LugarFotoRuta);
       Assert.AreEqual(lugarTuristico1.NombreCategoria, listaLT[0].NombreCategoria);
-    }
+    }*/
 
 
   }
