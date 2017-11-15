@@ -300,9 +300,9 @@ eveSegunPreferencias(idUser){
     });
    }
 
-//****************************************************************************************************// 
+//****************************************************************************************************//
 //*************************************METODOS DEL MODULO 3*******************************************//
-//****************************************************************************************************//    
+//****************************************************************************************************//
 /**
  * [MODULO3]
  * Metodo para obtener la lista de amigos
@@ -560,7 +560,7 @@ agregarAmigo(idUsuario,nombreAmigo) {
  * @param nombreAmigo Nombre del usuario al que se desea agregar
  * @param correoAmigo Correo del usuario al que se desea agregar
  */
-enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {  
+enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {
   return new Promise(resolve => {
     this.http.put(this.apiUrl+'/M3_AmigosGrupos/EnviarNotificacionCorreo/?nombreUsuarioRecibe='+nombreAmigo
     +'&correoElectronico='+correoAmigo +'&idUsuarioEnvia='+idUsuario,"")
@@ -572,16 +572,16 @@ enviarCorreo(idUsuario,nombreAmigo,correoAmigo) {
         console.log("Ocurrio un error");
       });
   });
-} 
+}
 
 /**
-* [MODULO 3] 
-* Metodo para agregar el grupo 
+* [MODULO 3]
+* Metodo para agregar el grupo
 * @param idusuario id del usuario logeado
 * @param nombre nombre de grupo
 * @param foto foto del grupo
 */
-agregarGrupo(idusuario,nombre,foto,) {  
+agregarGrupo(idusuario,nombre,foto,) {
  return new Promise(resolve => {
    this.http.put(this.apiUrl+'/M3_AmigosGrupos/AgregarGrupo/?nombre='+nombre+'&foto='+foto+'&idusuario='+idusuario,"")
      .map(res => res.json())
@@ -675,8 +675,8 @@ agregarIntegrante(idGrupo,nombreAmigo) {
  * @param idGrupo Identificador del grupo
  * @param idUsuario Identificador del usuario
  */
-verificarLider(idGrupo, idUsuario) 
-{  
+verificarLider(idGrupo, idUsuario)
+{
   return new Promise(resolve => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/VerificarLider/?idGrupo='+idGrupo
     +'&idUsuario='+idUsuario,"")
@@ -694,10 +694,10 @@ verificarLider(idGrupo, idUsuario)
  * [MODULO 3]
  * Metodo para obtener al usuario lider
  * @param idGrupo identificador del grupo
- * @param idUsuario identificador del usuario 
+ * @param idUsuario identificador del usuario
  */
-obtenerLider(idGrupo, idUsuario) 
-{  
+obtenerLider(idGrupo, idUsuario)
+{
   return new Promise(resolve => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarLider/?idGrupo='+idGrupo
     +'&idUsuario='+idUsuario,"")
@@ -716,8 +716,8 @@ obtenerLider(idGrupo, idUsuario)
  * Metodo que obtiene la lista de integrantes, sin el integrante lider
  * @param idGrupo identificador del grupo
  */
-obtenerSinLider(idGrupo) 
-{  
+obtenerSinLider(idGrupo)
+{
   return new Promise(resolve => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembrosSinLider/?idGrupo='+idGrupo,"")
       .map(res => res.json())
@@ -736,8 +736,8 @@ obtenerSinLider(idGrupo)
  * @param idUsuario Identificador de usuario
  * @param idGrupo Identificador del grupo
  */
-obtenerMiembrosSinGrupo(idUsuario, idGrupo) 
-{  
+obtenerMiembrosSinGrupo(idUsuario, idGrupo)
+{
   return new Promise(resolve => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarMiembrosSinGrupo/?idUsuario='+idUsuario
     +'&idGrupo='+idGrupo,"")
@@ -755,8 +755,8 @@ obtenerMiembrosSinGrupo(idUsuario, idGrupo)
  * Metodo que obtiene el ultimo grupo agregado por un usuario
  * @param idUsuario Identificador del usuario
  */
-obtenerultimoGrupo(idUsuario) 
-{  
+obtenerultimoGrupo(idUsuario)
+{
   return new Promise(resolve => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarultimoGrupo/?idUsuario='+idUsuario,"")
       .map(res => res.json())
@@ -769,9 +769,9 @@ obtenerultimoGrupo(idUsuario)
   });
 }
 
-//****************************************************************************************************// 
+//****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
-//****************************************************************************************************//   
+//****************************************************************************************************//
 
 
 }
