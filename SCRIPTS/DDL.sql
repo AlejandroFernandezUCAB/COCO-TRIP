@@ -13,6 +13,22 @@ drop SEQUENCE SEQ_Usuario;
 --Fin de modulo
 --Creates Tables
 
+--Modulo 9
+CREATE TABLE categoria
+(
+  ca_id integer UNIQUE NOT NULL,
+  ca_nombre character varying(500) UNIQUE not null,
+  ca_descripcion character varying(2000) not null,
+  ca_status boolean default true not null,
+  ca_fkcategoriasuperior integer,
+  ca_nivel integer
+);
+--Fin de modulo
+--Modulo 9
+ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
+ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
+
+--Fin de modulo
 --Modulo 1
 CREATE TABLE USUARIO (
     us_id		integer,
@@ -208,15 +224,7 @@ create table localidad(
 );
 --Fin de modulo
 --Modulo 9
-CREATE TABLE categoria
-(
-  ca_id integer UNIQUE NOT NULL,
-  ca_nombre character varying(500) UNIQUE not null,
-  ca_descripcion character varying(2000) not null,
-  ca_status boolean default true not null,
-  ca_fkcategoriasuperior integer,
-  ca_nivel integer
-);
+
 
 INSERT INTO public.categoria(
             ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, 
@@ -251,8 +259,7 @@ alter table evento add constraint fk_categoria foreign key (ev_categoria) refere
 alter table evento add constraint fk_localidad foreign key (ev_localidad) references localidad (lo_id) on delete cascade;
 --Fin de modulo
 --Modulo 9
-ALTER TABLE ONLY categoria ADD CONSTRAINT categoria_pkey PRIMARY KEY (ca_id);
-ALTER TABLE ONLY categoria ADD CONSTRAINT pk_categoriapadre FOREIGN KEY (ca_fkcategoriasuperior) REFERENCES categoria(ca_id);
+
 --Fin de modulo
 
 --SEQUENCES
