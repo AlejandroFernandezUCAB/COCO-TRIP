@@ -67,7 +67,7 @@ namespace ApiRest_COCO_TRIP.Models
             catch (BaseDeDatosExcepcion e)
             {
                 e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-                e.Mensaje = "Problemas en la base de datos, en Insertar Evento";
+                e.Mensaje = "Problemas en la base de datos, en Peticion Insertar Evento";
                 throw e;
             }
             return respuesta;
