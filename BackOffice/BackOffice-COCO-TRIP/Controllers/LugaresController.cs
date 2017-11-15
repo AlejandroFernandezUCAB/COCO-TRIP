@@ -215,6 +215,21 @@ namespace BackOffice_COCO_TRIP.Controllers
                       contador++;
                     }
 
+                    foreach (var horario in lugar.Horario)
+                    {
+                        if(horario.HoraApertura == new TimeSpan() && horario.HoraCierre == new TimeSpan())
+                        {
+                          lugar.Horario.Remove(horario);
+                        }
+                    }
+
+                    foreach (var actividad in lugar.Actividad)
+                    {
+                        if(string.IsNullOrEmpty(actividad.Nombre))
+                        {
+                          lugar.Actividad.Remove(actividad);
+                        }
+                    }
 
                     var respuestaInsercion = peticion.PostLugar(lugar);
 
@@ -471,18 +486,23 @@ namespace BackOffice_COCO_TRIP.Controllers
               {
                 return RedirectToAction("PageDown"); //Error del servicio web
               }
-
-              var listaActividad = JsonConvert.DeserializeObject<List<Actividad>>(respuesta);
-
-              foreach (var actividad in listaActividad)
+              else if (respuesta != HttpStatusCode.NotFound.ToString())
               {
-                actividad.Foto.Ruta = peticion.DireccionBase + actividad.Foto.Ruta;
+                var listaActividad = JsonConvert.DeserializeObject<List<Actividad>>(respuesta);
+
+                foreach (var actividad in listaActividad)
+                {
+                  actividad.Foto.Ruta = peticion.DireccionBase + actividad.Foto.Ruta;
+                }
+
+                listaActividad[0].Id = id;
+
+                return View(listaActividad);
               }
-
-              listaActividad[0].Id = id;
-
-              return View(listaActividad);
-
+              else
+              {
+                  return View();
+              }
             }
             catch (SocketException)
             {
