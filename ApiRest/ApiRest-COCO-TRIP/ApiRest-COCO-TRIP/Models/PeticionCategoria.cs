@@ -233,8 +233,8 @@ namespace ApiRest_COCO_TRIP
         {
           //categories = listaCategorias.Where(s => s.Id == id).First();
           IList<Categoria> Listacategoria = peticion.ObtenerTodasLasCategorias();
-          var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).First();
-          if (hijos == null)
+          var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
+          if (hijos.Count == 0)
           {
             conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
             conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
@@ -261,8 +261,8 @@ namespace ApiRest_COCO_TRIP
 
       catch (PostgresException ex)
       {
-      
-        
+
+
         throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
 
       }
@@ -329,16 +329,16 @@ namespace ApiRest_COCO_TRIP
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
         conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
 
-        
-                     if (categoria.CategoriaSuperior == 0)
-                {
-                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
 
-                }
-                else
-                {
-                    conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
-                }
+        if (categoria.CategoriaSuperior == 0)
+        {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
+
+        }
+        else
+        {
+          conexion.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
+        }
 
         exitoso = conexion.Comando.ExecuteNonQuery();
 
