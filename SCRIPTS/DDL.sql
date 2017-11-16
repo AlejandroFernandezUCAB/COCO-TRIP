@@ -102,7 +102,7 @@ CREATE TABLE Itinerario
     CONSTRAINT pk_Itinerario PRIMARY KEY (it_id),
     CONSTRAINT fk_idUsuario FOREIGN KEY (it_idUsuario)
         REFERENCES Usuario (us_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+        ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 CREATE TABLE Agenda
