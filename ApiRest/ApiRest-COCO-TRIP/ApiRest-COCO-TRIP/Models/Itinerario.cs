@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Models.Dato;
+
 using Npgsql;
 using System.Data;
 
@@ -15,9 +16,6 @@ namespace ApiRest_COCO_TRIP.Models
      DateTime fechaFin;
     Boolean visible;
     List<dynamic> items_agenda = new List<dynamic>();
-    /* List<LugarTuristico> lugares= new List<LugarTuristico>();
-     List<Actividad> actividades = new List<Actividad>(); */
-    //List<Evento> eventos = new List<Evento>();
     public int Id { get => id; set => id = value; }
     public int IdUsuario { get => idUsuario; set => idUsuario = value; }
     public string Nombre { get => nombre; set => nombre = value; }
@@ -25,9 +23,6 @@ namespace ApiRest_COCO_TRIP.Models
     public DateTime FechaFin { get => fechaFin; set => fechaFin = value; }
     public List<dynamic> Items_agenda { get => items_agenda; set => items_agenda = value; }
     public bool Visible { get => visible; set => visible = value; }
-
-    /*public List<LugarTuristico> Lugares { get => lugares; set => lugares = value; }
-public List<Actividad> Actividades { get => actividades; set => actividades = value; } */
 
     public Itinerario()
     {

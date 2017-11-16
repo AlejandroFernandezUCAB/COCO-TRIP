@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Net;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
 using Npgsql;
