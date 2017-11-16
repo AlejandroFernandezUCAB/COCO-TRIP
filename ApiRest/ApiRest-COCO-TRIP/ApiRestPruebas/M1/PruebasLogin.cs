@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Controllers;
@@ -138,13 +141,12 @@ namespace ApiRestPruebas.M1
 
       peticion.EliminarUsuario(global);
       peticion.EliminarUsuario(globalf);
-      /*
-      peticionPerfil.EliminarPreferencia(usuario.Id, categoria.Id);
+     /* peticionPerfil.EliminarPreferencia(usuario.Id, categoria.Id);
       peticionEvento.EliminarEvento(eve.Id);
       peticionLocalidadEvento.EliminarLocalidadEvento(localidad.Id);
       peticion.EliminarCategoria(categoria.Id);
       */
-      }
+    }
     [Test]
     [Category("Insertar")]
     public void TestInsertarUsuarioFacebook()
