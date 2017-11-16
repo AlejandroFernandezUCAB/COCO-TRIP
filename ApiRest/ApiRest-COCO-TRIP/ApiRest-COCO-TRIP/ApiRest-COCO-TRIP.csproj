@@ -177,7 +177,7 @@
     <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionItinerario.cs" />
     <Compile Include="Models\PeticionLocalidadEvento.cs" />
-    <Compile Include="Models\BaseDeDatos\PeticionLogin.cs" />
+    <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionPerfil.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\PeticionCategoria.cs" />

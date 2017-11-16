@@ -5,10 +5,6 @@ import { Platform, ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ChatProvider } from '../../providers/chat/chat';
 import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
-
-
 
 
 /**
@@ -24,27 +20,28 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
   templateUrl: 'chat.html',
 })
 export class ChatPage {
-  nombreUsuario: string;
-  amigo: any;
   listachatRec: Array<chats> = [
-    {img: 'assets/img/image1.jpeg', nombre: this.nombreUsuario, msg: 'Acabo de salir de un gran concierto...'}
+    {img: 'https://pbs.twimg.com/profile_images/854769171326017536/dwsgeSUR_400x400.jpg', nombre: 'Ana', msg: '¡Adoro este sitio!'},
+    {img: 'https://pbs.twimg.com/profile_images/3101201902/3d557cb152d2be8810e65cc4f04610b0_400x400.jpeg', nombre: 'Darío', msg: 'Me encantó conocer este lugar.'},
+    {img: 'assets/img/image1.jpeg', nombre: 'Javier', msg: 'Acabo de salir de un gran concierto...'}
   ];
-  pushPage: any ;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, public chatService: ChatProvider, private storage: Storage, public restapiService: RestapiService) {
-
-  let idUsuario     //Obtiene ID de Usuario
-  this.storage.get('id').then((val) => {
-    idUsuario = val;
-  });
+  listachatOn: Array<chats> = [
+    {img: 'https://pbs.twimg.com/profile_images/920120145347010561/0oup_HVP_400x400.jpg', nombre: 'Erbin', msg: 'COCO-TRIP maneja excelentemente mi itinerario'},
+    {img: 'https://pbs.twimg.com/profile_images/425480087375712256/p8sgGveQ_400x400.jpeg', nombre: 'Alejandro', msg: 'Tengo un calendario organizado gracias a COCO-TRIP'},
+    {img: 'https://pbs.twimg.com/profile_images/2823397360/02c5385f5d19899df586bc9462c1d7fe_400x400.jpeg', nombre: 'Mauricio', msg: 'COCO-TRIP es una app muy segura.'},
+    {img: 'assets/img/image2.jpeg', nombre: 'Félix', msg: '¡Me encanta desarrollar para COCO-TRIP!'}
+  ];
+  pushPage: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, public chatService: ChatProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
   }
 
-  tapEvent(item){
+  tapEvent(){
     this.navCtrl.push(ConversacionPage, {
-      nombreUsuario : item
+      lista: this.listachatRec
     });
   }
 
