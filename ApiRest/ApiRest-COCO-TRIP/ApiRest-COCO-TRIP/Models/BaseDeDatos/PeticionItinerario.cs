@@ -130,7 +130,12 @@ namespace ApiRest_COCO_TRIP.Models
               con.Desconectar();
               throw cast;
             }
-        }
+            catch (Exception e)
+            {
+              con.Desconectar();
+              throw e;
+            }
+    }
 
 
 
@@ -169,6 +174,11 @@ namespace ApiRest_COCO_TRIP.Models
         con.Desconectar();
         throw cast;
       }
+      catch (Exception e)
+      {
+        con.Desconectar();
+        throw e;
+      }
     }
 
     /// <summary>
@@ -200,6 +210,11 @@ namespace ApiRest_COCO_TRIP.Models
             throw e;
           }
           catch (InvalidCastException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+          catch (Exception e)
           {
             con.Desconectar();
             throw e;
@@ -255,7 +270,12 @@ namespace ApiRest_COCO_TRIP.Models
             con.Desconectar();
             throw e;
           }
-        }
+          catch (Exception e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+    }
 
         /// <summary>returns
         /// Metodo que agrega en la base de datos un nuevo itinerario
@@ -294,6 +314,11 @@ namespace ApiRest_COCO_TRIP.Models
             con.Desconectar();
             throw e;
           }
+          catch (Exception e)
+          {
+            con.Desconectar();
+            throw e;
+          }
 
     }
 
@@ -322,8 +347,13 @@ namespace ApiRest_COCO_TRIP.Models
               con.Desconectar();
               throw e;
             }
+            catch (Exception e)
+            {
+              con.Desconectar();
+              throw e;
+             }
 
-        }
+    }
 
         /// <summary>
         /// Metodo que modifica un itinerario de la base de datos
@@ -354,6 +384,11 @@ namespace ApiRest_COCO_TRIP.Models
             throw e;
           }
           catch (InvalidCastException e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+          catch (Exception e)
           {
             con.Desconectar();
             throw e;
@@ -392,6 +427,12 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
+        con.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        con.Desconectar();
         throw e;
       }
     }
@@ -428,9 +469,15 @@ namespace ApiRest_COCO_TRIP.Models
           }
           catch (NpgsqlException e)
           {
+            con.Desconectar();
             throw e;
           }
-        }
+          catch (Exception e)
+          {
+            con.Desconectar();
+            throw e;
+          }
+    }
 
     /// <summary>
     ///  Consulta los lugares turisticos por nombre, o similiares.
@@ -466,6 +513,12 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
+        con.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        con.Desconectar();
         throw e;
       }
     }
@@ -499,6 +552,12 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
+        con.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        con.Desconectar();
         throw e;
       }
     }
@@ -576,15 +635,23 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException sql)
       {
+        con.Desconectar();
         throw sql;
       }
       catch (ArgumentException arg)
       {
+        con.Desconectar();
         throw arg;
       }
       catch (InvalidCastException cast)
       {
+        con.Desconectar();
         throw cast;
+      }
+      catch (Exception e)
+      {
+        con.Desconectar();
+        throw e;
       }
     }
 
@@ -662,21 +729,30 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException)
       {
+        con.Desconectar();
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (InvalidCastException)
       {
+        con.Desconectar();
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
 
       catch (ArgumentNullException)
       {
+        con.Desconectar();
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
 
       catch (HttpResponseException)
       {
+        con.Desconectar();
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (Exception e)
+      {
+        con.Desconectar();
+        throw e;
       }
       return "Exitoso";
     }
@@ -718,6 +794,11 @@ namespace ApiRest_COCO_TRIP.Models
         con.Desconectar();
         throw e;
       }
+      catch (Exception e)
+      {
+        con.Desconectar();
+        throw e;
+      }
 
     }
 
@@ -742,6 +823,11 @@ namespace ApiRest_COCO_TRIP.Models
         return resp;
       }
       catch (NpgsqlException e)
+      {
+        con.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
       {
         con.Desconectar();
         throw e;
@@ -781,6 +867,11 @@ namespace ApiRest_COCO_TRIP.Models
         con.Desconectar();
         throw e;
       }
+      catch (Exception e)
+      {
+        con.Desconectar();
+        throw e;
+      }
     }
 
     /// <summary>
@@ -808,10 +899,17 @@ namespace ApiRest_COCO_TRIP.Models
       }
       catch (NpgsqlException e)
       {
+        con.Desconectar();
         throw e;
       }
       catch(System.InvalidOperationException e)
       {
+        con.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        con.Desconectar();
         throw e;
       }
     }

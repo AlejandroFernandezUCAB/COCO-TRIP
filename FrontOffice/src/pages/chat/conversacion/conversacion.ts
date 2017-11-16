@@ -58,13 +58,13 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 
 }
 
-/*
+
 tapEvent1(item){
   this.navCtrl.push(VisualizarPerfilPage, {
     nombreUsuario : item
   }); //PERMITE VER EL PERFIL DEL AMIGO
 }
-*/
+
 
 tapEvent2(){
   let alert = this.alertCtrl.create({ //ESTA ES UNA ALERTA DE FUNCIONALIDAD
@@ -154,14 +154,14 @@ pressEvent1(){
     this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idUsuario,this.idAmigo);
     this.content.scrollToBottom();
     this.nuevoMensaje = '';
-  
+
   }
 
   agregarMensajeGrupo() {
     this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario);
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
-    
+
   }
 
   ionViewDidEnter() {

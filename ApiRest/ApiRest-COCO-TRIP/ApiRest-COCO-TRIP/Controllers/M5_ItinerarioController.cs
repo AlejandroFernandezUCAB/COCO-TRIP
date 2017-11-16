@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Net;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
 using Npgsql;
@@ -36,6 +37,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
+      }
     }
 
    
@@ -50,6 +55,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return false;
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
 
@@ -70,6 +79,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
+      }
     }
     
     [HttpGet]
@@ -82,6 +95,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (NpgsqlException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
 
@@ -100,6 +117,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
+      }
     }
 
     
@@ -110,7 +131,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return peti.ConsultarItinerarios(id_usuario);
       }
-      catch (NpgsqlException e)
+      catch (NpgsqlException )
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -118,12 +139,14 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      catch (InvalidCastException e)
+      catch (InvalidCastException )
       {
-        throw e;
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
-
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
+      }
     }
 
      [HttpGet]
@@ -177,6 +200,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
+      }
     }
 
 
@@ -191,6 +218,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         return false;
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
 
@@ -211,6 +242,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (InvalidCastException)
       {
         throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (Exception)
+      {
+        throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
 

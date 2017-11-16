@@ -24,31 +24,7 @@
       Conversaciones Recientes
     </ion-list-header>
 
-    <ion-item *ngFor="let item of listachatRec" (press)="pressEvent($event)" (tap)="tapEvent($event)">
-      <ion-avatar item-start class="test2">
-        <img src="{{item.img}}">
-      </ion-avatar>
-      <h2>{{item.nombre}}</h2>
-      <p>{{item.msg}}</p>
-      <ion-note item-end>12:34 pm</ion-note>
-
-     <!-- <ion-item-options> ESTO ES PARA EL SLIDE ESTILO WHATSAPP PARA ELIMINAR EL CHAT
-        <button ion-button icon-only (tap)="deleteConvo(item)" danger>
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item-options> -->
-
-    </ion-item>
-
-  </ion-list>
-
-  <ion-list>
-
-    <ion-list-header>
-      En línea
-    </ion-list-header>
-
-    <ion-item *ngFor="let item of listachatOn" (press)="pressEvent($event)" (tap)="tapEvent($event)">
+    <ion-item *ngFor="let item of listachatRec" (press)="pressEvent($event)" (click)="tapEvent(item.NombreUsuario)">
       <ion-avatar item-start class="test2">
         <img src="{{item.img}}">
       </ion-avatar>
