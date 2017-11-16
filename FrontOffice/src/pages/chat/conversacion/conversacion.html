@@ -1,37 +1,36 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="arrow-back"></ion-icon>
-    </button>
-    <ion-title class="test" (tap)="tapEvent1($event)" item-start>
-      <img src="https://pbs.twimg.com/profile_images/854769171326017536/dwsgeSUR_400x400.jpg" height="45px" width="45px">
-      Ana
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content>
-
-  <ion-list no-lines>
-    <ion-item *ngFor = "let msg of mensajes" (press)="pressEvent1($event)">
-      <p class="triangle-right left">{{msg.contenido}}</p>
-      <ion-note class ="time" item-end>{{msg.tiempo}}</ion-note>
-    </ion-item>
-  </ion-list>
-
-</ion-content>
-
-<ion-footer>
-
-  <ion-toolbar>
-    <ion-item>
-     <!-- <ion-label class="nomargin"></ion-label> -->
-    <ion-textarea placeholder="Escribe tu mensaje" class="msgcontent"></ion-textarea>
-    </ion-item>
-    <ion-buttons right large>
-      <button class="sendbutton" (tap)="tapEvent2($event)">
-        <ion-icon name="send" color="light" class="resized"></ion-icon>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="arrow-back"></ion-icon>
       </button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
+      <ion-title class="test" (click)="tapEvent1(item.NombreUsuario)" item-start>
+        <img src="https://pbs.twimg.com/profile_images/854769171326017536/dwsgeSUR_400x400.jpg" height="45px" width="45px">
+        {{item.NombreUsuario}}
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content>
+
+    <ion-list no-lines>
+      <ion-item *ngFor = "let msg of mensajes" (press)="pressEvent1($event)">
+        <p class="triangle-right left">{{msg.contenido}}</p>
+        <ion-note class ="time" item-end>{{msg.tiempo}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+  <ion-footer>
+
+    <ion-toolbar>
+      <ion-item>
+       <!-- <ion-label class="nomargin"></ion-label> -->
+      <ion-textarea placeholder="Escribe tu mensaje" class="msgcontent"></ion-textarea>
+      </ion-item>
+      <ion-buttons right large>
+        <button class="sendbutton" (tap)="tapEvent2($event)">
+          <ion-icon name="send" color="light" class="resized"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
