@@ -192,10 +192,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         {
           archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
 
         return actividad.Id;
       }
@@ -330,10 +330,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         {
           archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
 
         return foto.Id;
       }
@@ -496,10 +496,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
           archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
       }
       catch (NpgsqlException e)
       {
@@ -608,10 +608,10 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 
           archivo.EscribirArchivo(foto.Contenido, "lt-fo-" + foto.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
       }
       catch (NpgsqlException e)
       {
