@@ -2082,10 +2082,6 @@ BEGIN
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION consultarlocalidadesconeventosasignados()
-  OWNER TO postgres;
 
 --elimina localidad por su id
 
