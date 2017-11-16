@@ -61,11 +61,11 @@ export class AmigosPage {
   }
 
 
-  tapEvent(item) {
+  /*tapEvent(item) {
     this.navCtrl.push(ConversacionPage,{
       nombreUsuario : item
     });
-  }
+  }*/
 
 /**
  * Metodo que carga un loading controller al iniciar
@@ -91,7 +91,7 @@ export class AmigosPage {
       this.restapiService.listaAmigos(val)
       .then(data => {
         if (data == 0 || data == -1) {
-        
+
           this.loading.dismiss();
         }
         else {
