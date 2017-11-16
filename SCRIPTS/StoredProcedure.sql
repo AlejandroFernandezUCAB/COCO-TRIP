@@ -2057,7 +2057,7 @@ END;
 $BODY$
 LANGUAGE plpgsql volatile;
  --Lista de todas las localidades
-CREATE OR REPLACE FUNCTION consultarlocalidades()
+/*CREATE OR REPLACE FUNCTION consultarlocalidades()
   RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
 $BODY$
 BEGIN
@@ -2072,7 +2072,7 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION consultarlocalidadesconeventosasignados()
   OWNER TO postgres;
-
+*/
 --elimina localidad por su id
 
 CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
