@@ -61,11 +61,9 @@ export class AmigosPage {
   }
 
 
-  /*tapEvent(item) {
-    this.navCtrl.push(ConversacionPage,{
-      nombreUsuario : item
-    });
-  }*/
+  tapEvent() {
+
+  }
 
 /**
  * Metodo que carga un loading controller al iniciar
