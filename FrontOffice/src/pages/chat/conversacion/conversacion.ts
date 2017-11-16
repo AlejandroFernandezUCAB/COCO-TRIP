@@ -9,7 +9,6 @@ import { ChatProvider } from '../../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @IonicPage()
 @Component({
     selector: 'page-conversacion',

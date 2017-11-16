@@ -10,7 +10,6 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 
 
 
-
 /**
  * Generated class for the ChatPage page.
  *
