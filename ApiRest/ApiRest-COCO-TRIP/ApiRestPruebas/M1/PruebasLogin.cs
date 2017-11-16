@@ -363,7 +363,7 @@ namespace ApiRestPruebas.M1
       Assert.AreEqual(-3, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));
 
       usuario.NombreUsuario = "pedriviris";
-      Assert.AreEqual(4, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));//prueba unitaria de actualizar 
+      Assert.AreEqual(globalf, controlador.RegistrarUsuario(JsonConvert.SerializeObject(usuario)));//prueba unitaria de actualizar 
       usuario.NombreUsuario = "pepo";
 
       usuario.Correo = "hdms26@gmail.com";

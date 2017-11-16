@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 using ApiRest_COCO_TRIP.Models;
 using Npgsql;
 using Newtonsoft.Json;

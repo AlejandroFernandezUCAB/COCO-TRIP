@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace ApiRest_COCO_TRIP.Models
+namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   public class PeticionLogin
   {
