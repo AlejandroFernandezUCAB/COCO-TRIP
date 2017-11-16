@@ -3,8 +3,12 @@ using NpgsqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Web;
+using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Models.Dato;
 
-namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
+namespace ApiRest_COCO_TRIP.Models
 {
   public class PeticionLogin
   {
