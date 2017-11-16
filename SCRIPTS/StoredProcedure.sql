@@ -1,7 +1,5 @@
-﻿
-/**
+﻿/**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
-
 Autores:
   Carlos Valero
   Pedro Garcia
@@ -272,7 +270,6 @@ END;
 $$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
-
 Autores:
   Fernández Pedro
   Navas Ronald
@@ -401,7 +398,6 @@ $$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (3) Amistades y Grupos
-
 Autores:
   Mariangel Perez
   Oswaldo Lopez
@@ -1366,7 +1362,6 @@ $$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos
-
 Autores:
   Camacho Joaquin
   Herrera Jose
@@ -1951,7 +1946,6 @@ CREATE OR REPLACE FUNCTION m9_ObtenerCategoriaPorId(idCategoria INT)
 
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
-
 Autores:
   Noe Herrera
   Jorge Marin
@@ -2056,6 +2050,27 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
+
+-- Consulta las localidades que tienen eventos asignados
+-- devuelve la informacion de las localidades
+CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
+RETURNS TABLE
+  (
+     id integer,
+     nombreLocalidad varchar,
+     descripcionLocalidad varchar,
+     coordenada varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    from localidad, evento
+    where lo_id = ev_localidad
+    group by lo_id;
+END;
+$$ LANGUAGE plpgsql;
  --Lista de todas las localidades
 CREATE OR REPLACE FUNCTION consultarlocalidades()
   RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
@@ -2064,7 +2079,6 @@ BEGIN
   RETURN QUERY
     select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad;
-
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -2238,26 +2252,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Consulta las localidades que tienen eventos asignados
--- devuelve la informacion de las localidades
-CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
-RETURNS TABLE
-  (
-     id integer,
-     nombreLocalidad varchar,
-     descripcionLocalidad varchar,
-     coordenada varchar
-  )
-AS
-$$
-BEGIN
-  RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
-    from localidad, evento
-    where lo_id = ev_localidad
-    group by lo_id;
-END;
-$$ LANGUAGE plpgsql;
 
 
 -- Consulta una localidad por su id
