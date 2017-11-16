@@ -1818,7 +1818,7 @@ $$ LANGUAGE plpgsql;
 
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
-CREATE FUNCTION m9_modificarcategoria
+CREATE OR REPLACE FUNCTION m9_modificarcategoria
 (_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _nivel integer, _categoriapadre integer)
 RETURNS integer
     AS $$
@@ -2081,11 +2081,7 @@ BEGIN
     from localidad;
 END;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION consultarlocalidadesconeventosasignados()
-  OWNER TO postgres;
+  LANGUAGE plpgsql VOLATILE;
 
 --elimina localidad por su id
 
