@@ -119,7 +119,8 @@ namespace ApiRestPruebas.M8
     {
       LocalidadEvento localidadEvento = new LocalidadEvento("Suiza", "Europa", "Europa");
       int idLocalidadEvento = peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
-     Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
+      peticionLocalidadEvento = new PeticionLocalidadEvento();
+      Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
         localidadEvento.Nombre);
     }
       /**

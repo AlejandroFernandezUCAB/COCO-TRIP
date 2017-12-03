@@ -62,7 +62,6 @@ namespace ApiRest_COCO_TRIP.Models
                 read = comando.ExecuteReader();
                 read.Read();
                 respuesta = read.GetInt32(0);
-                conexion.Desconectar();
             }
             catch (BaseDeDatosExcepcion e)
             {
@@ -70,7 +69,12 @@ namespace ApiRest_COCO_TRIP.Models
                 e.Mensaje = "Problemas en la base de datos, en Peticion Insertar Evento";
                 throw e;
             }
-            return respuesta;
+
+      finally
+      {
+        conexion.Desconectar();
+      }
+      return respuesta;
            
     }
     /**
@@ -115,13 +119,16 @@ namespace ApiRest_COCO_TRIP.Models
             horaInicio, horaFin, read.GetString(8),categoria.Id,localidad.Id);
           list.Add(evento);
         }
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         e.Mensaje = "Problemas en la base de datos, en ListaEventosPorCategoria";
         throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
       }
       return list;
     }
@@ -154,18 +161,17 @@ namespace ApiRest_COCO_TRIP.Models
         evento.Precio = read.GetInt64(3);
         evento.FechaInicio = read.GetDateTime(4);
         evento.FechaFin = read.GetDateTime(5);
-            DateTime horaInicio = new DateTime();
-            horaInicio.AddHours(read.GetTimeSpan(6).Hours);
-            horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
+        DateTime horaInicio = new DateTime();
+        horaInicio.AddHours(read.GetTimeSpan(6).Hours);
+        horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
         evento.HoraInicio = horaInicio;
-            DateTime horaFin = new DateTime();
-            horaFin.AddHours(read.GetTimeSpan(7).Hours);
-            horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
+        DateTime horaFin = new DateTime();
+        horaFin.AddHours(read.GetTimeSpan(7).Hours);
+        horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
         evento.HoraFin = horaFin;
         evento.Foto = read.GetString(8);
         evento.IdCategoria = categoria.Id;
         evento.IdLocalidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10)).Id;
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
@@ -173,6 +179,9 @@ namespace ApiRest_COCO_TRIP.Models
         e.Mensaje = "Problemas en la base de datos, en ConsultarEvento";
 
         throw e;
+      }
+      finally {
+        conexion.Desconectar();
       }
       return evento;
     }
@@ -192,13 +201,16 @@ namespace ApiRest_COCO_TRIP.Models
         read = comando.ExecuteReader();
         read.Read();
         respuesta = read.GetBoolean(0);
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         e.Mensaje = "Problemas en la base de datos, en Eliminar Evento por iD";
         throw e;
+      }
+
+      finally {
+        conexion.Desconectar();
       }
       return respuesta;
     }
@@ -210,12 +222,12 @@ namespace ApiRest_COCO_TRIP.Models
     public List<Evento> ListaEventosPorFecha(DateTime fecha)
     {
       List<Evento> list = new List<Evento>();
-      
+
       try
       {
         comando = new NpgsqlCommand("ConsultarEventosPorFecha", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
-        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp,fecha);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, fecha);
         read = comando.ExecuteReader();
         while (read.Read())
         {
@@ -231,23 +243,26 @@ namespace ApiRest_COCO_TRIP.Models
           DateTime horaInicio = new DateTime();
           horaInicio.AddHours(read.GetTimeSpan(6).Hours);
           horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
-          
+
           DateTime horaFin = new DateTime();
           horaFin.AddHours(read.GetTimeSpan(7).Hours);
           horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
-          
+
           //Categoria categoria = peticionCategoria.ObtenerCategorias
-          Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3),read.GetDateTime(4), read.GetDateTime(5),
-            horaInicio,horaFin, read.GetString(8),categoria.Id,localidad.Id);
+          Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
+            horaInicio, horaFin, read.GetString(8), categoria.Id, localidad.Id);
           list.Add(evento);
         }
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         e.Mensaje = "Problemas en la base de datos, en ConsultarEventosPorFecha";
         throw e;
+      }
+
+      finally {
+        conexion.Desconectar();
       }
       return list;
     }

@@ -45,7 +45,7 @@ namespace ApiRest_COCO_TRIP.Models
       {
         conexion.Comando = conexion.SqlConexion.CreateCommand();
         comando = new NpgsqlCommand("InsertarLocalidad", conexion.SqlConexion);
-        
+
         comando.CommandType = CommandType.StoredProcedure;
         //Aqui se registran los valores de localidad evento
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Nombre);
@@ -53,7 +53,8 @@ namespace ApiRest_COCO_TRIP.Models
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lEvento.Coordenadas);
         read = comando.ExecuteReader();
 
-        try {
+        try
+        {
           if (read.Read())
           {
             Int32.TryParse(read.GetValue(0).ToString(), out respuesta);
@@ -63,18 +64,23 @@ namespace ApiRest_COCO_TRIP.Models
             throw new ItemNoEncontradoException($"No se encontro el evento con el nombre {lEvento.Nombre}");
           }
         }
-        catch (System.InvalidCastException e) {
+        catch (System.InvalidCastException e)
+        {
           Console.WriteLine(e.Message);
         }
+
+
+
         
-
-
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
+      }
+
+      finally {
+        conexion.Desconectar();
       }
       
       return respuesta;
@@ -93,12 +99,16 @@ namespace ApiRest_COCO_TRIP.Models
         read = comando.ExecuteReader();
         read.Read();
         respuesta = read.GetBoolean(0);
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
       }
       return respuesta;
     }
@@ -120,13 +130,17 @@ namespace ApiRest_COCO_TRIP.Models
         localidad.Nombre = read.GetString(1);
         localidad.Descripcion = read.GetString(2);
         localidad.Coordenadas = read.GetString(3);
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      finally
+      {
+        conexion.Desconectar();
+      }
+
       return localidad;
     }
 
@@ -144,12 +158,16 @@ namespace ApiRest_COCO_TRIP.Models
         localidad.Nombre = read.GetString(1);
         localidad.Descripcion = read.GetString(2);
         localidad.Coordenadas = read.GetString(3);
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
       }
       return localidad;
     }
@@ -169,13 +187,17 @@ namespace ApiRest_COCO_TRIP.Models
           LocalidadEvento localidad = new LocalidadEvento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3));
           localidades.Add(localidad);
         }
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
       }
+      finally
+      {
+        conexion.Desconectar();
+      }
+
       return localidades;
     }
 
@@ -215,14 +237,16 @@ namespace ApiRest_COCO_TRIP.Models
           Console.WriteLine(e.Message);
         }
 
-
-
-        conexion.Desconectar();
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
       }
 
       return respuesta;

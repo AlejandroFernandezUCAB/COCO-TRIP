@@ -14,7 +14,7 @@ namespace ApiRestPruebas.M8
   {
     private M8_EventosController controlador;
     private PeticionEvento peticion;
-    [OneTimeSetUp]
+    [SetUp]
     public void init()
     {
       controlador = new M8_EventosController();
