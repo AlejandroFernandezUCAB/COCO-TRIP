@@ -1,3 +1,12 @@
+#map {
+	width: 400px;
+	height: 300px;
+}
+
+#coords{
+	width: 500px;
+}
+
 .navbar-side {
     height: 1641px;
 }

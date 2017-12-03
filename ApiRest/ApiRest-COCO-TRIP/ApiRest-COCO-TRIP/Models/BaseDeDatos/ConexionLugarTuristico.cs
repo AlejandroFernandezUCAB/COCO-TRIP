@@ -179,24 +179,23 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
+        leerDatos = comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          actividad.Id = leerDatos.GetInt32(0);
+        }
+
+        leerDatos.Close();
+
         if (actividad.Foto.Contenido != null)
         {
-          leerDatos = comando.ExecuteReader();
-
-          if (leerDatos.Read())
-          {
-            actividad.Id = leerDatos.GetInt32(0);
-          }
-
-          leerDatos.Close();
-
           archivo.EscribirArchivo(actividad.Foto.Contenido, nombreArchivo + actividad.Id + ".jpg");
-
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
 
         return actividad.Id;
       }
@@ -318,23 +317,23 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, archivo.Ruta + nombreArchivo));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idLugarTuristico));
 
+        leerDatos = comando.ExecuteReader();
+
+        if (leerDatos.Read())
+        {
+          foto.Id = leerDatos.GetInt32(0);
+        }
+
+        leerDatos.Close();
+
         if (foto.Contenido != null)
         {
-          leerDatos = comando.ExecuteReader();
-
-          if (leerDatos.Read())
-          {
-            foto.Id = leerDatos.GetInt32(0);
-          }
-
-          leerDatos.Close();
-
           archivo.EscribirArchivo(foto.Contenido, nombreArchivo + foto.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
 
         return foto.Id;
       }
@@ -490,15 +489,17 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, actividad.Descripcion));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Boolean, actividad.Activar));
 
+        comando.ExecuteNonQuery();
+
         if (actividad.Foto.Contenido != null)
         {
-          comando.ExecuteNonQuery();
+
           archivo.EscribirArchivo(actividad.Foto.Contenido, "ac-" + actividad.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
       }
       catch (NpgsqlException e)
       {
@@ -600,15 +601,17 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, foto.Id));
         comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto.Ruta));
 
+        comando.ExecuteNonQuery();
+
         if (foto.Contenido != null)
         {
-          comando.ExecuteNonQuery();
+
           archivo.EscribirArchivo(foto.Contenido, "lt-fo-" + foto.Id + ".jpg");
         }
-        else
-        {
-          throw new NullReferenceException("El arreglo de bytes de la foto es null");
-        }
+        //else
+        //{
+          //throw new NullReferenceException("El arreglo de bytes de la foto es null");
+        //}
       }
       catch (NpgsqlException e)
       {

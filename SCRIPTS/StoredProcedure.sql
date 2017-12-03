@@ -1,7 +1,5 @@
-﻿
-/**
+﻿/**
 Procedimientos del Modulo (1) de Login de Usuario, Registro de Usuario y Home
-
 Autores:
   Carlos Valero
   Pedro Garcia
@@ -245,9 +243,33 @@ BEGIN
 	WHERE us_id = _id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION InsertarCategoria
+(_nombreCategoria VARCHAR(20), _descripcionCategoria VARCHAR(200),
+ _status BOOLEAN, _idCategoriaSup integer,
+ _nivel integer)
+RETURNS integer AS
+$$
+BEGIN
+
+INSERT INTO categoria VALUES
+ (nextval('SEQ_Categoria'), _nombreCategoria,_descripcionCategoria,_status,_idCategoriaSup,_nivel);
+
+   RETURN currval('SEQ_Categoria');
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION EliminarCategoria(_id integer)
+RETURNS void AS
+$$
+BEGIN
+	DELETE FROM categoria
+	WHERE ca_id = _id;
+END;
+$$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (2) de Gestion de Perfil, configuración de sistema y preferencias
-
 Autores:
   Fernández Pedro
   Navas Ronald
@@ -376,7 +398,6 @@ $$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (3) Amistades y Grupos
-
 Autores:
   Mariangel Perez
   Oswaldo Lopez
@@ -1341,7 +1362,6 @@ $$ LANGUAGE plpgsql;
 /**
 Procedimientos del Modulo (7) de Gestion de Lugares Turisticos y
  Actividades en Lugares Turisticos
-
 Autores:
   Camacho Joaquin
   Herrera Jose
@@ -1798,7 +1818,7 @@ $$ LANGUAGE plpgsql;
 
 -------------------------------PROCEDIMIENTO MODIFICAR CATEGORIA DEVUELVE 1 SI ES EXICTOSO -------------
 
-CREATE FUNCTION m9_modificarcategoria
+CREATE OR REPLACE FUNCTION m9_modificarcategoria
 (_id integer,_nombre VARCHAR, _descripcion  VARCHAR, _nivel integer, _categoriapadre integer)
 RETURNS integer
     AS $$
@@ -1926,7 +1946,6 @@ CREATE OR REPLACE FUNCTION m9_ObtenerCategoriaPorId(idCategoria INT)
 
 /**
 Procedimientos del Modulo (8) de gestion de eventos y localidades de eventos
-
 Autores:
   Noe Herrera
   Jorge Marin
@@ -2031,7 +2050,28 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql volatile;
- //Lista de todas las localidades
+
+-- Consulta las localidades que tienen eventos asignados
+-- devuelve la informacion de las localidades
+CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
+RETURNS TABLE
+  (
+     id integer,
+     nombreLocalidad varchar,
+     descripcionLocalidad varchar,
+     coordenada varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY
+    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    from localidad, evento
+    where lo_id = ev_localidad
+    group by lo_id;
+END;
+$$ LANGUAGE plpgsql;
+ --Lista de todas las localidades
 CREATE OR REPLACE FUNCTION consultarlocalidades()
   RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
 $BODY$
@@ -2039,14 +2079,9 @@ BEGIN
   RETURN QUERY
     select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad;
-
 END;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION consultarlocalidadesconeventosasignados()
-  OWNER TO postgres;
+  LANGUAGE plpgsql VOLATILE;
 
 --elimina localidad por su id
 
@@ -2213,26 +2248,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Consulta las localidades que tienen eventos asignados
--- devuelve la informacion de las localidades
-CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
-RETURNS TABLE
-  (
-     id integer,
-     nombreLocalidad varchar,
-     descripcionLocalidad varchar,
-     coordenada varchar
-  )
-AS
-$$
-BEGIN
-  RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
-    from localidad, evento
-    where lo_id = ev_localidad
-    group by lo_id;
-END;
-$$ LANGUAGE plpgsql;
 
 
 -- Consulta una localidad por su id

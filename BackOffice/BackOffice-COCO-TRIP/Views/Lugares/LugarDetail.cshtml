@@ -184,7 +184,23 @@
                 Ubicaci&oacute;n
               </div>
 
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.094542477876!2d-66.84165418520169!3d10.49321309251406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x30933fb8b4931973!2sParque+General%C3%ADsimo+Francisco+De+Miranda!5e0!3m2!1ses!2s!4v1508602343473" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+              <div class="col-md-5">
+
+                <div class="col-sm-9">
+                  <input type="text" id="latitud" value="@Model.Latitud" style="display:none;"/>
+                </div>
+                
+                
+
+              </div>
+              <div class="col-md-5">
+
+                <div class="col-sm-9">
+                  <input type="text" id="longitud" value="@Model.Longitud" style="display:none;"/>
+                </div>
+              </div>
+
+          <div id="map" class="text-center"></div>
             </div>
 
           </div>
@@ -205,3 +221,8 @@
 
   </div>
 </div>
+
+@section scripts {
+  @Scripts.Render("~/bundles/Lugares_show-coordsJS")
+  @Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")
+}

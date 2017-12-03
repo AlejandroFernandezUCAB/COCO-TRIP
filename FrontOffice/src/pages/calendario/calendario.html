@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Calendario</ion-title>
+    <ion-title>{{'Calendario' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -16,11 +16,5 @@
               [type]="type"
               [options]="options"
               [format]="'YYYY-MM-DD'">
-</ion-calendar>
-
-<!-- <ion-fab bottom right>
-  <button ion-fab style="color: white;" color="primary" (click)="openCalendarConfig()">
-    <ion-icon name="cog"></ion-icon>
-  </button>
-</ion-fab> -->
+  </ion-calendar>
 </ion-content>

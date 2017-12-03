@@ -3,13 +3,15 @@ import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import 'rxjs/add/operator/map';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import {Observable} from 'rxjs/Rx';
 
 
 @Injectable()
 export class HttpCProvider {
-apiUrl = 'http://localhost:8091/api';
-  constructor(public http: HttpClient) {
+//apiUrl = 'http://localhost:8082/api';
+apiUrl = this.restapiService.apiUrl; //obtener direccion global del API Rest
+  constructor(public http: HttpClient, public restapiService: RestapiService) {
 }
 
 
