@@ -19,7 +19,7 @@ export class ItinerarioPage {
   @ViewChild(Slides) slides: Slides;
 
   //***************************** DECLARACION DE VARIABLES ***********************
-  base_url = 'http://localhost:8091';
+  base_url = 'http://localhost:8082';
   noFoto = '/Images/empty-image.png';
   items = [];
   edit = false;
@@ -143,6 +143,7 @@ export class ItinerarioPage {
                   }else{
                     this.loading.dismiss();
                     this.noIts=false;
+                    this.datos = data;
                     this.its.push({
                       Id: this.datos.Id,
                       Nombre: name,
