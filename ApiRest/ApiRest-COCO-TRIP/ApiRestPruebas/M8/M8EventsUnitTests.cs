@@ -36,8 +36,9 @@ namespace ApiRestPruebas.M8
       evento.HoraFin.AddHours(8);
       evento.Foto = "link prueba";
       evento.IdLocalidad = 1;
-      evento.IdCategoria = 1;
+      evento.IdCategoria = 5;
       int id = peticion.AgregarEvento(evento);
+      peticion = new PeticionEvento();
       Assert.AreEqual(peticion.ConsultarEvento(id).Nombre, nombre);
     }
 

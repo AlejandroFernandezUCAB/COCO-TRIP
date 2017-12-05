@@ -57,9 +57,9 @@ namespace ApiRest_COCO_TRIP.Models
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraInicio.Hour+":"+evento.HoraInicio.Minute+"00");
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraFin.Hour + ":" + evento.HoraFin.Minute + "00");
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Foto);
-                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdCategoria);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdLocalidad);
-                read = comando.ExecuteReader();
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdCategoria);
+        read = comando.ExecuteReader();
                 read.Read();
                 respuesta = read.GetInt32(0);
             }
