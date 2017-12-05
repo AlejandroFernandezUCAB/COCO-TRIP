@@ -142,13 +142,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ResponseType(typeof(IDictionary))]
     [ActionName("ListarEventos")]
     [HttpGet]
-    public IDictionary ListaEventosPorCategoria(int id_categoria)
+    public IDictionary ListaEventosPorCategoria(int id)
     {
       try
       {
 
         PeticionEvento peticionEvento = new PeticionEvento();
-        List<Evento> list = peticionEvento.ListaEventosPorCategoria(id_categoria);
+        List<Evento> list = peticionEvento.ListaEventosPorCategoria(id);
         respuesta.Add("dato", list);
       }
       catch (BaseDeDatosExcepcion e)

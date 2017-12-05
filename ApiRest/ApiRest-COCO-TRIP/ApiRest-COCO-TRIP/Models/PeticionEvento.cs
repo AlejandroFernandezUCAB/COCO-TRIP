@@ -95,18 +95,6 @@ namespace ApiRest_COCO_TRIP.Models
         read = comando.ExecuteReader();
         while (read.Read())
         {
-
-
-          //Creo un objeto de tipo categoria con un solo atributo nombre
-          //y Busco el id de la categoria
-          Categoria categoriaNombre = new Categoria();
-          categoriaNombre.Nombre = read.GetString(9);
-          PeticionCategoria peticionCategoria = new PeticionCategoria();
-          PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-          //Con el nmbre de la localidad busco el id de la misma 
-          LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(read.GetString(10));
-           Categoria categoria = peticionCategoria.ObtenerIdCategoriaPorNombre(categoriaNombre);
-          //Creo variables de tipo hora para armarlas
           DateTime horaInicio = new DateTime();
           horaInicio.AddHours(read.GetTimeSpan(6).Hours);
           horaInicio.AddMinutes(read.GetTimeSpan(6).Minutes);
@@ -116,7 +104,7 @@ namespace ApiRest_COCO_TRIP.Models
           horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
 
           Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
-            horaInicio, horaFin, read.GetString(8),categoria.Id,localidad.Id);
+            horaInicio, horaFin, read.GetString(8), read.GetInt32(9));
           list.Add(evento);
         }
       }

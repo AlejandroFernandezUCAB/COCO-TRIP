@@ -51,7 +51,7 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaConsultarEventoPorCategoria()
     {
-      int idCategoria = 1;
+      int idCategoria = 5;
       Assert.AreEqual(peticion.ListaEventosPorCategoria(idCategoria).Count(), 1);
     }
 
