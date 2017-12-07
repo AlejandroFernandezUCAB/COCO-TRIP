@@ -52,13 +52,10 @@ namespace BackOffice_COCO_TRIP.Controllers
               {
                 return RedirectToAction("PageDown");
               }
-              else if (respuesta == HttpStatusCode.NotFound.ToString())
-              {
-                return View();
-              }
-              else
+              else if (respuesta != HttpStatusCode.NotFound.ToString())
               {
                 ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
+
                 ViewBag.SubCategoria = new List<Categoria>();
 
                 foreach(var elemento in ViewBag.Categoria)
@@ -80,9 +77,14 @@ namespace BackOffice_COCO_TRIP.Controllers
                     }
                   }
                 }
+              }
+              else
+              {
+                ViewBag.Categoria = new List<Categoria>(); //No hay categorias ni sub-categorias en la base de datos
+                ViewBag.SubCategoria = new List<Categoria>();
+              }
 
                 return View();
-              }
             }
             catch (SocketException)
             {

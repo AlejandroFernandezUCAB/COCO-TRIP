@@ -61,10 +61,8 @@ export class AmigosPage {
   }
 
 
-  tapEvent(item) {
-    this.navCtrl.push(ConversacionPage,{
-      nombreUsuario : item
-    });
+  tapEvent() {
+
   }
 
 /**
@@ -91,7 +89,7 @@ export class AmigosPage {
       this.restapiService.listaAmigos(val)
       .then(data => {
         if (data == 0 || data == -1) {
-          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+
           this.loading.dismiss();
         }
         else {

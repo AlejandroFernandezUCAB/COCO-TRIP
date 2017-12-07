@@ -19,7 +19,7 @@ export class ItinerarioPage {
   @ViewChild(Slides) slides: Slides;
 
   //***************************** DECLARACION DE VARIABLES ***********************
-  base_url = 'http://localhost:8091';
+  base_url = 'http://localhost:8082';
   noFoto = '/Images/empty-image.png';
   items = [];
   edit = false;
@@ -143,7 +143,9 @@ export class ItinerarioPage {
                   }else{
                     this.loading.dismiss();
                     this.noIts=false;
+                    this.datos = data;
                     this.its.push({
+                      Id: this.datos.Id,
                       Nombre: name,
                       Items_agenda: Array()
                     })
@@ -221,6 +223,7 @@ export class ItinerarioPage {
                     this.realizarToast('No se pudo agregar el itinerario. Por favor intente mas tarde :(');
                   }else{
                     this.loading.dismiss();
+                    this.noIts=false;
                     this.datos = data;
                     this.its.push({
                       Id: this.datos.Id,
@@ -270,9 +273,11 @@ export class ItinerarioPage {
           this.httpc.eliminarItinerario(idit).then(data => {
             if (data==0 || data==-1){
               this.loading.dismiss();
+              this.delete= !this.delete;
               console.log("hubo un error");
             }else{
               this.loading.dismiss();
+              this.delete= !this.delete;
               this.eliminarItinerario(idit, index);
             }
           });
@@ -301,9 +306,11 @@ export class ItinerarioPage {
             this.httpc.eliminarItinerario(idit).then(data => {
               if (data==0 || data==-1){
                 this.loading.dismiss();
+                this.delete= !this.delete;
                 console.log("hubo un error");
               }else{
                 this.loading.dismiss();
+                this.delete= !this.delete;
                 this.eliminarItinerario(idit, index);
               }
             });
@@ -482,22 +489,42 @@ export class ItinerarioPage {
   public done()
   {
     this.delete=false;
+    if (this.translateService.currentLang == 'es'){
     for(var i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
-        this.realizarToast('Fechas Invalidas');
+        this.realizarToast('Fecha inicio debe ser menor a fecha fin');
         this.edit=true;
       }
       else
       {
         this.edit = false;
-        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:2}
+        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
         this.httpc.modificarItinerario(moditinerario).then(data=>{
         })
       }
     }
   }
+  else
+  {
+    for(var i = 0;i< this.its.length;i++) {
+      this.its[i].edit = this.its[i].Nombre;
+      if (this.its[i].FechaInicio > this.its[i].FechaFin)
+      {
+        this.realizarToast('Start date must be less than end date');
+        this.edit=true;
+      }
+      else
+      {
+        this.edit = false;
+        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
+        this.httpc.modificarItinerario(moditinerario).then(data=>{
+        })
+      }
+    }
+  }
+}
 
   /** Metodo: doneDeleting
       Descripcion: Metodo para deshabilitar las opciones de eliminacion del modulo
@@ -583,14 +610,12 @@ ionview
    **/
   public agregarItem(iti)
   {
-    console.log(iti.FechaInicio);
-    console.log(iti.FechaFin);
-    if ((iti.FechaInicio=='0001-01-01T00:00:00')||(iti.FechaFin=='0001-01-01T00:00:00'))
+    if (((iti.FechaInicio=='0001-01-01T00:00:00')||(iti.FechaFin=='0001-01-01T00:00:00'))||((iti.FechaInicio==null)||(iti.FechaFin==null)))
     {
       if (this.translateService.currentLang == 'es'){
-        this.realizarToast('El itinerario aun no tiene fechas, por favor ingreselas y vuelvalo a intentar');
+        this.realizarToast('El itinerario aun no tiene ambas fechas, por favor ingreselas y vuelvalo a intentar');
       }else{
-        this.realizarToast('The itinerary does not have dates yet, please select them and try again');
+        this.realizarToast('The itinerary does not have both dates yet, please select them and try again');
       }
     }
     else
@@ -831,7 +856,7 @@ ionview
                   this._notif.correo =data;
                   this._notif.push=false;
                   console.log(data);
-                  let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif});
+                  let modal = this.modalCtrl.create('ConfigNotificacionesItiPage', {config: this._notif, itinerarios: this.its});
                   modal.present();
                   modal.onDidDismiss(data => {
                     if (data) {
