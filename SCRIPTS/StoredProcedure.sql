@@ -2135,25 +2135,24 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorIdCategoria
 )
 RETURNS TABLE
   (
-     id integer,
-     nombreEvento varchar,
-     descripcionEvento varchar,
-     precioEvento integer,
-     fechaInicioEvento timestamp,
-     fechaFinEvento timestamp,
-     horaInicioEvento time,
-     horaFinEvento time,
-     fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+    idEvento int,
+	nombreEvento varchar,
+	descripcionEvento varchar,
+	precioEvento int,
+	fecha_inicioEvento timestamp,
+	fecha_finEvento timestamp,
+	hora_inicioEvento time,
+	hora_finEvento time,
+	fotoEvento varchar,
+	localidadEvento int
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
-    from evento, categoria, localidad
-    where ev_categoria = ca_id and ev_localidad = lo_id and ca_id = _id;
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad
+    from evento
+    where ev_categoria = _id;
 END;
 $$ LANGUAGE plpgsql;
 
