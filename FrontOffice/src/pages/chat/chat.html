@@ -23,7 +23,7 @@
         Conversaciones Recientes
       </ion-list-header>
 
-      <ion-item *ngFor="let item of listachatRec" (click)="inicializarConversacion()">
+      <ion-item *ngFor="let item of listachatRec" (tap)="inicializarConversacion()">
         <ion-avatar item-start class="test2">
           <img src="assets/images/profile.png">
         </ion-avatar>

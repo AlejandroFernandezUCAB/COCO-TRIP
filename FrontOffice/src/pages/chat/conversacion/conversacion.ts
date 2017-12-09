@@ -20,13 +20,14 @@ export class ConversacionPage {
   @ViewChild('content') content: Content;
   conversacion: any;
   nuevoMensaje: any;
-  nombreUsuario:any;
+  nombreUsuario:any={
+    NombreAmigo: 'NombreAmigo'
+  }
   idAmigo: any;
   idGrupo: any;
   idUsuario: any;
   usuario: any = {
     NombreUsuario: 'NombreUsuario'
-  
   };
   todosLosMensajes = [];
   //nombreUsuario: string;
@@ -55,8 +56,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 }
 
 ionViewWillEnter() {
-  this.nombreUsuario = this.navParams.get('nombreUsuario');
-  alert(this.nombreUsuario);
+  this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
   this.storage.get('id').then((val) => { 
     
@@ -66,7 +66,6 @@ ionViewWillEnter() {
             if(data != 0)
             {  
               this.usuario = data;
-              alert(this.usuario.NombreUsuario);
     
             }
           });
@@ -180,7 +179,7 @@ pressEvent1(){
   }*/
 
   agregarMensajeAmigo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario);
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
     this.content.scrollToBottom();
     this.nuevoMensaje = '';
 
@@ -199,7 +198,7 @@ pressEvent1(){
     }else if(this.idGrupo){
       this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
     }*/
-    this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario,this.usuario.NombreUsuario);
+    this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario.NombreAmigo,this.usuario.NombreUsuario);
 
   }
 

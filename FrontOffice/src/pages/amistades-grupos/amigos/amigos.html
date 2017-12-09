@@ -30,9 +30,9 @@
     <button ion-button small icon-only clear *ngIf="chat"
     style="width:auto; display: flex; margin-top: 0px;"
     (click)="chatAmigo(item.NombreUsuario)">
-    <ion-icon name="remove" style="width:100%" color="danger">
+    <ion-icon name="remove" style="width:100%" color="blue">
     </ion-icon>
-    <p style="color: red; font-size: smaller;">
+    <p style="color: blue; font-size: smaller;">
        Chat Amigo</p>
     </button>
     <button ion-button small icon-only clear *ngIf="detail"
@@ -61,8 +61,8 @@
       <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf" style="color: white" (click)="eliminar()">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="sf" style="color: white" (click)="verChat()">
-        <ion-icon name="trash"></ion-icon>
+      <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="verChat()">
+        <ion-icon name="chatbubbles"></ion-icon>
       </button>
     </ion-fab-list>
   </ion-fab>
