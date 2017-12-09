@@ -5,6 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { VisualizarPerfilPage } from '../../VisualizarPerfil/VisualizarPerfil';
 import * as moment from 'moment';
 import { Firebase } from '@ionic-native/firebase';
+import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { ChatProvider } from '../../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,52 +20,79 @@ export class ConversacionPage {
   @ViewChild('content') content: Content;
   conversacion: any;
   nuevoMensaje: any;
+  nombreUsuario:any;
   idAmigo: any;
   idGrupo: any;
   idUsuario: any;
+  usuario: any = {
+    NombreUsuario: 'NombreUsuario'
+  
+  };
   todosLosMensajes = [];
-  nombreUsuario: string;
+  //nombreUsuario: string;
 
 constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
-  public events: Events, public zone: NgZone, private storage: Storage) {
-
-  let idUsuario     //Obtiene ID de Usuario
+  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService) {
+ /* let idUsuario     //Obtiene ID de Usuario
   this.storage.get('id').then((val) => {
     idUsuario = val;
-  });
+  });*/
 
-  this.idAmigo = this.navParams.get('nombreUsuario');
-  this.nombreUsuario = this.idAmigo;
+  //this.idAmigo = this.navParams.get('nombreUsuario');
+ // this.nombreUsuario = this.idAmigo;
 
-  this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
-  //this.scrollto();
-  this.idUsuario =
-  this.events.subscribe('nuevoMensaje', () => {
-    this.todosLosMensajes = [];
-    this.zone.run(() => {
-      this.todosLosMensajes = this.chatService.mensajesConversacion;
-    })
-  })
+
 
  // this.firebase.getToken()
-    //.then(token => console.log(`El token push es ${token}`)) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
+    //.then(token => console.log(El token push es ${token})) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
     //.catch(error => console.log('Error obteniendo el token', error));
 
   //this.firebase.onTokenRefresh()
-    //.subscribe((token: string) => console.log(`He obtenido un nuevo token ${token}`));
+    //.subscribe((token: string) => console.log(He obtenido un nuevo token ${token}));
 
 }
 
+ionViewWillEnter() {
+  this.nombreUsuario = this.navParams.get('nombreUsuario');
+  alert(this.nombreUsuario);
+ 
+  this.storage.get('id').then((val) => { 
+    
+          this.idUsuario = val;
+          // hacemos la llamada al apirest con el id obtenido
+          this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
+            if(data != 0)
+            {  
+              this.usuario = data;
+              alert(this.usuario.NombreUsuario);
+    
+            }
+          });
+    
+        });
+  
+        this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
+        this.scrollto();
+        this.idUsuario =
+        this.events.subscribe('nuevoMensaje', () => {
+          this.todosLosMensajes = [];
+          this.zone.run(() => {
+            this.todosLosMensajes = this.chatService.mensajesConversacion;
+          })
+        })
 
+ }
+
+/*
 tapEvent1(item){
   this.navCtrl.push(VisualizarPerfilPage, {
     nombreUsuario : item
   }); //PERMITE VER EL PERFIL DEL AMIGO
-}
+}*/
 
-
+/*
 tapEvent2(){
   let alert = this.alertCtrl.create({ //ESTA ES UNA ALERTA DE FUNCIONALIDAD
     title: 'Enviar Mensaje',
@@ -80,7 +108,9 @@ tapEvent2(){
     ]
   });
   alert.present();
-}
+}*/
+
+/*
 
 pressEvent1(){
   let actionSheet = this.actionsheetCtrl.create({
@@ -147,10 +177,10 @@ pressEvent1(){
     ]
   });
   actionSheet.present();
-  }
+  }*/
 
   agregarMensajeAmigo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idUsuario,this.idAmigo);
+    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario);
     this.content.scrollToBottom();
     this.nuevoMensaje = '';
 
@@ -164,11 +194,13 @@ pressEvent1(){
   }
 
   ionViewDidEnter() {
-    if(this.idAmigo){
+    /*if(this.idAmigo){
       this.chatService.obtenerMensajesConversacionAmigo(this.idUsuario,this.idAmigo);
     }else if(this.idGrupo){
       this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
-    }
+    }*/
+    this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario,this.usuario.NombreUsuario);
+
   }
 
   scrollto() {
@@ -179,9 +211,4 @@ pressEvent1(){
 }
 
 
-
-interface msgs{
-  contenido: string;
-  tiempo: string;
-}
 

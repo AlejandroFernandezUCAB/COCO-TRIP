@@ -35,6 +35,7 @@ export class AmigosPage {
   delete= false;
   edit= false;
   detail=false;
+  chat=false;
   amigo: any;
   toast: any;
   title: any;
@@ -112,6 +113,20 @@ agregarAmigo(){
 
   this.navCtrl.push(BuscarAmigoPage);
 }
+
+verChat(){
+  this.edit=false;
+   this.detail=false;
+   this.delete=false;
+   if (this.chat==false){
+    
+        this.chat = true;
+      }
+      else{
+        this.chat=false;
+      }
+    
+ }
 
 /**
  * Metodo que coloca los textos de las cartas en false
@@ -208,6 +223,14 @@ verPerfil(item) {
       nombreUsuario : item
   });
 }
+
+chatAmigo(item) {
+  this.navCtrl.push(ConversacionPage,{
+      nombreUsuario : item
+  });
+}
+
+
 
 /**
  * Metodo que despliega un toast
