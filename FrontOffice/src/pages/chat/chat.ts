@@ -29,7 +29,10 @@ export class ChatPage {
     {img: 'assets/img/image1.jpeg', nombre: this.nombreUsuario, msg: 'Acabo de salir de un gran concierto...'}
   ];
   pushPage: any ;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, public platform: Platform, public chatService: ChatProvider, private storage: Storage, public restapiService: RestapiService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+            public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController, 
+            public platform: Platform, public chatService: ChatProvider, 
+            private storage: Storage, public restapiService: RestapiService) {
 
   let idUsuario     //Obtiene ID de Usuario
   this.storage.get('id').then((val) => {
@@ -90,8 +93,12 @@ export class ChatPage {
     actionSheet.present();
   }
 
-  inicializarConversacion(conversacion){
-    this.chatService.inicializarConversacion(conversacion);
+  inicializarConversacion(/*conversacion*/){
+    //this.chatService.inicializarConversacion(conversacion);
+    this.navCtrl.push(ConversacionPage);
+  }
+
+  abrirChat(){
     this.navCtrl.push(ConversacionPage);
   }
 }

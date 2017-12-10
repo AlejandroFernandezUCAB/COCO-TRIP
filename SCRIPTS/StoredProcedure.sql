@@ -2108,6 +2108,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorIdCategoria
 )
 RETURNS TABLE
   (
+  id_evento integer,
 	nombreEvento varchar,
 	descripcionEvento varchar,
 	precioEvento int,
@@ -2122,7 +2123,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad
     from evento
     where ev_categoria = _id;
 END;
@@ -2136,6 +2137,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
 )
 RETURNS TABLE
   (
+      id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2151,7 +2153,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT  ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT  ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ca_nombre = _nombreCategoria;
 END;
@@ -2164,7 +2166,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventos
 )
 RETURNS TABLE
   (
-   
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2180,7 +2182,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT  ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_localidad = lo_id and ev_categoria = ca_id;
 END;
@@ -2193,7 +2195,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorIdEvento
 )
 RETURNS TABLE
   (
-   
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2209,7 +2211,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT  ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ev_id = _id;
 END;
@@ -2223,7 +2225,8 @@ CREATE OR REPLACE FUNCTION ConsultarEventosPorFecha
   _fecha timestamp
 )
 RETURNS TABLE
-  (
+  ( 
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2239,7 +2242,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT ev_id,ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ev_fecha_inicio >= _fecha;
 END;
@@ -2255,6 +2258,7 @@ CREATE OR REPLACE FUNCTION ConsultarLocalidadPorId
 )
 RETURNS TABLE
   (
+     id_localidad integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
      coordenada varchar
@@ -2263,7 +2267,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_nombre, lo_descripcion, lo_coordenada
+    select lo_id,lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_id=_id;
 END;
@@ -2277,6 +2281,7 @@ CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 )
 RETURNS TABLE
   (
+     id_localidad integer,    
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
      coordenada varchar
@@ -2285,7 +2290,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_nombre, lo_descripcion, lo_coordenada
+    select lo_id,lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_nombre=_nombreLocalidad;
 END;
