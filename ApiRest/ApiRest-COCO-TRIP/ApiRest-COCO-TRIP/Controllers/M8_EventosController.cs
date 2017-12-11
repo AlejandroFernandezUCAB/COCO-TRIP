@@ -81,7 +81,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
         PeticionEvento peticionEvento = new PeticionEvento();
-        String respuestaPeticion = peticionEvento.EliminarEvento(id).ToString();
+        String respuestaPeticion = peticionEvento.EliminarEventoId(id).ToString();
         respuesta.Add("dato", respuestaPeticion);
       }
       catch (BaseDeDatosExcepcion e)
