@@ -17,10 +17,12 @@ namespace ApiRest_COCO_TRIP.Models
         private ConexionBase conexion;
         private NpgsqlDataReader read;
         private NpgsqlCommand comando;
-    private Boolean respuesta = false;
+
     /**
      * <summary>Constructor que abre la base de datos</summary>
      * **/
+
+
         public PeticionLocalidadEvento()
         {
       try
@@ -35,9 +37,13 @@ namespace ApiRest_COCO_TRIP.Models
       }
 
     }
+
+
     /**
      * <summary>Metodo para agregar una localidad a la base de datos</summary>
      * **/
+
+
     public int AgregarLocalidadEvento(LocalidadEvento lEvento)
     {
       int respuesta = 0;
@@ -85,20 +91,25 @@ namespace ApiRest_COCO_TRIP.Models
       
       return respuesta;
     }
+
+
     /**
      * <summary>Metodo para eliminar una localidad de la BBDD</summary>
+     * elimina tambien los eventos asociados a esa localidad
      * **/
+
+
       public Boolean EliminarLocalidadEvento(int id)
     {
-
+       Boolean respuesta = false;
       try
       {
-        comando = new NpgsqlCommand("EliminarLocalidadPorId", conexion.SqlConexion);
+        comando = new NpgsqlCommand("EliminarLocalidadId", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
         read = comando.ExecuteReader();
         read.Read();
-        respuesta = read.GetBoolean(0);
+        respuesta = true;
       }
       catch (BaseDeDatosExcepcion e)
       {
@@ -112,10 +123,13 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return respuesta;
     }
+   
 
     /**
      * <summary>Metodo para consultr de la base de datos una localidad dado su id</summary>
      * **/
+
+
     public LocalidadEvento ConsultarLocalidadEvento(int id)
     {
       LocalidadEvento localidad = new LocalidadEvento();
@@ -144,6 +158,41 @@ namespace ApiRest_COCO_TRIP.Models
       return localidad;
     }
 
+    /**
+ * <summary>Metodo para consultar de la base de datos una localidad dado su nombre</summary>
+ * retorna solo el id de la localidad
+ * **/
+
+   public LocalidadEvento ConsultarLocalidadEventoNombre(string nombreLocalidad)
+    {
+      LocalidadEvento localidad = new LocalidadEvento();
+      try
+      {
+        comando = new NpgsqlCommand("LocalidadIdNombred", conexion.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreLocalidad);
+        read = comando.ExecuteReader();
+        read.Read();
+        localidad.Id = read.GetInt32(0);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+      finally
+      {
+        conexion.Desconectar();
+      }
+
+      return localidad;
+    }
+
+ /**
+  * <summary>Metodo para consultar de la base de datos una localidad dado su nombre</summary>
+  * retorna toda la informacion de la localidad
+  **/
+
     public LocalidadEvento ConsultarLocalidadEventoPorNombre(string nombre)
     {
       LocalidadEvento localidad = new LocalidadEvento();
@@ -171,9 +220,13 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return localidad;
     }
+
+
     /**
      * <summary>Metodo para listar todas las localidades de la base de datos</summary>
      * **/
+
+
     public IList<LocalidadEvento> ListaLocalidadEventos()
     {
       IList<LocalidadEvento> localidades = new List<LocalidadEvento>();
@@ -205,6 +258,8 @@ namespace ApiRest_COCO_TRIP.Models
     /**
      * <summary>Metodo para agregar una localidad a la base de datos</summary>
      * **/
+
+
     public int ActualizarLocalidadEvento(LocalidadEvento lEvento)
     {
       int respuesta = 0;
@@ -251,5 +306,7 @@ namespace ApiRest_COCO_TRIP.Models
 
       return respuesta;
     }
+
+
   }
 }
