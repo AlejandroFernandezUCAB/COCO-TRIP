@@ -2140,7 +2140,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
 )
 RETURNS TABLE
   (
-      id_evento integer,
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2149,14 +2149,14 @@ RETURNS TABLE
      horaInicioEvento time,
      horaFinEvento time,
      fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+     categoriaEvento integer,
+     localidadEvento integer
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT  ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT  ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_id, lo_id
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ca_nombre = _nombreCategoria;
 END;
@@ -2178,14 +2178,14 @@ RETURNS TABLE
      horaInicioEvento time,
      horaFinEvento time,
      fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+     categoriaEvento integer,
+     localidadEvento integer
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_id, lo_id
     from evento, categoria, localidad
     where ev_localidad = lo_id and ev_categoria = ca_id;
 END;
