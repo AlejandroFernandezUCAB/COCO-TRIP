@@ -68,8 +68,8 @@ namespace ApiRest_COCO_TRIP.Models
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, evento.HoraFin.Hour + ":" + evento.HoraFin.Minute + "00");
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Foto);
                 comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdLocalidad);
-        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdCategoria);
-        read = comando.ExecuteReader();
+                comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, evento.IdCategoria);
+                read = comando.ExecuteReader();
                 read.Read();
                 respuesta = read.GetInt32(0);
             }
@@ -163,9 +163,9 @@ namespace ApiRest_COCO_TRIP.Models
                     DateTime horaFin = new DateTime();
                     horaFin.AddHours(read.GetTimeSpan(7).Hours);
                     horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
-
+                    
                     Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
-                      horaInicio, horaFin, read.GetString(8), read.GetInt32(9));
+                      horaInicio, horaFin, read.GetString(8), read.GetInt32(10), read.GetInt32(9));
                     list.Add(evento);
                 }
             }
@@ -208,7 +208,7 @@ namespace ApiRest_COCO_TRIP.Models
               horaFin.AddMinutes(read.GetTimeSpan(7).Minutes);
 
               Evento evento = new Evento(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetInt64(3), read.GetDateTime(4), read.GetDateTime(5),
-                horaInicio, horaFin, read.GetString(8), read.GetInt32(9));
+                horaInicio, horaFin, read.GetString(8), read.GetInt32(10), read.GetInt32(9));
               list.Add(evento);
             }
           }
@@ -295,7 +295,7 @@ namespace ApiRest_COCO_TRIP.Models
       PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
       try
       {
-        comando = new NpgsqlCommand("ConsultarEventoPorIdEvento", conexion.SqlConexion);
+        comando = new NpgsqlCommand("ConsultarEventoPorIdNombre", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreEvento);
         read = comando.ExecuteReader();
