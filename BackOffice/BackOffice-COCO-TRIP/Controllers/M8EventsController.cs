@@ -1,4 +1,5 @@
 using BackOffice_COCO_TRIP.Models;
+using BackOffice_COCO_TRIP.Negocio.Entidades;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json.Linq;
 using System;

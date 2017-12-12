@@ -1,4 +1,5 @@
 using BackOffice_COCO_TRIP.Models;
+using BackOffice_COCO_TRIP.Negocio.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
