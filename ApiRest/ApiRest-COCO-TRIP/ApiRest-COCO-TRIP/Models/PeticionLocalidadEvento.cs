@@ -168,7 +168,7 @@ namespace ApiRest_COCO_TRIP.Models
       LocalidadEvento localidad = new LocalidadEvento();
       try
       {
-        comando = new NpgsqlCommand("LocalidadIdNombred", conexion.SqlConexion);
+        comando = new NpgsqlCommand("LocalidadIdNombre", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, nombreLocalidad);
         read = comando.ExecuteReader();

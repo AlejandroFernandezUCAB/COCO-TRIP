@@ -25,7 +25,7 @@ namespace ApiRestPruebas.M8
     public void PruebaConsultarEventoPorID()
     {
       
-      string nombre = "Tomorrowland";
+      string nombre = "prueba 222";
       Evento evento = new Evento();
       evento.Nombre = nombre;
       evento.Descripcion = "Evento de Tecno";
@@ -36,7 +36,7 @@ namespace ApiRestPruebas.M8
       evento.HoraFin.AddHours(8);
       evento.Foto = "link prueba";
       evento.IdLocalidad = 1;
-      evento.IdCategoria = 5;
+      evento.IdCategoria = 1;
       int id = peticion.AgregarEvento(evento);
       peticion = new PeticionEvento();
       Assert.AreEqual(peticion.ConsultarEvento(id).Nombre, nombre);
@@ -45,21 +45,52 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaConsultarEventosPorFecha()
     {
-      DateTime date = new DateTime(2017,11,20);
-      Assert.AreEqual(2,peticion.ListaEventosPorFecha(date).Count);
+      DateTime date = new DateTime(2017,1,20);
+      Assert.AreEqual(3,peticion.ListaEventosPorFecha(date).Count);
     }
     [Test]
     public void PruebaConsultarEventoPorCategoria()
     {
-      int idCategoria = 5;
-      Assert.AreEqual(peticion.ListaEventosPorCategoria(idCategoria).Count(), 1);
+      int idCategoria = 1;
+      Assert.AreEqual(peticion.ListaEventosPorCategoria(idCategoria).Count(), 3);
     }
 
     [Test]
     public void PruebaConsultarEventoPorCategoriaSinEventos()
     {
-      int idCategoria = 2;
+      int idCategoria = 3;
       Assert.AreEqual(peticion.ListaEventosPorCategoria(idCategoria).Count(), 0);
     }
+    [Test]
+    public void PruebaConsultarEventoPorCategoriaNombre()
+    {
+      string nombreCategoria = "blabla";
+      Assert.AreEqual(peticion.ListaEventosPorCategoriaNombre(nombreCategoria).Count(),3 );
+    }
+    [Test]
+    public void PruebaConsultarEventosTotal()
+    {
+      Assert.AreEqual(peticion.ListaEventos().Count(), 4);
+    }
+    [Test]
+    public void PruebaConsultarEventoNombre()
+    {
+      string nombreEvento = "prueba 1";
+      Assert.AreEqual(peticion.ConsultarEventoNombre(nombreEvento).Id, 3);
+    }
+    /*    [Test]
+        public void PruebaEliminarEventoNombre()
+        {
+          string nombreEvento = "prueba 1";
+
+        }*/
+
+    /*    [Test]
+    public void PruebaEliminarEventoId()
+    {
+      int id = 1;
+      
+    }*/
+
   }
 }
