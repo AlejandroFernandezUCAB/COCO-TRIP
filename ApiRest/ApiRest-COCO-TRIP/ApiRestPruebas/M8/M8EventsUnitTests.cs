@@ -78,6 +78,7 @@ namespace ApiRestPruebas.M8
       string nombreEvento = "prueba 1";
       Assert.AreEqual(peticion.ConsultarEventoNombre(nombreEvento).Id, 3);
     }
+<<<<<<< HEAD
 
   [Test]
   public void PruebaEliminarEventoNombre()
@@ -93,6 +94,21 @@ namespace ApiRestPruebas.M8
     Assert.IsTrue(peticion.EliminarEventoId(id));
 
   }
+=======
+    /*    [Test]
+        public void PruebaEliminarEventoNombre()
+        {
+          string nombreEvento = "prueba 1";
+
+        }*/
+
+    /*    [Test]
+    public void PruebaEliminarEventoId()
+    {
+      int id = 1;
+      
+    }*/
+>>>>>>> Modulo_8
 
   }
 }
