@@ -35,6 +35,7 @@ export class AmigosPage {
   delete= false;
   edit= false;
   detail=false;
+  chat=false;
   amigo: any;
   toast: any;
   title: any;
@@ -60,10 +61,6 @@ export class AmigosPage {
       window.open(url);
   }
 
-
-  tapEvent() {
-
-  }
 
 /**
  * Metodo que carga un loading controller al iniciar
@@ -109,6 +106,7 @@ agregarAmigo(){
  this.edit=false;
   this.detail=false;
   this.delete=false;
+  this.chat=false;
 
   this.navCtrl.push(BuscarAmigoPage);
 }
@@ -116,9 +114,27 @@ agregarAmigo(){
 /**
  * Metodo que coloca los textos de las cartas en false
  */
+verChat(){
+  this.edit=false;
+   this.detail=false;
+   this.delete=false;
+   if (this.chat==false){
+    
+        this.chat = true;
+      }
+      else{
+        this.chat=false;
+      }
+    
+ }
+
+/**
+ * Metodo que coloca los textos de las cartas en false
+ */
 eliminar(){
   this.edit=false;
   this.detail=false;
+  this.chat=false;
 
   if (this.delete==false){
 
@@ -136,6 +152,7 @@ eliminar(){
 perfil(){
   this.delete=false;
   this.edit=false;
+  this.chat=false;
   if(this.detail==false){
 
     this.detail = true;
@@ -208,6 +225,18 @@ verPerfil(item) {
       nombreUsuario : item
   });
 }
+
+/**
+ * Metodo que inicia un chat 
+ * @param item Nombre del usuario seleccionado
+ */
+chatAmigo(item) {
+  this.navCtrl.push(ConversacionPage,{
+      nombreUsuario : item
+  });
+}
+
+
 
 /**
  * Metodo que despliega un toast

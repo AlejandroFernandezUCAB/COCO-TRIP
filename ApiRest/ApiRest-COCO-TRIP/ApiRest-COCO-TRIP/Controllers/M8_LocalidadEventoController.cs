@@ -36,11 +36,11 @@ namespace ApiRest_COCO_TRIP.Controllers
         {
           "nombre","descripcion","coordenadas"
         });
-        LocalidadEvento lEvento =(LocalidadEvento) data.ToObject<LocalidadEvento>();
-          PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-          int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
-          respuesta.Add("dato", "Se ha creado una localidad");
-        
+        LocalidadEvento lEvento = (LocalidadEvento)data.ToObject<LocalidadEvento>();
+        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+        int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
+        respuesta.Add("dato", "Se ha creado una localidad");
+
       }
       catch (BaseDeDatosExcepcion e)
       {
@@ -57,9 +57,10 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception e)
       {
-        respuesta.Add("Error", "Error noo esperado "+ e.Message);
-       
+        respuesta.Add("Error", "Error noo esperado " + e.Message);
+
       }
+     
 
       return respuesta;
 

@@ -2007,56 +2007,49 @@ $$ LANGUAGE plpgsql;
 /*DELETE*/
 
 --elimina evento por su id
-CREATE OR REPLACE FUNCTION EliminarEventoPorId
-(
-  _id integer
-)
-RETURNS boolean AS
-$BODY$
-DECLARE
-    i varchar;
-
+CREATE OR REPLACE FUNCTION EliminarEventoId
+(_id_eve integer) RETURNS void AS
+$$
 BEGIN
-  SELECT ev_nombre FROM evento where (ev_id=_id) into i;
-      IF i is null THEN
-      return false;
-
-      else
-    DELETE from evento where ev_id = _id;
-    return true;
-    end if;
+  DELETE FROM evento WHERE ev_id = _id_eve;
 END;
-$BODY$ LANGUAGE plpgsql volatile;
-
+$$ LANGUAGE plpgsql;
 
 --elimina evento por su nombre
-CREATE OR REPLACE FUNCTION EliminarEventoPorNombre
-(
-  _nombreEvento varchar(50)
-)
-RETURNS boolean AS
-$BODY$
-DECLARE
-    i varchar;
+CREATE OR REPLACE FUNCTION EliminarEventoNombre
+(_nom_eve varchar) RETURNS void AS
+$$
 BEGIN
-  SELECT ev_nombre FROM evento where (ev_nombre=_nombreEvento) into i;
-      IF i is null THEN
-      return false;
-
-      else
-    DELETE from evento where ev_nombre = _nombreEvento;
-    return true;
-    end if;
+  DELETE FROM evento WHERE ev_nombre = _nom_eve;
 END;
-$BODY$
-LANGUAGE plpgsql volatile;
+$$ LANGUAGE plpgsql;
+
+--elimina localidad por su id
+CREATE OR REPLACE FUNCTION EliminarLocalidadId
+(_id_lo integer) RETURNS void AS
+$$
+BEGIN
+  DELETE FROM evento WHERE ev_localidad = _id_lo;
+  DELETE FROM localidad WHERE lo_id = _id_lo;
+END;
+$$ LANGUAGE plpgsql;
+
+--elimina localidad por su nombre
+CREATE OR REPLACE FUNCTION EliminarLocalidadNombre
+(_nom_localidad varchar, _id_localidad integer) RETURNS void AS
+$$
+BEGIN
+  DELETE FROM evento WHERE ev_localidad = _id_localidad;
+  DELETE FROM localidad WHERE lo_nombre = _nom_localidad;
+END;
+$$ LANGUAGE plpgsql;
 
 -- Consulta las localidades que tienen eventos asignados
 -- devuelve la informacion de las localidades
 CREATE OR REPLACE FUNCTION ConsultarLocalidadesConEventosAsignados()
 RETURNS TABLE
   (
-     id integer,
+    locaidad_id integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
      coordenada varchar
@@ -2068,92 +2061,74 @@ BEGIN
     select lo_id, lo_nombre, lo_descripcion, lo_coordenada
     from localidad, evento
     where lo_id = ev_localidad
-    group by lo_id;
+    group by lo_id, lo_nombre,lo_descripcion, lo_coordenada;
 END;
 $$ LANGUAGE plpgsql;
+
  --Lista de todas las localidades
 CREATE OR REPLACE FUNCTION consultarlocalidades()
-  RETURNS TABLE(id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
+  RETURNS TABLE(locaidad_id integer, nombrelocalidad character varying, descripcionlocalidad character varying, coordenada character varying) AS
 $BODY$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    select  lo_id,lo_nombre, lo_descripcion, lo_coordenada
     from localidad;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE;
-
---elimina localidad por su id
-
-CREATE OR REPLACE FUNCTION EliminarLocalidadPorId
-(
-  _id integer
-)
-returns boolean AS
-$BODY$
-    DECLARE
-    i varchar;
-
- begin
-  SELECT lo_nombre FROM localidad where (lo_id=_id) into i;
-      IF i is null THEN
-      return false;
-
-      else
-  delete from localidad where lo_nombre = i;
-      return true;
-      end if;
- END;
- $BODY$
- LANGUAGE plpgsql volatile;
-
---elimina localidad por su nombre
-CREATE OR REPLACE FUNCTION EliminarLocalidadPorNombre()
-    RETURNS boolean AS
-  $BODY$
-    DECLARE
-    i integer;
-    BEGIN
-    SELECT lo_id FROM localidad where (lo_nombre='plaza altamira') into i;
-      IF i is null THEN
-      return false;
-      else
-      DELETE from localidad where (lo_id = i);
-      return true;
-      END IF;
-    END;
-  $BODY$
-    LANGUAGE plpgsql  VOLATILE;
+  
 
 /*SELECT*/
 
+
+-- Consulta Localidad por nombre
+-- devuelve el id de la localidad
+CREATE OR REPLACE FUNCTION LocalidadIdNombre
+(
+  _nombre varchar(50)
+)
+RETURNS TABLE
+  (
+  id_localidad integer
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT lo_id
+    from localidad
+    where lo_nombre = _nombre;
+END;
+$$ LANGUAGE plpgsql;
+
+
 -- Consulta eventos por id de categoria
 -- devuelve la informacion de los eventos en esa categoria
+
 CREATE OR REPLACE FUNCTION ConsultarEventoPorIdCategoria
 (
   _id integer
 )
 RETURNS TABLE
   (
-     id integer,
-     nombreEvento varchar,
-     descripcionEvento varchar,
-     precioEvento integer,
-     fechaInicioEvento timestamp,
-     fechaFinEvento timestamp,
-     horaInicioEvento time,
-     horaFinEvento time,
-     fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+  id_evento integer,
+	nombreEvento varchar,
+	descripcionEvento varchar,
+	precioEvento int,
+	fecha_inicioEvento timestamp,
+	fecha_finEvento timestamp,
+	hora_inicioEvento time,
+	hora_finEvento time,
+	fotoEvento varchar,
+	localidadEvento int
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
-    from evento, categoria, localidad
-    where ev_categoria = ca_id and ev_localidad = lo_id and ca_id = _id;
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad
+    from evento
+    where ev_categoria = _id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -2165,7 +2140,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorNombreCategoria
 )
 RETURNS TABLE
   (
-     id integer,
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2174,18 +2149,48 @@ RETURNS TABLE
      horaInicioEvento time,
      horaFinEvento time,
      fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+     categoriaEvento integer,
+     localidadEvento integer
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    SELECT  ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_id, lo_id
     from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ca_nombre = _nombreCategoria;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Consulta todos los eventos
+-- devuelve la informacion todos los eventos
+CREATE OR REPLACE FUNCTION ConsultarEventos
+(
+)
+RETURNS TABLE
+  (
+     id_evento integer,
+     nombreEvento varchar,
+     descripcionEvento varchar,
+     precioEvento integer,
+     fechaInicioEvento timestamp,
+     fechaFinEvento timestamp,
+     horaInicioEvento time,
+     horaFinEvento time,
+     fotoEvento varchar,
+     categoriaEvento integer,
+     localidadEvento integer
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_id, lo_id
+    from evento, categoria, localidad
+    where ev_localidad = lo_id and ev_categoria = ca_id;
+END;
+$$ LANGUAGE plpgsql;
+
 
 -- Consulta evento por su id
 -- devuelve la informacion del evento
@@ -2195,7 +2200,7 @@ CREATE OR REPLACE FUNCTION ConsultarEventoPorIdEvento
 )
 RETURNS TABLE
   (
-     id integer,
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2217,16 +2222,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
--- Consulta eventos a partir de una fecha dada
--- devuelve la informacion de los eventos que su fecha sea mayor a la dada
-CREATE OR REPLACE FUNCTION ConsultarEventosPorFecha
+-- Consulta evento por su nombre
+-- devuelve la informacion del evento
+CREATE OR REPLACE FUNCTION ConsultarEventoPorIdNombre
 (
-  _fecha timestamp
+  _nombreEvento varchar
 )
 RETURNS TABLE
   (
-     id integer,
+     id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
      precioEvento integer,
@@ -2244,6 +2248,37 @@ BEGIN
   RETURN QUERY
     SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
     from evento, categoria, localidad
+    where ev_categoria = ca_id and ev_localidad = lo_id and ev_nombre like _nombreEvento;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Consulta eventos a partir de una fecha dada
+-- devuelve la informacion de los eventos que su fecha sea mayor a la dada
+CREATE OR REPLACE FUNCTION ConsultarEventosPorFecha
+(
+  _fecha timestamp
+)
+RETURNS TABLE
+  ( 
+     id_evento integer,
+     nombreEvento varchar,
+     descripcionEvento varchar,
+     precioEvento integer,
+     fechaInicioEvento timestamp,
+     fechaFinEvento timestamp,
+     horaInicioEvento time,
+     horaFinEvento time,
+     fotoEvento varchar,
+     categoriaEvento varchar,
+     localidadEvento varchar
+  )
+AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT ev_id,ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
+    from evento, categoria, localidad
     where ev_categoria = ca_id and ev_localidad = lo_id and ev_fecha_inicio >= _fecha;
 END;
 $$ LANGUAGE plpgsql;
@@ -2258,7 +2293,7 @@ CREATE OR REPLACE FUNCTION ConsultarLocalidadPorId
 )
 RETURNS TABLE
   (
-     id integer,
+     id_localidad integer,
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
      coordenada varchar
@@ -2267,7 +2302,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    select lo_id,lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_id=_id;
 END;
@@ -2281,7 +2316,7 @@ CREATE OR REPLACE FUNCTION ConsultarLocalidadPorNombre
 )
 RETURNS TABLE
   (
-     id integer,
+     id_localidad integer,    
      nombreLocalidad varchar,
      descripcionLocalidad varchar,
      coordenada varchar
@@ -2290,7 +2325,7 @@ AS
 $$
 BEGIN
   RETURN QUERY
-    select lo_id, lo_nombre, lo_descripcion, lo_coordenada
+    select lo_id,lo_nombre, lo_descripcion, lo_coordenada
     from localidad
     where lo_nombre=_nombreLocalidad;
 END;

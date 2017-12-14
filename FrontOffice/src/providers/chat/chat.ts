@@ -37,13 +37,20 @@ export class ChatProvider {
 */
   
     
-agregarNuevoMensajeAmigo(mensaje,idReceptor,idRemitente) {
-  this.fireConversacionChatsAmigo.child(idRemitente).child(idRemitente).push({
-    enviadorPor: idRemitente,
+agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) {
+  this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).push({
+    enviadorPor: idEmisor,
     mensaje: mensaje,
     eliminado: false,
     modificado: false,
-    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP         
+    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP        
+  });
+  this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).push({
+    enviadorPor: idEmisor,
+    mensaje: mensaje,
+    eliminado: false,
+    modificado: false,
+    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP        
   });
 }  
     
@@ -72,17 +79,17 @@ agregarNuevoMensajeAmigo(mensaje,idReceptor,idRemitente) {
   }
 */
 
-  obtenerMensajesConversacionAmigo(idRemitente,idEmisor) {
-    let temp;
-    this.fireConversacionChatsAmigo.child(idRemitente).child(idEmisor).on('value', (snapshot) => {
-      this.mensajesConversacion = [];
-      temp = snapshot.val();
-      for (var tempkey in temp) {
-        this.mensajesConversacion.push(temp[tempkey]);
-      }
-      this.events.publish('nuevoMensaje');
-    })
-  }
+obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
+  let temp;
+  this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).on('value', (snapshot) => {
+    this.mensajesConversacion = [];
+    temp = snapshot.val();
+    for (var tempkey in temp) {
+      this.mensajesConversacion.push(temp[tempkey]);
+    }
+    this.events.publish('nuevoMensaje');
+  })
+}
   obtenerMensajesConversacionGrupo(idGrupo) {
     let temp;
     this.fireConversacionChatsGrupo.child(idGrupo).on('value', (snapshot) => {

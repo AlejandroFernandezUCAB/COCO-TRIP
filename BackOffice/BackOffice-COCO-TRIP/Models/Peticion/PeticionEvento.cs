@@ -29,6 +29,8 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/ListarEventos/{id}");
+
+
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
@@ -129,8 +131,6 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
             {"foto",data.Foto },
             { "idCategoria",data.IdCategoria},
             {"idLocalidad",data.IdLocalidad }
-           
-
 
           };
           var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/agregarEvento", jsonData);
