@@ -194,6 +194,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoEditarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarLocalidad.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoModificarCategoria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
