@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BackOffice_COCO_TRIP.Negocio.Entidades
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
-  public abstract class Entidad
+  public abstract class Entidad 
   {
     private  long id;
     [JsonProperty(PropertyName = "id")]

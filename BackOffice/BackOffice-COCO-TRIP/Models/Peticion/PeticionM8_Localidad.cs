@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Web;
-using BackOffice_COCO_TRIP.Negocio.Entidades;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {

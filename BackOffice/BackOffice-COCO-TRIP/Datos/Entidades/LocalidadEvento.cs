@@ -1,4 +1,4 @@
-using BackOffice_COCO_TRIP.Negocio.Entidades;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BackOffice_COCO_TRIP.Negocio.Entidades
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   public class LocalidadEvento : Entidad
   {
@@ -53,5 +53,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Entidades
     {
      
     }
+
   }
 }
