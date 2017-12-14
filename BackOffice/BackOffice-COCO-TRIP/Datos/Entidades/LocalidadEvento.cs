@@ -1,3 +1,4 @@
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -5,11 +6,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BackOffice_COCO_TRIP.Models
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
-  public class LocalidadEvento
+  public class LocalidadEvento : Entidad
   {
-    private int id;
     private string nombre;
     private string descripcion;
     private string coordenadas;
@@ -29,10 +29,6 @@ namespace BackOffice_COCO_TRIP.Models
     [Required(ErrorMessage = "Debe seleccionar unas coordenadas")]
     [StringLength(60)]
     public string Coordenadas { get => coordenadas; set => coordenadas = value; }
-    [JsonProperty(PropertyName = "id")]
-   
-    public int Id { get => id; set => id = value; }
-
     public LocalidadEvento(string _nombre, string _descripcion, string _coordenadas)
     {
       nombre = _nombre;
@@ -42,7 +38,7 @@ namespace BackOffice_COCO_TRIP.Models
     }
     public LocalidadEvento(int id, string _nombre, string _descripcion, string _coordenadas)
     {
-      this.id = id;
+      this.Id = id;
       nombre = _nombre;
       descripcion = _descripcion;
       coordenadas = _coordenadas;
@@ -50,12 +46,13 @@ namespace BackOffice_COCO_TRIP.Models
     }
     public LocalidadEvento(int id)
     {
-      this.id = id;
+      this.Id = id;
     }
 
     public LocalidadEvento()
     {
      
     }
+
   }
 }

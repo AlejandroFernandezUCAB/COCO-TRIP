@@ -36,7 +36,7 @@ namespace ApiRestPruebas.M8
       LocalidadEvento localidadEvento = new LocalidadEvento("hola", "Lugar familiar y pasarla bien con amigos",
         "Chacao, Venezuela");
       
-      Assert.AreEqual(peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento), 9);
+      Assert.AreEqual(peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento), 6);
     }
     /**
      * <summary>Casos de borde cuando falta algun parametro o todos los parametros
@@ -44,6 +44,7 @@ namespace ApiRestPruebas.M8
      * </summary>
      * <exception cref="InvalidCastException"></exception>
      * **/
+
     [Test]
     public void PruebaAgregarLocalidadNula()
     {
@@ -98,7 +99,7 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaEliminarLocalidadEvento()
     {
-      int idLocalidad = 9;
+      int idLocalidad = 5;
       Assert.IsTrue(peticionLocalidadEvento.EliminarLocalidadEvento(idLocalidad));
     }
     /**
@@ -119,7 +120,8 @@ namespace ApiRestPruebas.M8
     {
       LocalidadEvento localidadEvento = new LocalidadEvento("Suiza", "Europa", "Europa");
       int idLocalidadEvento = peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
-     Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
+      peticionLocalidadEvento = new PeticionLocalidadEvento();
+      Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
         localidadEvento.Nombre);
     }
       /**
@@ -150,9 +152,16 @@ namespace ApiRestPruebas.M8
      public void PruebaListaLocalidades()
     {
       
-      Assert.AreEqual(peticionLocalidadEvento.ListaLocalidadEventos().Count, 1);
+      Assert.AreEqual(peticionLocalidadEvento.ListaLocalidadEventos().Count, 4);
 
     }
-    
+    [Test]
+    public void PruebaLocalidadNombre()
+    {
+      string nombreLo = "hola";
+      Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEventoNombre(nombreLo).Id,5);
+
+    }
+
   }
 }

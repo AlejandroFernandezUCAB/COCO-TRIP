@@ -1,4 +1,5 @@
 using BackOffice_COCO_TRIP.Models;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json.Linq;
 using System;
@@ -63,8 +64,8 @@ namespace BackOffice_COCO_TRIP.Controllers
 
         throw e;
       }
-      ViewBag.ListCategoria = listaCategorias;
       ViewBag.ListLocalidades = listaLocalidades;
+      ViewBag.ListCategoria = listaCategorias;
       return View();
     }
 
@@ -74,7 +75,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       try
       {
-         //var idLocalidad = Request["Localidades"].ToString();
+       //var idLocalidad = Request["Localidades"].ToString();
         //evento.IdLocalidad = Int32.Parse(idLocalidad);
         evento.IdLocalidad = 1;
         evento.Foto = "jorge";
@@ -86,8 +87,9 @@ namespace BackOffice_COCO_TRIP.Controllers
         evento.HoraFin.AddHours(12);
         evento.HoraFin.AddMinutes(12);*/
 
-        var idCategoria = Request["Categoria"].ToString();
-        evento.IdCategoria = Int32.Parse(idCategoria);
+        var id = Request["Categoria"].ToString();
+        evento.IdCategoria = Int32.Parse(id);
+        System.Console.Write("EL ID DE LA LOCALIDAD ES: "+evento.IdLocalidad);
 
 
         JObject respuesta = peticionEvento.Post(evento);
@@ -112,7 +114,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       }
 
 
-      return RedirectToAction("FilterEvent");
+      return View();
     }
 
     // GET: M8Events/Edit/5
@@ -189,8 +191,11 @@ namespace BackOffice_COCO_TRIP.Controllers
         throw e;
       }
       ViewBag.MyList = MyList;
-      return View();
+      IList<Evento> evento;
+      evento = (IList<Evento>)TempData["evento"];
+      return View(evento);
     }
+
 
     [HttpGet]
     public ActionResult enviarFilterEvent()
