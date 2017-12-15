@@ -163,7 +163,7 @@ namespace ApiRest_COCO_TRIP.Models
  * retorna solo el id de la localidad
  * **/
 
-   public LocalidadEvento ConsultarLocalidadEventoNombre(string nombreLocalidad)
+   public LocalidadEvento ConsultarLocalidadEventoNombreID(string nombreLocalidad)
     {
       LocalidadEvento localidad = new LocalidadEvento();
       try
