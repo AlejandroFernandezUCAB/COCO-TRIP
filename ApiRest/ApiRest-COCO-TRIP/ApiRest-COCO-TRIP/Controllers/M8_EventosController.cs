@@ -14,6 +14,8 @@ using System.Collections;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -26,10 +28,12 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
     private IDictionary respuesta = new Dictionary<string, object>();
 
+
+
     /**
      * <summary>Metodo de controlador para Agregar un Evento a la BBDD</summary>
      * **/
-    
+
     [ResponseType(typeof(IDictionary))]
     [ActionName("agregarEvento")]
     [HttpPost]
@@ -42,12 +46,12 @@ namespace ApiRest_COCO_TRIP.Controllers
           "nombre","descripcion","precio","fechaInicio","fechaFin","horaInicio","horaFin","foto",
           "idCategoria","idLocalidad"
         });
-          Evento evento = data.ToObject<Evento>();
-       
-          PeticionEvento peticionEvento = new PeticionEvento();
-          int idEvento = peticionEvento.AgregarEvento(evento);
-          respuesta.Add("dato", "Se ha agregado"); 
-       
+        Evento evento = data.ToObject<Evento>();
+
+        PeticionEvento peticionEvento = new PeticionEvento();
+        int idEvento = peticionEvento.AgregarEvento(evento);
+        respuesta.Add("dato", "Se ha agregado");
+
       }
       catch (BaseDeDatosExcepcion e)
       {
@@ -69,6 +73,8 @@ namespace ApiRest_COCO_TRIP.Controllers
 
       return respuesta;
     }
+
+
 
     /**
      * <summary>Metodo de controlador para Eliminar un Evento de la BBDD</summary>
@@ -103,6 +109,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       return respuesta;
     }
 
+
+
     /**
      * <summary>Metodo de controlador para Consultar un evento dado su id todos los datos</summary>
      * <param name="id">Id del evento en la base de datos</param>
@@ -121,7 +129,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (BaseDeDatosExcepcion e)
       {
         respuesta.Add("Error Consultat Evento por id", e.Message);
-      } 
+      }
       catch (ParametrosNullException e)
       {
         respuesta.Add("Error Consultat Evento por id", e.Mensaje);
@@ -168,41 +176,203 @@ namespace ApiRest_COCO_TRIP.Controllers
       return respuesta;
     }
 
+
     [HttpGet]
     public Evento ConsultarEvento(int id)
     {
-      PeticionEvento peticionEvento = new PeticionEvento();
-      return peticionEvento.ConsultarEvento(id);
+      try
+      {
+        PeticionEvento peticionEvento = new PeticionEvento();
+        return peticionEvento.ConsultarEvento(id);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+
     }
+
 
     [HttpGet]
     public List<Evento> ListarEventosPorFecha(DateTime date)
     {
-      PeticionEvento peticionEvento = new PeticionEvento();
-      return peticionEvento.ListaEventosPorFecha(date);
+      try
+      {
+        PeticionEvento peticionEvento = new PeticionEvento();
+        return peticionEvento.ListaEventosPorFecha(date);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
     }
 
 
-    /**
-     * <summary>Metodo de controlador para listar todas las categorias desde la fecha danda</summary>
-     * <param name="date">Fecha desde donde se buscaran los eventos</param>
-     * */
-    /**
-   [ResponseType(typeof(IDictionary))]
-   [ActionName("listarEventosPorFecha")]
-   [HttpGet]
-   public IDictionary ListarEventosPorFecha([FromBody] JObject data)
-   {
-     Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
-       {
-         "dia","mes","ano"
-       });
-     DateTime date =new DateTime()
-     PeticionEvento peticionEvento = new PeticionEvento();
-     peticionEvento.ListaEventosPorFecha(date);
+    [HttpGet]
+    public List<Evento> listaTodosEventos()
+    {
+      try
+      {
+        PeticionEvento peticionEvento = new PeticionEvento();
+        return peticionEvento.ListaEventos();
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
 
-     return
-   }
- **/
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+    }
+
+
+    [HttpGet]
+    public List<Evento> ListarEventosPorCategoriaNombre(string nombreCategoria)
+    {
+      try
+      {
+        PeticionEvento peticionEvento = new PeticionEvento();
+        return peticionEvento.ListaEventosPorCategoriaNombre(nombreCategoria);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+    }
+
+    [HttpGet]
+    public Evento ConsultarEventoNombre(string nombreEvento)
+    {
+      try
+      {
+        PeticionEvento peticionEvento = new PeticionEvento();
+        return peticionEvento.ConsultarEventoNombre(nombreEvento);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+
+    }
+
+    [HttpPut]
+    public bool EliminarEventoNombre(string nombreEvento)
+    {
+      try
+      {
+        PeticionEvento peticionEvento = new PeticionEvento();
+        return peticionEvento.EliminarEventoNombre(nombreEvento);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (NpgsqlException e)
+      {
+        throw e;
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+
+    }
   }
 }
