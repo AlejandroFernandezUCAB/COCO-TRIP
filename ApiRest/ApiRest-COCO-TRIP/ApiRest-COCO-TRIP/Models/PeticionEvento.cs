@@ -461,5 +461,64 @@ namespace ApiRest_COCO_TRIP.Models
       }
       return list;
     }
+
+
+    public int ActualizarEvento(Evento UEvento)
+    {
+      int respuesta = 0;
+      try
+      {
+        conexion.Comando = conexion.SqlConexion.CreateCommand();
+        comando = new NpgsqlCommand("actualizarEventoPorId", conexion.SqlConexion);
+
+        comando.CommandType = CommandType.StoredProcedure;
+        //Aqui se registran los valores de evento
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, UEvento.Id);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, UEvento.Nombre);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, UEvento.Descripcion);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Double, UEvento.Precio);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, UEvento.FechaInicio);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Timestamp, UEvento.FechaFin);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, UEvento.HoraInicio);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Time, UEvento.HoraFin);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, UEvento.Foto);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, UEvento.IdLocalidad);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, UEvento.IdCategoria);
+        read = comando.ExecuteReader();
+
+        try
+        {
+          if (read.Read())
+          {
+            Int32.TryParse(read.GetValue(0).ToString(), out respuesta);
+          }
+          if (respuesta == 0)
+          {
+            throw new ItemNoEncontradoException($"No se encontro el evento con el nombre {UEvento.Nombre}");
+          }
+        }
+        catch (System.InvalidCastException e)
+        {
+          Console.WriteLine(e.Message);
+        }
+
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw e;
+      }
+
+      finally
+      {
+        conexion.Desconectar();
+      }
+
+      return respuesta;
+    }
+
+
   }
-}
+
+  
+      }
