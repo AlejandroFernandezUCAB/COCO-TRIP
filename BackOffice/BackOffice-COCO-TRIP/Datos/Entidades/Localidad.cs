@@ -8,7 +8,7 @@ using System.Web;
 
 namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
-  public class LocalidadEvento : Entidad
+  public class Localidad : Entidad
   {
     private string nombre;
     private string descripcion;
@@ -29,14 +29,14 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     [Required(ErrorMessage = "Debe seleccionar unas coordenadas")]
     [StringLength(60)]
     public string Coordenadas { get => coordenadas; set => coordenadas = value; }
-    public LocalidadEvento(string _nombre, string _descripcion, string _coordenadas)
+    public Localidad(string _nombre, string _descripcion, string _coordenadas)
     {
       nombre = _nombre;
       descripcion = _descripcion;
       coordenadas = _coordenadas;
 
     }
-    public LocalidadEvento(int id, string _nombre, string _descripcion, string _coordenadas)
+    public Localidad(int id, string _nombre, string _descripcion, string _coordenadas)
     {
       this.Id = id;
       nombre = _nombre;
@@ -44,12 +44,12 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
       coordenadas = _coordenadas;
 
     }
-    public LocalidadEvento(int id)
+    public Localidad(int id)
     {
       this.Id = id;
     }
 
-    public LocalidadEvento()
+    public Localidad()
     {
      
     }

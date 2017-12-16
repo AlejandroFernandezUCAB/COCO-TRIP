@@ -1,20 +1,14 @@
-using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
-using Newtonsoft.Json.Linq;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
   public class M8EventsController : Controller
   {
-    private PeticionCategoria peticionCategoria = new PeticionCategoria();
-    private PeticionM8_Localidad peticionLocalidad = new PeticionM8_Localidad();
-    private PeticionEvento peticionEvento = new PeticionEvento();
     // GET: M8Events
     public ActionResult Index()
     {
@@ -31,41 +25,13 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult CreateEvent(int id = -1)
     {
       ViewBag.Title = "Categorías";
-      IList<Categories> listaCategorias = null;
-      IList<LocalidadEvento> listaLocalidades = null;
-      try
-      {
-        JObject respuestaCategoria = peticionCategoria.Get(id);
-        JObject respuestaLocalidad = peticionLocalidad.GetAll();
-        if (respuestaCategoria.Property("data") != null)
-        {
-          listaCategorias = respuestaCategoria["data"].ToObject<List<Categories>>();
-        }
-
-        else
-        {
-          listaCategorias = new List<Categories>();
-          ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen Categorias");
-        }
-
-        if (respuestaLocalidad.Property("dato") != null)
-        {
-          listaLocalidades = respuestaLocalidad["dato"].ToObject<List<LocalidadEvento>>();
-        }
-
-        else
-        {
-          listaLocalidades = new List<LocalidadEvento>();
-          ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen localidades");
-        }
-      }
-      catch (Exception e)
-      {
-
-        throw e;
-      }
-      ViewBag.ListLocalidades = listaLocalidades;
-      ViewBag.ListCategoria = listaCategorias;
+      Comando comando = FabricaComando.GetComandoConsultarEventos();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      
+      ModelState.AddModelError(string.Empty,(String) comando.GetResult()[1]);
+      ViewBag.ListLocalidades = comando.GetResult()[2];
+      ViewBag.ListCategoria = comando.GetResult()[0];
       return View();
     }
 
@@ -73,48 +39,18 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult CreateEvent(Evento evento)
     {
-      try
-      {
-       //var idLocalidad = Request["Localidades"].ToString();
-        //evento.IdLocalidad = Int32.Parse(idLocalidad);
-        evento.IdLocalidad = 1;
-        evento.Foto = "jorge";
-        System.Console.Write("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        /*evento.FechaInicio = new DateTime(12, 12, 12);
-        evento.FechaFin = new DateTime(12, 12, 12);
-        evento.HoraInicio.AddHours(12);
-        evento.HoraInicio.AddMinutes(12);
-        evento.HoraFin.AddHours(12);
-        evento.HoraFin.AddMinutes(12);*/
+      
+      //var idLocalidad = Request["Localidades"].ToString();
+      //evento.IdLocalidad = Int32.Parse(idLocalidad);
+      evento.IdLocalidad = 1;
+      evento.Foto = "jorge";
+      evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
+      Comando comando = FabricaComando.GetComandoInsertarEvento();
+      comando.SetPropiedad(evento);
+      comando.Execute(); 
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+      return RedirectToAction("FilterEvent");  // TERMINAR
 
-        var id = Request["Categoria"].ToString();
-        evento.IdCategoria = Int32.Parse(id);
-        System.Console.Write("EL ID DE LA LOCALIDAD ES: "+evento.IdLocalidad);
-
-
-        JObject respuesta = peticionEvento.Post(evento);
-        if (respuesta.Property("dato") == null)
-        {
-
-          
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-
-        }
-        else
-        {
-          
-          ModelState.AddModelError(string.Empty, "Se hizo con exito");
-          return RedirectToAction("FilterEvent");
-        }
-      }
-      catch (NullReferenceException e)
-      {
-
-        throw e;
-      }
-
-
-      return View();
     }
 
     // GET: M8Events/Edit/5
@@ -164,66 +100,28 @@ namespace BackOffice_COCO_TRIP.Controllers
     // GET: M8Events
     [HttpGet]
     public ActionResult FilterEvent()
-    {
-
-     
+    { 
       ViewBag.Title = "Eventos por Categorias";
-      IList<Categories> MyList = null;
-      try
-      {
-        JObject respuesta = peticionCategoria.Get(-1);
-        if (respuesta.Property("data") != null)
-        {
-          MyList = respuesta["data"].ToObject<List<Categories>>();
-        }
-
-        else
-        {
-          MyList = new List<Categories>();
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-        }
-
-        TempData["listaCategorias"] = MyList;
-      }
-      catch (Exception e)
-      {
-
-        throw e;
-      }
-      ViewBag.MyList = MyList;
-      IList<Evento> evento;
-      evento = (IList<Evento>)TempData["evento"];
-      return View(evento);
+      Comando comando = FabricaComando.GetComandoConsultarCategorias();
+      comando.Execute();
+      ViewBag.MyList = comando.GetResult()[0];
+      TempData["listaCategorias"] = comando.GetResult()[0];
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      return View((IList<Evento>)TempData["evento"]);
     }
 
 
     [HttpGet]
     public ActionResult enviarFilterEvent()
     {
-     var IdCategoria = Request["Mover a la categoria"].ToString();
-     int Id= Int32.Parse(IdCategoria);
-
-      JObject respuesta = peticionEvento.Get(Id);
-      IList<Evento> evento = null;
-      if (respuesta.Property("dato") == null)
-      {
-
-
-        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-
-
-      }
-      else
-      {
-        ModelState.AddModelError(string.Empty, "Se hizo con exito");
-
-        evento = respuesta["dato"].ToObject<List<Evento>>();
-
-        TempData["evento"] = evento;
-        return RedirectToAction("FilterEvent", "M8Events", evento);
-      }
-
-      return RedirectToAction("FilterEvent");
+     int id= Int32.Parse(Request["Mover a la categoria"].ToString());
+      Comando comando = FabricaComando.GetComandoFiltrarEventoPorCategoria();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      TempData["evento"] = comando.GetResult()[0];
+      if(comando.GetResult()[0] == null)
+        return RedirectToAction("FilterEvent");
+      return RedirectToAction("FilterEvent", "M8Events", comando.GetResult()[0]);
     }
 
   }
