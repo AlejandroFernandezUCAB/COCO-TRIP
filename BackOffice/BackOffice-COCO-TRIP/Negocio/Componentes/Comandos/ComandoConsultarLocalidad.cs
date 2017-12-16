@@ -2,6 +2,7 @@ using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,11 +13,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
   public class ComandoConsultarLocalidad : Comando
   {
     private int id;
-    private LocalidadEvento localidad;
-    private String mensaje;
-    public ComandoConsultarLocalidad(int id) {
-      this.id = id;
-    }
+    private ArrayList resultado= new ArrayList();
 
     public override void Execute()
     {
@@ -25,27 +22,24 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 
       if (respuesta.Property("dato") == null)
       {
-
-
-        mensaje= "Ocurrio un error durante la comunicacion, revise su conexion a internet";
-        localidad = new LocalidadEvento();
-
+        resultado.Add(new Localidad());
+        resultado.Add("Ocurrio un error durante la comunicacion, revise su conexion a internet");
       }
       else
       {
-        mensaje= "Se hizo con exito";
-        localidad = respuesta["dato"].ToObject<LocalidadEvento>();
+        resultado.Add(respuesta["dato"].ToObject<Localidad>());
+        resultado.Add("Se hizo con exito");
       }
     }
 
-    public override object GetResult()
+    public override ArrayList GetResult()
     {
-      return localidad;
+      return resultado;
     }
-    /*
-    public String GetMensaje() {
-      return mensaje;
+
+    public override void SetPropiedad(object propiedad)
+    {
+      this.id = (int)propiedad;
     }
-    */
   }
 }

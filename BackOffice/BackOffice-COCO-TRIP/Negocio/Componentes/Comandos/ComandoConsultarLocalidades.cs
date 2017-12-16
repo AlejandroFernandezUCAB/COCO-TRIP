@@ -2,16 +2,14 @@ using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoConsultarLocalidades : Comando
   {
-    private IList<LocalidadEvento> listLocalidadEvento;
+    private ArrayList resultado = new ArrayList();
    
     public override void Execute()
     {
@@ -20,18 +18,23 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 
       if (respuesta.Property("dato") != null)
       {
-        listLocalidadEvento = respuesta["dato"].ToObject<List<LocalidadEvento>>();
+        resultado.Add(respuesta["dato"].ToObject<List<Localidad>>());
       }
 
       else
       {
-        listLocalidadEvento = new List<LocalidadEvento>();
+        resultado.Add(new List<Localidad>());
       }
     }
 
-    public override object GetResult()
+    public override ArrayList GetResult()
     {
-      return listLocalidadEvento;
+      return resultado;
+    }
+
+    public override void SetPropiedad(object propiedad)
+    {
+      throw new NotImplementedException();
     }
   }
 }

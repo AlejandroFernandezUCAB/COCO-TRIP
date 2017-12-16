@@ -1,3 +1,4 @@
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

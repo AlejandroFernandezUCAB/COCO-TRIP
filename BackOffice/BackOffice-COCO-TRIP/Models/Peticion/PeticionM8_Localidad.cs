@@ -13,7 +13,7 @@ using BackOffice_COCO_TRIP.Datos.Entidades;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {
-  public class PeticionM8_Localidad : BasePeticion<JObject, LocalidadEvento>
+  public class PeticionM8_Localidad : BasePeticion<JObject, Localidad>
   {
     private const string ControllerUri = "M8_LocalidadEvento";
     private JObject responseData;
@@ -267,12 +267,12 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Patch(LocalidadEvento data)
+    public override JObject Patch(Localidad data)
     {
       throw new NotImplementedException();
     }
 
-    public override JObject Post(LocalidadEvento data)
+    public override JObject Post(Localidad data)
     {
       try
       {
@@ -365,7 +365,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Put(LocalidadEvento data)
+    public override JObject Put(Localidad data)
     {
       try
       {

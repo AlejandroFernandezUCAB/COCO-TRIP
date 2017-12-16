@@ -170,13 +170,18 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\M8EventsController.cs" />
     <Compile Include="Controllers\M8_LocalidadController.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarEvento.cs" />
+    <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Models\Categories.cs" />
-    <Compile Include="Models\Evento.cs" />
-    <Compile Include="Datos\Entidades\LocalidadEvento.cs" />
+    <Compile Include="Datos\Entidades\Evento.cs" />
+    <Compile Include="Datos\Entidades\Localidad.cs" />
     <Compile Include="Models\Peticion\PeticionEvento.cs" />
     <Compile Include="Models\Peticion\PeticionM8_Localidad.cs" />
     <Compile Include="Models\Actividad.cs" />
@@ -300,7 +305,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Datos\Fabrica\" />
     <Folder Include="Views\M8Events\App_LocalResources\" />
   </ItemGroup>
   <ItemGroup>
