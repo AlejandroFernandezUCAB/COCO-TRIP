@@ -6,12 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BackOffice_COCO_TRIP.Models
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
-  public class Evento
+  public class Evento : Entidad
   {
 
-    int id;
     string nombre;
     string descripcion;
     double precio;
@@ -24,7 +23,6 @@ namespace BackOffice_COCO_TRIP.Models
     int idCategoria;
 
     // Getters y Setters de la clase Evento.
-    public int Id { get => id; set => id = value; }
     public string Nombre { get => nombre; set => nombre = value; }
     public string Descripcion { get => descripcion; set => descripcion = value; }
     public double Precio { get => precio; set => precio = value; }
@@ -41,7 +39,7 @@ namespace BackOffice_COCO_TRIP.Models
     /// </summary>
     public Evento()
     {
-      this.id = 0;
+      this.Id = 0;
       this.nombre = null;
       this.descripcion = null;
       this.precio = 0;
@@ -61,7 +59,7 @@ namespace BackOffice_COCO_TRIP.Models
     /// <param name="nombre">Nombre del evento.</param>
     public Evento(int id, string nombre)
     {
-      this.id = id;
+      this.Id = id;
       this.nombre = nombre;
       this.descripcion = null;
       this.precio = 0;
@@ -90,7 +88,7 @@ namespace BackOffice_COCO_TRIP.Models
     /// <param name="idCategoria">Id unico que representa la categoria a la que pertenece el evento.</param>
     public Evento(int id, string nombre, string descripcion, double precio, DateTime fechaInicio, DateTime fechaFin, DateTime horaInicio, DateTime horaFin, string foto, int idLocalidad, int idCategoria)
     {
-      this.id = 0;
+      this.Id = 0;
       this.nombre = null;
       this.descripcion = null;
       this.precio = 0;

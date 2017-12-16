@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using System.Web;
 using BackOffice_COCO_TRIP.Datos.Entidades;
 
-namespace BackOffice_COCO_TRIP.Models.Peticion
+namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class PeticionM8_Localidad : BasePeticion<JObject, LocalidadEvento>
+  public class DAOLocalidad : DAO<JObject, Localidad>
   {
     private const string ControllerUri = "M8_LocalidadEvento";
     private JObject responseData;
@@ -22,7 +22,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -105,7 +105,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -188,7 +188,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -267,16 +267,16 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Patch(LocalidadEvento data)
+    public override JObject Patch(Localidad data)
     {
       throw new NotImplementedException();
     }
 
-    public override JObject Post(LocalidadEvento data)
+    public override JObject Post(Localidad data)
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -365,11 +365,11 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Put(LocalidadEvento data)
+    public override JObject Put(Localidad data)
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();

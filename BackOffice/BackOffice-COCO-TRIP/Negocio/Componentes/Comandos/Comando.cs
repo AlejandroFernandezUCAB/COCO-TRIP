@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
@@ -7,6 +7,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
   {
 
     public abstract void  Execute();
-    public abstract Object GetResult();
+    public abstract void SetPropiedad(Object propiedad);
+    public abstract ArrayList GetResult();
   }
 }
