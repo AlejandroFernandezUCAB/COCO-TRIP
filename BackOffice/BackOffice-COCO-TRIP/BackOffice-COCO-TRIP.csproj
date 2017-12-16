@@ -170,6 +170,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\M8EventsController.cs" />
     <Compile Include="Controllers\M8_LocalidadController.cs" />
+    <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\Entidades\Categoria.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
@@ -187,7 +188,6 @@
     <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Datos\DAO\DAOLocalidad.cs" />
     <Compile Include="Models\Actividad.cs" />
-    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Foto.cs" />
     <Compile Include="Models\Horario.cs" />
     <Compile Include="Models\LugarTuristico.cs" />

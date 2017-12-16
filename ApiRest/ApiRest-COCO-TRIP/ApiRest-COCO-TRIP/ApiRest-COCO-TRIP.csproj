@@ -154,9 +154,6 @@
     </Compile>
     <Compile Include="Models\Agenda.cs" />
     <Compile Include="Models\Archivo.cs" />
-    <Compile Include="Models\BaseDeDatos\DAO.cs" />
-    <Compile Include="Models\BaseDeDatos\DAO_Categorias.cs" />
-    <Compile Include="Models\BaseDeDatos\FabricaDAO.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Evento.cs" />
