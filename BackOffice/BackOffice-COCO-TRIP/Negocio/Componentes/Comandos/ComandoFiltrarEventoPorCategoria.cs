@@ -1,11 +1,9 @@
+using BackOffice_COCO_TRIP.Datos.DAO;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
@@ -15,7 +13,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     private ArrayList resultado = new ArrayList();
     public override void Execute()
     {
-      PeticionEvento peticionEvento = new PeticionEvento();
+      DAO<JObject, Evento> peticionEvento = FabricaDAO.GetDAOEvento();
       JObject respuesta = peticionEvento.Get(id);
       if (respuesta.Property("dato") == null)
       {

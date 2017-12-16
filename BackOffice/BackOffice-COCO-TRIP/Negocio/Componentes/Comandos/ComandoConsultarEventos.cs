@@ -1,6 +1,8 @@
+using BackOffice_COCO_TRIP.Datos.DAO;
 using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Models.Peticion;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -17,9 +19,10 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       try
       {
         PeticionCategoria peticionCategoria = new PeticionCategoria();
-        PeticionM8_Localidad peticionLocalidad = new PeticionM8_Localidad();
+        // DAO peticionCategoria = FabricaDAO.GetDAOCategoria();
+        DAO<JObject, Localidad> peticionLocalidad = FabricaDAO.GetDAOLocalidad();
         JObject respuestaCategoria = peticionCategoria.Get(id);
-        JObject respuestaLocalidad = peticionLocalidad.GetAll();
+        JObject respuestaLocalidad = ((DAOLocalidad)peticionLocalidad).GetAll();
         if (respuestaCategoria.Property("data") != null)
         {
           resultado.Add(respuestaCategoria["data"].ToObject<List<Categories>>());

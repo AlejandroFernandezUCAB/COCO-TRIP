@@ -16,6 +16,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       try
       {
         PeticionCategoria peticionCategoria = new PeticionCategoria();
+        // DAO peticionCategoria = FabricaDAO.GetDAOCategoria();
         JObject respuesta = peticionCategoria.Get(-1);
         if (respuesta.Property("data") != null)
         {

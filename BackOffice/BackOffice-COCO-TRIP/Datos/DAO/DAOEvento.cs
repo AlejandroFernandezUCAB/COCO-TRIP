@@ -9,9 +9,9 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Web;
 
-namespace BackOffice_COCO_TRIP.Models.Peticion
+namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class PeticionEvento : BasePeticion<JObject, Evento>
+  public class DAOEvento : DAO<JObject, Evento>
   {
     private const string ControllerUri = "M8_Eventos";
     private JObject responseData;
@@ -25,7 +25,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -115,7 +115,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();

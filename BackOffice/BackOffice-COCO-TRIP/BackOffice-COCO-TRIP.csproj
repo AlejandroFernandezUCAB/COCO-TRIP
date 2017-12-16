@@ -170,6 +170,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\M8EventsController.cs" />
     <Compile Include="Controllers\M8_LocalidadController.cs" />
+    <Compile Include="Datos\DAO\DAO.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
@@ -182,8 +183,8 @@
     <Compile Include="Models\Categories.cs" />
     <Compile Include="Datos\Entidades\Evento.cs" />
     <Compile Include="Datos\Entidades\Localidad.cs" />
-    <Compile Include="Models\Peticion\PeticionEvento.cs" />
-    <Compile Include="Models\Peticion\PeticionM8_Localidad.cs" />
+    <Compile Include="Datos\DAO\DAOEvento.cs" />
+    <Compile Include="Datos\DAO\DAOLocalidad.cs" />
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Foto.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoEditarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarLocalidad.cs" />
+    <Compile Include="Negocio\Fabrica\FabricaDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

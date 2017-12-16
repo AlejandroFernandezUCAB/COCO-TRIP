@@ -1,12 +1,7 @@
-using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
 
@@ -14,9 +9,6 @@ namespace BackOffice_COCO_TRIP.Controllers
 {
   public class M8EventsController : Controller
   {
-    private PeticionCategoria peticionCategoria = new PeticionCategoria();
-    private PeticionM8_Localidad peticionLocalidad = new PeticionM8_Localidad();
-    private PeticionEvento peticionEvento = new PeticionEvento();
     // GET: M8Events
     public ActionResult Index()
     {

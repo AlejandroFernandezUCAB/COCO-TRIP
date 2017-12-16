@@ -1,5 +1,6 @@
+using BackOffice_COCO_TRIP.Datos.DAO;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 
@@ -11,7 +12,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     private ArrayList resultado = new ArrayList();
     public override void Execute()
     {
-      PeticionM8_Localidad peticion = new PeticionM8_Localidad();
+      DAO<JObject, Localidad> peticion = FabricaDAO.GetDAOLocalidad();
       JObject respuesta = peticion.Put(localidad);
       if (respuesta.Property("dato") == null)
       {
