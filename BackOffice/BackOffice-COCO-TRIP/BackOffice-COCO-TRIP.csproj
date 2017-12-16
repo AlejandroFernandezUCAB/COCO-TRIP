@@ -201,11 +201,8 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoEditarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarLocalidad.cs" />
-<<<<<<< HEAD
     <Compile Include="Negocio\Componentes\Comandos\ComandoModificarCategoria.cs" />
-=======
     <Compile Include="Negocio\Fabrica\FabricaDAO.cs" />
->>>>>>> d863b8018f1fdd0728ac19bbe45b0102940c000e
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
