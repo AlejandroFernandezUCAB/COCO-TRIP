@@ -16,6 +16,11 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 
       return new DAOLocalidad();
     }
+
+    public static DAOCategoria GetDAOCategoria()
+    {
+      return new DAOCategoria();
+    }
     
   }
 }

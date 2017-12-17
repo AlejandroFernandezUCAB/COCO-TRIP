@@ -1,6 +1,6 @@
 @Styles.Render("~/bundles/categoriesCSS")
 @using BackOffice_COCO_TRIP.Helpers
-@model BackOffice_COCO_TRIP.Models.Categories
+@model BackOffice_COCO_TRIP.Datos.Entidades.Categoria
 <div class="card color-texto">
   <div class="container-fluid pad-top">
     <div><h4>Ingrese los datos:</h4></div>
@@ -30,7 +30,7 @@
         <div class="form-group row">
           @Html.Label("Categoria superior", htmlAttributes: new { @class = "col-sm-2 control-label" })
           <div class="col-sm-10">
-            @Html.DropDownList("Categoria superior", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Models.Categories>, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("Categoria superior", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria>, htmlAttributes: new { @class = "form-control" })
           </div>
         </div>
 

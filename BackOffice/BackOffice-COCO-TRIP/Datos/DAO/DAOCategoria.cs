@@ -1,30 +1,20 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using System.Web;
 
-namespace BackOffice_COCO_TRIP.Models.Peticion
+namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-
-  /// <summary>
-  /// Clase  base para realizar peticiones al servicio web
-  /// </summary>
-  public class PeticionCategoria : BasePeticion<JObject, Categoria>
+  public class DAOCategoria:DAO<JObject,Categoria>
   {
-
     private const string ControllerUri = "M9_Categorias";
     private JObject responseData;
 
 
-   
+
     public override JObject Delete(int id)
     {
       throw new NotImplementedException();
@@ -330,7 +320,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "id", data.Id },
+            { "IdCategoria", data.Id },
             { "nombre",data.Name },
             { "descripcion", data.Description },
             { "categoriaSuperior",data.UpperCategories },
@@ -588,9 +578,5 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
 
     }
-
-
-
-
   }
 }

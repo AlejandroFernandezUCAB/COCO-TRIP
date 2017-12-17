@@ -4,6 +4,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using BackOffice_COCO_TRIP.Datos.Entidades;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
+using BackOffice_COCO_TRIP.Datos.DAO;
 
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
@@ -15,9 +18,8 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     {
       try
       {
-        PeticionCategoria peticionCategoria = new PeticionCategoria();
-        // DAO peticionCategoria = FabricaDAO.GetDAOCategoria();
-        JObject respuesta = peticionCategoria.Get(-1);
+        DAO<JObject,Categoria> dao = FabricaDAO.GetDAOCategoria();
+        JObject respuesta = dao.Get(-1);
         if (respuesta.Property("data") != null)
         {
           resultado.Add(respuesta["data"].ToObject<List<Categories>>());
