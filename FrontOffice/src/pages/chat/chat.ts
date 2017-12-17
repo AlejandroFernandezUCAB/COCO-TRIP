@@ -1,3 +1,6 @@
+import { Entidad } from '../../dataAccessLayer/domain/entidad';
+import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
+import { FabricaComando } from './../../businessLayer/factory/fabricaComando';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ConversacionPage } from '../chat/conversacion/conversacion';
@@ -7,8 +10,6 @@ import { ChatProvider } from '../../providers/chat/chat';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
-
-
 
 /**
  * Generated class for the ChatPage page.
@@ -42,6 +43,7 @@ export class ChatPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
+    
   }
 
   tapEvent(item){
@@ -91,6 +93,14 @@ export class ChatPage {
       ]
     });
     actionSheet.present();
+  }
+
+  ionViewWillEnter(){
+    let entidad: Mensaje;
+    entidad = new Mensaje("mensaje","nombre 1", "nombre 2");
+    let comando = FabricaComando.crearComandoCrearMensaje();
+    comando._entidad = entidad;
+    comando.execute;
   }
 
   inicializarConversacion(/*conversacion*/){

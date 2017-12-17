@@ -1,3 +1,4 @@
+import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { Component, ViewChild, NgZone } from '@angular/core';
 import { Platform, ActionSheetController, Events, Content } from 'ionic-angular';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
@@ -9,6 +10,7 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 import { ChatProvider } from '../../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 
 @IonicPage()
 @Component({
@@ -58,7 +60,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 ionViewWillEnter() {
   this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
-  this.storage.get('id').then((val) => { 
+  this.storage.get('id').then((val) => {
     
           this.idUsuario = val;
           // hacemos la llamada al apirest con el id obtenido
@@ -72,15 +74,15 @@ ionViewWillEnter() {
     
         });
   
-        this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
-        this.scrollto();
-        this.idUsuario =
-        this.events.subscribe('nuevoMensaje', () => {
-          this.todosLosMensajes = [];
-          this.zone.run(() => {
-            this.todosLosMensajes = this.chatService.mensajesConversacion;
-          })
-        })
+    this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
+    this.scrollto();
+    this.idUsuario =
+    this.events.subscribe('nuevoMensaje', () => {
+      this.todosLosMensajes = [];
+      this.zone.run(() => {
+        this.todosLosMensajes = this.chatService.mensajesConversacion;
+      })
+    })
 
  }
 
@@ -179,10 +181,15 @@ pressEvent1(){
   }*/
 
   agregarMensajeAmigo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
+    /*this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
     this.content.scrollToBottom();
     this.nuevoMensaje = '';
-
+    */
+    let entidad: Mensaje;
+    entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
+    let comando = FabricaComando.crearComandoCrearMensaje();
+    comando._entidad = entidad;
+    comando.execute();
   }
 
   agregarMensajeGrupo() {
@@ -199,7 +206,6 @@ pressEvent1(){
       this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
     }*/
     this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario.NombreAmigo,this.usuario.NombreUsuario);
-
   }
 
   scrollto() {
