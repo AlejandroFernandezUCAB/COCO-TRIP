@@ -4,12 +4,14 @@ using System;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO;
+using System.Collections.Generic;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoModificarCategoria : Comando
   {
     private Categoria categoria;
+    private ArrayList resultado = new ArrayList();
     DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
     
     public override void Execute()
@@ -19,17 +21,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
         DAOCategoria daoc = (DAOCategoria)dao;
         JObject respuesta = daoc.PutEditarCategoria(categoria);
-/*       if (respuesta.Property("data") != null)
-        {
-          resultado.Add(respuesta["data"].ToObject<List<Categories>>());
-          resultado.Add("Exito");
-        }
-
-        else
-        {
-          resultado.Add(new List<Categories>());
-          resultado.Add("Ocurrio un error durante la comunicacion, revise su conexion a internet");
-        }*/
+        resultado.Add(respuesta);
       }
       catch (Exception e)
       {
@@ -41,7 +33,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     }
     public override ArrayList GetResult()
     {
-      throw new NotImplementedException();
+      return resultado;
     }
    
 

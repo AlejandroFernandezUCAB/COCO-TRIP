@@ -13,7 +13,7 @@ namespace BackOffice_COCO_TRIP.Helpers
   public static class HtmlHelpers
   {
 
-    public static MvcHtmlString DropDownList(this HtmlHelper helper, string name, IList<Categories> list, object htmlAttributes)
+    public static MvcHtmlString DropDownList(this HtmlHelper helper, string name, IList<Categoria> list, object htmlAttributes)
     {
       TagBuilder dropdown = new TagBuilder("select");
       dropdown.Attributes.Add("name", name);
@@ -29,7 +29,7 @@ namespace BackOffice_COCO_TRIP.Helpers
       return MvcHtmlString.Create(dropdown.ToString(TagRenderMode.Normal));
     }
 
-    public static MvcHtmlString DropDownListCategoriesEvents(this HtmlHelper helper, string name, IList<Categories> list, object htmlAttributes)
+    public static MvcHtmlString DropDownListCategoriesEvents(this HtmlHelper helper, string name, IList<Categoria> list, object htmlAttributes)
     {
       TagBuilder dropdown = new TagBuilder("select");
       dropdown.Attributes.Add("name", name);

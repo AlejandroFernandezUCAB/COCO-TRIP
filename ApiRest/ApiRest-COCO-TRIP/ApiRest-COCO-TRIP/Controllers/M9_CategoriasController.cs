@@ -39,7 +39,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         ValidacionWS.validarParametrosNotNull(data, new List<string> {
-          "IdCategoria",
+          "id",
           "estatus"
         });
 
@@ -147,7 +147,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         ValidacionWS.validarParametrosNotNull(data, new List<string> {
-            "IdCategoria",
+            "id",
             "nombre",
             "descripcion",
             "categoriaSuperior",

@@ -15,7 +15,6 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     private string _name;
 
     [JsonProperty(PropertyName = "nombre")]
-    [Display(Name = "Nombre")]
     [Required(ErrorMessage = "Debe llenar este campo")]
     public string Name
     {
@@ -27,7 +26,6 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     private string _description;
 
     [JsonProperty(PropertyName = "descripcion")]
-    [Display(Name = "Descripcion")]
     [Required(ErrorMessage = "Debe llenar este campo")]
     public string Description
     {

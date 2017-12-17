@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,7 +17,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
   /// <summary>
   /// Clase  base para realizar peticiones al servicio web
   /// </summary>
-  public class PeticionCategoria : BasePeticion<JObject, Categories>
+  public class PeticionCategoria : BasePeticion<JObject, Categoria>
   {
 
     private const string ControllerUri = "M9_Categorias";
@@ -120,7 +121,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <summary>
     /// Clase abstracta base para realizar peticiones al servicio web
     /// </summary>
-    public override JObject Patch(Categories data)
+    public override JObject Patch(Categoria data)
     {
       throw new NotImplementedException();
     }
@@ -128,7 +129,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <summary>
     /// Clase que permite agregar una nueva categoria mediante peticiones al servicio web 
     /// </summary>
-    public override JObject Post(Categories data)
+    public override JObject Post(Categoria data)
     {
       try
       {
@@ -226,7 +227,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <summary>
     /// Clase Para actualizar el Status de una categoria mediante peticiones al servicio web
     /// </summary>
-    public override JObject Put(Categories data)
+    public override JObject Put(Categoria data)
     {
       try
       {
@@ -319,7 +320,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <summary>
     /// Clase Para Modificar una categoria mediante peticiones al servicio web 
     /// </summary>
-    public JObject PutEditarCategoria(Categories data)
+    public JObject PutEditarCategoria(Categoria data)
     {
       try
       {
@@ -329,7 +330,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "IdCategoria", data.Id },
+            { "id", data.Id },
             { "nombre",data.Name },
             { "descripcion", data.Description },
             { "categoriaSuperior",data.UpperCategories },
