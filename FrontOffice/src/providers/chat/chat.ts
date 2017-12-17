@@ -55,9 +55,9 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) {
 }  
     
    
-  agregarNuevoMensajeGrupo(mensaje,idGrupo,idRemitente) {
+  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) {
     this.fireConversacionChatsGrupo.child(idGrupo).push({
-      enviadorPor: idRemitente,
+      enviadorPor: emisor,
       eliminado: false,
       modificado: false,
       mensaje: mensaje,

@@ -185,12 +185,7 @@ pressEvent1(){
 
   }
 
-  agregarMensajeGrupo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario);
-      this.content.scrollToBottom();
-      this.nuevoMensaje = '';
-
-  }
+  
 
   ionViewDidEnter() {
     /*if(this.idAmigo){
