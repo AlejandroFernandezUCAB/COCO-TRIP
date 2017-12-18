@@ -62,5 +62,9 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoConsultarCategoriaHabilitada();
     }
+    public static ComandoConsultarCategoriaSelect GetComandoConsultarCategoriaSelect()
+    {
+      return new ComandoConsultarCategoriaSelect();
+    }
   }
 }

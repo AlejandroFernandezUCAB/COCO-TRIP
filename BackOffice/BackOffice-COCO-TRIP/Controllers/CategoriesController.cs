@@ -45,13 +45,15 @@ namespace BackOffice_COCO_TRIP.Controllers
 
 
     /// <summary>
-    /// Metodo que nos permite listar las categorias existentes a la hora de agregar una nueva mediante  peticiones al servicio web
+    /// Metodo que carga la pagina de creacion de categoria
     /// </summary>
     // GET: Categories/Create
     public ActionResult Create()
     {
       ViewBag.Title = "Agregar Categoría";
-      var listaCategorias = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
       if (listaCategorias != null)
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
@@ -95,7 +97,9 @@ namespace BackOffice_COCO_TRIP.Controllers
         ValidarErrorPorDuplicidad(respuesta);
       }
 
-      var listaCategorias = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
       if (listaCategorias != null)
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
@@ -122,7 +126,9 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(int id)
     {
       ViewBag.Title = "Editar Categoría";
-      var listaCategoriasSelect = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategoriasSelect = (List<Categoria>)com.GetResult()[0];
       if (listaCategoriasSelect != null)
       {
         listaCategoriasSelect = listaCategoriasSelect.Where(s => s.Nivel < 3 && s.Id != id).ToList();
@@ -193,7 +199,9 @@ namespace BackOffice_COCO_TRIP.Controllers
         ValidarErrorPorDuplicidad(respuesta);
       }
 
-      var listaCategorias = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
       if (listaCategorias != null)
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3 && s.Id != id).ToList();
@@ -223,30 +231,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       com.Execute();
       JObject respuesta = (JObject)com.GetResult()[0];
       return Json(respuesta);
-    }
-
-    /// <summary>
-    /// Metodo que nos permite obtener la lista de las categorias habilitadas mediante una consulta
-    /// </summary>
-    private IList<Categoria> ConsutarCategoriasSelect()
-    {
-      IList<Categoria> listCategories = null;
-      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
-      com.Execute();
-      JObject respuesta = (JObject)com.GetResult()[0];
-      if (respuesta.Property("data") != null)
-      {
-        listCategories = respuesta["data"].ToObject<IList<Categoria>>();
-        
-      }
-
-      else
-      {
-        listCategories = null;
-       
-      }
-
-      return listCategories;
     }
 
     /// <summary>
