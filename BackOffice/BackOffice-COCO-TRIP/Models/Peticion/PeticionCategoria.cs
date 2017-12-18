@@ -237,7 +237,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "IdCategoria", data.Id },
+            { "id", data.Id },
             { "estatus", data.Status }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/actualizarEstatus", jsonData);
@@ -334,7 +334,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
             { "nombre",data.Name },
             { "descripcion", data.Description },
             { "categoriaSuperior",data.UpperCategories },
-            {"nivel", data.Nivel }
+            { "nivel", data.Nivel }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);
           responseTask.Wait();

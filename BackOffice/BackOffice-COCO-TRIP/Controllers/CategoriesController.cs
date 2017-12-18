@@ -180,7 +180,10 @@ namespace BackOffice_COCO_TRIP.Controllers
         var idNivel = Request["Mover a la categoria"].ToString().Split('-');
         categories.UpperCategories = Int32.Parse(idNivel[0]);
         categories.Nivel = Int32.Parse(idNivel[1]) + 1;
-        JObject respuesta = peticion.PutEditarCategoria(categories);
+        Comando com = FabricaComando.GetComandoModificarCategoria();
+        com.SetPropiedad(categories);
+        com.Execute();
+        JObject respuesta = (JObject)com.GetResult()[0];
         if (respuesta.Property("data") != null)
         {
           return RedirectToAction("Index");

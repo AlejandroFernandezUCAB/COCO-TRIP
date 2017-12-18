@@ -227,7 +227,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "IdCategoria", data.Id },
+            { "id", data.Id },
             { "estatus", data.Status }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/actualizarEstatus", jsonData);
@@ -320,7 +320,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "IdCategoria", data.Id },
+            { "id", data.Id },
             { "nombre",data.Name },
             { "descripcion", data.Description },
             { "categoriaSuperior",data.UpperCategories },
