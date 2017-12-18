@@ -4,12 +4,15 @@ export class Mensaje extends Entidad {
     private _mensaje: string;
     private _usuario: string;
     private _amigo:string;
+    private _idGrupo:number;
     
-    constructor(mensaje : string , usuario : string , amigo : string ) {
+    constructor(mensaje : string , usuario : string , amigo : string, idGrupo:number ) {
         super();
         this._mensaje = mensaje;
         this._usuario = usuario;
         this._amigo = amigo;
+        this._idGrupo=idGrupo;
+
         
     }
 
@@ -34,6 +37,13 @@ export class Mensaje extends Entidad {
     }
     set setAmigo(amigo:string) {
         this._amigo = amigo;
+    }
+
+    get getidGrupo():number {
+        return this._idGrupo;
+    }
+    set setidGrupo(id:number) {
+        this._idGrupo = id;
     }
     
     

@@ -1,17 +1,13 @@
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace ApiRest_COCO_TRIP.Models
+namespace BackOffice_COCO_TRIP.Models
 {
   public class Categoria
   {
 
     private int id;
 
-    [JsonProperty(PropertyName = "id")]
+    [JsonProperty(PropertyName = "IdCategoria")]
     public int Id
     {
       get { return id; }
@@ -28,7 +24,7 @@ namespace ApiRest_COCO_TRIP.Models
     }
 
     private string descripcion;
- 
+
     [JsonProperty(PropertyName = "descripcion")]
     public string Descripcion
     {
@@ -103,4 +99,5 @@ namespace ApiRest_COCO_TRIP.Models
     }
     */
   }
+
 }

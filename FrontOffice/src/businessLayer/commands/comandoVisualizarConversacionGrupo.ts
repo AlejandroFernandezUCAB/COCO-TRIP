@@ -3,7 +3,7 @@ import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import  { Comando } from './comando';
 import { DAOChatGrupo } from '../../dataAccessLayer/dao/daoChatGrupo';
 
-export class ComandoVisualizarConversacionAmigo extends Comando {
+export class ComandoVisualizarConversacionGrupo extends Comando {
 
     
 
