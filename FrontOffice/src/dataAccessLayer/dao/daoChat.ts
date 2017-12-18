@@ -6,10 +6,21 @@ import firebase from 'firebase';
 
 
 export class DAOChat extends DAO {
-    chat:ChatProvider;
     
-    public agregar(entidad : Entidad){
-       return null;
+    public agregar(entidad : Entidad): Entidad{
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        return null;
+    }
+
+    public agregarMensajeGrupo(entidad : Entidad): Entidad{
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        return null;
     }
 
     visualizar() : Entidad{

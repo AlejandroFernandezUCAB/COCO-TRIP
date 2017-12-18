@@ -7,7 +7,7 @@
 <ion-header>
   
     <ion-navbar color="hcolor">
-      <ion-title>{{nombreUsuario.NombreAmigo}}</ion-title>
+      <ion-title>Conversacion Grupo</ion-title>
     </ion-navbar>
   
   </ion-header>
@@ -37,7 +37,7 @@
     <ion-toolbar class="no-border" color="white">        
       <ion-input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." class=chatbox></ion-input>  
       <ion-buttons end>
-        <button ion-button (click)="agregarMensajeAmigo()">
+        <button ion-button (click)="agregarMensajeGrupo()">
           <ion-icon name="send" color="secundary"></ion-icon>
         </button>
       </ion-buttons>
