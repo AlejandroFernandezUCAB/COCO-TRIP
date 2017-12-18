@@ -54,38 +54,38 @@ CREATE TABLE Preferencia(
 );
 --Fin de modulo
 --Modulo 3
-Create Table Grupo
+CREATE TABLE Grupo
 (
-gr_id int NOT NULL,
+gr_id integer NOT NULL,
 gr_nombre varchar(100) NOT NULL,
-gr_foto varchar,
-fk_usuario int NOT NULL,
+gr_foto varchar (320),
+fk_usuario integer NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
-CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
+CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) REFERENCES Usuario(us_id)
 );
 
-Create Table Miembro
+CREATE TABLE Miembro
 (
-mi_id int NOT NULL,
-fk_grupo int NOT NULL,
-fk_usuario int NOT NULL,
+mi_id integer NOT NULL,
+fk_grupo integer NOT NULL,
+fk_usuario integer NOT NULL,
 
 CONSTRAINT pk_miembro PRIMARY KEY (mi_id),
-CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id) on delete cascade,
-CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
+CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) REFERENCES Grupo(gr_id),
+CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) REFERENCES Usuario(us_id)
 );
 
 Create Table Amigo
 (
-am_id int NOT NULL,
+am_id integer NOT NULL,
 am_aceptado boolean NOT NULL,
-fk_usuario_conoce int NOT NULL,
-fk_usuario_posee int NOT NULL,
+fk_usuario_conoce integer NOT NULL,
+fk_usuario_posee integer NOT NULL,
 
 CONSTRAINT pk_amigo PRIMARY KEY (am_id),
-CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id) on delete cascade,
-CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
+CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) REFERENCES Usuario(us_id),
+CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) REFERENCES Usuario(us_id)
 );
 --Fin de modulo
 --Modulo 4
