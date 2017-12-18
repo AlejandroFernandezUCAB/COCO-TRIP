@@ -171,6 +171,8 @@
     <Compile Include="Controllers\M8EventsController.cs" />
     <Compile Include="Controllers\M8_LocalidadController.cs" />
     <Compile Include="Datos\DAO\DAOCategoria.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOEvento.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOLocalidad.cs" />
     <Compile Include="Datos\Entidades\Categoria.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />

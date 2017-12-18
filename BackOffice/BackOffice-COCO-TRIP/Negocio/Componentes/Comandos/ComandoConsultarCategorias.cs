@@ -1,5 +1,3 @@
-using BackOffice_COCO_TRIP.Models;
-using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -22,13 +20,13 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         JObject respuesta = dao.Get(-1);
         if (respuesta.Property("data") != null)
         {
-          resultado.Add(respuesta["data"].ToObject<List<Categories>>());
+          resultado.Add(respuesta["data"].ToObject<List<Categoria>>());
           resultado.Add("Exito");
         }
 
         else
         {
-          resultado.Add(new List<Categories>());
+          resultado.Add(new List<Categoria>());
           resultado.Add("Ocurrio un error durante la comunicacion, revise su conexion a internet");
         }
 

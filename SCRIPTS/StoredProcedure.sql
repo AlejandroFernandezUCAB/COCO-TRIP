@@ -2341,7 +2341,7 @@ CREATE OR REPLACE FUNCTION actualizarEventoPorId
   _id integer,
   _nombreEvento VARCHAR(100),
   _descripcionEvento VARCHAR(500),
-  _precioEvento integer,
+  _precioEvento float,
   _fechaInicioEvento timestamp,
   _fechaFinEvento timestamp,
   _horaInicioEvento time,

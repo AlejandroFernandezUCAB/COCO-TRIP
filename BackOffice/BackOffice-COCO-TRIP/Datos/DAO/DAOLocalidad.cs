@@ -1,19 +1,16 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using System.Web;
 using BackOffice_COCO_TRIP.Datos.Entidades;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class DAOLocalidad : DAO<JObject, Localidad>
+  public class DAOLocalidad : DAO<JObject, Entidad>, IDAOLocalidad
   {
     private const string ControllerUri = "M8_LocalidadEvento";
     private JObject responseData;
@@ -267,12 +264,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
-    public override JObject Patch(Localidad data)
+    public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
 
-    public override JObject Post(Localidad data)
+    public override JObject Post(Entidad data)
     {
       try
       {
@@ -283,9 +280,9 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           JObject jsonData = new JObject
           {
             
-            { "nombre", data.Nombre },
-            { "descripcion", data.Descripcion },
-             { "coordenadas", data.Coordenadas }
+            { "nombre", ((Localidad)data).Nombre },
+            { "descripcion", ((Localidad)data).Descripcion },
+             { "coordenadas", ((Localidad)data).Coordenadas }
               
               
           };
@@ -365,7 +362,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
-    public override JObject Put(Localidad data)
+    public override JObject Put(Entidad data)
     {
       try
       {
@@ -376,9 +373,9 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           JObject jsonData = new JObject
           {
              { "id", data.Id },
-            { "nombre", data.Nombre },
-            { "descripcion", data.Descripcion },
-             { "coordenadas", data.Coordenadas }
+            { "nombre", ((Localidad)data).Nombre },
+            { "descripcion", ((Localidad)data).Descripcion },
+             { "coordenadas", ((Localidad)data).Coordenadas }
 
 
           };

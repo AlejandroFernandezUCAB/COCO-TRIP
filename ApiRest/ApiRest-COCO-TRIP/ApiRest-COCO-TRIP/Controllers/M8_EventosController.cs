@@ -176,7 +176,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       return respuesta;
     }
 
-
+    /*
     [HttpGet]
     public Evento ConsultarEvento(int id)
     {
@@ -373,6 +373,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
       }
 
-    }
+    
+  */
   }
 }

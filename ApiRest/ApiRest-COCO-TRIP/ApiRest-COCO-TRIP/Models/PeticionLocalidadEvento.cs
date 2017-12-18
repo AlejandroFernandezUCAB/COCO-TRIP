@@ -104,7 +104,7 @@ namespace ApiRest_COCO_TRIP.Models
        Boolean respuesta = false;
       try
       {
-        comando = new NpgsqlCommand("EliminarLocalidadId", conexion.SqlConexion);
+        comando = new NpgsqlCommand("EliminarLocalidadporId", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
         read = comando.ExecuteReader();

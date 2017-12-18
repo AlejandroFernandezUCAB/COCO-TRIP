@@ -141,7 +141,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       return respuesta;
     }
 
-
+    /*
     [HttpGet]
     public int GetIdLocalPorNombre(string nombreLocalidad)
     {
@@ -202,7 +202,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
 
     }
-
+    */
 
     /**
      * <summary>Metodo de controlador para Listar todos las localidades de los eventos</summary>

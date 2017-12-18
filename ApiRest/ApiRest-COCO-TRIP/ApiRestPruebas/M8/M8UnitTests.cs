@@ -159,7 +159,7 @@ namespace ApiRestPruebas.M8
     public void PruebaLocalidadNombre()
     {
       string nombreLo = "hola";
-      Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEventoNombre(nombreLo).Id,5);
+      Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(nombreLo).Id,5);
 
     }
 
