@@ -11,7 +11,7 @@ namespace ApiRest_COCO_TRIP.Models
 
     private int id;
 
-    [JsonProperty(PropertyName = "IdCategoria")]
+    [JsonProperty(PropertyName = "id")]
     public int Id
     {
       get { return id; }

@@ -119,7 +119,8 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.SetPropiedad(id);
       comando.Execute();
       TempData["evento"] = comando.GetResult()[0];
-      if(comando.GetResult()[0] == null)
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      if (comando.GetResult()[0] == null)
         return RedirectToAction("FilterEvent");
       return RedirectToAction("FilterEvent", "M8Events", comando.GetResult()[0]);
     }

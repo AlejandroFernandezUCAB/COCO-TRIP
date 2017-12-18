@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
@@ -17,7 +18,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     private ArrayList resultado = new ArrayList();
     public override void Execute()
     {
-      DAO<JObject, Localidad> peticion = FabricaDAO.GetDAOLocalidad();
+      IDAOLocalidad peticion = FabricaDAO.GetDAOLocalidad();
       JObject respuesta = peticion.Delete(id);
       if (respuesta.Property("dato") == null)
       {

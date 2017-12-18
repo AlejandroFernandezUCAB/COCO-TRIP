@@ -3,18 +3,18 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
-using BackOffice_COCO_TRIP.Datos.DAO;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoInsertarEvento : Comando
   {
-    private Evento evento;
+    private Entidad evento;
     private ArrayList resultado = new ArrayList();
     public override void Execute()
     {
       try {
-        DAO<JObject, Evento> peticionEvento = FabricaDAO.GetDAOEvento();
+        IDAOEvento peticionEvento = FabricaDAO.GetDAOEvento();
         JObject respuesta = peticionEvento.Post(evento);
       if (respuesta.Property("dato") == null)
       {
