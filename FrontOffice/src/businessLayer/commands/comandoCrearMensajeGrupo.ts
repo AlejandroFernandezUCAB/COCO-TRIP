@@ -9,8 +9,8 @@ export class ComandoCrearMensajeGrupo extends Comando {
 
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO AGREGAR MENSAJE GRUPO");
-        let DAO = FabricaDAO.crearFabricaDAOChatGrupo();
-        DAO.agregar(this._entidad);
+        let DAO = FabricaDAO.crearFabricaDAOChat();
+        DAO.agregarMensajeGrupo(this._entidad);
         
     }
 

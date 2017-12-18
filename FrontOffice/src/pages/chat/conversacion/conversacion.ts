@@ -86,6 +86,52 @@ ionViewWillEnter() {
 
  }
 
+ pressEvent(idMensaje){
+  if(idMensaje!=-1){
+    let actionSheet = this.actionsheetCtrl.create({
+      title: 'Opciones',
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Eliminar Chat',
+          role: 'destructive', // aplica color rojo de alerta
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            let decision = this.alertCtrl.create({
+              message: '¿Borrar este chat?',
+              buttons: [
+                {
+                  text: 'Sí',
+                  handler: () => {
+                    this.chatService.eliminarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje);
+                  }
+                },
+                {
+                  text: 'No',
+                  handler: () => {
+                    console.log('Decisión de eliminar negativa');
+                  }
+                }
+              ]
+            });
+            decision.present()
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel', //coloca el botón siempre en el último lugar.
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancelar ActionSheet');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+}
+
+
 /*
 tapEvent1(item){
   this.navCtrl.push(VisualizarPerfilPage, {
@@ -186,10 +232,12 @@ pressEvent1(){
     this.nuevoMensaje = '';
     */
     let entidad: Mensaje;
-    entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
+    entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
     let comando = FabricaComando.crearComandoCrearMensaje();
     comando._entidad = entidad;
     comando.execute();
+    this.content.scrollToBottom();
+    this.nuevoMensaje = '';
   }
 
   

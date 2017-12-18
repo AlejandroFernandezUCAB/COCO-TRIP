@@ -95,13 +95,7 @@ export class ChatPage {
     actionSheet.present();
   }
 
-  ionViewWillEnter(){
-    let entidad: Mensaje;
-    entidad = new Mensaje("mensaje","nombre 1", "nombre 2");
-    let comando = FabricaComando.crearComandoCrearMensaje();
-    comando._entidad = entidad;
-    comando.execute;
-  }
+  
 
   inicializarConversacion(/*conversacion*/){
     //this.chatService.inicializarConversacion(conversacion);

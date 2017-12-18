@@ -9,6 +9,8 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 import { ChatProvider } from '../../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
+import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 
 /**
  * Generated class for the ConversacionGrupoPage page.
@@ -47,7 +49,6 @@ export class ConversacionGrupoPage {
   ionViewWillEnter() {
  
     this.idGrupo = this.navParams.get('idGrupo');
-    alert(this.idGrupo);
     
     
    
@@ -59,7 +60,6 @@ export class ConversacionGrupoPage {
               if(data != 0)
               {  
                 this.usuario = data;
-                alert(this.usuario.NombreUsuario)
               }
             });
       
@@ -78,7 +78,15 @@ export class ConversacionGrupoPage {
    }
 
    agregarMensajeGrupo() {
-    this.chatService.agregarNuevoMensajeGrupo(this.nuevoMensaje,this.idGrupo,this.usuario.NombreUsuario);
+    /*this.chatService.agregarNuevoMensajeGrupo(this.nuevoMensaje,this.idGrupo,this.usuario.NombreUsuario);
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';*/
+
+      let entidad: Mensaje;
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+      let comando = FabricaComando.crearComandoCrearMensajeGrupo();
+      comando._entidad = entidad;
+      comando.execute();
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
 
@@ -89,6 +97,52 @@ export class ConversacionGrupoPage {
     this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
     
   }
+
+  pressEvent(idMensaje){
+    if(idMensaje!=-1){
+      let actionSheet = this.actionsheetCtrl.create({
+        title: 'Opciones',
+        cssClass: 'action-sheets-basic-page',
+        buttons: [
+          {
+            text: 'Eliminar Chat',
+            role: 'destructive', // aplica color rojo de alerta
+            icon: !this.platform.is('ios') ? 'trash' : null,
+            handler: () => {
+              let decision = this.alertCtrl.create({
+                message: '¿Borrar este chat?',
+                buttons: [
+                  {
+                    text: 'Sí',
+                    handler: () => {
+                      this.chatService.eliminarMensajeGrupo(this.idGrupo,idMensaje,this.usuario.NombreUsuario);
+                    }
+                  },
+                  {
+                    text: 'No',
+                    handler: () => {
+                      console.log('Decisión de eliminar negativa');
+                    }
+                  }
+                ]
+              });
+              decision.present()
+            }
+          },
+          {
+            text: 'Cancelar',
+            role: 'cancel', //coloca el botón siempre en el último lugar.
+            icon: !this.platform.is('ios') ? 'close' : null,
+            handler: () => {
+              console.log('Cancelar ActionSheet');
+            }
+          }
+        ]
+      });
+      actionSheet.present();
+    }
+  }
+
 
   scrollto() {
     setTimeout(() => {
