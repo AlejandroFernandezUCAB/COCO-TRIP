@@ -203,7 +203,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Comun\" />
+    <Folder Include="Datos\DAO\" />
+    <Folder Include="Datos\Entidad\" />
+    <Folder Include="Datos\Fabrica\" />
     <Folder Include="Library\" />
+    <Folder Include="Negocio\Componentes\Comando\" />
+    <Folder Include="Negocio\Fabrica\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
