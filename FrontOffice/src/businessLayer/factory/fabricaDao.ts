@@ -4,7 +4,7 @@ import { DAOChatGrupo } from '../../dataAccessLayer/dao/daoChatGrupo';
 export class FabricaDAO{
     
 
-    public static crearFabricaDAOChat(){
+    public static crearFabricaDAOChat():DAOChat{
         return new DAOChat();
     }
 

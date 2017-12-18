@@ -5,6 +5,10 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   public class Categoria:Entidad
   {
+    
+
+   
+
     public Categoria() { }
 
     public Categoria(int Id)

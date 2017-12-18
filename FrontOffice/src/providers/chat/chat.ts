@@ -38,31 +38,62 @@ export class ChatProvider {
   
     
 agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) {
-  this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).push({
+  var myRef = this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).push();
+  var key = myRef.key;  
+
+  var newData={
+    key:key,
+    enviadorPor: idEmisor,
+    mensaje: mensaje,
+    eliminado: false,
+    modificado: false,
+    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP  
+   }
+
+   myRef.set(newData);
+
+   this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(key).set({
+    key:key,
     enviadorPor: idEmisor,
     mensaje: mensaje,
     eliminado: false,
     modificado: false,
     tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP        
   });
-  this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).push({
-    enviadorPor: idEmisor,
-    mensaje: mensaje,
-    eliminado: false,
-    modificado: false,
-    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP        
-  });
+
+   /*var myRef2 = this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).push();
+ 
+   var newData2={
+     key:key,
+     enviadorPor: idEmisor,
+     mensaje: mensaje,
+     eliminado: false,
+     modificado: false,
+     tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP  
+    }
+ 
+    myRef2.set(newData2);
+
+    */
+
 }  
+
     
    
-  agregarNuevoMensajeGrupo(mensaje,idGrupo,idRemitente) {
-    this.fireConversacionChatsGrupo.child(idGrupo).push({
-      enviadorPor: idRemitente,
+  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) {
+    var myRef = this.fireConversacionChatsGrupo.child(idGrupo).push();
+    var key = myRef.key;
+  
+    var newData={
+      key:key,
+      enviadorPor: emisor,
       eliminado: false,
       modificado: false,
       mensaje: mensaje,
       tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP
-    });      
+     }
+  
+     myRef.set(newData);
     }
   
 /*
@@ -124,22 +155,28 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     });    
   }
 
-  eliminarMensajeAmigo(idRemitente,idEmisor,idMensaje,mensajeModificado){
-    this.fireConversacionChatsAmigo.child(idRemitente).child(idEmisor).child(idMensaje).set({
+  eliminarMensajeAmigo(idEmisor,idReceptor,idMensaje){
+    this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).set({
+      key:-1,
       eliminado: true,
+      enviadorPor: idEmisor,
       mensaje: "mensaje eliminado",
       fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
     });
-    this.fireConversacionChatsAmigo.child(idEmisor).child(idRemitente).child(idMensaje).set({
+    this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(idMensaje).set({
+      key:-1,
       eliminado: true,
+      enviadorPor: idEmisor,
       mensaje: "mensaje eliminado",
       fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
-    });    
+    });   
   }
 
-  eliminarMensajeGrupo(idGrupo,idMensaje){
+  eliminarMensajeGrupo(idGrupo,idMensaje,emisor){
     this.fireConversacionChatsGrupo.child(idGrupo).child(idMensaje).set({
+      key:-1,
       eliminado: true,
+      enviadorPor: emisor,
       mensaje: "mensaje eliminado",
       fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
     });

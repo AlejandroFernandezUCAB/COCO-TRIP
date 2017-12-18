@@ -1,3 +1,4 @@
+import { Mensaje } from './../../dataAccessLayer/domain/mensaje';
 import { FabricaDAO } from '../factory/fabricaDao';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import  { Comando } from './comando';
@@ -22,5 +23,7 @@ export class ComandoCrearMensaje extends Comando {
     set setEntidad(entidad:Entidad) {
         this._entidad = entidad;
     }
+
+
     
 }
