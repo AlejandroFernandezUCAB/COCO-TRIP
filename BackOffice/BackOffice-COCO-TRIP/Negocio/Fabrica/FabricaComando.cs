@@ -54,5 +54,13 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoModificarCategoria();
     }
+    public static ComandoEstadoCategoria GetComandoEstadoCategoria()
+    {
+      return new ComandoEstadoCategoria();
+    }
+    public static ComandoConsultarCategoriaHabilitada GetComandoConsultarCategoriaHabilitada()
+    {
+      return new ComandoConsultarCategoriaHabilitada();
+    }
   }
 }

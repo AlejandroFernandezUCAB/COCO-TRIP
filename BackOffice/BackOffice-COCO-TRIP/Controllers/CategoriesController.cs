@@ -16,6 +16,7 @@ namespace BackOffice_COCO_TRIP.Controllers
   {
 
     private PeticionCategoria peticion = new PeticionCategoria();
+    private Comando com;
   
     /// <summary>
     /// Metodo que nos permite obtener la lista de las categorias mediante peticiones al servicio web a la hora de cargar
@@ -180,7 +181,7 @@ namespace BackOffice_COCO_TRIP.Controllers
         var idNivel = Request["Mover a la categoria"].ToString().Split('-');
         categories.UpperCategories = Int32.Parse(idNivel[0]);
         categories.Nivel = Int32.Parse(idNivel[1]) + 1;
-        Comando com = FabricaComando.GetComandoModificarCategoria();
+        com = FabricaComando.GetComandoModificarCategoria();
         com.SetPropiedad(categories);
         com.Execute();
         JObject respuesta = (JObject)com.GetResult()[0];
@@ -217,7 +218,10 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult ChangeStatus(Categoria categories)
     {
-      JObject respuesta = peticion.Put(categories);
+      com = FabricaComando.GetComandoEstadoCategoria();
+      com.SetPropiedad(categories);
+      com.Execute();
+      JObject respuesta = (JObject)com.GetResult()[0];
       return Json(respuesta);
     }
 
@@ -227,7 +231,9 @@ namespace BackOffice_COCO_TRIP.Controllers
     private IList<Categoria> ConsutarCategoriasSelect()
     {
       IList<Categoria> listCategories = null;
-      JObject respuesta = peticion.GetCategoriasHabilitadas();
+      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com.Execute();
+      JObject respuesta = (JObject)com.GetResult()[0];
       if (respuesta.Property("data") != null)
       {
         listCategories = respuesta["data"].ToObject<IList<Categoria>>();

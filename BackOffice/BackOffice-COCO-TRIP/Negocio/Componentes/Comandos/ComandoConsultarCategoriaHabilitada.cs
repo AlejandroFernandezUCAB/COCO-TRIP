@@ -5,22 +5,21 @@ using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO;
 
-
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
-  public class ComandoModificarCategoria : Comando
+  public class ComandoConsultarCategoriaHabilitada:Comando
   {
     private Categoria categoria;
     private ArrayList resultado = new ArrayList();
     DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
-    
+
     public override void Execute()
     {
       try
       {
         DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
         DAOCategoria daoc = (DAOCategoria)dao;
-        JObject respuesta = daoc.PutEditarCategoria(categoria);
+        JObject respuesta = daoc.GetCategoriasHabilitadas();
         resultado.Add(respuesta);
       }
       catch (Exception e)
@@ -35,11 +34,11 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     {
       return resultado;
     }
-   
+
 
     public override void SetPropiedad(object propiedad)
     {
-      categoria = (Categoria)propiedad;
+      throw new NotImplementedException();
     }
   }
 }
