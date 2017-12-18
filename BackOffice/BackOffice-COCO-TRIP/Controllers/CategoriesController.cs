@@ -152,7 +152,10 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       else
       {
-        JObject respuestaCategoria = peticion.GetPorId(id);
+        com = FabricaComando.GetComandoConsultarCategoriaPorId();
+        com.SetPropiedad(id);
+        com.Execute();
+        JObject respuestaCategoria = (JObject)com.GetResult()[0];
         if (respuestaCategoria.Property("data") != null)
         {
           categories = (respuestaCategoria["data"].HasValues ? respuestaCategoria["data"][0].ToObject<Categoria>() : null) ;
