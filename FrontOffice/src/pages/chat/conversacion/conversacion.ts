@@ -26,6 +26,7 @@ export class ConversacionPage {
     NombreAmigo: 'NombreAmigo'
   }
   idAmigo: any;
+  mensj:any;
   idGrupo: any;
   idUsuario: any;
   usuario: any = {
@@ -124,11 +125,54 @@ ionViewWillEnter() {
           handler: () => {
             console.log('Cancelar ActionSheet');
           }
-        }
+        },
+        {
+          text: 'Modificar',
+          role: 'Modificar', //coloca el botón siempre en el último lugar.
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            this.crearalert(idMensaje);
+          }
+
+          }
       ]
     });
     actionSheet.present();
   }
+}
+
+
+crearalert(idMensaje){
+
+  
+  let prompt = this.alertCtrl.create({
+    title: 'Modificar Mensaje',
+    message: "Escribe el nuevo mensaje",
+    inputs: [
+      {
+        name: 'modificado',
+        placeholder: 'Nuevo mensaje'
+      },
+    ],
+    buttons: [
+      {
+        text: 'Cancel',
+        handler: data => {
+          console.log('Cancel clicked');
+      
+        }
+      },
+      {
+        text: 'Save',
+        handler: data => {
+          alert(data.modificado)
+          this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
+          
+        }
+      }
+    ]
+  });
+  prompt.present();
 }
 
 
