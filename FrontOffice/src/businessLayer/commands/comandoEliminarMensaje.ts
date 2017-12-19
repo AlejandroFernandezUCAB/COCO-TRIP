@@ -8,9 +8,9 @@ export class ComandoEliminarMensaje extends Comando {
     
 
     public execute(): void {
-        console.log("ENTRANDO EN EXECUTE DE COMANDO ELIMINAR MENSAJE");
+        console.log("ENTRANDO EN EXECUTE DE COMANDO ELIMINAR MENSAJE AMIGO");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.eliminar();
+        DAO.eliminar(this._entidad);
     }
 
     

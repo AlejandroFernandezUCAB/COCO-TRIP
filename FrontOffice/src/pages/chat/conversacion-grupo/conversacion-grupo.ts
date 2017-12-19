@@ -77,6 +77,15 @@ export class ConversacionGrupoPage {
   
    }
 
+   eliminarMensajeGrupo(NombreUsuario,NombreAmigo,idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
+    comando.setEntidad = entidad;
+    comando.execute();
+  }
+
    agregarMensajeGrupo() {
     /*this.chatService.agregarNuevoMensajeGrupo(this.nuevoMensaje,this.idGrupo,this.usuario.NombreUsuario);
       this.content.scrollToBottom();
