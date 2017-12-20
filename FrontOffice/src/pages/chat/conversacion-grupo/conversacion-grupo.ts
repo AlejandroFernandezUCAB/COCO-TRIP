@@ -11,6 +11,8 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
+import { ToastController } from 'ionic-angular';
+
 
 /**
  * Generated class for the ConversacionGrupoPage page.
@@ -27,7 +29,7 @@ import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 export class ConversacionGrupoPage {
   @ViewChild('content') content: Content;
   conversacion: any;
-  nuevoMensaje: any;
+  nuevoMensaje = "";
   /*nombreUsuario:any={
     idGrupo: 'idGrupo'
   }*/
@@ -47,7 +49,8 @@ export class ConversacionGrupoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
-  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService) {
+  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
+  public toastCtrl: ToastController) {
   }
 
   ionViewWillEnter() {
@@ -81,29 +84,6 @@ export class ConversacionGrupoPage {
   
    }
 
-   eliminarMensajeGrupo(idMensaje){
-    let entidad: Mensaje;
-    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
-    entidad.setId = idMensaje;
-    let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
-    comando.setEntidad = entidad;
-    comando.execute();
-  }
-
-   agregarMensajeGrupo() {
-    /*this.chatService.agregarNuevoMensajeGrupo(this.nuevoMensaje,this.idGrupo,this.usuario.NombreUsuario);
-      this.content.scrollToBottom();
-      this.nuevoMensaje = '';*/
-
-      let entidad: Mensaje;
-      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
-      let comando = FabricaComando.crearComandoCrearMensajeGrupo();
-      comando._entidad = entidad;
-      comando.execute();
-      this.content.scrollToBottom();
-      this.nuevoMensaje = '';
-
-  }
 
   ionViewDidEnter() {
     
@@ -186,13 +166,49 @@ export class ConversacionGrupoPage {
         {
           text: 'Modificar',
           handler: data => {
-            this.modificarMensajeGrupo(idMensaje,data.modificado);
-           //this.chatService.modificarMensajeGrupo(this.idGrupo,idMensaje,data.modificado,this.usuario.NombreUsuario);
+            if(data.modificado != ""){
+              this.modificarMensajeGrupo(idMensaje,data.modificado);
+            }else{
+              this.presentToast("Por favor escriba un mensaje");
+            }
           }
         }
       ]
     });
     prompt.present();
+
+  }
+
+  
+  eliminarMensajeGrupo(idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
+    comando.setEntidad = entidad;
+    comando.execute();
+    if(comando.getRespuesta == true){
+      this.presentToast("Se ha eliminado exitosamente");
+    }else{
+      this.presentToast("Ha ocurrido un error");
+
+    }
+  }
+
+   agregarMensajeGrupo() {
+     if(this.nuevoMensaje != ""){
+      let entidad: Mensaje;
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+      let comando = FabricaComando.crearComandoCrearMensajeGrupo();
+      comando._entidad = entidad;
+      comando.execute();
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+     }else{
+      this.presentToast("Por favor escriba un mensaje");
+    }
+
+      
 
   }
 
@@ -209,6 +225,16 @@ modificarMensajeGrupo(idMensaje,nuevoMensaje){
     setTimeout(() => {
       this.content.scrollToBottom();
     }, 1000);
+  }
+
+  
+  presentToast(mensaje : string) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
   
 

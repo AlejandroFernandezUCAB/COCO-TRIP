@@ -5,14 +5,12 @@ import { DAOChatGrupo } from '../../dataAccessLayer/dao/daoChatGrupo';
 
 export class ComandoEliminarMensajeGrupo extends Comando {
 
-    
+    private  _respuesta : Boolean;
 
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO ELIMINAR MENSAJE GRUPO");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.eliminarMensajeGrupo(this._entidad);
-
-        
+        this._respuesta = DAO.eliminarMensajeGrupo(this._entidad);
     }
 
     
@@ -22,6 +20,11 @@ export class ComandoEliminarMensajeGrupo extends Comando {
 
     set setEntidad(entidad:Entidad) {
         this._entidad = entidad;
+    }
+
+    
+    get getRespuesta():Boolean {
+        return this._respuesta;
     }
     
 }

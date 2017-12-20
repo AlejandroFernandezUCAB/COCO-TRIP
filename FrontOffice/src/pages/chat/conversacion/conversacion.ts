@@ -11,6 +11,7 @@ import { ChatProvider } from '../../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -21,7 +22,7 @@ import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 export class ConversacionPage {
   @ViewChild('content') content: Content;
   conversacion: any;
-  nuevoMensaje: any;
+  nuevoMensaje = "";
   nombreUsuario:any={
     NombreAmigo: 'NombreAmigo'
   }
@@ -38,7 +39,8 @@ export class ConversacionPage {
 constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
-  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService) {
+  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
+  public toastCtrl: ToastController) {
  /* let idUsuario     //Obtiene ID de Usuario
   this.storage.get('id').then((val) => {
     idUsuario = val;
@@ -144,8 +146,6 @@ ionViewWillEnter() {
 
 
 crearalert(idMensaje){
-
-  
   let prompt = this.alertCtrl.create({
     title: 'Modificar Mensaje',
     message: "Escribe el nuevo mensaje",
@@ -166,7 +166,12 @@ crearalert(idMensaje){
       {
         text: 'Modificar',
         handler: data => {
-          this.ModificarMensajeAmigo(idMensaje,data.modificado);
+          if(data.modificado != ""){
+            this.ModificarMensajeAmigo(idMensaje,data.modificado);
+          }else{
+            this.presentToast("Por favor escriba un mensaje");
+          }
+          
          // this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
           
         }
@@ -183,7 +188,6 @@ crearalert(idMensaje){
     let comando = FabricaComando.crearComandoModificarMensaje();
     comando.setEntidad = entidad;
     comando.execute();
-
   }
 
   eliminarMensajeAmigo(idMensaje){
@@ -193,16 +197,27 @@ crearalert(idMensaje){
     let comando = FabricaComando.crearComandoEliminarMensaje();
     comando.setEntidad = entidad;
     comando.execute();
+    if(comando.getRespuesta == true){
+      this.presentToast("Se ha eliminado exitosamente");
+    }else{
+      this.presentToast("Ha ocurrido un error");
+
+    }
   }
 
   agregarMensajeAmigo() {
-    let entidad: Mensaje;
-    entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
-    let comando = FabricaComando.crearComandoCrearMensaje();
-    comando._entidad = entidad;
-    comando.execute();
-    this.content.scrollToBottom();
-    this.nuevoMensaje = '';
+    if(this.nuevoMensaje != ""){
+      let entidad: Mensaje;
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+      let comando = FabricaComando.crearComandoCrearMensaje();
+      comando._entidad = entidad;
+      comando.execute();
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+    }else{
+      this.presentToast("Por favor escriba un mensaje");
+    }
+    
   }
 
   
@@ -216,7 +231,17 @@ crearalert(idMensaje){
       this.content.scrollToBottom();
     }, 1000);
   }
+
+  presentToast(mensaje : string) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
 }
+
 
 
 
