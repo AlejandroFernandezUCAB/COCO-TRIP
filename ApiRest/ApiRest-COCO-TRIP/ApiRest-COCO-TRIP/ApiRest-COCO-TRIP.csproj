@@ -197,6 +197,8 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Negocio\Comando\Comando.cs" />
     <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoVisualizarPerfilAmigo.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones\ValidacionWS.cs" />

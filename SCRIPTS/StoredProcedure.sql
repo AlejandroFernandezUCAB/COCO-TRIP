@@ -678,7 +678,7 @@ $$ LANGUAGE plpgsql;
 
 -------------VISUALIZAR EL PERFIL DE LOS USUARIOS-------------
 CREATE OR REPLACE FUNCTION VisualizarPerfilPublico
-(nombre_usuario VARCHAR(20))
+(nombre_usuario varchar)
 RETURNS TABLE
 (nombre varchar,
 apellido varchar,
@@ -689,7 +689,7 @@ AS
 $$
 BEGIN
     RETURN QUERY SELECT
-    us_nombre, us_apellido, us_email, us_foto  , us_nombreUsuario
+    us_nombre, us_apellido, us_email, us_foto, us_nombreUsuario
     FROM usuario
     WHERE us_nombreUsuario = nombre_usuario;
     END;

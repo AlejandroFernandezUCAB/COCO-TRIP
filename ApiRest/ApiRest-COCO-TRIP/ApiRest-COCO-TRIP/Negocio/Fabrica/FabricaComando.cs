@@ -8,7 +8,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
   public class FabricaComando
   {
     /// <summary>
-    /// Retorna la instancia de la entidad ComandoAgregarAmigo
+    /// Retorna la instancia de ComandoAgregarAmigo
     /// </summary>
     /// <param name="id">ID del usuario</param>
     /// <param name="nombre">Nombre de usuario destino</param>
@@ -16,6 +16,28 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoAgregarAmigo CrearComandoAgregarAmigo (int id, string nombre)
     {
       return new ComandoAgregarAmigo(id, nombre);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoVisualizarPerfilAmigo
+    /// </summary>
+    /// <param name="nombre">Nombre de usuario</param>
+    /// <returns></returns>
+    public static ComandoVisualizarPerfilAmigo CrearComandoVisualizarPerfilAmigo (string nombre)
+    {
+      return new ComandoVisualizarPerfilAmigo(nombre);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEnviarNotificacionCorreo
+    /// </summary>
+    /// <param name="correo">Correo electronico de la persona a la que se le va a recomendar la aplicacion</param>
+    /// <param name="id">ID del usuario que envia la notificacion</param>
+    /// <param name="nombreDestino">Nombre de usuario al que va destinada la notificacion</param>
+    /// <returns></returns>
+    public static ComandoEnviarNotificacionCorreo CrearComandoEnviarNotificacionCorreo (string correo, int id, string nombreDestino)
+    {
+      return new ComandoEnviarNotificacionCorreo(correo, id, nombreDestino);
     }
   }
 }
