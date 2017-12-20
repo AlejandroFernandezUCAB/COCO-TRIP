@@ -18,9 +18,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     {
       try
       {
-        DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
-        DAOCategoria daoc = (DAOCategoria)dao;
-        JObject respuesta = daoc.PutEditarCategoria(categoria);
+        JObject respuesta = dao.Put(categoria);
         resultado.Add(respuesta);
       }
       catch (Exception e)

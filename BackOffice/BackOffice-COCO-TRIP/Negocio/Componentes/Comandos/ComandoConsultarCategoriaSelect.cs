@@ -10,7 +10,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
   public class ComandoConsultarCategoriaSelect:Comando
   {
     private ArrayList resultado = new ArrayList();
-    private Comando com;
+    private Comando com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
 
     /// <summary>
     /// Metodo que nos permite obtener la lista de las categorias habilitadas mediante una consulta
@@ -20,7 +20,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       try
       {
         IList<Categoria> listCategories = null;
-        com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
         com.Execute();
         JObject respuesta = (JObject)com.GetResult()[0];
         if (respuesta.Property("data") != null)

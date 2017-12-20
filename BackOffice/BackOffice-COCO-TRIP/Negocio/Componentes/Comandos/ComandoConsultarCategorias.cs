@@ -12,11 +12,11 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
   public class ComandoConsultarCategorias : Comando
   {
     private ArrayList resultado = new ArrayList();
+    DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
     public override void Execute()
     {
       try
-      {
-        DAO<JObject,Categoria> dao = FabricaDAO.GetDAOCategoria();
+      {       
         JObject respuesta = dao.Get(-1);
         if (respuesta.Property("data") != null)
         {
