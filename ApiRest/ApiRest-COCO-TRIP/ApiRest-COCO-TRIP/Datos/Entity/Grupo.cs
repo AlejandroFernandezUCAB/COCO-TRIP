@@ -8,9 +8,10 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     private string nombre; //Nombre del grupo
     private string foto; //Ruta de la foto
     private int lider; //ID del creador del grupo
+    private int cantidadIntegrantes; //Cantidad de miembros del grupo
 
     /// <summary>
-    /// Getters y Setters del atributo nombre
+    /// Getters y Setters del atributo Nombre
     /// </summary>
     public string Nombre
     {
@@ -19,7 +20,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     }
 
     /// <summary>
-    /// Getters y Setters del atributo foto
+    /// Getters y Setters del atributo Foto
     /// </summary>
     public string Foto
     {
@@ -28,13 +29,21 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     }
 
     /// <summary>
-    /// Getters y Setters del atributo lider
+    /// Getters y Setters del atributo Lider
     /// </summary>
     public int Lider
     {
       get { return lider; }
       set { lider = value; }
     }
-  }
 
+    /// <summary>
+    /// Getters y Setters del atributo Cantidad Integrantes
+    /// </summary>
+    public int CantidadIntegrantes
+    {
+      get { return cantidadIntegrantes; }
+      set { cantidadIntegrantes = value; }
+    }
+  }
 }
