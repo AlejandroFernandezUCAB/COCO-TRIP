@@ -30,7 +30,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="id">ID del usuario que desea agregar un amigo</param>
     /// <param name="usuario">Nombre de usuario que recibira la notificacion</param>
     [HttpPost]
-    public void AgregarAmigo(int id, String usuario)
+    public void AgregarAmigo(int id, String usuario) //READY
     {
       comando = FabricaComando.CrearComandoAgregarAmigo(id, usuario);
       comando.Ejecutar();
