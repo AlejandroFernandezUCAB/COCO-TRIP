@@ -33,6 +33,9 @@ export class ConversacionGrupoPage {
   }*/
   idAmigo: any;
   idGrupo: any;
+  nombreGrupo : any = {
+    nombre : 'nombre'
+  };
   idUsuario: any;
   mensj:any;
   usuario: any = {
@@ -50,7 +53,7 @@ export class ConversacionGrupoPage {
   ionViewWillEnter() {
  
     this.idGrupo = this.navParams.get('idGrupo');
-    
+    this.nombreGrupo.nombre = this.navParams.get('nombreGrupo');
     
    
     this.storage.get('id').then((val) => { 
