@@ -215,7 +215,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 
 
     /// <summary>
-    /// Clase Para actualizar el Status de una categoria mediante peticiones al servicio web
+    /// Clase Para modificar una categoria mediante peticiones al servicio web
     /// </summary>
     public override JObject Put(Categoria data)
     {
@@ -228,9 +228,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           JObject jsonData = new JObject
           {
             { "id", data.Id },
-            { "estatus", data.Status }
+            { "nombre",data.Name },
+            { "descripcion", data.Description },
+            { "categoriaSuperior",data.UpperCategories },
+            {"nivel", data.Nivel }
           };
-          var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/actualizarEstatus", jsonData);
+          var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
@@ -308,9 +311,9 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase Para Modificar una categoria mediante peticiones al servicio web 
+    /// Clase Para Modificar el estado de una categoria mediante peticiones al servicio web 
     /// </summary>
-    public JObject PutEditarCategoria(Categoria data)
+    public JObject PutEditarEstado(Categoria data)
     {
       try
       {
@@ -321,12 +324,9 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           JObject jsonData = new JObject
           {
             { "id", data.Id },
-            { "nombre",data.Name },
-            { "descripcion", data.Description },
-            { "categoriaSuperior",data.UpperCategories },
-            {"nivel", data.Nivel }
+            { "estatus", data.Status }
           };
-          var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);
+          var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/actualizarEstatus", jsonData);
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
