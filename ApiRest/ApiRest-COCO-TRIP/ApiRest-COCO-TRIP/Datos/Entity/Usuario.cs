@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 
-namespace ApiRest_COCO_TRIP.Models
+namespace ApiRest_COCO_TRIP.Datos.Entity
 {
-  public class Usuario
+  public class Usuario: Entidad
   {
-    private int id;
     private string nombreUsuario;
     private string correo;
     private string nombre;
@@ -15,7 +13,7 @@ namespace ApiRest_COCO_TRIP.Models
     private string foto;
     private string clave;
     private Boolean valido;
-    private List<Categoria> preferencias;
+    //private List<Categoria> preferencias;
 
 
     public Usuario()
@@ -32,40 +30,39 @@ namespace ApiRest_COCO_TRIP.Models
     public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
     public string Clave { get => clave; set => clave = value; }
     public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
-    public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
+    //public List<Categoria> Preferencias { get => preferencias ; set => preferencias = value; }
     public bool Valido { get => valido; set => valido = value; }
     public string Foto { get => foto; set => foto = value; }
-    public int Id { get => id; set => id = value; }
 
     /// <summary>
     /// Metodo que agrega a la lista de categoria (Es decir agrega una preferencia) una nueva categoría
     /// </summary>
     /// <param name="nuevaCategoria"> Categoría nueva a agregar en el objeto </param>
     /// 
-    public void AgregarPreferencia ( Categoria nuevaCategoria )
+    /*public void AgregarPreferencia ( Categoria nuevaCategoria )
     {
       
       preferencias.Add( nuevaCategoria );
 
-    }
+    }*/
+     
 
 
-
-    public void EliminarPreferencia( Categoria categoriaAEliminar )
+    /*public void EliminarPreferencia( Categoria categoriaAEliminar )
     {
 
       int elementoAEliminar;
       elementoAEliminar = BusquedaDePreferencia( categoriaAEliminar );
       preferencias.RemoveAt( elementoAEliminar );
 
-    }
+    }*/
 
     /// <summary>
     /// Busqueda de la posicion a borrar
     /// </summary>
     /// <param name="categoriaABuscar">Categoria con que queremos comparar</param>
     /// <returns>La posicion donde se encuertra el elemento a eliminar</returns>
-    public int BusquedaDePreferencia( Categoria categoriaABuscar )
+    /*public int BusquedaDePreferencia( Categoria categoriaABuscar )
     {
 
       int retorno;
@@ -83,7 +80,7 @@ namespace ApiRest_COCO_TRIP.Models
       else
         return retorno ;
 
-    }
-
+    }*/
+    
   }
 }

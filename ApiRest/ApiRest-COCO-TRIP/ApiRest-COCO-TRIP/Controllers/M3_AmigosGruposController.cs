@@ -10,31 +10,32 @@ using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Net;
 using System.Web.Http.Cors;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using ApiRest_COCO_TRIP.Negocio.Comando;
 
 /// <summary>
 /// Clase controladora del MODULO 3
-/// Se encarga de generar las peticiones http
+/// Se encarga de recibir las peticiones HTTP
 /// </summary>
 namespace ApiRest_COCO_TRIP.Controllers
 {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M3_AmigosGruposController : ApiController
   {
-    Usuario usuario;
-    PeticionAmigoGrupo peticion;
-
-    
+    private Comando comando;
 
     /// <summary>
-    /// Metodo para agregar amigos en la base de datos
+    /// Agrega una peticion de amistad
     /// </summary>
-    /// <param name="idUsuario1">ID del usuario que esta usando la aplicacion y desea agregar un amigo</param>
-    /// <param name="idUsuario2">ID del usuario que sera agregado</param>
-    /// <returns></returns>
-    [HttpPut]
-    public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
+    /// <param name="id">ID del usuario que desea agregar un amigo</param>
+    /// <param name="usuario">Nombre de usuario que recibira la notificacion</param>
+    [HttpPost]
+    public void AgregarAmigo(int id, String usuario)
     {
-      try
+      comando = FabricaComando.CrearComandoAgregarAmigo(id, usuario);
+      comando.Ejecutar();
+
+      /*try
       {
 
         peticion = new PeticionAmigoGrupo();
@@ -60,16 +61,16 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return HttpStatusCode.OK;
+      return HttpStatusCode.OK;*/
       
     }
-
+    
     /// <summary>
     /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
     /// </summary>
     /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
     /// <returns>Retorna los datos del usuario para generar el perfil del amigo</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> VisualizarPerfilAmigo(String nombreUsuario)
     {
       List<Usuario> lista = new List<Usuario>();
@@ -97,23 +98,19 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return lista;
-    }
+    }*/
 
     /// <summary>
-    /// Metodo para enviar correo que recomnda la aplicacion
+    /// Metodo para enviar correo que recomienda la aplicacion
     /// </summary>
-    /// <param name="correoElectronico">correo electronico de la persona a la que se le va a recomendar
-    ///  la app</param>
-    /// <returns></returns>
+    /// <param name="correoElectronico">Correo electronico de la persona a la que se le va a recomendar la aplicacion</param>
     ///
-    [HttpPut]
-    public int EnviarNotificacionCorreo( string nombreUsuarioRecibe, string correoElectronico, string idUsuarioEnvia)
+    /*[HttpPost]
+    public void EnviarNotificacionCorreo( string nombreUsuarioRecibe, string correoElectronico, string idUsuarioEnvia)
     {
-      int respuesta = 0;
       try
       {
         peticion = new PeticionAmigoGrupo();
-        
         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
         var mail = new MailMessage();
         mail.From = new MailAddress("cocotrip17@gmail.com");
@@ -147,7 +144,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return respuesta;
 
-    }
+    }*/
 
     /// <summary>
     /// Metodo que valida si un usuario es lider o no para eliminar o salir de un grupo
@@ -155,7 +152,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo a eliminar/salir</param>
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar o salir del grupo</param>
     /// <returns></returns>
-    [HttpDelete]
+    /*[HttpDelete]
     public int EliminarSalirGrupo(string idGrupo, string idUsuario)
     {
 
@@ -192,7 +189,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
 
       return respuesta;
-    }
+    }*/
 
     /// <summary>
     /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
@@ -200,7 +197,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
     /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
     /// <returns>true si sale exitossamente, false en caso contrario</returns>
-    [HttpDelete]
+    /*[HttpDelete]
     public int SalirGrupo(string idGrupo, string idUsuario)
     {
       int salio = 0;
@@ -227,14 +224,14 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return salio;
 
-    }
+    }*/
 
     /// <summary>
     /// Metodo que se encarga de obtener la lista de notificaciones pendientes de un usuario
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>Retorna la lista de notificaciones</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> ObtenerListaNotificaciones(string idUsuario)
     {
       List<Usuario> respuesta = null;
@@ -260,7 +257,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return respuesta;
-    }
+    }*/
 
     /// <summary>
     /// Metodo para rechazar la notificacion 
@@ -269,7 +266,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario que esta rechazando la notificacion</param>
     /// <returns></returns>
   
-    [HttpDelete]
+    /*[HttpDelete]
     public int RechazarNotificacion(string nombreUsuarioRechazado, string idUsuario)
     {
       int respuesta = 0;
@@ -296,7 +293,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return respuesta;
-    }
+    }*/
 
     /// <summary>
     /// Metodo para aceptar la solicitud de un usuario
@@ -304,7 +301,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuarioAceptado">Nombre del usuario aceptado</param>
     /// <param name="idUsuario">Identificador del usuario que acepto la solicitud</param>
     /// <returns></returns>
-    [HttpPost]
+    /*[HttpPost]
     public int AceptarNotificacion(string nombreUsuarioAceptado, string idUsuario)
     {
       int respuesta = 0;
@@ -331,7 +328,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return respuesta;
-    }
+    }*/
 
     /// <summary>
     /// Buscar amigo en la aplicacion
@@ -340,7 +337,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario que esta buscando (Para que no aparezca
     /// en la lista del buscador)</param>
     /// <returns></returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> BuscarAmigo(string nombre, string idUsuario)
     {
       try
@@ -364,7 +361,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-    }
+    }*/
 
     /// <summary>
     /// Procedimiento para agregar un grupo
@@ -373,7 +370,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="foto">Foto del grupo</param>
     /// <param name="idusuario">Lider del grupo(creador)</param>
     /// <returns></returns>
-    [HttpPut]
+    /*[HttpPut]
     public int AgregarGrupo(String nombre, String foto, String idusuario)
     {
       try
@@ -408,7 +405,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
 
-    }
+    }*/
 
 
     /// <summary>
@@ -417,7 +414,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>La lista de amigos de un usuario</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> VisualizarListaAmigos(int idUsuario)
     {
       List<Usuario> lista;
@@ -443,7 +440,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return lista;
-    }
+    }*/
 
     /// <summary>
     /// Procemiento que se encarga de hacer la peticion para
@@ -452,7 +449,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar</param>
     /// <returns></returns>
-    [HttpDelete]
+    /*[HttpDelete]
     public int EliminarAmigo(string nombreAmigo, int idUsuario)
     {
       int resultado;
@@ -478,7 +475,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return resultado;
-    }
+    }*/
 
     /// <summary>
     /// Procedimiento que se encarga de hacer la peticion para
@@ -487,7 +484,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario que desea eliminar el grupo</param>
     /// <param name="idGrupo">Identificador del grupo a ser eliminado</param>
     /// <returns></returns>
-    [HttpDelete]
+    /*[HttpDelete]
     public int EliminarGrupo(int idUsuario, int idGrupo)
     {
       int resultado;
@@ -513,7 +510,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return resultado;
-    }
+    }*/
+
     /// <summary>
     /// Procedimiento que se encarga de hacer la peticion para
     /// modificar los datos de un grupo
@@ -523,16 +521,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="foto">Foto del grupo</param>
     /// <param name="idGrupo">El identificador del grupo</param>
     /// <returns></returns>
-    [HttpPost]
-    public int ModificarGrupo(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
-    {
-      int resultado;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        resultado = peticion.ModificarGrupoBD(nombreGrupo, idUsuario, /*foto, */idGrupo);
-      }
-      catch (NpgsqlException)
+    //[HttpPost]
+    //public int ModificarGrupo(string nombreGrupo, int idUsuario, /*byte foto*/, int idGrupo)
+    //{
+    //  int resultado;
+    //  try
+    //  {
+    //    peticion = new PeticionAmigoGrupo();
+    //    resultado = peticion.ModificarGrupoBD(nombreGrupo, idUsuario, /*foto, */idGrupo);
+    //  }
+    /*  catch (NpgsqlException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -549,14 +547,14 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return resultado;
-    }
+    }*/
 
     /// <summary>
     /// Consultar lista de grupo del usuario
     /// </summary>
     /// <param name="idUsuario">nombre usuario logeado en la app</param>
     /// <returns>La lista de grupos de un usuario</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Grupo> ConsultarListaGrupos(int idUsuario)
     {
       try
@@ -581,13 +579,14 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
 
-    }
+    }*/
+
     /// <summary>
     /// Metodo que devulve los integrantes de un grupo
     /// </summary>
     /// <param name="idgrupo">id del grupo por el cual se devuelven sus integrantes</param>
     /// <returns>Retorna la lista de integrantes de un grupo</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
     {
       try
@@ -612,7 +611,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
 
-    }
+    }*/
 
 
     /// <summary>
@@ -620,7 +619,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="id">Es el de id del grupo por el cual se buscara</param>
     /// <returns>Retorna los datos del grupo para armar el perfil del grupo</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Grupo> ConsultarPerfilGrupos(int id)
     {
 
@@ -646,7 +645,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
 
-    }
+    }*/
 
     /// <summary>
     /// Procedimiento para agregar un integrante al modificar el grupo
@@ -654,7 +653,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
     /// <returns></returns>
-    [HttpPut]
+    /*[HttpPut]
     public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
     {
       int resultado;
@@ -680,7 +679,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return resultado;
-    }
+    }*/
 
     /// <summary>
     /// Procedimiento para eliminar un integrante del grupo al modificar
@@ -688,7 +687,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns></returns>
-    [HttpDelete]
+    /*[HttpDelete]
     public int EliminarIntegranteModificar(string nombreUsuario, int idGrupo)
     {
       int resultado;
@@ -714,7 +713,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return resultado;
-    }
+    }*/
 
     /// <summary>
     /// Metodo que verifica si un usuario es lider de un grupo o solo un integrante
@@ -722,7 +721,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns></returns>
-    [HttpGet]
+    /*[HttpGet]
     public int VerificarLider(int idGrupo, int idUsuario)
     {
       bool respuesta = false;
@@ -754,7 +753,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       return resultado;
-    }
+    }*/
 
     /// <summary>
     /// Metodo para obtener el usuario lider
@@ -762,7 +761,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>Los datos del usuario lider</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> ConsultarLider(int idGrupo, int idUsuario)
     {
       try
@@ -786,7 +785,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-    }
+    }*/
 
 
     /// <summary>
@@ -794,7 +793,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="idGrupo">identificador del grupo</param>
     /// <returns>La lista de integrantes sin el lider</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> ConsultarMiembrosSinLider(int idGrupo)
     {
       try
@@ -818,7 +817,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-    }
+    }*/
 
     /// <summary>
     /// Metodo para obtener la lista de amigos que no estan agregados al grupo
@@ -826,7 +825,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario lider</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns>La lista de usuarios que no estan agregados en el grupo</returns>
-    [HttpGet]
+    /*[HttpGet]
     public List<Usuario> ConsultarMiembrosSinGrupo(int idUsuario, int idGrupo)
     {
       try
@@ -850,14 +849,14 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-    }
+    }*/
 
-/// <summary>
-/// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
-/// </summary>
-/// <param name="idUsuario">Identificador del usuario</param>
-/// <returns>Ultimo grupo agregado de un usuario</returns>
-[HttpGet]
+    /// <summary>
+    /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns>Ultimo grupo agregado de un usuario</returns>
+    /*[HttpGet]
     public int ConsultarultimoGrupo(int idUsuario)
     {
       try
@@ -881,8 +880,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-    }
+    }*/
 
 
   }
-  }
+}
