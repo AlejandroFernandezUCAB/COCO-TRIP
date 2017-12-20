@@ -1,24 +1,14 @@
 using System.Linq;
 
-namespace ApiRest_COCO_TRIP.Models.Dato
+namespace ApiRest_COCO_TRIP.Datos.Entity
 {
   /// <summary>
   /// Clase que contiene los datos asociados a las fotos
   /// </summary>
-  public class Foto
+  public class Foto : Entidad
   {
-    private int id; //ID de la foto
     private string ruta; //Ruta de la imagen en el servidor
     private byte[] contenido; //Bytes de la foto
-
-    /// <summary>
-    /// Getters y Setters del atributo Id
-    /// </summary>
-    public int Id
-    {
-      get { return id; }
-      set { id = value; }
-    }
 
     /// <summary>
     /// Getters y Setters del atributo Ruta
@@ -43,7 +33,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
     /// </summary>
     /// <param name="obj">Foto</param>
     /// <returns>(bool) Si son iguales retorna true</returns>
-    public override bool Equals(object obj)
+    /*public override bool Equals(object obj)
     {
       if (obj != null && obj is Foto)
       {
@@ -82,7 +72,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
       {
         return (false);
       }
-    }
+    }*/
 
     /// <summary>
     /// Sobreescritura recomendada del metodo GetHashCode
