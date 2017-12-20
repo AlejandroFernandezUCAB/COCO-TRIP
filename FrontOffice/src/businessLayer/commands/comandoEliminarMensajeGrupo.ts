@@ -9,8 +9,9 @@ export class ComandoEliminarMensajeGrupo extends Comando {
 
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO ELIMINAR MENSAJE GRUPO");
-        let DAO = FabricaDAO.crearFabricaDAOChatGrupo();
-        DAO.eliminar();
+        let DAO = FabricaDAO.crearFabricaDAOChat();
+        DAO.eliminarMensajeGrupo(this._entidad);
+
         
     }
 

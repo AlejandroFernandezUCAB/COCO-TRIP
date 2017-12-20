@@ -19,14 +19,14 @@ export class DAOChatGrupo extends DAO {
     
         
     
-    eliminar() : Entidad{
+    eliminar(entidad : Entidad) : boolean{
         return null;
         
     }
 
         
 
-    modificar() : Entidad{
+    modificar(entidad : Entidad) : Entidad{
         return null;
     }
     
