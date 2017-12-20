@@ -33,7 +33,11 @@ export class ConversacionGrupoPage {
   }*/
   idAmigo: any;
   idGrupo: any;
+  nombreGrupo : any = {
+    nombre : 'nombre'
+  };
   idUsuario: any;
+  mensj:any;
   usuario: any = {
     NombreUsuario: 'NombreUsuario'
   };
@@ -49,7 +53,7 @@ export class ConversacionGrupoPage {
   ionViewWillEnter() {
  
     this.idGrupo = this.navParams.get('idGrupo');
-    
+    this.nombreGrupo.nombre = this.navParams.get('nombreGrupo');
     
    
     this.storage.get('id').then((val) => { 
@@ -76,6 +80,15 @@ export class ConversacionGrupoPage {
           })
   
    }
+
+   eliminarMensajeGrupo(idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
+    comando.setEntidad = entidad;
+    comando.execute();
+  }
 
    agregarMensajeGrupo() {
     /*this.chatService.agregarNuevoMensajeGrupo(this.nuevoMensaje,this.idGrupo,this.usuario.NombreUsuario);
@@ -115,7 +128,7 @@ export class ConversacionGrupoPage {
                   {
                     text: 'Sí',
                     handler: () => {
-                      this.chatService.eliminarMensajeGrupo(this.idGrupo,idMensaje,this.usuario.NombreUsuario);
+                      this.eliminarMensajeGrupo(idMensaje);
                     }
                   },
                   {
@@ -136,14 +149,62 @@ export class ConversacionGrupoPage {
             handler: () => {
               console.log('Cancelar ActionSheet');
             }
-          }
+          },
+          {
+            text: 'Modificar',
+            role: 'Modificar', //coloca el botón siempre en el último lugar.
+            icon: !this.platform.is('ios') ? 'create' : null,
+            handler: () => {
+              this.crearalert(idMensaje);
+            }
+            }
         ]
       });
       actionSheet.present();
     }
   }
 
+  crearalert(idMensaje){
+    
+    let prompt = this.alertCtrl.create({
+      title: 'Modificar Mensaje',
+      message: "Escribe el nuevo mensaje",
+      inputs: [
+        {
+          name: 'modificado',
+          placeholder: 'Nuevo mensaje'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+        
+          }
+        },
+        {
+          text: 'Modificar',
+          handler: data => {
+            this.modificarMensajeGrupo(idMensaje,data.modificado);
+           //this.chatService.modificarMensajeGrupo(this.idGrupo,idMensaje,data.modificado,this.usuario.NombreUsuario);
+          }
+        }
+      ]
+    });
+    prompt.present();
 
+  }
+
+modificarMensajeGrupo(idMensaje,nuevoMensaje){
+  let entidad: Mensaje;
+  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+  entidad.setId = idMensaje;
+  let comando = FabricaComando.crearComandoModificarMensajeGrupo();
+  comando.setEntidad = entidad;
+  comando.execute();
+
+}
   scrollto() {
     setTimeout(() => {
       this.content.scrollToBottom();

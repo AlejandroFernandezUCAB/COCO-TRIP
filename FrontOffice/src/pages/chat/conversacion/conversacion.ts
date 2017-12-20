@@ -26,6 +26,7 @@ export class ConversacionPage {
     NombreAmigo: 'NombreAmigo'
   }
   idAmigo: any;
+  mensj:any;
   idGrupo: any;
   idUsuario: any;
   usuario: any = {
@@ -93,17 +94,18 @@ ionViewWillEnter() {
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {
-          text: 'Eliminar Chat',
+          text: 'Eliminar mensaje',
           role: 'destructive', // aplica color rojo de alerta
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
             let decision = this.alertCtrl.create({
-              message: '¿Borrar este chat?',
+              message: '¿Borrar este mensaje?',
               buttons: [
                 {
                   text: 'Sí',
                   handler: () => {
-                    this.chatService.eliminarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje);
+
+                    this.eliminarMensajeAmigo(idMensaje);
                   }
                 },
                 {
@@ -124,7 +126,16 @@ ionViewWillEnter() {
           handler: () => {
             console.log('Cancelar ActionSheet');
           }
-        }
+        },
+        {
+          text: 'Modificar',
+          role: 'Modificar', //coloca el botón siempre en el último lugar.
+          icon: !this.platform.is('ios') ? 'create' : null,
+          handler: () => {
+            this.crearalert(idMensaje);
+          }
+
+          }
       ]
     });
     actionSheet.present();
@@ -132,105 +143,59 @@ ionViewWillEnter() {
 }
 
 
-/*
-tapEvent1(item){
-  this.navCtrl.push(VisualizarPerfilPage, {
-    nombreUsuario : item
-  }); //PERMITE VER EL PERFIL DEL AMIGO
-}*/
+crearalert(idMensaje){
 
-/*
-tapEvent2(){
-  let alert = this.alertCtrl.create({ //ESTA ES UNA ALERTA DE FUNCIONALIDAD
-    title: 'Enviar Mensaje',
-    message: 'Pronto enviarás mensajes por aquí',
+  
+  let prompt = this.alertCtrl.create({
+    title: 'Modificar Mensaje',
+    message: "Escribe el nuevo mensaje",
+    inputs: [
+      {
+        name: 'modificado',
+        placeholder: 'Nuevo mensaje'
+      },
+    ],
     buttons: [
       {
-        text:'Dismiss',
-        role: 'dismiss',
-        handler: () => {
-          console.log('Alerta visualizada');
+        text: 'Cancel',
+        handler: data => {
+          console.log('Cancel clicked');
+      
+        }
+      },
+      {
+        text: 'Modificar',
+        handler: data => {
+          this.ModificarMensajeAmigo(idMensaje,data.modificado);
+         // this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
+          
         }
       }
     ]
   });
-  alert.present();
-}*/
+  prompt.present();
+}
 
-/*
+  ModificarMensajeAmigo(idMensaje,nuevoMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoModificarMensaje();
+    comando.setEntidad = entidad;
+    comando.execute();
 
-pressEvent1(){
-  let actionSheet = this.actionsheetCtrl.create({
-    title: 'Opciones del chat',
-    cssClass: 'action-sheets-basic-page',
-    buttons: [
-      {
-        text: 'Editar mensaje',
-        icon: !this.platform.is('ios') ? 'create' : null,
-        handler: () => {
-          let decision = this.alertCtrl.create({
-            message: '¿Deseas editar este mensaje?',
-            buttons: [
-              {
-                text: 'Sí',
-                handler: () => {
-                  console.log('Decisión de editar afirmativa');
-                }
-              },
-              {
-                text: 'No',
-                handler: () => {
-                  console.log('Decisión de editar negativa');
-                }
-              }
-            ]
-          });
-          decision.present()
-        }
-      },
-      {
-        text: 'Eliminar mensaje',
-        role: 'destructive', // aplica color rojo de alerta
-        icon: !this.platform.is('ios') ? 'trash' : null,
-        handler: () => {
-          let decision = this.alertCtrl.create({
-            message: '¿Borrar este mensaje?',
-            buttons: [
-              {
-                text: 'Sí',
-                handler: () => {
-                  console.log('Decisión de eliminar afirmativa');
-                }
-              },
-              {
-                text: 'No',
-                handler: () => {
-                  console.log('Decisión de eliminar negativa');
-                }
-              }
-            ]
-          });
-          decision.present()
-        }
-      },
-      {
-        text: 'Cancelar',
-        role: 'cancel', //coloca el botón siempre en el último lugar.
-        icon: !this.platform.is('ios') ? 'close' : null,
-        handler: () => {
-          console.log('Cancelar ActionSheet');
-        }
-      }
-    ]
-  });
-  actionSheet.present();
-  }*/
+  }
+
+  eliminarMensajeAmigo(idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoEliminarMensaje();
+    comando.setEntidad = entidad;
+    comando.execute();
+  }
 
   agregarMensajeAmigo() {
-    /*this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
-    this.content.scrollToBottom();
-    this.nuevoMensaje = '';
-    */
     let entidad: Mensaje;
     entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
     let comando = FabricaComando.crearComandoCrearMensaje();
@@ -243,11 +208,6 @@ pressEvent1(){
   
 
   ionViewDidEnter() {
-    /*if(this.idAmigo){
-      this.chatService.obtenerMensajesConversacionAmigo(this.idUsuario,this.idAmigo);
-    }else if(this.idGrupo){
-      this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
-    }*/
     this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario.NombreAmigo,this.usuario.NombreUsuario);
   }
 

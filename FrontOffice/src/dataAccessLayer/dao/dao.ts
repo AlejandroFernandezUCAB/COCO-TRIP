@@ -9,11 +9,11 @@ export abstract class DAO{
 
     
 
-    abstract eliminar() : Entidad;
+    abstract eliminar(entidad : Entidad) : boolean;
 
      
 
-    abstract modificar() : Entidad;
+    abstract modificar(entidad : Entidad) : boolean;
 
     
 

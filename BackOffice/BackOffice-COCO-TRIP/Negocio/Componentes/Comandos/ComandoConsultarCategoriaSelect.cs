@@ -9,7 +9,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoConsultarCategoriaSelect:Comando
   {
-    private Categoria categoria;
     private ArrayList resultado = new ArrayList();
     private Comando com;
 
