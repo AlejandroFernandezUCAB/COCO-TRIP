@@ -13,7 +13,7 @@ export abstract class DAO{
 
      
 
-    abstract modificar(entidad : Entidad) : Entidad;
+    abstract modificar(entidad : Entidad) : boolean;
 
     
 

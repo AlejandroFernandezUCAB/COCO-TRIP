@@ -78,7 +78,7 @@ export class ConversacionGrupoPage {
   
    }
 
-   eliminarMensajeGrupo(NombreUsuario,NombreAmigo,idMensaje){
+   eliminarMensajeGrupo(idMensaje){
     let entidad: Mensaje;
     entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
     entidad.setId = idMensaje;
@@ -125,7 +125,7 @@ export class ConversacionGrupoPage {
                   {
                     text: 'Sí',
                     handler: () => {
-                      this.chatService.eliminarMensajeGrupo(this.idGrupo,idMensaje,this.usuario.NombreUsuario);
+                      this.eliminarMensajeGrupo(idMensaje);
                     }
                   },
                   {
@@ -150,7 +150,7 @@ export class ConversacionGrupoPage {
           {
             text: 'Modificar',
             role: 'Modificar', //coloca el botón siempre en el último lugar.
-            icon: !this.platform.is('ios') ? 'close' : null,
+            icon: !this.platform.is('ios') ? 'create' : null,
             handler: () => {
               this.crearalert(idMensaje);
             }
@@ -181,9 +181,10 @@ export class ConversacionGrupoPage {
           }
         },
         {
-          text: 'Save',
+          text: 'Modificar',
           handler: data => {
-           this.chatService.modificarMensajeGrupo(this.idGrupo,idMensaje,data.modificado,this.usuario.NombreUsuario);
+            this.modificarMensajeGrupo(idMensaje,data.modificado);
+           //this.chatService.modificarMensajeGrupo(this.idGrupo,idMensaje,data.modificado,this.usuario.NombreUsuario);
           }
         }
       ]
@@ -192,7 +193,15 @@ export class ConversacionGrupoPage {
 
   }
 
+modificarMensajeGrupo(idMensaje,nuevoMensaje){
+  let entidad: Mensaje;
+  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+  entidad.setId = idMensaje;
+  let comando = FabricaComando.crearComandoModificarMensajeGrupo();
+  comando.setEntidad = entidad;
+  comando.execute();
 
+}
   scrollto() {
     setTimeout(() => {
       this.content.scrollToBottom();

@@ -26,7 +26,7 @@ export class DAOChatGrupo extends DAO {
 
         
 
-    modificar(entidad : Entidad) : Entidad{
+    modificar(entidad : Entidad) : boolean{
         return null;
     }
     

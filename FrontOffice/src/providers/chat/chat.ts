@@ -117,6 +117,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       mensaje: "(modificado): "+mensajeModificado,
       fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
     }); 
+    return true;
   }
 
   modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado,emisor){
@@ -127,7 +128,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       mensaje: "(modificado): "+mensajeModificado,
       fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
     });
-
+    return true;
   }
 
   eliminarMensajeAmigo(idEmisor,idReceptor,idMensaje) : boolean{

@@ -1,6 +1,7 @@
 import { ComandoVisualizarConversacionGrupo } from './../commands/comandoVisualizarConversacionGrupo';
 import { ComandoVisualizarConversacionAmigo } from './../commands/comandoVisualizarConversacionAmigo';
-
+import { ComandoModificarMensajeGrupo } from './../commands/comandoModificarMensajeGrupo';
+import { ComandoModificarMensaje } from './../commands/comandoModificarMensaje';
 import { ComandoEliminarMensajeGrupo } from './../commands/comandoEliminarMensajeGrupo';
 import { ComandoCrearMensajeGrupo } from './../commands/comandoCrearMensajeGrupo';
 import  { ComandoCrearMensaje } from '../commands/comandoCrearMensaje';
@@ -25,6 +26,14 @@ export class FabricaComando{
 
     public static crearComandoEliminarMensajeGrupo(){
         return new ComandoEliminarMensajeGrupo();
+    }
+
+    public static crearComandoModificarMensaje(){
+        return new ComandoModificarMensaje();
+    }
+
+    public static crearComandoModificarMensajeGrupo(){
+        return new ComandoModificarMensajeGrupo();
     }
 
     public static crearComandoVisualizarConversacionAmigo(){

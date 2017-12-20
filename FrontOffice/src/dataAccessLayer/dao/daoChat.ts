@@ -51,11 +51,23 @@ export class DAOChat extends DAO {
     }
         
 
-    modificar(entidad : Entidad) : Entidad{
-        return null;
+    modificar(entidad : Entidad) : boolean{
+        let respuesta : boolean;
+        respuesta = false;
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        respuesta = chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId,mensaje.getMensaje);
+        return respuesta;
     }
-    modificarMensajeGrupo(entidad : Entidad) : Entidad{
-        return null;
+    modificarMensajeGrupo(entidad : Entidad) : boolean{
+        let respuesta : boolean;
+        respuesta = false;
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        respuesta = chat.modificarMensajeGrupo(mensaje.getidGrupo,mensaje.getId,mensaje.getMensaje,mensaje.getUsuario); 
+        return respuesta;
     }
     
         

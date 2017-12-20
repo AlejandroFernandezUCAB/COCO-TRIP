@@ -105,8 +105,7 @@ ionViewWillEnter() {
                   text: 'Sí',
                   handler: () => {
 
-                    this.eliminarMensajeAmigo(this.usuario.NombreUsuario,
-                      this.nombreUsuario.NombreAmigo,idMensaje);
+                    this.eliminarMensajeAmigo(idMensaje);
                   }
                 },
                 {
@@ -131,7 +130,7 @@ ionViewWillEnter() {
         {
           text: 'Modificar',
           role: 'Modificar', //coloca el botón siempre en el último lugar.
-          icon: !this.platform.is('ios') ? 'close' : null,
+          icon: !this.platform.is('ios') ? 'create' : null,
           handler: () => {
             this.crearalert(idMensaje);
           }
@@ -165,10 +164,10 @@ crearalert(idMensaje){
         }
       },
       {
-        text: 'Save',
+        text: 'Modificar',
         handler: data => {
-          alert(data.modificado)
-          this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
+          this.ModificarMensajeAmigo(idMensaje,data.modificado);
+         // this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
           
         }
       }
@@ -177,11 +176,19 @@ crearalert(idMensaje){
   prompt.present();
 }
 
-
-
-  eliminarMensajeAmigo(NombreUsuario,NombreAmigo,idMensaje){
+  ModificarMensajeAmigo(idMensaje,nuevoMensaje){
     let entidad: Mensaje;
-    entidad = new Mensaje("",NombreUsuario,NombreAmigo,0);
+    entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoModificarMensaje();
+    comando.setEntidad = entidad;
+    comando.execute();
+
+  }
+
+  eliminarMensajeAmigo(idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensaje();
     comando.setEntidad = entidad;
