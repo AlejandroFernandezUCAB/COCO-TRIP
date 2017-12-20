@@ -16,16 +16,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     private Amigo amigo;
 
-    public override void Actualizar(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public override Entidad Consultar(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
     public override Entidad ConsultarId(Entidad objeto)
     {
       amigo = (Amigo) objeto;
@@ -58,16 +48,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       return amigo;
     }
 
-    public override List<Entidad> ConsultarLista(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public override void Eliminar(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
     public override void Insertar(Entidad objeto)
     {
       amigo = (Amigo) objeto;
@@ -92,6 +72,30 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
-  }
+    
+    public override Entidad ConsultarPorId(Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
 
+    public override List<Entidad> ConsultarLista(Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public override Entidad ConsultarPorNombre(Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public override void Actualizar(Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public override void Eliminar(Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
+  }
 }

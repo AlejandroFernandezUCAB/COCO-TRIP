@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using ApiRest_COCO_TRIP.Models;
 using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
@@ -12,6 +11,7 @@ using System.Net;
 using System.Web.Http.Cors;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Datos.Entity;
 
 /// <summary>
 /// Clase controladora del MODULO 3
@@ -30,7 +30,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="id">ID del usuario que desea agregar un amigo</param>
     /// <param name="usuario">Nombre de usuario que recibira la notificacion</param>
     [HttpPost]
-    public void AgregarAmigo(int id, String usuario) //READY
+    public void AgregarAmigo(int id, string usuario) //READY
     {
       comando = FabricaComando.CrearComandoAgregarAmigo(id, usuario);
       comando.Ejecutar();
@@ -68,12 +68,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
     /// </summary>
-    /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
+    /// <param name="usuario">Nombre del usuario que se quiere visualizar perfil</param>
     /// <returns>Retorna los datos del usuario para generar el perfil del amigo</returns>
-    /*[HttpGet]
-    public List<Usuario> VisualizarPerfilAmigo(String nombreUsuario)
+    [HttpGet]
+    public Entidad VisualizarPerfilAmigo (string usuario) //READY
     {
-      List<Usuario> lista = new List<Usuario>();
+      comando = FabricaComando.CrearComandoVisualizarPerfilAmigo(usuario);
+      comando.Ejecutar();
+      return comando.Retornar();
+
+      /*List<Usuario> lista = new List<Usuario>();
       Usuario usuario;
       try
       {
@@ -97,18 +101,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return lista;
-    }*/
+      return lista;*/
+    }
 
     /// <summary>
-    /// Metodo para enviar correo que recomienda la aplicacion
+    /// Metodo para enviar un correo recomendando la aplicacion a un usuario
     /// </summary>
-    /// <param name="correoElectronico">Correo electronico de la persona a la que se le va a recomendar la aplicacion</param>
-    ///
-    /*[HttpPost]
-    public void EnviarNotificacionCorreo( string nombreUsuarioRecibe, string correoElectronico, string idUsuarioEnvia)
+    /// <param name="correo">Correo electronico de la persona a la que se le va a recomendar la aplicacion</param>
+    /// <param name="id">ID del usuario que envia la notificacion</param>
+    /// <param name="nombreDestino">Nombre de usuario al que va destinada la notificacion</param>
+    [HttpPost]
+    public void EnviarNotificacionCorreo(string correo, int id, string nombreDestino) //READY
     {
-      try
+      comando = FabricaComando.CrearComandoEnviarNotificacionCorreo(correo, id, nombreDestino);
+      comando.Ejecutar();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
@@ -142,9 +150,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return respuesta;
-
-    }*/
+      return respuesta;*/
+    }
 
     /// <summary>
     /// Metodo que valida si un usuario es lider o no para eliminar o salir de un grupo

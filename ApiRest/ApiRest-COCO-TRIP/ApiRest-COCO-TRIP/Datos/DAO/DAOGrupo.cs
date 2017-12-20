@@ -3,6 +3,9 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
+  /// <summary>
+  /// DAO de la entidad Grupo
+  /// </summary>
   public class DAOGrupo : DAO
   {
     public override void Actualizar(Entidad objeto)
@@ -10,7 +13,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       throw new System.NotImplementedException();
     }
 
-    public override Entidad Consultar(Entidad objeto)
+    public override Entidad ConsultarPorId(Entidad objeto)
     {
       throw new System.NotImplementedException();
     }
@@ -31,6 +34,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     }
 
     public override void Insertar(Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public override Entidad ConsultarPorNombre(Entidad objeto)
     {
       throw new System.NotImplementedException();
     }

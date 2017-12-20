@@ -72,7 +72,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     public abstract void Insertar(Entidad objeto);
 
     //Metodos READ
-    public abstract Entidad Consultar (Entidad objeto);
+    public abstract Entidad ConsultarPorId (Entidad objeto);
+    public abstract Entidad ConsultarPorNombre(Entidad objeto);
     public abstract Entidad ConsultarId (Entidad objeto);
     public abstract List<Entidad> ConsultarLista (Entidad objeto);
 
@@ -82,4 +83,5 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     //Metodos DELETE
     public abstract void Eliminar (Entidad objeto);
   }
+
 }
