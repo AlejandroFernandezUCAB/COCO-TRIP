@@ -11,11 +11,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de la entidad ComandoAgregarAmigo
     /// </summary>
     /// <param name="id">ID del usuario</param>
-    /// <param name="usuario">Nombre de usuario destino</param>
+    /// <param name="nombre">Nombre de usuario destino</param>
     /// <returns></returns>
-    public static ComandoAgregarAmigo CrearComandoAgregarAmigo (int id, string usuario)
+    public static ComandoAgregarAmigo CrearComandoAgregarAmigo (int id, string nombre)
     {
-      return new ComandoAgregarAmigo(id, usuario);
+      return new ComandoAgregarAmigo(id, nombre);
     }
   }
 }

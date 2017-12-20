@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
+using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
@@ -9,22 +10,36 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
   /// </summary>
   public class ComandoAgregarAmigo : Comando
   {
-    private Usuario data;
+    private Usuario usuario;
+    private Amigo amigo;
+
+    private DAO datos;
 
     /// <summary>
     /// Constructor del comando
     /// </summary>
-    public ComandoAgregarAmigo(int id, string usuario)
+    public ComandoAgregarAmigo (int id, string nombre)
     {
-      data = FabricaEntidad.CrearEntidadUsuario();
+      usuario = FabricaEntidad.CrearEntidadUsuario();
+      amigo = FabricaEntidad.CrearEntidadAmigo();
 
-      data.Id = id;
-      data.NombreUsuario = usuario;
+      usuario.NombreUsuario = nombre;
+      amigo.Activo = id;
     }
 
     public override void Ejecutar()
     {
-      
+      datos = FabricaDAO.CrearDAOUsuario();
+      usuario = (Usuario) datos.ConsultarId(usuario);
+
+      datos = FabricaDAO.CrearDAOAmigo();
+      amigo.Pasivo = usuario.Id;
+      amigo = (Amigo) datos.ConsultarId(amigo);
+
+      if(amigo.Id == 0)
+      {
+        datos.Insertar(amigo);
+      }
     }
 
     public override Entidad Retornar()
@@ -37,5 +52,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       throw new System.NotImplementedException();
     }
   }
-
 }

@@ -1,4 +1,6 @@
+using ApiRest_COCO_TRIP.Datos.Entity;
 using Npgsql;
+using System.Collections.Generic;
 using System.Data;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
@@ -65,5 +67,19 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         sqlConexion.Close();
       }
     }
+
+    //Metodos CREATE
+    public abstract void Insertar(Entidad objeto);
+
+    //Metodos READ
+    public abstract Entidad Consultar (Entidad objeto);
+    public abstract Entidad ConsultarId (Entidad objeto);
+    public abstract List<Entidad> ConsultarLista (Entidad objeto);
+
+    //Metodos UPDATE
+    public abstract void Actualizar (Entidad objeto);
+
+    //Metodos DELETE
+    public abstract void Eliminar (Entidad objeto);
   }
 }
