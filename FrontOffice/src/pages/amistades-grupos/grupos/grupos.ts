@@ -120,9 +120,10 @@ export class GruposPage {
       
    }
   
-   chatGrupo(item) {
+   chatGrupo(IdGrupo,NombreGupo) {
     this.navCtrl.push(ConversacionGrupoPage,{
-        idGrupo : item
+        idGrupo : IdGrupo,
+        nombreGrupo : NombreGupo
     });
   }
 
