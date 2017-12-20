@@ -79,7 +79,7 @@ CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) REFERENCES Usuario(us_id)
 Create Table Amigo
 (
 am_id integer NOT NULL,
-am_aceptado boolean NOT NULL,
+am_aceptado boolean DEFAULT false NOT NULL,
 fk_usuario_conoce integer NOT NULL,
 fk_usuario_posee integer NOT NULL,
 
