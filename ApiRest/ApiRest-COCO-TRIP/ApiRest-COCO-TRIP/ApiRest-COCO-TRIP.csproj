@@ -149,6 +149,8 @@
     <Compile Include="Controllers\M8_EventosController.cs" />
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
+    <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
@@ -213,7 +215,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Comun\" />
-    <Folder Include="Datos\DAO\" />
     <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>
