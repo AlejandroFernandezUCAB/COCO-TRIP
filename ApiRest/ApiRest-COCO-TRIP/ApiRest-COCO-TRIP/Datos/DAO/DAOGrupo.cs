@@ -23,7 +23,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       parametro = new NpgsqlParameter();
     }
 
-    public override Entidad ConsultarLider(Entidad _grupo)
+    public Entidad ConsultarLider(Entidad _grupo)
     {
       grupo = (Grupo) _grupo;
       usuario = FabricaEntidad.CrearEntidadUsuario();
@@ -75,7 +75,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
-    public override void AbandonarGrupo (Entidad _grupo, Entidad _usuario)
+    public void AbandonarGrupo (Entidad _grupo, Entidad _usuario)
     {
       grupo = (Grupo) _grupo;
       usuario = (Usuario) _usuario;
@@ -109,11 +109,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       throw new System.NotImplementedException();
     }
 
-    public override Entidad ConsultarId(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
     public override List<Entidad> ConsultarLista(Entidad objeto)
     {
       throw new System.NotImplementedException();
@@ -123,10 +118,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       throw new System.NotImplementedException();
     }
-
-    public override Entidad ConsultarPorNombre(Entidad usuario)
-    {
-      throw new System.NotImplementedException();
-    }
   }
+
 }

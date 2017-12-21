@@ -5,13 +5,16 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
+  /// <summary>
+  /// Valida si un usuario es lider o no para eliminar o salir de un grupo
+  /// </summary>
   public class ComandoSalirGrupo : Comando
   {
     private Usuario usuario;
     private Usuario lider;
     private Grupo grupo;
 
-    private DAO datos;
+    private DAOGrupo datos;
 
     public ComandoSalirGrupo (int idGrupo, int idUsuario)
     {

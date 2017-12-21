@@ -7,12 +7,15 @@ using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
+  /// <summary>
+  /// Envia un correo recomendando la aplicacion a un usuario
+  /// </summary>
   public class ComandoEnviarNotificacionCorreo : Comando
   {
     private Usuario remitente;
     private Usuario destinatario;
 
-    private DAO datos;
+    private DAOUsuario datos;
     private Correo servicio;
 
     public ComandoEnviarNotificacionCorreo (string correo, int id, string nombreDestino)

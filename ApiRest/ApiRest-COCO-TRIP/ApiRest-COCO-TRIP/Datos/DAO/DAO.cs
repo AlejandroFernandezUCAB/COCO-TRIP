@@ -73,16 +73,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     //Metodos READ
     public abstract Entidad ConsultarPorId (Entidad objeto);
-    public abstract Entidad ConsultarId (Entidad objeto);
     public abstract List<Entidad> ConsultarLista (Entidad objeto);
-
-    //Modulo 1
-    public abstract Entidad ConsultarPorNombre (Entidad usuario);
-
-    //Modulo 3
-    //DAOGrupo
-    public abstract Entidad ConsultarLider (Entidad grupo);
-    public abstract void AbandonarGrupo (Entidad grupo, Entidad usuario);
 
     //Metodos UPDATE
     public abstract void Actualizar (Entidad objeto);
@@ -90,5 +81,4 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     //Metodos DELETE
     public abstract void Eliminar (Entidad objeto);
   }
-
 }
