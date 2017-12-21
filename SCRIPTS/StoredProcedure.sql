@@ -479,7 +479,7 @@ $$ LANGUAGE plpgsql;
 
 ----------------------------PROCEDIMIENTO MODIFICAR GRUPO----------------------------------
 CREATE OR REPLACE FUNCTION ModificarNombreGrupo
-(id_grupo varchar, nombre varchar)
+(id_grupo integer, nombre varchar)
 RETURNS integer
 AS $$
 DECLARE
@@ -500,7 +500,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION ModificarFotoGrupo
-(id_grupo varchar, foto varchar)
+(id_grupo integer, foto varchar)
 RETURNS integer
 AS $$
 DECLARE
@@ -952,7 +952,7 @@ BEGIN
   FROM Grupo g, Miembro m
   WHERE g.gr_id = id_grupo
   AND g.gr_id = m.fk_grupo
-  GROUP BY (nombre, foto);
+  GROUP BY (nombre);
 END;
 $$ LANGUAGE plpgsql;
 
