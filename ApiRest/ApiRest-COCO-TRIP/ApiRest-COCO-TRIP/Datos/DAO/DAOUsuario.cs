@@ -91,34 +91,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       return usuario;
     }
 
-    public Entidad ConsultarId(Entidad objeto)
-    {
-      usuario = (Usuario) objeto;
-
-      base.Conectar(); //Inicia una sesion con la base de datos
-
-      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-      base.Comando.CommandText = "ConsultarUsuarioSoloNombre";
-      base.Comando.CommandType = CommandType.StoredProcedure;
-
-      parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
-      parametro.Value = usuario.NombreUsuario;
-      base.Comando.Parameters.Add(parametro);
-
-      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
-
-      if(leerDatos.Read()) //Lee los resultados
-      {
-        usuario.Id = leerDatos.GetInt32(0);
-      }
-
-      leerDatos.Close(); //Cierra el Data Reader
-
-      base.Desconectar(); //Culmina la sesion con la base de datos
-
-      return usuario;
-    }
-
     public override List<Entidad> ConsultarLista(Entidad objeto)
     {
       throw new System.NotImplementedException();

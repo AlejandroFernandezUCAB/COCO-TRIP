@@ -136,6 +136,68 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoEliminarGrupo(idUsuario, idGrupo);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarGrupo
+    /// </summary>
+    /// <param name="grupo">Datos del grupo</param>
+    /// <returns></returns>
+    public static ComandoModificarGrupo CrearComandoModificarGrupo(Entidad grupo)
+    {
+      return new ComandoModificarGrupo(grupo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarListaGrupos
+    /// </summary>
+    /// <param name="id">ID del usuario logeado en la aplicacion</param>
+    /// <returns></returns>
+    public static ComandoConsultarListaGrupos CrearComandoConsultarListaGrupos(int id)
+    {
+      return new ComandoConsultarListaGrupos(id);
+    }
+
+    /// <summary>
+    /// Retornar la instancia de ComandoConsultarMiembroGrupo
+    /// </summary>
+    /// <param name="id">ID del grupo por el cual se devuelven sus integrantes</param>
+    /// <returns></returns>
+    public static ComandoConsultarMiembroGrupo CrearComandoConsultarMiembroGrupo(int id)
+    {
+      return new ComandoConsultarMiembroGrupo(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarPerfilGrupo
+    /// </summary>
+    /// <param name="id">ID del grupo a buscar</param>
+    /// <returns></returns>
+    public static ComandoConsultarPerfilGrupo CrearComandoConsultarPerfilGrupo(int id)
+    {
+      return new ComandoConsultarPerfilGrupo(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarIntegrante
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
+    /// <returns></returns>
+    public static ComandoAgregarIntegrante CrearComandoAgregarIntegrante(int idGrupo, string nombreUsuario)
+    {
+      return new ComandoAgregarIntegrante(idGrupo, nombreUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarIntegrante
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
+    /// <returns></returns>
+    public static ComandoEliminarIntegrante CrearComandoEliminarIntegrante(int idGrupo, string nombreUsuario)
+    {
+      return new ComandoEliminarIntegrante(idGrupo, nombreUsuario);
+    }
   }
 
 }

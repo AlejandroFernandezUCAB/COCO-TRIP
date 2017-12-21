@@ -516,10 +516,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="grupo">Datos del grupo</param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPut]
     public void ModificarGrupo (Entidad grupo) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
     {
-
+      comando = FabricaComando.CrearComandoModificarGrupo(grupo);
+      comando.Ejecutar();
 
       //int resultado;
       //try
@@ -549,12 +550,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Consultar lista de grupo del usuario
     /// </summary>
-    /// <param name="idUsuario">nombre usuario logeado en la app</param>
+    /// <param name="idUsuario">ID del usuario logeado en la aplicacion</param>
     /// <returns>La lista de grupos de un usuario</returns>
-    /*[HttpGet]
-    public List<Grupo> ConsultarListaGrupos(int idUsuario)
+    [HttpGet]
+    public List<Entidad> ConsultarListaGrupos(int idUsuario)
     {
-      try
+      comando = FabricaComando.CrearComandoConsultarListaGrupos(idUsuario);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.Listagrupo(idUsuario);
@@ -574,19 +579,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
-    }*/
+      }*/
+    }
 
     /// <summary>
-    /// Metodo que devulve los integrantes de un grupo
+    /// Metodo que devuelve los integrantes de un grupo
     /// </summary>
-    /// <param name="idgrupo">id del grupo por el cual se devuelven sus integrantes</param>
+    /// <param name="idGrupo">ID del grupo por el cual se devuelven sus integrantes</param>
     /// <returns>Retorna la lista de integrantes de un grupo</returns>
-    /*[HttpGet]
-    public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
+    [HttpGet]
+    public List<Entidad> ConsultarMiembroGrupo(int idGrupo)
     {
-      try
+      comando = FabricaComando.CrearComandoConsultarMiembroGrupo(idGrupo);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.Listamiembro(Convert.ToInt32(idgrupo));
@@ -606,20 +614,23 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
-    }*/
+      }*/
+    }
 
 
     /// <summary>
     /// Procedimiento para visualizar el perfil del grupo
     /// </summary>
-    /// <param name="id">Es el de id del grupo por el cual se buscara</param>
+    /// <param name="id">ID del grupo a buscar</param>
     /// <returns>Retorna los datos del grupo para armar el perfil del grupo</returns>
-    /*[HttpGet]
-    public List<Grupo> ConsultarPerfilGrupos(int id)
+    [HttpGet]
+    public Entidad ConsultarPerfilGrupo (int id)
     {
+      comando = FabricaComando.CrearComandoConsultarPerfilGrupo(id);
+      comando.Ejecutar();
+      return comando.Retornar();
 
+      /*
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -641,8 +652,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-
-    }*/
+      */
+    }
 
     /// <summary>
     /// Procedimiento para agregar un integrante al modificar el grupo
@@ -650,10 +661,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
     /// <returns></returns>
-    /*[HttpPut]
-    public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
+    [HttpPost]
+    public void AgregarIntegrante (int idGrupo, string nombreUsuario)
     {
-      int resultado;
+      comando = FabricaComando.CrearComandoAgregarIntegrante(idGrupo, nombreUsuario);
+      comando.Ejecutar();
+
+      /*int resultado;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -675,19 +689,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return resultado;
-    }*/
+      return resultado;*/
+    }
 
     /// <summary>
     /// Procedimiento para eliminar un integrante del grupo al modificar
     /// </summary>
-    /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
     /// <returns></returns>
-    /*[HttpDelete]
-    public int EliminarIntegranteModificar(string nombreUsuario, int idGrupo)
+    [HttpDelete]
+    public void EliminarIntegrante (int idGrupo, string nombreUsuario)
     {
-      int resultado;
+      comando = FabricaComando.CrearComandoEliminarIntegrante(idGrupo, nombreUsuario);
+      comando.Ejecutar();
+
+      /*int resultado;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -709,8 +726,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return resultado;
-    }*/
+      return resultado;*/
+    }
 
     /// <summary>
     /// Metodo que verifica si un usuario es lider de un grupo o solo un integrante

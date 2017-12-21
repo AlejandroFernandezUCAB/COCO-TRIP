@@ -201,9 +201,11 @@
     <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
     <Compile Include="Negocio\Comando\ComandoAgregarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoBuscarAmigos.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarListaGrupos.cs" />
     <Compile Include="Negocio\Comando\ComandoEliminarAmigo.cs" />
     <Compile Include="Negocio\Comando\ComandoEliminarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />
