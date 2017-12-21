@@ -7,12 +7,12 @@ namespace ApiRest_COCO_TRIP.Models.Dato
   /// </summary>
   public class Foto
   {
-    private int id; //Identificador unico
+    private int id; //ID de la foto
     private string ruta; //Ruta de la imagen en el servidor
     private byte[] contenido; //Bytes de la foto
 
     /// <summary>
-    /// Getters y Setters del atributo ID
+    /// Getters y Setters del atributo Id
     /// </summary>
     public int Id
     {

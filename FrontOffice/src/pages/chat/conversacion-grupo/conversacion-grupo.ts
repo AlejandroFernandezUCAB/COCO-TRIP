@@ -11,6 +11,8 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
+import { ToastController } from 'ionic-angular';
+
 
 /**
  * Generated class for the ConversacionGrupoPage page.
@@ -27,13 +29,17 @@ import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 export class ConversacionGrupoPage {
   @ViewChild('content') content: Content;
   conversacion: any;
-  nuevoMensaje: any;
+  nuevoMensaje = "";
   /*nombreUsuario:any={
     idGrupo: 'idGrupo'
   }*/
   idAmigo: any;
   idGrupo: any;
+  nombreGrupo : any = {
+    nombre : 'nombre'
+  };
   idUsuario: any;
+  mensj:any;
   usuario: any = {
     NombreUsuario: 'NombreUsuario'
   };
@@ -43,13 +49,14 @@ export class ConversacionGrupoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
-  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService) {
+  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
+  public toastCtrl: ToastController) {
   }
 
   ionViewWillEnter() {
  
     this.idGrupo = this.navParams.get('idGrupo');
-    
+    this.nombreGrupo.nombre = this.navParams.get('nombreGrupo');
     
    
     this.storage.get('id').then((val) => { 
@@ -77,20 +84,6 @@ export class ConversacionGrupoPage {
   
    }
 
-   agregarMensajeGrupo() {
-    /*this.chatService.agregarNuevoMensajeGrupo(this.nuevoMensaje,this.idGrupo,this.usuario.NombreUsuario);
-      this.content.scrollToBottom();
-      this.nuevoMensaje = '';*/
-
-      let entidad: Mensaje;
-      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
-      let comando = FabricaComando.crearComandoCrearMensajeGrupo();
-      comando._entidad = entidad;
-      comando.execute();
-      this.content.scrollToBottom();
-      this.nuevoMensaje = '';
-
-  }
 
   ionViewDidEnter() {
     
@@ -115,7 +108,7 @@ export class ConversacionGrupoPage {
                   {
                     text: 'Sí',
                     handler: () => {
-                      this.chatService.eliminarMensajeGrupo(this.idGrupo,idMensaje,this.usuario.NombreUsuario);
+                      this.eliminarMensajeGrupo(idMensaje);
                     }
                   },
                   {
@@ -136,18 +129,112 @@ export class ConversacionGrupoPage {
             handler: () => {
               console.log('Cancelar ActionSheet');
             }
-          }
+          },
+          {
+            text: 'Modificar',
+            role: 'Modificar', //coloca el botón siempre en el último lugar.
+            icon: !this.platform.is('ios') ? 'create' : null,
+            handler: () => {
+              this.crearalert(idMensaje);
+            }
+            }
         ]
       });
       actionSheet.present();
     }
   }
 
+  crearalert(idMensaje){
+    
+    let prompt = this.alertCtrl.create({
+      title: 'Modificar Mensaje',
+      message: "Escribe el nuevo mensaje",
+      inputs: [
+        {
+          name: 'modificado',
+          placeholder: 'Nuevo mensaje'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+        
+          }
+        },
+        {
+          text: 'Modificar',
+          handler: data => {
+            if(data.modificado != ""){
+              this.modificarMensajeGrupo(idMensaje,data.modificado);
+            }else{
+              this.presentToast("Por favor escriba un mensaje");
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
 
+  }
+
+  
+  eliminarMensajeGrupo(idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
+    comando.setEntidad = entidad;
+    comando.execute();
+    if(comando.getRespuesta == true){
+      this.presentToast("Se ha eliminado exitosamente");
+    }else{
+      this.presentToast("Ha ocurrido un error");
+
+    }
+  }
+
+   agregarMensajeGrupo() {
+     if(this.nuevoMensaje != ""){
+      let entidad: Mensaje;
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+      let comando = FabricaComando.crearComandoCrearMensajeGrupo();
+      comando._entidad = entidad;
+      comando.execute();
+      this.content.scrollToBottom();
+      this.nuevoMensaje = '';
+     }else{
+      this.presentToast("Por favor escriba un mensaje");
+    }
+
+      
+
+  }
+
+modificarMensajeGrupo(idMensaje,nuevoMensaje){
+  let entidad: Mensaje;
+  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+  entidad.setId = idMensaje;
+  let comando = FabricaComando.crearComandoModificarMensajeGrupo();
+  comando.setEntidad = entidad;
+  comando.execute();
+
+}
   scrollto() {
     setTimeout(() => {
       this.content.scrollToBottom();
     }, 1000);
+  }
+
+  
+  presentToast(mensaje : string) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
   
 

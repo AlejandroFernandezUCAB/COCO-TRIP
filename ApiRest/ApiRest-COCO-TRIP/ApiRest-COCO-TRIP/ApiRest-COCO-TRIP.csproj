@@ -149,6 +149,15 @@
     <Compile Include="Controllers\M8_EventosController.cs" />
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
+    <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\DAO\DAOAmigo.cs" />
+    <Compile Include="Datos\DAO\DAOGrupo.cs" />
+    <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\Entity\Amigo.cs" />
+    <Compile Include="Datos\Entity\Entidad.cs" />
+    <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
+    <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
+    <Compile Include="Datos\Singleton\Correo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,6 +167,8 @@
     <Compile Include="Models\ConexionBase.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\EventoPreferencia.cs" />
+    <Compile Include="Datos\Entity\Grupo.cs" />
+    <Compile Include="Models\Dato\Foto.cs" />
     <Compile Include="Models\Excepcion\ArchivoExcepcion.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
@@ -166,12 +177,11 @@
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
-    <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\Itinerario.cs" />
     <Compile Include="Models\BaseDeDatos\ConexionLugarTuristico.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionLugarTuristico.cs" />
     <Compile Include="Models\Dato\Actividad.cs" />
-    <Compile Include="Models\Dato\Foto.cs" />
+    <Compile Include="Datos\Entity\Foto.cs" />
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Models\LocalidadEvento.cs" />
@@ -182,8 +192,18 @@
     <Compile Include="Models\PeticionLocalidadEvento.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionPerfil.cs" />
-    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Datos\Entity\Usuario.cs" />
     <Compile Include="Models\PeticionCategoria.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Negocio\Comando\Comando.cs" />
+    <Compile Include="Negocio\Comando\ComandoAceptarNotificacion.cs" />
+    <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
+    <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
+    <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoVisualizarPerfilAmigo.cs" />
+    <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones\ValidacionWS.cs" />
   </ItemGroup>
@@ -203,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Comun\" />
     <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>

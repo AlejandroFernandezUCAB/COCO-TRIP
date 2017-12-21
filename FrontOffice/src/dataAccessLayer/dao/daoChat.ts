@@ -11,8 +11,8 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = new ChatProvider(null);
-        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        return null;
+        mensaje.setId = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo); 
+        return mensaje;
     }
 
     public agregarMensajeGrupo(entidad : Entidad): Entidad{
@@ -30,15 +30,44 @@ export class DAOChat extends DAO {
     
         
     
-    eliminar() : Entidad{
-        return null;
-        
+    eliminar(entidad : Entidad) : boolean{
+        let respuesta : boolean;
+        respuesta = false;
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        respuesta = chat.eliminarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId);
+        return respuesta;
     }
 
+    eliminarMensajeGrupo(entidad : Entidad) : boolean{
+        let respuesta : boolean;
+        respuesta = false;
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        respuesta = chat.eliminarMensajeGrupo(mensaje.getidGrupo,mensaje.getId,mensaje.getUsuario); 
+        return respuesta;
+    }
         
 
-    modificar() : Entidad{
-        return null;
+    modificar(entidad : Entidad) : boolean{
+        let respuesta : boolean;
+        respuesta = false;
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        respuesta = chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId,mensaje.getMensaje);
+        return respuesta;
+    }
+    modificarMensajeGrupo(entidad : Entidad) : boolean{
+        let respuesta : boolean;
+        respuesta = false;
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(null);
+        respuesta = chat.modificarMensajeGrupo(mensaje.getidGrupo,mensaje.getId,mensaje.getMensaje,mensaje.getUsuario); 
+        return respuesta;
     }
     
         

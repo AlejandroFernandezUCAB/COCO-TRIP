@@ -14,7 +14,7 @@ using NpgsqlTypes;
 /// </summary>
 namespace ApiRest_COCO_TRIP.Models
 {
-  public class PeticionAmigoGrupo 
+  /*public class PeticionAmigoGrupo 
   {
     private ConexionBase conexion;
     private NpgsqlDataReader leerDatos;
@@ -812,6 +812,9 @@ namespace ApiRest_COCO_TRIP.Models
       return id;
     }
 
+
+    */
+
     /// <summary>
     /// Metodo para modificar los atributos de un grupo
     /// </summary>
@@ -819,28 +822,28 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="idUsuario">Identificador del usuario que modificara el grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns></returns>
-    public int ModificarGrupoBD(string nombreGrupo, int idUsuario, /*string foto,*/ int idGrupo)
-    {
-      int result = 0;
-      try
-      {
-        conexion.Conectar();
-        conexion.Comando = conexion.SqlConexion.CreateCommand();
-        conexion.Comando.CommandText = "modificarGrupo";
-        conexion.Comando.CommandType = CommandType.StoredProcedure;
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombreGrupo));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
-        //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto));
-        conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
-        leerDatos = conexion.Comando.ExecuteReader();
-        if (leerDatos.Read())
-        {
-          result = leerDatos.GetInt32(0);
-        }
-        leerDatos.Close();
-        conexion.Desconectar();
-      }
-      catch (NpgsqlException e)
+    //public int ModificarGrupoBD(string nombreGrupo, int idUsuario, /*string foto,*/ int idGrupo)
+    //{
+    //  int result = 0;
+    //  try
+    //  {
+    //    conexion.Conectar();
+    //    conexion.Comando = conexion.SqlConexion.CreateCommand();
+    //    conexion.Comando.CommandText = "modificarGrupo";
+    //   conexion.Comando.CommandType = CommandType.StoredProcedure;
+    //    conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, nombreGrupo));
+    //   conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idUsuario));
+    //    //conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Varchar, foto));
+    //    conexion.Comando.Parameters.Add(AgregarParametro(NpgsqlDbType.Integer, idGrupo));
+    //   leerDatos = conexion.Comando.ExecuteReader();
+    //    if (leerDatos.Read())
+    //    {
+    //      result = leerDatos.GetInt32(0);
+    //    }
+    //    leerDatos.Close();
+    //    conexion.Desconectar();
+    //  }
+    /* catch (NpgsqlException e)
       {
         throw e;
       }
@@ -849,7 +852,7 @@ namespace ApiRest_COCO_TRIP.Models
         throw e;
       }
       return result;
-    }
+    }*/
 
     /// <summary>
     /// Metodo para eliminar un integrante de un grupo al modificar
@@ -857,7 +860,7 @@ namespace ApiRest_COCO_TRIP.Models
     /// <param name="nombreUsuario">Nombre del usuario a eliminar</param>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns></returns>
-    public int EliminarIntegranteModificarBD(string nombreUsuario, int idGrupo)
+    /*public int EliminarIntegranteModificarBD(string nombreUsuario, int idGrupo)
     {
       int result = 0;
       int idUsuario = ObtenerIdUsuario(nombreUsuario);
@@ -1112,8 +1115,5 @@ public int ObtenerultimoGrupo(int IdUsuario)
 
       return grupo.Id;
     }
-
-
-
-  }
+  }*/
 }

@@ -175,10 +175,14 @@
     <Compile Include="Datos\DAO\Interfaces\IDAOLocalidad.cs" />
     <Compile Include="Datos\Entidades\Categoria.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaPorId.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaHabilitada.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarEvento.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaSelect.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
