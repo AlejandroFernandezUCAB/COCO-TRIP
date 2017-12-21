@@ -39,5 +39,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoEnviarNotificacionCorreo(correo, id, nombreDestino);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoSalirGrupo
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo a eliminar/salir</param>
+    /// <param name="idUsuario">Identificador del usuario que quiere eliminar o salir del grupo</param>
+    /// <returns></returns>
+    public static ComandoSalirGrupo CrearComandoSalirGrupo (int idGrupo, int idUsuario)
+    {
+      return new ComandoSalirGrupo(idGrupo, idUsuario);
+    }
   }
 }

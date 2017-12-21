@@ -582,14 +582,15 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION ObtenerLider
 (id_grupo integer)
 RETURNS TABLE
-(nombre varchar,
+(id integer,
+nombre varchar,
 apellido varchar,
 usuario varchar,
 foto varchar)
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT us_nombre, us_apellido,us_nombreusuario, us_foto
+    SELECT us_id, us_nombre, us_apellido, us_nombreusuario, us_foto
     FROM Grupo g
     WHERE
     g.gr_id = id_grupo

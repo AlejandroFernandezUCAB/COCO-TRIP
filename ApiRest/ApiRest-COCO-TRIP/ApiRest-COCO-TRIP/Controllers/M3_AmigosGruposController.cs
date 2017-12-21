@@ -159,11 +159,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo a eliminar/salir</param>
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar o salir del grupo</param>
     /// <returns></returns>
-    /*[HttpDelete]
-    public int EliminarSalirGrupo(string idGrupo, string idUsuario)
+    [HttpDelete]
+    public void SalirGrupo (int idGrupo, int idUsuario) //READY
     {
+      comando = FabricaComando.CrearComandoSalirGrupo(idGrupo, idUsuario);
+      comando.Ejecutar();
 
-      int respuesta = 0;
+      /*int respuesta = 0;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -195,43 +197,8 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
 
-      return respuesta;
-    }*/
-
-    /// <summary>
-    /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
-    /// </summary>
-    /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
-    /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
-    /// <returns>true si sale exitossamente, false en caso contrario</returns>
-    /*[HttpDelete]
-    public int SalirGrupo(string idGrupo, string idUsuario)
-    {
-      int salio = 0;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        salio = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException e)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return salio;
-
-    }*/
+      return respuesta;*/
+    }
 
     /// <summary>
     /// Metodo que se encarga de obtener la lista de notificaciones pendientes de un usuario
