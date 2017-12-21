@@ -1,40 +1,40 @@
 using Newtonsoft.Json.Linq;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Collections;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
+using BackOffice_COCO_TRIP.Datos.DAO;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoInsertarLocalidad : Comando
   {
-    private LocalidadEvento localidad;
-    private String resultado;
-    public ComandoInsertarLocalidad(LocalidadEvento localidad) {
-      this.localidad = localidad;
-    }
+    private Entidad localidad;
+    private ArrayList resultado = new ArrayList();
+
     public override void Execute()
     {
-      PeticionM8_Localidad peticion = new PeticionM8_Localidad();
+      IDAOLocalidad peticion = FabricaDAO.GetDAOLocalidad();
       JObject respuesta = peticion.Post(localidad);
       if (respuesta.Property("dato") == null)
       {
-
-
-        resultado= "Ocurrio un error durante la comunicacion, revise su conexion a internet";
-
+        resultado.Add( "Ocurrio un error durante la comunicacion, revise su conexion a internet");
       }
       else
       {
-        resultado= "Se hizo con exito";
+        resultado.Add("Se hizo con exito");
       }
     }
 
-    public override object GetResult()
+
+    public override ArrayList GetResult()
     {
-      throw new NotImplementedException();
+      return resultado;
+    }
+
+    public override void SetPropiedad(object propiedad)
+    {
+      this.localidad = (Localidad)propiedad;
     }
   }
 }

@@ -7,6 +7,7 @@ import{ModificarGrupoPage} from '../../modificar-grupo/modificar-grupo';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacion-grupo';
 
 //****************************************************************************************************// 
 //*************************************PAGE DE GRUPOS MODULO 3****************************************//
@@ -45,6 +46,7 @@ export class GruposPage {
   text: any;
   message: any;
   succesful: any;
+  chat=false;
   public loading = this.loadingCtrl.create({});
 
   
@@ -102,6 +104,27 @@ export class GruposPage {
     this.delete=false;
 
     this.navCtrl.push(SeleccionarIntegrantesPage);
+  }
+
+  verChat(){
+    this.edit=false;
+     this.detail=false;
+     this.delete=false;
+     if (this.chat==false){
+      
+          this.chat = true;
+        }
+        else{
+          this.chat=false;
+        }
+      
+   }
+  
+   chatGrupo(IdGrupo,NombreGupo) {
+    this.navCtrl.push(ConversacionGrupoPage,{
+        idGrupo : IdGrupo,
+        nombreGrupo : NombreGupo
+    });
   }
 
   /**

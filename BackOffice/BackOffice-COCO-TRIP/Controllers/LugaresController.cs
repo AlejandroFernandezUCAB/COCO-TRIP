@@ -1,5 +1,6 @@
 using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Models.Peticion;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
                     foreach (var subElemento in respuestaSubCategoria)
                     {
-                      subElemento.CategoriaSuperior = elemento.Id;
+                      subElemento.UpperCategories = elemento.Id;
                       ViewBag.SubCategoria.Add(subElemento);
                     }
                   }

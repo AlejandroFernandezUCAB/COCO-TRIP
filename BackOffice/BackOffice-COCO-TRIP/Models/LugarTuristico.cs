@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-
+using BackOffice_COCO_TRIP.Datos.Entidades;
 namespace BackOffice_COCO_TRIP.Models
 {
   /// <summary>

@@ -1,16 +1,15 @@
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
-using System.Web;
 
-namespace BackOffice_COCO_TRIP.Models.Peticion
+namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class PeticionEvento : BasePeticion<JObject, Evento>
+  public class DAOEvento : DAO<JObject, Entidad>, IDAOEvento
   {
     private const string ControllerUri = "M8_Eventos";
     private JObject responseData;
@@ -24,7 +23,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -105,32 +104,32 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
       return responseData;
     }
 
-    public override JObject Patch(Evento data)
+    public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
 
-    public override JObject Post(Evento data)
+    public override JObject Post(Entidad data)
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
 
-            { "nombre", data.Nombre },
-            { "descripcion", data.Descripcion },
-             { "precio", data.Precio },
-            { "fechaInicio",data.FechaInicio.ToString()},
-            {"fechaFin",data.FechaFin.ToString() },
-            {"horaInicio",data.HoraInicio.Hour+":"+data.FechaInicio.Minute+":00" },
-            {"horaFin",data.HoraInicio.Hour+":"+data.FechaInicio.Minute+":00" },
-            {"foto",data.Foto },
-            { "idCategoria",data.IdCategoria},
-            {"idLocalidad",data.IdLocalidad }
+            { "nombre", ((Evento)data).Nombre },
+            { "descripcion", ((Evento)data).Descripcion },
+             { "precio", ((Evento)data).Precio },
+            { "fechaInicio",((Evento)data).FechaInicio.ToString()},
+            {"fechaFin",((Evento)data).FechaFin.ToString() },
+            {"horaInicio",((Evento)data).HoraInicio.Hour+":"+((Evento)data).FechaInicio.Minute+":00" },
+            {"horaFin",((Evento)data).HoraInicio.Hour+":"+((Evento)data).FechaInicio.Minute+":00" },
+            {"foto",((Evento)data).Foto },
+            { "idCategoria",((Evento)data).IdCategoria},
+            {"idLocalidad",((Evento)data).IdLocalidad }
 
           };
           var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/agregarEvento", jsonData);
@@ -212,7 +211,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
 
    
 
-    public override JObject Put(Evento data)
+    public override JObject Put(Entidad data)
     {
       throw new NotImplementedException();
     }

@@ -1,7 +1,7 @@
 
 @Styles.Render("~/bundles/categoriesCSS")
 @using BackOffice_COCO_TRIP.Helpers
-@model IEnumerable<BackOffice_COCO_TRIP.Models.Evento>
+@model IEnumerable<BackOffice_COCO_TRIP.Datos.Entidades.Evento>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css ">
 
 
@@ -21,7 +21,7 @@
         <div class="form-group row">
           @Html.Label("Categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
           <div class="col-sm-10">
-            @Html.DropDownListCategoriesEvents("Mover a la categoria", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Models.Categories>, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListCategoriesEvents("Mover a la categoria", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria>, htmlAttributes: new { @class = "form-control" })
           </div>
           
             <div class="col-md-offset-2 col-md-10">

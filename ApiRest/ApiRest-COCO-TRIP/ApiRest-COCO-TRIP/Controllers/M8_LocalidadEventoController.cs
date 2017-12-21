@@ -8,6 +8,8 @@ using System.Web.Http.Description;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Data.SqlClient;
+using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 namespace ApiRest_COCO_TRIP.Controllers
 {
 
@@ -18,6 +20,8 @@ namespace ApiRest_COCO_TRIP.Controllers
   public class M8_LocalidadEventoController : ApiController
   {
     private IDictionary respuesta = new Dictionary<string, object>();
+
+
     /**
      * <summary>Metodo de controlador para Agregar un Localidad de Evento a la BBDD</summary>
      * <param name="lEvento">Objeto con infomarcion de la localidad evento a agregar</param>
@@ -66,6 +70,8 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
     }
+
+
     /**
      * <summary>Metodo de controlador para Eliminar una Localidad de Evento de la BBDD</summary>
      * <param name="id">Id de la localidad a eliminar </param>
@@ -99,6 +105,8 @@ namespace ApiRest_COCO_TRIP.Controllers
 
        return respuesta;
     }
+
+
     /**
      * <summary>Metodo de controlador para Consultar una Localidad de evento dado su id todos los datos</summary>
      * <param name="id">Id del evento a consultar</param>
@@ -132,6 +140,70 @@ namespace ApiRest_COCO_TRIP.Controllers
 
       return respuesta;
     }
+
+    /*
+    [HttpGet]
+    public int GetIdLocalPorNombre(string nombreLocalidad)
+    {
+      try
+      {
+        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+        int id = peticionLocalidadEvento.ConsultarLocalidadEventoNombreID(nombreLocalidad).Id;
+        return id;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+
+    }
+
+    [HttpGet]
+    public LocalidadEvento LocalidadEventoPorNombre (string nombreLocalidad)
+    {
+      try
+      {
+        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
+        LocalidadEvento lce = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(nombreLocalidad);
+        return lce;
+       
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (ParametrosNullException e)
+      {
+        throw e;
+
+      }
+      catch (FormatException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw e;
+
+      }
+
+    }
+    */
+
     /**
      * <summary>Metodo de controlador para Listar todos las localidades de los eventos</summary>
      * <param name="id_categoria">id de la categoria a consultar sus eventos</param>

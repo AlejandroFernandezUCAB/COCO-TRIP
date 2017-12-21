@@ -52,7 +52,7 @@ namespace ApiRestPruebas.M9
     {
       Assert.DoesNotThrow(() => pPeticion.ActualizarEstatus(pCategoria));
     }
-
+   
 
   }
 }

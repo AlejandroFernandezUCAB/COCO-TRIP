@@ -1,3 +1,4 @@
+import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { Component, ViewChild, NgZone } from '@angular/core';
 import { Platform, ActionSheetController, Events, Content } from 'ionic-angular';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
@@ -9,6 +10,8 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 import { ChatProvider } from '../../../providers/chat/chat';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -19,11 +22,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class ConversacionPage {
   @ViewChild('content') content: Content;
   conversacion: any;
-  nuevoMensaje: any;
+  nuevoMensaje = "";
   nombreUsuario:any={
     NombreAmigo: 'NombreAmigo'
   }
   idAmigo: any;
+  mensj:any;
   idGrupo: any;
   idUsuario: any;
   usuario: any = {
@@ -35,7 +39,8 @@ export class ConversacionPage {
 constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
-  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService) {
+  public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
+  public toastCtrl: ToastController) {
  /* let idUsuario     //Obtiene ID de Usuario
   this.storage.get('id').then((val) => {
     idUsuario = val;
@@ -58,7 +63,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 ionViewWillEnter() {
   this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
-  this.storage.get('id').then((val) => { 
+  this.storage.get('id').then((val) => {
     
           this.idUsuario = val;
           // hacemos la llamada al apirest con el id obtenido
@@ -72,134 +77,153 @@ ionViewWillEnter() {
     
         });
   
-        this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
-        this.scrollto();
-        this.idUsuario =
-        this.events.subscribe('nuevoMensaje', () => {
-          this.todosLosMensajes = [];
-          this.zone.run(() => {
-            this.todosLosMensajes = this.chatService.mensajesConversacion;
-          })
-        })
+    this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
+    this.scrollto();
+    this.idUsuario =
+    this.events.subscribe('nuevoMensaje', () => {
+      this.todosLosMensajes = [];
+      this.zone.run(() => {
+        this.todosLosMensajes = this.chatService.mensajesConversacion;
+      })
+    })
 
  }
 
-/*
-tapEvent1(item){
-  this.navCtrl.push(VisualizarPerfilPage, {
-    nombreUsuario : item
-  }); //PERMITE VER EL PERFIL DEL AMIGO
-}*/
+ pressEvent(idMensaje){
+  if(idMensaje!=-1){
+    let actionSheet = this.actionsheetCtrl.create({
+      title: 'Opciones',
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Eliminar mensaje',
+          role: 'destructive', // aplica color rojo de alerta
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            let decision = this.alertCtrl.create({
+              message: '¿Borrar este mensaje?',
+              buttons: [
+                {
+                  text: 'Sí',
+                  handler: () => {
 
-/*
-tapEvent2(){
-  let alert = this.alertCtrl.create({ //ESTA ES UNA ALERTA DE FUNCIONALIDAD
-    title: 'Enviar Mensaje',
-    message: 'Pronto enviarás mensajes por aquí',
+                    this.eliminarMensajeAmigo(idMensaje);
+                  }
+                },
+                {
+                  text: 'No',
+                  handler: () => {
+                    console.log('Decisión de eliminar negativa');
+                  }
+                }
+              ]
+            });
+            decision.present()
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel', //coloca el botón siempre en el último lugar.
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancelar ActionSheet');
+          }
+        },
+        {
+          text: 'Modificar',
+          role: 'Modificar', //coloca el botón siempre en el último lugar.
+          icon: !this.platform.is('ios') ? 'create' : null,
+          handler: () => {
+            this.crearalert(idMensaje);
+          }
+
+          }
+      ]
+    });
+    actionSheet.present();
+  }
+}
+
+
+crearalert(idMensaje){
+  let prompt = this.alertCtrl.create({
+    title: 'Modificar Mensaje',
+    message: "Escribe el nuevo mensaje",
+    inputs: [
+      {
+        name: 'modificado',
+        placeholder: 'Nuevo mensaje'
+      },
+    ],
     buttons: [
       {
-        text:'Dismiss',
-        role: 'dismiss',
-        handler: () => {
-          console.log('Alerta visualizada');
+        text: 'Cancel',
+        handler: data => {
+          console.log('Cancel clicked');
+      
+        }
+      },
+      {
+        text: 'Modificar',
+        handler: data => {
+          if(data.modificado != ""){
+            this.ModificarMensajeAmigo(idMensaje,data.modificado);
+          }else{
+            this.presentToast("Por favor escriba un mensaje");
+          }
+          
+         // this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
+          
         }
       }
     ]
   });
-  alert.present();
-}*/
+  prompt.present();
+}
 
-/*
+  ModificarMensajeAmigo(idMensaje,nuevoMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoModificarMensaje();
+    comando.setEntidad = entidad;
+    comando.execute();
+  }
 
-pressEvent1(){
-  let actionSheet = this.actionsheetCtrl.create({
-    title: 'Opciones del chat',
-    cssClass: 'action-sheets-basic-page',
-    buttons: [
-      {
-        text: 'Editar mensaje',
-        icon: !this.platform.is('ios') ? 'create' : null,
-        handler: () => {
-          let decision = this.alertCtrl.create({
-            message: '¿Deseas editar este mensaje?',
-            buttons: [
-              {
-                text: 'Sí',
-                handler: () => {
-                  console.log('Decisión de editar afirmativa');
-                }
-              },
-              {
-                text: 'No',
-                handler: () => {
-                  console.log('Decisión de editar negativa');
-                }
-              }
-            ]
-          });
-          decision.present()
-        }
-      },
-      {
-        text: 'Eliminar mensaje',
-        role: 'destructive', // aplica color rojo de alerta
-        icon: !this.platform.is('ios') ? 'trash' : null,
-        handler: () => {
-          let decision = this.alertCtrl.create({
-            message: '¿Borrar este mensaje?',
-            buttons: [
-              {
-                text: 'Sí',
-                handler: () => {
-                  console.log('Decisión de eliminar afirmativa');
-                }
-              },
-              {
-                text: 'No',
-                handler: () => {
-                  console.log('Decisión de eliminar negativa');
-                }
-              }
-            ]
-          });
-          decision.present()
-        }
-      },
-      {
-        text: 'Cancelar',
-        role: 'cancel', //coloca el botón siempre en el último lugar.
-        icon: !this.platform.is('ios') ? 'close' : null,
-        handler: () => {
-          console.log('Cancelar ActionSheet');
-        }
-      }
-    ]
-  });
-  actionSheet.present();
-  }*/
+  eliminarMensajeAmigo(idMensaje){
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad.setId = idMensaje;
+    let comando = FabricaComando.crearComandoEliminarMensaje();
+    comando.setEntidad = entidad;
+    comando.execute();
+    if(comando.getRespuesta == true){
+      this.presentToast("Se ha eliminado exitosamente");
+    }else{
+      this.presentToast("Ha ocurrido un error");
+
+    }
+  }
 
   agregarMensajeAmigo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo);
-    this.content.scrollToBottom();
-    this.nuevoMensaje = '';
-
-  }
-
-  agregarMensajeGrupo() {
-    this.chatService.agregarNuevoMensajeAmigo(this.nuevoMensaje,this.idGrupo,this.idUsuario);
+    if(this.nuevoMensaje != ""){
+      let entidad: Mensaje;
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+      let comando = FabricaComando.crearComandoCrearMensaje();
+      comando._entidad = entidad;
+      comando.execute();
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
-
+    }else{
+      this.presentToast("Por favor escriba un mensaje");
+    }
+    
   }
 
-  ionViewDidEnter() {
-    /*if(this.idAmigo){
-      this.chatService.obtenerMensajesConversacionAmigo(this.idUsuario,this.idAmigo);
-    }else if(this.idGrupo){
-      this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
-    }*/
-    this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario.NombreAmigo,this.usuario.NombreUsuario);
+  
 
+  ionViewDidEnter() {
+    this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario.NombreAmigo,this.usuario.NombreUsuario);
   }
 
   scrollto() {
@@ -207,7 +231,17 @@ pressEvent1(){
       this.content.scrollToBottom();
     }, 1000);
   }
+
+  presentToast(mensaje : string) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
 }
+
 
 
 

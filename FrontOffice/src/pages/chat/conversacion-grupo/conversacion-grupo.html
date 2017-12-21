@@ -1,0 +1,46 @@
+
+<!--
+  Generated template for the BuddychatPage page.
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  
+    <ion-navbar color="hcolor">
+      <ion-title>{{nombreGrupo.nombre}}</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content #content>
+  <div class = "chatwindow">
+    <ion-list no-lines>
+      <ion-item *ngFor = "let item of todosLosMensajes; let i = index" text-wrap>
+        <ion-avatar item-right *ngIf="item.enviadorPor === usuario.NombreUsuario " >
+          <img src="assets/images/profile.png">
+        </ion-avatar>
+        <div class="bubble me" (click)=pressEvent(item.key) *ngIf="item.enviadorPor === usuario.NombreUsuario  " >
+          <h3 class="chatbox">{{item.mensaje}}</h3>
+        </div>
+        <ion-avatar  item-left *ngIf="item.enviadorPor != usuario.NombreUsuario " >
+          <img src="assets/images/profile.png">
+        </ion-avatar>
+        <div class="bubble you" *ngIf="item.enviadorPor != usuario.NombreUsuario " >
+          <h3>{{item.mensaje}}</h3>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+  </ion-content>
+  <ion-footer ion-fixed>    
+    <ion-toolbar class="no-border" color="white">        
+      <ion-input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..."  (keyup.enter)="agregarMensajeGrupo()" class=chatbox></ion-input>  
+      <ion-buttons end>
+        <button ion-button (click)="agregarMensajeGrupo()">
+          <ion-icon name="send" color="secundary"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>    
+  </ion-footer>
+  

@@ -1,5 +1,8 @@
-using BackOffice_COCO_TRIP.Models;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Models.Peticion;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
+using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
+using BackOffice_COCO_TRIP.Negocio;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,7 +16,8 @@ namespace BackOffice_COCO_TRIP.Controllers
   {
 
     private PeticionCategoria peticion = new PeticionCategoria();
-
+    private Comando com;
+  
     /// <summary>
     /// Metodo que nos permite obtener la lista de las categorias mediante peticiones al servicio web a la hora de cargar
     /// </summary>
@@ -21,16 +25,16 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Index(int id = -1)
     {
       ViewBag.Title = "Categorías";
-      IList<Categories> listCategories = null;
+      IList<Categoria> listCategories = null;
       JObject respuesta = peticion.Get(id);
       if (respuesta.Property("data") != null)
       {
-        listCategories = respuesta["data"].ToObject<List<Categories>>();
+        listCategories = respuesta["data"].ToObject<List<Categoria>>();
       }
 
       else
       {
-        listCategories = new List<Categories>();
+        listCategories = new List<Categoria>();
         ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
       }
 
@@ -41,13 +45,15 @@ namespace BackOffice_COCO_TRIP.Controllers
 
 
     /// <summary>
-    /// Metodo que nos permite listar las categorias existentes a la hora de agregar una nueva mediante  peticiones al servicio web
+    /// Metodo que carga la pagina de creacion de categoria
     /// </summary>
     // GET: Categories/Create
     public ActionResult Create()
     {
       ViewBag.Title = "Agregar Categoría";
-      var listaCategorias = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
       if (listaCategorias != null)
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
@@ -57,12 +63,12 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       else
       {
-        listaCategorias = new List<Categories>();
+        listaCategorias = new List<Categoria>();
         ViewBag.MyList = listaCategorias;
         ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
       
-      Categories categories = null;
+      Categoria categories = null;
 
       return View(categories);
     }
@@ -72,7 +78,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// </summary>
     // POST: Categories/Create
     [HttpPost]
-    public ActionResult Create(Categories categories)
+    public ActionResult Create(Categoria categories)
     {
       ModelState.Remove("UpperCategories");
       if (ModelState.IsValid)
@@ -91,7 +97,9 @@ namespace BackOffice_COCO_TRIP.Controllers
         ValidarErrorPorDuplicidad(respuesta);
       }
 
-      var listaCategorias = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
       if (listaCategorias != null)
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
@@ -101,7 +109,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       else
       {
-        listaCategorias = new List<Categories>();
+        listaCategorias = new List<Categoria>();
         ViewBag.MyList = listaCategorias;
         ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
@@ -118,7 +126,9 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(int id)
     {
       ViewBag.Title = "Editar Categoría";
-      var listaCategoriasSelect = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategoriasSelect = (List<Categoria>)com.GetResult()[0];
       if (listaCategoriasSelect != null)
       {
         listaCategoriasSelect = listaCategoriasSelect.Where(s => s.Nivel < 3 && s.Id != id).ToList();
@@ -128,24 +138,27 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       else
       {
-        listaCategoriasSelect = new List<Categories>();
+        listaCategoriasSelect = new List<Categoria>();
         ViewBag.MyList = listaCategoriasSelect;
         ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
       
-      Categories categories = null;
+      Categoria categories = null;
       if (TempData["listaCategorias"] != null)
       {
-        IList<Categories> listaCategorias = TempData["listaCategorias"] as IList<Categories>;
+        IList<Categoria> listaCategorias = TempData["listaCategorias"] as IList<Categoria>;
         categories = listaCategorias.Where(s => s.Id == id).First();
       }
 
       else
       {
-        JObject respuestaCategoria = peticion.GetPorId(id);
+        com = FabricaComando.GetComandoConsultarCategoriaPorId();
+        com.SetPropiedad(id);
+        com.Execute();
+        JObject respuestaCategoria = (JObject)com.GetResult()[0];
         if (respuestaCategoria.Property("data") != null)
         {
-          categories = (respuestaCategoria["data"].HasValues ? respuestaCategoria["data"][0].ToObject<Categories>() : null) ;
+          categories = (respuestaCategoria["data"].HasValues ? respuestaCategoria["data"][0].ToObject<Categoria>() : null) ;
           if (categories == null)
           {
             return RedirectToAction("Index");
@@ -168,7 +181,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// </summary>
     // POST: Categories/Edit/5
     [HttpPost]
-    public ActionResult Edit(int id, Categories categories)
+    public ActionResult Edit(int id, Categoria categories)
     {
       ModelState.Remove("Id");
       ModelState.Remove("UpperCategories");
@@ -177,7 +190,10 @@ namespace BackOffice_COCO_TRIP.Controllers
         var idNivel = Request["Mover a la categoria"].ToString().Split('-');
         categories.UpperCategories = Int32.Parse(idNivel[0]);
         categories.Nivel = Int32.Parse(idNivel[1]) + 1;
-        JObject respuesta = peticion.PutEditarCategoria(categories);
+        com = FabricaComando.GetComandoModificarCategoria();
+        com.SetPropiedad(categories);
+        com.Execute();
+        JObject respuesta = (JObject)com.GetResult()[0];
         if (respuesta.Property("data") != null)
         {
           return RedirectToAction("Index");
@@ -186,7 +202,9 @@ namespace BackOffice_COCO_TRIP.Controllers
         ValidarErrorPorDuplicidad(respuesta);
       }
 
-      var listaCategorias = ConsutarCategoriasSelect();
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
       if (listaCategorias != null)
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3 && s.Id != id).ToList();
@@ -196,7 +214,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       else
       {
-        listaCategorias = new List<Categories>();
+        listaCategorias = new List<Categoria>();
         ViewBag.MyList = listaCategorias;
         ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
@@ -209,32 +227,13 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// Metodo que nos permite cambiar el status de una categoria mediante peticiones al servicio web
     /// </summary>
     [HttpPost]
-    public ActionResult ChangeStatus(Categories categories)
+    public ActionResult ChangeStatus(Categoria categories)
     {
-      JObject respuesta = peticion.Put(categories);
+      com = FabricaComando.GetComandoEstadoCategoria();
+      com.SetPropiedad(categories);
+      com.Execute();
+      JObject respuesta = (JObject)com.GetResult()[0];
       return Json(respuesta);
-    }
-
-    /// <summary>
-    /// Metodo que nos permite obtener la lista de las categorias habilitadas mediante una consulta
-    /// </summary>
-    private IList<Categories> ConsutarCategoriasSelect()
-    {
-      IList<Categories> listCategories = null;
-      JObject respuesta = peticion.GetCategoriasHabilitadas();
-      if (respuesta.Property("data") != null)
-      {
-        listCategories = respuesta["data"].ToObject<IList<Categories>>();
-        
-      }
-
-      else
-      {
-        listCategories = null;
-       
-      }
-
-      return listCategories;
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
 
-@model BackOffice_COCO_TRIP.Models.Evento
+@model BackOffice_COCO_TRIP.Datos.Entidades.Evento
 @using BackOffice_COCO_TRIP.Helpers
 @{
     ViewBag.Title = "Crear Eventos";
@@ -73,14 +73,14 @@
         <div class="form-group row">
           @Html.Label("Categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
           <div class="col-sm-10">
-            @Html.DropDownListCategoriesEvents("Categoria", ViewBag.ListCategoria as IList<BackOffice_COCO_TRIP.Models.Categories>, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListCategoriesEvents("Categoria", ViewBag.ListCategoria as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria>, htmlAttributes: new { @class = "form-control" })
           </div>
         </div>
         
         <div class="form-group row">
           @Html.Label("Localidad", htmlAttributes: new { @class = "col-sm-2 control-label" })
           <div class="col-sm-10">
-            @Html.DropDownListLocalidadesEventos("Localidades", ViewBag.ListLocalidades as IList<BackOffice_COCO_TRIP.Models.LocalidadEvento>, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListLocalidadesEventos("Localidades", ViewBag.ListLocalidades as IList<BackOffice_COCO_TRIP.Datos.Entidades.Localidad>, htmlAttributes: new { @class = "form-control" })
           </div>
         </div>
     </div>
