@@ -45,7 +45,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         usuario.Apellido = leerDatos.GetString(3);
         usuario.FechaNacimiento = leerDatos.GetDateTime(4);
         usuario.Genero = leerDatos.GetString(5);
-        usuario.Foto = leerDatos.GetString(6);
+        //usuario.Foto = leerDatos.GetString(6);
       }
 
       leerDatos.Close(); //Cierra el Data Reader
@@ -81,7 +81,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         usuario.FechaNacimiento = leerDatos.GetDateTime(5);
         usuario.Genero = leerDatos.GetString(6);
         usuario.Valido = leerDatos.GetBoolean(7);
-        usuario.Foto = leerDatos.GetString(8);
+        //usuario.Foto = leerDatos.GetString(8);
       }
 
       leerDatos.Close(); //Cierra el Data Reader
