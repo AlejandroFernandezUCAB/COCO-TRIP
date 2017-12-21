@@ -865,22 +865,17 @@ $$ LANGUAGE plpgsql;
 -- Crear Grupo de amigos
 
 CREATE OR REPLACE FUNCTION AgregarGrupo
-(nombre varchar, foto varchar, _fk_usuario integer)
+(nombre varchar, _fk_usuario integer)
 RETURNS integer AS
 $$
-DECLARE
- resultado integer;
 BEGIN
 
   INSERT INTO Grupo
-  (gr_id, gr_nombre, gr_foto, fk_usuario)
+  (gr_id, gr_nombre, fk_usuario)
   VALUES
-  (nextval('SEQ_Grupo'), nombre, foto, _fk_usuario);
+  (nextval('SEQ_Grupo'), nombre, _fk_usuario);
 
-  IF found THEN
-  resultado := 1;
-  ELSE resultado :=0;
-  END IF;
+  RETURN currval('SEQ_Grupo');
 
   --INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
   --  VALUES
@@ -890,8 +885,6 @@ BEGIN
   --result := result + 1;
   --else result := 0;
   --end if;
-
-  RETURN resultado;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -921,7 +914,8 @@ BEGIN
   --resultado := resultado + 1;
   --ELSE resultado := 0;
   --END IF;
-  --RETURN resultado;
+
+  RETURN resultado;
 END;
 $$ LANGUAGE plpgsql;
 

@@ -23,9 +23,69 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       parametro = new NpgsqlParameter();
     }
 
-    public Entidad ConsultarLider(Entidad _grupo)
+    /// <summary>
+    /// Inserta el grupo y retorna el identificador del grupo para almacenar la foto en disco
+    /// </summary>
+    /// <param name="_grupo">Grupo</param>
+    /// <returns>Grupo con identificador</returns>
+    public Entidad InsertarId (Entidad _grupo)
     {
       grupo = (Grupo) _grupo;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "AgregarGrupo";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
+      parametro.Value = grupo.Nombre;
+      base.Comando.Parameters.Add(parametro);
+
+      /*parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
+      parametro.Value = grupo.RutaFoto;
+      base.Comando.Parameters.Add(parametro);*/
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = grupo.Lider;
+      base.Comando.Parameters.Add(parametro);
+
+      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+      if(leerDatos.Read())
+      {
+        grupo.Id = leerDatos.GetInt32(0);
+      }
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+
+      return grupo;
+    }
+
+    public override void Eliminar (Entidad objeto)
+    {
+      grupo = (Grupo) objeto;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "EliminarGrupo";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = grupo.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      base.Comando.ExecuteNonQuery(); //Ejecuta el comando
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+    }
+
+    public Entidad ConsultarLider(Entidad _grupo)
+    {
+      grupo = (Grupo)_grupo;
       usuario = FabricaEntidad.CrearEntidadUsuario();
 
       base.Conectar(); //Inicia una sesion con la base de datos
@@ -46,7 +106,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         usuario.Nombre = leerDatos.GetString(1);
         usuario.Apellido = leerDatos.GetString(2);
         usuario.NombreUsuario = leerDatos.GetString(3);
-        usuario.Foto = leerDatos.GetString(4);
+        //usuario.Foto = leerDatos.GetString(4);
       }
 
       leerDatos.Close(); //Cierra el Data Reader
@@ -54,25 +114,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Desconectar(); //Culmina la sesion con la base de datos
 
       return usuario;
-    }
-
-    public override void Eliminar (Entidad objeto)
-    {
-      grupo = (Grupo) objeto;
-
-      base.Conectar(); //Inicia una sesion con la base de datos
-
-      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-      base.Comando.CommandText = "EliminarGrupo";
-      base.Comando.CommandType = CommandType.StoredProcedure;
-
-      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
-      parametro.Value = grupo.Id;
-      base.Comando.Parameters.Add(parametro);
-
-      base.Comando.ExecuteNonQuery(); //Ejecuta el comando
-
-      base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
     public void AbandonarGrupo (Entidad _grupo, Entidad _usuario)
@@ -99,6 +140,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
+    public override void Insertar (Entidad objeto)
+    {
+      throw new System.NotImplementedException();
+    }
+
     public override void Actualizar(Entidad objeto)
     {
       throw new System.NotImplementedException();
@@ -113,11 +159,5 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       throw new System.NotImplementedException();
     }
-
-    public override void Insertar(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
   }
-
 }

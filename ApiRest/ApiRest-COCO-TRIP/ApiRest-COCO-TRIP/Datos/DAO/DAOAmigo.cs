@@ -51,6 +51,44 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
+    public List<Entidad> BuscarAmigos(Entidad objeto)
+    {
+      usuario = (Usuario)objeto;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "BuscarAmigos";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = usuario.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
+      parametro.Value = usuario.Nombre;
+      base.Comando.Parameters.Add(parametro);
+
+      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+      if (leerDatos.Read()) //Lee los resultados
+      {
+        Usuario fila = FabricaEntidad.CrearEntidadUsuario();
+
+        fila.Nombre = leerDatos.GetString(0);
+        fila.NombreUsuario = leerDatos.GetString(1);
+        //fila.Foto = leerDatos.GetString(2);
+
+        lista.Add(fila);
+      }
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+
+      return lista;
+    }
+
     public Entidad ConsultarId(Entidad objeto)
     {
       amigo = (Amigo)objeto;
@@ -83,6 +121,41 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       return amigo;
     }
 
+    public override List<Entidad> ConsultarLista(Entidad objeto)
+    {
+      usuario = (Usuario) objeto;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "ObtenerListaDeAmigos";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = usuario.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+      if (leerDatos.Read()) //Lee los resultados
+      {
+        Usuario fila = FabricaEntidad.CrearEntidadUsuario();
+
+        fila.Nombre = leerDatos.GetString(0);
+        fila.Apellido = leerDatos.GetString(1);
+        fila.NombreUsuario = leerDatos.GetString(2);
+        //fila.Foto = leerDatos.GetString(3);
+
+        lista.Add(fila);
+      }
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+
+      return lista;
+    }
+
     public List<Entidad> ConsultarListaNotificaciones(Entidad _usuario)
     {
       usuario = (Usuario) _usuario;
@@ -106,7 +179,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         fila.Nombre = leerDatos.GetString(0);
         fila.Apellido = leerDatos.GetString(1);
         fila.NombreUsuario = leerDatos.GetString(2);
-        fila.Foto = leerDatos.GetString(3);
+        //fila.Foto = leerDatos.GetString(3);
 
         lista.Add(fila);
       }
@@ -168,9 +241,29 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
-    public override List<Entidad> ConsultarLista (Entidad objeto)
+    public override void Eliminar(Entidad objeto)
     {
-      throw new System.NotImplementedException();
+      amigo = (Amigo) objeto;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "EliminarAmigo";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = amigo.Activo;
+      base.Comando.Parameters.Add(parametro);
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = amigo.Pasivo;
+      base.Comando.Parameters.Add(parametro);
+
+      base.Comando.ExecuteNonQuery(); //Ejecuta el comando
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
     public override Entidad ConsultarPorId(Entidad objeto)
@@ -179,11 +272,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     }
 
     public override void Actualizar(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public override void Eliminar(Entidad objeto)
     {
       throw new System.NotImplementedException();
     }

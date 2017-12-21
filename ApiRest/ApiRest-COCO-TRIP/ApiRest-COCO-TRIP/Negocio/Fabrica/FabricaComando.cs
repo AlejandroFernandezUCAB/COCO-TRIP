@@ -1,3 +1,4 @@
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Comando;
 
 namespace ApiRest_COCO_TRIP.Negocio.Fabrica
@@ -81,6 +82,59 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoAceptarNotificacion CrearComandoAceptarNotificacion(int id, string nombreAceptado)
     {
       return new ComandoAceptarNotificacion(id, nombreAceptado);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoBuscarAmigos
+    /// </summary>
+    /// <param name="id">Identificador del usuario que esta buscando</param>
+    /// <param name="nombre">Nombre del amigo a buscar</param>
+    /// <returns></returns>
+    public static ComandoBuscarAmigos CrearComandoBuscarAmigos(int id, string nombre)
+    {
+      return new ComandoBuscarAmigos(id, nombre);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarGrupo
+    /// </summary>
+    /// <param name="grupo">Datos del grupo a agregar</param>
+    /// <returns></returns>
+    public static ComandoAgregarGrupo CrearComandoAgregarGrupo(Entidad grupo)
+    {
+      return new ComandoAgregarGrupo(grupo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoVisualizarListaAmigos
+    /// </summary>
+    /// <param name="id">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoVisualizarListaAmigos CrearComandoVisualizarListaAmigos(int id)
+    {
+      return new ComandoVisualizarListaAmigos(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarAmigo
+    /// </summary>
+    /// <param name="id">Identificador del usuario que quiere eliminar</param>
+    /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
+    /// <returns></returns>
+    public static ComandoEliminarAmigo CrearComandoEliminarAmigo(int id, string nombreAmigo)
+    {
+      return new ComandoEliminarAmigo(id, nombreAmigo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarGrupo
+    /// </summary>
+    /// <param name="idUsuario"></param>
+    /// <param name="idGrupo"></param>
+    /// <returns></returns>
+    public static ComandoEliminarGrupo CrearComandoEliminarGrupo(int idUsuario, int idGrupo)
+    {
+      return new ComandoEliminarGrupo(idUsuario, idGrupo);
     }
   }
 

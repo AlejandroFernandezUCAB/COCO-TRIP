@@ -317,13 +317,17 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Buscar amigo en la aplicacion
     /// </summary>
-    /// <param name="nombre">nombre del amigo a buscar</param>
-    /// <param name="idUsuario">Identificador del usuario que esta buscando (Para que no aparezca en la lista del buscador)</param>
+    /// <param name="id">Identificador del usuario que esta buscando (Para que no aparezca en la lista del buscador)</param>
+    /// <param name="nombre">Nombre del amigo a buscar</param>
     /// <returns></returns>
-    /*[HttpGet]
-    public List<Usuario> BuscarAmigo(string nombre, string idUsuario)
+    [HttpGet]
+    public List<Entidad> BuscarAmigos (int id, string nombre)
     {
-      try
+      comando = FabricaComando.CrearComandoBuscarAmigos(id, nombre);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.BuscarAmigo(nombre, Convert.ToInt32(idUsuario));
@@ -343,20 +347,21 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-    }*/
+      }*/
+    }
 
     /// <summary>
     /// Procedimiento para agregar un grupo
     /// </summary>
-    /// <param name="nombre">Nombre del grupo</param>
-    /// <param name="foto">Foto del grupo</param>
-    /// <param name="idusuario">Lider del grupo(creador)</param>
+    /// <param name="grupo">Datos del grupo a agregar</param>
     /// <returns></returns>
-    /*[HttpPut]
-    public int AgregarGrupo(String nombre, String foto, String idusuario)
+    [HttpPost]
+    public void AgregarGrupo (Entidad grupo)  /*String nombre, String foto, String idusuario*/ //READY
     {
-      try
+      comando = FabricaComando.CrearComandoAgregarGrupo(grupo);
+      comando.Ejecutar();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
 
@@ -386,9 +391,9 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
+      }*/
 
-    }*/
+    }
 
 
     /// <summary>
@@ -397,10 +402,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>La lista de amigos de un usuario</returns>
-    /*[HttpGet]
-    public List<Usuario> VisualizarListaAmigos(int idUsuario)
+    [HttpGet]
+    public List<Entidad> VisualizarListaAmigos(int idUsuario) //READY
     {
-      List<Usuario> lista;
+      comando = FabricaComando.CrearComandoVisualizarListaAmigos(idUsuario);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*List<Usuario> lista;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -422,20 +431,23 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return lista;
-    }*/
+      return lista;*/
+    }
 
     /// <summary>
     /// Procemiento que se encarga de hacer la peticion para
     /// eliminar un amigo de la base de datos
     /// </summary>
-    /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar</param>
+    /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
     /// <returns></returns>
-    /*[HttpDelete]
-    public int EliminarAmigo(string nombreAmigo, int idUsuario)
+    [HttpDelete]
+    public void EliminarAmigo(int idUsuario, string nombreAmigo) //READY
     {
-      int resultado;
+      comando = FabricaComando.CrearComandoEliminarAmigo(idUsuario, nombreAmigo);
+      comando.Ejecutar();
+
+      /*int resultado;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -457,8 +469,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return resultado;
-    }*/
+      return resultado;*/
+    }
 
     /// <summary>
     /// Procedimiento que se encarga de hacer la peticion para
@@ -467,10 +479,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario que desea eliminar el grupo</param>
     /// <param name="idGrupo">Identificador del grupo a ser eliminado</param>
     /// <returns></returns>
-    /*[HttpDelete]
-    public int EliminarGrupo(int idUsuario, int idGrupo)
+    [HttpDelete]
+    public void EliminarGrupo(int idUsuario, int idGrupo)
     {
-      int resultado;
+      comando = FabricaComando.CrearComandoEliminarGrupo(idUsuario, idGrupo);
+      comando.Ejecutar();
+
+      /*int resultado;
       try
       {
         peticion = new PeticionAmigoGrupo();
@@ -492,28 +507,27 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return resultado;
-    }*/
+      return resultado;*/
+    }
 
     /// <summary>
     /// Procedimiento que se encarga de hacer la peticion para
     /// modificar los datos de un grupo
     /// </summary>
-    /// <param name="nombreGrupo">Nombre del grupo</param>
-    /// <param name="idUsuario">Identificador del usuario que esta modificando</param>
-    /// <param name="foto">Foto del grupo</param>
-    /// <param name="idGrupo">El identificador del grupo</param>
+    /// <param name="grupo">Datos del grupo</param>
     /// <returns></returns>
-    //[HttpPost]
-    //public int ModificarGrupo(string nombreGrupo, int idUsuario, /*byte foto*/, int idGrupo)
-    //{
-    //  int resultado;
-    //  try
-    //  {
-    //    peticion = new PeticionAmigoGrupo();
-    //    resultado = peticion.ModificarGrupoBD(nombreGrupo, idUsuario, /*foto, */idGrupo);
-    //  }
-    /*  catch (NpgsqlException)
+    [HttpPost]
+    public void ModificarGrupo (Entidad grupo) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
+    {
+
+
+      //int resultado;
+      //try
+      //{
+      //  peticion = new PeticionAmigoGrupo();
+      //  resultado = peticion.ModificarGrupoBD(nombreGrupo, idUsuario, /*foto, */idGrupo);
+      //}
+      /*catch (NpgsqlException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
@@ -529,8 +543,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return resultado;
-    }*/
+      return resultado;*/
+    }
 
     /// <summary>
     /// Consultar lista de grupo del usuario
