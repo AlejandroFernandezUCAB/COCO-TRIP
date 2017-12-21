@@ -16,6 +16,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     private Amigo amigo;
 
+    public DAOAmigo()
+    {
+      parametro = new NpgsqlParameter();
+    }
+
     public override Entidad ConsultarId(Entidad objeto)
     {
       amigo = (Amigo) objeto;
@@ -83,7 +88,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       throw new System.NotImplementedException();
     }
 
-    public override Entidad ConsultarPorNombre(Entidad objeto)
+    public override Entidad ConsultarPorNombre(Entidad usuario)
     {
       throw new System.NotImplementedException();
     }
@@ -97,5 +102,16 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       throw new System.NotImplementedException();
     }
+
+    public override Entidad ConsultarLider(Entidad grupo)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public override void AbandonarGrupo(Entidad grupo, Entidad usuario)
+    {
+      throw new System.NotImplementedException();
+    }
   }
+
 }
