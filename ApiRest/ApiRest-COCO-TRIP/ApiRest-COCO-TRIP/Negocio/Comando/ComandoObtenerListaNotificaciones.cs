@@ -6,32 +6,37 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Solicita a la base de datos informacion del usuario que se desea visualizar
+  /// Obtiene la lista de notificaciones pendientes de un usuario
   /// </summary>
-  public class ComandoVisualizarPerfilAmigo : Comando
+  public class ComandoObtenerListaNotificaciones : Comando
   {
     private Usuario usuario;
-    private DAOUsuario datos;
+    private List<Entidad> lista;
 
-    public ComandoVisualizarPerfilAmigo (string nombre)
+    private DAOAmigo datos;
+
+    public ComandoObtenerListaNotificaciones (int id)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
-      usuario.NombreUsuario = nombre;
+      lista = new List<Entidad>();
+
+      usuario.Id = id;
     }
+
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) datos.ConsultarPorNombre(usuario);
+      datos = FabricaDAO.CrearDAOAmigo();
+      lista = datos.ConsultarListaNotificaciones(usuario);
     }
 
     public override Entidad Retornar()
     {
-      return usuario;
+      throw new System.NotImplementedException();
     }
 
     public override List<Entidad> RetornarLista()
     {
-      throw new System.NotImplementedException();
+      return lista;
     }
   }
 }

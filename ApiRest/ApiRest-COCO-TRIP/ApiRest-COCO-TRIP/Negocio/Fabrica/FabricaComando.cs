@@ -50,5 +50,38 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoSalirGrupo(idGrupo, idUsuario);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoObtenerListaNotificaciones
+    /// </summary>
+    /// <param name="id">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoObtenerListaNotificaciones CrearComandoObtenerListaNotificaciones (int id)
+    {
+      return new ComandoObtenerListaNotificaciones(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoRechazarNotificacion
+    /// </summary>
+    /// <param name="id">Identificador del usuario que esta rechazando la notificacion</param>
+    /// <param name="nombreRechazado">Nombre del usuario rechazado</param>
+    /// <returns></returns>
+    public static ComandoRechazarNotificacion CrearComandoRechazarNotificacion (int id, string nombreRechazado)
+    {
+      return new ComandoRechazarNotificacion(id, nombreRechazado);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAceptarNotificacion
+    /// </summary>
+    /// <param name="id">Identificador del usuario que esta aceptando la notificacion</param>
+    /// <param name="nombreAceptado">Nombre del usuario aceptado</param>
+    /// <returns></returns>
+    public static ComandoAceptarNotificacion CrearComandoAceptarNotificacion(int id, string nombreAceptado)
+    {
+      return new ComandoAceptarNotificacion(id, nombreAceptado);
+    }
   }
+
 }

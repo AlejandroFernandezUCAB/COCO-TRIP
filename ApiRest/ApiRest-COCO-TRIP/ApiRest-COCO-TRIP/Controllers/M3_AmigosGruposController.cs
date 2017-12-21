@@ -203,12 +203,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Metodo que se encarga de obtener la lista de notificaciones pendientes de un usuario
     /// </summary>
-    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <param name="id">Identificador del usuario</param>
     /// <returns>Retorna la lista de notificaciones</returns>
-    /*[HttpGet]
-    public List<Usuario> ObtenerListaNotificaciones(string idUsuario)
+    [HttpGet]
+    public List<Entidad> ObtenerListaNotificaciones(int id)
     {
-      List<Usuario> respuesta = null;
+      comando = FabricaComando.CrearComandoObtenerListaNotificaciones(id);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*List<Usuario> respuesta = null;
       peticion = new PeticionAmigoGrupo();
       try
       {
@@ -230,20 +234,23 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return respuesta;
-    }*/
+      return respuesta;*/
+    }
 
     /// <summary>
-    /// Metodo para rechazar la notificacion 
+    /// Metodo para rechazar la solicitud de amistad
     /// </summary>
-    /// <param name="nombreUsuarioRechazado">Nombre del usuario rechazado</param>
     /// <param name="idUsuario">Identificador del usuario que esta rechazando la notificacion</param>
+    /// <param name="nombreUsuarioRechazado">Nombre del usuario rechazado</param>
     /// <returns></returns>
-  
-    /*[HttpDelete]
-    public int RechazarNotificacion(string nombreUsuarioRechazado, string idUsuario)
+
+    [HttpDelete]
+    public void RechazarNotificacion (int idUsuario, string nombreUsuarioRechazado) //READY
     {
-      int respuesta = 0;
+      comando = FabricaComando.CrearComandoRechazarNotificacion(idUsuario, nombreUsuarioRechazado);
+      comando.Ejecutar();
+
+     /* int respuesta = 0;
       peticion = new PeticionAmigoGrupo();
 
       try
@@ -266,19 +273,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return respuesta;
-    }*/
+      return respuesta;*/
+    }
 
     /// <summary>
-    /// Metodo para aceptar la solicitud de un usuario
+    /// Metodo para aceptar la solicitud de amistad de un usuario
     /// </summary>
-    /// <param name="nombreUsuarioAceptado">Nombre del usuario aceptado</param>
     /// <param name="idUsuario">Identificador del usuario que acepto la solicitud</param>
+    /// <param name="nombreUsuarioAceptado">Nombre del usuario aceptado</param>
     /// <returns></returns>
-    /*[HttpPost]
-    public int AceptarNotificacion(string nombreUsuarioAceptado, string idUsuario)
+    [HttpPut]
+    public void AceptarNotificacion (int idUsuario, string nombreUsuarioAceptado)
     {
-      int respuesta = 0;
+      comando = FabricaComando.CrearComandoAceptarNotificacion(idUsuario, nombreUsuarioAceptado);
+      comando.Ejecutar();
+
+      /*int respuesta = 0;
       peticion = new PeticionAmigoGrupo();
 
       try
@@ -301,15 +311,14 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return respuesta;
-    }*/
+      return respuesta;*/
+    }
 
     /// <summary>
     /// Buscar amigo en la aplicacion
     /// </summary>
     /// <param name="nombre">nombre del amigo a buscar</param>
-    /// <param name="idUsuario">Identificador del usuario que esta buscando (Para que no aparezca
-    /// en la lista del buscador)</param>
+    /// <param name="idUsuario">Identificador del usuario que esta buscando (Para que no aparezca en la lista del buscador)</param>
     /// <returns></returns>
     /*[HttpGet]
     public List<Usuario> BuscarAmigo(string nombre, string idUsuario)

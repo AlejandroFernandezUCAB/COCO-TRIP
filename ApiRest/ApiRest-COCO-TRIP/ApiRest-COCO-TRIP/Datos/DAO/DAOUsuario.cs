@@ -55,7 +55,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       return usuario;
     }
 
-    public override Entidad ConsultarPorNombre(Entidad _usuario)
+    public Entidad ConsultarPorNombre(Entidad _usuario)
     {
       usuario = (Usuario) _usuario;
 
@@ -91,7 +91,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       return usuario;
     }
 
-    public override Entidad ConsultarId(Entidad objeto)
+    public Entidad ConsultarId(Entidad objeto)
     {
       usuario = (Usuario) objeto;
 
@@ -135,16 +135,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     }
 
     public override void Actualizar(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public override Entidad ConsultarLider(Entidad grupo)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public override void AbandonarGrupo(Entidad grupo, Entidad usuario)
     {
       throw new System.NotImplementedException();
     }
