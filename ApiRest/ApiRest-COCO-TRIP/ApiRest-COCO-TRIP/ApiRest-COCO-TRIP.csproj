@@ -149,6 +149,11 @@
     <Compile Include="Controllers\M8_EventosController.cs" />
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
+    <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\DAO\DAOAmigo.cs" />
+    <Compile Include="Datos\DAO\DAOGrupo.cs" />
+    <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
@@ -192,6 +197,8 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Negocio\Comando\Comando.cs" />
     <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoVisualizarPerfilAmigo.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones\ValidacionWS.cs" />
@@ -213,7 +220,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Comun\" />
-    <Folder Include="Datos\DAO\" />
     <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>

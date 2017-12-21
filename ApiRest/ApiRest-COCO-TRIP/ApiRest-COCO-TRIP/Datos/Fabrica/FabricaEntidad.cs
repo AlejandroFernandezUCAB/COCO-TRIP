@@ -33,5 +33,14 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new Foto();
     }
+
+    /// <summary>
+    /// Retorna la instancia de la entidad Amigo
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static Amigo CrearEntidadAmigo()
+    {
+      return new Amigo();
+    }
   }
 }

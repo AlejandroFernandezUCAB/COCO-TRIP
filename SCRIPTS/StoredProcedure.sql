@@ -582,14 +582,15 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION ObtenerLider
 (id_grupo integer)
 RETURNS TABLE
-(nombre varchar,
+(id integer,
+nombre varchar,
 apellido varchar,
 usuario varchar,
 foto varchar)
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT us_nombre, us_apellido,us_nombreusuario, us_foto
+    SELECT us_id, us_nombre, us_apellido, us_nombreusuario, us_foto
     FROM Grupo g
     WHERE
     g.gr_id = id_grupo
@@ -678,7 +679,7 @@ $$ LANGUAGE plpgsql;
 
 -------------VISUALIZAR EL PERFIL DE LOS USUARIOS-------------
 CREATE OR REPLACE FUNCTION VisualizarPerfilPublico
-(nombre_usuario VARCHAR(20))
+(nombre_usuario varchar)
 RETURNS TABLE
 (nombre varchar,
 apellido varchar,
@@ -689,7 +690,7 @@ AS
 $$
 BEGIN
     RETURN QUERY SELECT
-    us_nombre, us_apellido, us_email, us_foto  , us_nombreUsuario
+    us_nombre, us_apellido, us_email, us_foto, us_nombreUsuario
     FROM usuario
     WHERE us_nombreUsuario = nombre_usuario;
     END;

@@ -53,7 +53,7 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
     /// </summary>
     /// <param name="correo">Correo de la persona a la que se le va a recomendar la aplicacion</param>
     /// <param name="destino">Nombre de la persona a quien va dirigido el correo</param>
-    /// <param name="remitente">Nombre de la persona que envia el correo</param>
+    /// <param name="remitente">Nombre de la persona que genera la notificacion</param>
     public void RecomendarAplicacion (string correo, string destino, string remitente)
     {
       correoMensaje = new MailMessage();
