@@ -148,7 +148,6 @@
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
-    <Compile Include="Datos\DAO\DAOActividad.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
     <Compile Include="Datos\DAO\DAOItinerario.cs" />
