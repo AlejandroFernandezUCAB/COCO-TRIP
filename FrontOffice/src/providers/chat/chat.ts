@@ -99,7 +99,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       for (var tempkey in temp) {
         this.mensajesConversacion.push(temp[tempkey]);
       }
-      this.events.publish('nuevoMensaje');
+      this.events.publish('nuevoMensajeGrupo', this.mensajesConversacion);
     })
   }
 
