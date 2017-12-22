@@ -151,9 +151,11 @@
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
+    <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
+    <Compile Include="Datos\Entity\Categoria.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
@@ -213,6 +215,7 @@
     <Compile Include="Negocio\Comando\ComandoEliminarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoEliminarIntegrante.cs" />
     <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />

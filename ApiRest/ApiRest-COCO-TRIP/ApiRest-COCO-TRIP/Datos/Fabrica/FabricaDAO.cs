@@ -33,5 +33,14 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new DAOAmigo();
     }
+
+    /// <summary>
+    /// Retorna la instancia de DAOCategoria
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static DAOCategoria CrearDAOCategoria()
+    {
+      return new DAOCategoria();
+    }
   }
 }

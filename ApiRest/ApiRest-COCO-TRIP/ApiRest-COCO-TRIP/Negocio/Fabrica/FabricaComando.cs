@@ -250,5 +250,15 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoConsultarUltimoGrupo(idUsuario);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoModificarCategoria CrearComandoModificarCategoria(Entidad categoria)
+    {
+      return new ComandoModificarCategoria(categoria);
+    }
   }
 }

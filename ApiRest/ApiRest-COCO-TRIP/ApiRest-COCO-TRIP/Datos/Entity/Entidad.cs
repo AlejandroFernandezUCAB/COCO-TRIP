@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 namespace ApiRest_COCO_TRIP.Datos.Entity
 {
   /// <summary>
@@ -10,6 +11,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     /// <summary>
     /// Getters y setters del atributo id
     /// </summary>
+    [JsonProperty(PropertyName = "id")]
     public int Id
     {
       get { return id; }
