@@ -5,7 +5,7 @@ export abstract class DAO{
     abstract agregar(entidad : Entidad) : Entidad;
 
 
-    abstract visualizar() : Entidad;
+    abstract visualizar(entidad : Entidad) : Entidad;
 
     
 

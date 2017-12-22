@@ -31,7 +31,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
     public override void Ejecutar()
     {
       baseUsuario = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) baseUsuario.ConsultarId(usuario);
+      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
 
       baseAmigo = FabricaDAO.CrearDAOAmigo();
       amigo.Pasivo = usuario.Id;
