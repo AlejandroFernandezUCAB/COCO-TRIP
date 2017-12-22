@@ -730,15 +730,18 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
     /// <summary>
-    /// Metodo que verifica si un usuario es lider de un grupo o solo un integrante
+    /// Metodo que verifica si un usuario es lider de un grupo o solo un integrante. Si no es lider retorna una excepcion
     /// </summary>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns></returns>
-    /*[HttpGet]
-    public int VerificarLider(int idGrupo, int idUsuario)
+    [HttpGet]
+    public void VerificarLider(int idGrupo, int idUsuario)
     {
-      bool respuesta = false;
+      comando = FabricaComando.CrearComandoVerificarLider(idGrupo, idUsuario);
+      comando.Ejecutar();
+
+      /*bool respuesta = false;
       int resultado = 0;
       peticion = new PeticionAmigoGrupo();
       try
@@ -766,19 +769,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      return resultado;
-    }*/
+      return resultado;*/
+    }
 
     /// <summary>
     /// Metodo para obtener el usuario lider
     /// </summary>
     /// <param name="idGrupo">Identificador del grupo</param>
-    /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>Los datos del usuario lider</returns>
-    /*[HttpGet]
-    public List<Usuario> ConsultarLider(int idGrupo, int idUsuario)
+    [HttpGet]
+    public Entidad ConsultarLider(int idGrupo)
     {
-      try
+      comando = FabricaComando.CrearComandoConsultarLider(idGrupo);
+      comando.Ejecutar();
+      return comando.Retornar();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.ObtenerLider(idGrupo, idUsuario);
@@ -798,19 +804,23 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-    }*/
+      }*/
+    }
 
 
     /// <summary>
-    /// metodo para obtener la lista de integrantes de un grupo sin el integrante lider
+    /// Metodo que devuelve los integrantes de un grupo sin el integrante lider
     /// </summary>
-    /// <param name="idGrupo">identificador del grupo</param>
+    /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns>La lista de integrantes sin el lider</returns>
-    /*[HttpGet]
-    public List<Usuario> ConsultarMiembrosSinLider(int idGrupo)
+    [HttpGet]
+    public List<Entidad> ConsultarMiembroSinLider(int idGrupo)
     {
-      try
+      comando = FabricaComando.CrearComandoConsultarMiembroSinLider(idGrupo);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.ObtenerSinLider(idGrupo);
@@ -830,19 +840,23 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-    }*/
+      }*/
+    }
 
     /// <summary>
     /// Metodo para obtener la lista de amigos que no estan agregados al grupo
     /// </summary>
-    /// <param name="idUsuario">Identificador del usuario lider</param>
     /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario lider</param>
     /// <returns>La lista de usuarios que no estan agregados en el grupo</returns>
-    /*[HttpGet]
-    public List<Usuario> ConsultarMiembrosSinGrupo(int idUsuario, int idGrupo)
+    [HttpGet]
+    public List<Entidad> ConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
     {
-      try
+      comando = FabricaComando.CrearComandoConsultarMiembroSinGrupo(idGrupo, idUsuario);
+      comando.Ejecutar();
+      return comando.RetornarLista();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.ObtenerMiembrosSinGrupo(idUsuario, idGrupo);
@@ -862,18 +876,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-    }*/
+      }*/
+    }
 
     /// <summary>
     /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>Ultimo grupo agregado de un usuario</returns>
-    /*[HttpGet]
-    public int ConsultarultimoGrupo(int idUsuario)
+    [HttpGet]
+    public Entidad ConsultarUltimoGrupo (int idUsuario)
     {
-      try
+      comando = FabricaComando.CrearComandoConsultarUltimoGrupo(idUsuario);
+      comando.Ejecutar();
+      return comando.Retornar();
+
+      /*try
       {
         peticion = new PeticionAmigoGrupo();
         return peticion.ObtenerultimoGrupo(idUsuario);
@@ -893,8 +911,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (HttpResponseException)
       {
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-    }*/
+      }*/
+    }
 
 
   }
