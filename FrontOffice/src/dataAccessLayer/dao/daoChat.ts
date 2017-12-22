@@ -3,10 +3,10 @@ import { Entidad } from '../domain/entidad';
 import { DAO } from './dao';
 import { ChatProvider } from './../../providers/chat/chat';
 import firebase from 'firebase';
-
+import { Events } from 'ionic-angular';
 
 export class DAOChat extends DAO {
-    
+
     public agregar(entidad : Entidad): Entidad{
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
@@ -23,7 +23,17 @@ export class DAOChat extends DAO {
         return null;
     }
 
-    visualizar() : Entidad{
+    visualizar(entidad: Entidad):Entidad{
+        return null;
+    }
+
+    
+    visualizarLista(entidad: Entidad, events: Events) : Entidad{
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(events);
+        chat.obtenerMensajesConversacionAmigo(mensaje.getUsuario,mensaje.getAmigo);
+        
         return null;
         
     }

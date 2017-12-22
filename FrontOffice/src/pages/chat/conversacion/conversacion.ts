@@ -80,10 +80,10 @@ ionViewWillEnter() {
     this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
     this.scrollto();
     this.idUsuario =
-    this.events.subscribe('nuevoMensaje', () => {
+    this.events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
       this.todosLosMensajes = [];
       this.zone.run(() => {
-        this.todosLosMensajes = this.chatService.mensajesConversacion;
+        this.todosLosMensajes = Mensajes;//this.chatService.mensajesConversacion;
       })
     })
 
@@ -223,7 +223,12 @@ crearalert(idMensaje){
   
 
   ionViewDidEnter() {
-    this.chatService.obtenerMensajesConversacionAmigo(this.nombreUsuario.NombreAmigo,this.usuario.NombreUsuario);
+    let entidad: Mensaje;
+    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    let comando = FabricaComando.crearComandoVisualizarConversacionAmigo();
+    comando.setEntidad = entidad;
+    comando.setEvents = this.events;
+    comando.execute();
   }
 
   scrollto() {

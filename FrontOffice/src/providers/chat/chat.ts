@@ -84,11 +84,13 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     this.mensajesConversacion = [];
     temp = snapshot.val();
     for (var tempkey in temp) {
+      console.log("temp[tempkey]: "+temp[tempkey].key);
       this.mensajesConversacion.push(temp[tempkey]);
     }
-    this.events.publish('nuevoMensaje');
+    this.events.publish('nuevoMensajeAmigo',this.mensajesConversacion);
   })
 }
+
   obtenerMensajesConversacionGrupo(idGrupo) {
     let temp;
     this.fireConversacionChatsGrupo.child(idGrupo).on('value', (snapshot) => {
