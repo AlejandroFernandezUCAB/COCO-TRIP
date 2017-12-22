@@ -621,29 +621,30 @@ $$ LANGUAGE plpgsql;
 
 -------------PROCEDIMIENTO OBTENER AMIGOS QUE NO ESTAN EN EL GRUPO-------------
 CREATE OR REPLACE FUNCTION ListaAmigosSinGrupo
-(id_usuario integer,
-id_grupo integer)
+(id_grupo integer,
+id_usuario integer)
 RETURNS TABLE
-(us_nombre varchar,
+(us_id integer,
+us_nombre varchar,
 us_apellido varchar,
 us_nombreusuario varchar,
 us_foto varchar)
 AS $$
 BEGIN
   RETURN QUERY
-  SELECT u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
   FROM Amigo a, Usuario u
   WHERE a.fk_usuario_conoce = id_usuario AND  a.fk_usuario_posee = u.us_id and a.am_aceptado = true
   UNION
-  SELECT u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
   FROM Amigo a, Usuario u
   WHERE a.fk_usuario_posee = id_usuario AND  a.fk_usuario_conoce = u.us_id and a.am_aceptado = true
   EXCEPT
-  SELECT u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
   FROM Usuario u
   WHERE u.us_id = id_usuario
   EXCEPT
-  SELECT u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
   FROM Usuario u, Miembro m, Grupo g
   WHERE m.fk_grupo = id_grupo
   AND m.fk_usuario = u.us_id

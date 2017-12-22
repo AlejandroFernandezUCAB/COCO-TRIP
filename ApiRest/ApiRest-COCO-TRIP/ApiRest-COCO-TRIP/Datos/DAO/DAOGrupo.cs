@@ -137,7 +137,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
 
-      if (leerDatos.Read()) //Lee los resultados
+      while (leerDatos.Read()) //Lee los resultados
       {
         Grupo fila = FabricaEntidad.CrearEntidadGrupo();
 
@@ -153,6 +153,37 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Desconectar(); //Culmina la sesion con la base de datos
 
       return lista;
+    }
+
+    public Entidad ConsultarUltimoGrupo (Entidad _usuario)
+    {
+      usuario = (Usuario) _usuario;
+      grupo = FabricaEntidad.CrearEntidadGrupo();
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "ConsultarUltimo";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = usuario.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+      if (leerDatos.Read())
+      {
+        grupo.Id = leerDatos.GetInt32(0);
+        grupo.Nombre = leerDatos.GetString(1);
+        //grupo.RutaFoto = leerDatos.GetString(2);
+      }
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+
+      return grupo;
     }
 
     public List<Entidad> ConsultarMiembros (Entidad _grupo)
@@ -171,7 +202,84 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
 
-      if (leerDatos.Read()) //Lee los resultados
+      while (leerDatos.Read()) //Lee los resultados
+      {
+        Usuario fila = FabricaEntidad.CrearEntidadUsuario();
+
+        fila.Id = leerDatos.GetInt32(0);
+        fila.Nombre = leerDatos.GetString(1);
+        fila.Apellido = leerDatos.GetString(2);
+        fila.NombreUsuario = leerDatos.GetString(3);
+        //fila.Foto = leerDatos.GetString(4);
+
+        lista.Add(fila);
+      }
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+
+      return lista;
+    }
+
+    public List<Entidad> ConsultarMiembrosExceptoLider (Entidad _grupo)
+    {
+      grupo = (Grupo)_grupo;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "VisualizarMiembroSinLider";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = grupo.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+      while (leerDatos.Read()) //Lee los resultados
+      {
+        Usuario fila = FabricaEntidad.CrearEntidadUsuario();
+
+        fila.Id = leerDatos.GetInt32(0);
+        fila.Nombre = leerDatos.GetString(1);
+        fila.Apellido = leerDatos.GetString(2);
+        fila.NombreUsuario = leerDatos.GetString(3);
+        //fila.Foto = leerDatos.GetString(4);
+
+        lista.Add(fila);
+      }
+
+      leerDatos.Close(); //Cierra el Data Reader
+
+      base.Desconectar(); //Culmina la sesion con la base de datos
+
+      return lista;
+    }
+
+    public List<Entidad> ConsultarMiembrosSinGrupo (Entidad _grupo, Entidad _usuario)
+    {
+      grupo = (Grupo) _grupo;
+      usuario = (Usuario) _usuario;
+
+      base.Conectar(); //Inicia una sesion con la base de datos
+
+      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+      base.Comando.CommandText = "ListaAmigosSinGrupo";
+      base.Comando.CommandType = CommandType.StoredProcedure;
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = grupo.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+      parametro.Value = usuario.Id;
+      base.Comando.Parameters.Add(parametro);
+
+      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+      while (leerDatos.Read()) //Lee los resultados
       {
         Usuario fila = FabricaEntidad.CrearEntidadUsuario();
 
@@ -193,7 +301,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     public Entidad ConsultarLider(Entidad _grupo)
     {
-      grupo = (Grupo)_grupo;
+      grupo = (Grupo) _grupo;
       usuario = FabricaEntidad.CrearEntidadUsuario();
 
       base.Conectar(); //Inicia una sesion con la base de datos

@@ -71,7 +71,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
 
-      if (leerDatos.Read()) //Lee los resultados
+      while (leerDatos.Read()) //Lee los resultados
       {
         Usuario fila = FabricaEntidad.CrearEntidadUsuario();
 
@@ -137,7 +137,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
 
-      if (leerDatos.Read()) //Lee los resultados
+      while (leerDatos.Read()) //Lee los resultados
       {
         Usuario fila = FabricaEntidad.CrearEntidadUsuario();
 
@@ -172,7 +172,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
 
-      if (leerDatos.Read()) //Lee los resultados
+      while (leerDatos.Read()) //Lee los resultados
       {
         Usuario fila = FabricaEntidad.CrearEntidadUsuario();
 

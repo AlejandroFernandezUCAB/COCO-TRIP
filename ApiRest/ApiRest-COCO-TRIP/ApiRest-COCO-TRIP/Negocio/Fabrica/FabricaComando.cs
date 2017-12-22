@@ -198,6 +198,57 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoEliminarIntegrante(idGrupo, nombreUsuario);
     }
-  }
 
+    /// <summary>
+    /// Retorna la instancia de ComandoVerificarLider
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoVerificarLider CrearComandoVerificarLider(int idGrupo, int idUsuario)
+    {
+      return new ComandoVerificarLider(idGrupo, idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLider
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <returns></returns>
+    public static ComandoConsultarLider CrearComandoConsultarLider(int idGrupo)
+    {
+      return new ComandoConsultarLider(idGrupo);
+    }
+
+    /// <summary>
+    /// Retornar la instancia de ComandoConsultarMiembroSinLider
+    /// </summary>
+    /// <param name="id">ID del grupo por el cual se devuelven sus integrantes</param>
+    /// <returns></returns>
+    public static ComandoConsultarMiembroSinLider CrearComandoConsultarMiembroSinLider(int id)
+    {
+      return new ComandoConsultarMiembroSinLider(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarMiembroSinGrupo
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario lider</param>
+    /// <returns></returns>
+    public static ComandoConsultarMiembroSinGrupo CrearComandoConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
+    {
+      return new ComandoConsultarMiembroSinGrupo(idGrupo, idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarUltimoGrupo
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoConsultarUltimoGrupo CrearComandoConsultarUltimoGrupo(int idUsuario)
+    {
+      return new ComandoConsultarUltimoGrupo(idUsuario);
+    }
+  }
 }
