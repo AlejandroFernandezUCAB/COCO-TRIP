@@ -19,8 +19,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -219,6 +221,7 @@
     <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
     <Compile Include="Negocio\Comando\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoObtenerCategorias.cs" />
     <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />

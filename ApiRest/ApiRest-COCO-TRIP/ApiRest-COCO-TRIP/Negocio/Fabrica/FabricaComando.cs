@@ -256,9 +256,19 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns></returns>
-    public static ComandoModificarCategoria CrearComandoModificarCategoria(Entidad categoria)
+    public static ComandoModificarCategoria CrearComandoModificarCategoria()
     {
-      return new ComandoModificarCategoria(categoria);
+      return new ComandoModificarCategoria();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoObtenerCategorias
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoObtenerCategorias CrearComandoObtenerCategorias()
+    {
+      return new ComandoObtenerCategorias();
     }
   }
 }

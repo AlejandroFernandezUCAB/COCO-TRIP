@@ -50,6 +50,7 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     public static Categoria CrearEntidadCategoria()
     {
       return new Categoria();
+    }
     /// Retorna la instancia de la entidad Itinerario
     /// </summary>
     /// <returns>Itinerario</returns>

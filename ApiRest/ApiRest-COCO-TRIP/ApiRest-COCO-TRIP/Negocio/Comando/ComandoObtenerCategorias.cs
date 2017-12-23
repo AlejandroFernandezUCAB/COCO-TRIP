@@ -6,18 +6,18 @@ using System;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
-  public class ComandoModificarCategoria:Comando
+  public class ComandoObtenerCategorias: Comando
   {
     DAO dao = FabricaDAO.CrearDAOCategoria();
     private Categoria categoria;
+    private List<Entidad> resultado = new List<Entidad>();
 
-    
 
     public override void Ejecutar()
     {
       try
       {
-        dao.Actualizar(categoria);
+        ((DAOCategoria)dao).ObtenerCategorias(categoria);
       }
       catch (Exception e)
       {
@@ -33,7 +33,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
 
     public override List<Entidad> RetornarLista()
     {
-      throw new System.NotImplementedException();
+      return resultado;
     }
 
     public void SetPropiedad(Entidad entidad)
