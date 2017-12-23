@@ -3,29 +3,31 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Procedimiento que se encarga de recoger los datos de
-  /// la base de datos para visualizar la lista de amigos
+  /// Busca usuarios que coincidan con la busqueda y no pertenezcan a la lista de amigos del usuario
   /// </summary>
-  public class ComandoVisualizarListaAmigos : Comando
+  public class ComandoBuscarAmigos : Comando
   {
-    private List<Entidad> lista;
     private Usuario usuario;
+    private List<Entidad> lista;
 
-    private DAO datos;
+    private DAOAmigo datos;
 
-    public ComandoVisualizarListaAmigos(int id)
+    public ComandoBuscarAmigos(int id, string nombre)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
+      lista = new List<Entidad>();
+
       usuario.Id = id;
+      usuario.Nombre = nombre;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOAmigo();
-      lista = datos.ConsultarLista(usuario);
+      lista = datos.BuscarAmigos(usuario);
     }
 
     public override Entidad Retornar()
@@ -38,4 +40,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       return lista;
     }
   }
+
 }

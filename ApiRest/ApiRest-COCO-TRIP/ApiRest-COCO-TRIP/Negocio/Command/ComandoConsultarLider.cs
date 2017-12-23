@@ -1,40 +1,42 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Metodo que devuelve los integrantes de un grupo sin el integrante lider
+  /// Metodo para obtener el usuario lider
   /// </summary>
-  public class ComandoConsultarMiembroSinLider : Comando
+  public class ComandoConsultarLider : Comando
   {
+    private Usuario usuario;
     private Grupo grupo;
-    private List<Entidad> lista;
 
     private DAOGrupo datos;
 
-    public ComandoConsultarMiembroSinLider(int id)
+    public ComandoConsultarLider(int idGrupo)
     {
+      usuario = FabricaEntidad.CrearEntidadUsuario();
       grupo = FabricaEntidad.CrearEntidadGrupo();
-      grupo.Id = id;
+
+      grupo.Id = idGrupo;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
-      lista = datos.ConsultarMiembrosExceptoLider(grupo);
+      usuario = (Usuario) datos.ConsultarLider(grupo);
     }
 
     public override Entidad Retornar()
     {
-      throw new System.NotImplementedException();
+      return usuario;
     }
 
     public override List<Entidad> RetornarLista()
     {
-      return lista;
+      throw new System.NotImplementedException();
     }
   }
 

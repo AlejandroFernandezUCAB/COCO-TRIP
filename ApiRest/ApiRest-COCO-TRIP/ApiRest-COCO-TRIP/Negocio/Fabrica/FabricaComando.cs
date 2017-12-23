@@ -1,5 +1,5 @@
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Command;
 
 namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 {

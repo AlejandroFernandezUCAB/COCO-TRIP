@@ -3,35 +3,35 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Metodo para obtener el usuario lider
+  /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
   /// </summary>
-  public class ComandoConsultarLider : Comando
+  public class ComandoConsultarUltimoGrupo : Comando
   {
     private Usuario usuario;
     private Grupo grupo;
 
     private DAOGrupo datos;
 
-    public ComandoConsultarLider(int idGrupo)
+    public ComandoConsultarUltimoGrupo(int idUsuario)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
       grupo = FabricaEntidad.CrearEntidadGrupo();
 
-      grupo.Id = idGrupo;
+      usuario.Id = idUsuario;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
-      usuario = (Usuario) datos.ConsultarLider(grupo);
+      grupo = (Grupo) datos.ConsultarUltimoGrupo (usuario);
     }
 
     public override Entidad Retornar()
     {
-      return usuario;
+      return grupo;
     }
 
     public override List<Entidad> RetornarLista()

@@ -3,38 +3,36 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Procemiento que se encarga de hacer la peticion para
-  /// eliminar un amigo de la base de datos
+  /// Rechaza la solicitud de amistad
   /// </summary>
-  public class ComandoEliminarAmigo : Comando
+  public class ComandoRechazarNotificacion : Comando
   {
-    private Usuario usuario;
     private Amigo amigo;
+    private Usuario usuario;
 
     private DAOUsuario baseUsuario;
     private DAOAmigo baseAmigo;
 
-    public ComandoEliminarAmigo (int id, string nombreAmigo)
+    public ComandoRechazarNotificacion (int id, string nombreRechazado)
     {
-      usuario = FabricaEntidad.CrearEntidadUsuario();
       amigo = FabricaEntidad.CrearEntidadAmigo();
+      usuario = FabricaEntidad.CrearEntidadUsuario();
 
-      usuario.NombreUsuario = nombreAmigo;
-      amigo.Activo = id;
+      amigo.Pasivo = id;
+      usuario.NombreUsuario = nombreRechazado;
     }
 
     public override void Ejecutar()
     {
       baseUsuario = FabricaDAO.CrearDAOUsuario();
-      baseAmigo = FabricaDAO.CrearDAOAmigo();
-
       usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
-      amigo.Pasivo = usuario.Id;
 
-      baseAmigo.Eliminar(amigo);
+      baseAmigo = FabricaDAO.CrearDAOAmigo();
+      amigo.Activo = usuario.Id;
+      baseAmigo.RechazarNotificacion(amigo);
     }
 
     public override Entidad Retornar()
@@ -47,5 +45,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       throw new System.NotImplementedException();
     }
   }
-
 }

@@ -4,11 +4,11 @@ using System.Reflection;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Newtonsoft.Json;
-using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 
-namespace ApiRestPruebas.M3.Comando
+namespace ApiRestPruebas.M3.Command
 {
   /// <summary>
   /// Pruebas unitarias de ComandoAgregarAmigo

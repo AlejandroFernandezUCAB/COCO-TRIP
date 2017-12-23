@@ -1,7 +1,7 @@
 using ApiRest_COCO_TRIP.Datos.Entity;
 using System.Collections.Generic;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
   /// Superclase de comandos

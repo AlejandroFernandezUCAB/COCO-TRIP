@@ -3,41 +3,42 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
+  /// Metodo para obtener la lista de amigos que no estan agregados al grupo
   /// </summary>
-  public class ComandoConsultarUltimoGrupo : Comando
+  public class ComandoConsultarMiembroSinGrupo : Comando
   {
-    private Usuario usuario;
     private Grupo grupo;
+    private Usuario usuario;
+    private List<Entidad> lista;
 
     private DAOGrupo datos;
 
-    public ComandoConsultarUltimoGrupo(int idUsuario)
+    public ComandoConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
     {
-      usuario = FabricaEntidad.CrearEntidadUsuario();
       grupo = FabricaEntidad.CrearEntidadGrupo();
+      usuario = FabricaEntidad.CrearEntidadUsuario();
 
+      grupo.Id = idGrupo;
       usuario.Id = idUsuario;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
-      grupo = (Grupo) datos.ConsultarUltimoGrupo (usuario);
+      lista = datos.ConsultarMiembrosSinGrupo(grupo, usuario);
     }
 
     public override Entidad Retornar()
     {
-      return grupo;
+      throw new System.NotImplementedException();
     }
 
     public override List<Entidad> RetornarLista()
     {
-      throw new System.NotImplementedException();
+      return lista;
     }
   }
-
 }

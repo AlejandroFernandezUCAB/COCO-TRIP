@@ -1,34 +1,30 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Metodo para obtener la lista de amigos que no estan agregados al grupo
+  /// Metodo que devuelve los integrantes de un grupo sin el integrante lider
   /// </summary>
-  public class ComandoConsultarMiembroSinGrupo : Comando
+  public class ComandoConsultarMiembroSinLider : Comando
   {
     private Grupo grupo;
-    private Usuario usuario;
     private List<Entidad> lista;
 
     private DAOGrupo datos;
 
-    public ComandoConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
+    public ComandoConsultarMiembroSinLider(int id)
     {
       grupo = FabricaEntidad.CrearEntidadGrupo();
-      usuario = FabricaEntidad.CrearEntidadUsuario();
-
-      grupo.Id = idGrupo;
-      usuario.Id = idUsuario;
+      grupo.Id = id;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
-      lista = datos.ConsultarMiembrosSinGrupo(grupo, usuario);
+      lista = datos.ConsultarMiembrosExceptoLider(grupo);
     }
 
     public override Entidad Retornar()
@@ -41,4 +37,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       return lista;
     }
   }
+
 }

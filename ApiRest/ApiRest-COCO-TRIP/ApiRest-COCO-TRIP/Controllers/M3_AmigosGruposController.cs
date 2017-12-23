@@ -2,7 +2,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
-using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Datos.Entity;
 
 /// <summary>

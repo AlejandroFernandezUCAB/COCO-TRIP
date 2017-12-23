@@ -65,7 +65,7 @@
   <ItemGroup>
     <Compile Include="M1\PruebasLogin.cs" />
     <Compile Include="M2\M2UnitTest.cs" />
-    <Compile Include="M3\Comando\TestComandoAgregarAmigo.cs" />
+    <Compile Include="M3\Command\TestComandoAgregarAmigo.cs" />
     <Compile Include="M3\DAO\TestDAOAmigo.cs" />
     <Compile Include="M3\DAO\TestDAOGrupo.cs" />
     <Compile Include="M3\M3UnitTest.cs" />

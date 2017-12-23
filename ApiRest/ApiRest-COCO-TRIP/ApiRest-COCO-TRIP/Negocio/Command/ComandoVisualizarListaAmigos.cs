@@ -3,30 +3,29 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   /// <summary>
-  /// Obtiene la lista de notificaciones pendientes de un usuario
+  /// Procedimiento que se encarga de recoger los datos de
+  /// la base de datos para visualizar la lista de amigos
   /// </summary>
-  public class ComandoObtenerListaNotificaciones : Comando
+  public class ComandoVisualizarListaAmigos : Comando
   {
-    private Usuario usuario;
     private List<Entidad> lista;
+    private Usuario usuario;
 
-    private DAOAmigo datos;
+    private DAO datos;
 
-    public ComandoObtenerListaNotificaciones (int id)
+    public ComandoVisualizarListaAmigos(int id)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
-      lista = new List<Entidad>();
-
       usuario.Id = id;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOAmigo();
-      lista = datos.ConsultarListaNotificaciones(usuario);
+      lista = datos.ConsultarLista(usuario);
     }
 
     public override Entidad Retornar()
