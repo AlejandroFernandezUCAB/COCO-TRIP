@@ -30,7 +30,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.Execute();
       
       ModelState.AddModelError(string.Empty,(String) comando.GetResult()[1]);
-      ViewBag.ListLocalidades = comando.GetResult()[2];
+      ViewBag.ListLocalidad = comando.GetResult()[2];
       ViewBag.ListCategoria = comando.GetResult()[0];
       return View();
     }
@@ -39,10 +39,12 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult CreateEvent(Evento evento)
     {
+      //Debe funcionar con la siguiente linea:
+      evento.IdLocalidad = Int32.Parse(Request["Localidad"].ToString());
       
       //var idLocalidad = Request["Localidades"].ToString();
       //evento.IdLocalidad = Int32.Parse(idLocalidad);
-      evento.IdLocalidad = 1;
+      //evento.IdLocalidad = 1;
       evento.Foto = "jorge";
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
       Comando comando = FabricaComando.GetComandoInsertarEvento();
