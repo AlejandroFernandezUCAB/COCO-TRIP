@@ -1,3 +1,4 @@
+using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Comando;
 
@@ -17,6 +18,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoAgregarAmigo CrearComandoAgregarAmigo (int id, string nombre)
     {
       return new ComandoAgregarAmigo(id, nombre);
+    }
+
+    internal static Entidad CrearComandoAgregarItinerario()
+    {
+      throw new NotImplementedException();
     }
 
     /// <summary>
@@ -249,6 +255,48 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoConsultarUltimoGrupo CrearComandoConsultarUltimoGrupo(int idUsuario)
     {
       return new ComandoConsultarUltimoGrupo(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <param name ="nombreItinerario">Nombre del itinerario</param> 
+    /// <returns></returns>
+    public static ComandoAgregarItinerario CrearComandoAgregarItinerario(int idUsuario,string nombreItinerario)
+    {
+      return new ComandoAgregarItinerario(idUsuario,nombreItinerario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoConsultarItinerarios CrearComandoConsultarItinerarios(int idUsuario)
+    {
+      return new ComandoConsultarItinerarios(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoModificarItinerario CrearComandoModificarItinerario(int idItinerario,string nombre,
+      DateTime fechaInicio, DateTime fechaFin,  int idUsuario)
+    {
+      return new ComandoModificarItinerario(idItinerario,nombre,fechaInicio,fechaFin,idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoEliminarItinerario CrearComandoEliminarItinerario(int id)
+    {
+      return new ComandoEliminarItinerario(id);
     }
   }
 }
