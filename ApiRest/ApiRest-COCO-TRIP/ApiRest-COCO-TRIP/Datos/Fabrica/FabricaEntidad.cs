@@ -67,5 +67,13 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new Agenda();
     }
+    /// <summary>
+    /// Retorna la instancia de la entidad LocalidadEvento
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static LocalidadEvento CrearLocalidadEvento()
+    {
+      return new LocalidadEvento();
+    }
   }
 }

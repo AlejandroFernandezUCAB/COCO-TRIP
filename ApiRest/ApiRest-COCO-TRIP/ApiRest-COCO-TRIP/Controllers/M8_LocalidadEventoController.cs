@@ -8,7 +8,7 @@ using System.Web.Http.Description;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Data.SqlClient;
-using ApiRest_COCO_TRIP.Models.Dato;
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 namespace ApiRest_COCO_TRIP.Controllers
 {
