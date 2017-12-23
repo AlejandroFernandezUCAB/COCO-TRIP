@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { ToastController } from 'ionic-angular';
 import { InformacionMensajePage } from '../../chat/informacion-mensaje/informacion-mensaje';
+import {catService,catProd} from "../../../log/config"
 
 //****************************************************************************************************//
 //**********************************PAGE DE CONVERSACION MODULO 6*************************************//
@@ -286,12 +287,14 @@ crearalert(idMensaje){
   
 
   ionViewDidEnter() {
+    catProd.info("Entrando en el metodo IonViewDidEnter");
     let entidad: Mensaje;
     entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
     let comando = FabricaComando.crearComandoVisualizarConversacionAmigo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
     comando.execute();
+    catProd.info("Saliendo del metodo IonViewDidEnter");
   }
 
   scrollto() {

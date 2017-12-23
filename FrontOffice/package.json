@@ -65,6 +65,7 @@
     "moment": "^2.19.1",
     "rxjs": "5.4.3",
     "sw-toolbox": "3.6.0",
+    "typescript-logging": "^0.5.0",
     "zone.js": "0.8.18"
   },
   "devDependencies": {
