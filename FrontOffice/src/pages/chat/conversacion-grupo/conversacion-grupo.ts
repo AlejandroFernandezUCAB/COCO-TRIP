@@ -1,3 +1,4 @@
+import { Registry } from './../../../common/registry';
 import { Component, ViewChild, NgZone } from '@angular/core';
 import { Platform, ActionSheetController, Events, Content } from 'ionic-angular';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
@@ -87,7 +88,7 @@ export class ConversacionGrupoPage {
           this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
           this.scrollto();
           this.idUsuario =
-          this.events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+          this.events.subscribe(Registry.PUBLISH_LISTA_MENSAJE_GRUPOS, (Mensajes) => {
             this.todosLosMensajes = [];
             this.zone.run(() => {
               this.todosLosMensajes = Mensajes;

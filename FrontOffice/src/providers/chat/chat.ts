@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Events } from 'ionic-angular';
 import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
+import { Registry } from '../../common/registry';
 /*
   Generated class for the ChatProvider provider.
 
@@ -10,8 +11,8 @@ import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
 */
 @Injectable()
 export class ChatProvider {
-  fireConversacionChatsAmigo = firebase.database().ref('/chatAmigo');
-  fireConversacionChatsGrupo = firebase.database().ref('/chatGrupo');
+  fireConversacionChatsAmigo = firebase.database().ref(Registry.REF_BASE_DATOS_AMIGOS);//.ref('/chatAmigo');
+  fireConversacionChatsGrupo = firebase.database().ref(Registry.REF_BASE_DATOS_GRUPOS);//.ref('/chatGrupo');
   conversacion: any;
   mensajesConversacion = [];
   constructor(public events: Events) {
@@ -68,19 +69,6 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
      return key;
     }
   
-/*
-  obtenerMensajesConversacionAmigo(idAmigo) {
-    let temp;
-    this.fireConversacionChatsAmigo.child(idAmigo).on('value', (snapshot) => {
-      this.mensajesConversacion = [];
-      temp = snapshot.val();
-      for (var tempkey in temp) {
-        this.mensajesConversacion.push(temp[tempkey]);
-      }
-      this.events.publish('nuevoMensaje');
-    })
-  }
-*/
 
 obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
   let temp;
@@ -88,31 +76,11 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     this.mensajesConversacion = [];
     temp = snapshot.val();
     for (var tempkey in temp) {
-      console.log("temp[tempkey]: "+temp[tempkey].key);
       this.mensajesConversacion.push(temp[tempkey]);
     }
-    this.events.publish('nuevoMensajeAmigo',this.mensajesConversacion);
+    this.events.publish(Registry.PUBLISH_LISTA_MENSAJE_AMIGOS,this.mensajesConversacion);
   })
 }
-
-/*obtenerInfoMensajeAmigo(idEmisor,idReceptor,idMensaje) {
-  let temp;
-  let entidad: Mensaje;
-  let otro:Mensaje;
-  
-  return this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).once('value').then( function(snapshot) {
-    this.mensajesConversacion = [];
-    temp = snapshot.val(); 
-    entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",
-    0,temp.tiempoDeEnvio,0,temp.modificado);
-    entidad.setId=temp.key;
-    alert("dentro"+entidad.getMensaje);
-    return entidad;
-  });
-  /*alert("fuera"+entidad.getMensaje);
-  return entidad;
-
-}*/
 
   obtenerMensajesConversacionGrupo(idGrupo) {
     let temp;
@@ -122,7 +90,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       for (var tempkey in temp) {
         this.mensajesConversacion.push(temp[tempkey]);
       }
-      this.events.publish('nuevoMensajeGrupo', this.mensajesConversacion);
+      this.events.publish(Registry.PUBLISH_LISTA_MENSAJE_GRUPOS, this.mensajesConversacion);
     })
   }
 
@@ -134,7 +102,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       var temp = snapshot.val(); 
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
       entidad.setId=temp.key;
-      this.events.publish('infoMensaje',entidad);
+      this.events.publish(Registry.PUBLISH_INFO_MENSAJE_AMIGOS,entidad);
     });
   
   }
@@ -147,7 +115,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       var temp = snapshot.val(); 
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
       entidad.setId=temp.key;
-      this.events.publish('infoMensajeGrupo',entidad);
+      this.events.publish(Registry.PUBLISH_INFO_MENSAJE_GRUPOS,entidad);
     });
   
   }

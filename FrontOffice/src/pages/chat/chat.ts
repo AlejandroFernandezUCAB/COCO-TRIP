@@ -39,11 +39,12 @@ export class ChatPage {
   this.storage.get('id').then((val) => {
     idUsuario = val;
   });
-  }
+}
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
-    
   }
 
   tapEvent(item){

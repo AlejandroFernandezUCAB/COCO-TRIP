@@ -1,3 +1,4 @@
+import { Registry } from './../../../common/registry';
 import { Component, } from '@angular/core';
 import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
 import { ChatProvider } from '../../../providers/chat/chat';
@@ -41,7 +42,7 @@ export class InformacionMensajePage {
     this.Mensajerec.emisor = this.navParams.get('emisor');
     this.Mensajerec.receptor=this.navParams.get('receptor');
    
-      this.events.subscribe('infoMensaje', (Mensajes) => {
+      this.events.subscribe(Registry.PUBLISH_INFO_MENSAJE_AMIGOS, (Mensajes) => {
       mensaje = Mensajes;
       this.info.mensaje=mensaje.getMensaje;
       this.info.fecha=mensaje.getFecha;
