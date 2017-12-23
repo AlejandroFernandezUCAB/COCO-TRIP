@@ -57,7 +57,7 @@ CREATE TABLE Preferencia(
 CREATE TABLE Grupo
 (
 gr_id integer NOT NULL,
-gr_nombre varchar(100) NOT NULL,
+gr_nombre varchar(320) NOT NULL,
 gr_foto varchar (320),
 fk_usuario integer NOT NULL,
 

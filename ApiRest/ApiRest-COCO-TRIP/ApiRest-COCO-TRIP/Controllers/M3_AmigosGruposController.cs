@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using Npgsql;
-using System.Data;
-using Newtonsoft.Json;
-using System.Net.Mail;
-using System.Net;
 using System.Web.Http.Cors;
+using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Negocio.Comando;
 using ApiRest_COCO_TRIP.Datos.Entity;
