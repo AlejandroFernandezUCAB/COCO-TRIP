@@ -19,8 +19,8 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = new ChatProvider(null);
-        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        return null;
+        mensaje.setId = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        return mensaje;
     }
 
     visualizar(entidad: Entidad):Entidad{

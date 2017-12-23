@@ -2,11 +2,13 @@ using System;
 using System.Net;
 using System.Web.Http;
 using ApiRest_COCO_TRIP.Models.Dato;
-using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
 using Npgsql;
 using System.Collections.Generic;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Datos.Entity;
 
 namespace ApiRestPruebas
 {
@@ -21,7 +23,8 @@ namespace ApiRestPruebas
     private DateTime fechaini;
     private DateTime fechafin;
     private int id_usuario;
-    private List<Itinerario> itinerarios_usuario;
+    private List<ApiRest_COCO_TRIP.Datos.Entity.Entidad> lista;
+    private Comando comando;
     [OneTimeSetUp]
     protected void OTSU()
     {
@@ -35,41 +38,38 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarItinerario()
     {
-      PeticionItinerario peticionItinerario = new PeticionItinerario();
-      itinerario = new Itinerario("Michel", 1);
-      it = peticionItinerario.AgregarItinerario(itinerario);
-      //it = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(12, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
-      Assert.AreEqual("Michel", it.Nombre);
+      Comando comando = FabricaComando.CrearComandoAgregarItinerario(2,"itinerario3");
+      comando.Ejecutar();
+      Assert.IsFalse(false);
     }
 
     /// <summary>
     /// Prueba de casos borde(excepciones) en AgregarItinerario
     /// </summary>
-    [Test]
+    /*[Test]
     public void FalloAgregarItinerario()
     {
       Assert.Catch<HttpResponseException>(Excepcion_Agregar);
       Assert.Catch<HttpResponseException>(Excepcion_Agregar2);
-    }
+    }*/
 
     /// <summary>
     /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
-    public void Excepcion_Agregar()
+    /*public void Excepcion_Agregar()
     {
       itinerario = null;
       controller.AgregarItinerario(itinerario);
-    }
+    }*/
 
     /// <summary>
     /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
-    public void Excepcion_Agregar2()
+    /*public void Excepcion_Agregar2()
     {
       itinerario = new Itinerario("Michel", 0);
       controller.AgregarItinerario(itinerario);
-    }
+    }*/
 
     /// <summary>
     /// Prueba de caso exitoso en EliminaItinerario
@@ -77,8 +77,9 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarItinerario()
     {
-      x = controller.EliminarItinerario(17);
-      Assert.True(x);
+      Comando comando = FabricaComando.CrearComandoEliminarItinerario(15);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -97,19 +98,28 @@ namespace ApiRestPruebas
     [Test]
     public void PUModificarItinerario()
     {
-      DateTime fechaini = new DateTime(2022, 05, 28);
-      DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(15, "Epco", fechaini, fechafin, 1);
-      it = controller.ModificarItinerario(itinerario);
-      Assert.AreEqual("Epco", it.Nombre);
-      Assert.AreEqual(fechaini,it.FechaInicio);
-      Assert.AreEqual(fechafin, it.FechaFin);
+      x = false;
+      DateTime fechaini = new DateTime(2040, 12, 12);
+      DateTime fechafin = new DateTime(2044, 12, 12);
+     // ApiRest_COCO_TRIP.Datos.Entity.Itinerario  itinerario =
+     //   new ApiRest_COCO_TRIP.Datos.Entity.Itinerario(15, "Epco Reloaded", fechaini, fechafin, 1);
+      comando = FabricaComando.CrearComandoModificarItinerario(19, "ususu", fechaini, fechafin, 1);
+      comando.Ejecutar();
+      comando = FabricaComando.CrearComandoConsultarItinerarios(1);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      foreach (Entidad item in lista)
+      {
+        Itinerario itinerario = (Itinerario)item;
+        if (itinerario.Nombre == "ususu") x = true;
+      }
+      Assert.True(x);
     }
 
     /// <summary>
     /// Prueba de caso exitoso en AgregarEvento_It
     /// </summary>
-    [Test]
+    /*[Test]
     public void PUAgregarEvento_It()
     {
       Itinerario itinerario = new Itinerario(15);
@@ -123,12 +133,12 @@ namespace ApiRestPruebas
       x = peticionItinerario.AgregarItem_It("Evento", itinerario.Id, ev.Id, fechaini, fechafin);
      // x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
       Assert.True(x);
-    }
+    }*/
 
     /// <summary>
     /// Prueba de caso borde(fallo) en AgregarEvento_It
     /// </summary>
-    [Test]
+    /*[Test]
     public void FalloAgregarEvento_It()
    {
      Itinerario itinerario = new Itinerario(6);
@@ -140,7 +150,7 @@ namespace ApiRestPruebas
      fechafin = new DateTime(2017, 11, 18);
      x = controller.AgregarItem_It("Eventos",itinerario.Id, ev.Id,fechaini, fechafin);
      Assert.False(x);
-   }
+   }*/
 
     /// <summary>
     /// Prueba de caso exitoso en AgregarActividad_It
@@ -274,7 +284,7 @@ namespace ApiRestPruebas
     /// <summary>
     /// Prueba de caso exitoso en EliminarEvento_It
     /// </summary>
-    [Test]
+    /*[Test]
     public void PUEliminarEvento_It()
     {
       itinerario = new Itinerario(15);
@@ -286,12 +296,12 @@ namespace ApiRestPruebas
       x = peticion.EliminarItem_It("Evento",15,1);
       //x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
       Assert.True(x);
-    }
+    }*/
 
     /// <summary>
     /// Prueba de caso borde(fallo) en EliminarEvento_It
     /// </summary>
-    [Test]
+    /*[Test]
     public void FalloEliminarEvento_It()
     {
       itinerario = new Itinerario(6);
@@ -301,14 +311,17 @@ namespace ApiRestPruebas
       };
       x = controller.EliminarItem_It("Eventoss", itinerario.Id, ev.Id);
       Assert.False(x);
-    }
+    }*/
 
-    /* [Test]
-    public void PruebaConsultarItinerarios()
+     [Test]
+    public void PUConsultarItinerarios()
     {
-      Assert.Catch<NpgsqlException>(ExcepcionItinerarioNull);
+      Comando comando = FabricaComando.CrearComandoConsultarItinerarios(2);
+      comando.Ejecutar();
+      lista =  comando.RetornarLista();
+      Assert.AreNotEqual(0, lista.Count);
     }
-
+    /*
     public void ExcepcionItinerarioNull()
     {
       id_usuario = null;
@@ -320,7 +333,9 @@ namespace ApiRestPruebas
     {
       //id de usuario que no existe
       id_usuario = 50;
-      Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
+      comando = FabricaComando.CrearComandoConsultarItinerarios(id_usuario);
+      comando.Ejecutar();
+      Assert.IsEmpty(comando.RetornarLista());
     }
    
     [Test]

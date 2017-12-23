@@ -19,10 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -145,12 +143,12 @@
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\DAO\DAOAgenda.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
     <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
     <Compile Include="Datos\DAO\DAOItinerario.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
-    <Compile Include="Datos\DAO\IDAOItinerario.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Categoria.cs" />
@@ -201,9 +199,13 @@
     <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
     <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarItinerarios.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoEstadoCategoria.cs" />

@@ -51,7 +51,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
 
     
    
-  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) {
+  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) : String {
     var myRef = this.fireConversacionChatsGrupo.child(idGrupo).push();
     var key = myRef.key;
   
@@ -65,6 +65,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
      }
   
      myRef.set(newData);
+     return key;
     }
   
 /*
@@ -134,10 +135,6 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
       entidad.setId=temp.key;
       this.events.publish('infoMensaje',entidad);
-      
-      //alert("dentro"+entidad.getMensaje);
-      //return entidad;
-      //alert("dentro"+temp.mensaje);
     });
   
   }
@@ -154,32 +151,36 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     });
   
   }
-  modificarMensajeAmigo(idEmisor,idReceptor,idMensaje,mensajeModificado){
+  modificarMensajeAmigo(idEmisor,idReceptor,idMensaje,mensajeModificado):boolean{
 
     this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).set({
       key:idMensaje,
       modificado: true,
+      eliminado: false,
       enviadorPor: idEmisor,
+      receptor: idReceptor,
       mensaje: "(modificado): "+mensajeModificado,
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
     });
     this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(idMensaje).set({
       key:idMensaje,
       modificado: true,
+      eliminado: false,
       enviadorPor: idEmisor,
       mensaje: "(modificado): "+mensajeModificado,
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
     }); 
     return true;
   }
 
-  modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado,emisor){
+  modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado,emisor):boolean{
     this.fireConversacionChatsGrupo.child(idGrupo).child(idMensaje).set({
       key:idMensaje,
       modificado: true,
+      eliminado: false,
       enviadorPor: emisor,
       mensaje: "(modificado): "+mensajeModificado,
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
     });
     return true;
   }
