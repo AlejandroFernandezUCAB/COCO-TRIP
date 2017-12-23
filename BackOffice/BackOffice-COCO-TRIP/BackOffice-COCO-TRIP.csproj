@@ -186,6 +186,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaSelect.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarListaCategoria.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
