@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Events } from 'ionic-angular';
 import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
+import * as moment from 'moment';
 /*
   Generated class for the ChatProvider provider.
 
@@ -24,7 +25,7 @@ export class ChatProvider {
     
 agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
   var myRef = this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).push();
-  var key = myRef.key;  
+  var key = myRef.key;
 
   var newData={
     key:key,
@@ -33,7 +34,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
     mensaje: mensaje,
     eliminado: false,
     modificado: false,
-    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP  
+    tiempoDeEnvio: moment().format('MMMM Do YYYY, h:mm:ss a')
    }
    myRef.set(newData);
    this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(key).set({
@@ -43,7 +44,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
     mensaje: mensaje,
     eliminado: false,
     modificado: false,
-    tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP        
+    tiempoDeEnvio: moment().format('MMMM Do YYYY, h:mm:ss a')
   });
 
   return key;
@@ -61,7 +62,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
       eliminado: false,
       modificado: false,
       mensaje: mensaje,
-      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP
+      tiempoDeEnvio: moment().format('MMMM Do YYYY, h:mm:ss a')
      }
   
      myRef.set(newData);
@@ -160,7 +161,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       enviadorPor: idEmisor,
       receptor: idReceptor,
       mensaje: "(modificado): "+mensajeModificado,
-      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: moment().format('MMMM Do YYYY, h:mm:ss a') 
     });
     this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(idMensaje).set({
       key:idMensaje,
@@ -168,7 +169,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       eliminado: false,
       enviadorPor: idEmisor,
       mensaje: "(modificado): "+mensajeModificado,
-      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: moment().format('MMMM Do YYYY, h:mm:ss a') 
     }); 
     return true;
   }
@@ -180,7 +181,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       eliminado: false,
       enviadorPor: emisor,
       mensaje: "(modificado): "+mensajeModificado,
-      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: moment().format('MMMM Do YYYY, h:mm:ss a') 
     });
     return true;
   }
@@ -191,14 +192,14 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       eliminado: true,
       enviadorPor: idEmisor,
       mensaje: "mensaje eliminado",
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      fechaDeEliminacion: moment().format('MMMM Do YYYY, h:mm:ss a')  
     });
     this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(idMensaje).set({
       key:-1,
       eliminado: true,
       enviadorPor: idEmisor,
       mensaje: "mensaje eliminado",
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      fechaDeEliminacion: moment().format('MMMM Do YYYY, h:mm:ss a')  
     });   
     return true;
   }
@@ -209,7 +210,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       eliminado: true,
       enviadorPor: emisor,
       mensaje: "mensaje eliminado",
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP
+      fechaDeEliminacion: moment().format('MMMM Do YYYY, h:mm:ss a')  
     });
     return true;
   }
