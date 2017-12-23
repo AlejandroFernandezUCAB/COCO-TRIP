@@ -22,7 +22,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     public DAOGrupo()
     {
-      parametro = new NpgsqlParameter();
       lista = new List<Entidad>();
     }
 
@@ -41,14 +40,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "AgregarGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
       parametro.Value = grupo.Nombre;
       base.Comando.Parameters.Add(parametro);
 
-      /*parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
+      /*parametro = new NpgsqlParameter();
+      parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
       parametro.Value = grupo.RutaFoto;
       base.Comando.Parameters.Add(parametro);*/
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Lider;
       base.Comando.Parameters.Add(parametro);
@@ -78,10 +80,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "AgregarIntegrante";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -101,6 +105,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ConsultarPerfilGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
@@ -131,6 +136,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ConsultarListaGrupos";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -166,6 +172,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ConsultarUltimo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -196,6 +203,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "VisualizarMiembroGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
@@ -232,6 +240,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "VisualizarMiembroSinLider";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
@@ -269,10 +278,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ListaAmigosSinGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -310,6 +321,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ObtenerLider";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
@@ -342,6 +354,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "EliminarGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
@@ -362,10 +375,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "EliminarIntegrante";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -386,10 +401,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "SalirDeGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -409,10 +426,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ModificarNombreGrupo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = grupo.Id;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
       parametro.Value = grupo.Nombre;
       base.Comando.Parameters.Add(parametro);

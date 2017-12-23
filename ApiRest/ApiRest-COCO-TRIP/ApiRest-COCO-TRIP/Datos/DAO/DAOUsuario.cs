@@ -31,6 +31,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ConsultarUsuarioSoloId";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -65,6 +66,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ConsultarUsuarioSoloNombre";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
       parametro.Value = usuario.NombreUsuario;
       base.Comando.Parameters.Add(parametro);

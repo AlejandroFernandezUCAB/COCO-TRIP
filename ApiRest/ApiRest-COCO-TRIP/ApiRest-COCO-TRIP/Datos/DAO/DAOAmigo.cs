@@ -36,17 +36,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "AgregarAmigo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Activo;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Pasivo;
       base.Comando.Parameters.Add(parametro);
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
-
-      leerDatos.Close(); //Cierra el Data Reader
 
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
@@ -61,10 +61,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "BuscarAmigos";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
       parametro.Value = usuario.Nombre;
       base.Comando.Parameters.Add(parametro);
@@ -99,10 +101,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ExisteSolicitud";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Activo;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Pasivo;
       base.Comando.Parameters.Add(parametro);
@@ -131,6 +135,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ObtenerListaDeAmigos";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -166,6 +171,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "ObtenerListaDeNotificaciones";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = usuario.Id;
       base.Comando.Parameters.Add(parametro);
@@ -201,17 +207,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "RechazarNotificacion";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Pasivo;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Activo;
       base.Comando.Parameters.Add(parametro);
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
-
-      leerDatos.Close(); //Cierra el Data Reader
 
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
@@ -226,17 +232,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "AceptarNotificacion";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Pasivo;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Activo;
       base.Comando.Parameters.Add(parametro);
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
-
-      leerDatos.Close(); //Cierra el Data Reader
 
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
@@ -251,17 +257,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.CommandText = "EliminarAmigo";
       base.Comando.CommandType = CommandType.StoredProcedure;
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Activo;
       base.Comando.Parameters.Add(parametro);
 
+      parametro = new NpgsqlParameter();
       parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
       parametro.Value = amigo.Pasivo;
       base.Comando.Parameters.Add(parametro);
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
-
-      leerDatos.Close(); //Cierra el Data Reader
 
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
