@@ -1,3 +1,4 @@
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Comando;
 
 namespace ApiRest_COCO_TRIP.Negocio.Fabrica
@@ -82,6 +83,172 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoAceptarNotificacion(id, nombreAceptado);
     }
-  }
 
+    /// <summary>
+    /// Retorna la instancia de ComandoBuscarAmigos
+    /// </summary>
+    /// <param name="id">Identificador del usuario que esta buscando</param>
+    /// <param name="nombre">Nombre del amigo a buscar</param>
+    /// <returns></returns>
+    public static ComandoBuscarAmigos CrearComandoBuscarAmigos(int id, string nombre)
+    {
+      return new ComandoBuscarAmigos(id, nombre);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarGrupo
+    /// </summary>
+    /// <param name="grupo">Datos del grupo a agregar</param>
+    /// <returns></returns>
+    public static ComandoAgregarGrupo CrearComandoAgregarGrupo(Entidad grupo)
+    {
+      return new ComandoAgregarGrupo(grupo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoVisualizarListaAmigos
+    /// </summary>
+    /// <param name="id">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoVisualizarListaAmigos CrearComandoVisualizarListaAmigos(int id)
+    {
+      return new ComandoVisualizarListaAmigos(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarAmigo
+    /// </summary>
+    /// <param name="id">Identificador del usuario que quiere eliminar</param>
+    /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
+    /// <returns></returns>
+    public static ComandoEliminarAmigo CrearComandoEliminarAmigo(int id, string nombreAmigo)
+    {
+      return new ComandoEliminarAmigo(id, nombreAmigo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarGrupo
+    /// </summary>
+    /// <param name="idUsuario"></param>
+    /// <param name="idGrupo"></param>
+    /// <returns></returns>
+    public static ComandoEliminarGrupo CrearComandoEliminarGrupo(int idUsuario, int idGrupo)
+    {
+      return new ComandoEliminarGrupo(idUsuario, idGrupo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarGrupo
+    /// </summary>
+    /// <param name="grupo">Datos del grupo</param>
+    /// <returns></returns>
+    public static ComandoModificarGrupo CrearComandoModificarGrupo(Entidad grupo)
+    {
+      return new ComandoModificarGrupo(grupo);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarListaGrupos
+    /// </summary>
+    /// <param name="id">ID del usuario logeado en la aplicacion</param>
+    /// <returns></returns>
+    public static ComandoConsultarListaGrupos CrearComandoConsultarListaGrupos(int id)
+    {
+      return new ComandoConsultarListaGrupos(id);
+    }
+
+    /// <summary>
+    /// Retornar la instancia de ComandoConsultarMiembroGrupo
+    /// </summary>
+    /// <param name="id">ID del grupo por el cual se devuelven sus integrantes</param>
+    /// <returns></returns>
+    public static ComandoConsultarMiembroGrupo CrearComandoConsultarMiembroGrupo(int id)
+    {
+      return new ComandoConsultarMiembroGrupo(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarPerfilGrupo
+    /// </summary>
+    /// <param name="id">ID del grupo a buscar</param>
+    /// <returns></returns>
+    public static ComandoConsultarPerfilGrupo CrearComandoConsultarPerfilGrupo(int id)
+    {
+      return new ComandoConsultarPerfilGrupo(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarIntegrante
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
+    /// <returns></returns>
+    public static ComandoAgregarIntegrante CrearComandoAgregarIntegrante(int idGrupo, string nombreUsuario)
+    {
+      return new ComandoAgregarIntegrante(idGrupo, nombreUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarIntegrante
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
+    /// <returns></returns>
+    public static ComandoEliminarIntegrante CrearComandoEliminarIntegrante(int idGrupo, string nombreUsuario)
+    {
+      return new ComandoEliminarIntegrante(idGrupo, nombreUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoVerificarLider
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoVerificarLider CrearComandoVerificarLider(int idGrupo, int idUsuario)
+    {
+      return new ComandoVerificarLider(idGrupo, idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLider
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <returns></returns>
+    public static ComandoConsultarLider CrearComandoConsultarLider(int idGrupo)
+    {
+      return new ComandoConsultarLider(idGrupo);
+    }
+
+    /// <summary>
+    /// Retornar la instancia de ComandoConsultarMiembroSinLider
+    /// </summary>
+    /// <param name="id">ID del grupo por el cual se devuelven sus integrantes</param>
+    /// <returns></returns>
+    public static ComandoConsultarMiembroSinLider CrearComandoConsultarMiembroSinLider(int id)
+    {
+      return new ComandoConsultarMiembroSinLider(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarMiembroSinGrupo
+    /// </summary>
+    /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario lider</param>
+    /// <returns></returns>
+    public static ComandoConsultarMiembroSinGrupo CrearComandoConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
+    {
+      return new ComandoConsultarMiembroSinGrupo(idGrupo, idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarUltimoGrupo
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoConsultarUltimoGrupo CrearComandoConsultarUltimoGrupo(int idUsuario)
+    {
+      return new ComandoConsultarUltimoGrupo(idUsuario);
+    }
+  }
 }

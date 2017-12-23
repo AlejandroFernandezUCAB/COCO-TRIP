@@ -1,38 +1,37 @@
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Rechaza la solicitud de amistad
+  /// Procedimiento para agregar un integrante al modificar el grupo
   /// </summary>
-  public class ComandoRechazarNotificacion : Comando
+  public class ComandoAgregarIntegrante : Comando
   {
-    private Amigo amigo;
     private Usuario usuario;
+    private Grupo grupo;
 
     private DAOUsuario baseUsuario;
-    private DAOAmigo baseAmigo;
+    private DAOGrupo baseGrupo;
 
-    public ComandoRechazarNotificacion (int id, string nombreRechazado)
+    public ComandoAgregarIntegrante(int idGrupo, string nombreUsuario)
     {
-      amigo = FabricaEntidad.CrearEntidadAmigo();
       usuario = FabricaEntidad.CrearEntidadUsuario();
+      grupo = FabricaEntidad.CrearEntidadGrupo();
 
-      amigo.Pasivo = id;
-      usuario.NombreUsuario = nombreRechazado;
+      usuario.NombreUsuario = nombreUsuario;
+      grupo.Id = idGrupo;
     }
 
     public override void Ejecutar()
     {
       baseUsuario = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
+      baseGrupo = FabricaDAO.CrearDAOGrupo();
 
-      baseAmigo = FabricaDAO.CrearDAOAmigo();
-      amigo.Activo = usuario.Id;
-      baseAmigo.RechazarNotificacion(amigo);
+      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
+      baseGrupo.AgregarIntegrante(grupo, usuario);
     }
 
     public override Entidad Retornar()

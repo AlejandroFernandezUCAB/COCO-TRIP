@@ -19,10 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -114,12 +112,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
@@ -152,11 +150,16 @@
     <Compile Include="Datos\DAO\DAO.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
+    <Compile Include="Datos\DAO\DAOItinerario.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\DAO\IDAOItinerario.cs" />
+    <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
+    <Compile Include="Datos\Entity\Itinerario.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
+    <Compile Include="Datos\Singleton\Archivo.cs" />
     <Compile Include="Datos\Singleton\Correo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -198,10 +201,26 @@
     <Compile Include="Negocio\Comando\Comando.cs" />
     <Compile Include="Negocio\Comando\ComandoAceptarNotificacion.cs" />
     <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Comando\ComandoAgregarGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoAgregarIntegrante.cs" />
+    <Compile Include="Negocio\Comando\ComandoBuscarAmigos.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarLider.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarListaGrupos.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarMiembroGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarMiembroSinGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarMiembroSinLider.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarPerfilGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoConsultarUltimoGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEliminarAmigo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEliminarGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEliminarIntegrante.cs" />
     <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoVerificarLider.cs" />
+    <Compile Include="Negocio\Comando\ComandoVisualizarListaAmigos.cs" />
     <Compile Include="Negocio\Comando\ComandoVisualizarPerfilAmigo.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Events } from 'ionic-angular';
+import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
 /*
   Generated class for the ChatProvider provider.
 
@@ -28,6 +29,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
   var newData={
     key:key,
     enviadorPor: idEmisor,
+    receptor: idReceptor,
     mensaje: mensaje,
     eliminado: false,
     modificado: false,
@@ -37,6 +39,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
    this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(key).set({
     key:key,
     enviadorPor: idEmisor,
+    receptor: idReceptor,
     mensaje: mensaje,
     eliminado: false,
     modificado: false,
@@ -84,10 +87,48 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     this.mensajesConversacion = [];
     temp = snapshot.val();
     for (var tempkey in temp) {
+      console.log("temp[tempkey]: "+temp[tempkey].key);
       this.mensajesConversacion.push(temp[tempkey]);
     }
-    this.events.publish('nuevoMensaje');
+    this.events.publish('nuevoMensajeAmigo',this.mensajesConversacion);
   })
+}
+
+/*obtenerInfoMensajeAmigo(idEmisor,idReceptor,idMensaje) {
+  let temp;
+  let entidad: Mensaje;
+  let otro:Mensaje;
+  
+  return this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).once('value').then( function(snapshot) {
+    this.mensajesConversacion = [];
+    temp = snapshot.val(); 
+    entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",
+    0,temp.tiempoDeEnvio,0,temp.modificado);
+    entidad.setId=temp.key;
+    alert("dentro"+entidad.getMensaje);
+    return entidad;
+  });
+  /*alert("fuera"+entidad.getMensaje);
+  return entidad;
+
+}*/
+obtenerInfoMensajeAmigo(idEmisor,idReceptor,idMensaje) {
+  alert("entro en el info");
+  let temp;
+  let entidad: Mensaje;
+  let otro: Mensaje;
+  this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).on('value', (snapshot) =>{
+    var temp = snapshot.val(); 
+    entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
+    entidad.setId=temp.key;
+    this.events.publish('infoMensaje',entidad);
+    alert("dentro del on");
+    
+    //alert("dentro"+entidad.getMensaje);
+    //return entidad;
+    //alert("dentro"+temp.mensaje);
+  });
+
 }
   obtenerMensajesConversacionGrupo(idGrupo) {
     let temp;
@@ -97,7 +138,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       for (var tempkey in temp) {
         this.mensajesConversacion.push(temp[tempkey]);
       }
-      this.events.publish('nuevoMensaje');
+      this.events.publish('nuevoMensajeGrupo', this.mensajesConversacion);
     })
   }
 

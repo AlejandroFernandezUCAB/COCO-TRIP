@@ -1,16 +1,17 @@
 import { FabricaDAO } from '../factory/fabricaDao';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import  { Comando } from './comando';
-import { DAOChatGrupo } from '../../dataAccessLayer/dao/daoChatGrupo';
+import { DAOChat } from '../../dataAccessLayer/dao/daoChat';
+import { Events } from 'ionic-angular';
 
 export class ComandoVisualizarConversacionGrupo extends Comando {
-
+    public _events : Events;
     
 
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO VISUALIZAR MENSAJE GRUPO");
-        let DAO = FabricaDAO.crearFabricaDAOChatGrupo();
-        DAO.visualizar();
+        let DAO = FabricaDAO.crearFabricaDAOChat();
+        DAO.visualizarListaGrupo(this._entidad, this._events);
         
     }
 
@@ -23,4 +24,7 @@ export class ComandoVisualizarConversacionGrupo extends Comando {
         this._entidad = entidad;
     }
     
+    set setEvents(events:Events) {
+        this._events = events;
+    }
 }

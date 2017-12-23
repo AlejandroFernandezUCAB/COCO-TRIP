@@ -45,7 +45,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         usuario.Apellido = leerDatos.GetString(3);
         usuario.FechaNacimiento = leerDatos.GetDateTime(4);
         usuario.Genero = leerDatos.GetString(5);
-        usuario.Foto = leerDatos.GetString(6);
+        //usuario.Foto = leerDatos.GetString(6);
       }
 
       leerDatos.Close(); //Cierra el Data Reader
@@ -81,35 +81,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         usuario.FechaNacimiento = leerDatos.GetDateTime(5);
         usuario.Genero = leerDatos.GetString(6);
         usuario.Valido = leerDatos.GetBoolean(7);
-        usuario.Foto = leerDatos.GetString(8);
-      }
-
-      leerDatos.Close(); //Cierra el Data Reader
-
-      base.Desconectar(); //Culmina la sesion con la base de datos
-
-      return usuario;
-    }
-
-    public Entidad ConsultarId(Entidad objeto)
-    {
-      usuario = (Usuario) objeto;
-
-      base.Conectar(); //Inicia una sesion con la base de datos
-
-      base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-      base.Comando.CommandText = "ConsultarUsuarioSoloNombre";
-      base.Comando.CommandType = CommandType.StoredProcedure;
-
-      parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
-      parametro.Value = usuario.NombreUsuario;
-      base.Comando.Parameters.Add(parametro);
-
-      leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
-
-      if(leerDatos.Read()) //Lee los resultados
-      {
-        usuario.Id = leerDatos.GetInt32(0);
+        //usuario.Foto = leerDatos.GetString(8);
       }
 
       leerDatos.Close(); //Cierra el Data Reader
