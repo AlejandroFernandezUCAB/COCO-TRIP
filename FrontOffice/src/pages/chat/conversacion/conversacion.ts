@@ -13,6 +13,23 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { ToastController } from 'ionic-angular';
 
+//****************************************************************************************************//
+//**********************************PAGE DE CONVERSACION MODULO 6*************************************//
+//****************************************************************************************************//
+
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * 
+ * 
+ */
+
 @IonicPage()
 @Component({
     selector: 'page-conversacion',
@@ -60,6 +77,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 
 }
 
+
 ionViewWillEnter() {
   this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
@@ -79,11 +97,12 @@ ionViewWillEnter() {
   
     this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
     this.scrollto();
+  
     this.idUsuario =
     this.events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
       this.todosLosMensajes = [];
       this.zone.run(() => {
-        this.todosLosMensajes = Mensajes;//this.chatService.mensajesConversacion;
+        this.todosLosMensajes = Mensajes;
       })
     })
 
@@ -134,6 +153,7 @@ ionViewWillEnter() {
           role: 'Modificar', //coloca el botón siempre en el último lugar.
           icon: !this.platform.is('ios') ? 'create' : null,
           handler: () => {
+            
             this.crearalert(idMensaje);
           }
 
