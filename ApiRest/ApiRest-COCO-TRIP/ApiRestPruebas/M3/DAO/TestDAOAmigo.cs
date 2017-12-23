@@ -18,7 +18,7 @@ namespace ApiRestPruebas.M3.DAO
   {
     private string RutaArchivo = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + "\\PU\\";
     private const string ScriptsSetUp = "ScriptsSetUpTestDAOAmigo.txt";
-    private const string DatoGrupo = "DatoAmigo.txt";
+    private const string DatoAmigo = "DatoAmigo.txt";
     private const string DatoUsuario = "DatoUsuario.txt";
 
     private DAOAmigo dao;
@@ -33,7 +33,7 @@ namespace ApiRestPruebas.M3.DAO
       listaAmigo = new List<Amigo>();
       listaUsuario = new List<Usuario>();
 
-      string[] datosAmigo = File.ReadAllLines(RutaArchivo + DatoGrupo);
+      string[] datosAmigo = File.ReadAllLines(RutaArchivo + DatoAmigo);
       string[] datosUsuario = File.ReadAllLines(RutaArchivo + DatoUsuario);
 
       foreach (string linea in datosAmigo)
