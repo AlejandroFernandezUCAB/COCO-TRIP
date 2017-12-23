@@ -100,7 +100,7 @@
     <Compile Include="M7\Dato\PruebaLugarTuristico.cs" />
     <Compile Include="M7\PruebaController.cs" />
     <Compile Include="M8\LocalidadUnitTest.cs" />
-    <Compile Include="M9\PruebaPeticionCategoria.cs" />
+    <Compile Include="M9\PruebaCategoria.cs" />
     <Compile Include="M9\PruebaValidacionWS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

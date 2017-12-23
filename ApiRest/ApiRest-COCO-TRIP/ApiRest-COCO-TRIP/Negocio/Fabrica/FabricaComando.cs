@@ -20,6 +20,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoAgregarAmigo(id, nombre);
     }
 
+    internal static Entidad CrearComandoAgregarItinerario()
+    {
+      throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Retorna la instancia de ComandoVisualizarPerfilAmigo
     /// </summary>
@@ -254,6 +259,46 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     }
 
     /// <summary>
+    /// Retorna la instancia de ComandoAgregarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <param name ="nombreItinerario">Nombre del itinerario</param> 
+    /// <returns></returns>
+    public static ComandoAgregarItinerario CrearComandoAgregarItinerario(int idUsuario,string nombreItinerario)
+    {
+      return new ComandoAgregarItinerario(idUsuario,nombreItinerario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoConsultarItinerarios CrearComandoConsultarItinerarios(int idUsuario)
+    {
+      return new ComandoConsultarItinerarios(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoModificarItinerario CrearComandoModificarItinerario(int idItinerario,string nombre,
+      DateTime fechaInicio, DateTime fechaFin,  int idUsuario)
+    {
+      return new ComandoModificarItinerario(idItinerario,nombre,fechaInicio,fechaFin,idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoEliminarItinerario CrearComandoEliminarItinerario(int id)
+    {
+      return new ComandoEliminarItinerario(id);
+    }
     /// Retorna la instancia de ComandoModificarCategoria
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
