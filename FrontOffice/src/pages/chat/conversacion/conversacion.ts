@@ -93,6 +93,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 
 
 ionViewWillEnter() {
+  catProd.info("Entrando en el metodo IonViewWillEnter");
   this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
   this.storage.get('id').then((val) => {
