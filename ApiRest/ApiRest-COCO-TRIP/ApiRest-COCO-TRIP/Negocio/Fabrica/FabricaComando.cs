@@ -1,3 +1,4 @@
+using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Command;
 
@@ -94,6 +95,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoBuscarAmigos(id, nombre);
     }
+
 
     /// <summary>
     /// Retorna la instancia de ComandoAgregarGrupo
@@ -285,18 +287,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de ComandoAgregarLocalidad
     /// </summary>
     /// <returns>ComandoAgregarLocalidad</returns>
-    public static ComandoAgregarLocalidad CrearComandoAgregarLocalidad()
+    public static ComandoAgregarLocalidad CrearComandoAgregarLocalidad(Entidad localidad)
     {
-      return new ComandoAgregarLocalidad();
+      return new ComandoAgregarLocalidad(localidad);
     }
 
     /// <summary>
     /// Retorna la instancia de ComandoConsultarLocalidad
     /// </summary>
     /// <returns>ComandoConsultarLocalidad</returns>
-    public static ComandoConsultarLocalidad CrearComandoConsultarLocalidad()
+    public static ComandoConsultarLocalidad CrearComandoConsultarLocalidad(int id)
     {
-      return new ComandoConsultarLocalidad();
+      return new ComandoConsultarLocalidad(id);
     }
 
     /// <summary>
@@ -312,18 +314,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de ComandoModificarLocalidad
     /// </summary>
     /// <returns>ComandoModificarLocalidad</returns>
-    public static ComandoModificarLocalidad CrearComandoModificarLocalidad()
+    public static ComandoModificarLocalidad CrearComandoModificarLocalidad(Entidad localidad)
     {
-      return new ComandoModificarLocalidad();
+      return new ComandoModificarLocalidad(localidad);
     }
 
     /// <summary>
     /// Retorna la instancia de ComandoEliminarLocalidad
     /// </summary>
     /// <returns>ComandoEliminarLocalidad</returns>
-    public static ComandoEliminarLocalidad CrearComandoEliminarLocalidad()
+    public static ComandoEliminarLocalidad CrearComandoEliminarLocalidad(int id)
     {
-      return new ComandoEliminarLocalidad();
+      return new ComandoEliminarLocalidad(id);
     }
   }
 }
