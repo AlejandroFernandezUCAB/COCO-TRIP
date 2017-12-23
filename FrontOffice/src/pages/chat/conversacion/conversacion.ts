@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { ToastController } from 'ionic-angular';
 import { InformacionMensajePage } from '../../chat/informacion-mensaje/informacion-mensaje';
-import {catService,catProd} from "../../../log/config"
+import {catService,catProd} from "../../../logs/config"
 
 //****************************************************************************************************//
 //**********************************PAGE DE CONVERSACION MODULO 6*************************************//
