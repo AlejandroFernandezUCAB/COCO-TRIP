@@ -156,16 +156,19 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).set({
       key:idMensaje,
       modificado: true,
+      eliminado: false,
       enviadorPor: idEmisor,
+      receptor: idReceptor,
       mensaje: "(modificado): "+mensajeModificado,
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
     });
     this.fireConversacionChatsAmigo.child(idReceptor).child(idEmisor).child(idMensaje).set({
       key:idMensaje,
       modificado: true,
+      eliminado: false,
       enviadorPor: idEmisor,
       mensaje: "(modificado): "+mensajeModificado,
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
     }); 
     return true;
   }
@@ -174,9 +177,10 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     this.fireConversacionChatsGrupo.child(idGrupo).child(idMensaje).set({
       key:idMensaje,
       modificado: true,
+      eliminado: false,
       enviadorPor: emisor,
       mensaje: "(modificado): "+mensajeModificado,
-      fechaDeEliminacion: firebase.database.ServerValue.TIMESTAMP 
+      tiempoDeEnvio: firebase.database.ServerValue.TIMESTAMP 
     });
     return true;
   }
