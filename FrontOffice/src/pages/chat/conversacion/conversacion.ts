@@ -12,6 +12,7 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { ToastController } from 'ionic-angular';
+import { InformacionMensajePage } from '../../chat/informacion-mensaje/informacion-mensaje';
 
 @IonicPage()
 @Component({
@@ -21,6 +22,7 @@ import { ToastController } from 'ionic-angular';
 
 export class ConversacionPage {
   @ViewChild('content') content: Content;
+  
   conversacion: any;
   nuevoMensaje = "";
   nombreUsuario:any={
@@ -89,7 +91,7 @@ ionViewWillEnter() {
 
  }
 
- pressEvent(idMensaje){
+ pressEvent(idMensaje,emisor,receptor){
   if(idMensaje!=-1){
     let actionSheet = this.actionsheetCtrl.create({
       title: 'Opciones',
@@ -137,6 +139,20 @@ ionViewWillEnter() {
             this.crearalert(idMensaje);
           }
 
+          },
+          {
+            text: 'Informacion',
+            role: 'Informacion', //coloca el botón siempre en el último lugar.
+            icon: !this.platform.is('ios') ? 'create' : null,
+            handler: () => {
+              this.navCtrl.push(InformacionMensajePage,{
+                idmensaje:idMensaje,
+                emisor:emisor,
+                receptor:receptor
+            });
+
+              //this.navCtrl.push(InformacionMensajePage)
+            }
           }
       ]
     });
@@ -183,7 +199,7 @@ crearalert(idMensaje){
 
   ModificarMensajeAmigo(idMensaje,nuevoMensaje){
     let entidad: Mensaje;
-    entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",true);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoModificarMensaje();
     comando.setEntidad = entidad;
@@ -192,7 +208,7 @@ crearalert(idMensaje){
 
   eliminarMensajeAmigo(idMensaje){
     let entidad: Mensaje;
-    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensaje();
     comando.setEntidad = entidad;
@@ -208,7 +224,7 @@ crearalert(idMensaje){
   agregarMensajeAmigo() {
     if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
-      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
       let comando = FabricaComando.crearComandoCrearMensaje();
       comando._entidad = entidad;
       comando.execute();

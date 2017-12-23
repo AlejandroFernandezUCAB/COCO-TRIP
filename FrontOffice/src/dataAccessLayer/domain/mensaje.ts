@@ -5,13 +5,20 @@ export class Mensaje extends Entidad {
     private _usuario: string;
     private _amigo:string;
     private _idGrupo:number;
+    private _fecha:any;
+    private _hora:any;
+    private _modificado:boolean;
+
     
-    constructor(mensaje : string , usuario : string , amigo : string, idGrupo:number ) {
+    constructor(mensaje : string , usuario : string , amigo : string, idGrupo:number, fecha:any, hora:any,modificado:boolean ) {
         super();
         this._mensaje = mensaje;
         this._usuario = usuario;
         this._amigo = amigo;
         this._idGrupo=idGrupo;
+        this._fecha=fecha;
+        this._hora=hora;
+        this._modificado=modificado;
 
         
     }
@@ -46,5 +53,27 @@ export class Mensaje extends Entidad {
         this._idGrupo = id;
     }
     
+    get getFecha():any {
+        return this._fecha;
+    }
+    set setFecha(fecha:any) {
+        this._fecha = fecha;
+    }
+
+    get getHora():any {
+        return this._hora;
+    }
+    set setHora(hora:any) {
+        this._hora = hora;
+        
+    }
+
+    get getModificado():boolean {
+        return this._modificado;
+    }
+    set setModificado(modificado:boolean) {
+        this._modificado = modificado;
+        
+    }
     
 }

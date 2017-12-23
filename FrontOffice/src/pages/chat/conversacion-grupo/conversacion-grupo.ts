@@ -182,7 +182,7 @@ export class ConversacionGrupoPage {
   
   eliminarMensajeGrupo(idMensaje){
     let entidad: Mensaje;
-    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
     comando.setEntidad = entidad;
@@ -198,7 +198,7 @@ export class ConversacionGrupoPage {
    agregarMensajeGrupo() {
      if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
-      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
       let comando = FabricaComando.crearComandoCrearMensajeGrupo();
       comando._entidad = entidad;
       comando.execute();
@@ -214,7 +214,7 @@ export class ConversacionGrupoPage {
 
 modificarMensajeGrupo(idMensaje,nuevoMensaje){
   let entidad: Mensaje;
-  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",true);
   entidad.setId = idMensaje;
   let comando = FabricaComando.crearComandoModificarMensajeGrupo();
   comando.setEntidad = entidad;
