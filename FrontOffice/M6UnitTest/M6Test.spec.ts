@@ -1,5 +1,9 @@
 import { ComandoEliminarMensaje } from './../src/businessLayer/commands/comandoEliminarMensaje';
+import { ComandoModificarMensaje } from './../src/businessLayer/commands/comandoModificarMensaje';
+import { ComandoModificarMensajeGrupo } from './../src/businessLayer/commands/comandoModificarMensajeGrupo';
 import { ComandoCrearMensaje } from './../src/businessLayer/commands/comandoCrearMensaje';
+import { ComandoInformacionMensajeAmigo } from './../src/businessLayer/commands/comandoInformacionMensajeAmigo';
+import { ComandoInformacionMensajeGrupo } from './../src/businessLayer/commands/comandoInformacionMensajeGrupo';
 import { Entidad } from './../src/dataAccessLayer/domain/entidad';
 import { ConversacionGrupoPage } from '../src/pages/chat/conversacion-grupo/conversacion-grupo'
 import { ConversacionPage } from '../src/pages/chat/conversacion/conversacion'
@@ -208,33 +212,11 @@ describe("Test for ChatProvider.eliminarMensajeAmigo", ()=>{
     });
 });
 
-
-/**
- * Prueba unitaria del metodo agregar de DAOChat
- */
-describe("Test for DAO.eliminar", ()=>{
-    it("should return a entity instead of null", ()=>{
-
-        var key : String;
-        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
-        let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
-        let DAO : DAO = new DAOChat;
-        let respuesta : Boolean = false;
-        //let entidad : Entidad;
-        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId = key;
-        respuesta = DAO.eliminar(mensaje);
-        expect(true).toEqual(respuesta);
-    });
-});
-
-
 /**
  * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
  */
-describe("Test for obtenerMensajesConversacionAmigo", ()=>{
-    it("should return a hola", ()=>{
+describe("Test for ChatProvider.obtenerMensajesConversacionAmigo", ()=>{
+    it("should return a message with hola", ()=>{
         var LosMensajes = [];
         var str : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
@@ -257,8 +239,8 @@ describe("Test for obtenerMensajesConversacionAmigo", ()=>{
 /**
  * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
  */
-describe("Test for obtenerMensajesConversacionGrupo", ()=>{
-    it("should return a hola", ()=>{
+describe("Test for ChatProvider.obtenerMensajesConversacionGrupo", ()=>{
+    it("should return a message with hola", ()=>{
         var LosMensajes = [];
         var str : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", -1,"","",false);
@@ -279,10 +261,54 @@ describe("Test for obtenerMensajesConversacionGrupo", ()=>{
 });
 
 /**
+ * Prueba Unitaria del metodo obtenerInfoMensajeAmigo
+ */
+describe("Test for ChatProvider.obtenerInfoMensajeAmigo", ()=>{
+    it("should return a message with hola", ()=>{
+        var str : String;
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
+        mensaje.setId="-1";
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario, mensaje.getAmigo,mensaje.getId);
+        
+        evento.subscribe('infoMensaje', (Mensajes) => {
+        expect("hola").toEqual(Mensajes.getMensaje);
+        })
+        
+    });
+});
+
+/**
+ * Prueba Unitaria del metodo obtenerInfoMensajeGrupo
+ */
+describe("Test for ChatProvider.obtenerInfoMensajeGrupo", ()=>{
+    it("should return a message with hola", ()=>{
+        var str : String;
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", -1,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,mensaje.getMensaje);
+        
+        evento.subscribe('infoMensajeGrupo', (Mensajes) => {
+        expect("hola").toEqual(Mensajes.getMensaje);
+        })
+        
+    });
+});
+
+
+/**
  * Prueba Unitaria del metodo modificarMensajeAmigo
  */
-describe("Test for modificarMensajeAmigo", ()=>{
-    it("should return an Adios", ()=>{
+describe("Test for ChatProvider.modificarMensajeAmigo", ()=>{
+    it("should return an key", ()=>{
         var str : String = "falso";
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
         let chat : ChatProvider;
@@ -294,6 +320,28 @@ describe("Test for modificarMensajeAmigo", ()=>{
         chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str);
         
         evento.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
+        expect("adios").toEqual(infoMensaje.getMensaje);
+        })
+        
+    });
+});
+
+/**
+ * Prueba Unitaria del metodo modificarMensajeGrupo
+ */
+describe("Test for ChatProvider.modificarMensajeGrupo", ()=>{
+    it("should return a key", ()=>{
+        var str : String = "falso";
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        str = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.modificarMensajeGrupo(mensaje.getidGrupo,str,"adios",mensaje.getUsuario);
+        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,str);
+        
+        evento.subscribe('infoMensajeGrupo', (infoMensaje) => {
         expect("adios").toEqual(infoMensaje.getMensaje);
         })
         
@@ -346,6 +394,93 @@ describe("Test for ComandoEliminarMensaje.execute", ()=>{
     });
 });
 
+/**
+ * Prueba unitaria del metodo execute de ComandoModificarMensaje
+ */
+describe("Test for ComandoModificarMensaje.execute", ()=>{
+    it("should return a entity instead of null", ()=>{
+        var key : String;
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoModificarMensaje = new ComandoModificarMensaje;
+        let entidad : Entidad;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        mensaje.setId = key;
+        comando.setEntidad = mensaje;
+        comando.execute();
+        respuesta = comando.getRespuesta;
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo execute de ComandoModificarMensajeGrupo
+ */
+describe("Test for ComandoModificarMensajeGrupo.execute", ()=>{
+    it("should return a entity instead of null", ()=>{
+        var key : String;
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoModificarMensajeGrupo = new ComandoModificarMensajeGrupo;
+        let entidad : Entidad;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        mensaje.setId = key;
+        comando.setEntidad = mensaje;
+        comando.execute();
+        respuesta = comando.getRespuesta;
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo execute de ComandoInformacionMensajeAmigo
+ */
+describe("Test for ComandoInformacionMensajeAmigo.execute", ()=>{
+    it("should return a message", ()=>{
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoInformacionMensajeAmigo = new ComandoInformacionMensajeAmigo;
+        let entidad : Entidad;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        comando.setEntidad = mensaje;
+        comando.setEvents = events;
+        comando.execute();
+        events.subscribe('infoMensaje', (infoMensaje) => {
+            expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
+            })
+      });
+    });
+
+    /**
+ * Prueba unitaria del metodo execute de ComandoInformacionMensajeGrupo
+ */
+describe("Test for ComandoInformacionMensajeGrupo.execute", ()=>{
+    it("should return a message", ()=>{
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2",-1,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoInformacionMensajeGrupo = new ComandoInformacionMensajeGrupo;
+        let entidad : Entidad;
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        comando.setEntidad = mensaje;
+        comando.setEvents = events;
+        comando.execute();
+        events.subscribe('infoMensajeGrupo', (infoMensaje) => {
+            expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
+            })
+      });
+    });
+
+
+
+
 //****************************************************************************************************//
 //**************************************PRUEBAS UNITARIAS DE DAO**************************************//
 //****************************************************************************************************//
@@ -366,6 +501,96 @@ describe("Test for DAO.agregar", ()=>{
         chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",respuesta.getId);
         events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
           expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
+
+/**
+ * Prueba unitaria del metodo eliminar de DAOChat
+ */
+describe("Test for DAO.eliminar", ()=>{
+    it("should return a entity instead of null", ()=>{
+
+        var key : String;
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAO = new DAOChat;
+        let respuesta : Boolean = false;
+        //let entidad : Entidad;
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        mensaje.setId = key;
+        respuesta = DAO.eliminar(mensaje);
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo agregar de DAOChat
+ */
+describe("Test for DAO.modificar", ()=>{
+    it("should return a entity instead of null", ()=>{
+
+        var key : String;
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAO = new DAOChat;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        mensaje.setId = key;
+        respuesta = DAO.modificar(mensaje);
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo agregar de DAOChat
+ */
+describe("Test for DAO.modificarMensajeGrupo", ()=>{
+    it("should return a entity instead of null", ()=>{
+
+        var key : String;
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        mensaje.setId = key;
+        respuesta = DAO.modificarMensajeGrupo(mensaje);
+        expect(true).toEqual(respuesta);
+    });
+});
+
+describe("Test for DAO.informacionMensajeAmigo", ()=>{
+    it("should return an X", ()=>{
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        DAO.informacionMensajeAmigo(mensaje, events);
+
+        events.subscribe('infoMensaje', (infoMensaje) => {
+          expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
+
+describe("Test for DAO.informacionMensajeGrupo", ()=>{
+    it("should return an X", ()=>{
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        DAO.informacionMensajeGrupo(mensaje, events);
+
+        events.subscribe('infoMensajeGrupo', (infoMensajeGrupo) => {
+          expect("MensajePruebaDAO").toEqual(infoMensajeGrupo.getMensaje);
           })
     });
 });
