@@ -4,7 +4,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using System;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   public class ComandoEstadoCategoria:Comando
   {

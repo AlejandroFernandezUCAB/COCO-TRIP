@@ -33,7 +33,7 @@ namespace ApiRestPruebas.M1
     private LugarTuristico lt = new LugarTuristico();
     private LugarTuristicoPreferencia lugarTuristico1;
     private Evento eve = new Evento();
-    private LocalidadEvento localidad = new LocalidadEvento();
+    //private LocalidadEvento localidad = new LocalidadEvento();
     private Categoria categoria = new Categoria();
     private PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
 
@@ -106,11 +106,11 @@ namespace ApiRestPruebas.M1
         Nivel =0,
 
       };
-      localidad = new LocalidadEvento {
+      /*localidad = new LocalidadEvento {
         Nombre="Holic",
         Descripcion="Bar y discoteca",
         Coordenadas = "5.5"
-      };
+      };*/
       lt = new LugarTuristico
       {
         Nombre = "Plata Pelua",

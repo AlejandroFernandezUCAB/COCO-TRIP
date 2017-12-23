@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
 
-namespace ApiRest_COCO_TRIP.Negocio.Comando
+namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoAgregarLocalidad : Comando
+  public class ComandoEliminarLocalidad : Comando
   {
     public override void Ejecutar()
     {

@@ -198,44 +198,18 @@
     <Compile Include="Datos\Entity\Usuario.cs" />
     <Compile Include="Models\PeticionCategoria.cs" />
     <Compile Include="Models\Usuario.cs" />
-<<<<<<< HEAD
-    <Compile Include="Negocio\Comando\Comando.cs" />
-    <Compile Include="Negocio\Comando\ComandoAceptarNotificacion.cs" />
-    <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
-    <Compile Include="Negocio\Comando\ComandoAgregarGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoAgregarIntegrante.cs" />
-    <Compile Include="Negocio\Comando\ComandoAgregarLocalidad.cs" />
-    <Compile Include="Negocio\Comando\ComandoBuscarAmigos.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarLider.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarListaGrupos.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarLocalidad.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarLocalidades.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarMiembroGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarMiembroSinGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarMiembroSinLider.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarPerfilGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoConsultarUltimoGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoModificarLocalidad.cs" />
-    <Compile Include="Negocio\Comando\ComandoEliminarAmigo.cs" />
-    <Compile Include="Negocio\Comando\ComandoEliminarGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoEliminarIntegrante.cs" />
-    <Compile Include="Negocio\Comando\ComandoEliminarLocalidad.cs" />
-    <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
-    <Compile Include="Negocio\Comando\ComandoEstadoCategoria.cs" />
-    <Compile Include="Negocio\Comando\ComandoModificarCategoria.cs" />
-    <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoObtenerCategorias.cs" />
-    <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
-    <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
-    <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoVerificarLider.cs" />
-    <Compile Include="Negocio\Comando\ComandoVisualizarListaAmigos.cs" />
-    <Compile Include="Negocio\Comando\ComandoVisualizarPerfilAmigo.cs" />
-=======
-    <Compile Include="Negocio\Command\Comando.cs" />
-    <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoEstadoCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategorias.cs" />
+    <Compile Include="Negocio\Command\Comando.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarIntegrante.cs" />
     <Compile Include="Negocio\Command\ComandoBuscarAmigos.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLider.cs" />
@@ -256,7 +230,6 @@
     <Compile Include="Negocio\Command\ComandoVerificarLider.cs" />
     <Compile Include="Negocio\Command\ComandoVisualizarListaAmigos.cs" />
     <Compile Include="Negocio\Command\ComandoVisualizarPerfilAmigo.cs" />
->>>>>>> Modulo_3
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones\ValidacionWS.cs" />
@@ -313,7 +286,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
