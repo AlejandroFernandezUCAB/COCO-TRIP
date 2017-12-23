@@ -111,7 +111,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// <summary>
     /// Clase abstracta base para realizar peticiones al servicio web
     /// </summary>
-    public override JObject Patch(Categoria data)
+    public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
@@ -119,21 +119,23 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// <summary>
     /// Clase que permite agregar una nueva categoria mediante peticiones al servicio web 
     /// </summary>
-    public override JObject Post(Categoria data)
+    public override JObject Post(Entidad data)
     {
       try
       {
+                Console.WriteLine(data);
         using (var cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            { "nombre", data.Name },
-            { "descripcion", data.Description },
-            { "nivel", data.Nivel },
-            { "categoriaSuperior", data.UpperCategories }
+            { "nombre", ((Categoria)data).Name },
+            { "descripcion", ((Categoria)data).Description },
+            { "nivel", ((Categoria)data).Nivel },
+            { "categoriaSuperior", ((Categoria)data).UpperCategories }
           };
+          
           var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarCategoria", jsonData);
           responseTask.Wait();
           var response = responseTask.Result;
@@ -217,7 +219,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// <summary>
     /// Clase Para modificar una categoria mediante peticiones al servicio web
     /// </summary>
-    public override JObject Put(Categoria data)
+    public override JObject Put(Entidad data)
     {
       try
       {
@@ -228,10 +230,10 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           JObject jsonData = new JObject
           {
             { "id", data.Id },
-            { "nombre",data.Name },
-            { "descripcion", data.Description },
-            { "categoriaSuperior",data.UpperCategories },
-            {"nivel", data.Nivel }
+            { "nombre", ((Categoria)data).Name },
+            { "descripcion", ((Categoria)data).Description },
+            { "categoriaSuperior", ((Categoria)data).UpperCategories },
+            {"nivel", ((Categoria)data).Nivel }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);
           responseTask.Wait();

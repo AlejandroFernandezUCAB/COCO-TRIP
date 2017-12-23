@@ -19,8 +19,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -149,12 +151,14 @@
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
+    <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
     <Compile Include="Datos\DAO\DAOItinerario.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
     <Compile Include="Datos\DAO\IDAOItinerario.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
+    <Compile Include="Datos\Entity\Categoria.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
     <Compile Include="Datos\Entity\Itinerario.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
@@ -215,7 +219,9 @@
     <Compile Include="Negocio\Comando\ComandoEliminarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoEliminarIntegrante.cs" />
     <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
+    <Compile Include="Negocio\Comando\ComandoObtenerCategorias.cs" />
     <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />
