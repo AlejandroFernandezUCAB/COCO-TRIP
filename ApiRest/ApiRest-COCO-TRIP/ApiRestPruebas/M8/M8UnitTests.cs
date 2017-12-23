@@ -33,7 +33,7 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaAgregarLocalidadEvento()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento("hola", "Lugar familiar y pasarla bien con amigos",
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidadEvento = new ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento("hola", "Lugar familiar y pasarla bien con amigos",
         "Chacao, Venezuela");
       
       Assert.AreEqual(peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento), 6);
@@ -56,28 +56,28 @@ namespace ApiRestPruebas.M8
 
     public void casoBorde1Agregar()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento();
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidadEvento = new ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento();
       
       peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
 
     public void casoBorde2Agregar()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento();
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidadEvento = new ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento();
       localidadEvento.Nombre = "prueba1";
       peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
 
     public void casoBorde3Agregar()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento();
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidadEvento = new ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento();
       localidadEvento.Descripcion = "prueba1";
       peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
 
     public void casoBorde4Agregar()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento();
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidadEvento = new ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento();
       localidadEvento.Coordenadas = "prueba1";
       peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
     }
@@ -118,7 +118,7 @@ namespace ApiRestPruebas.M8
     [Test]
     public void PruebaConsultarLocalidadEvento()
     {
-      LocalidadEvento localidadEvento = new LocalidadEvento("Suiza", "Europa", "Europa");
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidadEvento = new ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento("Suiza", "Europa", "Europa");
       int idLocalidadEvento = peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
       peticionLocalidadEvento = new PeticionLocalidadEvento();
       Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
@@ -137,12 +137,12 @@ namespace ApiRestPruebas.M8
     public void casoBorde1Consultar()
     {
       int id = 1111;
-      LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
     }
     public void casoBorde2Consultar()
     {
       int id = -1;
-      LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
+      ApiRest_COCO_TRIP.Datos.Entity.LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
     }
 
     /**
