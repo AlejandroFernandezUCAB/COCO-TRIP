@@ -25,13 +25,13 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         JObject respuestaLocalidad = peticionLocalidad.GetAll();
         if (respuestaCategoria.Property("data") != null)
         {
-          resultado.Add(respuestaCategoria["data"].ToObject<List<Categories>>());
+          resultado.Add(respuestaCategoria["data"].ToObject<List<Categoria>>());
           resultado.Add("Exito");
         }
 
         else
         {
-          resultado.Add(new List<Categories>());
+          resultado.Add(new List<Categoria>());
           resultado.Add("Error en la comunicacion o No existen Categorias");
         }
 
