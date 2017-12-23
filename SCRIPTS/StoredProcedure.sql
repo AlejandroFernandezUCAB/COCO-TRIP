@@ -398,6 +398,7 @@ $$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (3) Amistades y Grupos
+
 Autores antiguos:
   Mariangel Perez
   Oswaldo Lopez

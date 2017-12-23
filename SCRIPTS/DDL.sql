@@ -54,6 +54,21 @@ CREATE TABLE Preferencia(
 );
 --Fin de modulo
 --Modulo 3
+/**
+Tablas del Modulo (3) de Gestion de Amigos
+  y Grupos de Amigos
+
+Autores antiguos:
+  Mariangel Perez
+  Oswaldo Lopez
+  Aquiles Pulido
+
+Autores:
+  Camacho Joaquin
+  Herrera Jose
+  Quiroga Sabina
+**/
+
 CREATE TABLE Grupo
 (
 gr_id integer NOT NULL,
