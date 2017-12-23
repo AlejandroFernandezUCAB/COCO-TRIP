@@ -51,7 +51,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
 
     
    
-  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) {
+  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) : String {
     var myRef = this.fireConversacionChatsGrupo.child(idGrupo).push();
     var key = myRef.key;
   
@@ -65,6 +65,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
      }
   
      myRef.set(newData);
+     return key;
     }
   
 /*
