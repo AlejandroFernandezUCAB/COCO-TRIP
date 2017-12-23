@@ -1,27 +1,32 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Solicita a la base de datos informacion del usuario que se desea visualizar
+  /// Metodo para obtener el usuario lider
   /// </summary>
-  public class ComandoVisualizarPerfilAmigo : Comando
+  public class ComandoConsultarLider : Comando
   {
     private Usuario usuario;
-    private DAOUsuario datos;
+    private Grupo grupo;
 
-    public ComandoVisualizarPerfilAmigo (string nombre)
+    private DAOGrupo datos;
+
+    public ComandoConsultarLider(int idGrupo)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
-      usuario.NombreUsuario = nombre;
+      grupo = FabricaEntidad.CrearEntidadGrupo();
+
+      grupo.Id = idGrupo;
     }
+
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) datos.ConsultarPorNombre(usuario);
+      datos = FabricaDAO.CrearDAOGrupo();
+      usuario = (Usuario) datos.ConsultarLider(grupo);
     }
 
     public override Entidad Retornar()
@@ -34,4 +39,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       throw new System.NotImplementedException();
     }
   }
+
 }

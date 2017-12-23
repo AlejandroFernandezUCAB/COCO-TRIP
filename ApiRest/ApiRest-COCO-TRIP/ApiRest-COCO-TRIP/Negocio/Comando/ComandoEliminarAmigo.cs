@@ -6,9 +6,10 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Agrega una amistad pendiente
+  /// Procemiento que se encarga de hacer la peticion para
+  /// eliminar un amigo de la base de datos
   /// </summary>
-  public class ComandoAgregarAmigo : Comando
+  public class ComandoEliminarAmigo : Comando
   {
     private Usuario usuario;
     private Amigo amigo;
@@ -16,31 +17,24 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
     private DAOUsuario baseUsuario;
     private DAOAmigo baseAmigo;
 
-    /// <summary>
-    /// Constructor del comando
-    /// </summary>
-    public ComandoAgregarAmigo (int id, string nombre)
+    public ComandoEliminarAmigo (int id, string nombreAmigo)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
       amigo = FabricaEntidad.CrearEntidadAmigo();
 
-      usuario.NombreUsuario = nombre;
+      usuario.NombreUsuario = nombreAmigo;
       amigo.Activo = id;
     }
 
     public override void Ejecutar()
     {
       baseUsuario = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
-
       baseAmigo = FabricaDAO.CrearDAOAmigo();
-      amigo.Pasivo = usuario.Id;
-      amigo = (Amigo) baseAmigo.ConsultarId(amigo);
 
-      if(amigo.Id == 0)
-      {
-        baseAmigo.Insertar(amigo);
-      }
+      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
+      amigo.Pasivo = usuario.Id;
+
+      baseAmigo.Eliminar(amigo);
     }
 
     public override Entidad Retornar()

@@ -2,42 +2,47 @@ using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Valida si un usuario es lider o no para eliminar o salir de un grupo
+  /// Procedimiento que se encarga de hacer la peticion para
+  /// eliminar un grupo de la base de datos
   /// </summary>
-  public class ComandoSalirGrupo : Comando
+  public class ComandoEliminarGrupo : Comando
   {
     private Usuario usuario;
     private Usuario lider;
     private Grupo grupo;
 
     private DAOGrupo datos;
+    private Archivo archivo;
 
-    public ComandoSalirGrupo (int idGrupo, int idUsuario)
+    public ComandoEliminarGrupo(int idUsuario, int idGrupo)
     {
-      grupo = FabricaEntidad.CrearEntidadGrupo();
       usuario = FabricaEntidad.CrearEntidadUsuario();
       lider = FabricaEntidad.CrearEntidadUsuario();
+      grupo = FabricaEntidad.CrearEntidadGrupo();
 
+      usuario.Id = idUsuario;
       grupo.Id = idGrupo;
-      usuario.Id = idUsuario; 
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
+      archivo = Archivo.ObtenerInstancia();
       lider = (Usuario) datos.ConsultarLider(grupo);
 
-      if(lider.Id == usuario.Id) //Es el lider?
+      if(lider.Id == usuario.Id) //El usuario que quiere eliminar el grupo es el lider?
       {
         datos.Eliminar(grupo);
-      }
-      else
-      {
-        datos.AbandonarGrupo(grupo, usuario);
+
+        if(archivo.ExisteArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension))
+        {
+          archivo.EliminarArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+        }
       }
     }
 

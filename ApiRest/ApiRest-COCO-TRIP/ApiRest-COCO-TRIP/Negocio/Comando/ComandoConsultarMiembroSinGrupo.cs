@@ -1,44 +1,34 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Valida si un usuario es lider o no para eliminar o salir de un grupo
+  /// Metodo para obtener la lista de amigos que no estan agregados al grupo
   /// </summary>
-  public class ComandoSalirGrupo : Comando
+  public class ComandoConsultarMiembroSinGrupo : Comando
   {
-    private Usuario usuario;
-    private Usuario lider;
     private Grupo grupo;
+    private Usuario usuario;
+    private List<Entidad> lista;
 
     private DAOGrupo datos;
 
-    public ComandoSalirGrupo (int idGrupo, int idUsuario)
+    public ComandoConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
     {
       grupo = FabricaEntidad.CrearEntidadGrupo();
       usuario = FabricaEntidad.CrearEntidadUsuario();
-      lider = FabricaEntidad.CrearEntidadUsuario();
 
       grupo.Id = idGrupo;
-      usuario.Id = idUsuario; 
+      usuario.Id = idUsuario;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
-      lider = (Usuario) datos.ConsultarLider(grupo);
-
-      if(lider.Id == usuario.Id) //Es el lider?
-      {
-        datos.Eliminar(grupo);
-      }
-      else
-      {
-        datos.AbandonarGrupo(grupo, usuario);
-      }
+      lista = datos.ConsultarMiembrosSinGrupo(grupo, usuario);
     }
 
     public override Entidad Retornar()
@@ -48,7 +38,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
 
     public override List<Entidad> RetornarLista()
     {
-      throw new System.NotImplementedException();
+      return lista;
     }
   }
 }

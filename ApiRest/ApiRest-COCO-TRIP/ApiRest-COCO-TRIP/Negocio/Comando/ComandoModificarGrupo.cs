@@ -1,43 +1,40 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Valida si un usuario es lider o no para eliminar o salir de un grupo
+  /// Procedimiento que se encarga de hacer la peticion para
+  /// modificar los datos de un grupo
   /// </summary>
-  public class ComandoSalirGrupo : Comando
+  public class ComandoModificarGrupo : Comando
   {
-    private Usuario usuario;
-    private Usuario lider;
     private Grupo grupo;
 
+    private Archivo archivo;
     private DAOGrupo datos;
 
-    public ComandoSalirGrupo (int idGrupo, int idUsuario)
+    public ComandoModificarGrupo (Entidad _grupo)
     {
-      grupo = FabricaEntidad.CrearEntidadGrupo();
-      usuario = FabricaEntidad.CrearEntidadUsuario();
-      lider = FabricaEntidad.CrearEntidadUsuario();
-
-      grupo.Id = idGrupo;
-      usuario.Id = idUsuario; 
+      grupo = (Grupo) _grupo;
     }
 
     public override void Ejecutar()
     {
       datos = FabricaDAO.CrearDAOGrupo();
-      lider = (Usuario) datos.ConsultarLider(grupo);
+      archivo = Archivo.ObtenerInstancia();
 
-      if(lider.Id == usuario.Id) //Es el lider?
+      if(grupo.Nombre != null)
       {
-        datos.Eliminar(grupo);
+        datos.Actualizar(grupo);
       }
-      else
+
+      if(grupo.ContenidoFoto != null)
       {
-        datos.AbandonarGrupo(grupo, usuario);
+        archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
       }
     }
 

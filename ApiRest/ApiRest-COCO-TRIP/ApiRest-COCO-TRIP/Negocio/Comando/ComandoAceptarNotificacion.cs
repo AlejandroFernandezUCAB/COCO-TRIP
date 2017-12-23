@@ -6,26 +6,23 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Agrega una amistad pendiente
+  /// Acepta la solicitud de amistad de un usuario
   /// </summary>
-  public class ComandoAgregarAmigo : Comando
+  public class ComandoAceptarNotificacion : Comando
   {
-    private Usuario usuario;
     private Amigo amigo;
+    private Usuario usuario;
 
     private DAOUsuario baseUsuario;
     private DAOAmigo baseAmigo;
 
-    /// <summary>
-    /// Constructor del comando
-    /// </summary>
-    public ComandoAgregarAmigo (int id, string nombre)
+    public ComandoAceptarNotificacion(int id, string nombreAceptado)
     {
-      usuario = FabricaEntidad.CrearEntidadUsuario();
       amigo = FabricaEntidad.CrearEntidadAmigo();
+      usuario = FabricaEntidad.CrearEntidadUsuario();
 
-      usuario.NombreUsuario = nombre;
-      amigo.Activo = id;
+      amigo.Pasivo = id;
+      usuario.NombreUsuario = nombreAceptado;
     }
 
     public override void Ejecutar()
@@ -34,13 +31,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
 
       baseAmigo = FabricaDAO.CrearDAOAmigo();
-      amigo.Pasivo = usuario.Id;
-      amigo = (Amigo) baseAmigo.ConsultarId(amigo);
-
-      if(amigo.Id == 0)
-      {
-        baseAmigo.Insertar(amigo);
-      }
+      amigo.Activo = usuario.Id;
+      baseAmigo.AceptarNotificacion(amigo);
     }
 
     public override Entidad Retornar()

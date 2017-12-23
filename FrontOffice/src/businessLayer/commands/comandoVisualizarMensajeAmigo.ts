@@ -10,7 +10,7 @@ export class ComandoVisualizarMensajeAmigo extends Comando {
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO VISUALIZAR MENSAJE");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.visualizar();
+        DAO.visualizar(this._entidad);
     }
 
     

@@ -1,32 +1,37 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Solicita a la base de datos informacion del usuario que se desea visualizar
+  /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
   /// </summary>
-  public class ComandoVisualizarPerfilAmigo : Comando
+  public class ComandoConsultarUltimoGrupo : Comando
   {
     private Usuario usuario;
-    private DAOUsuario datos;
+    private Grupo grupo;
 
-    public ComandoVisualizarPerfilAmigo (string nombre)
+    private DAOGrupo datos;
+
+    public ComandoConsultarUltimoGrupo(int idUsuario)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
-      usuario.NombreUsuario = nombre;
+      grupo = FabricaEntidad.CrearEntidadGrupo();
+
+      usuario.Id = idUsuario;
     }
+
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) datos.ConsultarPorNombre(usuario);
+      datos = FabricaDAO.CrearDAOGrupo();
+      grupo = (Grupo) datos.ConsultarUltimoGrupo (usuario);
     }
 
     public override Entidad Retornar()
     {
-      return usuario;
+      return grupo;
     }
 
     public override List<Entidad> RetornarLista()
@@ -34,4 +39,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       throw new System.NotImplementedException();
     }
   }
+
 }

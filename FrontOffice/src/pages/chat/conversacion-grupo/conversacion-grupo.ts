@@ -75,10 +75,10 @@ export class ConversacionGrupoPage {
           this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
           this.scrollto();
           this.idUsuario =
-          this.events.subscribe('nuevoMensaje', () => {
+          this.events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
             this.todosLosMensajes = [];
             this.zone.run(() => {
-              this.todosLosMensajes = this.chatService.mensajesConversacion;
+              this.todosLosMensajes = Mensajes;
             })
           })
   
@@ -86,8 +86,12 @@ export class ConversacionGrupoPage {
 
 
   ionViewDidEnter() {
-    
-    this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
+    let entidad: Mensaje;
+    entidad = new Mensaje("","","",this.idGrupo);
+    let comando = FabricaComando.crearComandoVisualizarConversacionGrupo();
+    comando.setEntidad = entidad;
+    comando.setEvents = this.events;
+    comando.execute();
     
   }
 

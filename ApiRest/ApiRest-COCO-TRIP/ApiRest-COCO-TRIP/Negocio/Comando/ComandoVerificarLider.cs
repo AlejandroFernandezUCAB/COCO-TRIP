@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Valida si un usuario es lider o no para eliminar o salir de un grupo
+  /// Verifica si un usuario es lider de un grupo o solo un integrante. Si no es lider retorna una excepcion
   /// </summary>
-  public class ComandoSalirGrupo : Comando
+  public class ComandoVerificarLider : Comando
   {
     private Usuario usuario;
     private Usuario lider;
@@ -16,14 +16,14 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
 
     private DAOGrupo datos;
 
-    public ComandoSalirGrupo (int idGrupo, int idUsuario)
+    public ComandoVerificarLider(int idGrupo, int idUsuario)
     {
-      grupo = FabricaEntidad.CrearEntidadGrupo();
       usuario = FabricaEntidad.CrearEntidadUsuario();
       lider = FabricaEntidad.CrearEntidadUsuario();
+      grupo = FabricaEntidad.CrearEntidadGrupo();
 
       grupo.Id = idGrupo;
-      usuario.Id = idUsuario; 
+      usuario.Id = idUsuario;
     }
 
     public override void Ejecutar()
@@ -31,13 +31,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       datos = FabricaDAO.CrearDAOGrupo();
       lider = (Usuario) datos.ConsultarLider(grupo);
 
-      if(lider.Id == usuario.Id) //Es el lider?
+      if(lider.Id != usuario.Id) //Si no es el lider retorna una excepcion
       {
-        datos.Eliminar(grupo);
-      }
-      else
-      {
-        datos.AbandonarGrupo(grupo, usuario);
+        //Excepcion
       }
     }
 
@@ -51,4 +47,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       throw new System.NotImplementedException();
     }
   }
+
 }

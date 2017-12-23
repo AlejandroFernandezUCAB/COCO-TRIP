@@ -6,32 +6,36 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 namespace ApiRest_COCO_TRIP.Negocio.Comando
 {
   /// <summary>
-  /// Solicita a la base de datos informacion del usuario que se desea visualizar
+  /// Procedimiento que se encarga de recoger los datos de
+  /// la base de datos para visualizar la lista de amigos
   /// </summary>
-  public class ComandoVisualizarPerfilAmigo : Comando
+  public class ComandoVisualizarListaAmigos : Comando
   {
+    private List<Entidad> lista;
     private Usuario usuario;
-    private DAOUsuario datos;
 
-    public ComandoVisualizarPerfilAmigo (string nombre)
+    private DAO datos;
+
+    public ComandoVisualizarListaAmigos(int id)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
-      usuario.NombreUsuario = nombre;
+      usuario.Id = id;
     }
+
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) datos.ConsultarPorNombre(usuario);
+      datos = FabricaDAO.CrearDAOAmigo();
+      lista = datos.ConsultarLista(usuario);
     }
 
     public override Entidad Retornar()
     {
-      return usuario;
+      throw new System.NotImplementedException();
     }
 
     public override List<Entidad> RetornarLista()
     {
-      throw new System.NotImplementedException();
+      return lista;
     }
   }
 }
