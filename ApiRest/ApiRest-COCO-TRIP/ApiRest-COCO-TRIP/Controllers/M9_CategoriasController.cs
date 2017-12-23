@@ -27,6 +27,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     private IDictionary response = new Dictionary<string, object>();
     private const string Response_Data = "data";
     private const string Response_Error = "error";
+    private Comando com;
 
 
     /// <summary>
@@ -47,9 +48,9 @@ namespace ApiRest_COCO_TRIP.Controllers
           "estatus"
         });
 
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.ActualizarEstatus(categoria);
+        ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        com = FabricaComando.CrearComandoEstadoCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
 
@@ -163,8 +164,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
         //     Peticion = new PeticionCategoria();
         //     Peticion.ModificarCategoria(categoria);
-        Comando com = FabricaComando.CrearComandoModificarCategoria();
-        ((ComandoModificarCategoria)com).SetPropiedad(categoria);
+        com = FabricaComando.CrearComandoModificarCategoria(categoria);
         com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
