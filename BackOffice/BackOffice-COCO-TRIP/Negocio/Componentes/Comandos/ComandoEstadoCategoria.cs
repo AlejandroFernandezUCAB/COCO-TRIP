@@ -9,7 +9,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoEstadoCategoria:Comando
   {
-    private Categoria categoria;
+    private Entidad categoria = FabricaEntidad.GetCategoria();
     private ArrayList resultado = new ArrayList();
     DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
 

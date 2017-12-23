@@ -408,7 +408,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     /// </summary>
     /// <param name="categoria"></param>
     /// <exception cref="BaseDeDatosExcepcion"></exception>
-    public IList<Categoria> ObtenerCategorias(Categoria categoria)
+    public IList<Categoria> ObtenerCategorias(Entidad categoria)
     {
       IList<Categoria> listaCategorias = new List<Categoria>();
       try

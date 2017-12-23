@@ -9,7 +9,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
   public class ComandoObtenerCategorias: Comando
   {
     DAO dao = FabricaDAO.CrearDAOCategoria();
-    private Categoria categoria;
+     private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
     private List<Entidad> resultado = new List<Entidad>();
 
     public ComandoObtenerCategorias()
@@ -21,7 +21,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
     {
       try
       {
-        ((DAOCategoria)dao).ObtenerCategorias(categoria);//INCOMPLETO
+        ((DAOCategoria)dao).ObtenerCategorias(entidad);//INCOMPLETO
       }
       catch (Exception e)
       {
