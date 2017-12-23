@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using System.Net;
+using System.Web.Http;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -33,7 +35,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
       if(lider.Id != usuario.Id) //Si no es el lider retorna una excepcion
       {
-        //Excepcion
+        throw new HttpResponseException(HttpStatusCode.Unauthorized);
       }
     }
 

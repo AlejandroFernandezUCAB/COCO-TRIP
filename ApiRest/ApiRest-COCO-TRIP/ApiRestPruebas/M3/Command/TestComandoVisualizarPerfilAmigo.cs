@@ -7,19 +7,19 @@ using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRestPruebas.M3.Command
 {
   /// <summary>
-  /// Pruebas unitarias de ComandoAgregarAmigo
+  /// Pruebas unitarias de ComandoVisualizarPerfil
   /// </summary>
   [TestFixture]
-  public class TestComandoAgregarAmigo
+  public class TestComandoVisualizarPerfilAmigo
   {
     private string RutaArchivo = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + "\\PU\\";
-    private const string ScriptsSetUp = "ScriptsSetUpTestComandoAgregarAmigo.txt";
+    private const string ScriptsSetUp = "ScriptsSetUpTestComandoVisualizarPerfilAmigo.txt";
     private const string DatoUsuario = "DatoUsuario.txt";
 
     private Comando comando;
@@ -49,16 +49,12 @@ namespace ApiRestPruebas.M3.Command
     [Category("Modulo 3")]
     [Category("Comando")]
     [Test]
-    public void TestComandoAgregarAmigoExitoso()
+    public void TestComandoVisualizarPerfilExitoso()
     {
-      Assert.DoesNotThrow(ComandoAgregarAmigoExitoso);
-    }
-
-    public void ComandoAgregarAmigoExitoso()
-    {
-      comando = FabricaComando.CrearComandoAgregarAmigo(listaUsuario[0].Id, listaUsuario[1].NombreUsuario);
+      comando = FabricaComando.CrearComandoVisualizarPerfilAmigo(listaUsuario[0].NombreUsuario);
       comando.Ejecutar();
+      Entidad usuario = comando.Retornar();
+      Assert.AreEqual(true, usuario.Id == listaUsuario[0].Id);
     }
   }
-
 }

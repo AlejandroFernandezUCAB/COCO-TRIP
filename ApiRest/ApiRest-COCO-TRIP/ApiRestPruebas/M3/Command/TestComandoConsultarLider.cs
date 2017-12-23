@@ -5,37 +5,38 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Negocio.Command;
-using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 
 namespace ApiRestPruebas.M3.Command
 {
   /// <summary>
-  /// Pruebas unitarias de ComandoAgregarAmigo
+  /// Pruebas unitarias de ComandoConsultarLider
   /// </summary>
   [TestFixture]
-  public class TestComandoAgregarAmigo
+  public class TestComandoConsultarLider
   {
     private string RutaArchivo = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + "\\PU\\";
-    private const string ScriptsSetUp = "ScriptsSetUpTestComandoAgregarAmigo.txt";
-    private const string DatoUsuario = "DatoUsuario.txt";
+    private const string ScriptsSetUp = "ScriptsSetUpTestComandoConsultarLider.txt";
+    private const string DatoGrupo = "DatoGrupo.txt";
 
     private Comando comando;
+    private List<Grupo> listaGrupo;
     private List<Usuario> listaUsuario;
 
     [SetUp]
     public void SetUp()
     {
-      DAOAmigo dao = FabricaDAO.CrearDAOAmigo();
+      DAOGrupo dao = FabricaDAO.CrearDAOGrupo();
 
-      listaUsuario = new List<Usuario>();
-      string[] datosUsuario = File.ReadAllLines(RutaArchivo + DatoUsuario);
+      listaGrupo = new List<Grupo>();
+      string[] datosGrupo = File.ReadAllLines(RutaArchivo + DatoGrupo);
 
-      foreach (string linea in datosUsuario)
+      foreach (string linea in datosGrupo)
       {
-        listaUsuario.Add(JsonConvert.DeserializeObject<Usuario>(linea));
+        listaGrupo.Add(JsonConvert.DeserializeObject<Grupo>(linea));
       }
 
       dao.Conectar();
@@ -49,16 +50,12 @@ namespace ApiRestPruebas.M3.Command
     [Category("Modulo 3")]
     [Category("Comando")]
     [Test]
-    public void TestComandoAgregarAmigoExitoso()
+    public void TestComandoConsultarLiderExitoso()
     {
-      Assert.DoesNotThrow(ComandoAgregarAmigoExitoso);
-    }
-
-    public void ComandoAgregarAmigoExitoso()
-    {
-      comando = FabricaComando.CrearComandoAgregarAmigo(listaUsuario[0].Id, listaUsuario[1].NombreUsuario);
+      comando = FabricaComando.CrearComandoConsultarLider(listaGrupo[0].Id);
       comando.Ejecutar();
+      Usuario usuario = (Usuario) comando.Retornar();
+      Assert.AreEqual(true, listaGrupo[0].Lider == usuario.Id);
     }
   }
-
 }

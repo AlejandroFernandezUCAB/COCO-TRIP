@@ -7,23 +7,25 @@ using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRestPruebas.M3.Command
 {
   /// <summary>
-  /// Pruebas unitarias de ComandoAgregarAmigo
+  /// Pruebas unitarias de ComandoSalirGrupo
   /// </summary>
   [TestFixture]
-  public class TestComandoAgregarAmigo
+  public class TestComandoSalirGrupo
   {
     private string RutaArchivo = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + "\\PU\\";
-    private const string ScriptsSetUp = "ScriptsSetUpTestComandoAgregarAmigo.txt";
+    private const string ScriptsSetUp = "ScriptsSetUpTestComandoSalirGrupo.txt";
     private const string DatoUsuario = "DatoUsuario.txt";
+    private const string DatoGrupoo = "DatoGrupo.txt";
 
     private Comando comando;
     private List<Usuario> listaUsuario;
+    private List<Grupo> listaGrupo;
 
     [SetUp]
     public void SetUp()
@@ -38,6 +40,14 @@ namespace ApiRestPruebas.M3.Command
         listaUsuario.Add(JsonConvert.DeserializeObject<Usuario>(linea));
       }
 
+      listaGrupo = new List<Grupo>();
+      string[] datosGrupo = File.ReadAllLines(RutaArchivo + DatoGrupoo);
+
+      foreach (string linea in datosGrupo)
+      {
+        listaGrupo.Add(JsonConvert.DeserializeObject<Grupo>(linea));
+      }
+
       dao.Conectar();
       dao.Comando = dao.SqlConexion.CreateCommand();
       dao.Comando.CommandText = File.ReadAllText(RutaArchivo + ScriptsSetUp);
@@ -49,16 +59,29 @@ namespace ApiRestPruebas.M3.Command
     [Category("Modulo 3")]
     [Category("Comando")]
     [Test]
-    public void TestComandoAgregarAmigoExitoso()
+    public void TestComandoSalirGrupoMiembroExitoso ()
     {
-      Assert.DoesNotThrow(ComandoAgregarAmigoExitoso);
+      Assert.DoesNotThrow(ComandoSalirGrupoMiembroExitoso);
     }
 
-    public void ComandoAgregarAmigoExitoso()
+    public void ComandoSalirGrupoMiembroExitoso()
     {
-      comando = FabricaComando.CrearComandoAgregarAmigo(listaUsuario[0].Id, listaUsuario[1].NombreUsuario);
+      comando = FabricaComando.CrearComandoSalirGrupo(listaGrupo[0].Id, listaUsuario[1].Id);
+      comando.Ejecutar();
+    }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoSalirGrupoLiderExitoso()
+    {
+      Assert.DoesNotThrow(ComandoSalirGrupoLiderExitoso);
+    }
+
+    public void ComandoSalirGrupoLiderExitoso()
+    {
+      comando = FabricaComando.CrearComandoSalirGrupo(listaGrupo[0].Id, listaUsuario[0].Id);
       comando.Ejecutar();
     }
   }
-
 }

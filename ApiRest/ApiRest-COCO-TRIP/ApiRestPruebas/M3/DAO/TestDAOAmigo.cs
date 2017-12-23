@@ -73,7 +73,22 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOAmigo")]
     [Test]
-    public void TestBuscarAmigos()
+    public void TestBuscarAmigosConNombreUsuario()
+    {
+      Usuario usuario = listaUsuario[1];
+      Usuario buscando = listaUsuario[2];
+
+      usuario.Nombre = buscando.NombreUsuario;
+      List<Entidad> lista = dao.BuscarAmigos(usuario);
+
+      usuario = (Usuario) lista[0];
+      Assert.AreEqual(true, lista.Count == 1 && usuario.NombreUsuario == buscando.NombreUsuario);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestBuscarAmigosConNombre()
     {
       Usuario usuario = listaUsuario[1];
       Usuario buscando = listaUsuario[2];
@@ -81,7 +96,22 @@ namespace ApiRestPruebas.M3.DAO
       usuario.Nombre = buscando.Nombre;
       List<Entidad> lista = dao.BuscarAmigos(usuario);
 
-      usuario = (Usuario) lista[0];
+      usuario = (Usuario)lista[0];
+      Assert.AreEqual(true, lista.Count == 1 && usuario.NombreUsuario == buscando.NombreUsuario);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestBuscarAmigosConApellido()
+    {
+      Usuario usuario = listaUsuario[1];
+      Usuario buscando = listaUsuario[2];
+
+      usuario.Nombre = buscando.Apellido;
+      List<Entidad> lista = dao.BuscarAmigos(usuario);
+
+      usuario = (Usuario)lista[0];
       Assert.AreEqual(true, lista.Count == 1 && usuario.NombreUsuario == buscando.NombreUsuario);
     }
 

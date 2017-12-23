@@ -7,28 +7,38 @@ using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRestPruebas.M3.Command
 {
   /// <summary>
-  /// Pruebas unitarias de ComandoAgregarAmigo
+  /// Pruebas unitarias de ComandoConsultarUltimoGrupo
   /// </summary>
   [TestFixture]
-  public class TestComandoAgregarAmigo
+  public class TestComandoConsultarUltimoGrupo
   {
     private string RutaArchivo = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + "\\PU\\";
-    private const string ScriptsSetUp = "ScriptsSetUpTestComandoAgregarAmigo.txt";
+    private const string ScriptsSetUp = "ScriptsSetUpTestComandoConsultarUltimoGrupo.txt";
+    private const string DatoGrupo = "DatoGrupo.txt";
     private const string DatoUsuario = "DatoUsuario.txt";
 
     private Comando comando;
+    private List<Grupo> listaGrupo;
     private List<Usuario> listaUsuario;
 
     [SetUp]
     public void SetUp()
     {
-      DAOAmigo dao = FabricaDAO.CrearDAOAmigo();
+      DAOGrupo dao = FabricaDAO.CrearDAOGrupo();
+
+      listaGrupo = new List<Grupo>();
+      string[] datosGrupo = File.ReadAllLines(RutaArchivo + DatoGrupo);
+
+      foreach (string linea in datosGrupo)
+      {
+        listaGrupo.Add(JsonConvert.DeserializeObject<Grupo>(linea));
+      }
 
       listaUsuario = new List<Usuario>();
       string[] datosUsuario = File.ReadAllLines(RutaArchivo + DatoUsuario);
@@ -49,15 +59,12 @@ namespace ApiRestPruebas.M3.Command
     [Category("Modulo 3")]
     [Category("Comando")]
     [Test]
-    public void TestComandoAgregarAmigoExitoso()
+    public void TestComandoConsultarUltimoGrupoExitoso()
     {
-      Assert.DoesNotThrow(ComandoAgregarAmigoExitoso);
-    }
-
-    public void ComandoAgregarAmigoExitoso()
-    {
-      comando = FabricaComando.CrearComandoAgregarAmigo(listaUsuario[0].Id, listaUsuario[1].NombreUsuario);
+      comando = FabricaComando.CrearComandoConsultarUltimoGrupo(listaUsuario[0].Id);
       comando.Ejecutar();
+      Grupo grupo = (Grupo) comando.Retornar();
+      Assert.AreEqual(true, grupo.Id == listaGrupo[1].Id);
     }
   }
 
