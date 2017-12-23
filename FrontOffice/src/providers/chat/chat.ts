@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Events } from 'ionic-angular';
 import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
-<<<<<<< HEAD
 import { Registry } from '../../common/registry';
-=======
 import * as moment from 'moment';
->>>>>>> 59b97c75c5af627c3e51a017be4dcdcaa43cf089
 /*
   Generated class for the ChatProvider provider.
 

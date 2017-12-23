@@ -13,11 +13,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { ToastController } from 'ionic-angular';
 import { InformacionMensajePage } from '../../chat/informacion-mensaje/informacion-mensaje';
-<<<<<<< HEAD
 import { Registry } from '../../../common/registry';
-=======
-import {catService,catProd} from "../../../log/config"
->>>>>>> 59b97c75c5af627c3e51a017be4dcdcaa43cf089
+
+import {catService,catProd} from "../../../logs/config"
 
 //****************************************************************************************************//
 //**********************************PAGE DE CONVERSACION MODULO 6*************************************//
@@ -97,6 +95,7 @@ constructor(public navCtrl: NavController, public navParams: NavParams,
 
 
 ionViewWillEnter() {
+  catProd.info("Entrando en el metodo IonViewWillEnter");
   this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
   this.storage.get('id').then((val) => {
