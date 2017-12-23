@@ -112,24 +112,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
   return entidad;
 
 }*/
-obtenerInfoMensajeAmigo(idEmisor,idReceptor,idMensaje) {
-  alert("entro en el info");
-  let temp;
-  let entidad: Mensaje;
-  let otro: Mensaje;
-  this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).on('value', (snapshot) =>{
-    var temp = snapshot.val(); 
-    entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
-    entidad.setId=temp.key;
-    this.events.publish('infoMensaje',entidad);
-    alert("dentro del on");
-    
-    //alert("dentro"+entidad.getMensaje);
-    //return entidad;
-    //alert("dentro"+temp.mensaje);
-  });
 
-}
   obtenerMensajesConversacionGrupo(idGrupo) {
     let temp;
     this.fireConversacionChatsGrupo.child(idGrupo).on('value', (snapshot) => {
@@ -142,6 +125,35 @@ obtenerInfoMensajeAmigo(idEmisor,idReceptor,idMensaje) {
     })
   }
 
+  obtenerInfoMensajeAmigo(idEmisor,idReceptor,idMensaje) {
+    let temp;
+    let entidad: Mensaje;
+    let otro: Mensaje;
+    this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).on('value', (snapshot) =>{
+      var temp = snapshot.val(); 
+      entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
+      entidad.setId=temp.key;
+      this.events.publish('infoMensaje',entidad);
+      
+      //alert("dentro"+entidad.getMensaje);
+      //return entidad;
+      //alert("dentro"+temp.mensaje);
+    });
+  
+  }
+
+  obtenerInfoMensajeGrupo(idgrupo,idMensaje) {
+    let temp;
+    let entidad: Mensaje;
+    let otro: Mensaje;
+    this.fireConversacionChatsGrupo.child(idgrupo).child(idMensaje).on('value', (snapshot) =>{
+      var temp = snapshot.val(); 
+      entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
+      entidad.setId=temp.key;
+      this.events.publish('infoMensajeGrupo',entidad);
+    });
+  
+  }
   modificarMensajeAmigo(idEmisor,idReceptor,idMensaje,mensajeModificado){
 
     this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).set({

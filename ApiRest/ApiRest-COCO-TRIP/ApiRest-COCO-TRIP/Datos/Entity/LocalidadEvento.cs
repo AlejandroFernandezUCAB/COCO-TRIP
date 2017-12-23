@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ApiRest_COCO_TRIP.Models
+namespace ApiRest_COCO_TRIP.Datos.Entity
 {
   /**
    * <summary>Clase del objeto localidad de Eventos</summary>
    * **/
-  public class LocalidadEvento
+  public class LocalidadEvento : Entidad
   {
-    private int id;
     private string nombre;
     private string descripcion;
     private string coordenadas;
@@ -22,12 +21,9 @@ namespace ApiRest_COCO_TRIP.Models
     public string Descripcion { get => descripcion; set => descripcion = value; }
     [JsonProperty(PropertyName = "coordenadas")]
     public string Coordenadas { get => coordenadas; set => coordenadas = value; }
-    [JsonProperty(PropertyName = "id")]
-    public int Id { get => id; set => id = value; }
-
     public LocalidadEvento(int id, string nombre, string descripcion, string coordenadas)
     {
-      this.id = id;
+      this.Id = id;
       this.nombre = nombre;
       this.descripcion = descripcion;
       this.coordenadas = coordenadas;

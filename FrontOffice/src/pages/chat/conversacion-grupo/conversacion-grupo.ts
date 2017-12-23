@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { ToastController } from 'ionic-angular';
+import { InformacionMensajeGrupoPage } from '../../chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
 
 /**
@@ -141,6 +142,17 @@ export class ConversacionGrupoPage {
             handler: () => {
               this.crearalert(idMensaje);
             }
+            },
+            {
+              text: 'Informacion',
+              role: 'Informacion', //coloca el botón siempre en el último lugar.
+              icon: !this.platform.is('ios') ? 'create' : null,
+              handler: () => {
+                this.navCtrl.push(InformacionMensajeGrupoPage,{
+                  idmensaje:idMensaje,
+                  idgrupo:this.idGrupo
+              });
+              }
             }
         ]
       });

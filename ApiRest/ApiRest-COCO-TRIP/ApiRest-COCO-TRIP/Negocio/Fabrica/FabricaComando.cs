@@ -280,5 +280,50 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoEstadoCategoria(entidad);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarLocalidad
+    /// </summary>
+    /// <returns>ComandoAgregarLocalidad</returns>
+    public static ComandoAgregarLocalidad CrearComandoAgregarLocalidad()
+    {
+      return new ComandoAgregarLocalidad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidad
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidad</returns>
+    public static ComandoConsultarLocalidad CrearComandoConsultarLocalidad()
+    {
+      return new ComandoConsultarLocalidad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidades
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidades</returns>
+    public static ComandoConsultarLocalidades CrearComandoConsultarLocalidades()
+    {
+      return new ComandoConsultarLocalidades();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarLocalidad
+    /// </summary>
+    /// <returns>ComandoModificarLocalidad</returns>
+    public static ComandoModificarLocalidad CrearComandoModificarLocalidad()
+    {
+      return new ComandoModificarLocalidad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarLocalidad
+    /// </summary>
+    /// <returns>ComandoEliminarLocalidad</returns>
+    public static ComandoEliminarLocalidad CrearComandoEliminarLocalidad()
+    {
+      return new ComandoEliminarLocalidad();
+    }
   }
 }

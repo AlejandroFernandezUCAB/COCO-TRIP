@@ -5,7 +5,7 @@ import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 
 /**
- * Generated class for the InformacionMensajePage page.
+ * Generated class for the InformacionMensajeGrupoPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -13,14 +13,13 @@ import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 
 @IonicPage()
 @Component({
-  selector: 'page-informacion-mensaje',
-  templateUrl: 'informacion-mensaje.html',
+  selector: 'page-informacion-mensaje-grupo',
+  templateUrl: 'informacion-mensaje-grupo.html',
 })
-export class InformacionMensajePage {
+export class InformacionMensajeGrupoPage {
   Mensajerec:any={
     idmensaje:'idmensaje',
-    emisor:'emisor',
-    receptor:'receptor'
+    idgrupo:'idgrupo'
   }
   info:any={
     mensaje:'mensaje',
@@ -28,20 +27,17 @@ export class InformacionMensajePage {
     modificado:'modificado'
 
   }
- 
-  mensajesConversacion = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public chatService: ChatProvider,public events: Events) {
   }
 
-
   ionViewWillEnter() {
     let mensaje: Mensaje;
     this.Mensajerec.idmensaje = this.navParams.get('idmensaje');
-    this.Mensajerec.emisor = this.navParams.get('emisor');
-    this.Mensajerec.receptor=this.navParams.get('receptor');
-   
-      this.events.subscribe('infoMensaje', (Mensajes) => {
+    this.Mensajerec.idgrupo = this.navParams.get('idgrupo');
+    
+    
+      this.events.subscribe('infoMensajeGrupo', (Mensajes) => {
       mensaje = Mensajes;
       this.info.mensaje=mensaje.getMensaje;
       this.info.fecha=mensaje.getFecha;
@@ -51,9 +47,9 @@ export class InformacionMensajePage {
   }  
   ionViewDidEnter() {
     let entidad: Mensaje;
-    entidad = new Mensaje("",this.Mensajerec.emisor,this.Mensajerec.receptor,0,"","",false);
+    entidad = new Mensaje("","","",this.Mensajerec.idgrupo,"","",false);
     entidad.setId=this.Mensajerec.idmensaje;
-    let comando = FabricaComando.crearComandoInformacionMensajeAmigo();
+    let comando = FabricaComando.crearComandoInformacionMensajeGrupo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
     comando.execute();

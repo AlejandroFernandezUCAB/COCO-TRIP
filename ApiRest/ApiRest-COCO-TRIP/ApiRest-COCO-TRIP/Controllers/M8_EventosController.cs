@@ -81,7 +81,7 @@ namespace ApiRest_COCO_TRIP.Controllers
      * **/
     [ResponseType(typeof(IDictionary))]
     [ActionName("EliminarEventoPorId")]
-    [HttpPut]
+    [HttpDelete]
     public IDictionary EliminarEvento(int id)
     {
       try
