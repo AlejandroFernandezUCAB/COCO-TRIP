@@ -7,6 +7,7 @@ using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
 
+
 namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   /// <summary>

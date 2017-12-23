@@ -173,8 +173,10 @@
     <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOEvento.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOLocalidad.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOCategoria.cs" />
     <Compile Include="Datos\Entidades\Categoria.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoAgregarCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaPorId.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaHabilitada.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Fabrica\FabricaDAO.cs" />
+    <Compile Include="Negocio\Fabrica\FabricaEntidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,10 +8,14 @@ using System.Web.Http.Description;
 using System.Web.Http.Cors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections;
 using ApiRest_COCO_TRIP.Validaciones;
+using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -96,13 +100,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public IDictionary ObtenerCategorias(int id = -1)
     {
+      DAO dao = FabricaDAO.CrearDAOCategoria();
+      DAOCategoria daoc = (DAOCategoria)dao;
       try
       {
 
-        Categoria categoria = new Categoria(id);
-        PeticionCategoria peticion = new PeticionCategoria();
-        IList<Categoria> lista = peticion.ObtenerCategorias(categoria);
+        ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
 
+        IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = daoc.ObtenerCategorias(categoria);//HAY QUE CAMBIAR ESTO, ES SOLO DE PRUEBA.
         response.Add(Response_Data, lista);
 
       }
@@ -143,6 +148,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ModificarCategorias([FromBody] JObject data)
     {
+     
       try
       {
 
@@ -154,9 +160,12 @@ namespace ApiRest_COCO_TRIP.Controllers
             "nivel"
         });
 
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.ModificarCategoria(categoria);
+        ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        //     Peticion = new PeticionCategoria();
+        //     Peticion.ModificarCategoria(categoria);
+        Comando com = FabricaComando.CrearComandoModificarCategoria();
+        ((ComandoModificarCategoria)com).SetPropiedad(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
 

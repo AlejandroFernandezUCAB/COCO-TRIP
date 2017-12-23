@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text.RegularExpressions;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
   public class CategoriesController : Controller
   {
-
+    // Eliminar peticion categoria
     private PeticionCategoria peticion = new PeticionCategoria();
     private Comando com;
   
@@ -31,13 +32,11 @@ namespace BackOffice_COCO_TRIP.Controllers
       {
         listCategories = respuesta["data"].ToObject<List<Categoria>>();
       }
-
       else
       {
         listCategories = new List<Categoria>();
         ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
       }
-
       TempData["listaCategorias"] = listCategories;
       return View(listCategories);
 
@@ -58,9 +57,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
         ViewBag.MyList = listaCategorias;
-
       }
-
       else
       {
         listaCategorias = new List<Categoria>();
@@ -81,13 +78,17 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Create(Categoria categories)
     {
       ModelState.Remove("UpperCategories");
-      if (ModelState.IsValid)
+      if (ModelState.IsValid && ValidarName(categories.Name) && ValidarDescription(categories.Description))
       {
-       
-        var idNivel = Request["Categoria superior"].ToString().Split('-');
+        string[] idNivel = Request["Categoria superior"].ToString().Split('-');
         categories.UpperCategories = Int32.Parse(idNivel[0]);
         categories.Nivel = Int32.Parse(idNivel[1]) + 1;
-        JObject respuesta = peticion.Post(categories);
+
+        com = FabricaComando.GetComandoAgregarCategoria();
+        com.SetPropiedad(categories);
+        com.Execute();
+        JObject respuesta = (JObject)com.GetResult()[0];
+        //JObject respuesta = peticion.Post(categories);
 
         if (respuesta.Property("data") != null)
         {
@@ -97,6 +98,8 @@ namespace BackOffice_COCO_TRIP.Controllers
         ValidarErrorPorDuplicidad(respuesta);
       }
 
+      //reutilizar con create() es el mismo codigo solo que create() return view(null) y aqui return (categories)
+      //capaz se puede hacer un metodo que le pases lo que va a retornear
       com = FabricaComando.GetComandoConsultarCategoriaSelect();
       com.Execute();
       var listaCategorias = (List<Categoria>)com.GetResult()[0];
@@ -104,16 +107,13 @@ namespace BackOffice_COCO_TRIP.Controllers
       {
         listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
         ViewBag.MyList = listaCategorias;
-
       }
-
       else
       {
         listaCategorias = new List<Categoria>();
         ViewBag.MyList = listaCategorias;
         ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
       }
-
       ViewBag.Title = "Agregar Categoría";
       return View(categories);
 
@@ -236,22 +236,70 @@ namespace BackOffice_COCO_TRIP.Controllers
       return Json(respuesta);
     }
 
+
+    // ######################## Metodos Auxiliares ########################
+    
+    // ############## Metodos para Validaciones de Vistas #################
     /// <summary>
     /// Metodo que nos permite validar si el nombre existe antes de agregar
     /// </summary>
     private void ValidarErrorPorDuplicidad(JObject respuesta)
     {
-
       if (respuesta.Property("MensajeError") != null)
       {
         ModelState.AddModelError(string.Empty, respuesta["MensajeError"].ToString());
       }
-
       else
       {
         ModelState.AddModelError(string.Empty, "Ocurrio un error, revise su conexion a internet");
       }
 
+    }
+
+    private bool ValidarLongitudInputNombre(String input)
+    {
+      if ((input.Length >= 5) && (input.Length <= 20)){
+        return true;
+      }
+      return false;
+    }
+
+    private bool ValidarLongitudInputDescripcion(String input)
+    {
+      if ((input.Length >= 5) && (input.Length <= 100))
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ValidarCaracteresEspeciales(String input)
+    {
+      if (Regex.Match(input, @"^[a-zA-Z]+$").Success)
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ValidarName(String input)
+    {
+      if (ValidarCaracteresEspeciales(input) && ValidarLongitudInputNombre(input))
+      {
+        return true;
+      }
+      ModelState.AddModelError(string.Empty, "El nombre de la categoria debe tener al menos 5 caracteres y máximo 20. Sólo se permiten letras.");
+      return false;
+    }
+
+    private bool ValidarDescription(String input)
+    {
+      if (ValidarCaracteresEspeciales(input) && ValidarLongitudInputDescripcion(input))
+      {
+        return true;
+      }
+      ModelState.AddModelError(string.Empty, "El nombre de la categoria debe tener al menos 5 caracteres y máximo 100. Sólo se permiten letras.");
+      return false;
     }
   }
 }

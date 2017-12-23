@@ -3,6 +3,7 @@ using NpgsqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using ApiRest_COCO_TRIP.Datos.Entity;
 using System.Linq;
 using System.Web;
 using ApiRest_COCO_TRIP.Models.Excepcion;
