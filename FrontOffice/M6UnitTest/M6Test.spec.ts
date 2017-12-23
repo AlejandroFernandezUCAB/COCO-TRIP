@@ -1,6 +1,7 @@
 import { ComandoEliminarMensaje } from './../src/businessLayer/commands/comandoEliminarMensaje';
 import { ComandoCrearMensaje } from './../src/businessLayer/commands/comandoCrearMensaje';
 import { Entidad } from './../src/dataAccessLayer/domain/entidad';
+import { ConversacionGrupoPage } from '../src/pages/chat/conversacion-grupo/conversacion-grupo'
 import { ConversacionPage } from '../src/pages/chat/conversacion/conversacion'
 import { Mensaje } from '../src/dataAccessLayer/domain/mensaje'
 import { ChatProvider } from '../src/providers/chat/chat';
@@ -98,6 +99,63 @@ describe("Test for mensaje.getIdGrupo", ()=>{
         mensaje.setidGrupo = -1;
         var nuevoIdGrupo = mensaje.getidGrupo;
         expect(-1).toEqual(nuevoIdGrupo);
+    });
+});
+
+describe("Test for mensaje.setFecha", ()=>{
+    
+    it("should return a date", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setFecha = "-1";
+        expect(mensaje.getFecha).toEqual("-1");
+    });
+});
+
+describe("Test for mensaje.getFecha", ()=>{
+    
+    it("should return a date", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setFecha = "-1";
+        var nuevaFecha = mensaje.getFecha;
+        expect("-1").toEqual(nuevaFecha);
+    });
+});
+
+describe("Test for mensaje.setHora", ()=>{
+    
+    it("should return an hour", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setHora = "-1";
+        expect(mensaje.getHora).toEqual("-1");
+    });
+});
+
+describe("Test for mensaje.getHora", ()=>{
+    
+    it("should return an hour", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setHora = "-1";
+        var nuevaHora = mensaje.getHora;
+        expect("-1").toEqual(nuevaHora);
+    });
+});
+
+describe("Test for mensaje.setModificado", ()=>{
+    
+    it("should return an update", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setModificado = true;
+        expect(mensaje.getModificado).toEqual(true);
+    });
+});
+
+describe("Test for mensaje.getModificado", ()=>{
+    
+    it("should return an update", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setModificado = true;
+        var nuevoModificado = mensaje.getModificado;
+        expect(true).toEqual(nuevoModificado);
     });
 });
 })
@@ -252,4 +310,52 @@ describe("Test for obtenerMensajesConversacionAmigo", ()=>{
         
     });
 });
+
+/**
+ * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
+ */
+describe("Test for obtenerMensajesConversacionGrupo", ()=>{
+    it("should return a hola", ()=>{
+        var LosMensajes = [];
+        var str : String;
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", -1,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.obtenerMensajesConversacionGrupo(mensaje.getidGrupo);
+        
+        evento.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+          LosMensajes = [];
+          LosMensajes = Mensajes;
+        expect("hola").toEqual(LosMensajes[0].mensaje);
+        })
+        
+    });
+});
+
+/**
+ * Prueba Unitaria del metodo modificarMensajeAmigo
+ */
+describe("Test for modificarMensajeAmigo", ()=>{
+    it("should return an Adios", ()=>{
+        var str : String = "falso";
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str,"adios");
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str);
+        
+        evento.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
+        expect("adios").toEqual(infoMensaje.getMensaje);
+        })
+        
+    });
+});
+
+
 
