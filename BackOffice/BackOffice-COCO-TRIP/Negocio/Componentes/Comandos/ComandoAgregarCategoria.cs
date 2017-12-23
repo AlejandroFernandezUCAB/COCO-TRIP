@@ -12,8 +12,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoAgregarCategoria : Comando
   {
-    private Categoria categoria;
-
+        private Entidad categoria = FabricaEntidad.GetCategoria();
         DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
         private ArrayList resultado = new ArrayList();
 
@@ -21,26 +20,25 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         {
             try
             {
-                JObject respuesta = ((DAOCategoria)dao).PutEditarEstado(categoria);
+                JObject respuesta = ((DAOCategoria)dao).Post((Categoria)categoria);
                 resultado.Add(respuesta);
             }
             catch (Exception e)
             {
-                //TERMINAR
+                //Agregar excepciones personalizadas que haga horacio
                 throw e;
             }
-
-
         }
 
-    public override ArrayList GetResult()
-    {
-      throw new NotImplementedException();
-    }
+        public override ArrayList GetResult()
+        {
+          return resultado;
+        }
 
-    public override void SetPropiedad(object propiedad)
-    {
-      throw new NotImplementedException();
-    }
+
+        public override void SetPropiedad(object propiedad)
+        {
+          categoria = (Categoria)propiedad;
+        }
   }
 }
