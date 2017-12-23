@@ -1,3 +1,5 @@
+import { ComandoVisualizarConversacionAmigo } from './../src/businessLayer/commands/comandoVisualizarConversacionAmigo';
+import { ComandoVisualizarConversacionGrupo } from './../src/businessLayer/commands/comandoVisualizarConversacionGrupo';
 import { ComandoEliminarMensaje } from './../src/businessLayer/commands/comandoEliminarMensaje';
 import { ComandoCrearMensaje } from './../src/businessLayer/commands/comandoCrearMensaje';
 import { Entidad } from './../src/dataAccessLayer/domain/entidad';
@@ -346,6 +348,51 @@ describe("Test for ComandoEliminarMensaje.execute", ()=>{
     });
 });
 
+/**
+ * Prueba unitaria del metodo execute de ComandoVisualizarConversacionAmigo
+ */
+describe("Test for ComandoVisualizarConversacionAmigo.execute", ()=>{
+    it("should return a message", ()=>{
+        var LosMensajes = [];
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoVisualizarConversacionAmigo = new ComandoVisualizarConversacionAmigo;
+        let entidad : Entidad;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        comando.setEntidad = mensaje;
+        comando.setEvents = events;
+        comando.execute();
+        events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
+            LosMensajes = [];
+            LosMensajes = Mensajes;
+            expect("MensajePruebaComando").toEqual(LosMensajes[0].mensaje);
+            })
+      });
+    });
+/**
+ * Prueba unitaria del metodo execute de ComandoVisualizarConversacionGrupo
+ */
+    describe("Test for ComandoVisualizarConversacionGrupo.execute", ()=>{
+        it("should return a message", ()=>{
+            var LosMensajes = [];
+            let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", -1,"","",false);
+            let events : Events = new Events;
+            let chat : ChatProvider = new ChatProvider(events);
+            let comando : ComandoVisualizarConversacionGrupo = new ComandoVisualizarConversacionGrupo;
+            let entidad : Entidad;
+            chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+            comando.setEntidad = mensaje;
+            comando.setEvents = events;
+            comando.execute();
+            events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+                LosMensajes = [];
+                LosMensajes = Mensajes;
+                expect("MensajePruebaComando").toEqual(LosMensajes[0].mensaje);
+                })
+          });
+        });
+
 //****************************************************************************************************//
 //**************************************PRUEBAS UNITARIAS DE DAO**************************************//
 //****************************************************************************************************//
@@ -366,6 +413,48 @@ describe("Test for DAO.agregar", ()=>{
         chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",respuesta.getId);
         events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
           expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
+
+/**
+ * Prueba unitaria del metodo VisualizarLista de DAOChat
+ */
+describe("Test for DAO.visulizarLista", ()=>{
+    it("should return an X", ()=>{
+        var LosMensajes = [];
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        DAO.visualizarLista(mensaje, events);
+
+        events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
+            LosMensajes=[];
+            LosMensajes = Mensajes;
+          expect("MensajePruebaDAO").toEqual(LosMensajes[0].mensaje);
+          })
+    });
+});
+
+/**
+ * Prueba unitaria del metodo VisualizarListaGrupo de DAOChat
+ */
+describe("Test for DAO.visulizarListaGrupo", ()=>{
+    it("should return an X", ()=>{
+        var LosMensajes = [];
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        DAO.visualizarListaGrupo(mensaje, events);
+
+        events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+            LosMensajes=[];
+            LosMensajes = Mensajes;
+          expect("MensajePruebaDAO").toEqual(LosMensajes[0].mensaje);
           })
     });
 });
