@@ -9,7 +9,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoConsultarListaCategoria : Comando
   {
-    private Entidad categoria = FabricaEntidad.GetCategoria();
+    private int Id;
     private ArrayList resultado = new ArrayList();
     DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
     
@@ -17,7 +17,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     {
       try
       {
-        JObject respuesta = dao.Put(categoria);
+        JObject respuesta = ((DAOCategoria)dao).Get(Id);
         resultado.Add(respuesta);
       }
       catch (Exception e)
@@ -36,7 +36,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 
     public override void SetPropiedad(object propiedad)
     {
-      categoria = (Categoria)propiedad;
+      Id = (int)propiedad;
     }
   }
 }
