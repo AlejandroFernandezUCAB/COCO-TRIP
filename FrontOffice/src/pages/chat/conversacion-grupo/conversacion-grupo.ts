@@ -87,7 +87,7 @@ export class ConversacionGrupoPage {
 
   ionViewDidEnter() {
     let entidad: Mensaje;
-    entidad = new Mensaje("","","",this.idGrupo);
+    entidad = new Mensaje("","","",this.idGrupo,"","",false);
     let comando = FabricaComando.crearComandoVisualizarConversacionGrupo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
