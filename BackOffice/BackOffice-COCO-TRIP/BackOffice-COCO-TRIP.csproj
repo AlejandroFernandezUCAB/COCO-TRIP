@@ -181,6 +181,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaHabilitada.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarEvento.cs" />

@@ -42,14 +42,20 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoInsertarEvento();
     }
-      public static ComandoConsultarCategorias GetComandoConsultarCategorias()
+
+    public static ComandoEliminarEvento GetComandoEliminarEvento()
+    {
+      return new ComandoEliminarEvento();
+    }
+  public static ComandoFiltrarEventoPorCategoria GetComandoFiltrarEventoPorCategoria()
+  {
+    return new ComandoFiltrarEventoPorCategoria();
+  }
+  public static ComandoConsultarCategorias GetComandoConsultarCategorias()
       {
         return new ComandoConsultarCategorias();
       }
-    public static ComandoFiltrarEventoPorCategoria GetComandoFiltrarEventoPorCategoria()
-    {
-      return new ComandoFiltrarEventoPorCategoria();
-    }
+    
     public static ComandoModificarCategoria GetComandoModificarCategoria()
     {
       return new ComandoModificarCategoria();

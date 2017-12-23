@@ -76,25 +76,15 @@ namespace BackOffice_COCO_TRIP.Controllers
     }
 
     // GET: M8Events/Delete/5
+    
     public ActionResult Delete(int id)
     {
-      return View();
-    }
+      Comando comando = FabricaComando.GetComandoEliminarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
 
-    // POST: M8Events/Delete/5
-    [HttpPost]
-    public ActionResult Delete(int id, FormCollection collection)
-    {
-      try
-      {
-        // TODO: Add delete logic here
-
-        return RedirectToAction("Index");
-      }
-      catch
-      {
-        return View();
-      }
+      return RedirectToAction("FilterEvent");
     }
 
     // GET: M8Events
