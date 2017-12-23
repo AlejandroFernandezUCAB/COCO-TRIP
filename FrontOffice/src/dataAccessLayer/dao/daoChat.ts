@@ -19,8 +19,8 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = new ChatProvider(null);
-        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        return null;
+        mensaje.setId = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        return mensaje;
     }
 
     visualizar(entidad: Entidad):Entidad{
@@ -35,7 +35,31 @@ export class DAOChat extends DAO {
         chat.obtenerMensajesConversacionAmigo(mensaje.getUsuario,mensaje.getAmigo);
         
         return null;
+
+    }
+    
+    visualizarListaGrupo(entidad: Entidad, events: Events) : Entidad{
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(events);
+        chat.obtenerMensajesConversacionGrupo(mensaje.getidGrupo);
         
+        return null;
+    }
+
+    informacionMensajeAmigo(entidad: Entidad, events: Events) : Entidad{
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(events);
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId);
+        return null;
+    }
+    informacionMensajeGrupo(entidad: Entidad, events: Events) : Entidad{
+        let mensaje = <Mensaje> entidad;
+        let chat : ChatProvider;
+        chat = new ChatProvider(events);
+        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,mensaje.getId);
+        return null;
     }
     
         

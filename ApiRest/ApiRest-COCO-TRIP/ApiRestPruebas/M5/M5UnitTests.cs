@@ -7,7 +7,7 @@ using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
 using Npgsql;
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Datos.Entity;
 
 namespace ApiRestPruebas

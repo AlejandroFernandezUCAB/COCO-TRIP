@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Reflection;
+using ApiRest_COCO_TRIP.Datos.Entity;
 
 namespace ApiRest_COCO_TRIP.Models
 {
@@ -352,7 +353,7 @@ namespace ApiRest_COCO_TRIP.Models
       Boolean respuesta = false;
       try
       {
-        comando = new NpgsqlCommand("EliminarEventoId", conexion.SqlConexion);
+        comando = new NpgsqlCommand("eliminareventoporid", conexion.SqlConexion);
         comando.CommandType = CommandType.StoredProcedure;
         comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, id);
         read = comando.ExecuteReader();

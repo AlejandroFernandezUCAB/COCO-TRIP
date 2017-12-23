@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { ToastController } from 'ionic-angular';
+import { InformacionMensajeGrupoPage } from '../../chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
 
 /**
@@ -46,11 +47,22 @@ export class ConversacionGrupoPage {
   todosLosMensajes = [];
   //nombreUsuario: string;
 
+  title: any;
+  accept: any;
+  delete: any;
+  text: any;
+  message: any;
+  succesful: any;
+  cancel: any;
+  edit: any;
+  info: any;
+  new: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
   public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
-  public toastCtrl: ToastController) {
+  public toastCtrl: ToastController, private translateService: TranslateService) {
   }
 
   ionViewWillEnter() {
@@ -75,10 +87,10 @@ export class ConversacionGrupoPage {
           this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
           this.scrollto();
           this.idUsuario =
-          this.events.subscribe('nuevoMensaje', () => {
+          this.events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
             this.todosLosMensajes = [];
             this.zone.run(() => {
-              this.todosLosMensajes = this.chatService.mensajesConversacion;
+              this.todosLosMensajes = Mensajes;
             })
           })
   
@@ -86,33 +98,44 @@ export class ConversacionGrupoPage {
 
 
   ionViewDidEnter() {
-    
-    this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
+    let entidad: Mensaje;
+    entidad = new Mensaje("","","",this.idGrupo,"","",false);
+    let comando = FabricaComando.crearComandoVisualizarConversacionGrupo();
+    comando.setEntidad = entidad;
+    comando.setEvents = this.events;
+    comando.execute();
     
   }
 
   pressEvent(idMensaje){
+    this.translateService.get('Opciones').subscribe(value => {this.title = value;})
+    this.translateService.get('Eliminar').subscribe(value => {this.delete = value;})
+    this.translateService.get('Borrar Mensaje').subscribe(value => {this.message = value;})
+    this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+    this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+    this.translateService.get('Modificar').subscribe(value => {this.edit = value;})
+    this.translateService.get('Informacion').subscribe(value => {this.info = value;})
     if(idMensaje!=-1){
       let actionSheet = this.actionsheetCtrl.create({
-        title: 'Opciones',
+        title: this.title,
         cssClass: 'action-sheets-basic-page',
         buttons: [
           {
-            text: 'Eliminar Chat',
+            text: this.delete,
             role: 'destructive', // aplica color rojo de alerta
             icon: !this.platform.is('ios') ? 'trash' : null,
             handler: () => {
               let decision = this.alertCtrl.create({
-                message: '¿Borrar este chat?',
+                message: '¿'+this.message+'?',
                 buttons: [
                   {
-                    text: 'Sí',
+                    text: this.accept,
                     handler: () => {
                       this.eliminarMensajeGrupo(idMensaje);
                     }
                   },
                   {
-                    text: 'No',
+                    text: this.cancel,
                     handler: () => {
                       console.log('Decisión de eliminar negativa');
                     }
@@ -123,7 +146,7 @@ export class ConversacionGrupoPage {
             }
           },
           {
-            text: 'Cancelar',
+            text: this.cancel,
             role: 'cancel', //coloca el botón siempre en el último lugar.
             icon: !this.platform.is('ios') ? 'close' : null,
             handler: () => {
@@ -131,12 +154,23 @@ export class ConversacionGrupoPage {
             }
           },
           {
-            text: 'Modificar',
+            text: this.edit,
             role: 'Modificar', //coloca el botón siempre en el último lugar.
             icon: !this.platform.is('ios') ? 'create' : null,
             handler: () => {
               this.crearalert(idMensaje);
             }
+            },
+            {
+              text: this.info,
+              role: 'Informacion', //coloca el botón siempre en el último lugar.
+              icon: !this.platform.is('ios') ? 'create' : null,
+              handler: () => {
+                this.navCtrl.push(InformacionMensajeGrupoPage,{
+                  idmensaje:idMensaje,
+                  idgrupo:this.idGrupo
+              });
+              }
             }
         ]
       });
@@ -145,31 +179,36 @@ export class ConversacionGrupoPage {
   }
 
   crearalert(idMensaje){
-    
+    this.translateService.get('Modificar Mensaje').subscribe(value => {this.title = value;})
+    this.translateService.get('Escribe nuevo mensaje').subscribe(value => {this.message = value;})
+    this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+    this.translateService.get('Modificar').subscribe(value => {this.edit = value;})
+    this.translateService.get('Mensaje').subscribe(value => {this.new = value;})
     let prompt = this.alertCtrl.create({
-      title: 'Modificar Mensaje',
-      message: "Escribe el nuevo mensaje",
+      title: this.title,
+      message: this.message,
       inputs: [
         {
           name: 'modificado',
-          placeholder: 'Nuevo mensaje'
+          placeholder: this.new
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: this.cancel,
           handler: data => {
             console.log('Cancel clicked');
         
           }
         },
         {
-          text: 'Modificar',
+          text: this.edit,
           handler: data => {
             if(data.modificado != ""){
               this.modificarMensajeGrupo(idMensaje,data.modificado);
             }else{
-              this.presentToast("Por favor escriba un mensaje");
+              this.translateService.get('Por favor').subscribe(value => {this.message = value;})
+              this.presentToast(this.message);
             }
           }
         }
@@ -181,31 +220,34 @@ export class ConversacionGrupoPage {
 
   
   eliminarMensajeGrupo(idMensaje){
+    this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.delete = value;})
+    this.translateService.get('Ocurrio un error').subscribe(value => {this.message = value;})
     let entidad: Mensaje;
-    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
     comando.setEntidad = entidad;
     comando.execute();
     if(comando.getRespuesta == true){
-      this.presentToast("Se ha eliminado exitosamente");
+      this.presentToast(this.delete);
     }else{
-      this.presentToast("Ha ocurrido un error");
+      this.presentToast(this.message);
 
     }
   }
 
    agregarMensajeGrupo() {
+    this.translateService.get('Por favor').subscribe(value => {this.message = value;})
      if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
-      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
       let comando = FabricaComando.crearComandoCrearMensajeGrupo();
       comando._entidad = entidad;
       comando.execute();
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
      }else{
-      this.presentToast("Por favor escriba un mensaje");
+      this.presentToast(this.message);
     }
 
       
@@ -214,7 +256,7 @@ export class ConversacionGrupoPage {
 
 modificarMensajeGrupo(idMensaje,nuevoMensaje){
   let entidad: Mensaje;
-  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",true);
   entidad.setId = idMensaje;
   let comando = FabricaComando.crearComandoModificarMensajeGrupo();
   comando.setEntidad = entidad;

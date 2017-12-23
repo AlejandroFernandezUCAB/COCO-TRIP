@@ -20,7 +20,7 @@
         <ion-avatar item-right *ngIf="item.enviadorPor === usuario.NombreUsuario " >
           <img src="assets/images/profile.png">
         </ion-avatar>
-        <div class="bubble me" (click)=pressEvent(item.key) *ngIf="item.enviadorPor === usuario.NombreUsuario  " >
+        <div class="bubble me" (click)=pressEvent(item.key,item.enviadorPor,item.receptor) *ngIf="item.enviadorPor === usuario.NombreUsuario  " >
           <h3 class="chatbox">{{item.mensaje}}</h3>
         </div>
         <ion-avatar  item-left *ngIf="item.enviadorPor != usuario.NombreUsuario " >
@@ -35,7 +35,7 @@
   </ion-content>
   <ion-footer ion-fixed>    
     <ion-toolbar class="no-border" color="white">        
-      <ion-input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." (keyup.enter)="agregarMensajeAmigo()"  class=chatbox></ion-input>  
+      <ion-input [(ngModel)]="nuevoMensaje" placeholder="{{ 'Escribe Mensaje' | translate }}" (keyup.enter)="agregarMensajeAmigo()"  class=chatbox></ion-input>  
       <ion-buttons end>
         <button ion-button (click)="agregarMensajeAmigo()">
           <ion-icon name="send" color="secundary"></ion-icon>

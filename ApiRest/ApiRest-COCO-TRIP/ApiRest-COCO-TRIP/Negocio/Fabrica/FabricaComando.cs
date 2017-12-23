@@ -1,6 +1,6 @@
 using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Command;
 
 namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 {
@@ -297,6 +297,79 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoEliminarItinerario CrearComandoEliminarItinerario(int id)
     {
       return new ComandoEliminarItinerario(id);
+    }
+    /// Retorna la instancia de ComandoModificarCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoModificarCategoria CrearComandoModificarCategoria(Entidad entidad)
+    {
+      return new ComandoModificarCategoria(entidad);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoObtenerCategorias
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoObtenerCategorias CrearComandoObtenerCategorias()
+    {
+      return new ComandoObtenerCategorias();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEstadoCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoEstadoCategoria CrearComandoEstadoCategoria(Entidad entidad)
+    {
+      return new ComandoEstadoCategoria(entidad);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarLocalidad
+    /// </summary>
+    /// <returns>ComandoAgregarLocalidad</returns>
+    public static ComandoAgregarLocalidad CrearComandoAgregarLocalidad()
+    {
+      return new ComandoAgregarLocalidad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidad
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidad</returns>
+    public static ComandoConsultarLocalidad CrearComandoConsultarLocalidad()
+    {
+      return new ComandoConsultarLocalidad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidades
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidades</returns>
+    public static ComandoConsultarLocalidades CrearComandoConsultarLocalidades()
+    {
+      return new ComandoConsultarLocalidades();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarLocalidad
+    /// </summary>
+    /// <returns>ComandoModificarLocalidad</returns>
+    public static ComandoModificarLocalidad CrearComandoModificarLocalidad()
+    {
+      return new ComandoModificarLocalidad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarLocalidad
+    /// </summary>
+    /// <returns>ComandoEliminarLocalidad</returns>
+    public static ComandoEliminarLocalidad CrearComandoEliminarLocalidad()
+    {
+      return new ComandoEliminarLocalidad();
     }
   }
 }

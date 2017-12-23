@@ -4,13 +4,13 @@ import  { Comando } from './comando';
 import { DAOChatGrupo } from '../../dataAccessLayer/dao/daoChatGrupo';
 
 export class ComandoModificarMensajeGrupo extends Comando {
-
+    private  _respuesta : Boolean;
     
 
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO MODIFICAR MENSAJE GRUPO");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.modificarMensajeGrupo(this._entidad);
+        this._respuesta=DAO.modificarMensajeGrupo(this._entidad);
 
         
     }
@@ -22,6 +22,9 @@ export class ComandoModificarMensajeGrupo extends Comando {
 
     set setEntidad(entidad:Entidad) {
         this._entidad = entidad;
+    }
+    get getRespuesta():Boolean {
+        return this._respuesta;
     }
     
 }

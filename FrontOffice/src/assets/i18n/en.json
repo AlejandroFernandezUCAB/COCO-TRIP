@@ -128,5 +128,21 @@
     "En":"At",
     "Preferencias":"Preferences",
     "Sin Resultados": "- No Results -",
-    "eventos":"events"
+    "eventos":"events",
+
+    "Chat Amigo": "Friend Chat",
+    "Chat Grupo": "Group Chat",
+    "Escribe Mensaje": "Write a message...",
+    "Opciones" : "Options",
+    "Borrar Mensaje": "Delete this message",
+    "Modificar": "Edit",
+    "Informacion": "Information",
+    "Modificar Mensaje": "Edit Message",
+    "Escribe nuevo mensaje": "Write the new message",
+    "Ocurrio un error" : "A mistake happened",
+    "Por favor" : "Write a message, please",
+    "Mensaje" : "New Message",
+    "Informacion Mensaje": "Message Information",
+    "Modificado": "Modified"
+
 }

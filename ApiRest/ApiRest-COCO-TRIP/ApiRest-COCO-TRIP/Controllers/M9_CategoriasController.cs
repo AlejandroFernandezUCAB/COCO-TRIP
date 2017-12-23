@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections;
 using ApiRest_COCO_TRIP.Validaciones;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -23,7 +24,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     private IDictionary response = new Dictionary<string, object>();
     private const string Response_Data = "data";
     private const string Response_Error = "error";
-
+    private Comando com;
+    private ApiRest_COCO_TRIP.Datos.Entity.Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
+    
 
     /// <summary>
     /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id.
@@ -42,10 +45,10 @@ namespace ApiRest_COCO_TRIP.Controllers
           "id",
           "estatus"
         });
-
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.ActualizarEstatus(categoria);
+        
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        com = FabricaComando.CrearComandoEstadoCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
 
@@ -96,13 +99,14 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public IDictionary ObtenerCategorias(int id = -1)
     {
+      DAO dao = FabricaDAO.CrearDAOCategoria();
+      DAOCategoria daoc = (DAOCategoria)dao;
       try
       {
 
-        Categoria categoria = new Categoria(id);
-        PeticionCategoria peticion = new PeticionCategoria();
-        IList<Categoria> lista = peticion.ObtenerCategorias(categoria);
+        categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
 
+        IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = daoc.ObtenerCategorias(categoria);//HAY QUE CAMBIAR ESTO, ES SOLO DE PRUEBA.
         response.Add(Response_Data, lista);
 
       }
@@ -143,6 +147,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ModificarCategorias([FromBody] JObject data)
     {
+     
       try
       {
 
@@ -154,9 +159,9 @@ namespace ApiRest_COCO_TRIP.Controllers
             "nivel"
         });
 
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.ModificarCategoria(categoria);
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        com = FabricaComando.CrearComandoModificarCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
 
