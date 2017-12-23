@@ -1,5 +1,11 @@
+import { ComandoVisualizarConversacionAmigo } from './../src/businessLayer/commands/comandoVisualizarConversacionAmigo';
+import { ComandoVisualizarConversacionGrupo } from './../src/businessLayer/commands/comandoVisualizarConversacionGrupo';
 import { ComandoEliminarMensaje } from './../src/businessLayer/commands/comandoEliminarMensaje';
+import { ComandoModificarMensaje } from './../src/businessLayer/commands/comandoModificarMensaje';
+import { ComandoModificarMensajeGrupo } from './../src/businessLayer/commands/comandoModificarMensajeGrupo';
 import { ComandoCrearMensaje } from './../src/businessLayer/commands/comandoCrearMensaje';
+import { ComandoInformacionMensajeAmigo } from './../src/businessLayer/commands/comandoInformacionMensajeAmigo';
+import { ComandoInformacionMensajeGrupo } from './../src/businessLayer/commands/comandoInformacionMensajeGrupo';
 import { Entidad } from './../src/dataAccessLayer/domain/entidad';
 import { ConversacionGrupoPage } from '../src/pages/chat/conversacion-grupo/conversacion-grupo'
 import { ConversacionPage } from '../src/pages/chat/conversacion/conversacion'
@@ -11,14 +17,12 @@ import { Events } from 'ionic-angular';
 import firebase from 'firebase';
 import { DAO } from '../src/dataAccessLayer/dao/dao';
 import { DAOChat } from '../src/dataAccessLayer/dao/daoChat';
-import { ComandoCrearMensajeGrupo } from '../src/businessLayer/commands/comandoCrearMensajeGrupo';
 import { ComandoEliminarMensajeGrupo } from '../src/businessLayer/commands/comandoEliminarMensajeGrupo';
-import { ComandoInformacionMensajeAmigo } from '../src/businessLayer/commands/comandoInformacionMensajeAmigo';
+import { ComandoCrearMensajeGrupo } from '../src/businessLayer/commands/comandoCrearMensajeGrupo';
 firebase.initializeApp(config);
 //****************************************************************************************************//
 //**********************************PRUEBAS UNITARIAS DEL MODULO 6************************************//
 //****************************************************************************************************//
-
 /**
  * Autores:
  * Mariangel Perez
@@ -29,7 +33,6 @@ firebase.initializeApp(config);
 //****************************************************************************************************//
 //***********************************PRUEBAS UNITARIAS DEL DOMINIO************************************//
 //****************************************************************************************************//
-
 describe("TEST FOR MENSAJE",()=>{
 
  describe("Test for mensaje.setMensaje", ()=>{
@@ -254,12 +257,11 @@ describe("Test for ChatProvider.eliminarMensajeGrupo", ()=>{
 });
 
 
-
 /**
  * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
  */
-describe("Test for obtenerMensajesConversacionAmigo", ()=>{
-    it("should return a hola", ()=>{
+describe("Test for ChatProvider.obtenerMensajesConversacionAmigo", ()=>{
+    it("should return a message with hola", ()=>{
         var LosMensajes = [];
         var str : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
@@ -280,10 +282,10 @@ describe("Test for obtenerMensajesConversacionAmigo", ()=>{
 });
 
 /**
- * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
+ * Prueba Unitaria del metodo obtenerMensajesConversacionGrupo
  */
-describe("Test for obtenerMensajesConversacionGrupo", ()=>{
-    it("should return a hola", ()=>{
+describe("Test for ChatProvider.obtenerMensajesConversacionGrupo", ()=>{
+    it("should return a message with hola", ()=>{
         var LosMensajes = [];
         var str : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", -1,"","",false);
@@ -304,10 +306,54 @@ describe("Test for obtenerMensajesConversacionGrupo", ()=>{
 });
 
 /**
+ * Prueba Unitaria del metodo obtenerInfoMensajeAmigo
+ */
+describe("Test for ChatProvider.obtenerInfoMensajeAmigo", ()=>{
+    it("should return a message with hola", ()=>{
+        var str : String;
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
+        mensaje.setId="-1";
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario, mensaje.getAmigo,mensaje.getId);
+        
+        evento.subscribe('infoMensaje', (Mensajes) => {
+        expect("hola").toEqual(Mensajes.getMensaje);
+        })
+        
+    });
+});
+
+/**
+ * Prueba Unitaria del metodo obtenerInfoMensajeGrupo
+ */
+describe("Test for ChatProvider.obtenerInfoMensajeGrupo", ()=>{
+    it("should return a message with hola", ()=>{
+        var str : String;
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", -1,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,mensaje.getMensaje);
+        
+        evento.subscribe('infoMensajeGrupo', (Mensajes) => {
+        expect("hola").toEqual(Mensajes.getMensaje);
+        })
+        
+    });
+});
+
+
+/**
  * Prueba Unitaria del metodo modificarMensajeAmigo
  */
-describe("Test for modificarMensajeAmigo", ()=>{
-    it("should return an Adios", ()=>{
+describe("Test for ChatProvider.modificarMensajeAmigo", ()=>{
+    it("should return an key", ()=>{
         var str : String = "falso";
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
         let chat : ChatProvider;
@@ -319,6 +365,28 @@ describe("Test for modificarMensajeAmigo", ()=>{
         chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str);
         
         evento.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
+        expect("adios").toEqual(infoMensaje.getMensaje);
+        })
+        
+    });
+});
+
+/**
+ * Prueba Unitaria del metodo modificarMensajeGrupo
+ */
+describe("Test for ChatProvider.modificarMensajeGrupo", ()=>{
+    it("should return a key", ()=>{
+        var str : String = "falso";
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        str = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.modificarMensajeGrupo(mensaje.getidGrupo,str,"adios",mensaje.getUsuario);
+        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,str);
+        
+        evento.subscribe('infoMensajeGrupo', (infoMensaje) => {
         expect("adios").toEqual(infoMensaje.getMensaje);
         })
         
@@ -424,6 +492,143 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
     });
 });
 
+
+/**
+    * Prueba unitaria del metodo execute de ComandoVisualizarConversacionAmigo
+    */
+    describe("Test for ComandoVisualizarConversacionAmigo.execute", ()=>{
+        it("should return a message", ()=>{
+            var LosMensajes = [];
+            let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+            let events : Events = new Events;
+            let chat : ChatProvider = new ChatProvider(events);
+            let comando : ComandoVisualizarConversacionAmigo = new ComandoVisualizarConversacionAmigo;
+            let entidad : Entidad;
+            chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+            comando.setEntidad = mensaje;
+            comando.setEvents = events;
+            comando.execute();
+            events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
+                LosMensajes = [];
+                LosMensajes = Mensajes;
+                expect("MensajePruebaComando").toEqual(LosMensajes[0].mensaje);
+                })
+          });
+        });
+
+
+   /**
+    * Prueba unitaria del metodo execute de ComandoVisualizarConversacionGrupo
+    */
+       describe("Test for ComandoVisualizarConversacionGrupo.execute", ()=>{
+           it("should return a message", ()=>{
+               var LosMensajes = [];
+               let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", -1,"","",false);
+               let events : Events = new Events;
+               let chat : ChatProvider = new ChatProvider(events);
+               let comando : ComandoVisualizarConversacionGrupo = new ComandoVisualizarConversacionGrupo;
+               let entidad : Entidad;
+               chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+               comando.setEntidad = mensaje;
+               comando.setEvents = events;
+               comando.execute();
+               events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+                   LosMensajes = [];
+                   LosMensajes = Mensajes;
+                   expect("MensajePruebaComando").toEqual(LosMensajes[0].mensaje);
+                   })
+             });
+           });
+   
+
+
+/**
+ * Prueba unitaria del metodo execute de ComandoModificarMensaje
+ */
+describe("Test for ComandoModificarMensaje.execute", ()=>{
+    it("should return a entity instead of null", ()=>{
+        var key : String;
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoModificarMensaje = new ComandoModificarMensaje;
+        let entidad : Entidad;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        mensaje.setId = key;
+        comando.setEntidad = mensaje;
+        comando.execute();
+        respuesta = comando.getRespuesta;
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo execute de ComandoModificarMensajeGrupo
+ */
+describe("Test for ComandoModificarMensajeGrupo.execute", ()=>{
+    it("should return a entity instead of null", ()=>{
+        var key : String;
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoModificarMensajeGrupo = new ComandoModificarMensajeGrupo;
+        let entidad : Entidad;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        mensaje.setId = key;
+        comando.setEntidad = mensaje;
+        comando.execute();
+        respuesta = comando.getRespuesta;
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo execute de ComandoInformacionMensajeAmigo
+ */
+describe("Test for ComandoInformacionMensajeAmigo.execute", ()=>{
+    it("should return a message", ()=>{
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoInformacionMensajeAmigo = new ComandoInformacionMensajeAmigo;
+        let entidad : Entidad;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        comando.setEntidad = mensaje;
+        comando.setEvents = events;
+        comando.execute();
+        events.subscribe('infoMensaje', (infoMensaje) => {
+            expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
+            })
+      });
+    });
+
+    /**
+ * Prueba unitaria del metodo execute de ComandoInformacionMensajeGrupo
+ */
+describe("Test for ComandoInformacionMensajeGrupo.execute", ()=>{
+    it("should return a message", ()=>{
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2",-1,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoInformacionMensajeGrupo = new ComandoInformacionMensajeGrupo;
+        let entidad : Entidad;
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        comando.setEntidad = mensaje;
+        comando.setEvents = events;
+        comando.execute();
+        events.subscribe('infoMensajeGrupo', (infoMensaje) => {
+            expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
+            })
+      });
+    });
+
+
+
+
 //****************************************************************************************************//
 //**************************************PRUEBAS UNITARIAS DE DAO**************************************//
 //****************************************************************************************************//
@@ -512,6 +717,119 @@ describe("Test for DAO.eliminarMensajeGrupo", ()=>{
         chat.obtenerInfoMensajeGrupo(-1,key);
         events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
           expect("mensaje eliminado").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
+
+/**
+ * Prueba unitaria del metodo modificar de DAOChat
+ */
+describe("Test for DAO.modificar", ()=>{
+    it("should return a entity instead of null", ()=>{
+
+        var key : String;
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAO = new DAOChat;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        mensaje.setId = key;
+        respuesta = DAO.modificar(mensaje);
+        expect(true).toEqual(respuesta);
+    });
+});
+
+/**
+ * Prueba unitaria del metodo agregar de DAOChat
+ */
+describe("Test for DAO.modificarMensajeGrupo", ()=>{
+    it("should return a entity instead of null", ()=>{
+
+        var key : String;
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        mensaje.setId = key;
+        respuesta = DAO.modificarMensajeGrupo(mensaje);
+        expect(true).toEqual(respuesta);
+    });
+});
+
+describe("Test for DAO.informacionMensajeAmigo", ()=>{
+    it("should return an X", ()=>{
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        DAO.informacionMensajeAmigo(mensaje, events);
+
+        events.subscribe('infoMensaje', (infoMensaje) => {
+          expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
+
+describe("Test for DAO.informacionMensajeGrupo", ()=>{
+    it("should return an X", ()=>{
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
+        mensaje.setId="-1";
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        DAO.informacionMensajeGrupo(mensaje, events);
+
+        events.subscribe('infoMensajeGrupo', (infoMensajeGrupo) => {
+          expect("MensajePruebaDAO").toEqual(infoMensajeGrupo.getMensaje);
+          })
+    });
+});
+
+/*
+* Prueba unitaria del metodo VisualizarLista de DAOChat
+ */
+describe("Test for DAO.visulizarLista", ()=>{
+    it("should return an X", ()=>{
+        var LosMensajes = [];
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+ DAO.visualizarLista(mensaje, events); 
+
+        events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
+            LosMensajes=[];
+            LosMensajes = Mensajes;
+          expect("MensajePruebaDAO").toEqual(LosMensajes[0].mensaje);
+ })
+    });
+});
+
+
+/**
+ * Prueba unitaria del metodo VisualizarListaGrupo de DAOChat
+ */
+describe("Test for DAO.visulizarListaGrupo", ()=>{
+    it("should return an X", ()=>{
+        var LosMensajes = [];
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
+ let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAOChat = new DAOChat;
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+     DAO.visualizarListaGrupo(mensaje, events);
+
+        events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+            LosMensajes=[];
+            LosMensajes = Mensajes;
+          expect("MensajePruebaDAO").toEqual(LosMensajes[0].mensaje);
           })
     });
 });

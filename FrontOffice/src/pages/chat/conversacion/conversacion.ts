@@ -53,13 +53,24 @@ export class ConversacionPage {
     NombreUsuario: 'NombreUsuario'
   };
   todosLosMensajes = [];
+
+  title: any;
+  accept: any;
+  delete: any;
+  text: any;
+  message: any;
+  succesful: any;
+  cancel: any;
+  edit: any;
+  info: any;
+  new: any;
   //nombreUsuario: string;
 
 constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
   public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
-  public toastCtrl: ToastController) {
+  public toastCtrl: ToastController, private translateService: TranslateService) {
  /* let idUsuario     //Obtiene ID de Usuario
   this.storage.get('id').then((val) => {
     idUsuario = val;
@@ -111,28 +122,36 @@ ionViewWillEnter() {
  }
 
  pressEvent(idMensaje,emisor,receptor){
+  this.translateService.get('Opciones').subscribe(value => {this.title = value;})
+  this.translateService.get('Eliminar').subscribe(value => {this.delete = value;})
+  this.translateService.get('Borrar Mensaje').subscribe(value => {this.message = value;})
+  this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
+  this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+  this.translateService.get('Modificar').subscribe(value => {this.edit = value;})
+  this.translateService.get('Informacion').subscribe(value => {this.info = value;})
+
   if(idMensaje!=-1){
     let actionSheet = this.actionsheetCtrl.create({
-      title: 'Opciones',
+      title: this.title,
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {
-          text: 'Eliminar mensaje',
+          text: this.delete,
           role: 'destructive', // aplica color rojo de alerta
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
             let decision = this.alertCtrl.create({
-              message: '¿Borrar este mensaje?',
+              message: '¿'+this.message+'?',
               buttons: [
                 {
-                  text: 'Sí',
+                  text: this.accept,
                   handler: () => {
 
                     this.eliminarMensajeAmigo(idMensaje);
                   }
                 },
                 {
-                  text: 'No',
+                  text: this.cancel,
                   handler: () => {
                     console.log('Decisión de eliminar negativa');
                   }
@@ -143,7 +162,7 @@ ionViewWillEnter() {
           }
         },
         {
-          text: 'Cancelar',
+          text: this.cancel,
           role: 'cancel', //coloca el botón siempre en el último lugar.
           icon: !this.platform.is('ios') ? 'close' : null,
           handler: () => {
@@ -151,7 +170,7 @@ ionViewWillEnter() {
           }
         },
         {
-          text: 'Modificar',
+          text: this.edit,
           role: 'Modificar', //coloca el botón siempre en el último lugar.
           icon: !this.platform.is('ios') ? 'create' : null,
           handler: () => {
@@ -161,7 +180,7 @@ ionViewWillEnter() {
 
           },
           {
-            text: 'Informacion',
+            text: this.info,
             role: 'Informacion', //coloca el botón siempre en el último lugar.
             icon: !this.platform.is('ios') ? 'create' : null,
             handler: () => {
@@ -180,30 +199,37 @@ ionViewWillEnter() {
 
 
 crearalert(idMensaje){
+  this.translateService.get('Modificar Mensaje').subscribe(value => {this.title = value;})
+  this.translateService.get('Escribe nuevo mensaje').subscribe(value => {this.message = value;})
+  this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
+  this.translateService.get('Modificar').subscribe(value => {this.edit = value;})
+  this.translateService.get('Mensaje').subscribe(value => {this.new = value;})
+
   let prompt = this.alertCtrl.create({
-    title: 'Modificar Mensaje',
-    message: "Escribe el nuevo mensaje",
+    title: this.title,
+    message: this.message,
     inputs: [
       {
         name: 'modificado',
-        placeholder: 'Nuevo mensaje'
+        placeholder: this.new
       },
     ],
     buttons: [
       {
-        text: 'Cancel',
+        text: this.cancel,
         handler: data => {
           console.log('Cancel clicked');
       
         }
       },
       {
-        text: 'Modificar',
+        text: this.edit,
         handler: data => {
           if(data.modificado != ""){
             this.ModificarMensajeAmigo(idMensaje,data.modificado);
           }else{
-            this.presentToast("Por favor escriba un mensaje");
+            this.translateService.get('Por favor').subscribe(value => {this.message = value;})
+            this.presentToast(this.message);
           }
           
          // this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
@@ -225,6 +251,8 @@ crearalert(idMensaje){
   }
 
   eliminarMensajeAmigo(idMensaje){
+    this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.delete = value;})
+    this.translateService.get('Ocurrio un error').subscribe(value => {this.message = value;})
     let entidad: Mensaje;
     entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
     entidad.setId = idMensaje;
@@ -232,14 +260,15 @@ crearalert(idMensaje){
     comando.setEntidad = entidad;
     comando.execute();
     if(comando.getRespuesta == true){
-      this.presentToast("Se ha eliminado exitosamente");
+      this.presentToast(this.delete);
     }else{
-      this.presentToast("Ha ocurrido un error");
+      this.presentToast(this.message);
 
     }
   }
 
   agregarMensajeAmigo() {
+    this.translateService.get('Por favor').subscribe(value => {this.message = value;})
     if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
       entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
@@ -249,7 +278,7 @@ crearalert(idMensaje){
       this.content.scrollToBottom();
       this.nuevoMensaje = '';
     }else{
-      this.presentToast("Por favor escriba un mensaje");
+      this.presentToast(this.message);
     }
     
   }

@@ -135,10 +135,6 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",0,temp.tiempoDeEnvio,0,temp.modificado);
       entidad.setId=temp.key;
       this.events.publish('infoMensaje',entidad);
-      
-      //alert("dentro"+entidad.getMensaje);
-      //return entidad;
-      //alert("dentro"+temp.mensaje);
     });
   
   }
@@ -155,7 +151,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     });
   
   }
-  modificarMensajeAmigo(idEmisor,idReceptor,idMensaje,mensajeModificado){
+  modificarMensajeAmigo(idEmisor,idReceptor,idMensaje,mensajeModificado):boolean{
 
     this.fireConversacionChatsAmigo.child(idEmisor).child(idReceptor).child(idMensaje).set({
       key:idMensaje,
@@ -174,7 +170,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     return true;
   }
 
-  modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado,emisor){
+  modificarMensajeGrupo(idGrupo,idMensaje,mensajeModificado,emisor):boolean{
     this.fireConversacionChatsGrupo.child(idGrupo).child(idMensaje).set({
       key:idMensaje,
       modificado: true,

@@ -127,5 +127,21 @@
     "Inicia":"Inicia",
     "Finaliza":"Finaliza",
     "En":"En",
-    "Preferencias":"Preferencias"
+    "Preferencias":"Preferencias",
+
+    "Chat Amigo": "Chat Amigo",
+    "Chat Grupo": "Chat Grupo",
+    "Escribe Mensaje": "Escribe un mensaje...",
+    "Opciones" : "Opciones",
+    "Borrar Mensaje": "Borrar este mensaje",
+    "Modificar": "Modificar",
+    "Informacion": "Informacion",
+    "Modificar Mensaje": "Modificar Mensaje",
+    "Escribe nuevo mensaje": "Escribe el nuevo mensaje",
+    "Ocurrio un error" : "Ocurrio un error",
+    "Por favor" : "Por favor escriba un mensaje",
+    "Mensaje" : "Nuevo Mensaje",
+    "Informacion Mensaje": "Informacion Mensaje",
+    "Modificado": "Modificado"
+
 }
