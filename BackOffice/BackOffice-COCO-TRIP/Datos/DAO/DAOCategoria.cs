@@ -315,7 +315,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// <summary>
     /// Clase Para Modificar el estado de una categoria mediante peticiones al servicio web 
     /// </summary>
-    public JObject PutEditarEstado(Categoria data)
+    public JObject PutEditarEstado(Entidad data)
     {
       try
       {
@@ -326,7 +326,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           JObject jsonData = new JObject
           {
             { "id", data.Id },
-            { "estatus", data.Status }
+            { "estatus", ((Categoria)data).Status}
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/actualizarEstatus", jsonData);
           responseTask.Wait();

@@ -28,7 +28,8 @@ namespace ApiRest_COCO_TRIP.Controllers
     private const string Response_Data = "data";
     private const string Response_Error = "error";
     private Comando com;
-
+    private ApiRest_COCO_TRIP.Datos.Entity.Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
+    
 
     /// <summary>
     /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id.
@@ -47,8 +48,8 @@ namespace ApiRest_COCO_TRIP.Controllers
           "id",
           "estatus"
         });
-
-        ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
         com = FabricaComando.CrearComandoEstadoCategoria(categoria);
         com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
@@ -106,7 +107,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
 
-        ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
+        categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
 
         IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = daoc.ObtenerCategorias(categoria);//HAY QUE CAMBIAR ESTO, ES SOLO DE PRUEBA.
         response.Add(Response_Data, lista);
@@ -161,9 +162,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             "nivel"
         });
 
-        ApiRest_COCO_TRIP.Datos.Entity.Categoria categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
-        //     Peticion = new PeticionCategoria();
-        //     Peticion.ModificarCategoria(categoria);
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
         com = FabricaComando.CrearComandoModificarCategoria(categoria);
         com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");

@@ -9,7 +9,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
   public class ComandoModificarCategoria:Comando
   {
     DAO dao = FabricaDAO.CrearDAOCategoria();
-    private Entidad entidad;
+    private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
 
     public ComandoModificarCategoria(Entidad entidad)
     {

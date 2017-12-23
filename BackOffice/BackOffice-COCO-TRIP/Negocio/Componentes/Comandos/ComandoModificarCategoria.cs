@@ -5,12 +5,11 @@ using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO;
 
-
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
   public class ComandoModificarCategoria : Comando
   {
-    private Categoria categoria;
+    private Entidad categoria = FabricaEntidad.GetCategoria();
     private ArrayList resultado = new ArrayList();
     DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
     
