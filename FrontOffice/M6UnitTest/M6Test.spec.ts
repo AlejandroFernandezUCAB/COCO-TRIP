@@ -23,7 +23,10 @@ firebase.initializeApp(config);
  * Aquiles Pulido
  */
 
+//****************************************************************************************************//
 //***********************************PRUEBAS UNITARIAS DEL DOMINIO************************************//
+//****************************************************************************************************//
+
 describe("TEST FOR MENSAJE",()=>{
 
  describe("Test for mensaje.setMensaje", ()=>{
@@ -160,8 +163,9 @@ describe("Test for mensaje.getModificado", ()=>{
 });
 })
 
-
+//****************************************************************************************************//
 //*********************************PRUEBAS UNITARIAS DE CHAT PROVIDER*********************************//
+//****************************************************************************************************//
 
 /**
  * Prueba unitaria del metodo agregarNuevoMensajeAmigo
@@ -204,25 +208,6 @@ describe("Test for ChatProvider.eliminarMensajeAmigo", ()=>{
     });
 });
 
-/**
- * Prueba unitaria del metodo agregar de DAOChat
- */
-describe("Test for DAO.agregar", ()=>{
-    it("should return a entity instead of null", ()=>{
-
-        var key : String;
-        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
-        let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
-        let DAO : DAO = new DAOChat;
-        let entidad,respuesta : Entidad;
-        respuesta = DAO.agregar(mensaje);
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",respuesta.getId);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
-          })
-    });
-});
 
 /**
  * Prueba unitaria del metodo agregar de DAOChat
@@ -243,48 +228,6 @@ describe("Test for DAO.eliminar", ()=>{
         expect(true).toEqual(respuesta);
     });
 });
-/**
- * Prueba unitaria del metodo execute de ComandoCrearMensaje
- */
-describe("Test for ComandoCrearMensaje.execute", ()=>{
-    it("should return a entity instead of null", ()=>{
-        var key : String;
-        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
-        let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
-        let comando : ComandoCrearMensaje = new ComandoCrearMensaje;
-        let entidad,respuesta : Entidad;
-        comando.setEntidad = mensaje;
-        comando.execute();
-        key = comando.getEntidad.getId;
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
-          })
-    });
-});
-
-/**
- * Prueba unitaria del metodo execute de ComandoElimiarMensaje
- */
-describe("Test for ComandoEliminarMensaje.execute", ()=>{
-    it("should return a entity instead of null", ()=>{
-        var key : String;
-        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
-        let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
-        let comando : ComandoEliminarMensaje = new ComandoEliminarMensaje;
-        let entidad : Entidad;
-        let respuesta : Boolean = false;
-        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId = key;
-        comando.setEntidad = mensaje;
-        comando.execute();
-        respuesta = comando.getRespuesta;
-        expect(true).toEqual(respuesta);
-    });
-});
-
 
 
 /**
@@ -357,5 +300,72 @@ describe("Test for modificarMensajeAmigo", ()=>{
     });
 });
 
+//****************************************************************************************************//
+//************************************PRUEBAS UNITARIAS DE COMANDO************************************//
+//****************************************************************************************************//
 
+/**
+ * Prueba unitaria del metodo execute de ComandoCrearMensaje
+ */
+describe("Test for ComandoCrearMensaje.execute", ()=>{
+    it("should return a entity instead of null", ()=>{
+        var key : String;
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoCrearMensaje = new ComandoCrearMensaje;
+        let entidad,respuesta : Entidad;
+        comando.setEntidad = mensaje;
+        comando.execute();
+        key = comando.getEntidad.getId;
+        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
+        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
+          expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
 
+/**
+ * Prueba unitaria del metodo execute de ComandoEliminarMensaje
+ */
+describe("Test for ComandoEliminarMensaje.execute", ()=>{
+    it("should return a entity instead of null", ()=>{
+        var key : String;
+        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let comando : ComandoEliminarMensaje = new ComandoEliminarMensaje;
+        let entidad : Entidad;
+        let respuesta : Boolean = false;
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        mensaje.setId = key;
+        comando.setEntidad = mensaje;
+        comando.execute();
+        respuesta = comando.getRespuesta;
+        expect(true).toEqual(respuesta);
+    });
+});
+
+//****************************************************************************************************//
+//**************************************PRUEBAS UNITARIAS DE DAO**************************************//
+//****************************************************************************************************//
+
+/**
+ * Prueba unitaria del metodo agregar de DAOChat
+ */
+describe("Test for DAO.agregar", ()=>{
+    it("should return a entity instead of null", ()=>{
+
+        var key : String;
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let events : Events = new Events;
+        let chat : ChatProvider = new ChatProvider(events);
+        let DAO : DAO = new DAOChat;
+        let entidad,respuesta : Entidad;
+        respuesta = DAO.agregar(mensaje);
+        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",respuesta.getId);
+        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
+          expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
+          })
+    });
+});
