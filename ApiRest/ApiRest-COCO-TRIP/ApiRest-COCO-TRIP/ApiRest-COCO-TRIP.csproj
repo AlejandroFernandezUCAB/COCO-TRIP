@@ -225,6 +225,7 @@
     <Compile Include="Negocio\Comando\ComandoEliminarIntegrante.cs" />
     <Compile Include="Negocio\Comando\ComandoEliminarLocalidad.cs" />
     <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Comando\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Comando\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Comando\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Comando\ComandoObtenerCategorias.cs" />

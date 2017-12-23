@@ -2,15 +2,16 @@ import { FabricaDAO } from '../factory/fabricaDao';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import  { Comando } from './comando';
 import { DAOChat } from '../../dataAccessLayer/dao/daoChat';
+import { Events } from 'ionic-angular';
 
-export class ComandoVisualizarMensajeAmigo extends Comando {
-
+export class ComandoInformacionMensajeAmigo extends Comando {
+    public _events : Events;
     
 
     public execute(): void {
-        console.log("ENTRANDO EN EXECUTE DE COMANDO VISUALIZAR MENSAJE");
+        console.log("ENTRANDO EN EXECUTE DE COMANDO INFORMACION MENSAJE AMIGO");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.visualizar(this._entidad);
+        DAO.informacionMensajeAmigo(this._entidad, this._events);
     }
 
     
@@ -20,6 +21,10 @@ export class ComandoVisualizarMensajeAmigo extends Comando {
 
     set setEntidad(entidad:Entidad) {
         this._entidad = entidad;
+    }
+    
+    set setEvents(events:Events) {
+        this._events = events;
     }
     
 }

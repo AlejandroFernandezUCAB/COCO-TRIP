@@ -256,9 +256,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns></returns>
-    public static ComandoModificarCategoria CrearComandoModificarCategoria()
+    public static ComandoModificarCategoria CrearComandoModificarCategoria(Entidad entidad)
     {
-      return new ComandoModificarCategoria();
+      return new ComandoModificarCategoria(entidad);
     }
 
     /// <summary>
@@ -269,6 +269,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoObtenerCategorias CrearComandoObtenerCategorias()
     {
       return new ComandoObtenerCategorias();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEstadoCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoEstadoCategoria CrearComandoEstadoCategoria(Entidad entidad)
+    {
+      return new ComandoEstadoCategoria(entidad);
     }
 
     /// <summary>

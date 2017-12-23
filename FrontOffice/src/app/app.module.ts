@@ -58,6 +58,7 @@ import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/not
 
 import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
 import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
+import { InformacionMensajeGrupoPage } from '../pages/chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
 import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
 import { SeleccionarIntegrantesPage } from '../pages/seleccionar-integrantes/seleccionar-integrantes';
@@ -110,7 +111,8 @@ firebase.initializeApp(config);
     CalendarioPage,
     ModificarGrupoPage,
     NuevosIntegrantesPage,
-    InformacionMensajePage
+    InformacionMensajePage,
+    InformacionMensajeGrupoPage
   ],
   imports: [
     HttpClientModule,
@@ -164,7 +166,8 @@ firebase.initializeApp(config);
     CalendarioPage,
     ModificarGrupoPage,
     NuevosIntegrantesPage,
-    InformacionMensajePage
+    InformacionMensajePage,
+    InformacionMensajeGrupoPage
   ],
   providers: [
     StatusBar,
