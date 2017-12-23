@@ -75,10 +75,10 @@ export class ConversacionGrupoPage {
           this.conversacion = this.chatService.conversacion; //Añade y muestra los mensajes de cada conversación
           this.scrollto();
           this.idUsuario =
-          this.events.subscribe('nuevoMensaje', () => {
+          this.events.subscribe('nuevoMensajeGrupo', (Mensajes) => {
             this.todosLosMensajes = [];
             this.zone.run(() => {
-              this.todosLosMensajes = this.chatService.mensajesConversacion;
+              this.todosLosMensajes = Mensajes;
             })
           })
   
@@ -86,8 +86,12 @@ export class ConversacionGrupoPage {
 
 
   ionViewDidEnter() {
-    
-    this.chatService.obtenerMensajesConversacionGrupo(this.idGrupo);
+    let entidad: Mensaje;
+    entidad = new Mensaje("","","",this.idGrupo);
+    let comando = FabricaComando.crearComandoVisualizarConversacionGrupo();
+    comando.setEntidad = entidad;
+    comando.setEvents = this.events;
+    comando.execute();
     
   }
 
@@ -182,7 +186,7 @@ export class ConversacionGrupoPage {
   
   eliminarMensajeGrupo(idMensaje){
     let entidad: Mensaje;
-    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo);
+    entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
     comando.setEntidad = entidad;
@@ -198,7 +202,7 @@ export class ConversacionGrupoPage {
    agregarMensajeGrupo() {
      if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
-      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+      entidad = new Mensaje(this.nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
       let comando = FabricaComando.crearComandoCrearMensajeGrupo();
       comando._entidad = entidad;
       comando.execute();
@@ -214,7 +218,7 @@ export class ConversacionGrupoPage {
 
 modificarMensajeGrupo(idMensaje,nuevoMensaje){
   let entidad: Mensaje;
-  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo);
+  entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",true);
   entidad.setId = idMensaje;
   let comando = FabricaComando.crearComandoModificarMensajeGrupo();
   comando.setEntidad = entidad;
