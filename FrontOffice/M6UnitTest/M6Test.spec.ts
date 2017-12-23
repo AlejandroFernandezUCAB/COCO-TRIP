@@ -1,3 +1,4 @@
+import { ConversacionGrupoPage } from '../src/pages/chat/conversacion-grupo/conversacion-grupo'
 import { ConversacionPage } from '../src/pages/chat/conversacion/conversacion'
 import { Mensaje } from '../src/dataAccessLayer/domain/mensaje'
 import { ChatProvider } from '../src/providers/chat/chat';
@@ -198,4 +199,52 @@ describe("Test for obtenerMensajesConversacionAmigo", ()=>{
         
     });
 });
+
+/**
+ * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
+ */
+describe("Test for obtenerMensajesConversacionGrupo", ()=>{
+    it("should return a hola", ()=>{
+        var LosMensajes = [];
+        var str : String;
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", -1,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.obtenerMensajesConversacionGrupo(mensaje.getidGrupo);
+        
+        evento.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+          LosMensajes = [];
+          LosMensajes = Mensajes;
+        expect("hola").toEqual(LosMensajes[0].mensaje);
+        })
+        
+    });
+});
+
+/**
+ * Prueba Unitaria del metodo modificarMensajeAmigo
+ */
+describe("Test for modificarMensajeAmigo", ()=>{
+    it("should return an Adios", ()=>{
+        var str : String = "falso";
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
+        let chat : ChatProvider;
+        let evento : Events;
+        evento = new Events;
+        chat = new ChatProvider(evento);
+        str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str,"adios");
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str);
+        
+        evento.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
+        expect("adios").toEqual(infoMensaje.getMensaje);
+        })
+        
+    });
+});
+
+
 
