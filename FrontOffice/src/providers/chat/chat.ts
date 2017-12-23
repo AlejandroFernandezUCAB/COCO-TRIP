@@ -51,7 +51,7 @@ agregarNuevoMensajeAmigo(mensaje,idEmisor,idReceptor) : String {
 
     
    
-  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor): String {
+  agregarNuevoMensajeGrupo(mensaje,idGrupo,emisor) : String {
     var myRef = this.fireConversacionChatsGrupo.child(idGrupo).push();
     var key = myRef.key;
   
