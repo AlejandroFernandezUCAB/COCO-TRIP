@@ -71,10 +71,10 @@ namespace ApiRestPruebas.M9
       data = new JObject
           {
             { "id", 250},
-            { "estatus", false },
+            { "estatus", true },
           };
       respuesta = (Dictionary<string,object>)controller.ActualizarEstatusCategoria(data);
-      esperado.Add("data", "Se actualizo de forma ");
+      esperado.Add("data", "Se actualizo de forma exitosa");
       var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
       var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
       Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));

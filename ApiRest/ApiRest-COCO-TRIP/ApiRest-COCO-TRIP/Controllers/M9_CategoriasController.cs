@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections;
 using ApiRest_COCO_TRIP.Validaciones;
-using ApiRest_COCO_TRIP.Negocio.Comando;
+using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Datos.DAO;
