@@ -55,6 +55,7 @@ namespace ApiRestPruebas.M3.DAO
       dao.Desconectar();
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestInsertarId()
@@ -63,6 +64,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, grupo.Id != 0);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestAgregarIntegrante()
@@ -75,6 +77,7 @@ namespace ApiRestPruebas.M3.DAO
       dao.AgregarIntegrante(listaGrupo[0], listaUsuario[1]);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarPorId()
@@ -83,6 +86,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, grupo.Nombre == listaGrupo[0].Nombre);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarLista()
@@ -91,6 +95,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, lista.Count == 2);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarUltimoGrupo()
@@ -99,6 +104,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, grupo.Nombre == listaGrupo[0].Nombre);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarMiembros()
@@ -109,6 +115,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, usuario.NombreUsuario == listaUsuario[0].NombreUsuario && lista.Count == 1);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarMiembrosExceptoLider()
@@ -117,6 +124,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, lista.Count == 0);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarMiembrosSinGrupo ()
@@ -125,6 +133,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, lista[0].Id == listaUsuario[1].Id && lista[1].Id == listaUsuario[2].Id && lista.Count == 2);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestConsultarLider ()
@@ -133,6 +142,7 @@ namespace ApiRestPruebas.M3.DAO
       Assert.AreEqual(true, usuario.NombreUsuario == listaUsuario[0].NombreUsuario);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestEliminar ()
@@ -145,6 +155,7 @@ namespace ApiRestPruebas.M3.DAO
       dao.Eliminar(listaGrupo[0]);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestEliminarIntegrante ()
@@ -157,6 +168,7 @@ namespace ApiRestPruebas.M3.DAO
       dao.EliminarIntegrante(listaGrupo[1], listaUsuario[0]);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestAbandonarGrupo()
@@ -169,6 +181,7 @@ namespace ApiRestPruebas.M3.DAO
       dao.AbandonarGrupo(listaGrupo[1], listaUsuario[0]);
     }
 
+    [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
     public void TestActualizar ()
@@ -183,5 +196,4 @@ namespace ApiRestPruebas.M3.DAO
       dao.Actualizar(grupo);
     }
   }
-
 }

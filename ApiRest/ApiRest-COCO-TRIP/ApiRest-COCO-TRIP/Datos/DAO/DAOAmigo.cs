@@ -48,8 +48,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
 
-      leerDatos.Close(); //Cierra el Data Reader
-
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
@@ -221,8 +219,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
 
-      leerDatos.Close(); //Cierra el Data Reader
-
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
@@ -248,8 +244,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
 
-      leerDatos.Close(); //Cierra el Data Reader
-
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
 
@@ -274,8 +268,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       base.Comando.Parameters.Add(parametro);
 
       base.Comando.ExecuteNonQuery(); //Ejecuta el comando
-
-      leerDatos.Close(); //Cierra el Data Reader
 
       base.Desconectar(); //Culmina la sesion con la base de datos
     }
