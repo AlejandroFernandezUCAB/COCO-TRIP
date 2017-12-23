@@ -23,7 +23,7 @@ describe("TEST FOR MENSAJE",()=>{
  describe("Test for mensaje.setMensaje", ()=>{
     
     it("should return a message", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setMensaje = "hola";
         expect(mensaje.getMensaje).toEqual("hola");
     });
@@ -32,7 +32,7 @@ describe("TEST FOR MENSAJE",()=>{
 describe("Test for mensaje.getMensaje", ()=>{
     
     it("should return a message", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setMensaje = "hola";
         var nuevoMensaje = mensaje.getMensaje;
         expect(nuevoMensaje).toEqual("hola");
@@ -42,7 +42,7 @@ describe("Test for mensaje.getMensaje", ()=>{
 describe("Test for mensaje.setUsuario", ()=>{
     
     it("should return an user", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setUsuario = "usuarioTest";
         expect(mensaje.getUsuario).toEqual("usuarioTest");
     });
@@ -51,7 +51,7 @@ describe("Test for mensaje.setUsuario", ()=>{
 describe("Test for mensaje.getUsuario", ()=>{
     
     it("should return an user", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setUsuario = "usuarioTest";
         var nuevoUsuario = mensaje.getUsuario;
         expect(nuevoUsuario).toEqual("usuarioTest");
@@ -61,7 +61,7 @@ describe("Test for mensaje.getUsuario", ()=>{
 describe("Test for mensaje.setAmigo", ()=>{
     
     it("should return a friend", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setAmigo = "AmigoTest";
         expect(mensaje.getAmigo).toEqual("AmigoTest");
     });
@@ -70,7 +70,7 @@ describe("Test for mensaje.setAmigo", ()=>{
 describe("Test for mensaje.getAmigo", ()=>{
     
     it("should return a friend", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setAmigo = "AmigoTest";
         var nuevoAmigo = mensaje.getAmigo;
         expect(nuevoAmigo).toEqual("AmigoTest");
@@ -80,7 +80,7 @@ describe("Test for mensaje.getAmigo", ()=>{
 describe("Test for mensaje.setIdGrupo", ()=>{
     
     it("should return an id of group", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setidGrupo = -1;
         expect(mensaje.getidGrupo).toEqual(-1);
     });
@@ -89,10 +89,67 @@ describe("Test for mensaje.setIdGrupo", ()=>{
 describe("Test for mensaje.getIdGrupo", ()=>{
     
     it("should return an id of group", ()=>{
-        let mensaje = new Mensaje("", "", "", 0);
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
         mensaje.setidGrupo = -1;
         var nuevoIdGrupo = mensaje.getidGrupo;
         expect(-1).toEqual(nuevoIdGrupo);
+    });
+});
+
+describe("Test for mensaje.setFecha", ()=>{
+    
+    it("should return a date", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setFecha = "-1";
+        expect(mensaje.getFecha).toEqual("-1");
+    });
+});
+
+describe("Test for mensaje.getFecha", ()=>{
+    
+    it("should return a date", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setFecha = "-1";
+        var nuevaFecha = mensaje.getFecha;
+        expect("-1").toEqual(nuevaFecha);
+    });
+});
+
+describe("Test for mensaje.setHora", ()=>{
+    
+    it("should return an hour", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setHora = "-1";
+        expect(mensaje.getHora).toEqual("-1");
+    });
+});
+
+describe("Test for mensaje.getHora", ()=>{
+    
+    it("should return an hour", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setHora = "-1";
+        var nuevaHora = mensaje.getHora;
+        expect("-1").toEqual(nuevaHora);
+    });
+});
+
+describe("Test for mensaje.setModificado", ()=>{
+    
+    it("should return an update", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setModificado = true;
+        expect(mensaje.getModificado).toEqual(true);
+    });
+});
+
+describe("Test for mensaje.getModificado", ()=>{
+    
+    it("should return an update", ()=>{
+        let mensaje = new Mensaje("", "", "", 0,"","",false);
+        mensaje.setModificado = true;
+        var nuevoModificado = mensaje.getModificado;
+        expect(true).toEqual(nuevoModificado);
     });
 });
 })
@@ -108,7 +165,7 @@ describe("Test for agregarNuevoMensajeAmigo", ()=>{
     it("should return a key instead of false", ()=>{
 
         var str : String = "falso";
-        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0);
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0, "","", false);
         let chat : ChatProvider;
         let events : Events;
         events = new Events;
@@ -125,7 +182,7 @@ describe("Test for obtenerMensajesConversacionAmigo", ()=>{
     it("should return a hola", ()=>{
         var LosMensajes = [];
         var str : String;
-        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0);
+        let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;

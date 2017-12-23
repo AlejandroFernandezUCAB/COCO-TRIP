@@ -260,7 +260,7 @@ crearalert(idMensaje){
 
   ionViewDidEnter() {
     let entidad: Mensaje;
-    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0);
+    entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
     let comando = FabricaComando.crearComandoVisualizarConversacionAmigo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
