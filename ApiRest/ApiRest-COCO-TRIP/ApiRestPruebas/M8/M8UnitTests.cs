@@ -16,28 +16,28 @@ namespace ApiRestPruebas.M8
   [TestFixture]
   class M8UnitTests
   {
-    private M8_LocalidadEventoController controlador;
+    /*private M8_LocalidadEventoController controlador;
     private PeticionLocalidadEvento peticionLocalidadEvento;
     [SetUp]
     public void Init()
     {
       controlador = new M8_LocalidadEventoController();
       peticionLocalidadEvento = new PeticionLocalidadEvento();
-    }
+    }*/
 
     /**
      * <summary>Metodo que prueba si la localidad del evento fue agregada exitosamente
      *devuelve el ID de la localidad si se realizo correctamente
      * </summary>
     **/
-    [Test]
+    /*[Test]
     public void PruebaAgregarLocalidadEvento()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento("hola", "Lugar familiar y pasarla bien con amigos",
         "Chacao, Venezuela");
       
       Assert.AreEqual(peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento), 6);
-    }
+    }*/
     /**
      * <summary>Casos de borde cuando falta algun parametro o todos los parametros
      *para agregar una localidad
@@ -45,7 +45,7 @@ namespace ApiRestPruebas.M8
      * <exception cref="InvalidCastException"></exception>
      * **/
 
-    [Test]
+    /*[Test]
     public void PruebaAgregarLocalidadNula()
     {
       Assert.Catch<InvalidCastException>(casoBorde1Agregar);
@@ -80,7 +80,7 @@ namespace ApiRestPruebas.M8
       LocalidadEvento localidadEvento = new LocalidadEvento();
       localidadEvento.Coordenadas = "prueba1";
       peticionLocalidadEvento.AgregarLocalidadEvento(localidadEvento);
-    }
+    }*/
     /**[Test]
     public void PruebaFalloBasedeDatosAgregar()
     {
@@ -96,7 +96,7 @@ namespace ApiRestPruebas.M8
     /**
      * <summary>Prueba que elimina una localidad exitosamente</summary>
     **/
-    [Test]
+    /*[Test]
     public void PruebaEliminarLocalidadEvento()
     {
       int idLocalidad = 5;
@@ -105,17 +105,17 @@ namespace ApiRestPruebas.M8
     /**
      * <summary>Prueba de eliminar localidad inexistente</summary>
      * **/
-    [Test]
+    /*[Test]
     public void PruebaEliminarLocalidadInexistente()
     {
       int idLocalidad = 200;
       Assert.IsFalse(peticionLocalidadEvento.EliminarLocalidadEvento(idLocalidad));
-    }
+    }*/
     //Pruebas de Consultar Localidad
     /**
      * <summary>Prueba que consulta una Localidad existente</summary>
      * **/
-    [Test]
+    /*[Test]
     public void PruebaConsultarLocalidadEvento()
     {
       LocalidadEvento localidadEvento = new LocalidadEvento("Suiza", "Europa", "Europa");
@@ -123,11 +123,11 @@ namespace ApiRestPruebas.M8
       peticionLocalidadEvento = new PeticionLocalidadEvento();
       Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEvento(idLocalidadEvento).Nombre,
         localidadEvento.Nombre);
-    }
+    }*/
       /**
      * <summary>Prueba de consulta casos de borde id inexitente o invalido</summary>
      * */
-    [Test]
+    /*[Test]
     public void PruebaConsultarLocalidadNula()
     {
       Assert.Catch<InvalidOperationException>(casoBorde1Consultar);
@@ -144,11 +144,11 @@ namespace ApiRestPruebas.M8
       int id = -1;
       LocalidadEvento localidad = peticionLocalidadEvento.ConsultarLocalidadEvento(id);
     }
-
+    */
     /**
      * <summary>Prueba de busqueda de todas las localidades de eventos</summary>
      * */
-     [Test]
+     /*[Test]
      public void PruebaListaLocalidades()
     {
       
@@ -161,7 +161,7 @@ namespace ApiRestPruebas.M8
       string nombreLo = "hola";
       Assert.AreEqual(peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(nombreLo).Id,5);
 
-    }
+    }*/
 
   }
 }
