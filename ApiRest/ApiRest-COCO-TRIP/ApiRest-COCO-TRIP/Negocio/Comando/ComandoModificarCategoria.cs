@@ -9,15 +9,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
   public class ComandoModificarCategoria:Comando
   {
     DAO dao = FabricaDAO.CrearDAOCategoria();
-    private Categoria categoria;
+    private Entidad entidad;
 
-    
+    public ComandoModificarCategoria(Entidad entidad)
+    {
+      this.entidad = entidad;
+    }
 
     public override void Ejecutar()
     {
       try
       {
-        dao.Actualizar(categoria);
+        dao.Actualizar(entidad);
       }
       catch (Exception e)
       {
@@ -36,9 +39,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Comando
       throw new System.NotImplementedException();
     }
 
-    public void SetPropiedad(Entidad entidad)
-    {
-      categoria = (Categoria)entidad;
-    }
   }
 }
