@@ -11,7 +11,7 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
   {
     private static Archivo instancia;
 
-    public const string Ruta = "/Images/"; //Ruta relativa que se almacenara en la base de datos
+    public const string Ruta = "\\Images\\"; //Ruta relativa que se almacenara en la base de datos
     public const string Extension = ".jpg";
 
     //Nombres de las fotos

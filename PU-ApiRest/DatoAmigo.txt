@@ -1,0 +1,2 @@
+{"Activo":1,"Pasivo":2,"Aceptado":true,"Id":1}
+{"Activo":1,"Pasivo":3,"Aceptado":false,"Id":2}
