@@ -35,9 +35,11 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarItinerario()
     {
-      itinerario = new Itinerario("Michel", 2);
-      it = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
+      PeticionItinerario peticionItinerario = new PeticionItinerario();
+      itinerario = new Itinerario("Michel", 1);
+      it = peticionItinerario.AgregarItinerario(itinerario);
+      //it = controller.AgregarItinerario(itinerario);
+      Assert.AreEqual(12, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
       Assert.AreEqual("Michel", it.Nombre);
     }
 
@@ -75,7 +77,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarItinerario()
     {
-      x = controller.EliminarItinerario(47);
+      x = controller.EliminarItinerario(17);
       Assert.True(x);
     }
 
@@ -97,7 +99,7 @@ namespace ApiRestPruebas
     {
       DateTime fechaini = new DateTime(2022, 05, 28);
       DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(4, "Epco", fechaini, fechafin, 2);
+      Itinerario itinerario = new Itinerario(15, "Epco", fechaini, fechafin, 1);
       it = controller.ModificarItinerario(itinerario);
       Assert.AreEqual("Epco", it.Nombre);
       Assert.AreEqual(fechaini,it.FechaInicio);
@@ -110,14 +112,16 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarEvento_It()
     {
-      Itinerario itinerario = new Itinerario(1);
+      Itinerario itinerario = new Itinerario(15);
+      PeticionItinerario peticionItinerario = new PeticionItinerario();
       Evento ev = new Evento
       {
         Id = 1
       };
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
+      x = peticionItinerario.AgregarItem_It("Evento", itinerario.Id, ev.Id, fechaini, fechafin);
+     // x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
       Assert.True(x);
     }
 
@@ -144,7 +148,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarActividad_It()
     {
-      itinerario = new Itinerario(2);
+      itinerario = new Itinerario(15);
       Actividad ac = new Actividad()
       {
         Id = 4
@@ -178,7 +182,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarLugar_It()
     {
-      itinerario = new Itinerario(1);
+      itinerario = new Itinerario(15);
       LugarTuristico lt = new LugarTuristico()
       {
         Id = 2
@@ -213,7 +217,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarLugar_It()
     {
-      itinerario = new Itinerario(1);
+      itinerario = new Itinerario(15);
       LugarTuristico lt = new LugarTuristico()
       {
         Id = 2
@@ -243,7 +247,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarActividad_It()
     {
-      itinerario = new Itinerario(2);
+      itinerario = new Itinerario(15);
       Actividad ac = new Actividad()
       {
         Id = 4
@@ -273,12 +277,14 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarEvento_It()
     {
-      itinerario = new Itinerario(1);
+      itinerario = new Itinerario(15);
       Evento ev = new Evento()
       {
         Id = 1
       };
-      x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
+      PeticionItinerario peticion = new PeticionItinerario();
+      x = peticion.EliminarItem_It("Evento",15,1);
+      //x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
       Assert.True(x);
     }
 
