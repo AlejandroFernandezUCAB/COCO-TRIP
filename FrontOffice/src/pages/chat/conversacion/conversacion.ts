@@ -170,8 +170,6 @@ ionViewWillEnter() {
                 emisor:emisor,
                 receptor:receptor
             });
-
-              //this.navCtrl.push(InformacionMensajePage)
             }
           }
       ]
