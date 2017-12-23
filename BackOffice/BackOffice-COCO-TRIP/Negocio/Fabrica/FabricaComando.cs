@@ -70,5 +70,10 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoConsultarCategoriaPorId();
     }
+
+    public static ComandoAgregarCategoria GetComandoAgregarCategoria()
+    {
+      return new ComandoAgregarCategoria();
+    }
   }
 }
