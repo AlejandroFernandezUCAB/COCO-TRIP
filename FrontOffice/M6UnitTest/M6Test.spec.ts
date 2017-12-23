@@ -239,7 +239,7 @@ describe("Test for ChatProvider.obtenerMensajesConversacionAmigo", ()=>{
 });
 
 /**
- * Prueba Unitaria del metodo obtenerMensajesConversacionAmigo
+ * Prueba Unitaria del metodo obtenerMensajesConversacionGrupo
  */
 describe("Test for ChatProvider.obtenerMensajesConversacionGrupo", ()=>{
     it("should return a message with hola", ()=>{
@@ -395,44 +395,7 @@ describe("Test for ComandoEliminarMensaje.execute", ()=>{
         expect(true).toEqual(respuesta);
     });
 });
-;
 
-/**
- * Prueba unitaria del metodo execute de ComandoInformacionMensajeAmigo
- */
-describe("Test for ComandoInformacionMensajeAmigo.execute", ()=>{
-    it("should return a message", ()=>{
-        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
-        mensaje.setId="-1";
-        let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
-        let comando : ComandoInformacionMensajeAmigo = new ComandoInformacionMensajeAmigo;
-        events.subscribe('infoMensaje', (infoMensaje) => {
-            expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
-            })
-      });
-    });
-
-    /**
- * Prueba unitaria del metodo execute de ComandoInformacionMensajeGrupo
- */
-describe("Test for ComandoInformacionMensajeGrupo.execute", ()=>{
-    it("should return a message", ()=>{
-        let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2",-1,"","",false);
-        mensaje.setId="-1";
-        let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
-        let comando : ComandoInformacionMensajeGrupo = new ComandoInformacionMensajeGrupo;
-        let entidad : Entidad;
-        chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        comando.setEntidad = mensaje;
-        comando.setEvents = events;
-        comando.execute();
-        events.subscribe('infoMensajeGrupo', (infoMensaje) => {
-            expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
-            })
-      });
-    });
 
 /**
     * Prueba unitaria del metodo execute de ComandoVisualizarConversacionAmigo
@@ -615,7 +578,7 @@ describe("Test for DAO.eliminar", ()=>{
 });
 
 /**
- * Prueba unitaria del metodo agregar de DAOChat
+ * Prueba unitaria del metodo modificar de DAOChat
  */
 describe("Test for DAO.modificar", ()=>{
     it("should return a entity instead of null", ()=>{
