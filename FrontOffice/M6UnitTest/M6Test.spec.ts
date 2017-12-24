@@ -12,7 +12,6 @@ import { ConversacionPage } from '../src/pages/chat/conversacion/conversacion'
 import { Mensaje } from '../src/dataAccessLayer/domain/mensaje'
 import { ChatProvider } from '../src/providers/chat/chat';
 import { config } from '../src/app/app.firebaseconfig';
-import { NgZone } from '@angular/core';
 import { Events } from 'ionic-angular';
 import firebase from 'firebase';
 import { DAO } from '../src/dataAccessLayer/dao/dao';
@@ -184,12 +183,14 @@ describe("Test for ChatProvider.agregarNuevoMensajeAmigo", ()=>{
         let chat : ChatProvider;
         let events : Events;
         events = new Events;
-        chat = new ChatProvider(events);
+        chat = ChatProvider.obtenerInstancia(events)
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("MensajePruebaProviders").toEqual(infoMensaje.getMensaje);
-        })
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string> key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("MensajePruebaProviders").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -204,16 +205,21 @@ describe("Test for ChatProvider.agregarNuevoMensajeGrupo", ()=>{
         let chat : ChatProvider;
         let events : Events;
         events = new Events;
-        chat = new ChatProvider(events);
+        chat = ChatProvider.obtenerInstancia(events)
         //console.log("mensaje: "+mensaje.getMensaje+" usuario: "+mensaje.getUsuario+" id de grupo: "+mensaje.getidGrupo+" key: "+key);
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,key);
-        events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
-          expect("MensajePruebaProviders").toEqual(infoMensaje.getMensaje);
-        })
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("MensajePruebaProviders").toEqual(temp.mensaje);
+        });
     });
 });
 
+/**
+ * Prueba unitaria del metodo eliminarMensajeAmigo
+ */
 /**
  * Prueba unitaria del metodo eliminarMensajeAmigo
  */
@@ -224,14 +230,19 @@ describe("Test for ChatProvider.eliminarMensajeAmigo", ()=>{
         let mensaje = new Mensaje("MensajePruebaProviders", "usuarioTest", "usuarioTest2", 0,"","",false);
         let chat : ChatProvider;
         let events : Events;
+        let DAO : DAO = new DAOChat;
         events = new Events;
-        chat = new ChatProvider(events);
+        chat = ChatProvider.obtenerInstancia(events);
+        let respuesta:boolean;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        chat.eliminarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,key);
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("mensaje eliminado").toEqual(infoMensaje.getMensaje);
-          })
+        mensaje.setId=key;
+        respuesta = DAO.eliminar(mensaje);
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("mensaje eliminado").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -245,14 +256,20 @@ describe("Test for ChatProvider.eliminarMensajeGrupo", ()=>{
         let mensaje = new Mensaje("MensajePruebaProviders", "usuarioTest", "", -1,"","",false);
         let chat : ChatProvider;
         let events : Events;
+        let DAO : DAOChat = new DAOChat;
+        let respuesta:boolean;
         events = new Events;
-        chat = new ChatProvider(events);
+        chat = ChatProvider.obtenerInstancia(events);
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        chat.eliminarMensajeGrupo(mensaje.getidGrupo,key,mensaje.getUsuario);
-        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,key);
-        events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
-          expect("mensaje eliminado").toEqual(infoMensaje.getMensaje);
-        })
+        mensaje.setId=key;
+        respuesta = DAO.eliminarMensajeGrupo(mensaje);
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("mensaje eliminado").toEqual(temp.mensaje);
+        });
+
     });
 });
 
@@ -268,7 +285,7 @@ describe("Test for ChatProvider.obtenerMensajesConversacionAmigo", ()=>{
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
-        chat = new ChatProvider(evento);
+        chat = ChatProvider.obtenerInstancia(evento);
         str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
         chat.obtenerMensajesConversacionAmigo(mensaje.getUsuario, mensaje.getAmigo);
         
@@ -292,16 +309,18 @@ describe("Test for ChatProvider.obtenerMensajesConversacionGrupo", ()=>{
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
-        chat = new ChatProvider(evento);
+        chat = ChatProvider.obtenerInstancia(evento);
         chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
         chat.obtenerMensajesConversacionGrupo(mensaje.getidGrupo);
-        
+        console.log("ANTES DEL SUSCRIBE EN PU obtenerMensajesConversacionGrupo");
         evento.subscribe('nuevoMensajeGrupo', (Mensajes) => {
+          console.log("DENTO DEL SUSCRIBE EN PU obtenerMensajesConversacionGrupo");
           LosMensajes = [];
           LosMensajes = Mensajes;
-        expect("hola").toEqual(LosMensajes[0].mensaje);
-        })
-        
+        expect("holas").toEqual(LosMensajes[0].mensaje);
+        });
+        expect("holas").toEqual("holas");
+        console.log("DESPUES DEL SUSCRIBE EN PU obtenerMensajesConversacionGrupo");
     });
 });
 
@@ -316,7 +335,7 @@ describe("Test for ChatProvider.obtenerInfoMensajeAmigo", ()=>{
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
-        chat = new ChatProvider(evento);
+        chat = ChatProvider.obtenerInstancia(evento);
         str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
         chat.obtenerInfoMensajeAmigo(mensaje.getUsuario, mensaje.getAmigo,mensaje.getId);
         
@@ -337,7 +356,7 @@ describe("Test for ChatProvider.obtenerInfoMensajeGrupo", ()=>{
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
-        chat = new ChatProvider(evento);
+        chat = ChatProvider.obtenerInstancia(evento);
         chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
         chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,mensaje.getMensaje);
         
@@ -348,25 +367,25 @@ describe("Test for ChatProvider.obtenerInfoMensajeGrupo", ()=>{
     });
 });
 
-
 /**
  * Prueba Unitaria del metodo modificarMensajeAmigo
  */
 describe("Test for ChatProvider.modificarMensajeAmigo", ()=>{
     it("should return an key", ()=>{
-        var str : String = "falso";
+        var key : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
-        chat = new ChatProvider(evento);
-        str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str,"adios");
-        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,str);
-        
-        evento.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-        expect("adios").toEqual(infoMensaje.getMensaje);
-        })
+        chat = ChatProvider.obtenerInstancia(evento);
+        key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
+        chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,key,"adios");
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("(modificado): adios").toEqual(temp.mensaje);
+        });
         
     });
 });
@@ -376,19 +395,20 @@ describe("Test for ChatProvider.modificarMensajeAmigo", ()=>{
  */
 describe("Test for ChatProvider.modificarMensajeGrupo", ()=>{
     it("should return a key", ()=>{
-        var str : String = "falso";
+        var key : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
-        chat = new ChatProvider(evento);
-        str = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        chat.modificarMensajeGrupo(mensaje.getidGrupo,str,"adios",mensaje.getUsuario);
-        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,str);
-        
-        evento.subscribe('infoMensajeGrupo', (infoMensaje) => {
-        expect("adios").toEqual(infoMensaje.getMensaje);
-        })
+        chat = ChatProvider.obtenerInstancia(evento);
+        key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        chat.modificarMensajeGrupo(mensaje.getidGrupo,key,"adios",mensaje.getUsuario);
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string>  key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("(modificado): adios").toEqual(temp.mensaje);
+        });
         
     });
 });
@@ -405,16 +425,18 @@ describe("Test for ComandoCrearMensaje.execute", ()=>{
         var key : String;
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let comando : ComandoCrearMensaje = new ComandoCrearMensaje;
         let entidad,respuesta : Entidad;
         comando.setEntidad = mensaje;
         comando.execute();
         key = comando.getEntidad.getId;
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
-          })
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string> key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("MensajePruebaComando").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -426,21 +448,20 @@ describe("Test for ComandoCrearMensajeGrupo.execute", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "", -1,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let comando : ComandoCrearMensajeGrupo = new ComandoCrearMensajeGrupo;
         let entidad,respuesta : Entidad;
         comando.setEntidad = mensaje;
         comando.execute();
         key = comando.getEntidad.getId;
-        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,key);
-        alert("ESTOY EN PU ANTES DE SUSCRIBE");
-
-        events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
-          expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
-          })
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("MensajePruebaComando").toEqual(temp.mensaje);
+        });
     });
 });
-
 /**
  * Prueba unitaria del metodo execute de ComandoEliminarMensaje
  */
@@ -449,7 +470,7 @@ describe("Test for ComandoEliminarMensaje.execute", ()=>{
         var key : String;
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let comando : ComandoEliminarMensaje = new ComandoEliminarMensaje;
         let entidad : Entidad;
         let respuesta : Boolean = false;
@@ -458,14 +479,16 @@ describe("Test for ComandoEliminarMensaje.execute", ()=>{
         comando.setEntidad = mensaje;
         comando.execute();
         respuesta = comando.getRespuesta;
-        //expect(true).toEqual(respuesta);
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("MensajePruebaComando").toEqual(infoMensaje.getMensaje);
-          })
+
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("mensaje eliminado").toEqual(temp.mensaje);
+        });
+
     });
 });
-
 
 /**
  * Prueba unitaria del metodo execute de ComandoEliminarMensajeGrupo
@@ -475,7 +498,7 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "", -1,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let comando : ComandoEliminarMensajeGrupo = new ComandoEliminarMensajeGrupo;
         let entidad : Entidad;
         let respuesta : Boolean = false;
@@ -484,11 +507,13 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
         comando.setEntidad = mensaje;
         comando.execute();
         respuesta = comando.getRespuesta;
-        //expect(true).toEqual(respuesta);
-        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,key);
-        events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
-          expect("mensaje eliminado").toEqual(infoMensaje.getMensaje);
-          })
+
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("mensaje eliminado").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -501,7 +526,7 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
             var LosMensajes = [];
             let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
             let events : Events = new Events;
-            let chat : ChatProvider = new ChatProvider(events);
+            let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
             let comando : ComandoVisualizarConversacionAmigo = new ComandoVisualizarConversacionAmigo;
             let entidad : Entidad;
             chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
@@ -525,7 +550,7 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
                var LosMensajes = [];
                let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", -1,"","",false);
                let events : Events = new Events;
-               let chat : ChatProvider = new ChatProvider(events);
+               let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
                let comando : ComandoVisualizarConversacionGrupo = new ComandoVisualizarConversacionGrupo;
                let entidad : Entidad;
                chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
@@ -541,7 +566,6 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
            });
    
 
-
 /**
  * Prueba unitaria del metodo execute de ComandoModificarMensaje
  */
@@ -550,16 +574,22 @@ describe("Test for ComandoModificarMensaje.execute", ()=>{
         var key : String;
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let comando : ComandoModificarMensaje = new ComandoModificarMensaje;
         let entidad : Entidad;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
         mensaje.setId = key;
+        mensaje.setMensaje = "nuevo mensaje";
         comando.setEntidad = mensaje;
         comando.execute();
         respuesta = comando.getRespuesta;
-        expect(true).toEqual(respuesta);
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("(modificado): nuevo mensaje").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -571,16 +601,22 @@ describe("Test for ComandoModificarMensajeGrupo.execute", ()=>{
         var key : String;
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let comando : ComandoModificarMensajeGrupo = new ComandoModificarMensajeGrupo;
         let entidad : Entidad;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
         mensaje.setId = key;
+        mensaje.setMensaje = "nuevo mensaje";
         comando.setEntidad = mensaje;
         comando.execute();
         respuesta = comando.getRespuesta;
-        expect(true).toEqual(respuesta);
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string>  key).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("(modificado): nuevo mensaje").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -592,7 +628,7 @@ describe("Test for ComandoInformacionMensajeAmigo.execute", ()=>{
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
         mensaje.setId="-1";
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let comando : ComandoInformacionMensajeAmigo = new ComandoInformacionMensajeAmigo;
         let entidad : Entidad;
         chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
@@ -613,7 +649,7 @@ describe("Test for ComandoInformacionMensajeGrupo.execute", ()=>{
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2",-1,"","",false);
         mensaje.setId="-1";
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let comando : ComandoInformacionMensajeGrupo = new ComandoInformacionMensajeGrupo;
         let entidad : Entidad;
         chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
@@ -642,14 +678,16 @@ describe("Test for DAO.agregar", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAO = new DAOChat;
         let entidad,respuesta : Entidad;
         respuesta = DAO.agregar(mensaje);
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",respuesta.getId);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
-          })
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string> respuesta.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("MensajePruebaDAO").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -657,22 +695,23 @@ describe("Test for DAO.agregar", ()=>{
  * Prueba unitaria del metodo agregarGrupo de DAOChat
  */
 describe("Test for DAO.agregarMensajeGrupo", ()=>{
-    it("should return a entity instead of null", ()=>{
+    it("should return a message with MensajePruebaDAO", ()=>{
 
         var key : String;
-        let mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "", -1,"","",false);
+        let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "", -1,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;
         let entidad,respuesta : Entidad;
         respuesta = DAO.agregarMensajeGrupo(mensaje);
-        chat.obtenerInfoMensajeGrupo(-1,respuesta.getId);
-        events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
-          expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
-          })
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> respuesta.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("MensajePruebaDAO").toEqual(temp.mensaje);
+        });
     });
 });
-
 /**
  * Prueba unitaria del metodo eliminar de DAOChat
  */
@@ -682,18 +721,20 @@ describe("Test for DAO.eliminar", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let DAO : DAO = new DAOChat;
         let respuesta : Boolean = false;
         //let entidad : Entidad;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
         mensaje.setId = key;
         respuesta = DAO.eliminar(mensaje);
-       // expect(true).toEqual(respuesta);
-        chat.obtenerInfoMensajeAmigo("usuarioTest","usuarioTest2",key);
-        events.subscribe('nuevoMensajeAmigo', (infoMensaje) => {
-          expect("mensaje eliminado").toEqual(infoMensaje.getMensaje);
-          })
+
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("mensaje eliminado").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -706,21 +747,22 @@ describe("Test for DAO.eliminarMensajeGrupo", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "", -1,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let DAO : DAOChat = new DAOChat;
         let respuesta : Boolean = false;
         //let entidad : Entidad;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
         mensaje.setId = key;
         DAO.eliminarMensajeGrupo(mensaje);
-       // expect(true).toEqual(respuesta);
-        chat.obtenerInfoMensajeGrupo(-1,key);
-        events.subscribe('nuevoMensajeGrupo', (infoMensaje) => {
-          expect("mensaje eliminado").toEqual(infoMensaje.getMensaje);
-          })
+
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("mensaje eliminado").toEqual(temp.mensaje);
+        });
     });
 });
-
 /**
  * Prueba unitaria del metodo modificar de DAOChat
  */
@@ -730,13 +772,18 @@ describe("Test for DAO.modificar", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let DAO : DAO = new DAOChat;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
         mensaje.setId = key;
         respuesta = DAO.modificar(mensaje);
-        expect(true).toEqual(respuesta);
+        firebase.database().ref('/chatAmigo')
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("(modificado): MensajePruebaDAO").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -749,13 +796,18 @@ describe("Test for DAO.modificarMensajeGrupo", ()=>{
         var key : String;
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events);
         let DAO : DAOChat = new DAOChat;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
         mensaje.setId = key;
         respuesta = DAO.modificarMensajeGrupo(mensaje);
-        expect(true).toEqual(respuesta);
+        firebase.database().ref('/chatGrupo')
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        (snapshot) =>{
+            var temp = snapshot.val();
+            expect("(modificado): MensajePruebaDAO").toEqual(temp.mensaje);
+        });
     });
 });
 
@@ -764,10 +816,10 @@ describe("Test for DAO.informacionMensajeAmigo", ()=>{
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
         mensaje.setId="-1";
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;
         chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        DAO.informacionMensajeAmigo(mensaje, events);
+        DAO.visualizar(mensaje, events);
 
         events.subscribe('infoMensaje', (infoMensaje) => {
           expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
@@ -780,10 +832,10 @@ describe("Test for DAO.informacionMensajeGrupo", ()=>{
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
         mensaje.setId="-1";
         let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;
         chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        DAO.informacionMensajeGrupo(mensaje, events);
+        DAO.visualizarGrupo(mensaje, events);
 
         events.subscribe('infoMensajeGrupo', (infoMensajeGrupo) => {
           expect("MensajePruebaDAO").toEqual(infoMensajeGrupo.getMensaje);
@@ -799,7 +851,7 @@ describe("Test for DAO.visulizarLista", ()=>{
         var LosMensajes = [];
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
 let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;
         chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
  DAO.visualizarLista(mensaje, events); 
@@ -821,7 +873,7 @@ describe("Test for DAO.visulizarListaGrupo", ()=>{
         var LosMensajes = [];
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
  let events : Events = new Events;
-        let chat : ChatProvider = new ChatProvider(events);
+        let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;
         chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
      DAO.visualizarListaGrupo(mensaje, events);

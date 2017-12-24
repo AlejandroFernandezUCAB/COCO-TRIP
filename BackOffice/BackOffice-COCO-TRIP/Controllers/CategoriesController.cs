@@ -15,10 +15,8 @@ namespace BackOffice_COCO_TRIP.Controllers
 {
   public class CategoriesController : Controller
   {
-    // Eliminar peticion categoria
-    private PeticionCategoria peticion = new PeticionCategoria();
     private Comando com;
-  
+
     /// <summary>
     /// Metodo que nos permite obtener la lista de las categorias mediante peticiones al servicio web a la hora de cargar
     /// </summary>
@@ -27,10 +25,15 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       ViewBag.Title = "Categorías";
       IList<Categoria> listCategories = null;
-      JObject respuesta = peticion.Get(id);
-      if (respuesta.Property("data") != null)
+
+      com = FabricaComando.GetComandoConsultarListaCategoria();
+      com.SetPropiedad(id);
+      com.Execute();
+      JObject respuestaCategoria = (JObject)com.GetResult()[0];
+
+      if (respuestaCategoria.Property("data") != null)
       {
-        listCategories = respuesta["data"].ToObject<List<Categoria>>();
+        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
       }
       else
       {
