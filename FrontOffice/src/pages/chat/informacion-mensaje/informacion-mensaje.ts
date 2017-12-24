@@ -4,11 +4,21 @@ import { ChatProvider } from '../../../providers/chat/chat';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 
+//****************************************************************************************************//
+//*****************************PAGE DE INFORMACION DE MENSAJE MODULO 6********************************//
+//****************************************************************************************************//
+
 /**
- * Generated class for the InformacionMensajePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * 
+ * Informacion de un mensaje
  */
 
 @IonicPage()

@@ -29,7 +29,7 @@ import {catService,catProd} from "../../../logs/config"
 /**
  * Descripcion de la clase:
  * 
- * 
+ * Conversacion entre amigos
  */
 
 @IonicPage()
