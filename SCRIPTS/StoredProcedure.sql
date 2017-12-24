@@ -710,7 +710,7 @@ BEGIN
 
     IF found THEN
     resultado := 1;
-    ELSE result := 0;
+    ELSE resultado := 0;
     END IF;
 
     RETURN result;
