@@ -371,5 +371,15 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoEliminarLocalidad();
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarAgenda
+    /// </summary>
+    /// <returns>ComandoAgregarAgenda</returns>
+    public static ComandoAgregarAgenda CrearComandoAgregarAgenda(string tipo,
+      int idItinerario,int idItem,DateTime fechaInicio, DateTime fechaFin)
+    {
+      return new ComandoAgregarAgenda(tipo,idItinerario,idItem,fechaInicio,fechaFin);
+    }
   }
 }

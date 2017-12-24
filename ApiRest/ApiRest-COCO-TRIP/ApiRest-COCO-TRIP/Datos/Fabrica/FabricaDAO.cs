@@ -49,5 +49,10 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new DAOItinerario();
     }
+
+    public static DAOAgenda CrearDAOAgenda()
+    {
+      return new DAOAgenda();
+    }
   }
 }

@@ -204,6 +204,7 @@
     <Compile Include="Negocio\Command\ComandoConsultarItinerarios.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarAgenda.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />

@@ -1,11 +1,8 @@
 using System;
-using System.Net;
-using System.Web.Http;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
-using Npgsql;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Datos.Entity;
@@ -119,21 +116,18 @@ namespace ApiRestPruebas
     /// <summary>
     /// Prueba de caso exitoso en AgregarEvento_It
     /// </summary>
-    /*[Test]
+    [Test]
     public void PUAgregarEvento_It()
     {
-      Itinerario itinerario = new Itinerario(15);
-      PeticionItinerario peticionItinerario = new PeticionItinerario();
-      Evento ev = new Evento
-      {
-        Id = 1
-      };
+      Itinerario itinerario = new Itinerario(19);
+      int idEvento = 1;
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = peticionItinerario.AgregarItem_It("Evento", itinerario.Id, ev.Id, fechaini, fechafin);
-     // x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
-      Assert.True(x);
-    }*/
+      comando = FabricaComando.CrearComandoAgregarAgenda("Evento",itinerario.Id,
+        idEvento,fechaini,fechafin);
+      comando.Ejecutar();
+      Assert.True(true);
+    }
 
     /// <summary>
     /// Prueba de caso borde(fallo) en AgregarEvento_It
@@ -158,15 +152,14 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarActividad_It()
     {
-      itinerario = new Itinerario(15);
-      Actividad ac = new Actividad()
-      {
-        Id = 4
-      };
+      Itinerario itinerario = new Itinerario(19);
+      int idActividad = 4;
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarItem_It("Actividad",itinerario.Id,ac.Id,fechaini, fechafin);
-      Assert.True(x);
+      comando = FabricaComando.CrearComandoAgregarAgenda("Actividad", itinerario.Id,
+        idActividad, fechaini, fechafin);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -192,15 +185,14 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarLugar_It()
     {
-      itinerario = new Itinerario(15);
-      LugarTuristico lt = new LugarTuristico()
-      {
-        Id = 2
-      };
-      fechaini = new DateTime(2017,11,15);
-      fechafin = new DateTime(2017,11,18);
-      x = controller.AgregarItem_It("Lugar Turistico",itinerario.Id, lt.Id,fechaini,fechafin);
-      Assert.True(x);
+      Itinerario itinerario = new Itinerario(21);
+      int id = 2;
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      comando = FabricaComando.CrearComandoAgregarAgenda("Lugar Turistico", itinerario.Id,
+        id, fechaini, fechafin);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
