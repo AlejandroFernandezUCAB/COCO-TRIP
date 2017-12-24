@@ -1,13 +1,10 @@
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
-using BackOffice_COCO_TRIP.Negocio;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Text.RegularExpressions;
 
@@ -53,23 +50,8 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Create()
     {
       ViewBag.Title = "Agregar Categoría";
-      com = FabricaComando.GetComandoConsultarCategoriaSelect();
-      com.Execute();
-      var listaCategorias = (List<Categoria>)com.GetResult()[0];
-      if (listaCategorias != null)
-      {
-        listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
-        ViewBag.MyList = listaCategorias;
-      }
-      else
-      {
-        listaCategorias = new List<Categoria>();
-        ViewBag.MyList = listaCategorias;
-        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
-      }
-      
       Categoria categories = null;
-
+      ConsultarCategoriasSelectCreate();
       return View(categories);
     }
 
@@ -91,7 +73,6 @@ namespace BackOffice_COCO_TRIP.Controllers
         com.SetPropiedad(categories);
         com.Execute();
         JObject respuesta = (JObject)com.GetResult()[0];
-        //JObject respuesta = peticion.Post(categories);
 
         if (respuesta.Property("data") != null)
         {
@@ -100,23 +81,7 @@ namespace BackOffice_COCO_TRIP.Controllers
         }
         ValidarErrorPorDuplicidad(respuesta);
       }
-
-      //reutilizar con create() es el mismo codigo solo que create() return view(null) y aqui return (categories)
-      //capaz se puede hacer un metodo que le pases lo que va a retornear
-      com = FabricaComando.GetComandoConsultarCategoriaSelect();
-      com.Execute();
-      var listaCategorias = (List<Categoria>)com.GetResult()[0];
-      if (listaCategorias != null)
-      {
-        listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
-        ViewBag.MyList = listaCategorias;
-      }
-      else
-      {
-        listaCategorias = new List<Categoria>();
-        ViewBag.MyList = listaCategorias;
-        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
-      }
+      ConsultarCategoriasSelectCreate();
       ViewBag.Title = "Agregar Categoría";
       return View(categories);
 
@@ -129,23 +94,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(int id)
     {
       ViewBag.Title = "Editar Categoría";
-      com = FabricaComando.GetComandoConsultarCategoriaSelect();
-      com.Execute();
-      var listaCategoriasSelect = (List<Categoria>)com.GetResult()[0];
-      if (listaCategoriasSelect != null)
-      {
-        listaCategoriasSelect = listaCategoriasSelect.Where(s => s.Nivel < 3 && s.Id != id).ToList();
-        ViewBag.MyList = listaCategoriasSelect;
-
-      }
-
-      else
-      {
-        listaCategoriasSelect = new List<Categoria>();
-        ViewBag.MyList = listaCategoriasSelect;
-        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
-      }
-      
+      ConsultarCategoriasSelectEdit(id);
       Categoria categories = null;
       if (TempData["listaCategorias"] != null)
       {
@@ -205,23 +154,7 @@ namespace BackOffice_COCO_TRIP.Controllers
         ValidarErrorPorDuplicidad(respuesta);
       }
 
-      com = FabricaComando.GetComandoConsultarCategoriaSelect();
-      com.Execute();
-      var listaCategorias = (List<Categoria>)com.GetResult()[0];
-      if (listaCategorias != null)
-      {
-        listaCategorias = listaCategorias.Where(s => s.Nivel < 3 && s.Id != id).ToList();
-        ViewBag.MyList = listaCategorias;
-
-      }
-
-      else
-      {
-        listaCategorias = new List<Categoria>();
-        ViewBag.MyList = listaCategorias;
-        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
-      }
-
+      ConsultarCategoriasSelectEdit(id);
       ViewBag.Title = "Editar Categoría";
       return View(categories);
     }
@@ -241,7 +174,44 @@ namespace BackOffice_COCO_TRIP.Controllers
 
 
     // ######################## Metodos Auxiliares ########################
-    
+    public void ConsultarCategoriasSelectCreate()
+    {
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategorias = (List<Categoria>)com.GetResult()[0];
+      if (listaCategorias != null)
+      {
+        listaCategorias = listaCategorias.Where(s => s.Nivel < 3).ToList();
+        ViewBag.MyList = listaCategorias;
+      }
+      else
+      {
+        listaCategorias = new List<Categoria>();
+        ViewBag.MyList = listaCategorias;
+        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
+      }
+
+    }
+
+    public void ConsultarCategoriasSelectEdit(int id)
+    {
+      com = FabricaComando.GetComandoConsultarCategoriaSelect();
+      com.Execute();
+      var listaCategoriasSelect = (List<Categoria>)com.GetResult()[0];
+      if (listaCategoriasSelect != null)
+      {
+        listaCategoriasSelect = listaCategoriasSelect.Where(s => s.Nivel < 3 && s.Id != id).ToList();
+        ViewBag.MyList = listaCategoriasSelect;
+
+      }
+      else
+      {
+        listaCategoriasSelect = new List<Categoria>();
+        ViewBag.MyList = listaCategoriasSelect;
+        ModelState.AddModelError(string.Empty, "Ocurrio un error cargando las categorias, revise su conexion a internet");
+      }
+    }
+
     // ############## Metodos para Validaciones de Vistas #################
     /// <summary>
     /// Metodo que nos permite validar si el nombre existe antes de agregar
