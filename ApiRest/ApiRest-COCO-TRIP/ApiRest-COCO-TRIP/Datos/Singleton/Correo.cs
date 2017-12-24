@@ -1,3 +1,5 @@
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -56,16 +58,27 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
     /// <param name="remitente">Nombre de la persona que genera la notificacion</param>
     public void RecomendarAplicacion (string correo, string destino, string remitente)
     {
-      correoMensaje = new MailMessage();
+      try
+      {
+        correoMensaje = new MailMessage();
 
-      correoMensaje.From = correoAplicacion;
-      correoMensaje.To.Add(correo);
-      correoMensaje.Subject = "[COCO-TRIP] Alguien quiere agregarte como amigo!"; //Encabezado
+        correoMensaje.From = correoAplicacion;
+        correoMensaje.To.Add(correo);
+        correoMensaje.Subject = "[COCO-TRIP] Alguien quiere agregarte como amigo!"; //Encabezado
 
-      correoMensaje.IsBodyHtml = false; //Cuerpo
-      correoMensaje.Body = "El usuario " + remitente + " desea agregarte como amigo, puedes aceptarl@ desde la aplicacion de COCO-TRIP";
+        correoMensaje.IsBodyHtml = false; //Cuerpo
+        correoMensaje.Body = "El usuario " + remitente + " desea agregarte como amigo, puedes aceptarl@ desde la aplicacion de COCO-TRIP";
 
-      servicio.Send(correoMensaje); //Envia
+        servicio.Send(correoMensaje); //Envia
+      }
+      catch (SmtpException e)
+      {
+        throw new SmtpExcepcion(e, "Error enviando correo. Servicio SMTP caido o servicio web sin conexion a internet. " + e.Message);
+      }
+      catch (ArgumentNullException e)
+      {
+        throw new ArgumentoNuloExcepcion(e, "Argumento nulo recibido en Correo.RecomendarAplicacion generado por correo, destino o remitente. " + e.Message);
+      }
     }
   }
 }

@@ -71,5 +71,18 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
 
       fechaHora = DateTime.Now;
     }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="e">Excepcion generica</param>
+    /// <param name="_mensaje">Mensaje asociado al error</param>
+    public CasteoInvalidoExcepcion(InvalidCastException e, string _mensaje)
+    {
+      excepcion = e;
+      mensaje = _mensaje;
+
+      fechaHora = DateTime.Now;
+    }
   }
 }

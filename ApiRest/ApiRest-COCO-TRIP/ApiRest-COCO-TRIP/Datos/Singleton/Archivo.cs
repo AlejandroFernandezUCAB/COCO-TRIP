@@ -1,3 +1,4 @@
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System;
 using System.IO;
 using System.Reflection;
@@ -33,7 +34,14 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
       rutaAbsoluta = rutaAbsoluta.Replace("\\bin", ""); //Ruta de la carpeta principal del servicio web
       rutaAbsoluta += Ruta; //.../inetpub/cocotrip/Images/
 
-      Directory.CreateDirectory(rutaAbsoluta); //Crea la carpeta Images en caso de que no exista
+      try
+      {
+        Directory.CreateDirectory(rutaAbsoluta); //Crea la carpeta Images en caso de que no exista
+      }
+      catch (IOException e)
+      {
+        throw new IOExcepcion(e, "Error creando carpeta en " + rutaAbsoluta + ". " + e.Message);
+      }
     }
 
     /// <summary>
@@ -57,7 +65,18 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
     /// <param name="nombre">Nombre del archivo a escribir</param>
     public void EscribirArchivo(byte[] contenido, string nombre)
     {
+      try
+      {
         File.WriteAllBytes(rutaAbsoluta + nombre, contenido);
+      }
+      catch(IOException e)
+      {
+        throw new IOExcepcion(e, "Error escribiendo archivo en " + rutaAbsoluta + nombre + ". " + e.Message);
+      }
+      catch(ArgumentNullException e)
+      {
+        throw new ArgumentoNuloExcepcion(e, "Argumento nulo recibido en Archivo.EscribirArchivo generado por nombre o contenido. " + e.Message);
+      }
     }
 
     /// <summary>
@@ -66,7 +85,18 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
     /// <param name="nombre">Nombre del archivo</param>
     public void EliminarArchivo(string nombre)
     {
+      try
+      {
         File.Delete(rutaAbsoluta + nombre);
+      }
+      catch (IOException e)
+      {
+        throw new IOExcepcion(e, "Error eliminando archivo en " + rutaAbsoluta + nombre + ". " + e.Message);
+      }
+      catch (ArgumentNullException e)
+      {
+        throw new ArgumentoNuloExcepcion(e, "Argumento nulo recibido en Archivo.EliminarArchivo generado por nombre. " + e.Message);
+      }
     }
 
     /// <summary>
