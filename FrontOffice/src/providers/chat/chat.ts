@@ -16,7 +16,21 @@ export class ChatProvider {
   fireConversacionChatsGrupo = firebase.database().ref(Registry.REF_BASE_DATOS_GRUPOS);//.ref('/chatGrupo');
   conversacion: any;
   mensajesConversacion = [];
+
+  private static instancia : ChatProvider;
+
+
+  
   constructor(public events: Events) {
+
+  }
+
+
+  public static obtenerInstancia (events: Events) : ChatProvider{
+    if(this.instancia == null){
+      this.instancia = new ChatProvider(events);
+    }
+    return this.instancia;
   }
 
   inicializarConversacion(conversacion){

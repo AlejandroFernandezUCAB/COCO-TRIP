@@ -67,35 +67,23 @@ export class ConversacionPage {
   edit: any;
   info: any;
   new: any;
-  //nombreUsuario: string;
 
 constructor(public navCtrl: NavController, public navParams: NavParams,
   public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController,
   public platform: Platform, private firebase: Firebase , public chatService: ChatProvider,
   public events: Events, public zone: NgZone, private storage: Storage,public restapiService: RestapiService,
   public toastCtrl: ToastController, private translateService: TranslateService) {
- /* let idUsuario     //Obtiene ID de Usuario
-  this.storage.get('id').then((val) => {
-    idUsuario = val;
-  });*/
-
-  //this.idAmigo = this.navParams.get('nombreUsuario');
- // this.nombreUsuario = this.idAmigo;
-
-
-
- // this.firebase.getToken()
-    //.then(token => console.log(El token push es ${token})) //se guarda el token del lado del servidor y se usa para enviar notificaciones push.
-    //.catch(error => console.log('Error obteniendo el token', error));
-
-  //this.firebase.onTokenRefresh()
-    //.subscribe((token: string) => console.log(He obtenido un nuevo token ${token}));
 
 }
 
-
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de obtener los datos necesarios como la id del usuario
+ * loggeado, el nombre de usuario amigo y la lista de mensajes entre usuarios
+ * 
+ */
 ionViewWillEnter() {
-  catProd.info("Entrando en el metodo IonViewWillEnter");
+  catProd.info("Entrando en el metodo ionViewWillEnter de Conversacion");
   this.nombreUsuario.NombreAmigo = this.navParams.get('nombreUsuario');
  
   this.storage.get('id').then((val) => {
@@ -122,10 +110,18 @@ ionViewWillEnter() {
         this.todosLosMensajes = Mensajes;
       })
     })
-
+    catProd.info("Saliendo del metodo ionViewWillEnter de Conversacion");
  }
 
+ /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el menu en el cual se tendran las opciones de
+ * visualizar, eliminar y modificar el mensaje.
+ * 
+ */
  pressEvent(idMensaje,emisor,receptor){
+
+  catProd.info("Entrando en el metodo pressEvent de Conversacion");
   this.translateService.get('Opciones').subscribe(value => {this.title = value;})
   this.translateService.get('Eliminar').subscribe(value => {this.delete = value;})
   this.translateService.get('Borrar Mensaje').subscribe(value => {this.message = value;})
@@ -199,10 +195,16 @@ ionViewWillEnter() {
     });
     actionSheet.present();
   }
+  catProd.info("Saliendo del metodo pressEvent de Conversacion");
 }
 
-
+ /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el alert en el cual se modificara el mensaje
+ * 
+ */
 crearalert(idMensaje){
+  catProd.info("Entrando en el metodo crearalert de Conversacion");
   this.translateService.get('Modificar Mensaje').subscribe(value => {this.title = value;})
   this.translateService.get('Escribe nuevo mensaje').subscribe(value => {this.message = value;})
   this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
@@ -236,25 +238,38 @@ crearalert(idMensaje){
             this.presentToast(this.message);
           }
           
-         // this.chatService.modificarMensajeAmigo(this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,idMensaje,data.modificado);
-          
         }
       }
     ]
   });
   prompt.present();
+  catProd.info("Saliendo del metodo crearalert de Conversacion");
 }
 
+ /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para modificar el mensaje
+ * 
+ */
+
   ModificarMensajeAmigo(idMensaje,nuevoMensaje){
+    catProd.info("Entrando en el metodo ModificarMensajeAmigo de Conversacion");
     let entidad: Mensaje;
     entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",true);
     entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoModificarMensaje();
     comando.setEntidad = entidad;
     comando.execute();
+    catProd.info("Saliendo del metodo ModificarMensajeAmigo de Conversacion");
   }
 
+ /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para eliminar el mensaje
+ * 
+ */
   eliminarMensajeAmigo(idMensaje){
+    catProd.info("Entrando en el metodo eliminarMensajeAmigo de Conversacion");
     this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.delete = value;})
     this.translateService.get('Ocurrio un error').subscribe(value => {this.message = value;})
     let entidad: Mensaje;
@@ -269,9 +284,16 @@ crearalert(idMensaje){
       this.presentToast(this.message);
 
     }
+    catProd.info("Saliendo del metodo eliminarMensajeAmigo de Conversacion");
   }
 
+ /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para crear el mensaje
+ * 
+ */
   agregarMensajeAmigo() {
+    catProd.info("Entrando en el metodo agregarMensajeAmigo de Conversacion");
     this.translateService.get('Por favor').subscribe(value => {this.message = value;})
     if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
@@ -283,36 +305,55 @@ crearalert(idMensaje){
       this.nuevoMensaje = '';
     }else{
       this.presentToast(this.message);
+
     }
-    
+    catProd.info("Saliendo del metodo agregarMensajeAmigo de Conversacion");
   }
 
-  
-
+  /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para obtener la lista de mensajes
+ * 
+ */
   ionViewDidEnter() {
-    catProd.info("Entrando en el metodo IonViewDidEnter");
+    catProd.info("Entrando en el metodo IonViewDidEnter de Conversacion");
     let entidad: Mensaje;
     entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
     let comando = FabricaComando.crearComandoVisualizarConversacionAmigo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
     comando.execute();
-    catProd.info("Saliendo del metodo IonViewDidEnter");
+    catProd.info("Saliendo del metodo IonViewDidEnter de Conversacion");
   }
 
+  
+  /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de mover la lista de mensajes hasta el final
+ * 
+ */
   scrollto() {
+    catProd.info("Entrando en el metodo scrollTo de Conversacion");
     setTimeout(() => {
       this.content.scrollToBottom();
     }, 1000);
+    catProd.info("Saliendo del metodo scrollTo de Conversacion");
   }
 
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de mostrar el toast de informacion
+ * 
+ */
   presentToast(mensaje : string) {
+    catProd.info("Entrando en el metodo presentToast de Conversacion");
     let toast = this.toastCtrl.create({
       message: mensaje,
       duration: 3000,
       position: 'top'
     });
     toast.present();
+    catProd.info("Saliendo del metodo presentToast de Conversacion");
   }
 }
 

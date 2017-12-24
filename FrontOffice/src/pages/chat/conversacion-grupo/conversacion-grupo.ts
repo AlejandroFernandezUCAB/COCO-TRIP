@@ -15,6 +15,7 @@ import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { ToastController } from 'ionic-angular';
 import { InformacionMensajeGrupoPage } from '../../chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
+import {catService,catProd} from "../../../logs/config"
 
 /**
  * Generated class for the ConversacionGrupoPage page.
@@ -66,8 +67,14 @@ export class ConversacionGrupoPage {
   public toastCtrl: ToastController, private translateService: TranslateService) {
   }
 
+  /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de obtener los datos necesarios como la id del usuario
+ * loggeado, el nombre de usuario amigo y la lista de mensajes entre usuarios
+ * 
+ */
   ionViewWillEnter() {
- 
+    catProd.info("Entrando en el metodo ionViewWillEnter de ConversacionGrupoPage");
     this.idGrupo = this.navParams.get('idGrupo');
     this.nombreGrupo.nombre = this.navParams.get('nombreGrupo');
     
@@ -95,10 +102,18 @@ export class ConversacionGrupoPage {
             })
           })
   
+          catProd.info("Saliendo del metodo ionViewWillEnter de ConversacionGrupoPage");
    }
 
 
+
+  /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para obtener la lista de mensajes
+ * 
+ */
   ionViewDidEnter() {
+    catProd.info("Entrando en el metodo ionViewDidEnter de ConversacionGrupoPage");
     let entidad: Mensaje;
     entidad = new Mensaje("","","",this.idGrupo,"","",false);
     let comando = FabricaComando.crearComandoVisualizarConversacionGrupo();
@@ -106,9 +121,17 @@ export class ConversacionGrupoPage {
     comando.setEvents = this.events;
     comando.execute();
     
+    catProd.info("Saliendo del metodo ionViewDidEnter de ConversacionGrupoPage");
   }
 
+  /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el menu en el cual se tendran las opciones de
+ * visualizar, eliminar y modificar el mensaje.
+ * 
+ */
   pressEvent(idMensaje){
+    catProd.info("Entrando en el metodo pressEvent de ConversacionGrupoPage");
     this.translateService.get('Opciones').subscribe(value => {this.title = value;})
     this.translateService.get('Eliminar').subscribe(value => {this.delete = value;})
     this.translateService.get('Borrar Mensaje').subscribe(value => {this.message = value;})
@@ -177,9 +200,17 @@ export class ConversacionGrupoPage {
       });
       actionSheet.present();
     }
+    
+    catProd.info("Saliendo del metodo pressEvent de ConversacionGrupoPage");
   }
 
+   /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el alert en el cual se modificara el mensaje
+ * 
+ */
   crearalert(idMensaje){
+    catProd.info("Entrando en el metodo crearalert de ConversacionGrupoPage");
     this.translateService.get('Modificar Mensaje').subscribe(value => {this.title = value;})
     this.translateService.get('Escribe nuevo mensaje').subscribe(value => {this.message = value;})
     this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
@@ -217,10 +248,16 @@ export class ConversacionGrupoPage {
     });
     prompt.present();
 
+    catProd.info("Saliendo del metodo crearalert de ConversacionGrupoPage");
   }
 
-  
+  /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para eliminar el mensaje
+ * 
+ */
   eliminarMensajeGrupo(idMensaje){
+    catProd.info("Entrando en el metodo eliminarMensajeGrupo de ConversacionGrupoPage");
     this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.delete = value;})
     this.translateService.get('Ocurrio un error').subscribe(value => {this.message = value;})
     let entidad: Mensaje;
@@ -235,9 +272,17 @@ export class ConversacionGrupoPage {
       this.presentToast(this.message);
 
     }
+    
+    catProd.info("Saliendo del metodo eliminarMensajeGrupo de ConversacionGrupoPage");
   }
 
+   /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para crear el mensaje
+ * 
+ */
    agregarMensajeGrupo() {
+    catProd.info("Entrando en el metodo agregarMensajeGrupo de ConversacionGrupoPage");
     this.translateService.get('Por favor').subscribe(value => {this.message = value;})
      if(this.nuevoMensaje != ""){
       let entidad: Mensaje;
@@ -251,33 +296,51 @@ export class ConversacionGrupoPage {
       this.presentToast(this.message);
     }
 
+    catProd.info("Saliendo del metodo agregarMensajeGrupo de ConversacionGrupoPage");
       
 
   }
 
+ /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de crear el comando y ejecutarlo para modificar el mensaje
+ * 
+ */
 modificarMensajeGrupo(idMensaje,nuevoMensaje){
+  catProd.info("Entrando en el metodo modificarMensajeGrupo de ConversacionGrupoPage");
   let entidad: Mensaje;
   entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",true);
   entidad.setId = idMensaje;
   let comando = FabricaComando.crearComandoModificarMensajeGrupo();
   comando.setEntidad = entidad;
   comando.execute();
+  catProd.info("Saliendo del metodo modificarMensajeGrupo de ConversacionGrupoPage");
 
 }
   scrollto() {
+    catProd.info("Entrando en el metodo scrollto de ConversacionGrupoPage");
     setTimeout(() => {
       this.content.scrollToBottom();
     }, 1000);
+    catProd.info("Saliendo del metodo scrollto de ConversacionGrupoPage");
   }
 
   
+  
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de mostrar el toast de informacion
+ * 
+ */
   presentToast(mensaje : string) {
+    catProd.info("Entrando en el metodo presentToast de ConversacionGrupoPage");
     let toast = this.toastCtrl.create({
       message: mensaje,
       duration: 3000,
       position: 'top'
     });
     toast.present();
+    catProd.info("Saliendo del metodo presentToast de ConversacionGrupoPage");
   }
   
 
