@@ -1,4 +1,4 @@
-using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -48,7 +48,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       catch (NpgsqlException e)
       {
         BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos= this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
       finally
@@ -86,13 +86,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       catch (NpgsqlException e)
       {
         BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
       catch (InvalidCastException e)
       {
         CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
 
@@ -150,13 +150,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       catch (NpgsqlException e)
       {
         BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
       catch (InvalidCastException e)
       {
         CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
 
@@ -201,13 +201,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       catch (NpgsqlException e)
       {
         BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
       catch (InvalidCastException e)
       {
         CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
 
@@ -240,13 +240,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       catch (NpgsqlException e)
       {
         BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
       catch (InvalidCastException e)
       {
         CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
-        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
 
