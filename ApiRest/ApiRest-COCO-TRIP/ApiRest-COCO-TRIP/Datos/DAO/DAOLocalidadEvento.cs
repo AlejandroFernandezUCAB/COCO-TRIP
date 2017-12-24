@@ -44,10 +44,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           lista.Add(localidad);
         }
       }
-      catch (BaseDeDatosExcepcion e)
+      catch (NpgsqlException e)
       {
-        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        throw e;
+        BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
       }
       finally
       {
@@ -68,6 +69,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Comando.CommandText = "ConsultarLocalidadPorId";
         Comando.CommandType = CommandType.StoredProcedure;
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Integer;
         parametro.Value = localidad.Id;
         Comando.Parameters.Add(parametro);
@@ -80,10 +82,23 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         localidad.Descripcion = leerDatos.GetString(2);
         localidad.Coordenadas = leerDatos.GetString(3);
       }
-      catch (BaseDeDatosExcepcion e)
+      catch (NpgsqlException e)
       {
-        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        throw e;
+        BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
+      }
+      catch (InvalidCastException e)
+      {
+        CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
+      }
+
+      catch (InvalidOperationException e) {
+        OperacionInvalidaException ex = new OperacionInvalidaException(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
       }
       finally
       {
@@ -105,22 +120,22 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Comando.CommandText = "InsertarLocalidad";
         Comando.CommandType = CommandType.StoredProcedure;
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
         parametro.Value = localidad.Nombre;
         Comando.Parameters.Add(parametro);
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
         parametro.Value = localidad.Descripcion;
         Comando.Parameters.Add(parametro);
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
         parametro.Value = localidad.Coordenadas;
         Comando.Parameters.Add(parametro);
 
         leerDatos = Comando.ExecuteReader();
-
-        try
-        {
           if (leerDatos.Read())
           {
             Int32.TryParse(leerDatos.GetValue(0).ToString(), out respuesta);
@@ -129,20 +144,20 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           {
             throw new ItemNoEncontradoException($"No se encontro la localidad con el nombre {localidad.Nombre}");
           }
-        }
-        catch (System.InvalidCastException e)
-        {
-          Console.WriteLine(e.Message);
-        }
-
-
-
-
+        
+               
       }
-      catch (BaseDeDatosExcepcion e)
+      catch (NpgsqlException e)
       {
-        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        throw e;
+        BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
+      }
+      catch (InvalidCastException e)
+      {
+        CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
       }
 
       finally
@@ -151,9 +166,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Desconectar();
       }
     }
+
     public override void Actualizar(Entidad objeto)
     {
-      int respuesta = 0;
       try
       {
         localidad = (LocalidadEvento)objeto;
@@ -162,41 +177,40 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Comando.CommandText = "actualizarlocalidadporid";
         Comando.CommandType = CommandType.StoredProcedure;
 
+        parametro = new NpgsqlParameter();
+        parametro.NpgsqlDbType = NpgsqlDbType.Integer;
+        parametro.Value = localidad.Id;
+        Comando.Parameters.Add(parametro);
+
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
         parametro.Value = localidad.Nombre;
         Comando.Parameters.Add(parametro);
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
         parametro.Value = localidad.Descripcion;
         Comando.Parameters.Add(parametro);
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
         parametro.Value = localidad.Coordenadas;
         Comando.Parameters.Add(parametro);
 
         leerDatos = Comando.ExecuteReader();
 
-        try
-        {
-          if (leerDatos.Read())
-          {
-            Int32.TryParse(leerDatos.GetValue(0).ToString(), out respuesta);
-          }
-          if (respuesta == 0)
-          {
-            throw new ItemNoEncontradoException($"No se encontro la localidad con el nombre {localidad.Nombre}");
-          }
-        }
-        catch (System.InvalidCastException e)
-        {
-          throw new CasteoInvalidoExcepcion(e);
-        }
-
       }
-      catch (BaseDeDatosExcepcion e)
+      catch (NpgsqlException e)
       {
-        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        throw e;
+        BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
+      }
+      catch (InvalidCastException e)
+      {
+        CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
       }
 
       finally
@@ -217,6 +231,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Comando.CommandText = "EliminarLocalidadporId";
         Comando.CommandType = CommandType.StoredProcedure;
 
+        parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Integer;
         parametro.Value = localidad.Id;
         Comando.Parameters.Add(parametro);
@@ -224,10 +239,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         leerDatos = Comando.ExecuteReader();
         leerDatos.Read();
       }
-      catch (BaseDeDatosExcepcion e)
+      catch (NpgsqlException e)
       {
-        e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        throw e;
+        BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
+      }
+      catch (InvalidCastException e)
+      {
+        CasteoInvalidoExcepcion ex = new CasteoInvalidoExcepcion(e);
+        ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
       }
 
       finally
