@@ -767,7 +767,7 @@ describe("Test for DAO.informacionMensajeAmigo", ()=>{
         let chat : ChatProvider = new ChatProvider(events);
         let DAO : DAOChat = new DAOChat;
         chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        DAO.informacionMensajeAmigo(mensaje, events);
+       // DAO.informacionMensajeAmigo(mensaje, events);
 
         events.subscribe('infoMensaje', (infoMensaje) => {
           expect("MensajePruebaDAO").toEqual(infoMensaje.getMensaje);
@@ -783,7 +783,7 @@ describe("Test for DAO.informacionMensajeGrupo", ()=>{
         let chat : ChatProvider = new ChatProvider(events);
         let DAO : DAOChat = new DAOChat;
         chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        DAO.informacionMensajeGrupo(mensaje, events);
+        //DAO.informacionMensajeGrupo(mensaje, events);
 
         events.subscribe('infoMensajeGrupo', (infoMensajeGrupo) => {
           expect("MensajePruebaDAO").toEqual(infoMensajeGrupo.getMensaje);

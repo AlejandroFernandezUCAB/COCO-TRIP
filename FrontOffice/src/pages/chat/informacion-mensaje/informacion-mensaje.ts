@@ -9,11 +9,28 @@ import {catService,catProd} from "../../../logs/config";
 //***********************************Informacion Mensaje de MODULO 6*************************************//
 //****************************************************************************************************//
 
+//****************************************************************************************************//
+//*****************************PAGE DE INFORMACION DE MENSAJE MODULO 6********************************//
+//****************************************************************************************************//
+
 /**
  * Autores:
  * Mariangel Perez
  * Oswaldo Lopez
  * Aquiles Pulido
+ */
+
+/**
+<<<<<<< HEAD
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+=======
+ * Descripcion de la clase:
+ * 
+ * Informacion de un mensaje
+>>>>>>> 4c466cd213358a4aedea52b55ff9ca7e24c96ba5
  */
 
 /**

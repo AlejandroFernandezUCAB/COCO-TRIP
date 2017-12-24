@@ -1,11 +1,23 @@
 import {Category,CategoryLogger,CategoryServiceFactory,CategoryConfiguration,LogLevel} from "typescript-logging";
+//****************************************************************************************************//
+//*****************************************CONFIG LOGS MODULO 6***************************************//
+//****************************************************************************************************//
 
-// Optionally change default settings, in this example set default logging to Info.
-// Without changing configuration, categories will log to Error.
+/**
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * 
+ * Configuracion de los logs
+ */
+
 CategoryServiceFactory.setDefaultConfiguration(new CategoryConfiguration(LogLevel.Info));
 
-// Create categories, they will autoregister themselves, one category without parent (root) and a child category.
 export const catService = new Category("service");
 export const catProd = new Category("product", catService);
 export const catErr = new Category("Error"); 
-//comentario x

@@ -16,11 +16,21 @@ import { ToastController } from 'ionic-angular';
 import { InformacionMensajeGrupoPage } from '../../chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
 
+//****************************************************************************************************//
+//******************************PAGE DE CONVERSACION GRUPO MODULO 6***********************************//
+//****************************************************************************************************//
+
 /**
- * Generated class for the ConversacionGrupoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
+ */
+
+/**
+ * Descripcion de la clase:
+ * 
+ * Conversacion de grupos
  */
 
 @IonicPage()
