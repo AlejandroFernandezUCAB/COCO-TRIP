@@ -20,11 +20,10 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       try
       {
         DAO<JObject, Categoria> peticionCategoria = FabricaDAO.GetDAOCategoria();
-        //DAO<JObject, Localidad> peticionLocalidad = FabricaDAO.GetDAOLocalidad();
+        
         IDAOLocalidad peticionLocalidad = FabricaDAO.GetDAOLocalidad();
         JObject respuestaCategoria = peticionCategoria.Get(id);
-        //JObject respuestaLocalidad = peticionLocalidad.GetAll();
-        JObject respuestaLocalidad = peticionLocalidad.Get(id);
+        JObject respuestaLocalidad = peticionLocalidad.GetAll();
         if (respuestaCategoria.Property("data") != null)
         {
           resultado.Add(respuestaCategoria["data"].ToObject<List<Categoria>>());
