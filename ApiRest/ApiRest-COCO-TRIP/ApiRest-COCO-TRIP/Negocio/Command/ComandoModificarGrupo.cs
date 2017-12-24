@@ -3,6 +3,10 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Web.Http;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -24,17 +28,37 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOGrupo();
-      archivo = Archivo.ObtenerInstancia();
-
-      if(grupo.Nombre != null)
+      try
       {
-        datos.Actualizar(grupo);
+        datos = FabricaDAO.CrearDAOGrupo();
+        archivo = Archivo.ObtenerInstancia();
+
+        if (grupo.Nombre != null)
+        {
+          datos.Actualizar(grupo);
+        }
+
+        if (grupo.ContenidoFoto != null)
+        {
+          archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+        }
       }
-
-      if(grupo.ContenidoFoto != null)
+      catch (BaseDeDatosExcepcion e)
       {
-        archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+        e.DatosAsociados = JsonConvert.SerializeObject(grupo);
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (IOExcepcion e)
+      {
+        e.DatosAsociados = JsonConvert.SerializeObject(grupo);
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ReferenciaNulaExcepcion e)
+      {
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
 

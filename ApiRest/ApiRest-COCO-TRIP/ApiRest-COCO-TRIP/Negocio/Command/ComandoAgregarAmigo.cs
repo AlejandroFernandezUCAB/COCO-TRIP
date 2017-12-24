@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Web.Http;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -30,16 +33,30 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      baseUsuario = FabricaDAO.CrearDAOUsuario();
-      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
-
-      baseAmigo = FabricaDAO.CrearDAOAmigo();
-      amigo.Pasivo = usuario.Id;
-      amigo = (Amigo) baseAmigo.ConsultarId(amigo);
-
-      if(amigo.Id == 0)
+      try
       {
-        baseAmigo.Insertar(amigo);
+        baseUsuario = FabricaDAO.CrearDAOUsuario();
+        usuario = (Usuario)baseUsuario.ConsultarPorNombre(usuario);
+
+        baseAmigo = FabricaDAO.CrearDAOAmigo();
+        amigo.Pasivo = usuario.Id;
+        amigo = (Amigo)baseAmigo.ConsultarId(amigo);
+
+        if (amigo.Id == 0)
+        {
+          baseAmigo.Insertar(amigo);
+        }
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = "Id:" + amigo.Activo + " Nombre: " + usuario.NombreUsuario;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
 

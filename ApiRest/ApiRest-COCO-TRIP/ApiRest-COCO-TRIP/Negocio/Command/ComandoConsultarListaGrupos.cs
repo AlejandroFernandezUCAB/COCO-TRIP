@@ -3,6 +3,9 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Web.Http;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -25,16 +28,31 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      archivo = Archivo.ObtenerInstancia();
-      datos = FabricaDAO.CrearDAOGrupo();
-      listaGrupos = datos.ConsultarLista(usuario);
-      
-      foreach(Grupo elemento in listaGrupos)
+      try
       {
-        if(archivo.ExisteArchivo(Archivo.FotoGrupo + elemento.Id + Archivo.Extension))
+        archivo = Archivo.ObtenerInstancia();
+        datos = FabricaDAO.CrearDAOGrupo();
+        listaGrupos = datos.ConsultarLista(usuario);
+
+        foreach (Grupo elemento in listaGrupos)
         {
-          elemento.RutaFoto = Archivo.Ruta + Archivo.FotoGrupo + elemento.Id + Archivo.Extension;
+          if (archivo.ExisteArchivo(Archivo.FotoGrupo + elemento.Id + Archivo.Extension))
+          {
+            elemento.RutaFoto = Archivo.Ruta + Archivo.FotoGrupo + elemento.Id + Archivo.Extension;
+          }
         }
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = "Id:" + usuario.Id;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (IOExcepcion e)
+      {
+        e.DatosAsociados = "Id:" + usuario.Id;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
 

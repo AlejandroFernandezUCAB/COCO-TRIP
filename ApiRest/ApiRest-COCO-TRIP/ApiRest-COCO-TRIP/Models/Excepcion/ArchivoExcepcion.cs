@@ -8,7 +8,7 @@ namespace ApiRest_COCO_TRIP.Models.Excepcion
   public class ArchivoExcepcion: Exception //Por ahora, lo cambiaremos
   {
     private DateTime fechaHora;
-    private Exception excepcion; //Las posibles excepciones son DirectoryNotFound, IOException y ArgumentNullException
+    //private Exception excepcion; //Las posibles excepciones son DirectoryNotFound, IOException y ArgumentNullException
     private string nombreArchivo; //Nombre del archivo
     private string ruta; //Ruta del web service donde se almacenan las fotos
     private string nombreMetodo; //Nombre del metodo que genero la excepcion

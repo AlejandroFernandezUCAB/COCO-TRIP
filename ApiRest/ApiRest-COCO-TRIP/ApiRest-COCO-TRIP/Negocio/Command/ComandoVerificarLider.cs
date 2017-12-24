@@ -4,6 +4,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using System.Net;
 using System.Web.Http;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -30,13 +31,23 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOGrupo();
-      lider = (Usuario) datos.ConsultarLider(grupo);
-
-      if(lider.Id != usuario.Id) //Si no es el lider retorna una excepcion
+      try
       {
-        throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        datos = FabricaDAO.CrearDAOGrupo();
+        lider = (Usuario)datos.ConsultarLider(grupo);
+
+        if (lider.Id != usuario.Id) //Si no es el lider retorna una excepcion
+        {
+          throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
       }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = "IdGrupo:" + grupo.Id + " IdUsuario: " + usuario.Id;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+
     }
 
     public override Entidad Retornar()
