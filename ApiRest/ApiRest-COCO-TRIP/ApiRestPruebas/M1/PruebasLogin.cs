@@ -111,7 +111,7 @@ namespace ApiRestPruebas.M1
         Nombre="Holic",
         Descripcion="Bar y discoteca",
         Coordenadas = "5.5"
-      };*/
+      };
       lt = new LugarTuristico
       {
         Nombre = "Plata Pelua",

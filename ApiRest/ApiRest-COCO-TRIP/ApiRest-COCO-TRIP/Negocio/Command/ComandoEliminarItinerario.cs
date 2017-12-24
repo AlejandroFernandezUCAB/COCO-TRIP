@@ -3,29 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoConsultarLocalidades : Comando
+  public class ComandoEliminarItinerario : Comando
   {
-    private List<Entidad> localidades;
-
-    
+    private Itinerario itinerario;
+    public ComandoEliminarItinerario(int id)
+    {
+      itinerario = FabricaEntidad.CrearEntidadItinerario();
+      itinerario.Id = id;
+    }
 
     public override void Ejecutar()
     {
-      DAO dao = FabricaDAO.CrearDAOLocalidad();
-      try
-      {
-        localidades = dao.ConsultarLista(null);
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
-        throw e;
-      }
+      DAOItinerario dAOItinerario = FabricaDAO.CrearDAOItinerario();
+      dAOItinerario.Eliminar(itinerario);
     }
 
     public override Entidad Retornar()
@@ -35,7 +30,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override List<Entidad> RetornarLista()
     {
-      return localidades;
+      throw new NotImplementedException();
     }
   }
 }
