@@ -1,7 +1,6 @@
 import { FabricaDAO } from '../factory/fabricaDao';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import  { Comando } from './comando';
-import { DAOChatGrupo } from '../../dataAccessLayer/dao/daoChatGrupo';
 
 export class ComandoModificarMensajeGrupo extends Comando {
     private  _respuesta : Boolean;

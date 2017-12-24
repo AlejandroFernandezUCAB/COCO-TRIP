@@ -11,7 +11,7 @@ export class ComandoInformacionMensajeGrupo extends Comando {
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO INFORMACION MENSAJE GRUPO");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.informacionMensajeGrupo(this._entidad, this._events);
+        DAO.visualizarGrupo(this._entidad, this._events);
     }
 
     

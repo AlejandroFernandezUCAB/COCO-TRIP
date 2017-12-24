@@ -4,13 +4,24 @@ import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
 import { ChatProvider } from '../../../providers/chat/chat';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
+import {catService,catProd} from "../../../logs/config";
+//****************************************************************************************************//
+//***********************************Informacion Mensaje de MODULO 6*************************************//
+//****************************************************************************************************//
 
 /**
- * Generated class for the InformacionMensajePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
  */
+
+/**
+ * Descripcion de la clase:
+ * Informacion Mensaje
+ * 
+ */
+
 
 @IonicPage()
 @Component({
@@ -37,6 +48,7 @@ export class InformacionMensajePage {
 
 
   ionViewWillEnter() {
+    catProd.info("Entrando en el metodo IonViewWillEnter de informacion-mensaje");
     let mensaje: Mensaje;
     this.Mensajerec.idmensaje = this.navParams.get('idmensaje');
     this.Mensajerec.emisor = this.navParams.get('emisor');
@@ -48,9 +60,11 @@ export class InformacionMensajePage {
       this.info.fecha=mensaje.getFecha;
       this.info.modificado=mensaje.getModificado;
     })
+    catProd.info("Saliendo del metodo IonViewWillEnter de informacion-mensaje");
     
   }  
   ionViewDidEnter() {
+    catProd.info("Entrando en el metodo ionViewDidEnter de informacion-mensaje");
     let entidad: Mensaje;
     entidad = new Mensaje("",this.Mensajerec.emisor,this.Mensajerec.receptor,0,"","",false);
     entidad.setId=this.Mensajerec.idmensaje;
@@ -58,6 +72,7 @@ export class InformacionMensajePage {
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
     comando.execute();
+    catProd.info("Saliendo del metodo ionViewDidEnter de informacion-mensaje");
   }
 
 }

@@ -11,7 +11,7 @@ export class ComandoInformacionMensajeAmigo extends Comando {
     public execute(): void {
         console.log("ENTRANDO EN EXECUTE DE COMANDO INFORMACION MENSAJE AMIGO");
         let DAO = FabricaDAO.crearFabricaDAOChat();
-        DAO.informacionMensajeAmigo(this._entidad, this._events);
+        DAO.visualizar(this._entidad, this._events);
     }
 
     

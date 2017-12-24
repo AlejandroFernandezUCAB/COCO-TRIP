@@ -4,13 +4,24 @@ import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
 import { ChatProvider } from '../../../providers/chat/chat';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
+import {catService,catProd} from "../../../logs/config";
+//****************************************************************************************************//
+//***********************************Informacion Mensaje Grupo de MODULO 6*************************************//
+//****************************************************************************************************//
 
 /**
- * Generated class for the InformacionMensajeGrupoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Autores:
+ * Mariangel Perez
+ * Oswaldo Lopez
+ * Aquiles Pulido
  */
+
+/**
+ * Descripcion de la clase:
+ * Informacion Mensaje Grupo
+ * 
+ */
+
 
 @IonicPage()
 @Component({
@@ -33,6 +44,7 @@ export class InformacionMensajeGrupoPage {
   }
 
   ionViewWillEnter() {
+    catProd.info("Entrando en el metodo IonViewWillEnter de informacion-mensaje-grupo");
     let mensaje: Mensaje;
     this.Mensajerec.idmensaje = this.navParams.get('idmensaje');
     this.Mensajerec.idgrupo = this.navParams.get('idgrupo');
@@ -44,9 +56,10 @@ export class InformacionMensajeGrupoPage {
       this.info.fecha=mensaje.getFecha;
       this.info.modificado=mensaje.getModificado;
     })
-    
+    catProd.info("Saliendo del metodo IonViewWillEnter de informacion-mensaje-grupo");
   }  
   ionViewDidEnter() {
+    catProd.info("Entrando en el metodo ionViewDidEnter de informacion-mensaje-grupo");
     let entidad: Mensaje;
     entidad = new Mensaje("","","",this.Mensajerec.idgrupo,"","",false);
     entidad.setId=this.Mensajerec.idmensaje;
@@ -54,6 +67,7 @@ export class InformacionMensajeGrupoPage {
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
     comando.execute();
+    catProd.info("Saliendo del metodo ionViewDidEnter de informacion-mensaje-grupo");
   }
 
 }
