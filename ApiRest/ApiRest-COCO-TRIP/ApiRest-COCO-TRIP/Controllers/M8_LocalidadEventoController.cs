@@ -86,7 +86,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
        String respuestaPeticion = peticionLocalidadEvento.EliminarLocalidadEvento(id).ToString();
-        respuesta.Add("dato", respuestaPeticion);
+        respuesta.Add("dato", "Localidad Eliminada Satisfactoriamente ");
       }
       catch (BaseDeDatosExcepcion e)
       {

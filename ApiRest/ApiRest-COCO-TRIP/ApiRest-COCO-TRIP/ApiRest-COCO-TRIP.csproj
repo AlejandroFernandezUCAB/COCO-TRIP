@@ -136,6 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
+    <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
@@ -145,12 +151,12 @@
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\DAO\DAOAgenda.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
     <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
     <Compile Include="Datos\DAO\DAOItinerario.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
-    <Compile Include="Datos\DAO\IDAOItinerario.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Categoria.cs" />
@@ -177,6 +183,7 @@
     <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
+    <Compile Include="Comun\Excepcion\OperacionInvalidaException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
@@ -201,9 +208,14 @@
     <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
     <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarItinerarios.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarAgenda.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoEstadoCategoria.cs" />
@@ -250,7 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Comun\" />
+    <Folder Include="Datos\DAO\Interfaces\" />
     <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>

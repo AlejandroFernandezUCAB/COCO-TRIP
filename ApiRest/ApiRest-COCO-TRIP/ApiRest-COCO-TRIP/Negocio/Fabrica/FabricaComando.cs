@@ -1,3 +1,4 @@
+using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Command;
 
@@ -17,6 +18,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoAgregarAmigo CrearComandoAgregarAmigo (int id, string nombre)
     {
       return new ComandoAgregarAmigo(id, nombre);
+    }
+
+    internal static Entidad CrearComandoAgregarItinerario()
+    {
+      throw new NotImplementedException();
     }
 
     /// <summary>
@@ -94,6 +100,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoBuscarAmigos(id, nombre);
     }
+
 
     /// <summary>
     /// Retorna la instancia de ComandoAgregarGrupo
@@ -252,6 +259,46 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     }
 
     /// <summary>
+    /// Retorna la instancia de ComandoAgregarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <param name ="nombreItinerario">Nombre del itinerario</param> 
+    /// <returns></returns>
+    public static ComandoAgregarItinerario CrearComandoAgregarItinerario(int idUsuario,string nombreItinerario)
+    {
+      return new ComandoAgregarItinerario(idUsuario,nombreItinerario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoConsultarItinerarios CrearComandoConsultarItinerarios(int idUsuario)
+    {
+      return new ComandoConsultarItinerarios(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoModificarItinerario CrearComandoModificarItinerario(int idItinerario,string nombre,
+      DateTime fechaInicio, DateTime fechaFin,  int idUsuario)
+    {
+      return new ComandoModificarItinerario(idItinerario,nombre,fechaInicio,fechaFin,idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarItinerario
+    /// </summary>
+    /// <param name ="idUsuario">Id del usuario</param>
+    /// <returns></returns>
+    public static ComandoEliminarItinerario CrearComandoEliminarItinerario(int id)
+    {
+      return new ComandoEliminarItinerario(id);
+    }
     /// Retorna la instancia de ComandoModificarCategoria
     /// </summary>
     /// <param name="idUsuario">Identificador del usuario</param>
@@ -285,18 +332,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de ComandoAgregarLocalidad
     /// </summary>
     /// <returns>ComandoAgregarLocalidad</returns>
-    public static ComandoAgregarLocalidad CrearComandoAgregarLocalidad()
+    public static ComandoAgregarLocalidad CrearComandoAgregarLocalidad(Entidad localidad)
     {
-      return new ComandoAgregarLocalidad();
+      return new ComandoAgregarLocalidad(localidad);
     }
 
     /// <summary>
     /// Retorna la instancia de ComandoConsultarLocalidad
     /// </summary>
     /// <returns>ComandoConsultarLocalidad</returns>
-    public static ComandoConsultarLocalidad CrearComandoConsultarLocalidad()
+    public static ComandoConsultarLocalidad CrearComandoConsultarLocalidad(int id)
     {
-      return new ComandoConsultarLocalidad();
+      return new ComandoConsultarLocalidad(id);
     }
 
     /// <summary>
@@ -312,18 +359,28 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de ComandoModificarLocalidad
     /// </summary>
     /// <returns>ComandoModificarLocalidad</returns>
-    public static ComandoModificarLocalidad CrearComandoModificarLocalidad()
+    public static ComandoModificarLocalidad CrearComandoModificarLocalidad(Entidad localidad)
     {
-      return new ComandoModificarLocalidad();
+      return new ComandoModificarLocalidad(localidad);
     }
 
     /// <summary>
     /// Retorna la instancia de ComandoEliminarLocalidad
     /// </summary>
     /// <returns>ComandoEliminarLocalidad</returns>
-    public static ComandoEliminarLocalidad CrearComandoEliminarLocalidad()
+    public static ComandoEliminarLocalidad CrearComandoEliminarLocalidad(int id)
     {
-      return new ComandoEliminarLocalidad();
+      return new ComandoEliminarLocalidad(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarAgenda
+    /// </summary>
+    /// <returns>ComandoAgregarAgenda</returns>
+    public static ComandoAgregarAgenda CrearComandoAgregarAgenda(string tipo,
+      int idItinerario,int idItem,DateTime fechaInicio, DateTime fechaFin)
+    {
+      return new ComandoAgregarAgenda(tipo,idItinerario,idItem,fechaInicio,fechaFin);
     }
   }
 }

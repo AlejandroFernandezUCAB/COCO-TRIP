@@ -232,10 +232,11 @@ create table evento
 	ev_categoria int
 );
 create table localidad(
-	lo_id int primary key,
-	lo_nombre varchar(200),
-	lo_descripcion varchar(500),
-	lo_coordenada varchar(50)
+	lo_id integer NOT NULL,
+  lo_nombre character varying(200) NOT NULL,
+  lo_descripcion character varying(500),
+  lo_coordenada character varying(50) NOT NULL,
+  CONSTRAINT localidad_pkey PRIMARY KEY (lo_id)
 );
 --Fin de modulo
 --Modulo 9
