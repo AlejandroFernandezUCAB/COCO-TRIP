@@ -27,15 +27,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       }
       catch (BaseDeDatosExcepcion e)
       {
+        throw e;
         //INSERTAR EN LOG
       }
       catch (CasteoInvalidoExcepcion e)
       {
+        throw e;
         //INSERTAR EN LOG
       }
 
       catch (OperacionInvalidaException e)
       {
+        throw e;
         //INSERTAR EN LOG
       }
     }

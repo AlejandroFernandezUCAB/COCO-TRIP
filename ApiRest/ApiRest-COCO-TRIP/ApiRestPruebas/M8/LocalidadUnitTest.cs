@@ -119,11 +119,31 @@ namespace ApiRestPruebas.M8
       Assert.AreEqual(((LocalidadEvento)localidad).Nombre, ((LocalidadEvento)prueba).Nombre);
       Assert.AreEqual(((LocalidadEvento)localidad).Descripcion, ((LocalidadEvento)prueba).Descripcion);
       Assert.AreEqual(((LocalidadEvento)localidad).Coordenadas, ((LocalidadEvento)prueba).Coordenadas);
-
+      int id = localidad.Id;
       localidad.Id = 0;
       Assert.DoesNotThrow(() => {
         dao.Actualizar(localidad);
       });
+
+      localidad.Id = id;
+
+      ((LocalidadEvento)localidad).Nombre = null;
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        dao.Actualizar(localidad);
+      });
+
+      ((LocalidadEvento)localidad).Nombre = "test";
+      ((LocalidadEvento)localidad).Descripcion = null;
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        dao.Actualizar(localidad);
+      });
+
+      ((LocalidadEvento)localidad).Descripcion = "test";
+      ((LocalidadEvento)localidad).Coordenadas = null;
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        dao.Actualizar(localidad);
+      });
+
     }
 
     [Test]
@@ -140,12 +160,13 @@ namespace ApiRestPruebas.M8
       dao.Eliminar(localidad);
       ((LocalidadEvento)localidad).Nombre = null;
 
-      Assert.DoesNotThrow(() => {
+      comando = FabricaComando.CrearComandoAgregarLocalidad(localidad);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
       ((LocalidadEvento)localidad).Nombre = "Test";
       ((LocalidadEvento)localidad).Descripcion = null;
-
+      comando = FabricaComando.CrearComandoAgregarLocalidad(localidad);
       Assert.DoesNotThrow(() => {
         comando.Ejecutar();
       });
@@ -154,14 +175,14 @@ namespace ApiRestPruebas.M8
       dao.Eliminar(localidad);
       ((LocalidadEvento)localidad).Descripcion = "Test";
       ((LocalidadEvento)localidad).Coordenadas = null;
-
-      Assert.DoesNotThrow(() => {
+      comando = FabricaComando.CrearComandoAgregarLocalidad(localidad);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
 
       localidad = FabricaEntidad.CrearEntidadLocalidad();
       comando = FabricaComando.CrearComandoAgregarLocalidad(localidad);
-      Assert.DoesNotThrow(() => {
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
 
@@ -181,14 +202,15 @@ namespace ApiRestPruebas.M8
       Assert.AreEqual(((LocalidadEvento)localidad).Coordenadas, ((LocalidadEvento)prueba).Coordenadas);
 
       localidad.Id = 0;
+      comando = FabricaComando.CrearComandoConsultarLocalidad(localidad.Id);
 
-      Assert.DoesNotThrow(() => {
+      Assert.Throws<OperacionInvalidaException>(() => {
         comando.Ejecutar();
       });
 
       localidad = FabricaEntidad.CrearEntidadLocalidad();
       comando = FabricaComando.CrearComandoConsultarLocalidad(localidad.Id);
-      Assert.DoesNotThrow(() => {
+      Assert.Throws<OperacionInvalidaException>(() => {
         comando.Ejecutar();
       });
 
@@ -212,6 +234,83 @@ namespace ApiRestPruebas.M8
      
       }
      
+    }
+
+    [Test]
+    public void TestComandoEliminarLocalidad()
+    {
+
+      comando = FabricaComando.CrearComandoEliminarLocalidad(localidad.Id);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+
+      localidad.Id = 0;
+      comando = FabricaComando.CrearComandoEliminarLocalidad(localidad.Id);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+
+      localidad = FabricaEntidad.CrearEntidadLocalidad();
+      comando = FabricaComando.CrearComandoEliminarLocalidad(localidad.Id);
+      Assert.DoesNotThrow(() => {
+        comando.Ejecutar();
+      });
+
+    }
+
+    [Test]
+    public void TestComandoActualizarLocalidad() {
+      ((LocalidadEvento)localidad).Nombre = "Test2";
+      comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+      Assert.AreEqual(((LocalidadEvento)localidad).Nombre,
+        ((LocalidadEvento)dao.ConsultarPorId(localidad)).Nombre);
+
+      ((LocalidadEvento)localidad).Descripcion = "Test2";
+      comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+      Assert.AreEqual(((LocalidadEvento)localidad).Descripcion,
+        ((LocalidadEvento)dao.ConsultarPorId(localidad)).Descripcion);
+
+       ((LocalidadEvento)localidad).Coordenadas = "0.2, 0.02";
+      comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+      Assert.AreEqual(((LocalidadEvento)localidad).Coordenadas,
+        ((LocalidadEvento)dao.ConsultarPorId(localidad)).Coordenadas);
+
+
+      ((LocalidadEvento)localidad).Nombre = null;
+      comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+      ((LocalidadEvento)localidad).Nombre = "Test";
+      ((LocalidadEvento)localidad).Descripcion = null;
+      comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+
+      ((LocalidadEvento)localidad).Descripcion = "Test";
+      ((LocalidadEvento)localidad).Coordenadas = null;
+      comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
     }
 
     [TearDown]

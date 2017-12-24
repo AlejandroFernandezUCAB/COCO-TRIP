@@ -23,16 +23,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       DAO dao = FabricaDAO.CrearDAOLocalidad();
       try
       {
-        if (validarEntidad())
+        validarEntidad();
         dao.Insertar(localidad);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        mensaje = e.Mensaje;
+        throw e;
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        mensaje = e.Message;
+        throw e;
       }
 
     }
@@ -47,13 +47,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new NotImplementedException();
     }
 
-    private bool validarEntidad()
+    private void validarEntidad()
     {
       if (((LocalidadEvento)localidad).Descripcion == null)
         ((LocalidadEvento)localidad).Descripcion = "";
-      if (((LocalidadEvento)localidad).Nombre != null && ((LocalidadEvento)localidad).Coordenadas != null)
-        return true;
-      return false;
     }
   }
 }

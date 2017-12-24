@@ -43,6 +43,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           LocalidadEvento localidad = new LocalidadEvento(leerDatos.GetInt32(0), leerDatos.GetString(1), leerDatos.GetString(2), leerDatos.GetString(3));
           lista.Add(localidad);
         }
+        leerDatos.Close();
       }
       catch (NpgsqlException e)
       {
@@ -52,7 +53,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       }
       finally
       {
-        leerDatos.Close();
         Desconectar();
       }
 
@@ -81,6 +81,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         localidad.Nombre = leerDatos.GetString(1);
         localidad.Descripcion = leerDatos.GetString(2);
         localidad.Coordenadas = leerDatos.GetString(3);
+        leerDatos.Close();
       }
       catch (NpgsqlException e)
       {
@@ -102,7 +103,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       }
       finally
       {
-        leerDatos.Close();
         Desconectar();
       }
 
@@ -144,8 +144,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           {
             throw new ItemNoEncontradoException($"No se encontro la localidad con el nombre {localidad.Nombre}");
           }
-        
-               
+        leerDatos.Close();
+
       }
       catch (NpgsqlException e)
       {
@@ -162,11 +162,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       finally
       {
-        leerDatos.Close();
         Desconectar();
       }
     }
-
     public override void Actualizar(Entidad objeto)
     {
       try
@@ -198,7 +196,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Comando.Parameters.Add(parametro);
 
         leerDatos = Comando.ExecuteReader();
-
+        leerDatos.Close();
       }
       catch (NpgsqlException e)
       {
@@ -215,7 +213,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       finally
       {
-        leerDatos.Close();
         Desconectar();
       }
     }
@@ -238,6 +235,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         leerDatos = Comando.ExecuteReader();
         leerDatos.Read();
+        leerDatos.Close();
       }
       catch (NpgsqlException e)
       {
@@ -254,7 +252,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       finally
       {
-        leerDatos.Close();
         Desconectar();
       }
     }

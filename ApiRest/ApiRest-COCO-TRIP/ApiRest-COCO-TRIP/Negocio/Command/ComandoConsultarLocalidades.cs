@@ -24,7 +24,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       }
       catch (BaseDeDatosExcepcion e)
       {
-        //INSERTAR EN LOG
+        throw e;
       }
     }
 

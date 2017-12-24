@@ -182,7 +182,7 @@
     <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
-    <Compile Include="Models\Excepcion\OperacionInvalidaException.cs" />
+    <Compile Include="Comun\Excepcion\OperacionInvalidaException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
@@ -260,7 +260,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Comun\" />
     <Folder Include="Datos\DAO\Interfaces\" />
     <Folder Include="Library\" />
   </ItemGroup>
