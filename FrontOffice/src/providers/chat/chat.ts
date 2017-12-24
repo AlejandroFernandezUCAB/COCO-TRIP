@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Events } from 'ionic-angular';
 import { Mensaje } from '../../dataAccessLayer/domain/mensaje';
+import { Registry } from '../../common/registry';
 import * as moment from 'moment';
 import {catService,catProd} from "../../logs/config"
 //****************************************************************************************************//
@@ -22,8 +23,8 @@ import {catService,catProd} from "../../logs/config"
  */
 @Injectable()
 export class ChatProvider {
-  fireConversacionChatsAmigo = firebase.database().ref('/chatAmigo');
-  fireConversacionChatsGrupo = firebase.database().ref('/chatGrupo');
+  fireConversacionChatsAmigo = firebase.database().ref(Registry.REF_BASE_DATOS_AMIGOS);//.ref('/chatAmigo');
+  fireConversacionChatsGrupo = firebase.database().ref(Registry.REF_BASE_DATOS_GRUPOS);//.ref('/chatGrupo');
   conversacion: any;
   mensajesConversacion = [];
   constructor(public events: Events) {
@@ -109,19 +110,21 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
     this.mensajesConversacion = [];
     temp = snapshot.val();
     for (var tempkey in temp) {
-      console.log("temp[tempkey]: "+temp[tempkey].key);
       this.mensajesConversacion.push(temp[tempkey]);
     }
-    this.events.publish('nuevoMensajeAmigo',this.mensajesConversacion);
+    this.events.publish(Registry.PUBLISH_LISTA_MENSAJE_AMIGOS,this.mensajesConversacion);
   })
   catProd.info("Saliendo del metodo obtenerMensajesConversacionAmigo de chat.ts");
 }
 
+<<<<<<< HEAD
 
 /**
  * Metodo que se encarga de obtener la lista de los mensajes existentes en un grupo
  * @param idGrupo Identificador del grupo
  */
+=======
+>>>>>>> 6299aa2b0e4d885ad7ff6dc52ffd911543e380a6
   obtenerMensajesConversacionGrupo(idGrupo) {
     catProd.info("Entrando en el metodo obtenerMensajesConversacionGrupo de chat.ts");
     let temp;
@@ -131,7 +134,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       for (var tempkey in temp) {
         this.mensajesConversacion.push(temp[tempkey]);
       }
-      this.events.publish('nuevoMensajeGrupo', this.mensajesConversacion);
+      this.events.publish(Registry.PUBLISH_LISTA_MENSAJE_GRUPOS, this.mensajesConversacion);
     })
     catProd.info("Saliendo del metodo obtenerMensajesConversacionAmigo de chat.ts");
   }
@@ -154,7 +157,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,
         "",0,temp.tiempoDeEnvio,0,temp.modificado);
       entidad.setId=temp.key;
-      this.events.publish('infoMensaje',entidad);
+      this.events.publish(Registry.PUBLISH_INFO_MENSAJE_AMIGOS,entidad);
     });
     catProd.info("Saliendo del metodo obtenerInfoMensajeAmigo de chat.ts");
   }
@@ -176,7 +179,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",
       0,temp.tiempoDeEnvio,0,temp.modificado);
       entidad.setId=temp.key;
-      this.events.publish('infoMensajeGrupo',entidad);
+      this.events.publish(Registry.PUBLISH_INFO_MENSAJE_GRUPOS,entidad);
     });
     catProd.info("Saliendo del metodo obtenerInfoMensajeGrupo de chat.ts");
   }

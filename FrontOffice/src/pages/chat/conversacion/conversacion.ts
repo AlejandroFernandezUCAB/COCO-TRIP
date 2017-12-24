@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Mensaje } from '../../../dataAccessLayer/domain/mensaje';
 import { ToastController } from 'ionic-angular';
 import { InformacionMensajePage } from '../../chat/informacion-mensaje/informacion-mensaje';
+import { Registry } from '../../../common/registry';
+
 import {catService,catProd} from "../../../logs/config"
 
 //****************************************************************************************************//
@@ -114,7 +116,7 @@ ionViewWillEnter() {
     this.scrollto();
   
     this.idUsuario =
-    this.events.subscribe('nuevoMensajeAmigo', (Mensajes) => {
+    this.events.subscribe(Registry.PUBLISH_LISTA_MENSAJE_AMIGOS, (Mensajes) => {
       this.todosLosMensajes = [];
       this.zone.run(() => {
         this.todosLosMensajes = Mensajes;
