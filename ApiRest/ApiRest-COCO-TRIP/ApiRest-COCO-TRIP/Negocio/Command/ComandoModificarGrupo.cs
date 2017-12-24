@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
 using Newtonsoft.Json;
+using System;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -55,9 +56,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         e.NombreMetodos = this.GetType().FullName;
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
-      catch (ReferenciaNulaExcepcion e)
+      catch (NullReferenceException e)
       {
-        e.NombreMetodos = this.GetType().FullName;
+        ReferenciaNulaExcepcion excepcion = new ReferenciaNulaExcepcion(e, "Parametros de entrada nulo");
+        excepcion.NombreMetodos = this.GetType().FullName;
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }

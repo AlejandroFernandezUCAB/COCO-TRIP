@@ -74,14 +74,30 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOAmigo")]
     [Test]
-    public void TestInsertarExcepcion()
+    public void TestInsertarExcepcionReferenciaNula()
     {
-      Assert.Catch<ReferenciaNulaExcepcion>(InsertarExcepcion);
+      Assert.Catch<ReferenciaNulaExcepcion>(InsertarExcepcionReferenciaNula);
     }
 
-    public void InsertarExcepcion()
+    public void InsertarExcepcionReferenciaNula()
     {
       dao.Insertar(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestInsertarExcepcionBaseDeDatos()
+    {
+      Assert.Catch<BaseDeDatosExcepcion>(InsertarExcepcionBaseDeDatos);
+    }
+
+    public void InsertarExcepcionBaseDeDatos()
+    {
+      Amigo amigo = FabricaEntidad.CrearEntidadAmigo();
+      amigo.Activo = listaUsuario[0].Id;
+      amigo.Pasivo = 0;
+      dao.Insertar(amigo);
     }
 
     [Category("Modulo 3")]
@@ -311,4 +327,5 @@ namespace ApiRestPruebas.M3.DAO
       dao.Eliminar(null);
     }
   }
+
 }

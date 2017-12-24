@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using System.Web.Http;
 
 namespace ApiRestPruebas.M3.Command
 {
@@ -78,6 +79,20 @@ namespace ApiRestPruebas.M3.Command
       listaGrupo[1].Id = listaGrupo[0].Id;
       listaGrupo[1].ContenidoFoto = foto;
       comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1]);
+      comando.Ejecutar();
+    }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoModificarExcepcion()
+    {
+      Assert.Catch<HttpResponseException>(ComandoModificarExcepcion);
+    }
+
+    public void ComandoModificarExcepcion()
+    {
+      comando = FabricaComando.CrearComandoModificarGrupo(null);
       comando.Ejecutar();
     }
   }

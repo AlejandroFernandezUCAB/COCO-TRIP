@@ -77,7 +77,7 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
       }
       catch (ArgumentNullException e)
       {
-        throw new ArgumentoNuloExcepcion(e, "Argumento nulo recibido en Correo.RecomendarAplicacion generado por correo, destino o remitente. " + e.Message);
+        throw new ArgumentoNuloExcepcion(e, "Argumento nulo recibido en Correo.RecomendarAplicacion generado por correo. " + e.Message);
       }
     }
   }

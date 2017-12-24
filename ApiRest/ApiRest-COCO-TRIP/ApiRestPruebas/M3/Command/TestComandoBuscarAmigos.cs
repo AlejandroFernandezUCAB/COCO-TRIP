@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using System.Web.Http;
 
 namespace ApiRestPruebas.M3.Command
 {
@@ -81,5 +82,20 @@ namespace ApiRestPruebas.M3.Command
       Usuario usuario = (Usuario)lista[0];
       Assert.AreEqual(true, lista.Count == 1 && usuario.NombreUsuario == listaUsuario[2].NombreUsuario);
     }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoBuscarAmigosExcepcion()
+    {
+      Assert.Catch<HttpResponseException>(ComandoBuscarAmigosExcepcion);
+    }
+
+    public void ComandoBuscarAmigosExcepcion()
+    {
+      comando = FabricaComando.CrearComandoBuscarAmigos(listaUsuario[1].Id, null);
+      comando.Ejecutar();
+    }
   }
+
 }
