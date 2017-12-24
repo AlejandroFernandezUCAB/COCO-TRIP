@@ -10,18 +10,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     DAO dao = FabricaDAO.CrearDAOCategoria();
      private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
-    private List<Entidad> resultado = new List<Entidad>();
+    private IList<Categoria> resultado = new List<Categoria>();
 
-    public ComandoObtenerCategorias()
+    public ComandoObtenerCategorias(Entidad entidad)
     {
-
+      this.entidad = entidad;
     }
 
     public override void Ejecutar()
     {
       try
       {
-        ((DAOCategoria)dao).ObtenerCategorias(entidad);//INCOMPLETO
+        resultado=((DAOCategoria)dao).ObtenerCategorias(entidad);
       }
       catch (Exception e)
       {
@@ -36,6 +36,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     }
 
     public override List<Entidad> RetornarLista()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public IList<Categoria> RetornarLista2()
     {
       return resultado;
     }
