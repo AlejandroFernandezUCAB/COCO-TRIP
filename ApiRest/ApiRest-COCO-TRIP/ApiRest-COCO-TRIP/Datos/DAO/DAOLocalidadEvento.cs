@@ -18,9 +18,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
   {
     private NpgsqlParameter parametro;
     private NpgsqlDataReader leerDatos;
-
     private LocalidadEvento localidad;
-
     private List<Entidad> lista;
 
     public DAOLocalidadEvento()
@@ -40,7 +38,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         leerDatos = Comando.ExecuteReader();
         while (leerDatos.Read())
         {
-          LocalidadEvento localidad = new LocalidadEvento(leerDatos.GetInt32(0), leerDatos.GetString(1), leerDatos.GetString(2), leerDatos.GetString(3));
+           localidad = new LocalidadEvento(leerDatos.GetInt32(0), leerDatos.GetString(1),
+             leerDatos.GetString(2), leerDatos.GetString(3));
           lista.Add(localidad);
         }
         leerDatos.Close();
@@ -111,7 +110,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     public override void Insertar(Entidad objeto)
     {
-      int respuesta = 0;
       try
       {
         localidad = (LocalidadEvento)objeto;
@@ -136,14 +134,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Comando.Parameters.Add(parametro);
 
         leerDatos = Comando.ExecuteReader();
-          if (leerDatos.Read())
-          {
-            Int32.TryParse(leerDatos.GetValue(0).ToString(), out respuesta);
-          }
-          if (respuesta == 0)
-          {
-            throw new ItemNoEncontradoException($"No se encontro la localidad con el nombre {localidad.Nombre}");
-          }
         leerDatos.Close();
 
       }
@@ -165,6 +155,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         Desconectar();
       }
     }
+
     public override void Actualizar(Entidad objeto)
     {
       try

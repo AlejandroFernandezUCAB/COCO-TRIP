@@ -57,12 +57,21 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new DAOAgenda();
     }
-    /// Retorna la instancia de DAOLocalidadEvento
+
+    /// Retorna una nueva instancia de DAOLocalidadEvento
     /// </summary>
     /// <returns>DAOLocalidadEvento</returns>
     public static DAOLocalidadEvento CrearDAOLocalidad()
     {
       return new DAOLocalidadEvento();
+    }
+
+    /// Retorna una nueva instancia de DAOEvento
+    /// </summary>
+    /// <returns>DAOEvento</returns>
+    public static DAOEvento CrearDAOEvento()
+    {
+      return new DAOEvento();
     }
   }
 }

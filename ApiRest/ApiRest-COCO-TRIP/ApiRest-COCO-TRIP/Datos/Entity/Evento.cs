@@ -1,22 +1,23 @@
 using System;
 
-namespace ApiRest_COCO_TRIP.Models { 
+namespace ApiRest_COCO_TRIP.Datos.Entity
+{
     /// <summary>
     /// Clase que define la entidad evento de la aplicación.
     /// </summary>
-    public class Evento
+    public class Evento : Entidad
     {
-        int id;
-        string nombre;
-        string descripcion;
-        double precio;
-        DateTime fechaInicio;
-        DateTime fechaFin;
-        DateTime horaInicio;
-        DateTime horaFin;
-        string foto;
-        int idLocalidad;
-        int idCategoria;
+
+        private string nombre;
+        private string descripcion;
+        private double precio;
+        private DateTime fechaInicio;
+        private DateTime fechaFin;
+        private DateTime horaInicio;
+        private DateTime horaFin;
+        private string foto;
+        private int idLocalidad;
+        private int idCategoria;
 
         // Getters y Setters de la clase Evento
         public string Nombre { get => nombre; set => nombre = value; }
@@ -29,12 +30,11 @@ namespace ApiRest_COCO_TRIP.Models {
         public string Foto { get => foto; set => foto = value; }
         public int IdLocalidad { get => idLocalidad; set => idLocalidad = value; }
         public int IdCategoria { get => idCategoria; set => idCategoria = value; }
-        public int Id { get => id; set => id = value; }
 
-    /// <summary>
-    /// Constructor de la clase Evento.
-    /// </summary>
-    public Evento()
+        /// <summary>
+        /// Constructor de la clase Evento.
+        /// </summary>
+        public Evento()
         {
             this.Id = 0;
             this.nombre = null;

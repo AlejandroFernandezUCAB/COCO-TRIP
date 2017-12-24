@@ -173,6 +173,7 @@
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Datos\Entity\Evento.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\EventoPreferencia.cs" />
     <Compile Include="Datos\Entity\Grupo.cs" />
@@ -196,9 +197,10 @@
     <Compile Include="Datos\Entity\LocalidadEvento.cs" />
     <Compile Include="Models\LugarTuristicoPreferencia.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionAmigoGrupo.cs" />
-    <Compile Include="Models\PeticionEvento.cs" />
+    <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionItinerario.cs" />
     <Compile Include="Datos\DAO\DAOLocalidadEvento.cs" />
+    <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionLocalidadEvento.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionPerfil.cs" />
