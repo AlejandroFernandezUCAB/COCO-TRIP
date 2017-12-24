@@ -20,13 +20,15 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       try
       {
         DAO<JObject, Categoria> peticionCategoria = FabricaDAO.GetDAOCategoria();
+        //DAO<JObject, Localidad> peticionLocalidad = FabricaDAO.GetDAOLocalidad();
         IDAOLocalidad peticionLocalidad = FabricaDAO.GetDAOLocalidad();
         JObject respuestaCategoria = peticionCategoria.Get(id);
-        JObject respuestaLocalidad = peticionLocalidad.GetAll();
+        //JObject respuestaLocalidad = peticionLocalidad.GetAll();
+        JObject respuestaLocalidad = peticionLocalidad.Get(id);
         if (respuestaCategoria.Property("data") != null)
         {
           resultado.Add(respuestaCategoria["data"].ToObject<List<Categoria>>());
-          resultado.Add("Exito");
+          resultado.Add("Exito en Categoria");
         }
 
         else
@@ -38,12 +40,13 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         if (respuestaLocalidad.Property("dato") != null)
         {
           resultado.Add(respuestaLocalidad["dato"].ToObject<List<Localidad>>());
+          resultado.Add("Exito en Localidad");
         }
 
         else
         {
           resultado.Add(new List<Localidad>());
-          resultado[1]+=" Error en la comunicacion o No existen localidades";
+          resultado.Add(" Error en la comunicacion o No existen localidades");
         }
       }
       catch (Exception e)

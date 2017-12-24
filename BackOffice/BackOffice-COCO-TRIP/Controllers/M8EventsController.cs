@@ -31,6 +31,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       
       ModelState.AddModelError(string.Empty,(String) comando.GetResult()[1]);
       ViewBag.ListLocalidad = comando.GetResult()[2];
+      //ViewBag.ListLocalidades = comando.GetResult()[2];
       ViewBag.ListCategoria = comando.GetResult()[0];
       return View();
     }
