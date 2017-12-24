@@ -125,7 +125,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       }
     }
 
-    public Entidad ConsultarId(Entidad objeto)
+    public override Entidad ConsultarPorId(Entidad objeto)
     {
       try
       {
@@ -382,11 +382,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en "
         + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
       }
-    }
-
-    public override Entidad ConsultarPorId(Entidad objeto)
-    {
-      throw new System.NotImplementedException();
     }
 
     public override void Actualizar(Entidad objeto)

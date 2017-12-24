@@ -40,7 +40,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
         baseAmigo = FabricaDAO.CrearDAOAmigo();
         amigo.Pasivo = usuario.Id;
-        amigo = (Amigo)baseAmigo.ConsultarId(amigo);
+        amigo = (Amigo)baseAmigo.ConsultarPorId(amigo);
 
         if (amigo.Id == 0)
         {
