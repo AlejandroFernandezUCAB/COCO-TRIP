@@ -14,7 +14,6 @@ import { PerfilPage } from '../pages/perfil/perfil';
 import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos';
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
-import { ChatPage } from '../pages/chat/chat';
 import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
 
 import { InformacionMensajePage } from '../pages/chat/informacion-mensaje/informacion-mensaje';
@@ -89,7 +88,6 @@ firebase.initializeApp(config);
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage,
     ConversacionPage,
     ConversacionGrupoPage,
     AmigosPage,
@@ -102,7 +100,6 @@ firebase.initializeApp(config);
     DetalleGrupoPage,
     BuscarAmigoPage,
     RegisterPage,
-    ChatPage,
     EditProfilePage,
     ChangepassPage,
     ConfigPage,
@@ -145,7 +142,6 @@ firebase.initializeApp(config);
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage,
     ConversacionPage,
     ConversacionGrupoPage,
     AmigosPage,
