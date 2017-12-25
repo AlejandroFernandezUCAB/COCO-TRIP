@@ -12,8 +12,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   /// <typeparam name="T2">Parametro que indica el tipo de dato que recibiran los metodos Post, Put, Patch</typeparam>
   public abstract class DAO<T1, T2>
   {
-    protected const string BaseUri = "http://localhost:8082/api";
-
+    protected static readonly string BaseUri = Negocio.Registro.ApiRestBaseUri;
 
     public abstract T1 Get(int id);
     public abstract T1 Post(T2 data);

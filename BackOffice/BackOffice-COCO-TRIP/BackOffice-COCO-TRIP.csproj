@@ -209,6 +209,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarLocalidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Fabrica\FabricaDAO.cs" />
+    <Compile Include="Negocio\Registro.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -279,7 +280,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sweetalert2.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
