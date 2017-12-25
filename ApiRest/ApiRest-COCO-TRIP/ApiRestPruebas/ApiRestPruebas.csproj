@@ -99,6 +99,7 @@
     <Compile Include="M7\Dato\PruebaHorario.cs" />
     <Compile Include="M7\Dato\PruebaLugarTuristico.cs" />
     <Compile Include="M7\PruebaController.cs" />
+    <Compile Include="M8\EventoUnitTest.cs" />
     <Compile Include="M8\LocalidadUnitTest.cs" />
     <Compile Include="M9\PruebaCategoria.cs" />
     <Compile Include="M9\PruebaValidacionWS.cs" />

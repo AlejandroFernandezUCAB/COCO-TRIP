@@ -160,7 +160,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           ((Evento)evento).Id = leerDatos.GetInt32(0);
           ((Evento)evento).Nombre = leerDatos.GetString(1);
           ((Evento)evento).Descripcion = leerDatos.GetString(2);
-          ((Evento)evento).Precio = leerDatos.GetInt64(3);
+          ((Evento)evento).Precio = leerDatos.GetDouble(3);
           ((Evento)evento).FechaInicio = leerDatos.GetDateTime(4);
           ((Evento)evento).FechaFin = leerDatos.GetDateTime(5);
           ((Evento)evento).HoraInicio = horaInicio;
@@ -344,12 +344,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Time;
-        parametro.Value = ((Evento)evento).HoraInicio;
+        parametro.Value = ((Evento)evento).HoraInicio.Hour + ":" + ((Evento)evento).HoraInicio.Minute + ":00";
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Time;
-        parametro.Value = ((Evento)evento).HoraFin;
+        parametro.Value = ((Evento)evento).HoraFin.Hour + ":" + ((Evento)evento).HoraFin.Minute + ":00";
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
