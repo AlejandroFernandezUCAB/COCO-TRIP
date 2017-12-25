@@ -12,15 +12,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   public class ComandoConsultarLocalidad : Comando
   {
     private Entidad localidad;
+    private DAO dao;
 
     public ComandoConsultarLocalidad(int id) {
       localidad = FabricaEntidad.CrearEntidadLocalidad();
       localidad.Id = id;
+      dao = FabricaDAO.CrearDAOLocalidad();
     }
 
     public override void Ejecutar()
     {
-      DAO dao = FabricaDAO.CrearDAOLocalidad();
       try
       {
         localidad = dao.ConsultarPorId(localidad);

@@ -9,22 +9,32 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoConsultarLocalidades : Comando
+  public class ComandoConsultarEvento : Comando
   {
-    private List<Entidad> localidades;
+    private Entidad evento;
     private DAO dao;
 
-    public ComandoConsultarLocalidades() {
-      dao = FabricaDAO.CrearDAOLocalidad();
+    public ComandoConsultarEvento(int id) {
+      this.evento = FabricaEntidad.CrearEntidadEvento();
+      this.evento.Id = id;
+      dao = FabricaDAO.CrearDAOEvento();
     }
 
     public override void Ejecutar()
     {
       try
       {
-        localidades = dao.ConsultarLista(null);
+        evento=dao.ConsultarPorId(evento);
       }
       catch (BaseDeDatosExcepcion e)
+      {
+        throw e;
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        throw e;
+      }
+      catch (OperacionInvalidaException e)
       {
         throw e;
       }
@@ -32,12 +42,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override Entidad Retornar()
     {
-      throw new NotImplementedException();
+      return evento;
     }
 
     public override List<Entidad> RetornarLista()
     {
-      return localidades;
+      throw new NotImplementedException();
     }
   }
 }

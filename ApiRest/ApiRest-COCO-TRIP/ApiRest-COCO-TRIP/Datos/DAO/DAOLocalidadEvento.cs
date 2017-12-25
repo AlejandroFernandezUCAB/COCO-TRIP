@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using NpgsqlTypes;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -18,7 +19,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
   {
     private NpgsqlParameter parametro;
     private NpgsqlDataReader leerDatos;
-    private LocalidadEvento localidad;
+    private Entidad localidad;
     private List<Entidad> lista;
 
     public DAOLocalidadEvento()
@@ -38,8 +39,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         leerDatos = Comando.ExecuteReader();
         while (leerDatos.Read())
         {
-           localidad = new LocalidadEvento(leerDatos.GetInt32(0), leerDatos.GetString(1),
-             leerDatos.GetString(2), leerDatos.GetString(3));
+          localidad = FabricaEntidad.CrearEntidadLocalidad();
+          ((LocalidadEvento)localidad).Id = leerDatos.GetInt32(0);
+          ((LocalidadEvento)localidad).Nombre = leerDatos.GetString(1);
+          ((LocalidadEvento)localidad).Descripcion = leerDatos.GetString(2);
+          ((LocalidadEvento)localidad).Coordenadas = leerDatos.GetString(3);
           lista.Add(localidad);
         }
         leerDatos.Close();
@@ -77,9 +81,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         leerDatos = Comando.ExecuteReader();
         leerDatos.Read();
         localidad.Id = leerDatos.GetInt32(0);
-        localidad.Nombre = leerDatos.GetString(1);
-        localidad.Descripcion = leerDatos.GetString(2);
-        localidad.Coordenadas = leerDatos.GetString(3);
+        ((LocalidadEvento)localidad).Nombre = leerDatos.GetString(1);
+        ((LocalidadEvento)localidad).Descripcion = leerDatos.GetString(2);
+        ((LocalidadEvento)localidad).Coordenadas = leerDatos.GetString(3);
         leerDatos.Close();
       }
       catch (NpgsqlException e)
@@ -120,17 +124,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
-        parametro.Value = localidad.Nombre;
+        parametro.Value = ((LocalidadEvento)localidad).Nombre;
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
-        parametro.Value = localidad.Descripcion;
+        parametro.Value = ((LocalidadEvento)localidad).Descripcion;
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
-        parametro.Value = localidad.Coordenadas;
+        parametro.Value = ((LocalidadEvento)localidad).Coordenadas;
         Comando.Parameters.Add(parametro);
 
         leerDatos = Comando.ExecuteReader();
@@ -173,17 +177,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
-        parametro.Value = localidad.Nombre;
+        parametro.Value = ((LocalidadEvento)localidad).Nombre;
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
-        parametro.Value = localidad.Descripcion;
+        parametro.Value = ((LocalidadEvento)localidad).Descripcion;
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Varchar;
-        parametro.Value = localidad.Coordenadas;
+        parametro.Value = ((LocalidadEvento)localidad).Coordenadas;
         Comando.Parameters.Add(parametro);
 
         leerDatos = Comando.ExecuteReader();

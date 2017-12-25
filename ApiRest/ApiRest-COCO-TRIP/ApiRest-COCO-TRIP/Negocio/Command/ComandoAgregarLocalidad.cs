@@ -13,13 +13,14 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   public class ComandoAgregarLocalidad : Comando
   {
     private Entidad localidad;
+    private DAO dao;
 
     public ComandoAgregarLocalidad(Entidad localidad) {
       this.localidad = (LocalidadEvento)localidad;
+      dao = FabricaDAO.CrearDAOLocalidad();
     }
     public override void Ejecutar()
     {
-      DAO dao = FabricaDAO.CrearDAOLocalidad();
       try
       {
         validarEntidad();
