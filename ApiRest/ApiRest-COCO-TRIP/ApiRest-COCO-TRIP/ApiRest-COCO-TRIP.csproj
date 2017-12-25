@@ -19,10 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -213,6 +211,7 @@
     <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarAgenda.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />
@@ -238,6 +237,7 @@
     <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoSalirGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoSetVisibleItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoVerificarLider.cs" />
     <Compile Include="Negocio\Command\ComandoVisualizarListaAmigos.cs" />
     <Compile Include="Negocio\Command\ComandoVisualizarPerfilAmigo.cs" />
@@ -261,7 +261,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Comun\" />
     <Folder Include="Datos\DAO\Interfaces\" />
     <Folder Include="Library\" />
   </ItemGroup>

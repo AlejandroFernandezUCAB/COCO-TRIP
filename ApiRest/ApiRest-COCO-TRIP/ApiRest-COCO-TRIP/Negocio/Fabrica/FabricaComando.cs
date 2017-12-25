@@ -382,5 +382,25 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoAgregarAgenda(tipo,idItinerario,idItem,fechaInicio,fechaFin);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarAgendaItem
+    /// </summary>
+    /// <returns>ComandoEliminarAgendaItem</returns>
+    public static ComandoEliminarAgendaItem CrearComandoEliminarAgendaItem(string tipo,
+      int idItinerario, int idItem)
+    {
+      return new ComandoEliminarAgendaItem(tipo,idItem, idItinerario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoSetVisibleItinerario
+    /// </summary>
+    /// <returns>ComandoSetVisibleItinerario</returns>
+    public static ComandoSetVisibleItinerario CrearComandoSetVisibleItinerario(Boolean visible,
+      int idUsuario, int idItinerario)
+    {
+      return new ComandoSetVisibleItinerario( idItinerario, idUsuario, visible);
+    }
   }
 }

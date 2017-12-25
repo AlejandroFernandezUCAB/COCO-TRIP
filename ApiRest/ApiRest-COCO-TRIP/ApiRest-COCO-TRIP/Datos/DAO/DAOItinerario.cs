@@ -246,5 +246,45 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         throw e;
       }
     }
+    /// <summary>
+    /// Activar o desactivar la visibilidad del itinerario en el calendario
+    /// </summary>
+    /// <param name="idusuario">id del usuario al cual le pertenecen los itinerarios</param>
+    /// <param name="iditinerario">id del itinerario a Activar/Desactivar</param>
+    /// <param name="visible">parametro que determina si se activa(true) o desactiva(false) el itinerario en el calendario</param>
+    /// <returns>true si se Activo/Desactivo exitosamente, false de lo contrario</returns>
+    public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
+    {
+      Boolean visible_sql = false;
+      try
+      {
+        base.Conectar();
+        comando = new NpgsqlCommand("setVisible", base.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idusuario);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Boolean, visible);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, iditinerario);
+        respuesta = comando.ExecuteReader();
+        respuesta.Read();
+        visible_sql = respuesta.GetBoolean(0);
+        base.Desconectar();
+        return visible_sql;
+      }
+      catch (NpgsqlException sql)
+      {
+        base.Desconectar();
+        throw sql;
+      }
+      catch (InvalidCastException cast)
+      {
+        base.Desconectar();
+        throw cast;
+      }
+      catch (Exception e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+    }
   }
 }

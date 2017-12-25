@@ -219,13 +219,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarLugar_It()
     {
-      itinerario = new Itinerario(15);
-      LugarTuristico lt = new LugarTuristico()
-      {
-        Id = 2
-      };
-      x = controller.EliminarItem_It("Lugar Turistico",itinerario.Id,lt.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(21);
+      int idLugar = 2;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Lugar Turistico", itinerario.Id,
+        idLugar);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -249,13 +248,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarActividad_It()
     {
-      itinerario = new Itinerario(15);
-      Actividad ac = new Actividad()
-      {
-        Id = 4
-      };
-      x = controller.EliminarItem_It("Actividad", itinerario.Id, ac.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(19);
+      int idActividad = 4;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Actividad",itinerario.Id,
+        idActividad);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -276,19 +274,16 @@ namespace ApiRestPruebas
     /// <summary>
     /// Prueba de caso exitoso en EliminarEvento_It
     /// </summary>
-    /*[Test]
+    [Test]
     public void PUEliminarEvento_It()
     {
-      itinerario = new Itinerario(15);
-      Evento ev = new Evento()
-      {
-        Id = 1
-      };
-      PeticionItinerario peticion = new PeticionItinerario();
-      x = peticion.EliminarItem_It("Evento",15,1);
-      //x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
-      Assert.True(x);
-    }*/
+      itinerario = new Itinerario(19);
+      int idEvento = 1;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Evento", itinerario.Id,
+        idEvento);
+      comando.Ejecutar();
+      Assert.True(true);
+    }
 
     /// <summary>
     /// Prueba de caso borde(fallo) en EliminarEvento_It
@@ -329,12 +324,32 @@ namespace ApiRestPruebas
       comando.Ejecutar();
       Assert.IsEmpty(comando.RetornarLista());
     }
-   
+    /// <summary>
+    /// Prueba de caso exitoso en Cambiar visibilidad a FALSO
+    /// </summary>
     [Test]
-    public void Prueba_EliminarLugarIt()
+    public void PUSetVisibleFalse()
     {
-      //x = controller.EliminarItem_It(4,12);
-      //Assert.True(x);
+      Boolean visible = false;
+      id_usuario = 1;
+      int idItinerario = 19;
+      comando = FabricaComando.CrearComandoSetVisibleItinerario(visible,id_usuario,
+        idItinerario);
+      comando.Ejecutar();
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en Cambiar visibilidad a TRUE
+    /// </summary>
+    [Test]
+    public void PUSetVisibleTrue()
+    {
+      Boolean visible = true;
+      id_usuario = 1;
+      int idItinerario = 19;
+      comando = FabricaComando.CrearComandoSetVisibleItinerario(visible, id_usuario,
+        idItinerario);
+      comando.Ejecutar();
     }
 
     [Test]
