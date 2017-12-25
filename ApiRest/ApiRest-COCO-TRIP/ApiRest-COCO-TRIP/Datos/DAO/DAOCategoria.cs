@@ -223,7 +223,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     }
 
     //Metodos extra
-
+    //TODOS LOS DE CONSULTA ESTAN ACA PORQUE NO CUADRAN CON LOS GENERALES
     /// <summary>
     ///Lee los datos de la categoria
     /// </summary>
