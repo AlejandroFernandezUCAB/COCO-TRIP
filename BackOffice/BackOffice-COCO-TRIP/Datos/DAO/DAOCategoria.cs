@@ -232,7 +232,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
             { "id", data.Id },
             { "nombre", ((Categoria)data).Name },
             { "descripcion", ((Categoria)data).Description },
-            { "categoriaSuperior", ((Categoria)data).UpperCategories },
+            { "categoriaSuperior", ((Categoria)data).UpperCategories},
             {"nivel", ((Categoria)data).Nivel }
           };
           var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ModificarCategoria", jsonData);

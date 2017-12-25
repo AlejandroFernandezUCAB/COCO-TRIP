@@ -137,6 +137,8 @@
     <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
     <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
+    <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
@@ -180,7 +182,7 @@
     <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
-    <Compile Include="Models\Excepcion\OperacionInvalidaException.cs" />
+    <Compile Include="Comun\Excepcion\OperacionInvalidaException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />

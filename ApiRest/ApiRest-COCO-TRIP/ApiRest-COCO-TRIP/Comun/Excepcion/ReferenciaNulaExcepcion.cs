@@ -2,12 +2,15 @@ using System;
 
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
+  /// <summary>
+  /// Excepcion logica que recopila informacion sobre los errores generados por referencias nulas
+  /// </summary>
   public class ReferenciaNulaExcepcion: NullReferenceException
   {
     private NullReferenceException excepcion;
     private DateTime fechaHora;
-    private string nombreMetodos; //Enlista los metodos que atrapan la excepcion antes de manejarla
-    private string datosAsociados; //Datos asociados a la excepcion generada
+    private string nombreMetodo; //Metodos que atrapan la excepcion antes de manejarla
+    private string datoAsociado; //Datos asociados a la excepcion generada
     private string mensaje; //Mensaje asociado al error
 
     /// <summary>
@@ -33,8 +36,8 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// </summary>
     public string NombreMetodos
     {
-      get { return nombreMetodos; }
-      set { nombreMetodos = value; }
+      get { return nombreMetodo; }
+      set { nombreMetodo = value; }
     }
 
     /// <summary>
@@ -42,8 +45,8 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// </summary>
     public string DatosAsociados
     {
-      get { return datosAsociados; }
-      set { datosAsociados = value; }
+      get { return datoAsociado; }
+      set { datoAsociado = value; }
     }
 
 
@@ -63,6 +66,19 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     public ReferenciaNulaExcepcion(NullReferenceException e)
     {
       excepcion = e;
+
+      fechaHora = DateTime.Now;
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="e">Excepcion generica</param>
+    /// <param name="_mensaje">Mensaje asociado al error</param>
+    public ReferenciaNulaExcepcion(NullReferenceException e, string _mensaje)
+    {
+      excepcion = e;
+      mensaje = _mensaje;
 
       fechaHora = DateTime.Now;
     }

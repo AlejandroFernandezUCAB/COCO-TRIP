@@ -105,8 +105,9 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
-
-        IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = daoc.ObtenerCategorias(categoria);//HAY QUE CAMBIAR ESTO, ES SOLO DE PRUEBA.
+        com = FabricaComando.CrearComandoObtenerCategorias(categoria);
+        com.Ejecutar();
+        IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 
         response.Add(Response_Data, lista);
 
       }

@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using System.Web.Http;
 
 namespace ApiRestPruebas.M3.Command
 {
@@ -57,6 +58,20 @@ namespace ApiRestPruebas.M3.Command
     public void ComandoEliminarAmigoExitoso()
     {
       comando = FabricaComando.CrearComandoEliminarAmigo(listaUsuario[0].Id, listaUsuario[1].NombreUsuario);
+      comando.Ejecutar();
+    }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoEliminarAmigoExcepcion()
+    {
+      Assert.Catch<HttpResponseException>(ComandoEliminarAmigoExcepcion);
+    }
+
+    public void ComandoEliminarAmigoExcepcion()
+    {
+      comando = FabricaComando.CrearComandoEliminarAmigo(listaUsuario[0].Id, null);
       comando.Ejecutar();
     }
   }

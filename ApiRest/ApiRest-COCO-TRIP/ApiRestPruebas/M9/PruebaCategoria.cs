@@ -20,7 +20,7 @@ namespace ApiRestPruebas.M9
     private M9_CategoriasController controller;
     private Dictionary<string, object> esperado = new Dictionary<string, object>();
     private Dictionary<string, object> respuesta = new Dictionary<string, object>();
-    private DAO dao = FabricaDAO.CrearDAOCategoria();
+    private DAO dao;
     private JObject data;
 
     [OneTimeSetUp]
@@ -28,10 +28,11 @@ namespace ApiRestPruebas.M9
     {
       controller = new M9_CategoriasController();
       pCategoria = FabricaEntidad.CrearEntidadCategoria();
+      dao = FabricaDAO.CrearDAOCategoria();
 
     }
 
-/*    [SetUp]
+    [SetUp]
     public void SetUp()
     {
       dao.Conectar();
@@ -39,13 +40,7 @@ namespace ApiRestPruebas.M9
       dao.Comando.CommandText = "INSERT INTO categoria values (250, 'prueba', 'descripcion de prueba', true, null, 1)";
       dao.Comando.ExecuteNonQuery();
       dao.Desconectar();
-      dao = null;
-      pCategoria = new Categoria()
-      {
-        Id = 250,
-        Estatus = false
-      };
-    }*/
+    }
 
     [Test]
     public void PruebaModificarCategoria()
@@ -54,24 +49,25 @@ namespace ApiRestPruebas.M9
        data = new JObject
           {
             { "id", 250 },
-            { "nombre", "" },
-            { "descripcion", "" },
-            { "categoriaSuperior", null },
+            { "nombre", "MODIFICAR" },
+            { "descripcion", "MODIFICAR" },
+            { "categoriaSuperior", 0 },
             { "nivel", 1 }
           };
       respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
       esperado.Add("data", "Se actualizo de forma exitosa");
-      var result = esperado.All(x => respuesta.Any(y => x.Value == y.Value));
-      Assert.IsTrue(result);
+      var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
+      var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
+      Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
     }
 
     [Test]
-    public void PruebaModificarEstado()
+    public void PruebaModificarEstadoCategoria()
     {
       data = new JObject
           {
             { "id", 250},
-            { "estatus", true },
+            { "estatus", false },
           };
       respuesta = (Dictionary<string,object>)controller.ActualizarEstatusCategoria(data);
       esperado.Add("data", "Se actualizo de forma exitosa");
@@ -80,16 +76,15 @@ namespace ApiRestPruebas.M9
       Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
     }
 
-    /*    [TearDown]
+        [TearDown]
         public void TearDown()
         {
-          conn = new ConexionBase();
-          conn.Conectar();
-          conn.Comando = conn.SqlConexion.CreateCommand();
-          conn.Comando.CommandText = "DELETE FROM categoria where ca_id = 250";
-          conn.Comando.ExecuteNonQuery();
-          conn.Desconectar();
-        }*/
+          dao.Conectar();
+          dao.Comando = dao.SqlConexion.CreateCommand();
+          dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 250";
+          dao.Comando.ExecuteNonQuery();
+          dao.Desconectar();
+        }
 
 
   

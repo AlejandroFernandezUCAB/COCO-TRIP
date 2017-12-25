@@ -5,7 +5,7 @@ using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -24,7 +24,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       }
       catch (BaseDeDatosExcepcion e)
       {
-        //INSERTAR EN LOG
+        throw e;
       }
     }
 

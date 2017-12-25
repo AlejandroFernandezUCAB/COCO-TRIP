@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Web.Http;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -28,13 +31,27 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      baseUsuario = FabricaDAO.CrearDAOUsuario();
-      baseAmigo = FabricaDAO.CrearDAOAmigo();
+      try
+      {
+        baseUsuario = FabricaDAO.CrearDAOUsuario();
+        baseAmigo = FabricaDAO.CrearDAOAmigo();
 
-      usuario = (Usuario) baseUsuario.ConsultarPorNombre(usuario);
-      amigo.Pasivo = usuario.Id;
+        usuario = (Usuario)baseUsuario.ConsultarPorNombre(usuario);
+        amigo.Pasivo = usuario.Id;
 
-      baseAmigo.Eliminar(amigo);
+        baseAmigo.Eliminar(amigo);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = "Id:" + amigo.Activo + " Nombre:" + usuario.NombreUsuario;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
     public override Entidad Retornar()
@@ -47,5 +64,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
-
 }
