@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRestPruebas.M3.DAO
 {
@@ -67,6 +68,33 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestInsertarIdExcepcionCasteo()
+    {
+      Assert.Catch<CasteoInvalidoExcepcion>(InsertarIdExcepcionCasteo);
+    }
+
+    public void InsertarIdExcepcionCasteo()
+    {
+      listaGrupo[0].Nombre = null;
+      dao.InsertarId(listaGrupo[0]);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestInsertarIdExcepcionReferenciaNula()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(InsertarIdExcepcionReferenciaNula);
+    }
+
+    public void InsertarIdExcepcionReferenciaNula()
+    {
+      dao.InsertarId(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestAgregarIntegrante()
     {
       Assert.DoesNotThrow(AgregarIntegranteExitoso);
@@ -75,6 +103,19 @@ namespace ApiRestPruebas.M3.DAO
     public void AgregarIntegranteExitoso()
     {
       dao.AgregarIntegrante(listaGrupo[0], listaUsuario[1]);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestAgregarIntegranteExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(AgregarIntegranteExcepcion);
+    }
+
+    public void AgregarIntegranteExcepcion()
+    {
+      dao.AgregarIntegrante(null, null);
     }
 
     [Category("Modulo 3")]
@@ -89,6 +130,19 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestConsultarPorIdExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarPorIdExcepcion);
+    }
+
+    public void ConsultarPorIdExcepcion()
+    {
+      dao.ConsultarPorId(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestConsultarLista()
     {
       List<Entidad> lista = dao.ConsultarLista(listaUsuario[0]);
@@ -98,10 +152,36 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestConsultarListaExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarListaExcepcion);
+    }
+
+    public void ConsultarListaExcepcion()
+    {
+      dao.ConsultarLista(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestConsultarUltimoGrupo()
     {
       Grupo grupo = (Grupo)dao.ConsultarUltimoGrupo(listaUsuario[0]);
       Assert.AreEqual(true, grupo.Nombre == listaGrupo[0].Nombre);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestConsultarUltimoGrupoExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarUltimoGrupoExcepcion);
+    }
+
+    public void ConsultarUltimoGrupoExcepcion()
+    {
+      dao.ConsultarUltimoGrupo(null);
     }
 
     [Category("Modulo 3")]
@@ -118,10 +198,36 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestConsultarMiembrosExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarMiembrosExcepcion);
+    }
+
+    public void ConsultarMiembrosExcepcion()
+    {
+      dao.ConsultarMiembros(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestConsultarMiembrosExceptoLider()
     {
       List<Entidad> lista = dao.ConsultarMiembrosExceptoLider(listaGrupo[0]);
       Assert.AreEqual(true, lista.Count == 0);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestConsultarMiembrosExceptoLiderExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarMiembrosExceptoLiderExcepcion);
+    }
+
+    public void ConsultarMiembrosExceptoLiderExcepcion()
+    {
+      dao.ConsultarMiembrosExceptoLider(null);
     }
 
     [Category("Modulo 3")]
@@ -136,10 +242,36 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestConsultarMiembrosSinGrupoExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarMiembrosSinGrupoExcepcion);
+    }
+
+    public void ConsultarMiembrosSinGrupoExcepcion()
+    {
+      dao.ConsultarMiembrosSinGrupo(null, null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestConsultarLider ()
     {
       Usuario usuario = (Usuario) dao.ConsultarLider(listaGrupo[0]);
       Assert.AreEqual(true, usuario.NombreUsuario == listaUsuario[0].NombreUsuario);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestConsultarLiderExcepcion ()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarLiderExcepcion);
+    }
+
+    public void ConsultarLiderExcepcion()
+    {
+      dao.ConsultarLider(null);
     }
 
     [Category("Modulo 3")]
@@ -158,6 +290,19 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestEliminarExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(EliminarExcepcion);
+    }
+
+    public void EliminarExcepcion()
+    {
+      dao.Eliminar(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestEliminarIntegrante ()
     {
       Assert.DoesNotThrow(EliminarIntegranteExitoso);
@@ -166,6 +311,19 @@ namespace ApiRestPruebas.M3.DAO
     public void EliminarIntegranteExitoso ()
     {
       dao.EliminarIntegrante(listaGrupo[1], listaUsuario[0]);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestEliminarIntegranteExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(EliminarIntegranteExcepcion);
+    }
+
+    public void EliminarIntegranteExcepcion()
+    {
+      dao.EliminarIntegrante(null, null);
     }
 
     [Category("Modulo 3")]
@@ -184,6 +342,19 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOGrupo")]
     [Test]
+    public void TestAbandonarGrupoExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(AbandonarGrupoExcepcion);
+    }
+
+    public void AbandonarGrupoExcepcion()
+    {
+      dao.AbandonarGrupo(null, null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
     public void TestActualizar ()
     {
       Assert.DoesNotThrow(ActualizarExitoso);
@@ -191,9 +362,36 @@ namespace ApiRestPruebas.M3.DAO
 
     public void ActualizarExitoso ()
     {
-      Grupo grupo = listaGrupo[0];
-      grupo.Nombre = "Estudiantes de Ingenieria Informatica UCAB";
-      dao.Actualizar(grupo);
+      listaGrupo[0].Nombre = "Estudiantes de Ingenieria Informatica UCAB";
+      dao.Actualizar(listaGrupo[0]);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestActualizarExcepcionCasteo()
+    {
+      Assert.Catch<CasteoInvalidoExcepcion>(ActualizarExcepcionCasteo);
+    }
+
+    public void ActualizarExcepcionCasteo()
+    {
+      listaGrupo[0].Nombre = null;
+      dao.Actualizar(listaGrupo[0]);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestActualizarExcepcionReferenciaNula()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ActualizarExcepcionReferenciaNula);
+    }
+
+    public void ActualizarExcepcionReferenciaNula()
+    {
+      dao.Actualizar(null);
     }
   }
+
 }

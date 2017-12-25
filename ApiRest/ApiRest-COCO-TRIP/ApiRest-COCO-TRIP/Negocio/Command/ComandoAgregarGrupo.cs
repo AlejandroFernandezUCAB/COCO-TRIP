@@ -3,6 +3,10 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using Newtonsoft.Json;
+using System.Web.Http;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -23,14 +27,39 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      archivo = Archivo.ObtenerInstancia();
-      datos = FabricaDAO.CrearDAOGrupo();
-
-      grupo = (Grupo) datos.InsertarId(grupo);
-      
-      if(grupo.ContenidoFoto != null) //Valida si el grupo tiene foto
+      try
       {
-        archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+        archivo = Archivo.ObtenerInstancia();
+        datos = FabricaDAO.CrearDAOGrupo();
+
+        grupo = (Grupo)datos.InsertarId(grupo);
+
+        if (grupo.ContenidoFoto != null) //Valida si el grupo tiene foto
+        {
+          archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+        }
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = JsonConvert.SerializeObject(grupo);
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (IOExcepcion e)
+      {
+        e.DatosAsociados = JsonConvert.SerializeObject(grupo);
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (ReferenciaNulaExcepcion e)
+      {
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
 
@@ -44,4 +73,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
+
 }
