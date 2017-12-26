@@ -15,7 +15,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// <param name="id">ID del usuario</param>
     /// <param name="nombre">Nombre de usuario destino</param>
     /// <returns></returns>
-    public static ComandoAgregarAmigo CrearComandoAgregarAmigo (int id, string nombre)
+    public static ComandoAgregarAmigo CrearComandoAgregarAmigo(int id, string nombre)
     {
       return new ComandoAgregarAmigo(id, nombre);
     }
@@ -30,7 +30,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// </summary>
     /// <param name="nombre">Nombre de usuario</param>
     /// <returns></returns>
-    public static ComandoVisualizarPerfilAmigo CrearComandoVisualizarPerfilAmigo (string nombre)
+    public static ComandoVisualizarPerfilAmigo CrearComandoVisualizarPerfilAmigo(string nombre)
     {
       return new ComandoVisualizarPerfilAmigo(nombre);
     }
@@ -42,7 +42,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// <param name="id">ID del usuario que envia la notificacion</param>
     /// <param name="nombreDestino">Nombre de usuario al que va destinada la notificacion</param>
     /// <returns></returns>
-    public static ComandoEnviarNotificacionCorreo CrearComandoEnviarNotificacionCorreo (string correo, int id, string nombreDestino)
+    public static ComandoEnviarNotificacionCorreo CrearComandoEnviarNotificacionCorreo(string correo, int id, string nombreDestino)
     {
       return new ComandoEnviarNotificacionCorreo(correo, id, nombreDestino);
     }
@@ -53,7 +53,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// <param name="idGrupo">Identificador del grupo a eliminar/salir</param>
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar o salir del grupo</param>
     /// <returns></returns>
-    public static ComandoSalirGrupo CrearComandoSalirGrupo (int idGrupo, int idUsuario)
+    public static ComandoSalirGrupo CrearComandoSalirGrupo(int idGrupo, int idUsuario)
     {
       return new ComandoSalirGrupo(idGrupo, idUsuario);
     }
@@ -63,7 +63,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// </summary>
     /// <param name="id">Identificador del usuario</param>
     /// <returns></returns>
-    public static ComandoObtenerListaNotificaciones CrearComandoObtenerListaNotificaciones (int id)
+    public static ComandoObtenerListaNotificaciones CrearComandoObtenerListaNotificaciones(int id)
     {
       return new ComandoObtenerListaNotificaciones(id);
     }
@@ -74,7 +74,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// <param name="id">Identificador del usuario que esta rechazando la notificacion</param>
     /// <param name="nombreRechazado">Nombre del usuario rechazado</param>
     /// <returns></returns>
-    public static ComandoRechazarNotificacion CrearComandoRechazarNotificacion (int id, string nombreRechazado)
+    public static ComandoRechazarNotificacion CrearComandoRechazarNotificacion(int id, string nombreRechazado)
     {
       return new ComandoRechazarNotificacion(id, nombreRechazado);
     }
@@ -264,9 +264,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// <param name ="idUsuario">Id del usuario</param>
     /// <param name ="nombreItinerario">Nombre del itinerario</param> 
     /// <returns></returns>
-    public static ComandoAgregarItinerario CrearComandoAgregarItinerario(int idUsuario,string nombreItinerario)
+    public static ComandoAgregarItinerario CrearComandoAgregarItinerario(int idUsuario, string nombreItinerario)
     {
-      return new ComandoAgregarItinerario(idUsuario,nombreItinerario);
+      return new ComandoAgregarItinerario(idUsuario, nombreItinerario);
     }
 
     /// <summary>
@@ -284,10 +284,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// </summary>
     /// <param name ="idUsuario">Id del usuario</param>
     /// <returns></returns>
-    public static ComandoModificarItinerario CrearComandoModificarItinerario(int idItinerario,string nombre,
-      DateTime fechaInicio, DateTime fechaFin,  int idUsuario)
+    public static ComandoModificarItinerario CrearComandoModificarItinerario(int idItinerario, string nombre,
+      DateTime fechaInicio, DateTime fechaFin, int idUsuario)
     {
-      return new ComandoModificarItinerario(idItinerario,nombre,fechaInicio,fechaFin,idUsuario);
+      return new ComandoModificarItinerario(idItinerario, nombre, fechaInicio, fechaFin, idUsuario);
     }
 
     /// <summary>
@@ -378,9 +378,91 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// </summary>
     /// <returns>ComandoAgregarAgenda</returns>
     public static ComandoAgregarAgenda CrearComandoAgregarAgenda(string tipo,
-      int idItinerario,int idItem,DateTime fechaInicio, DateTime fechaFin)
+      int idItinerario, int idItem, DateTime fechaInicio, DateTime fechaFin)
     {
-      return new ComandoAgregarAgenda(tipo,idItinerario,idItem,fechaInicio,fechaFin);
+      return new ComandoAgregarAgenda(tipo, idItinerario, idItem, fechaInicio, fechaFin);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarAgendaItem
+    /// </summary>
+    /// <returns>ComandoEliminarAgendaItem</returns>
+    public static ComandoEliminarAgendaItem CrearComandoEliminarAgendaItem(string tipo,
+      int idItinerario, int idItem)
+    {
+      return new ComandoEliminarAgendaItem(tipo, idItem, idItinerario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoSetVisibleItinerario
+    /// </summary>
+    /// <returns>ComandoSetVisibleItinerario</returns>
+    public static ComandoSetVisibleItinerario CrearComandoSetVisibleItinerario(Boolean visible,
+      int idUsuario, int idItinerario)
+    {
+      return new ComandoSetVisibleItinerario(idItinerario, idUsuario, visible);
+    }
+    /// <summary>
+    /// Retorna la instancia de ComandoAgregarNotificacion
+    /// </summary>
+    /// <returns>ComandoAgregarNotificacion</returns>
+    public static ComandoAgregarNotificacion CrearComandoAgregarNotificacion(int idUsuario)
+    {
+      return new ComandoAgregarNotificacion(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarNotificacion
+    /// </summary>
+    /// <returns>ComandoEliminarNotificacion</returns>
+    public static ComandoEliminarNotificacion CrearComandoEliminarNotificacion(int idUsuario)
+    {
+      return new ComandoEliminarNotificacion(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarNotificacion
+    /// </summary>
+    /// <returns>ComandoModificarNotificacion</returns>
+    public static ComandoModificarNotificacion CrearComandoModificarNotificacion(int idUsuario,Boolean push , Boolean correo)
+    {
+      return new ComandoModificarNotificacion(idUsuario,push,correo);
+    }
+    /// <summary>
+    /// Retorna la instancia de ComandoEnviarCorreoItinerario
+    /// </summary>
+    /// <returns>ComandoEnviarCorreoItinerario</returns>
+    public static ComandoEnviarCorreoItinerario CrearComandoEnviarCorreoItinerario(int idUsuario)
+    {
+      return new ComandoEnviarCorreoItinerario(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaLugaresTurisiticos
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaLugaresTurisiticos</returns>
+    public static ComandoListarCoincidenciaLugaresTurisiticos CrearComandoListarCoincidenciaLugaresTurisiticos(string busqueda)
+    {
+      return new ComandoListarCoincidenciaLugaresTurisiticos(busqueda);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaEventos
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaEventos</returns>
+    public static ComandoListarCoincidenciaEventos CrearComandoListarCoincidenciaEventos(string busqueda,DateTime fechai,
+      DateTime fechaf)
+    {
+      return new ComandoListarCoincidenciaEventos(busqueda,fechai,fechaf);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaActividades
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaActividades</returns>
+    public static ComandoListarCoincidenciaActividades CrearComandoListarCoincidenciaActividades(string busqueda)
+    {
+      return new ComandoListarCoincidenciaActividades(busqueda);
     }
   }
 }

@@ -2040,7 +2040,7 @@ CREATE OR REPLACE FUNCTION InsertarEvento
 (
   _nombreEvento VARCHAR(100),
   _descripcionEvento VARCHAR(500),
-  _precioEvento integer,
+  _precioEvento double precision,
   _fechaInicioEvento timestamp,
   _fechaFinEvento timestamp,
   _horaInicioEvento time,
@@ -2049,7 +2049,7 @@ CREATE OR REPLACE FUNCTION InsertarEvento
   _localidadEvento integer,
   _categoriaEvento integer
 )
-RETURNS integer AS
+RETURNS void AS
 $$
 BEGIN
 
@@ -2058,8 +2058,6 @@ BEGIN
       _precioEvento, _fechaInicioEvento, _fechaFinEvento,
       _horaInicioEvento, _horaFinEvento, _fotoEvento, _localidadEvento,
       _categoriaEvento);
-
-    RETURN currval('SEQ_Evento');
    END;
 $$ LANGUAGE plpgsql;
 
@@ -2070,14 +2068,12 @@ CREATE OR REPLACE FUNCTION InsertarLocalidad
   _descripcionLocalidad varchar(500),
   _coordenada varchar(50)
 )
-RETURNS integer AS
+RETURNS void AS
 $$
 BEGIN
 
     INSERT INTO localidad VALUES
       (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenada);
-
-      RETURN currval('SEQ_Localidad');
     END;
 $$ LANGUAGE plpgsql;
 
@@ -2192,7 +2188,7 @@ RETURNS TABLE
   id_evento integer,
 	nombreEvento varchar,
 	descripcionEvento varchar,
-	precioEvento int,
+	precioEvento double precision,
 	fecha_inicioEvento timestamp,
 	fecha_finEvento timestamp,
 	hora_inicioEvento time,
@@ -2281,22 +2277,22 @@ RETURNS TABLE
      id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
-     precioEvento integer,
+     precioEvento double precision,
      fechaInicioEvento timestamp,
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
      fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+     localidadEvento integer,
+     categoriaEvento integer    
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
-    from evento, categoria, localidad
-    where ev_categoria = ca_id and ev_localidad = lo_id and ev_id = _id;
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad, ev_categoria
+    from evento
+    where  ev_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -2419,7 +2415,7 @@ CREATE OR REPLACE FUNCTION actualizarEventoPorId
   _id integer,
   _nombreEvento VARCHAR(100),
   _descripcionEvento VARCHAR(500),
-  _precioEvento float,
+  _precioEvento double precision,
   _fechaInicioEvento timestamp,
   _fechaFinEvento timestamp,
   _horaInicioEvento time,

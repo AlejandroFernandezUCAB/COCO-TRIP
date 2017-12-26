@@ -12,15 +12,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   public class ComandoEliminarLocalidad : Comando
   {
     private Entidad localidad;
+    private DAO dao;
 
     public ComandoEliminarLocalidad(int id) {
       localidad = FabricaEntidad.CrearEntidadLocalidad();
       localidad.Id = id;
+      dao = FabricaDAO.CrearDAOLocalidad();
     }
 
     public override void Ejecutar()
     {
-      DAO dao = FabricaDAO.CrearDAOLocalidad();
       try
       {
         dao.Eliminar(localidad);

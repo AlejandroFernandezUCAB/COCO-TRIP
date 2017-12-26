@@ -1,5 +1,4 @@
 using System;
-using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
@@ -22,6 +21,7 @@ namespace ApiRestPruebas
     private int id_usuario;
     private List<ApiRest_COCO_TRIP.Datos.Entity.Entidad> lista;
     private Comando comando;
+    private Notificacion notificacion;
     [OneTimeSetUp]
     protected void OTSU()
     {
@@ -98,8 +98,6 @@ namespace ApiRestPruebas
       x = false;
       DateTime fechaini = new DateTime(2040, 12, 12);
       DateTime fechafin = new DateTime(2044, 12, 12);
-     // ApiRest_COCO_TRIP.Datos.Entity.Itinerario  itinerario =
-     //   new ApiRest_COCO_TRIP.Datos.Entity.Itinerario(15, "Epco Reloaded", fechaini, fechafin, 1);
       comando = FabricaComando.CrearComandoModificarItinerario(19, "ususu", fechaini, fechafin, 1);
       comando.Ejecutar();
       comando = FabricaComando.CrearComandoConsultarItinerarios(1);
@@ -219,13 +217,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarLugar_It()
     {
-      itinerario = new Itinerario(15);
-      LugarTuristico lt = new LugarTuristico()
-      {
-        Id = 2
-      };
-      x = controller.EliminarItem_It("Lugar Turistico",itinerario.Id,lt.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(21);
+      int idLugar = 2;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Lugar Turistico", itinerario.Id,
+        idLugar);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -249,13 +246,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarActividad_It()
     {
-      itinerario = new Itinerario(15);
-      Actividad ac = new Actividad()
-      {
-        Id = 4
-      };
-      x = controller.EliminarItem_It("Actividad", itinerario.Id, ac.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(19);
+      int idActividad = 4;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Actividad",itinerario.Id,
+        idActividad);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -276,19 +272,16 @@ namespace ApiRestPruebas
     /// <summary>
     /// Prueba de caso exitoso en EliminarEvento_It
     /// </summary>
-    /*[Test]
+    [Test]
     public void PUEliminarEvento_It()
     {
-      itinerario = new Itinerario(15);
-      Evento ev = new Evento()
-      {
-        Id = 1
-      };
-      PeticionItinerario peticion = new PeticionItinerario();
-      x = peticion.EliminarItem_It("Evento",15,1);
-      //x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
-      Assert.True(x);
-    }*/
+      itinerario = new Itinerario(19);
+      int idEvento = 1;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Evento", itinerario.Id,
+        idEvento);
+      comando.Ejecutar();
+      Assert.True(true);
+    }
 
     /// <summary>
     /// Prueba de caso borde(fallo) en EliminarEvento_It
@@ -329,19 +322,116 @@ namespace ApiRestPruebas
       comando.Ejecutar();
       Assert.IsEmpty(comando.RetornarLista());
     }
-   
+    /// <summary>
+    /// Prueba de caso exitoso en Cambiar visibilidad a FALSO
+    /// </summary>
     [Test]
-    public void Prueba_EliminarLugarIt()
+    public void PUSetVisibleFalse()
     {
-      //x = controller.EliminarItem_It(4,12);
-      //Assert.True(x);
+      Boolean visible = false;
+      id_usuario = 1;
+      int idItinerario = 19;
+      comando = FabricaComando.CrearComandoSetVisibleItinerario(visible,id_usuario,
+        idItinerario);
+      comando.Ejecutar();
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en Cambiar visibilidad a TRUE
+    /// </summary>
+    [Test]
+    public void PUSetVisibleTrue()
+    {
+      Boolean visible = true;
+      id_usuario = 1;
+      int idItinerario = 19;
+      comando = FabricaComando.CrearComandoSetVisibleItinerario(visible, id_usuario,
+        idItinerario);
+      comando.Ejecutar();
     }
 
     [Test]
-    public void Prueba_EliminarActividad()
+    public void PU_AgregarNotificacion()
     {
-      x = controller.EliminarItem_It("Actividad", 4, 1);
-      Assert.True(x);
+      comando = FabricaComando.CrearComandoAgregarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+    
+    [Test]
+    public void PU_EliminarNotificacion()
+    {
+      comando = FabricaComando.CrearComandoEliminarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.False(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_ModificarNotificacionCorreo()
+    {
+      comando = FabricaComando.CrearComandoModificarNotificacion(1,false,true);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_ConsultarNotificacion()
+    {
+      comando = FabricaComando.CrearComandoModificarNotificacion(1, false, true);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_EnviarCorreo()
+    {
+      int idUsuario = 1;
+      comando = FabricaComando.CrearComandoEnviarCorreoItinerario(1);
+      comando.Ejecutar();
+    
+      Assert.True(true);
+    }
+
+    [Test]
+    public void PU_ConsultarEventos()
+    {
+      string busqueda = "jorge";
+      fechaini = new DateTime(2017, 12, 30);
+      fechafin = new DateTime(2017, 12, 30);
+      comando = FabricaComando.CrearComandoListarCoincidenciaEventos(busqueda,fechaini,fechafin);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      Evento evento = (Evento)lista[0];
+      Assert.AreEqual(busqueda, evento.Nombre);
+      Assert.AreEqual(1, evento.Id);
+    }
+
+    [Test]
+    public void PU_ConsultarLugares()
+    {
+      string busqueda = "Parque Generalisimo de Miranda";
+      comando = FabricaComando.CrearComandoListarCoincidenciaLugaresTurisiticos(busqueda);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      LugarTuristico lugarTuristico = (LugarTuristico)lista[0];
+      Assert.AreEqual(busqueda, lugarTuristico.Nombre);
+      Assert.AreEqual(2, lugarTuristico.Id);
+    }
+
+    [Test]
+    public void PU_ConsultarActividades()
+    {
+      string busqueda = "Parque Generalisimo de Miranda";
+      comando = FabricaComando.CrearComandoListarCoincidenciaActividades(busqueda);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      Actividad actividad = (Actividad)lista[0];
+      Assert.AreEqual(busqueda, actividad.Nombre);
+      Assert.AreEqual(1, actividad.Id);
     }
   }
 }

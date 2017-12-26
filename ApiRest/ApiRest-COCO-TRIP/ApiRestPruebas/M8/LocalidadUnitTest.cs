@@ -19,7 +19,7 @@ namespace ApiRestPruebas.M8
     private Comando comando;
 
     [SetUp]
-    public void SetUp()
+    public void SetUpLocalidad()
     {
       localidad = FabricaEntidad.CrearEntidadLocalidad();
       ((LocalidadEvento)localidad).Nombre = "Test";
@@ -36,7 +36,7 @@ namespace ApiRestPruebas.M8
     }
 
     [Test]
-    public void TestInsertar()
+    public void TestInsertarLocalidad()
     {
       dao.Eliminar(localidad);
       Assert.DoesNotThrow(() => {
@@ -65,7 +65,7 @@ namespace ApiRestPruebas.M8
 
     }
     [Test]
-    public void TestEliminar()
+    public void TestEliminarLocalidad()
     {
       Assert.DoesNotThrow(() => {
         dao.Eliminar(localidad);
@@ -85,7 +85,7 @@ namespace ApiRestPruebas.M8
     }
 
     [Test]
-    public void TestConsultar()
+    public void TestConsultarLocalidad()
     {
       Entidad prueba = FabricaEntidad.CrearEntidadLocalidad();
       prueba.Id = localidad.Id;
@@ -106,7 +106,7 @@ namespace ApiRestPruebas.M8
     }
 
     [Test]
-    public void TestActualizar()
+    public void TestActualizarLocalidad()
     {
       ((LocalidadEvento)localidad).Nombre = "Test2";
       ((LocalidadEvento)localidad).Descripcion = "Test2";
@@ -314,7 +314,7 @@ namespace ApiRestPruebas.M8
     }
 
     [TearDown]
-    public void TearDown()
+    public void TearDownLocalidad()
     {
       dao.Eliminar(localidad);
     }
