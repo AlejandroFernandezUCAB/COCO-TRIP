@@ -5,6 +5,9 @@ using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using Npgsql;
 using System.Data;
+using System.Net.Mail;
+using System.Web.Http;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -165,6 +168,114 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         base.Desconectar();
         throw e;
       }
+    }
+
+    /// <summary>
+    /// Se encarga de buscar todas las notificaciones de eventos, actividad y lugares turisticos
+    /// con una semana de intervalo, es decir, buscar esos eventos pendientes entre hoy a una semana,
+    /// con el fin de enviarlo por correo.
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario a quien se le buscara la información</param>
+    /// <returns>Devuelve "Exitoso" en caso de no haber incovenientes, y una excepcion en caso contrario</returns>
+    public Boolean EnviarCorreo(Entidad objeto)
+    {
+      Usuario usuario = (Usuario)objeto;
+      int idUsuario = usuario.Id;
+      List<Entidad> itinerarios; // Lista de itinerarios de un usuario
+      string Body_Correo = "";
+      //PeticionLogin peticion;
+      //peticion = new PeticionLogin();
+
+      string lugarturistico = "";
+      string actividad = "";
+      string evento = "";
+
+      try
+      {
+        //usuario = Buscar_Usuario(id_usuario);
+        DAOUsuario dAOUsuario = Fabrica.FabricaDAO.CrearDAOUsuario();
+        usuario = (Usuario)dAOUsuario.ConsultarPorId(usuario);
+        usuario.Id = idUsuario;
+
+        itinerarios = (new DAOItinerario()).ConsultarLista(usuario);
+
+        foreach (Itinerario itinerario in itinerarios)
+        {
+          foreach (dynamic objet in itinerario.Items_agenda)
+          {
+            
+            switch (objet.Tipo)
+            {
+              case "Lugar Turistico":
+                lugarturistico = lugarturistico + "{0}" +
+                                  objet.Nombre + "{0}" +
+                                  objet.Descripcion;
+                break;
+
+              case "Actividad":
+                actividad = actividad + "{0}" +
+                            objet.Nombre + "{0}" +
+                            objet.Descripcion; ;
+                break;
+
+              case "Evento":
+                evento = evento + "{0}" +
+                          objet.Nombre + "{0}" +
+                          objet.Descripcion;
+                break;
+            }
+          }
+        }
+
+        Body_Correo = string.Format(" Hola " + usuario.NombreUsuario + ", {0}   Este es un correo para recordarte tu agenda en CocoTrip {0}" +
+          "     Contenido de su itinerario:{0}" +
+          "       Lugares Turisticos agendados:{0}" + lugarturistico + "{0}{0}{0}" +
+          "       Actividades agendadas:{0}" + actividad + "{0}{0}{0}" +
+          "       Eventos agendadas:{0}" + evento + "{0}{0}{0}", Environment.NewLine);
+
+
+        MailMessage mail = new MailMessage();
+        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+        mail.From = new MailAddress("cocotrip17@gmail.com");
+        mail.To.Add(usuario.Correo);
+        mail.Subject = "Recordatorio de itinerario CocoTrip.";
+        mail.Body = Body_Correo;
+
+        SmtpServer.Port = 587;
+        SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
+        SmtpServer.EnableSsl = true;
+
+        SmtpServer.Send(mail);
+        return true;
+      }
+      catch (NpgsqlException)
+      {
+        base.Desconectar();
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (InvalidCastException)
+      {
+        base.Desconectar();
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (ArgumentNullException)
+      {
+        base.Desconectar();
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+
+      catch (HttpResponseException)
+      {
+        base.Desconectar();
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+     /* catch (Exception e)
+      {
+        base.Desconectar();
+        throw e;
+      }*/
+      
     }
   }
 }

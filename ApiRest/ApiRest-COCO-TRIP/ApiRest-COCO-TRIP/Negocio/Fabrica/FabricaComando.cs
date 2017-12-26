@@ -470,5 +470,41 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoModificarNotificacion(idUsuario,push,correo);
     }
+    /// <summary>
+    /// Retorna la instancia de ComandoEnviarCorreoItinerario
+    /// </summary>
+    /// <returns>ComandoEnviarCorreoItinerario</returns>
+    public static ComandoEnviarCorreoItinerario CrearComandoEnviarCorreoItinerario(int idUsuario)
+    {
+      return new ComandoEnviarCorreoItinerario(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaLugaresTurisiticos
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaLugaresTurisiticos</returns>
+    public static ComandoListarCoincidenciaLugaresTurisiticos CrearComandoListarCoincidenciaLugaresTurisiticos(string busqueda)
+    {
+      return new ComandoListarCoincidenciaLugaresTurisiticos(busqueda);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaEventos
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaEventos</returns>
+    public static ComandoListarCoincidenciaEventos CrearComandoListarCoincidenciaEventos(string busqueda,DateTime fechai,
+      DateTime fechaf)
+    {
+      return new ComandoListarCoincidenciaEventos(busqueda,fechai,fechaf);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaActividades
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaActividades</returns>
+    public static ComandoListarCoincidenciaActividades CrearComandoListarCoincidenciaActividades(string busqueda)
+    {
+      return new ComandoListarCoincidenciaActividades(busqueda);
+    }
   }
 }
