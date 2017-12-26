@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comun\Excepcion\SerializacionJsonExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
     <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
