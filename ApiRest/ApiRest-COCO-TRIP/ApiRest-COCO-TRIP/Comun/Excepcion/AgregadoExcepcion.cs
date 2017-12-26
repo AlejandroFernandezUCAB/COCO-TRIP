@@ -19,7 +19,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// <summary>
         /// Getters y Setters
         /// </summary>
-        public SocketException Excepcion { get => excepcion; set => excepcion = value; }
+        public AggregateException Excepcion { get => excepcion; set => excepcion = value; }
         public DateTime FechaHora { get => fechaHora; set => fechaHora = value; }
         public string NombreMetodo { get => nombreMetodo; set => nombreMetodo = value; }
         public string Mensaje { get => mensaje; set => mensaje = value; }
