@@ -22,6 +22,7 @@ namespace ApiRestPruebas
     private int id_usuario;
     private List<ApiRest_COCO_TRIP.Datos.Entity.Entidad> lista;
     private Comando comando;
+    private Notificacion notificacion;
     [OneTimeSetUp]
     protected void OTSU()
     {
@@ -98,8 +99,6 @@ namespace ApiRestPruebas
       x = false;
       DateTime fechaini = new DateTime(2040, 12, 12);
       DateTime fechafin = new DateTime(2044, 12, 12);
-     // ApiRest_COCO_TRIP.Datos.Entity.Itinerario  itinerario =
-     //   new ApiRest_COCO_TRIP.Datos.Entity.Itinerario(15, "Epco Reloaded", fechaini, fechafin, 1);
       comando = FabricaComando.CrearComandoModificarItinerario(19, "ususu", fechaini, fechafin, 1);
       comando.Ejecutar();
       comando = FabricaComando.CrearComandoConsultarItinerarios(1);
@@ -353,10 +352,39 @@ namespace ApiRestPruebas
     }
 
     [Test]
-    public void Prueba_EliminarActividad()
+    public void PU_AgregarNotificacion()
     {
-      x = controller.EliminarItem_It("Actividad", 4, 1);
-      Assert.True(x);
+      comando = FabricaComando.CrearComandoAgregarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+    
+    [Test]
+    public void PU_EliminarNotificacion()
+    {
+      comando = FabricaComando.CrearComandoEliminarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.False(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_ModificarNotificacionCorreo()
+    {
+      comando = FabricaComando.CrearComandoModificarNotificacion(1,false,true);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_ConsultarNotificacion()
+    {
+      comando = FabricaComando.CrearComandoModificarNotificacion(1, false, true);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
     }
   }
 }
