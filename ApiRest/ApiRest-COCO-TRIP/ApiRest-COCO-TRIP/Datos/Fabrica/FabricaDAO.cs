@@ -73,5 +73,13 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new DAOEvento();
     }
+
+    /// Retorna la instancia de DAONotificacion
+    /// </summary>
+    /// <returns>DAONotificacion</returns>
+    public static DAONotificacion CrearDAONotifiacacion()
+    {
+      return new DAONotificacion();
+    }
   }
 }

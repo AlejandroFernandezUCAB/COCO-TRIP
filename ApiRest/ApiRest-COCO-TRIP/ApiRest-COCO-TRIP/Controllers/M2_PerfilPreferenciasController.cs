@@ -98,7 +98,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           return true;
         }
       }
-      catch (NpgsqlException e)
+      catch (NpgsqlException)
       {
         return false;
       }

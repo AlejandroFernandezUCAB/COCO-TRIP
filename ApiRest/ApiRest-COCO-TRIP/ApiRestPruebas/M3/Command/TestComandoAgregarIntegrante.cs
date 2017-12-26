@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using System.Web.Http;
 
 namespace ApiRestPruebas.M3.Command
 {
@@ -69,5 +70,20 @@ namespace ApiRestPruebas.M3.Command
       comando = FabricaComando.CrearComandoAgregarIntegrante(listaGrupo[1].Id, listaUsuario[0].NombreUsuario);
       comando.Ejecutar();
     }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoAgregarIntegranteExcepcion()
+    {
+      Assert.Catch<HttpResponseException>(ComandoAgregarIntegranteExcepcion);
+    }
+
+    public void ComandoAgregarIntegranteExcepcion()
+    {
+      comando = FabricaComando.CrearComandoAgregarIntegrante(listaGrupo[1].Id, null);
+      comando.Ejecutar();
+    }
   }
+
 }

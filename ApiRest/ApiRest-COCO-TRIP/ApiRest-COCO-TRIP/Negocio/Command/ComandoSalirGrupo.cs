@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Web.Http;
+using System.Net;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -28,16 +31,25 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOGrupo();
-      lider = (Usuario) datos.ConsultarLider(grupo);
+      try
+      {
+        datos = FabricaDAO.CrearDAOGrupo();
+        lider = (Usuario)datos.ConsultarLider(grupo);
 
-      if(lider.Id == usuario.Id) //Es el lider?
-      {
-        datos.Eliminar(grupo);
+        if (lider.Id == usuario.Id) //Es el lider?
+        {
+          datos.Eliminar(grupo);
+        }
+        else
+        {
+          datos.AbandonarGrupo(grupo, usuario);
+        }
       }
-      else
+      catch (BaseDeDatosExcepcion e)
       {
-        datos.AbandonarGrupo(grupo, usuario);
+        e.DatosAsociados = "IdGrupo:" + grupo.Id + " IdUsuario: " + usuario.Id;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
 
@@ -51,4 +63,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
+
 }

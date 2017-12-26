@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Net;
+using System.Web.Http;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -26,8 +29,22 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      datos = FabricaDAO.CrearDAOAmigo();
-      lista = datos.BuscarAmigos(usuario);
+      try
+      {
+        datos = FabricaDAO.CrearDAOAmigo();
+        lista = datos.BuscarAmigos(usuario);
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = "Id" + usuario.Id + " Nombre:" + usuario.Nombre;
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        e.NombreMetodos = this.GetType().FullName;
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
     public override Entidad Retornar()
@@ -40,5 +57,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       return lista;
     }
   }
-
 }

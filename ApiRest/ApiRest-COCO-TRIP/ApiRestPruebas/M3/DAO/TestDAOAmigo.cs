@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRestPruebas.M3.DAO
 {
@@ -73,6 +74,35 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOAmigo")]
     [Test]
+    public void TestInsertarExcepcionReferenciaNula()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(InsertarExcepcionReferenciaNula);
+    }
+
+    public void InsertarExcepcionReferenciaNula()
+    {
+      dao.Insertar(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestInsertarExcepcionBaseDeDatos()
+    {
+      Assert.Catch<BaseDeDatosExcepcion>(InsertarExcepcionBaseDeDatos);
+    }
+
+    public void InsertarExcepcionBaseDeDatos()
+    {
+      Amigo amigo = FabricaEntidad.CrearEntidadAmigo();
+      amigo.Activo = listaUsuario[0].Id;
+      amigo.Pasivo = 0;
+      dao.Insertar(amigo);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
     public void TestBuscarAmigosConNombreUsuario()
     {
       Usuario usuario = listaUsuario[1];
@@ -118,10 +148,50 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOAmigo")]
     [Test]
-    public void TestConsultarId()
+    public void TestBuscarAmigosExcepcionCasteo()
     {
-      Entidad resultado = dao.ConsultarId(listaAmigo[0]);
+      Assert.Catch<CasteoInvalidoExcepcion>(BuscarAmigosExcepcionCasteo);
+    }
+
+    public void BuscarAmigosExcepcionCasteo ()
+    {
+      listaUsuario[0].Nombre = null;
+      dao.BuscarAmigos(listaUsuario[0]);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestBuscarAmigosExcepcionReferenciaNula()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(BuscarAmigosExcepcionReferenciaNula);
+    }
+
+    public void BuscarAmigosExcepcionReferenciaNula()
+    {
+      dao.BuscarAmigos(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestConsultarPorId()
+    {
+      Entidad resultado = dao.ConsultarPorId(listaAmigo[0]);
       Assert.AreEqual(true, resultado.Id != 0);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestConsultarPorIdExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarPorIdExcepcion);
+    }
+
+    public void ConsultarPorIdExcepcion()
+    {
+      dao.ConsultarPorId(null);
     }
 
     [Category("Modulo 3")]
@@ -137,11 +207,37 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOAmigo")]
     [Test]
+    public void TestConsultarListaExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarListaExcepcion);
+    }
+
+    public void ConsultarListaExcepcion()
+    {
+      dao.ConsultarLista(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
     public void TestConsultarListaNotificaciones()
     {
       List<Entidad> lista = dao.ConsultarListaNotificaciones(listaUsuario[2]);
       Usuario usuario = (Usuario) lista[0];
       Assert.AreEqual(true, lista.Count == 1 && usuario.NombreUsuario == listaUsuario[0].NombreUsuario);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestConsultarListaNotificacionesExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(ConsultarListaNotificacionesExcepcion);
+    }
+
+    public void ConsultarListaNotificacionesExcepcion()
+    {
+      dao.ConsultarListaNotificaciones(null);
     }
 
     [Category("Modulo 3")]
@@ -163,6 +259,19 @@ namespace ApiRestPruebas.M3.DAO
     [Category("Modulo 3")]
     [Category("DAOAmigo")]
     [Test]
+    public void TestRechazarNotificacionExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(RechazarNotificacionExcepcion);
+    }
+
+    public void RechazarNotificacionExcepcion()
+    {
+      dao.RechazarNotificacion(null);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
     public void TestAceptarNotificacion()
     {
       Assert.DoesNotThrow(AceptarNotificacionExitoso);
@@ -174,6 +283,19 @@ namespace ApiRestPruebas.M3.DAO
       amigo.Pasivo = listaUsuario[2].Id;
       amigo.Activo = listaUsuario[0].Id;
       dao.AceptarNotificacion(amigo);
+    }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestAceptarNotificacionExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(AceptarNotificacionExcepcion);
+    }
+
+    public void AceptarNotificacionExcepcion()
+    {
+      dao.AceptarNotificacion(null);
     }
 
     [Category("Modulo 3")]
@@ -191,5 +313,19 @@ namespace ApiRestPruebas.M3.DAO
       amigo.Activo = listaUsuario[0].Id;
       dao.Eliminar(amigo);
     }
+
+    [Category("Modulo 3")]
+    [Category("DAOAmigo")]
+    [Test]
+    public void TestEliminarExcepcion()
+    {
+      Assert.Catch<ReferenciaNulaExcepcion>(EliminarExcepcion);
+    }
+
+    public void EliminarExcepcion()
+    {
+      dao.Eliminar(null);
+    }
   }
+
 }

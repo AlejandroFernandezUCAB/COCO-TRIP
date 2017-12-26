@@ -1,15 +1,11 @@
 using System;
-using System.Net.Mail;
+using System.IO;
 
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
-  /// <summary>
-  /// Excepcion logica que recopila informacion sobre los errores generados por SmtpException.
-  /// Se genera cuando el servicio web no cuenta con conexion a internet o el servidor SMTP no esta prestando servicio
-  /// </summary>
-  public class SmtpExcepcion : SmtpException
+  public class IOExcepcion : IOException
   {
-    private SmtpException excepcion;
+    private IOException excepcion;
     private DateTime fechaHora;
     private string nombreMetodo; //Metodos que atrapan la excepcion antes de manejarla
     private string datoAsociado; //Datos asociados a la excepcion generada
@@ -18,10 +14,11 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// <summary>
     /// Getters y Setters del atributo Excepcion
     /// </summary>
-    public SmtpException Excepcion
+    public IOException Excepcion
     {
       get { return excepcion; }
       set { excepcion = value; }
+
     }
 
     /// <summary>
@@ -65,7 +62,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// Constructor
     /// </summary>
     /// <param name="e">Excepcion generica</param>
-    public SmtpExcepcion(SmtpException e)
+    public IOExcepcion(IOException e)
     {
       excepcion = e;
 
@@ -77,7 +74,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// </summary>
     /// <param name="e">Excepcion generica</param>
     /// <param name="_mensaje">Mensaje asociado al error</param>
-    public SmtpExcepcion(SmtpException e, string _mensaje)
+    public IOExcepcion(IOException e, string _mensaje)
     {
       excepcion = e;
       mensaje = _mensaje;
