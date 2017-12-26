@@ -16,7 +16,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
     private NpgsqlDataReader leerDatos;
 
-
     private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
     {
       var parametro = new NpgsqlParameter
@@ -108,18 +107,15 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       categoria = (Categoria)objeto;
       int exitoso = 0;
-      base.Conectar();
       try
       {
-
+        
         base.Conectar();
         base.Comando = base.SqlConexion.CreateCommand();
         base.Comando.CommandText = "m9_ModificarCategoria";
         base.Comando.CommandType = CommandType.StoredProcedure;
         DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
         IList<Categoria> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
-
-
 
         if (Lcategoria.First<Categoria>().Nivel == categoria.Nivel)
         {
@@ -131,7 +127,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         else
         {
           //categories = listaCategorias.Where(s => s.Id == id).First();
-          IList<Categoria> Listacategoria = ObtenerTodasLasCategorias();
+          IList<Categoria> Listacategoria = daoc.ObtenerTodasLasCategorias();
           var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
           if (hijos.Count == 0)
           {
@@ -151,7 +147,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
         }
         else
-        {
+        {          
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
         }
         exitoso = base.Comando.ExecuteNonQuery();
