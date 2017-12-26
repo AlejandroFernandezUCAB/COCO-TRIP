@@ -14,7 +14,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   /// <typeparam name="T2">Parametro que indica el tipo de dato que recibiran los metodos Post, Put, Patch</typeparam>
   public abstract class DAO<T1, T2>
   {
-    protected const string BaseUri = "http://localhost:8082/api";
+    protected static readonly string BaseUri = Negocio.Registro.ApiRestBaseUri;
 
     // no se si los parametros de salida sea mejor entidad o dejarlo en T1. Creo que entidad. att lele
     public abstract JObject Get(int id);
