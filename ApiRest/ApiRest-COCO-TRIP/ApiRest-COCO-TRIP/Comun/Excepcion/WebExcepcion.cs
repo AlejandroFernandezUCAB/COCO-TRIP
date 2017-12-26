@@ -37,18 +37,6 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// Constructor
         /// </summary>
         /// <param name="excepcion">Excepción generada del tipo "WebException"</param>
-        /// <param name="nombreMetodo">Nombre del metodo donde se genero la excepción</param>
-        public WebExcepcion(WebException excepcion, string nombreMetodo)
-        {
-            this.excepcion = excepcion;
-            this.nombreMetodo = nombreMetodo;
-            this.fechaHora = DateTime.Now;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "WebException"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
         public WebExcepcion(WebException excepcion, string mensaje)
         {
