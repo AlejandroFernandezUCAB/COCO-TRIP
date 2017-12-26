@@ -61,7 +61,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
                 foreach(var elemento in ViewBag.Categoria)
                 {
-                  respuesta = peticion.GetSubCategoria(elemento.Id);
+                  respuesta = peticion.GetSubCategoria((int)elemento.Id);
 
                   if (respuesta == HttpStatusCode.InternalServerError.ToString())
                   {
@@ -73,7 +73,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
                     foreach (var subElemento in respuestaSubCategoria)
                     {
-                      subElemento.UpperCategories = elemento.Id;
+                      subElemento.UpperCategories = (int)elemento.Id;
                       ViewBag.SubCategoria.Add(subElemento);
                     }
                   }
