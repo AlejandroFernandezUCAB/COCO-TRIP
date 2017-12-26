@@ -32,19 +32,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
             this.excepcion = excepcion;
             this.fechaHora = DateTime.Now;
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "JsonReaderException"</param>
-        /// <param name="nombreMetodo">Nombre del metodo donde se genero la excepción</param>
-        public LectorJsonExcepcion(JsonReaderException excepcion, string nombreMetodo)
-        {
-            this.excepcion = excepcion;
-            this.nombreMetodo = nombreMetodo;
-            this.fechaHora = DateTime.Now;
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
