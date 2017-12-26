@@ -111,11 +111,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comun\Excepcion\LectorJsonExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SerializacionJsonExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
     <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\AgregadoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SocketExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\WebExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
