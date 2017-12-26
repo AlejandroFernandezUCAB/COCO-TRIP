@@ -96,14 +96,8 @@ namespace BackOffice_COCO_TRIP.Controllers
       ViewBag.Title = "Editar Categoría";
       ConsultarCategoriasSelectEdit(id);
       Categoria categories = null;
-      if (TempData["listaCategorias"] != null)
-      {
-        IList<Categoria> listaCategorias = TempData["listaCategorias"] as IList<Categoria>;
-        categories = listaCategorias.Where(s => s.Id == id).First();
-      }
 
-      else
-      {
+      
         com = FabricaComando.GetComandoConsultarCategoriaPorId();
         com.SetPropiedad(id);
         com.Execute();
@@ -122,7 +116,7 @@ namespace BackOffice_COCO_TRIP.Controllers
           ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
         }
 
-      }
+      
       
       return View(categories);
       
@@ -137,7 +131,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       ModelState.Remove("Id");
       ModelState.Remove("UpperCategories");
-      if (ModelState.IsValid)
+      if (ModelState.IsValid && ValidarName(categories.Name) && ValidarDescription(categories.Description))
       {
         var idNivel = Request["Mover a la categoria"].ToString().Split('-');
         categories.UpperCategories = Int32.Parse(idNivel[0]);
@@ -174,7 +168,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
 
     // ######################## Metodos Auxiliares ########################
-    public void ConsultarCategoriasSelectCreate()
+    private void ConsultarCategoriasSelectCreate()
     {
       com = FabricaComando.GetComandoConsultarCategoriaSelect();
       com.Execute();
@@ -193,7 +187,7 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     }
 
-    public void ConsultarCategoriasSelectEdit(int id)
+    private void ConsultarCategoriasSelectEdit(int id)
     {
       com = FabricaComando.GetComandoConsultarCategoriaSelect();
       com.Execute();
@@ -271,7 +265,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       {
         return true;
       }
-      ModelState.AddModelError(string.Empty, "El nombre de la categoria debe tener al menos 5 caracteres y máximo 100. Sólo se permiten letras.");
+      ModelState.AddModelError(string.Empty, "La descripcion de la categoria debe tener al menos 5 caracteres y máximo 100. Sólo se permiten letras.");
       return false;
     }
   }

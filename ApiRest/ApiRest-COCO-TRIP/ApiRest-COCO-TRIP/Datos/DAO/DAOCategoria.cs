@@ -108,6 +108,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       categoria = (Categoria)objeto;
       int exitoso = 0;
+      base.Conectar();
       try
       {
 
