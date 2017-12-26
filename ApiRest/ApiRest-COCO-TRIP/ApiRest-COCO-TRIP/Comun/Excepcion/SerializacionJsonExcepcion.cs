@@ -6,7 +6,7 @@ using System.Web;
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
-    /// Clase que encapsula la información de "SerializacionJsonExcepcion"
+    /// Clase que encapsula la información de "JsonSerializationException"
     /// Breve descripcion de cuando se genera.
     /// </summary>
     public class SerializacionJsonExcepcion : JsonSerializationException
