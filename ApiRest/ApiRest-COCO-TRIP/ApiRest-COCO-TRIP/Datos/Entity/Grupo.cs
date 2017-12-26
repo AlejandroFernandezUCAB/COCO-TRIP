@@ -6,7 +6,8 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
   public class Grupo: Entidad
   {
     private string nombre; //Nombre del grupo
-    private string foto; //Ruta de la foto
+    private string rutaFoto; //Ruta de la foto
+    private byte[] contenidoFoto; //Bytes de la foto
     private int lider; //ID del creador del grupo
     private int cantidadIntegrantes; //Cantidad de miembros del grupo
 
@@ -20,12 +21,21 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     }
 
     /// <summary>
-    /// Getters y Setters del atributo Foto
+    /// Getters y Setters del atributo RutaFoto
     /// </summary>
-    public string Foto
+    public string RutaFoto
     {
-      get { return foto; }
-      set { foto = value; }
+      get { return rutaFoto; }
+      set { rutaFoto = value; }
+    }
+
+    /// <summary>
+    /// Getters y Setters del atributo ContenidoFoto
+    /// </summary>
+    public byte[] ContenidoFoto
+    {
+      get { return contenidoFoto;  }
+      set { contenidoFoto = value; }
     }
 
     /// <summary>

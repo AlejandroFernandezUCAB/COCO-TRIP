@@ -5,13 +5,11 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   public class Categoria:Entidad
   {
-    
-
-   
-
+    //Constructor
     public Categoria() { }
 
-    public Categoria(int Id)
+  //Atributos, getters-setters.
+   public Categoria(int Id)
     {
       this.Id = Id;
     }

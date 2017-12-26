@@ -1,0 +1,3 @@
+{"Correo":"ssrmatu@gmail.com","Nombre":"Joaquin","Apellido":"Camacho","Genero":"M","FechaNacimiento":"1996-01-02T00:00:00","Clave":"123456","NombreUsuario":"JACFmatu","Valido":true,"Foto":null,"Id":1}
+{"Correo":"jtechsamsung@gmail.com","Nombre":"Jose","Apellido":"Herrera","Genero":"M","FechaNacimiento":"1995-07-01T00:00:00","Clave":"123456","NombreUsuario":"JIHM","Valido":true,"Foto":null,"Id":2}
+{"Correo":"sabinaqg@gmail.com","Nombre":"Sabina","Apellido":"Quiroga","Genero":"F","FechaNacimiento":"1994-01-01T00:00:00","Clave":"123456","NombreUsuario":"Sabinita","Valido":true,"Foto":null,"Id":3}

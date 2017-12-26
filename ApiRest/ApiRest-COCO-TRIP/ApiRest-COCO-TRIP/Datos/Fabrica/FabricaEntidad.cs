@@ -11,7 +11,7 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     /// Retorna la instancia de la entidad Grupo
     /// </summary>
     /// <returns>Grupo</returns>
-    public static Grupo CrearEntidadGrupo ()
+    public static Grupo CrearEntidadGrupo()
     {
       return new Grupo();
     }
@@ -42,5 +42,58 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new Amigo();
     }
+
+    /// <summary>
+    /// Retorna la instancia de la entidad Categoria
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static Categoria CrearEntidadCategoria()
+    {
+      return new Categoria();
+    }
+
+    /// Retorna la instancia de la entidad Itinerario
+    /// </summary>
+    /// <returns>Itinerario</returns>
+    public static Itinerario CrearEntidadItinerario()
+    {
+      return new Itinerario();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de la entidad Agenda
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static Agenda CrearEntidadAgenda()
+    {
+      return new Agenda();
+    }
+
+    /// <summary>
+    /// Retorna una nueva instancia de la entidad LocalidadEvento
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static LocalidadEvento CrearEntidadLocalidad()
+    {
+      return new LocalidadEvento();
+    }
+
+    /// <summary>
+    /// Retorna una nueva instancia de la entidad Evento
+    /// </summary>
+    /// <returns>Grupo</returns>
+    public static Evento CrearEntidadEvento()
+    {
+      return new Evento();
+    }
+    /// Retorna una nueva instancia de la entidad LocalidadEvento
+    /// Retorna la instancia de la entidad Notificacion
+    /// </summary>
+    /// <returns>Notificacion</returns>
+    public static Notificacion CrearEntidadNotificacion()
+    {
+      return new Notificacion();
+    }
+
   }
 }

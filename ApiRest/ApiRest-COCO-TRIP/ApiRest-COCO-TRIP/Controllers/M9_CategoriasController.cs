@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections;
 using ApiRest_COCO_TRIP.Validaciones;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -23,7 +24,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     private IDictionary response = new Dictionary<string, object>();
     private const string Response_Data = "data";
     private const string Response_Error = "error";
-
+    private Comando com;
+    private ApiRest_COCO_TRIP.Datos.Entity.Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
+    
 
     /// <summary>
     /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id.
@@ -35,6 +38,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ActualizarEstatusCategoria([FromBody] JObject data)
     {
+      response = new Dictionary<string, object>();
       try
       {
 
@@ -42,10 +46,10 @@ namespace ApiRest_COCO_TRIP.Controllers
           "id",
           "estatus"
         });
-
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.ActualizarEstatus(categoria);
+        
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        com = FabricaComando.CrearComandoEstadoCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
 
@@ -96,13 +100,16 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public IDictionary ObtenerCategorias(int id = -1)
     {
+      response = new Dictionary<string, object>();
+      DAO dao = FabricaDAO.CrearDAOCategoria();
+      DAOCategoria daoc = (DAOCategoria)dao;
       try
       {
 
-        Categoria categoria = new Categoria(id);
-        PeticionCategoria peticion = new PeticionCategoria();
-        IList<Categoria> lista = peticion.ObtenerCategorias(categoria);
-
+        categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
+        com = FabricaComando.CrearComandoObtenerCategorias(categoria);
+        com.Ejecutar();
+        IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 
         response.Add(Response_Data, lista);
 
       }
@@ -143,6 +150,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ModificarCategorias([FromBody] JObject data)
     {
+      response = new Dictionary<string, object>();
       try
       {
 
@@ -154,9 +162,9 @@ namespace ApiRest_COCO_TRIP.Controllers
             "nivel"
         });
 
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.ModificarCategoria(categoria);
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        com = FabricaComando.CrearComandoModificarCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
       }
 
@@ -217,6 +225,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public IDictionary ObtenerCategoriasHabilitadas()
     {
+      response = new Dictionary<string, object>();
       try
       {
 
@@ -251,7 +260,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPost]
     public IDictionary agregarCategoria([FromBody] JObject data)
     {
-
+      response = new Dictionary<string, object>();
       try
       {
         ValidacionWS.validarParametrosNotNull(data, new List<string> {
@@ -315,6 +324,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ActionName("obtenerCategoriasPorId")]
     public IDictionary ObtenerCategoriaPorId(int id)
     {
+      response = new Dictionary<string, object>();
       try
       {
 

@@ -1,3 +1,5 @@
+using BackOffice_COCO_TRIP.Datos.Entidades;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   {
     protected static readonly string BaseUri = Negocio.Registro.ApiRestBaseUri;
 
-    public abstract T1 Get(int id);
-    public abstract T1 Post(T2 data);
-    public abstract T1 Put(T2 data);
-    public abstract T1 Delete(int id);
-    public abstract T1 Patch(T2 data);
+    // no se si los parametros de salida sea mejor entidad o dejarlo en T1. Creo que entidad. att lele
+    public abstract JObject Get(int id);
+    public abstract JObject Post(Entidad data);
+    public abstract JObject Put(Entidad data);
+    public abstract JObject Delete(int id);
+    public abstract JObject Patch(Entidad data);
 
   }
 }

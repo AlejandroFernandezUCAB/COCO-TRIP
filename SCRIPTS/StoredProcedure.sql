@@ -398,6 +398,7 @@ $$ LANGUAGE plpgsql;
 
 /**
 Procedimientos del Modulo (3) Amistades y Grupos
+
 Autores antiguos:
   Mariangel Perez
   Oswaldo Lopez
@@ -479,7 +480,7 @@ $$ LANGUAGE plpgsql;
 
 ----------------------------PROCEDIMIENTO MODIFICAR GRUPO----------------------------------
 CREATE OR REPLACE FUNCTION ModificarNombreGrupo
-(id_grupo varchar, nombre varchar)
+(id_grupo integer, nombre varchar)
 RETURNS integer
 AS $$
 DECLARE
@@ -499,8 +500,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION ModificarFotoGrupo
-(id_grupo varchar, foto varchar)
+/*CREATE OR REPLACE FUNCTION ModificarFotoGrupo
+(id_grupo integer, foto varchar)
 RETURNS integer
 AS $$
 DECLARE
@@ -518,7 +519,7 @@ BEGIN
 
   RETURN resultado;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;*/
 
 -----------------------------PROCEDIMIENTO ELIMINAR INTEGRANTE--------------------------------
 CREATE OR REPLACE FUNCTION EliminarIntegrante
@@ -565,7 +566,7 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------PROCEDIMIENTO CONOCER ID DE USUARIO----------------------------
-CREATE OR REPLACE FUNCTION ConseguirIdUsuario
+/*CREATE OR REPLACE FUNCTION ConseguirIdUsuario
 (nombre_usuario varchar)
 RETURNS TABLE
 (id integer)
@@ -576,7 +577,7 @@ BEGIN
   FROM Usuario
   WHERE us_nombreusuario = nombre_usuario;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;*/
 
 -------------------------PROCEDIMIENTO OBTENER LIDER----------------------------
 CREATE OR REPLACE FUNCTION ObtenerLider
@@ -591,7 +592,7 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT us_id, us_nombre, us_apellido, us_nombreusuario, us_foto
-    FROM Grupo g
+    FROM Grupo g, Usuario u
     WHERE
     g.gr_id = id_grupo
     AND
@@ -621,29 +622,30 @@ $$ LANGUAGE plpgsql;
 
 -------------PROCEDIMIENTO OBTENER AMIGOS QUE NO ESTAN EN EL GRUPO-------------
 CREATE OR REPLACE FUNCTION ListaAmigosSinGrupo
-(id_usuario integer,
-id_grupo integer)
+(id_grupo integer,
+id_usuario integer)
 RETURNS TABLE
-(us_nombre varchar,
+(us_id integer,
+us_nombre varchar,
 us_apellido varchar,
 us_nombreusuario varchar,
 us_foto varchar)
 AS $$
 BEGIN
   RETURN QUERY
-  SELECT u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
   FROM Amigo a, Usuario u
   WHERE a.fk_usuario_conoce = id_usuario AND  a.fk_usuario_posee = u.us_id and a.am_aceptado = true
   UNION
-  SELECT u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
   FROM Amigo a, Usuario u
   WHERE a.fk_usuario_posee = id_usuario AND  a.fk_usuario_conoce = u.us_id and a.am_aceptado = true
   EXCEPT
-  SELECT u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido,u.us_nombreusuario, u.us_foto
   FROM Usuario u
   WHERE u.us_id = id_usuario
   EXCEPT
-  SELECT u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
+  SELECT u.us_id, u.us_nombre, u.us_apellido, u.us_nombreusuario, u.us_foto
   FROM Usuario u, Miembro m, Grupo g
   WHERE m.fk_grupo = id_grupo
   AND m.fk_usuario = u.us_id
@@ -713,7 +715,7 @@ BEGIN
     ELSE resultado := 0;
     END IF;
 
-    RETURN result;
+    RETURN resultado;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -772,7 +774,7 @@ BEGIN
   ELSE resultado := 0;
   END IF;
 
-  RETURN result;
+  RETURN resultado;
 END;
 
 $$ LANGUAGE plpgsql;
@@ -837,7 +839,7 @@ BEGIN
   WHERE  LOWER(us_nombreusuario) = LOWER(_nombre)
   OR LOWER(us_nombre) = LOWER(_nombre)
   OR LOWER(us_nombre) LIKE LOWER(_nombre) || '%'
-  OR LOWER(us_apellido) = LOWER(_nombre) ||
+  OR LOWER(us_apellido) = LOWER(_nombre)
   OR LOWER(us_apellido) LIKE LOWER(_nombre) || '%'
   OR LOWER(us_nombreusuario) LIKE LOWER(_nombre) || '%'
   EXCEPT
@@ -865,22 +867,17 @@ $$ LANGUAGE plpgsql;
 -- Crear Grupo de amigos
 
 CREATE OR REPLACE FUNCTION AgregarGrupo
-(nombre varchar, foto varchar, _fk_usuario integer)
+(nombre varchar, _fk_usuario integer)
 RETURNS integer AS
 $$
-DECLARE
- resultado integer;
 BEGIN
 
   INSERT INTO Grupo
-  (gr_id, gr_nombre, gr_foto, fk_usuario)
+  (gr_id, gr_nombre, fk_usuario)
   VALUES
-  (nextval('SEQ_Grupo'), nombre, foto, _fk_usuario);
+  (nextval('SEQ_Grupo'), nombre, _fk_usuario);
 
-  IF found THEN
-  resultado := 1;
-  ELSE resultado :=0;
-  END IF;
+  RETURN currval('SEQ_Grupo');
 
   --INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
   --  VALUES
@@ -890,13 +887,11 @@ BEGIN
   --result := result + 1;
   --else result := 0;
   --end if;
-
-  RETURN resultado;
 END;
 $$ LANGUAGE plpgsql;
 
 ------
-CREATE OR REPLACE FUNCTION AgregarGrupoSinFoto
+/*CREATE OR REPLACE FUNCTION AgregarGrupoSinFoto
 (nombre varchar, _fk_usuario integer)
 RETURNS integer AS $$
 DECLARE
@@ -921,9 +916,10 @@ BEGIN
   --resultado := resultado + 1;
   --ELSE resultado := 0;
   --END IF;
-  --RETURN resultado;
+
+  RETURN resultado;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;*/
 
 
 -- Consultar la tabla de grupos y devolver la lista que coincida con el id de el usuario
@@ -935,8 +931,12 @@ foto varchar)
 AS
 $$
 BEGIN
-  RETURN QUERY SELECT
-  g.gr_id, g.gr_nombre , g.gr_foto
+  RETURN QUERY
+  SELECT g.gr_id, g.gr_nombre, g.gr_foto
+  FROM Grupo g
+  WHERE g.fk_usuario = id_usuario
+  UNION
+  SELECT g.gr_id, g.gr_nombre, g.gr_foto
   FROM Grupo g, Miembro m
   WHERE m.fk_usuario = id_usuario
   AND m.fk_grupo = g.gr_id;
@@ -945,23 +945,23 @@ $$ LANGUAGE plpgsql;
 
 -- Consultar perfil del grupo que coincida con el id del grupo
 CREATE OR REPLACE FUNCTION ConsultarPerfilGrupo
-(id_grupo integer)
-RETURNS TABLE
-(nombre varchar,
-foto varchar,
-cantidad_integrantes integer)
+(id_grupo integer) RETURNS TABLE
+(nombre varchar, foto varchar, cantidad_integrantes integer)
 AS
 $$
 BEGIN
   RETURN QUERY
-  SELECT g.gr_nombre, g.gr_foto, count(m.*) AS integer
+  SELECT g.gr_nombre, g.gr_foto,
+  CAST
+  ((SELECT COUNT(*)
   FROM Grupo g, Miembro m
   WHERE g.gr_id = id_grupo
-  AND g.gr_id = m.fk_grupo
-  GROUP BY (nombre, foto);
+  AND g.gr_id = m.fk_grupo) + 1
+  AS integer)
+  FROM Grupo g
+  WHERE g.gr_id = id_grupo;
 END;
 $$ LANGUAGE plpgsql;
-
 
 ---------------------------------
 /*CREATE OR REPLACE FUNCTION ConseguirIdUsuario(
@@ -992,11 +992,15 @@ $$
 BEGIN
   RETURN QUERY
   SELECT us_id, us_nombre, us_apellido, us_nombreusuario, us_foto
+  FROM Grupo g, Usuario u
+  WHERE g.gr_id = id_grupo
+  AND g.fk_usuario = u.us_id
+  UNION
+  SELECT us_id, us_nombre, us_apellido, us_nombreusuario, us_foto
   FROM Grupo g, Usuario u, Miembro m
   WHERE g.gr_id = id_grupo
   AND g.gr_id = m.fk_grupo
-  AND (m.fk_usuario = u.us_id
-      OR g.fk_usuario = u.us_id);
+  AND m.fk_usuario = u.us_id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -2036,7 +2040,7 @@ CREATE OR REPLACE FUNCTION InsertarEvento
 (
   _nombreEvento VARCHAR(100),
   _descripcionEvento VARCHAR(500),
-  _precioEvento integer,
+  _precioEvento double precision,
   _fechaInicioEvento timestamp,
   _fechaFinEvento timestamp,
   _horaInicioEvento time,
@@ -2045,7 +2049,7 @@ CREATE OR REPLACE FUNCTION InsertarEvento
   _localidadEvento integer,
   _categoriaEvento integer
 )
-RETURNS integer AS
+RETURNS void AS
 $$
 BEGIN
 
@@ -2054,8 +2058,6 @@ BEGIN
       _precioEvento, _fechaInicioEvento, _fechaFinEvento,
       _horaInicioEvento, _horaFinEvento, _fotoEvento, _localidadEvento,
       _categoriaEvento);
-
-    RETURN currval('SEQ_Evento');
    END;
 $$ LANGUAGE plpgsql;
 
@@ -2066,14 +2068,12 @@ CREATE OR REPLACE FUNCTION InsertarLocalidad
   _descripcionLocalidad varchar(500),
   _coordenada varchar(50)
 )
-RETURNS integer AS
+RETURNS void AS
 $$
 BEGIN
 
     INSERT INTO localidad VALUES
       (nextval('SEQ_Localidad'), _nombreLocalidad, _descripcionLocalidad, _coordenada);
-
-      RETURN currval('SEQ_Localidad');
     END;
 $$ LANGUAGE plpgsql;
 
@@ -2188,7 +2188,7 @@ RETURNS TABLE
   id_evento integer,
 	nombreEvento varchar,
 	descripcionEvento varchar,
-	precioEvento int,
+	precioEvento double precision,
 	fecha_inicioEvento timestamp,
 	fecha_finEvento timestamp,
 	hora_inicioEvento time,
@@ -2277,22 +2277,22 @@ RETURNS TABLE
      id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
-     precioEvento integer,
+     precioEvento double precision,
      fechaInicioEvento timestamp,
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
      fotoEvento varchar,
-     categoriaEvento varchar,
-     localidadEvento varchar
+     localidadEvento integer,
+     categoriaEvento integer    
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_nombre, lo_nombre
-    from evento, categoria, localidad
-    where ev_categoria = ca_id and ev_localidad = lo_id and ev_id = _id;
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad, ev_categoria
+    from evento
+    where  ev_id = _id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -2415,7 +2415,7 @@ CREATE OR REPLACE FUNCTION actualizarEventoPorId
   _id integer,
   _nombreEvento VARCHAR(100),
   _descripcionEvento VARCHAR(500),
-  _precioEvento float,
+  _precioEvento double precision,
   _fechaInicioEvento timestamp,
   _fechaFinEvento timestamp,
   _horaInicioEvento time,

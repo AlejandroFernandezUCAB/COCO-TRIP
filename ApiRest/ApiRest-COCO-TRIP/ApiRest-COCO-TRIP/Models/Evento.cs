@@ -1,13 +1,11 @@
 using System;
 
-namespace ApiRest_COCO_TRIP.Models
-{
+namespace ApiRest_COCO_TRIP.Models { 
     /// <summary>
-    /// Clase que define los eventos que se puedan manejar en el aplicación.
+    /// Clase que define la entidad evento de la aplicación.
     /// </summary>
     public class Evento
     {
-
         int id;
         string nombre;
         string descripcion;
@@ -20,8 +18,7 @@ namespace ApiRest_COCO_TRIP.Models
         int idLocalidad;
         int idCategoria;
 
-        // Getters y Setters de la clase Evento.
-        public int Id { get => id; set => id = value; }
+        // Getters y Setters de la clase Evento
         public string Nombre { get => nombre; set => nombre = value; }
         public string Descripcion { get => descripcion; set => descripcion = value; }
         public double Precio { get => precio; set => precio = value; }
@@ -32,13 +29,14 @@ namespace ApiRest_COCO_TRIP.Models
         public string Foto { get => foto; set => foto = value; }
         public int IdLocalidad { get => idLocalidad; set => idLocalidad = value; }
         public int IdCategoria { get => idCategoria; set => idCategoria = value; }
+        public int Id { get => id; set => id = value; }
 
-        /// <summary>
-        /// Constructor de la clase Evento.
-        /// </summary>
-        public Evento()
+    /// <summary>
+    /// Constructor de la clase Evento.
+    /// </summary>
+    public Evento()
         {
-            this.id = 0;
+            this.Id = 0;
             this.nombre = null;
             this.descripcion = null;
             this.precio = 0;
@@ -58,7 +56,7 @@ namespace ApiRest_COCO_TRIP.Models
         /// <param name="nombre">Nombre del evento.</param>
         public Evento(int id, string nombre)
         {
-            this.id = id;
+            this.Id = id;
             this.nombre = nombre;
             this.descripcion = null;
             this.precio = 0;
@@ -87,7 +85,7 @@ namespace ApiRest_COCO_TRIP.Models
         /// <param name="idCategoria">Id unico que representa la categoria a la que pertenece el evento.</param>
         public Evento(int id, string nombre, string descripcion, double precio, DateTime fechaInicio, DateTime fechaFin, DateTime horaInicio, DateTime horaFin, string foto, int idLocalidad, int idCategoria)
         {
-            this.id = 0;
+            this.Id = 0;
             this.nombre = null;
             this.descripcion = null;
             this.precio = 0;

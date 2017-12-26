@@ -54,10 +54,25 @@ CREATE TABLE Preferencia(
 );
 --Fin de modulo
 --Modulo 3
+/**
+Tablas del Modulo (3) de Gestion de Amigos
+  y Grupos de Amigos
+
+Autores antiguos:
+  Mariangel Perez
+  Oswaldo Lopez
+  Aquiles Pulido
+
+Autores:
+  Camacho Joaquin
+  Herrera Jose
+  Quiroga Sabina
+**/
+
 CREATE TABLE Grupo
 (
 gr_id integer NOT NULL,
-gr_nombre varchar(100) NOT NULL,
+gr_nombre varchar(320) NOT NULL,
 gr_foto varchar (320),
 fk_usuario integer NOT NULL,
 
@@ -217,10 +232,11 @@ create table evento
 	ev_categoria int
 );
 create table localidad(
-	lo_id int primary key,
-	lo_nombre varchar(200),
-	lo_descripcion varchar(500),
-	lo_coordenada varchar(50)
+	lo_id integer NOT NULL,
+  lo_nombre character varying(200) NOT NULL,
+  lo_descripcion character varying(500),
+  lo_coordenada character varying(50) NOT NULL,
+  CONSTRAINT localidad_pkey PRIMARY KEY (lo_id)
 );
 --Fin de modulo
 --Modulo 9

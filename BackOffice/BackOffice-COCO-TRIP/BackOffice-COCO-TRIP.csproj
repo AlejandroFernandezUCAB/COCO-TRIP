@@ -173,16 +173,20 @@
     <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOEvento.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOLocalidad.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOCategoria.cs" />
     <Compile Include="Datos\Entidades\Categoria.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoAgregarCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaPorId.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaHabilitada.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoInsertarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaSelect.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarListaCategoria.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -198,7 +202,6 @@
     <Compile Include="Models\Horario.cs" />
     <Compile Include="Models\LugarTuristico.cs" />
     <Compile Include="Models\Peticion\BasePeticion.cs" />
-    <Compile Include="Models\Peticion\PeticionCategoria.cs" />
     <Compile Include="Models\Peticion\PeticionLugares.cs" />
     <Compile Include="Datos\Entidades\Entidad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\Comando.cs" />
@@ -210,6 +213,7 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Fabrica\FabricaDAO.cs" />
     <Compile Include="Negocio\Registro.cs" />
+    <Compile Include="Negocio\Fabrica\FabricaEntidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

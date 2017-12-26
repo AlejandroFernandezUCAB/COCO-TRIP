@@ -30,6 +30,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.Execute();
       
       ModelState.AddModelError(string.Empty,(String) comando.GetResult()[1]);
+      //ViewBag.ListLocalidad = comando.GetResult()[2];
       ViewBag.ListLocalidades = comando.GetResult()[2];
       ViewBag.ListCategoria = comando.GetResult()[0];
       return View();
@@ -39,10 +40,12 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult CreateEvent(Evento evento)
     {
+      //Debe funcionar con la siguiente linea:
+      evento.IdLocalidad = Int32.Parse(Request["Localidad"].ToString());
       
       //var idLocalidad = Request["Localidades"].ToString();
       //evento.IdLocalidad = Int32.Parse(idLocalidad);
-      evento.IdLocalidad = 1;
+      //evento.IdLocalidad = 1;
       evento.Foto = "jorge";
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
       Comando comando = FabricaComando.GetComandoInsertarEvento();
@@ -76,25 +79,15 @@ namespace BackOffice_COCO_TRIP.Controllers
     }
 
     // GET: M8Events/Delete/5
+    
     public ActionResult Delete(int id)
     {
-      return View();
-    }
+      Comando comando = FabricaComando.GetComandoEliminarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
 
-    // POST: M8Events/Delete/5
-    [HttpPost]
-    public ActionResult Delete(int id, FormCollection collection)
-    {
-      try
-      {
-        // TODO: Add delete logic here
-
-        return RedirectToAction("Index");
-      }
-      catch
-      {
-        return View();
-      }
+      return RedirectToAction("FilterEvent");
     }
 
     // GET: M8Events

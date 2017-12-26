@@ -14,8 +14,9 @@ import { PerfilPage } from '../pages/perfil/perfil';
 import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos';
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
-import { ChatPage } from '../pages/chat/chat';
 import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
+
+import { InformacionMensajePage } from '../pages/chat/informacion-mensaje/informacion-mensaje';
 import { ConversacionGrupoPage } from '../pages/chat/conversacion-grupo/conversacion-grupo';
 import { RegisterPage } from '../pages/register/register';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
@@ -56,6 +57,7 @@ import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/not
 
 import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
 import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
+import { InformacionMensajeGrupoPage } from '../pages/chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
 import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
 import { SeleccionarIntegrantesPage } from '../pages/seleccionar-integrantes/seleccionar-integrantes';
@@ -86,7 +88,6 @@ firebase.initializeApp(config);
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage,
     ConversacionPage,
     ConversacionGrupoPage,
     AmigosPage,
@@ -99,7 +100,6 @@ firebase.initializeApp(config);
     DetalleGrupoPage,
     BuscarAmigoPage,
     RegisterPage,
-    ChatPage,
     EditProfilePage,
     ChangepassPage,
     ConfigPage,
@@ -107,7 +107,9 @@ firebase.initializeApp(config);
     PreferenciasPage,
     CalendarioPage,
     ModificarGrupoPage,
-    NuevosIntegrantesPage
+    NuevosIntegrantesPage,
+    InformacionMensajePage,
+    InformacionMensajeGrupoPage
   ],
   imports: [
     HttpClientModule,
@@ -140,7 +142,6 @@ firebase.initializeApp(config);
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage,
     ConversacionPage,
     ConversacionGrupoPage,
     AmigosPage,
@@ -160,7 +161,9 @@ firebase.initializeApp(config);
     PreferenciasPage,
     CalendarioPage,
     ModificarGrupoPage,
-    NuevosIntegrantesPage
+    NuevosIntegrantesPage,
+    InformacionMensajePage,
+    InformacionMensajeGrupoPage
   ],
   providers: [
     StatusBar,

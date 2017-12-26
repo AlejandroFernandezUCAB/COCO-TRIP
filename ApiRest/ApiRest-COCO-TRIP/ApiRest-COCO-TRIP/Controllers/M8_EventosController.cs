@@ -28,8 +28,6 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
     private IDictionary respuesta = new Dictionary<string, object>();
 
-
-
     /**
      * <summary>Metodo de controlador para Agregar un Evento a la BBDD</summary>
      * **/
@@ -81,7 +79,7 @@ namespace ApiRest_COCO_TRIP.Controllers
      * **/
     [ResponseType(typeof(IDictionary))]
     [ActionName("EliminarEventoPorId")]
-    [HttpPut]
+    [HttpDelete]
     public IDictionary EliminarEvento(int id)
     {
       try

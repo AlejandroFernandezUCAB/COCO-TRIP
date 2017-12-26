@@ -19,10 +19,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -55,18 +53,13 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Moq">
-      <HintPath>Library\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\Npgsql.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -114,12 +107,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
@@ -141,6 +134,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
+    <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
@@ -150,13 +150,22 @@
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
     <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\DAO\DAOAgenda.cs" />
     <Compile Include="Datos\DAO\DAOAmigo.cs" />
+    <Compile Include="Datos\DAO\DAOCategoria.cs" />
     <Compile Include="Datos\DAO\DAOGrupo.cs" />
+    <Compile Include="Datos\DAO\DAOItinerario.cs" />
+    <Compile Include="Datos\DAO\DAONotificacion.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
+    <Compile Include="Datos\Entity\Categoria.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
+    <Compile Include="Datos\Entity\Itinerario.cs" />
+    <Compile Include="Datos\Entity\Notificacion.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
+    <Compile Include="Datos\Singleton\Archivo.cs" />
     <Compile Include="Datos\Singleton\Correo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,6 +174,7 @@
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Datos\Entity\Evento.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\EventoPreferencia.cs" />
     <Compile Include="Datos\Entity\Grupo.cs" />
@@ -175,6 +185,7 @@
     <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
+    <Compile Include="Comun\Excepcion\OperacionInvalidaException.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
@@ -184,25 +195,67 @@
     <Compile Include="Datos\Entity\Foto.cs" />
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
-    <Compile Include="Models\LocalidadEvento.cs" />
+    <Compile Include="Datos\Entity\LocalidadEvento.cs" />
     <Compile Include="Models\LugarTuristicoPreferencia.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionAmigoGrupo.cs" />
-    <Compile Include="Models\PeticionEvento.cs" />
+    <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionItinerario.cs" />
+    <Compile Include="Datos\DAO\DAOLocalidadEvento.cs" />
+    <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionLocalidadEvento.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionPerfil.cs" />
     <Compile Include="Datos\Entity\Usuario.cs" />
     <Compile Include="Models\PeticionCategoria.cs" />
     <Compile Include="Models\Usuario.cs" />
-    <Compile Include="Negocio\Comando\Comando.cs" />
-    <Compile Include="Negocio\Comando\ComandoAceptarNotificacion.cs" />
-    <Compile Include="Negocio\Comando\ComandoAgregarAmigo.cs" />
-    <Compile Include="Negocio\Comando\ComandoEnviarNotificacionCorreo.cs" />
-    <Compile Include="Negocio\Comando\ComandoObtenerListaNotificaciones.cs" />
-    <Compile Include="Negocio\Comando\ComandoRechazarNotificacion.cs" />
-    <Compile Include="Negocio\Comando\ComandoSalirGrupo.cs" />
-    <Compile Include="Negocio\Comando\ComandoVisualizarPerfilAmigo.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarItinerarios.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarAgenda.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoEstadoCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategorias.cs" />
+    <Compile Include="Negocio\Command\Comando.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarIntegrante.cs" />
+    <Compile Include="Negocio\Command\ComandoBuscarAmigos.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLider.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarListaGrupos.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarMiembroGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarMiembroSinGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarMiembroSinLider.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarPerfilGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarUltimoGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarAmigo.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarIntegrante.cs" />
+    <Compile Include="Negocio\Command\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
+    <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoSalirGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoSetVisibleItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoVerificarLider.cs" />
+    <Compile Include="Negocio\Command\ComandoVisualizarListaAmigos.cs" />
+    <Compile Include="Negocio\Command\ComandoVisualizarPerfilAmigo.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones\ValidacionWS.cs" />
@@ -223,7 +276,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Comun\" />
+    <Folder Include="Datos\DAO\Interfaces\" />
     <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>
@@ -259,7 +312,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
