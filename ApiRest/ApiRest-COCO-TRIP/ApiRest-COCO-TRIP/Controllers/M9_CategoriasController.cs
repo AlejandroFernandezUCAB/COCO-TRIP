@@ -38,6 +38,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ActualizarEstatusCategoria([FromBody] JObject data)
     {
+      response = new Dictionary<string, object>();
       try
       {
 
@@ -99,6 +100,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public IDictionary ObtenerCategorias(int id = -1)
     {
+      response = new Dictionary<string, object>();
       DAO dao = FabricaDAO.CrearDAOCategoria();
       DAOCategoria daoc = (DAOCategoria)dao;
       try
@@ -148,7 +150,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ModificarCategorias([FromBody] JObject data)
     {
-     
+      response = new Dictionary<string, object>();
       try
       {
 
@@ -223,6 +225,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpGet]
     public IDictionary ObtenerCategoriasHabilitadas()
     {
+      response = new Dictionary<string, object>();
       try
       {
 
@@ -257,7 +260,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPost]
     public IDictionary agregarCategoria([FromBody] JObject data)
     {
-
+      response = new Dictionary<string, object>();
       try
       {
         ValidacionWS.validarParametrosNotNull(data, new List<string> {
@@ -321,6 +324,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ActionName("obtenerCategoriasPorId")]
     public IDictionary ObtenerCategoriaPorId(int id)
     {
+      response = new Dictionary<string, object>();
       try
       {
 
