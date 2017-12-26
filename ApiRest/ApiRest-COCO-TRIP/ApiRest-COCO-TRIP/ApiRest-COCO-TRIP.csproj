@@ -141,6 +141,7 @@
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SocketExcepcion.cs" />
     <Compile Include="Comun\Excepcion\WebExcepcion.cs" />
     <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
