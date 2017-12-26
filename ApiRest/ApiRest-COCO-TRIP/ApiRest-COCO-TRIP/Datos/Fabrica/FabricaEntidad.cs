@@ -1,3 +1,4 @@
+using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
 
 namespace ApiRest_COCO_TRIP.Datos.Fabrica
@@ -93,6 +94,24 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     public static Notificacion CrearEntidadNotificacion()
     {
       return new Notificacion();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de la entidad Actividad
+    /// </summary>
+    /// <returns>Actividad</returns>
+    public static Actividad CrearEntidadActividad()
+    {
+      return new Actividad();
+    }
+
+    /// <summary>
+    /// Retorna la instancia de la entidad Lugar turistico
+    /// </summary>
+    /// <returns>Lugar Turistico</returns>
+    public static LugarTuristico CrearEntidadLugarTuristico()
+    {
+      return new LugarTuristico();
     }
 
   }

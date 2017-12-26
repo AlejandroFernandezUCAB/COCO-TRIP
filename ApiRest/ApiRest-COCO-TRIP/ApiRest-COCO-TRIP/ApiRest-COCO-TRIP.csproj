@@ -157,11 +157,14 @@
     <Compile Include="Datos\DAO\DAOItinerario.cs" />
     <Compile Include="Datos\DAO\DAONotificacion.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\Entity\Actividad.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Categoria.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
+    <Compile Include="Datos\Entity\Horario.cs" />
     <Compile Include="Datos\Entity\Itinerario.cs" />
+    <Compile Include="Datos\Entity\LugarTuristico.cs" />
     <Compile Include="Datos\Entity\Notificacion.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
@@ -225,6 +228,10 @@
     <Compile Include="Negocio\Command\ComandoConsultarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoEnviarCorreoItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaActividades.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaEventos.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaLugaresTurisiticos.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />

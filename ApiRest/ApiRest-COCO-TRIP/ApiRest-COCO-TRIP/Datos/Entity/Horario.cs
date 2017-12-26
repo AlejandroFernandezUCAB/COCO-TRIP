@@ -1,12 +1,13 @@
 using System;
 
-namespace ApiRest_COCO_TRIP.Datos.Entity
+namespace ApiRest_COCO_TRIP.Models.Dato
 {
   /// <summary>
   /// Clase que contiene los datos asociados a los horarios de los lugares turisticos
   /// </summary>
-  public class Horario : Entidad
+  public class Horario
   {
+    private int id; //Identificador unico del horario
     private int diaSemana; //Dia de la semana a la que pertenece el horario 
     private TimeSpan horaApertura; //Hora de apertura del lugar turistico
     private TimeSpan horaCierre; //Hora de cierre del lugar turistico
@@ -20,7 +21,14 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
       horaCierre = new TimeSpan();
     }
 
-   
+    /// <summary>
+    /// Getters y Setters del atributo ID
+    /// </summary>
+    public int Id
+    {
+      get { return id; }
+      set { id = value; }
+    }
 
     /// <summary>
     /// Getters y Setters del atributo DiaSemana
@@ -60,7 +68,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
       {
         var objeto = obj as Horario;
 
-        if (/*id != objeto.id ||*/ diaSemana != objeto.diaSemana || horaApertura.ToString("c") != objeto.horaApertura.ToString("c")
+        if (id != objeto.id || diaSemana != objeto.diaSemana || horaApertura.ToString("c") != objeto.horaApertura.ToString("c")
             || horaCierre.ToString("c") != objeto.horaCierre.ToString("c"))
         {
           return (false);
