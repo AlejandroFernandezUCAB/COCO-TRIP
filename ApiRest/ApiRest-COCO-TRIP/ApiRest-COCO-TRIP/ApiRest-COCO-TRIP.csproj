@@ -141,6 +141,7 @@
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
