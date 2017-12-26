@@ -2277,7 +2277,7 @@ RETURNS TABLE
      id_evento integer,
      nombreEvento varchar,
      descripcionEvento varchar,
-     precioEvento integer,
+     precioEvento double precision,
      fechaInicioEvento timestamp,
      fechaFinEvento timestamp,
      horaInicioEvento time,

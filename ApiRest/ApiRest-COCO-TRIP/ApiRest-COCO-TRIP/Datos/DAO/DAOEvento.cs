@@ -31,6 +31,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       parametro = new NpgsqlParameter();
       lista = new List<Entidad>();
     }
+
     public override void Actualizar(Entidad objeto)
     {
       Conectar();
@@ -75,12 +76,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Time;
-        parametro.Value = ((Evento)evento).HoraInicio;
+        parametro.Value = ((Evento)evento).HoraInicio.Hour + ":" + ((Evento)evento).HoraInicio.Minute + ":00";
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Time;
-        parametro.Value = ((Evento)evento).HoraFin;
+        parametro.Value = ((Evento)evento).HoraFin.Hour + ":" + ((Evento)evento).HoraFin.Minute + ":00";
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
@@ -215,19 +216,22 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         leerDatos = Comando.ExecuteReader();
         leerDatos.Read();
 
+        DateTime horaInicio = new DateTime();
+        horaInicio=horaInicio.AddHours(leerDatos.GetTimeSpan(6).Hours);
+        horaInicio=horaInicio.AddMinutes(leerDatos.GetTimeSpan(6).Minutes);
+        horaInicio = horaInicio.AddSeconds(leerDatos.GetTimeSpan(6).Seconds);
+        DateTime horaFin = new DateTime();
+        horaFin=horaFin.AddHours(leerDatos.GetTimeSpan(7).Hours);
+        horaFin=horaFin.AddMinutes(leerDatos.GetTimeSpan(7).Minutes);
+        horaFin = horaFin.AddSeconds(leerDatos.GetTimeSpan(7).Seconds);
+
         evento.Id = leerDatos.GetInt32(0);
         ((Evento)evento).Nombre = leerDatos.GetString(1);
         ((Evento)evento).Descripcion = leerDatos.GetString(2);
-        ((Evento)evento).Precio = leerDatos.GetInt64(3);
+        ((Evento)evento).Precio = leerDatos.GetDouble(3);
         ((Evento)evento).FechaInicio = leerDatos.GetDateTime(4);
         ((Evento)evento).FechaFin = leerDatos.GetDateTime(5);
-        DateTime horaInicio = new DateTime();
-        horaInicio.AddHours(leerDatos.GetTimeSpan(6).Hours);
-        horaInicio.AddMinutes(leerDatos.GetTimeSpan(6).Minutes);
         ((Evento)evento).HoraInicio = horaInicio;
-        DateTime horaFin = new DateTime();
-        horaFin.AddHours(leerDatos.GetTimeSpan(7).Hours);
-        horaFin.AddMinutes(leerDatos.GetTimeSpan(7).Minutes);
         ((Evento)evento).HoraFin = horaFin;
         ((Evento)evento).Foto = leerDatos.GetString(8);
         ((Evento)evento).IdLocalidad = leerDatos.GetInt32(9);
@@ -344,12 +348,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Time;
-        parametro.Value = ((Evento)evento).HoraInicio.Hour + ":" + ((Evento)evento).HoraInicio.Minute + ":00";
+        parametro.Value = ((Evento)evento).HoraInicio.Hour + ":" + ((Evento)evento).HoraInicio.Minute + ":"
+          + ((Evento)evento).HoraInicio.Second;
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
         parametro.NpgsqlDbType = NpgsqlDbType.Time;
-        parametro.Value = ((Evento)evento).HoraFin.Hour + ":" + ((Evento)evento).HoraFin.Minute + ":00";
+        parametro.Value = ((Evento)evento).HoraFin.Hour + ":" + ((Evento)evento).HoraFin.Minute + ":"
+          + ((Evento)evento).HoraFin.Second;
         Comando.Parameters.Add(parametro);
 
         parametro = new NpgsqlParameter();
