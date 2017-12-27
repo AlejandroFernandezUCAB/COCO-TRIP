@@ -21,6 +21,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       this.categoria = FabricaEntidad.CrearEntidadCategoria();
       this.categoria.Id = id;
       daoEvento = FabricaDAO.CrearDAOEvento();
+      daoCategoria = FabricaDAO.CrearDAOCategoria();
     }
 
     public override void Ejecutar()
@@ -28,7 +29,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       try
       {
         eventos = daoEvento.ConsultarLista(categoria);
+        List<Categoria> categorias = RetornarHijos(categoria);
+        foreach (Categoria cate in categorias)
+        {
+          foreach (Evento ev in daoEvento.ConsultarLista(cate))
+          {
+            eventos.Add(ev);
+          }
+        }
       }
+
       catch (BaseDeDatosExcepcion e)
       {
         throw e;
@@ -55,6 +65,15 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     public override List<Entidad> RetornarLista()
     {
       return eventos;
+    }
+
+    private List<Categoria> RetornarHijos(Entidad papa) {
+      List<Categoria> hijos = new List<Categoria>();
+      foreach (Categoria hijo in ((DAOCategoria)daoCategoria).ObtenerCategorias(papa)) {
+        hijos.Add(hijo);
+        hijos.AddRange(RetornarHijos(hijo));
+      }
+      return hijos;
     }
   }
 }
