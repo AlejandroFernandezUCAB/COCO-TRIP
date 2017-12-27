@@ -182,11 +182,15 @@
     <Compile Include="Datos\Entidades\Foto.cs" />
     <Compile Include="Datos\Entidades\Horario.cs" />
     <Compile Include="Datos\Entidades\LugarTuristico.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoAgregarActividad.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoAgregarCategoria.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoAgregarHorario.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoAgregarLugarTuristico.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaPorId.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaHabilitada.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarLugaresTuristicos.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
