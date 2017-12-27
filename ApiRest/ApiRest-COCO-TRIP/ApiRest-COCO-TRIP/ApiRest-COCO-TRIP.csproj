@@ -19,8 +19,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -55,7 +57,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Library\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,43 +104,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\COCOTRIP.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-3.2.1.js" />
-    <Content Include="Scripts\jquery-3.2.1.min.js" />
-    <Content Include="Scripts\jquery-3.2.1.slim.js" />
-    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comun\Excepcion\LectorJsonExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SerializacionJsonExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
     <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\AgregadoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SocketExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\WebExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
@@ -157,11 +140,14 @@
     <Compile Include="Datos\DAO\DAOItinerario.cs" />
     <Compile Include="Datos\DAO\DAONotificacion.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\Entity\Actividad.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
     <Compile Include="Datos\Entity\Categoria.cs" />
     <Compile Include="Datos\Entity\Entidad.cs" />
+    <Compile Include="Datos\Entity\Horario.cs" />
     <Compile Include="Datos\Entity\Itinerario.cs" />
+    <Compile Include="Datos\Entity\LugarTuristico.cs" />
     <Compile Include="Datos\Entity\Notificacion.cs" />
     <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
     <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
@@ -225,6 +211,10 @@
     <Compile Include="Negocio\Command\ComandoConsultarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoEnviarCorreoItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaActividades.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaEventos.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaLugaresTurisiticos.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
@@ -265,8 +255,6 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -277,7 +265,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Datos\DAO\Interfaces\" />
-    <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using ApiRest_COCO_TRIP.Datos.Entity;
 
-namespace ApiRest_COCO_TRIP.Datos.Entity
+namespace ApiRest_COCO_TRIP.Models.Dato
 {
   /// <summary>
   /// Clase que contiene los datos de lugar turistico
   /// </summary>
-  public class LugarTuristico : Entidad
+  public class LugarTuristico
   {
+    private int id; //Identificador unico del lugar turistico
     private string nombre; //Nombre del lugar turistico
     private double costo; //Costo del lugar turistico
     private string descripcion; //Descripcion del lugar turistico
@@ -38,7 +39,15 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
       subCategoria = new List<Categoria>();
     }
 
-  
+    /// <summary>
+    /// Getters y Setters del atributo ID
+    /// </summary>
+    public int Id
+    {
+      get { return id; }
+      set { id = value; }
+    }
+
     /// <summary>
     /// Getters y Setters del atributo Nombre
     /// </summary>
@@ -179,7 +188,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
       {
         var objeto = obj as LugarTuristico;
 
-        if (/*id != objeto.id ||*/ nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
+        if (id != objeto.id || nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
             || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
             || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
             || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)

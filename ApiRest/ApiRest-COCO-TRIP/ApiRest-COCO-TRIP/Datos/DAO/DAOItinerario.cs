@@ -286,5 +286,133 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         throw e;
       }
     }
+
+    /// <summary>
+    ///  Consulta las actividades por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre de la actividad que se esta buscando.</param>
+    /// <returns>Retorna una lista con las actividades que tengan coincidencia.</returns>
+    public List<Entidad> ConsultarActividades(Entidad objeto)
+    {
+      List<Entidad> list_actividades = new List<Entidad>();
+      Actividad actividad = (Actividad)objeto;
+      try
+      {
+        base.Conectar();
+        comando = new NpgsqlCommand("consultar_actividades", base.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, actividad.Nombre);
+        respuesta = comando.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        while (respuesta.Read())
+        {
+          Actividad actividads = new Actividad();
+          actividads.Id = respuesta.GetInt32(0);
+          actividads.Nombre = respuesta.GetString(1);
+          //actividad.Foto = pgread.GetString(2);
+
+
+          list_actividades.Add(actividads);
+        }
+
+        base.Desconectar();
+        return list_actividades;
+      }
+      catch (NpgsqlException e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Consulta los eventos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del evento que se esta buscando.</param>
+    /// <returns>Retorna una lista con los eventos que tengan coincidencia.</returns>
+    public List<Entidad> ConsultarEventos(Entidad objeto)
+    {
+      List<Entidad> list_eventos = new List<Entidad>();
+      Evento evento = (Evento)objeto;
+      try
+      {
+        base.Conectar();
+        comando = new NpgsqlCommand("consultar_eventos", base.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, evento.Nombre);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, evento.FechaInicio);
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Date, evento.FechaFin);
+        respuesta = comando.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        while (respuesta.Read())
+        {
+          Evento eventos = new Evento(respuesta.GetInt32(0), respuesta.GetString(1));
+          evento.Foto = respuesta.GetString(2);
+          list_eventos.Add(eventos);
+        }
+
+        base.Desconectar();
+        return list_eventos;
+      }
+      catch (NpgsqlException e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+    }
+
+    /// <summary>
+    /// Consulta los lugares turisticos por nombre, o similiares.
+    /// </summary>
+    /// <param name="busqueda">Palabra cuya similitud se busca en el nombre del lugar turistico que se esta buscando.</param>
+    /// <returns>Retorna una lista con los lugares turisticos que tengan coincidencia.</returns>
+    public List<Entidad> ConsultarLugarTuristico(Entidad objeto)
+    {
+      LugarTuristico lugarTuristico = (LugarTuristico)objeto;
+      List<Entidad> list_lugaresturisticos = new List<Entidad>();
+      try
+      {
+        base.Conectar();
+        comando = new NpgsqlCommand("consultar_lugarturistico", base.SqlConexion);
+        comando.CommandType = CommandType.StoredProcedure;
+        comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, lugarTuristico.Nombre);
+        respuesta = comando.ExecuteReader();
+
+        //Se recorre los registros devueltos.
+        while (respuesta.Read())
+        {
+          LugarTuristico lugarTuristicos = new LugarTuristico();
+          lugarTuristicos.Id = respuesta.GetInt32(0);
+          lugarTuristicos.Nombre = respuesta.GetString(1);
+
+          list_lugaresturisticos.Add(lugarTuristicos);
+        }
+
+        base.Desconectar();
+        return list_lugaresturisticos;
+      }
+      catch (NpgsqlException e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+      catch (Exception e)
+      {
+        base.Desconectar();
+        throw e;
+      }
+    }
   }
 }

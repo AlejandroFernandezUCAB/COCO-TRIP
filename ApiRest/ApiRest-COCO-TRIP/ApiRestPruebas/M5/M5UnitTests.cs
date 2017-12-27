@@ -1,5 +1,4 @@
 using System;
-using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
@@ -385,6 +384,54 @@ namespace ApiRestPruebas
       comando.Ejecutar();
       notificacion = (Notificacion)comando.Retornar();
       Assert.True(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_EnviarCorreo()
+    {
+      int idUsuario = 1;
+      comando = FabricaComando.CrearComandoEnviarCorreoItinerario(1);
+      comando.Ejecutar();
+    
+      Assert.True(true);
+    }
+
+    [Test]
+    public void PU_ConsultarEventos()
+    {
+      string busqueda = "jorge";
+      fechaini = new DateTime(2017, 12, 30);
+      fechafin = new DateTime(2017, 12, 30);
+      comando = FabricaComando.CrearComandoListarCoincidenciaEventos(busqueda,fechaini,fechafin);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      Evento evento = (Evento)lista[0];
+      Assert.AreEqual(busqueda, evento.Nombre);
+      Assert.AreEqual(1, evento.Id);
+    }
+
+    [Test]
+    public void PU_ConsultarLugares()
+    {
+      string busqueda = "Parque Generalisimo de Miranda";
+      comando = FabricaComando.CrearComandoListarCoincidenciaLugaresTurisiticos(busqueda);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      LugarTuristico lugarTuristico = (LugarTuristico)lista[0];
+      Assert.AreEqual(busqueda, lugarTuristico.Nombre);
+      Assert.AreEqual(2, lugarTuristico.Id);
+    }
+
+    [Test]
+    public void PU_ConsultarActividades()
+    {
+      string busqueda = "Parque Generalisimo de Miranda";
+      comando = FabricaComando.CrearComandoListarCoincidenciaActividades(busqueda);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      Actividad actividad = (Actividad)lista[0];
+      Assert.AreEqual(busqueda, actividad.Nombre);
+      Assert.AreEqual(1, actividad.Id);
     }
   }
 }

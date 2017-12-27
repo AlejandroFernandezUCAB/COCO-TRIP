@@ -373,6 +373,48 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoEliminarLocalidad(id);
     }
 
+    public static ComandoAgregarEvento CrearComandoAgregarEvento(Entidad evento)
+    {
+      return new ComandoAgregarEvento(evento);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidad
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidad</returns>
+    public static ComandoConsultarEvento CrearComandoConsultarEvento(int id)
+    {
+      return new ComandoConsultarEvento(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidades
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidades</returns>
+    public static ComandoConsultarEventosPorCategoria CrearComandoConsultarEventosPorCategoria(int id)
+    {
+      return new ComandoConsultarEventosPorCategoria(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarLocalidad
+    /// </summary>
+    /// <returns>ComandoModificarLocalidad</returns>
+    public static ComandoModificarEvento CrearComandoModificarEvento(Entidad evento)
+    {
+      return new ComandoModificarEvento(evento);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarLocalidad
+    /// </summary>
+    /// <returns>ComandoEliminarLocalidad</returns>
+    public static ComandoEliminarEvento CrearComandoEliminarEvento(int id)
+    {
+      return new ComandoEliminarEvento(id);
+    }
+
+
     /// <summary>
     /// Retorna la instancia de ComandoAgregarAgenda
     /// </summary>
@@ -427,6 +469,42 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoModificarNotificacion CrearComandoModificarNotificacion(int idUsuario,Boolean push , Boolean correo)
     {
       return new ComandoModificarNotificacion(idUsuario,push,correo);
+    }
+    /// <summary>
+    /// Retorna la instancia de ComandoEnviarCorreoItinerario
+    /// </summary>
+    /// <returns>ComandoEnviarCorreoItinerario</returns>
+    public static ComandoEnviarCorreoItinerario CrearComandoEnviarCorreoItinerario(int idUsuario)
+    {
+      return new ComandoEnviarCorreoItinerario(idUsuario);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaLugaresTurisiticos
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaLugaresTurisiticos</returns>
+    public static ComandoListarCoincidenciaLugaresTurisiticos CrearComandoListarCoincidenciaLugaresTurisiticos(string busqueda)
+    {
+      return new ComandoListarCoincidenciaLugaresTurisiticos(busqueda);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaEventos
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaEventos</returns>
+    public static ComandoListarCoincidenciaEventos CrearComandoListarCoincidenciaEventos(string busqueda,DateTime fechai,
+      DateTime fechaf)
+    {
+      return new ComandoListarCoincidenciaEventos(busqueda,fechai,fechaf);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaActividades
+    /// </summary>
+    /// <returns>ComandoListarCoincidenciaActividades</returns>
+    public static ComandoListarCoincidenciaActividades CrearComandoListarCoincidenciaActividades(string busqueda)
+    {
+      return new ComandoListarCoincidenciaActividades(busqueda);
     }
   }
 }

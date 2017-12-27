@@ -23,7 +23,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
-        validarEntidad();
         dao.Insertar(localidad);
       }
       catch (BaseDeDatosExcepcion e)
@@ -45,12 +44,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     public override List<Entidad> RetornarLista()
     {
       throw new NotImplementedException();
-    }
-
-    private void validarEntidad()
-    {
-      if (((LocalidadEvento)localidad).Descripcion == null)
-        ((LocalidadEvento)localidad).Descripcion = "";
     }
   }
 }
