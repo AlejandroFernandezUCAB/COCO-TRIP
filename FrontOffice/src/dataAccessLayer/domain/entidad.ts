@@ -16,7 +16,7 @@
  */
 export class Entidad
 {
-    protected _id: String;
+    private _id: String;
 
     constructor()
     {
