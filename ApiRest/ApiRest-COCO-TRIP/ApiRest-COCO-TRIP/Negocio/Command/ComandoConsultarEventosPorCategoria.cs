@@ -12,21 +12,22 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   public class ComandoConsultarEventosPorCategoria : Comando
   {
     private Entidad categoria;
-    private DAO dao;
+    private DAO daoEvento;
+    private DAO daoCategoria;
     private List<Entidad> eventos;
 
     public ComandoConsultarEventosPorCategoria(int id)
     {
       this.categoria = FabricaEntidad.CrearEntidadCategoria();
       this.categoria.Id = id;
-      dao = FabricaDAO.CrearDAOEvento();
+      daoEvento = FabricaDAO.CrearDAOEvento();
     }
 
     public override void Ejecutar()
     {
       try
       {
-        eventos = dao.ConsultarLista(categoria);
+        eventos = daoEvento.ConsultarLista(categoria);
       }
       catch (BaseDeDatosExcepcion e)
       {
