@@ -4,6 +4,8 @@ import{ModificarGrupoPage} from '../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
+import { ConfiguracionToast } from '../constantes/configToast';
+import { Texto } from '../constantes/texto';
 
 //****************************************************************************************************// 
 //**********************************PAGE AGREGAR INTEGRANTES MODULO 3*********************************//
@@ -11,9 +13,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -22,11 +24,14 @@ import { TranslateService } from '@ngx-translate/core';
  * Para agregarlos a un grupo
  */
 @IonicPage()
-@Component({
+@Component
+({
   selector: 'page-crear-grupo',
   templateUrl: 'crear-grupo.html',
 })
-export class CrearGrupoPage {
+
+export class CrearGrupoPage 
+{
 
   amigo: any;
   toast: any;
@@ -57,7 +62,7 @@ export class CrearGrupoPage {
  * (Por favor espere/ please wait)
  */
 cargando(){
-  this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
+  this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
   this.loading = this.loadingCtrl.create({
     content: this.loader,
     dismissOnPageChange: true
@@ -95,8 +100,8 @@ cargando(){
  realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
-    duration: 3000,
-    position: 'top'
+    duration: ConfiguracionToast.DURACION,
+    position: ConfiguracionToast.POSICION
   });
   this.toast.present();
 }
@@ -107,11 +112,11 @@ cargando(){
  * @param nombreUsuario Nombre del usuario a ser agregado
  */
   agregarIntegrantes(event,nombreUsuario){
-    this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
-    this.translateService.get('Deseas Agregar a:').subscribe(value => {this.message = value;})
-    this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
-    this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
-    this.translateService.get('Agregado exitosamente').subscribe(value => {this.succesful = value;})
+    this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
+    this.translateService.get(Texto.MENSAJE_AGREGAR_INTEGRANTE).subscribe(value => {this.message = value;})
+    this.translateService.get(Texto.CANCELAR).subscribe(value => {this.cancel = value;})
+    this.translateService.get(Texto.ACEPTAR).subscribe(value => {this.accept = value;})
+    this.translateService.get(Texto.EXITO_AGREGAR_INTEGRANTE).subscribe(value => {this.succesful = value;})
     const alert = this.alertCtrl.create({
       title: this.title,
       message: '¿'+this.message+nombreUsuario+'?',
@@ -141,7 +146,7 @@ cargando(){
   * @param event evento
   */
  finalizar(event)
- {this.translateService.get('Grupo Exitoso').subscribe(value => {this.succesful = value;})
+ {this.translateService.get(Texto.GRUPO_EXITOSO).subscribe(value => {this.succesful = value;})
  this.realizarToast(this.succesful);
   this.navCtrl.popToRoot();
  }

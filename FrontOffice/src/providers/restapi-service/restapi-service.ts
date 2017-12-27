@@ -12,7 +12,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RestapiService 
 {
-  private apiUrl : string = 'http://localhost:8091/api';
+  private readonly apiUrl : string = 'http://localhost:8091/api';
+
   private data : any;
   private userData: any;
   private idUser: number;
@@ -318,12 +319,12 @@ eveSegunPreferencias(idUser){
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/VisualizarListaAmigos?idUsuario=' + idUsuario, "")
       .subscribe(datos => 
       {
-        console.log("ListaAmigos exitoso. IdUsuario: " + idUsuario);
+        console.log('ListaAmigos exitoso. IdUsuario: ' + idUsuario);
         resolve(datos);
       }
       , error =>
       {
-        console.log("Fallo de ListaAmigos. IdUsuario: " + idUsuario);
+        console.log('Fallo de ListaAmigos. IdUsuario: ' + idUsuario);
         reject(error);
       });
     });
@@ -341,12 +342,12 @@ eveSegunPreferencias(idUser){
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ObtenerListaNotificaciones?id=' + id, "")
       .subscribe(datos => 
       {
-        console.log("ListaNotificaciones exitoso. Id: " + id);
+        console.log('ListaNotificaciones exitoso. Id: ' + id);
         resolve(datos);
       }
-      ,error =>
+      , error =>
       {
-        console.log("Fallo de ListaNotificaciones. Id: " + id);
+        console.log('Fallo de ListaNotificaciones. Id: ' + id);
         reject(error);
       });
     });
@@ -366,12 +367,12 @@ eveSegunPreferencias(idUser){
       + '&nombreUsuarioAceptado=' + nombreUsuarioAceptado, "")
       .subscribe(datos => 
       {
-        console.log("AceptarNotificacion exitoso. Id: " + id + " NombreUsuarioAceptado: " + nombreUsuarioAceptado);
+        console.log('AceptarNotificacion exitoso. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
         resolve(datos);
       }
       , error =>
       {
-        console.log("Fallo de AceptarNotificacion. Id: " + id + " NombreUsuarioAceptado: " + nombreUsuarioAceptado);
+        console.log('Fallo de AceptarNotificacion. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
         reject(error);
       });
     });
@@ -391,12 +392,12 @@ eveSegunPreferencias(idUser){
       + '&nombreUsuarioRechazado=' + nombreUsuarioRechazado, "")
       .subscribe(datos => 
       {
-          console.log("RechazarNotificacion exitoso. Id: " + idUsuario + " NombreUsuarioRechazado: " + nombreUsuarioRechazado);
+          console.log('RechazarNotificacion exitoso. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
           resolve(datos);
       }
       ,error => 
       {
-          console.log("Fallo de RechazarNotificacion. Id: " + idUsuario + " NombreUsuarioRechazado: " + nombreUsuarioRechazado);
+          console.log('Fallo de RechazarNotificacion. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
           reject(error);
       });
     });
@@ -416,12 +417,12 @@ eveSegunPreferencias(idUser){
       + idUsuario + '&nombreAmigo=' + nombreAmigo, "")
       .subscribe(datos => 
       {
-        console.log("EliminarAmigo exitoso. IdUsuario: " + idUsuario + " NombreAmigo: " + nombreAmigo);
+        console.log('EliminarAmigo exitoso. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
         resolve(datos);
       }
       , error => 
       {
-        console.log("Fallo de EliminarAmigo. IdUsuario: " + idUsuario + " NombreAmigo: " + nombreAmigo);
+        console.log('Fallo de EliminarAmigo. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
         reject(error);
       });
     });
@@ -440,12 +441,12 @@ eveSegunPreferencias(idUser){
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/EliminarGrupo?idUsuario=' + idUsuario + '&idGrupo=' + idGrupo, "")
       .subscribe(datos => 
       {
-        console.log("EliminarGrupo exitoso. IdUsuario: " + idUsuario + " IdGrupo: " + idGrupo);
+        console.log('EliminarGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
         resolve(datos);
       }
       , error => 
       {
-        console.log("Fallo de EliminarGrupo. IdUsuario: " + idUsuario + " IdGrupo: " + idGrupo);
+        console.log('Fallo de EliminarGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
         reject(error);
       });
     });
@@ -463,12 +464,12 @@ eveSegunPreferencias(idUser){
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarListaGrupos?idUsuario=' + idUsuario, "")
       .subscribe(datos => 
       {
-        console.log("ListaGrupo exitoso. IdUsuario: " + idUsuario);
+        console.log('ListaGrupo exitoso. IdUsuario: ' + idUsuario);
         resolve(datos);
       }
       , error => 
       {
-        console.log("Fallo de ListaGrupo. IdUsuario: " + idUsuario);
+        console.log('Fallo de ListaGrupo. IdUsuario: ' + idUsuario);
         reject(error);
       });
     });
@@ -488,12 +489,12 @@ eveSegunPreferencias(idUser){
        this.http.get(this.apiUrl + '/M3_AmigosGrupos/BuscarAmigos?id=' + id + '&nombre=' + nombre, "")
        .subscribe(datos => 
       {
-        console.log("BuscarAmigos exitoso. Id: " + id + " Nombre: " + nombre);
+        console.log('BuscarAmigos exitoso. Id: ' + id + ' Nombre: ' + nombre);
         resolve(datos);
       }
       , error =>
       {
-        console.log("Fallo de BuscarAmigos. Id: " + id + " Nombre: " + nombre);
+        console.log('Fallo de BuscarAmigos. Id: ' + id + ' Nombre: ' + nombre);
         reject(error);
       });
      });
@@ -510,12 +511,12 @@ eveSegunPreferencias(idUser){
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarPerfilGrupo?id=' + id, "")
       .subscribe(datos => 
       {
-        console.log("VerPerfilGrupo exitoso. Id: " + id);
+        console.log('VerPerfilGrupo exitoso. Id: ' + id);
         resolve(datos);
       }
       ,error => 
       {
-        console.log("Fallo de VerPerfilGrupo. Id: " + id);
+        console.log('Fallo de VerPerfilGrupo. Id: ' + id);
         reject(error);
       });
     });
@@ -533,12 +534,12 @@ eveSegunPreferencias(idUser){
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarMiembroGrupo?idGrupo=' + id, "")
         .subscribe(datos => 
         {
-          console.log("listaMiembroGrupo exitoso. Id: " + id);
+          console.log('listaMiembroGrupo exitoso. Id: ' + id);
           resolve(datos);
         }
         ,error =>
         {
-          console.log("Fallo de listaMiembroGrupo. Id: " + id);
+          console.log('Fallo de listaMiembroGrupo. Id: ' + id);
           reject(error);
         });
     });
@@ -556,12 +557,12 @@ eveSegunPreferencias(idUser){
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/VisualizarPerfilAmigo?nombre=' + nombre, "")
         .subscribe(datos => 
         {
-          console.log("ObtenerPerfilPublico exitoso. Nombre:" + nombre);
+          console.log('ObtenerPerfilPublico exitoso. Nombre:' + nombre);
           resolve(datos);
         }
         ,error =>
         {
-          console.log("Fallo de ObtenerPerfilPublico. Nombre:" + nombre);
+          console.log('Fallo de ObtenerPerfilPublico. Nombre:' + nombre);
           reject(error);
         });
     });
@@ -581,12 +582,12 @@ eveSegunPreferencias(idUser){
         this.http.post (this.apiUrl + '/M3_AmigosGrupos/AgregarAmigo?id=' + id + '&nombre=' + nombre, "")
         .subscribe(datos => 
         {
-          console.log("AgregarAmigo exitoso. Id: " + id + " Nombre:" + nombre);
+          console.log('AgregarAmigo exitoso. Id: ' + id + ' Nombre: ' + nombre);
           resolve(datos);
         }
         , error => 
         {
-          console.log("Fallo de AgregarAmigo. Id: " + id + " Nombre:" + nombre);
+          console.log('Fallo de AgregarAmigo. Id: ' + id + ' Nombre: ' + nombre);
           reject(error);
         });
       }
@@ -609,12 +610,12 @@ eveSegunPreferencias(idUser){
       + '&id=' + id + '&nombre=' + nombre, "")
       .subscribe(datos => 
       {
-        console.log("EnviarCorreo exitoso. Id: " + id + " Nombre:" + nombre + " Correo:" + correo);
+        console.log('EnviarCorreo exitoso. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
         resolve(datos);
       }
       ,error =>
       {
-        console.log("Fallo de EnviarCorreo. Id: " + id + " Nombre:" + nombre + " Correo:" + correo);
+        console.log('Fallo de EnviarCorreo. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
         reject(error);
       });
     });
@@ -632,12 +633,12 @@ eveSegunPreferencias(idUser){
     this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
     .subscribe(datos => 
     {
-      console.log("AgregarGrupo exitoso. Grupo: " + grupo);
+      console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
       resolve(datos);
     }
     , error =>
     {
-      console.log("Fallo de AgregarGrupo. Grupo: " + grupo);
+      console.log('Fallo de AgregarGrupo. Grupo: ' + grupo);
       reject(error);
     });
   });
@@ -656,11 +657,11 @@ eveSegunPreferencias(idUser){
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/SalirGrupo?idGrupo=' + idGrupo + '&idUsuario=' + idUsuario, "")
       .subscribe(datos => 
       {
-        console.log("SalirGrupo exitoso. IdUsuario: " + idUsuario + " IdGrupo: " + idGrupo);
+        console.log('SalirGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
         resolve(datos);
       }, (error) => 
       {
-        console.log("Fallo de SalirGrupo. IdUsuario: " + idUsuario + " IdGrupo: " + idGrupo);
+        console.log('Fallo de SalirGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
         reject(error);
       });
     });
@@ -702,12 +703,12 @@ eveSegunPreferencias(idUser){
       '&nombreUsuario=' + nombreUsuario, "")
       .subscribe(datos => 
       {
-        console.log("EliminarIntegrante exitoso. IdGrupo: " + idGrupo + " NombreUsuario: " + nombreUsuario);
+        console.log('EliminarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
         resolve(datos);
       }
       , error => 
       {
-        console.log("Fallo de EliminarIntegrante. IdGrupo: " + idGrupo + " NombreUsuario: " + nombreUsuario);
+        console.log('Fallo de EliminarIntegrante. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
         reject(error);
       });
     });
@@ -726,12 +727,12 @@ public agregarIntegrante(idGrupo, nombreAmigo)
     this.http.post(this.apiUrl+'/M3_AmigosGrupos/AgregarIntegrante?idGrupo=' + idGrupo + '&nombreUsuario=' + nombreAmigo, "")
     .subscribe(datos => 
     {
-      console.log("AgregarIntegrante exitoso. IdGrupo: " + idGrupo + " NombreUsuario: " + nombreAmigo);
+      console.log('AgregarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
       resolve(datos);
     }
     , error =>
     {
-      console.log("Fallo de AgregarIntegrante. IdGrupo: " + idGrupo + " NombreUsuario: " + nombreAmigo);
+      console.log('Fallo de AgregarIntegrante. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
       reject(error);
     });
   });
@@ -751,12 +752,12 @@ public verificarLider(idGrupo, idUsuario)
     + '&idUsuario=' + idUsuario, "")
       .subscribe(datos => 
       {
-        console.log("VerificarLider exitoso. IdGrupo: " + idGrupo + " IdUsuario: " + idUsuario);
+        console.log('VerificarLider exitoso. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
         resolve(datos);
       }
       , error =>
       {
-        console.log("Fallo de VerificarLider. IdGrupo: " + idGrupo + " IdUsuario: " + idUsuario);
+        console.log('Fallo de VerificarLider. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
         reject(error);
       });
   });
@@ -774,12 +775,12 @@ public obtenerLider(idGrupo)
     this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarLider?idGrupo=' + idGrupo, "")
       .subscribe(datos => 
       {
-        console.log("ObtenerLider exitoso. IdGrupo: " + idGrupo);
+        console.log('ObtenerLider exitoso. IdGrupo: ' + idGrupo);
         resolve(datos);
       }
       , error =>
       {
-        console.log("Fallo de ObtenerLider. IdGrupo: " + idGrupo);
+        console.log('Fallo de ObtenerLider. IdGrupo: ' + idGrupo);
         reject(error);
       });
   });
@@ -797,12 +798,12 @@ public obtenerSinLider(idGrupo)
     this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarMiembroSinLider/?idGrupo=' + idGrupo, "")
     .subscribe(datos => 
     {
-      console.log("ObtenerSinLider exitoso. IdGrupo: " + idGrupo);
+      console.log('ObtenerSinLider exitoso. IdGrupo: ' + idGrupo);
       resolve(datos);
     }
     , error => 
     {
-      console.log("Fallo de ObtenerSinLider. IdGrupo: " + idGrupo);
+      console.log('Fallo de ObtenerSinLider. IdGrupo: ' + idGrupo);
       reject(error);
     });
   });
@@ -822,12 +823,12 @@ public obtenerMiembrosSinGrupo(idUsuario, idGrupo)
     + '&idUsuario=' + idUsuario, "")
     .subscribe(datos => 
     {
-      console.log("ObtenerMiembrosSinGrupo exitoso. IdUsuario: " + idUsuario + " IdGrupo: " + idGrupo);
+      console.log('ObtenerMiembrosSinGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
       resolve(datos);
     }
     , error =>
     {
-      console.log("Fallo de ObtenerMiembrosSinGrupo. IdUsuario: " + idUsuario + " IdGrupo: " + idGrupo);
+      console.log('Fallo de ObtenerMiembrosSinGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
       reject(error);
     });
   });
@@ -843,12 +844,12 @@ public obtenerUltimoGrupo(idUsuario)
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarUltimoGrupo/?idUsuario=' + idUsuario, "")
       .subscribe(datos => 
       {
-        console.log("ObtenerUltimoGrupo exitoso. IdUsuario: " + idUsuario);
+        console.log('ObtenerUltimoGrupo exitoso. IdUsuario: ' + idUsuario);
         resolve(datos);
       }
       , error => 
       {
-        console.log("Fallo de ObtenerUltimoGrupo. IdUsuario: " + idUsuario);
+        console.log('Fallo de ObtenerUltimoGrupo. IdUsuario: ' + idUsuario);
         reject(error);
       });
   });
@@ -857,5 +858,4 @@ public obtenerUltimoGrupo(idUsuario)
 //****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
 //****************************************************************************************************//
-
 }
