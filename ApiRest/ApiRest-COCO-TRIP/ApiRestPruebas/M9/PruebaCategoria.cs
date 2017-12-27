@@ -5,7 +5,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using Newtonsoft.Json.Linq;
-using System.Collections;
+using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections.Generic;
 using System;
@@ -110,6 +110,7 @@ namespace ApiRestPruebas.M9
       Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
     }
 
+
     [Test]
     public void M9_PruebaDependenciaModificarCategoria()
     {
@@ -161,6 +162,8 @@ namespace ApiRestPruebas.M9
       var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
       Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
     }
+
+    
 
     [TearDown]
         public void TearDown()
