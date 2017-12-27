@@ -21,6 +21,11 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     {
       return new DAOCategoria();
     }
-    
+
+    public static DAOLugar_Turistico GetDAOLugar_Turistico()
+    {
+      return new DAOLugar_Turistico();
+    }
+
   }
 }
