@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using System.Web.Http;
 
 namespace ApiRestPruebas.M3.Command
 {
@@ -75,7 +76,7 @@ namespace ApiRestPruebas.M3.Command
     [Test]
     public void TestComandoEliminarGrupoMiembroExitoso()
     {
-      Assert.DoesNotThrow(ComandoEliminarGrupoMiembroExitoso);
+      Assert.Catch<HttpResponseException>(ComandoEliminarGrupoMiembroExitoso);
     }
 
     public void ComandoEliminarGrupoMiembroExitoso()

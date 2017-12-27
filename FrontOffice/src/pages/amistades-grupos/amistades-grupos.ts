@@ -11,9 +11,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -22,18 +22,18 @@ import { TranslateModule } from '@ngx-translate/core';
  */
 
 @IonicPage()
-@Component({
+@Component
+({
   selector: 'page-amistades-grupos',
   templateUrl: 'amistades-grupos.html',
 })
-export class AmistadesGruposPage {
+
+export class AmistadesGruposPage 
+{
 
   tab1Root: any = NotificacionesPage;
   tab2Root: any = GruposPage;
   tab3Root: any = AmigosPage;
  
-  constructor() {
- 
-  }
-
+  constructor() { }
 }

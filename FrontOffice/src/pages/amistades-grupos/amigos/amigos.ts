@@ -8,6 +8,8 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConversacionPage } from '../../chat/conversacion/conversacion';
+import { Texto } from '../../constantes/texto';
+import { ConfiguracionToast } from '../../constantes/configToast';
 
 //****************************************************************************************************//
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
@@ -15,9 +17,9 @@ import { ConversacionPage } from '../../chat/conversacion/conversacion';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -25,18 +27,20 @@ import { ConversacionPage } from '../../chat/conversacion/conversacion';
  * Carga la lista de amigos de un usuario
  * Floating button para eliminar amigos, agregar amigos y ver perfil
  */
-@Component({
+@Component
+({
   selector: 'page-amigos',
   templateUrl: 'amigos.html'
 })
 
-
-export class AmigosPage {
-  delete= false;
-  edit= false;
-  detail=false;
-  chat=false;
-  amigo: any;
+export class AmigosPage 
+{
+  /*Condicionales*/
+  delete = false; 
+  edit = false;
+  detail = false; 
+  chat = false; 
+  amigo: any; //Arreglo de amigos
   toast: any;
   title: any;
   accept: any;
@@ -45,7 +49,8 @@ export class AmigosPage {
   message: any;
   succesful: any;
   loader: any;
-  nombreUsuario : string;
+  nombreUsuario: string;
+
   public loading = this.loadingCtrl.create({});
 
 
@@ -68,7 +73,7 @@ export class AmigosPage {
  * (Por favor espere/ please wait)
  */
   cargando(){
-    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
       content: this.loader,
       dismissOnPageChange: true
@@ -171,11 +176,11 @@ perfil(){
  * @param index posicion de la lista
  */
 eliminarAmigo(nombreUsuario, index) {
-  this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
-  this.translateService.get('Deseas Borrar a:').subscribe(value => {this.message = value;})
-  this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
-  this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
-  this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
+  this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
+  this.translateService.get(Texto.MENSAJE_ELIMINAR_AMIGO).subscribe(value => {this.message = value;})
+  this.translateService.get(Texto.CANCELAR).subscribe(value => {this.cancel = value;})
+  this.translateService.get(Texto.ACEPTAR).subscribe(value => {this.accept = value;})
+  this.translateService.get(Texto.EXITO_ELIMINAR_AMIGO).subscribe(value => {this.succesful = value;})
 
   const alert = this.alerCtrl.create({
 
@@ -245,8 +250,8 @@ chatAmigo(item) {
 realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
-    duration: 3000,
-    position: 'top'
+    duration: ConfiguracionToast.DURACION,
+    position: ConfiguracionToast.POSICION
   });
   this.toast.present();
 }
