@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import{NuevosIntegrantesPage} from '../nuevos-integrantes/nuevos-integrantes';
+import { NuevosIntegrantesPage } from '../nuevos-integrantes/nuevos-integrantes';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
-
+import { ConfiguracionToast } from '../constantes/configToast';
+import { Texto } from '../constantes/texto';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -22,10 +23,12 @@ import { TranslateService } from '@ngx-translate/core';
  * Carga los datos de un grupo para modificarlos y eliminar
  * los integrantes de ese grupo
  */
-@Component({
+@Component
+({
   selector: 'modificar-grupo-page',
   templateUrl: 'modificar-grupo.html',
 })
+
 export class ModificarGrupoPage {
   grupo: any;
   miembro: any;
@@ -117,11 +120,11 @@ cargarlider(id){
  * @param index Posicion en la lista
  */
     eliminarIntegrantes(nombreUsuario, index){
-      this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
-      this.translateService.get('Deseas Borrar a:').subscribe(value => {this.message = value;})
-      this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
-      this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
-      this.translateService.get('Eliminado Exitosamente').subscribe(value => {this.succesful = value;})
+      this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
+      this.translateService.get(Texto.MENSAJE_ELIMINAR_INTEGRANTE).subscribe(value => {this.message = value;})
+      this.translateService.get(Texto.CANCELAR).subscribe(value => {this.cancel = value;})
+      this.translateService.get(Texto.ACEPTAR).subscribe(value => {this.accept = value;})
+      this.translateService.get(Texto.EXITO_ELIMINAR_INTEGRANTE).subscribe(value => {this.succesful = value;})
       
       const alert = this.alerCtrl.create({
         title: this.title,
@@ -164,7 +167,7 @@ cargarlider(id){
  * @param evento evento
  */
 modificarNombre(evento){
-  this.translateService.get('Modificado Exitosamente').subscribe(value => {this.edited = value;})
+  this.translateService.get(Texto.MODIFICAR_EXITOSO).subscribe(value => {this.edited = value;})
   this.storage.get('id').then((val) => {
   if(this.nombreGrupo == undefined){
     this.restapiService.verperfilGrupo(this.id)
@@ -188,8 +191,8 @@ modificarNombre(evento){
 realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
-    duration: 3000,
-    position: 'top'
+    duration: ConfiguracionToast.DURACION,
+    position: ConfiguracionToast.POSICION
   });
   this.toast.present();
 }

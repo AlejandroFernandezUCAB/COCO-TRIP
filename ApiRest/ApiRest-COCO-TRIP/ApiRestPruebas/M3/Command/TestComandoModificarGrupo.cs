@@ -22,10 +22,12 @@ namespace ApiRestPruebas.M3.Command
     private string RutaArchivo = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + "\\PU\\";
     private const string ScriptsSetUp = "ScriptsSetUpTestComandoModificarGrupo.txt";
     private const string DatoGrupo = "DatoGrupo.txt";
+    private const string DatoUsuario = "DatoUsuario.txt";
     private const string DatoFoto = "PUFoto.jpg";
 
     private Comando comando;
     private List<Grupo> listaGrupo;
+    private List<Usuario> listaUsuario;
     private byte[] foto;
 
     [SetUp]
@@ -41,6 +43,14 @@ namespace ApiRestPruebas.M3.Command
         listaGrupo.Add(JsonConvert.DeserializeObject<Grupo>(linea));
       }
 
+      listaUsuario = new List<Usuario>();
+      string[] datosUsuario = File.ReadAllLines(RutaArchivo + DatoUsuario);
+
+      foreach (string linea in datosUsuario)
+      {
+        listaUsuario.Add(JsonConvert.DeserializeObject<Usuario>(linea));
+      }
+
       foto = File.ReadAllBytes(RutaArchivo + DatoFoto);
 
       dao.Conectar();
@@ -54,31 +64,62 @@ namespace ApiRestPruebas.M3.Command
     [Category("Modulo 3")]
     [Category("Comando")]
     [Test]
-    public void TestComandoModificarGrupoSinFotoExitoso()
+    public void TestComandoModificarGrupoSinFotoLiderExitoso()
     {
-      Assert.DoesNotThrow(ComandoModificarGrupoSinFotoExitoso);
+      Assert.DoesNotThrow(ComandoModificarGrupoSinFotoLiderExitoso);
     }
 
-    public void ComandoModificarGrupoSinFotoExitoso()
+    public void ComandoModificarGrupoSinFotoLiderExitoso()
     {
       listaGrupo[1].Id = listaGrupo[0].Id;
-      comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1]);
+      comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1], listaUsuario[0].Id);
       comando.Ejecutar();
     }
 
     [Category("Modulo 3")]
     [Category("Comando")]
     [Test]
-    public void TestComandoModificarConFotoExitoso()
+    public void TestComandoModificarConFotoLiderExitoso()
     {
-      Assert.DoesNotThrow(ComandoModificarGrupoConFotoExitoso);
+      Assert.DoesNotThrow(ComandoModificarGrupoConFotoLiderExitoso);
     }
 
-    public void ComandoModificarGrupoConFotoExitoso()
+    public void ComandoModificarGrupoConFotoLiderExitoso()
     {
       listaGrupo[1].Id = listaGrupo[0].Id;
       listaGrupo[1].ContenidoFoto = foto;
-      comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1]);
+      comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1], listaUsuario[0].Id);
+      comando.Ejecutar();
+    }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoModificarGrupoSinFotoMiembroExitoso()
+    {
+      Assert.Catch<HttpResponseException>(ComandoModificarGrupoSinFotoMiembroExitoso);
+    }
+
+    public void ComandoModificarGrupoSinFotoMiembroExitoso()
+    {
+      listaGrupo[1].Id = listaGrupo[0].Id;
+      comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1], listaUsuario[1].Id);
+      comando.Ejecutar();
+    }
+
+    [Category("Modulo 3")]
+    [Category("Comando")]
+    [Test]
+    public void TestComandoModificarConFotoMiembroExitoso()
+    {
+      Assert.Catch<HttpResponseException>(ComandoModificarGrupoConFotoMiembroExitoso);
+    }
+
+    public void ComandoModificarGrupoConFotoMiembroExitoso()
+    {
+      listaGrupo[1].Id = listaGrupo[0].Id;
+      listaGrupo[1].ContenidoFoto = foto;
+      comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1], listaUsuario[1].Id);
       comando.Ejecutar();
     }
 
@@ -92,8 +133,9 @@ namespace ApiRestPruebas.M3.Command
 
     public void ComandoModificarExcepcion()
     {
-      comando = FabricaComando.CrearComandoModificarGrupo(null);
+      comando = FabricaComando.CrearComandoModificarGrupo(null, listaUsuario[0].Id);
       comando.Ejecutar();
     }
   }
+
 }

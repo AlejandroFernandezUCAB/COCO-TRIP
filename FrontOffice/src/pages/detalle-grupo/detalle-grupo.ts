@@ -9,9 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -19,11 +19,14 @@ import { TranslateService } from '@ngx-translate/core';
  * Carga el detalle de un grupo
  */
 @IonicPage()
-@Component({
+@Component
+({
   selector: 'page-detalle-grupo',
   templateUrl: 'detalle-grupo.html',
 })
-export class DetalleGrupoPage {
+
+export class DetalleGrupoPage 
+{
   grupo:any;
   miembro:any;
   idGrupo: any;

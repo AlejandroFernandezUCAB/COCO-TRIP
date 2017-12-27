@@ -18,13 +18,17 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   public class ComandoModificarGrupo : Comando
   {
     private Grupo grupo;
-
+    private Usuario usuario;
+    private Usuario lider;
     private Archivo archivo;
     private DAOGrupo datos;
 
-    public ComandoModificarGrupo (Entidad _grupo)
+    public ComandoModificarGrupo (Entidad _grupo, int id)
     {
       grupo = (Grupo) _grupo;
+      lider = FabricaEntidad.CrearEntidadUsuario();
+      usuario = FabricaEntidad.CrearEntidadUsuario();
+      usuario.Id = id;
     }
 
     public override void Ejecutar()
@@ -33,15 +37,23 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         datos = FabricaDAO.CrearDAOGrupo();
         archivo = Archivo.ObtenerInstancia();
+        lider = (Usuario)datos.ConsultarLider(grupo);
 
-        if (grupo.Nombre != null)
-        {
-          datos.Actualizar(grupo);
+        if (lider.Id == usuario.Id) //El usuario que quiere modificar el grupo es el lider?
+        {        
+          if (grupo.Nombre != null)
+          {
+            datos.Actualizar(grupo);
+          }
+
+          if (grupo.ContenidoFoto != null)
+          {
+            archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+          }
         }
-
-        if (grupo.ContenidoFoto != null)
+        else
         {
-          archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
       }
       catch (BaseDeDatosExcepcion e)

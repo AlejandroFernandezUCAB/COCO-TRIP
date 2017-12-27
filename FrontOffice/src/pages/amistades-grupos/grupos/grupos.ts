@@ -8,6 +8,8 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacion-grupo';
+import { Texto } from '../../constantes/texto';
+import { ConfiguracionToast } from '../../constantes/configToast';
 
 //****************************************************************************************************// 
 //*************************************PAGE DE GRUPOS MODULO 3****************************************//
@@ -15,9 +17,9 @@ import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacio
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -26,10 +28,12 @@ import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacio
  * Floating button para eliminar grupos, agregar grupos,
  * ver detalle del grupo y modificar grupo
  */
-@Component({
+@Component
+({
   selector: 'page-grupos',
   templateUrl: 'grupos.html'
 })
+
 export class GruposPage {
   delete= false;
   edit= false;
@@ -64,7 +68,7 @@ export class GruposPage {
  * (Por favor espere/ please wait)
  */
    cargando(){
-    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
       content: this.loader,
       dismissOnPageChange: true
@@ -216,9 +220,9 @@ export class GruposPage {
  * Alert que explica que el usuario no es lider del grupo
  */
   alertaIntegrante() {
-    this.translateService.get('No puedes modificar').subscribe(value => {this.NoEdit = value;})
-    this.translateService.get('No eres lider').subscribe(value => {this.subtitle = value;})
-    this.translateService.get('Esta bien').subscribe(value => {this.ok = value;})
+    this.translateService.get(Texto.NO_EDITAR_ALERTA_INTEGRANTE).subscribe(value => {this.NoEdit = value;})
+    this.translateService.get(Texto.SUBTITULO_ALERTA_INTEGRANTE).subscribe(value => {this.subtitle = value;})
+    this.translateService.get(Texto.OK_ALERTA_INTEGRANTE).subscribe(value => {this.ok = value;})
     let alert = this.alertCtrl.create({
       title: this.NoEdit,
       subTitle: this.subtitle,
@@ -234,8 +238,8 @@ export class GruposPage {
   realizarToast(mensaje) {
     this.toast = this.toastCtrl.create({
       message: mensaje,
-      duration: 3000,
-      position: 'top'
+      duration: ConfiguracionToast.DURACION,
+      position: ConfiguracionToast.POSICION
     });
     this.toast.present();
   }
@@ -247,11 +251,11 @@ export class GruposPage {
    * @param index Posicion de la lista
    */
   eliminarGrupo(id, index) {
-    this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
-    this.translateService.get('Borrar Grupo').subscribe(value => {this.message = value;})
-    this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
-    this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
-    this.translateService.get('Salir Grupo').subscribe(value => {this.succesful = value;})
+    this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
+    this.translateService.get(Texto.MENSAJE_ELIMINAR_GRUPO).subscribe(value => {this.message = value;})
+    this.translateService.get(Texto.CANCELAR).subscribe(value => {this.cancel = value;})
+    this.translateService.get(Texto.ACEPTAR).subscribe(value => {this.accept = value;})
+    this.translateService.get(Texto.EXITO_ELIMINAR_GRUPO).subscribe(value => {this.succesful = value;})
     const alert = this.alertCtrl.create({
     title: this.title,
     message:this.message,
@@ -275,7 +279,7 @@ export class GruposPage {
               if (data == 0 || data == -1) {
                 console.log("DIO ERROR PORQUE ENTRO EN EL IF");
           
-                this.realizarToast('Hubo un error');
+                this.realizarToast(Texto.ERROR);
 
               }
               else {

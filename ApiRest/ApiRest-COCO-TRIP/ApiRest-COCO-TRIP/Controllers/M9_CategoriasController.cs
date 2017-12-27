@@ -271,9 +271,9 @@ namespace ApiRest_COCO_TRIP.Controllers
                     "nivel"
                  });
 
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.AgregarCategoria(categoria);
+        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        com = FabricaComando.CrearComandoAgregarCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se agrego la categoria de forma exitosa.");
 
       }

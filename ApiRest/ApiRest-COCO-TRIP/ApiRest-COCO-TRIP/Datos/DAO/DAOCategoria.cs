@@ -13,7 +13,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
   public class DAOCategoria : DAO
   {
     private NpgsqlParameter parametro;
-
     private NpgsqlDataReader leerDatos;
 
     private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
@@ -160,10 +159,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       catch (PostgresException ex)
       {
-
-
         throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
-
       }
 
       catch (NpgsqlException ex)
