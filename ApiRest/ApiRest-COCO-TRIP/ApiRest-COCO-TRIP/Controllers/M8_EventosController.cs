@@ -7,6 +7,7 @@ using System.Collections;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using System;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -40,6 +41,10 @@ namespace ApiRest_COCO_TRIP.Controllers
         respuesta.Add("Error", e.Message);
       }
       catch (CasteoInvalidoExcepcion e)
+      {
+        respuesta.Add("Error", e.Message);
+      }
+      catch (Exception e)
       {
         respuesta.Add("Error", e.Message);
       }
