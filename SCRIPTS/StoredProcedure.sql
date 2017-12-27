@@ -2099,7 +2099,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --elimina localidad por su id
-CREATE OR REPLACE FUNCTION EliminarLocalidadId
+CREATE OR REPLACE FUNCTION EliminarLocalidadporId
 (_id_lo integer) RETURNS void AS
 $$
 BEGIN
