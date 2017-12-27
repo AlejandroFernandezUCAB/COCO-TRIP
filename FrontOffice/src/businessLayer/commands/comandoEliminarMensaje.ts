@@ -21,8 +21,9 @@ import {catService,catProd} from "../../logs/config"
  * Comando eliminar mensaje
  */
 export class ComandoEliminarMensaje extends Comando {
-    private  _respuesta : Boolean;
     
+    private  _respuesta : Boolean;
+
 /**
  * Ejecuta el comando
  */
@@ -54,6 +55,14 @@ export class ComandoEliminarMensaje extends Comando {
         return this._respuesta;
     }
 
+    public return()
+    {
+        throw new Error("Method not implemented.");
+    }
 
-    
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
+
 }

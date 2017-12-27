@@ -21,6 +21,7 @@ import {catService,catProd} from "../../logs/config"
  * Comando Visualizar conversacion en un grupo 
  */
 export class ComandoVisualizarConversacionGrupo extends Comando {
+
     public _events : Events;
     
 /**
@@ -53,4 +54,15 @@ export class ComandoVisualizarConversacionGrupo extends Comando {
     set setEvents(events:Events) {
         this._events = events;
     }
+
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean
+    {
+        throw new Error("Method not implemented.");
+    }
+    
 }

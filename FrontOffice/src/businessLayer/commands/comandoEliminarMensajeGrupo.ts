@@ -54,4 +54,13 @@ export class ComandoEliminarMensajeGrupo extends Comando {
         return this._respuesta;
     }
     
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+    
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
 }

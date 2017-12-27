@@ -16,12 +16,23 @@ import { Entidad } from '../../dataAccessLayer/domain/entidad';
  * Clase abstracta comando
  */
 
-export abstract class Comando {
+export abstract class Comando 
+{
     
     _entidad : Entidad;
 
-    
-    public execute(): void {
-        console.log("ENTRE EN COMANDO SOLO");
-    }
+    /**
+     * Ejecuta la logica de negocios del comando
+     */
+    public abstract execute(): void;
+
+    /**
+     * Retorna el resultado de la ejecucion
+     */
+    public abstract return(): any;
+
+    /**
+     * Retorna el estado final de la ejecucion
+     */
+    public abstract isSuccess(): boolean;
 }
