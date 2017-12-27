@@ -14,7 +14,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad localidad;
     private DAO dao;
-    private Comando comando;
 
     public ComandoEliminarLocalidad(int id) {
       localidad = FabricaEntidad.CrearEntidadLocalidad();
@@ -26,12 +25,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
-        comando = FabricaComando.CrearComandoConsultarLocalidad(localidad.Id);
-        comando.Ejecutar();
-        if (comando.Retornar().Id == localidad.Id)
           dao.Eliminar(localidad);
-        else
-          throw new  ItemNoEncontradoException("No se ha encontrado el la localidad seleccionada");
       }
       catch (BaseDeDatosExcepcion e)
       {

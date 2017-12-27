@@ -13,7 +13,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad evento;
     private DAO dao;
-    private Comando comando;
     public ComandoEliminarEvento(int id)
     {
       this.evento = FabricaEntidad.CrearEntidadEvento();
