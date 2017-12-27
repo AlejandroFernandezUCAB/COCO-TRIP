@@ -1,0 +1,68 @@
+
+@model BackOffice_COCO_TRIP.Datos.Entidades.Evento
+
+
+<h2>Evento</h2>
+
+
+<div class="form-horizontal">
+  <hr />
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.Nombre, "nombre")
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.Descripcion)
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.Precio)
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.FechaInicio);
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.FechaFin);
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.HoraInicio);
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.HoraFin);
+    </div>
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @Html.DisplayFor(model => model.Foto);
+    </div>
+  </div>
+
+</div>
+
