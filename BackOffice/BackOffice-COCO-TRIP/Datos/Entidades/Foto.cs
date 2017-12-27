@@ -1,3 +1,4 @@
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using System.Linq;
 
 namespace BackOffice_COCO_TRIP.Models
@@ -5,20 +6,12 @@ namespace BackOffice_COCO_TRIP.Models
   /// <summary>
   /// Clase que contiene los datos asociados a las fotos
   /// </summary>
-  public class Foto
+  public class Foto : Entidad
   {
-    private int id; //Identificador unico
+    
     private string ruta; //Ruta de la imagen en el servidor
     private byte[] contenido; //Bytes de la foto
 
-    /// <summary>
-    /// Getters y Setters del atributo ID
-    /// </summary>
-    public int Id
-    {
-      get { return id; }
-      set { id = value; }
-    }
 
     /// <summary>
     /// Getters y Setters del atributo Ruta
@@ -49,7 +42,7 @@ namespace BackOffice_COCO_TRIP.Models
       {
         var objeto = obj as Foto;
 
-        if (id != objeto.id || ruta != objeto.Ruta)
+        if (ruta != objeto.Ruta)
         {
           return (false);
         }
