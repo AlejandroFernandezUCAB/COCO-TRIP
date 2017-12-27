@@ -1,15 +1,12 @@
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Collections.Generic;
-using System;
 using System.Collections;
 using System.Web.Http.Description;
-using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
-using ApiRest_COCO_TRIP.Models;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
