@@ -23,7 +23,6 @@ import {catService,catProd} from "../../logs/config"
  */
 
 export class ComandoCrearMensaje extends Comando {
-
     
 /**
  * Ejecuta el comando
@@ -49,6 +48,13 @@ export class ComandoCrearMensaje extends Comando {
         this._entidad = entidad;
     }
 
-
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
     
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
 }

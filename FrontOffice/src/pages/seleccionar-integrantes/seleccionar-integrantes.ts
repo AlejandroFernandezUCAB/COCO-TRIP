@@ -6,6 +6,8 @@ import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
+import { ConfiguracionToast } from '../constantes/configToast';
+import { Texto } from '../constantes/texto';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -13,9 +15,9 @@ import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -23,11 +25,14 @@ import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
  * Carga la pagina para rellenar los datos de un grupo
  */
 @IonicPage()
-@Component({
+@Component
+({
   selector: 'page-seleccionar-integrantes',
   templateUrl: 'seleccionar-integrantes.html',
 })
-export class SeleccionarIntegrantesPage {
+
+export class SeleccionarIntegrantesPage 
+{
   public loading = this.loadingCtrl.create({});
   nombreGrupo: string;
   toast: any;
@@ -53,7 +58,7 @@ export class SeleccionarIntegrantesPage {
  * (Por favor espere/ please wait)
  */
   cargando(){
-    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
     this.loading = this.loadingCtrl.create({
       content: this.loader,
       dismissOnPageChange: true
@@ -65,8 +70,8 @@ export class SeleccionarIntegrantesPage {
  * Metodo que agrega el nombre y la foto del grupo
  */
   agregarGrupo(){
-    this.translateService.get('Este campo es requerido').subscribe(value => {this.requerido = value;})
-    this.translateService.get('Agregado exitosamente').subscribe(value => {this.succesful = value;})
+    this.translateService.get(Texto.REQUERIDO).subscribe(value => {this.requerido = value;})
+    this.translateService.get(Texto.EXITO_AGREGAR_GRUPO).subscribe(value => {this.succesful = value;})
     if ( this.myForm.get('namegroup').errors)
     this.realizarToast(this.requerido);
     else{
@@ -107,8 +112,8 @@ export class SeleccionarIntegrantesPage {
      realizarToast(mensaje) {
       this.toast = this.toastCtrl.create({
         message: mensaje,
-        duration: 3000,
-        position: 'top'
+        duration: ConfiguracionToast.DURACION,
+        position: ConfiguracionToast.POSICION
       });
       this.toast.present();
     }
