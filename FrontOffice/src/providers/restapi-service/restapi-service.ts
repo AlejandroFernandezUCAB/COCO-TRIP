@@ -16,8 +16,9 @@ export class RestapiService
   private data : any;
   private userData: any;
   private idUser: number;
-
-  constructor(private http: Http) { }
+  private http: Http;
+  
+  constructor() { }
 
   iniciarSesion(usuario,clave)
   {
