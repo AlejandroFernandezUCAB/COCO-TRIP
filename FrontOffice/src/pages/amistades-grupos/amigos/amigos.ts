@@ -15,9 +15,9 @@ import { ConversacionPage } from '../../chat/conversacion/conversacion';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -25,18 +25,20 @@ import { ConversacionPage } from '../../chat/conversacion/conversacion';
  * Carga la lista de amigos de un usuario
  * Floating button para eliminar amigos, agregar amigos y ver perfil
  */
-@Component({
+@Component
+({
   selector: 'page-amigos',
   templateUrl: 'amigos.html'
 })
 
-
-export class AmigosPage {
-  delete= false;
-  edit= false;
-  detail=false;
-  chat=false;
-  amigo: any;
+export class AmigosPage 
+{
+  /*Condicionales*/
+  delete = false; 
+  edit = false;
+  detail = false; 
+  chat = false; 
+  amigo: any; //Arreglo de amigos
   toast: any;
   title: any;
   accept: any;
@@ -45,7 +47,8 @@ export class AmigosPage {
   message: any;
   succesful: any;
   loader: any;
-  nombreUsuario : string;
+  nombreUsuario: string;
+
   public loading = this.loadingCtrl.create({});
 
 

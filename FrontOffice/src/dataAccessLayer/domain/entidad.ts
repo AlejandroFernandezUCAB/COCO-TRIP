@@ -14,24 +14,29 @@
  * 
  * Clase entidad
  */
-export class Entidad{
+export class Entidad
+{
     protected _id: String;
 
-    constructor(){
+    constructor()
+    {
 
     }
 
     /**
      * Establece el identificador de la entidad
      */
-    set setId(id : String) {
+    set Id(id : String) 
+    {
         this._id = id;
     }
 
     /**
      * Obtiene el identificador de la entidad
      */
-    get getId():String {
+    get Id() : String 
+    {
         return this._id;
     }
+    
 }
