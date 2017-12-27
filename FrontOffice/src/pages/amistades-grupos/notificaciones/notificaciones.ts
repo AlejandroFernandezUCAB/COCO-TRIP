@@ -3,6 +3,8 @@ import { NavController , ToastController, LoadingController} from 'ionic-angular
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { RestapiService } from '../../../providers/restapi-service/restapi-service';
+import { Texto } from '../../constantes/texto';
+import { ConfiguracionToast } from '../../constantes/configToast';
 
 //****************************************************************************************************// 
 //***********************************PAGE DE SOLICITUDES MODULO 3*************************************//
@@ -10,19 +12,21 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
  * Descripcion de la clase:
  * Carga la lista de solicitudes de amistad
  */
-@Component({
+@Component
+({
   selector: 'page-notificaciones',
   templateUrl: 'notificaciones.html'
 })
+
 export class NotificacionesPage {
   
   toast: any;
@@ -48,8 +52,8 @@ export class NotificacionesPage {
 realizarToast(mensaje) {
   this.toast = this.toastCtrl.create({
     message: mensaje,
-    duration: 3000,
-    position: 'top'
+    duration: ConfiguracionToast.DURACION,
+    position: ConfiguracionToast.POSICION
   });
   this.toast.present();
 }
@@ -60,7 +64,7 @@ realizarToast(mensaje) {
  * (Por favor espere/ please wait)
  */
 cargando(){
-  this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
+  this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
   this.loading = this.loadingCtrl.create({
     content: this.loader,
     dismissOnPageChange: true
@@ -102,7 +106,7 @@ aceptarAmigo(nombreUsuarioAceptado,index){
       }
       else {
         if(data == 1){
-          this.translateService.get('Mensaje agregar').subscribe(
+          this.translateService.get(Texto.AGREGAR_MENSAJE).subscribe(
             value => {
                this.mensajeToast = value;
             }
@@ -111,12 +115,12 @@ aceptarAmigo(nombreUsuarioAceptado,index){
           
           this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
         }else {
-          this.translateService.get('Algo ha salido mal').subscribe(
+          this.translateService.get(Texto.ERROR).subscribe(
             value => {
                this.mensajeToast = value;
             }
           )
-          this.realizarToast('Algo ha salido mal');
+          this.realizarToast(Texto.ERROR);
         }
       }
     });
@@ -138,7 +142,7 @@ rechazarAmigo(nombreUsuarioRechazado, index){
       else {
         
         if(data == 1){
-          this.translateService.get('Peticion eliminada').subscribe(
+          this.translateService.get(Texto.PETICION_ELIMINADA).subscribe(
             value => {
                this.mensajeToast = value;
             }
@@ -146,12 +150,12 @@ rechazarAmigo(nombreUsuarioRechazado, index){
           this.realizarToast(this.mensajeToast);
           this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
         }else {
-          this.translateService.get('Algo ha salido mal').subscribe(
+          this.translateService.get(Texto.ERROR).subscribe(
             value => {
                this.mensajeToast = value;
             }
           )
-          this.realizarToast('Algo ha salido mal');
+          this.realizarToast(Texto.ERROR);
         }
       }
     });
