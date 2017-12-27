@@ -41,11 +41,11 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult CreateEvent(Evento evento)
     {
       //Debe funcionar con la siguiente linea:
-      evento.IdLocalidad = Int32.Parse(Request["Localidad"].ToString());
+      //evento.IdLocalidad = Int32.Parse(Request["Localidad"].ToString());
       
       //var idLocalidad = Request["Localidades"].ToString();
       //evento.IdLocalidad = Int32.Parse(idLocalidad);
-      //evento.IdLocalidad = 1;
+      evento.IdLocalidad = 1;
       evento.Foto = "jorge";
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
       Comando comando = FabricaComando.GetComandoInsertarEvento();
