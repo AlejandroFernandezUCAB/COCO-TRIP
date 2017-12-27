@@ -48,7 +48,7 @@ namespace BackOffice_COCO_TRIP.Helpers
       {
       TagBuilder dropdown = new TagBuilder("select");
   
-      dropdown.Attributes.Add("nombre", name);
+      dropdown.Attributes.Add("name", name);
       dropdown.Attributes.Add("id", name);
       StringBuilder options = new StringBuilder();
       foreach (var item in list)
