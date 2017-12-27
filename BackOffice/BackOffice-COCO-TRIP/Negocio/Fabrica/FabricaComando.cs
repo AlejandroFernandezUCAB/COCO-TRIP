@@ -86,5 +86,26 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
         {
             return new ComandoConsultarListaCategoria();
         }
-    }
+
+        public static ComandoConsultarLugaresTuristicos GetComandoConsultarLugaresTuristicos()
+        {
+            return new ComandoConsultarLugaresTuristicos();
+        }
+
+         public static ComandoAgregarLugarTuristico GetComandoAgregarLugarTuristico()
+         {
+            return new ComandoAgregarLugarTuristico();
+         }
+
+          public static ComandoAgregarActividad GetComandoAgregarActividad()
+          {
+            return new ComandoAgregarActividad();
+          }
+
+          public static ComandoAgregarHorario GetComandoAgregarHorario()
+          {
+            return new ComandoAgregarHorario();
+          }
+
+  }
 }
