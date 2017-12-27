@@ -37,7 +37,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoConsultarEventos();
         }
 
-        public static ComandoInsertarEvento GetComandoInsertarEvento()
+        public static ComandoConsultarEvento GetComandoConsultarEvento()
+        {
+            return new ComandoConsultarEvento();
+        }
+
+    public static ComandoInsertarEvento GetComandoInsertarEvento()
         {
             return new ComandoInsertarEvento();
         }

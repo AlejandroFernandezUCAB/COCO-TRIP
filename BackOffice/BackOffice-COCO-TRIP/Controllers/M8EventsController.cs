@@ -114,5 +114,17 @@ namespace BackOffice_COCO_TRIP.Controllers
       return RedirectToAction("FilterEvent", "M8Events", comando.GetResult()[0]);
     }
 
+    public ActionResult Select(int id)
+    {
+      ViewBag.Title = "Consultar Evento";
+      Comando comando = FabricaComando.GetComandoConsultarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      return View(comando.GetResult()[0]);
+
+    }
+
   }
 }
