@@ -2081,7 +2081,7 @@ $$ LANGUAGE plpgsql;
 /*DELETE*/
 
 --elimina evento por su id
-CREATE OR REPLACE FUNCTION EliminarEventoId
+CREATE OR REPLACE FUNCTION EliminarEventoporId
 (_id_eve integer) RETURNS void AS
 $$
 BEGIN
