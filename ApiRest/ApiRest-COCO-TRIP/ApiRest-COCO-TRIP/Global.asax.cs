@@ -12,6 +12,7 @@ namespace ApiRest_COCO_TRIP
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            log4net.Config.XmlConfigurator.Configure();
         }
     }
 }

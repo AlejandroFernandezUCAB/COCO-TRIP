@@ -41,10 +41,11 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     public static DAOCategoria CrearDAOCategoria()
     {
       return new DAOCategoria();
-      /// Retorna la instancia de DAOItinerario
-      /// </summary>
-      /// <returns>DAOItinerario</returns>
     }
+
+    /// Retorna la instancia de DAOItinerario
+    /// </summary>
+    /// <returns>DAOItinerario</returns>
     public static DAOItinerario CrearDAOItinerario()
     {
       return new DAOItinerario();

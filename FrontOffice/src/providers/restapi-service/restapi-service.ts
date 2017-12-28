@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import 'rxjs/add/operator/map';
 
 /*
@@ -312,7 +313,7 @@ eveSegunPreferencias(idUser){
  * Metodo para obtener la lista de amigos
  * @param idUsuario Identificador del usuario
  */
-  public listaAmigos(idUsuario)
+  public listaAmigos(idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -335,7 +336,7 @@ eveSegunPreferencias(idUser){
    * Metodo para obtener la lista de notificaciones
    * @param id Identificador del usuario
    */
-  public listaNotificaciones(id)
+  public listaNotificaciones(id : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -359,7 +360,7 @@ eveSegunPreferencias(idUser){
  * @param nombreUsuarioAceptado Nombre de usuario del usuario aceptado
  * @param id Identificador del usuario que acepto la solicitud
  */
-  public aceptarNotificacion(nombreUsuarioAceptado, id)
+  public aceptarNotificacion(nombreUsuarioAceptado : string, id : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -384,7 +385,7 @@ eveSegunPreferencias(idUser){
    * @param nombreUsuarioRechazado Nombre de usuario del usuario rechazado
    * @param idUsuario Identificador del usuario
    */
-  public rechazarNotificacion(nombreUsuarioRechazado, idUsuario)
+  public rechazarNotificacion(nombreUsuarioRechazado : string, idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -409,7 +410,7 @@ eveSegunPreferencias(idUser){
   * @param nombreAmigo Nombre de usuario del amigo
   * @param idUsuario Identificador del usuario
   */
-  public eliminarAmigo(nombreAmigo, idUsuario)
+  public eliminarAmigo(nombreAmigo : string, idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -434,7 +435,7 @@ eveSegunPreferencias(idUser){
  * @param idUsuario Identificador del usuario
  * @param idGrupo Identificador del grupo
  */
-  public eliminarGrupo(idUsuario, idGrupo)
+  public eliminarGrupo(idUsuario : number, idGrupo : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -457,7 +458,7 @@ eveSegunPreferencias(idUser){
  * Metodo para visualizar la lista de grupos
  * @param idUsuario nombre del usuario
  */
-  public listaGrupo(idUsuario)
+  public listaGrupo(idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -482,7 +483,7 @@ eveSegunPreferencias(idUser){
  * @param id Identificador del usuario que realiza la busqueda
  */
 
-  public buscarAmigos(nombre, id)
+  public buscarAmigos(nombre : string, id : number)
   {
      return new Promise((resolve, reject) => 
      {
@@ -504,7 +505,7 @@ eveSegunPreferencias(idUser){
  * Metodo para visualizar el perfil del grupo
  * @param id ID del grupo a buscar
  */
-  public verPerfilGrupo(id)
+  public verPerfilGrupo(id : number)
   {
     return new Promise ((resolve, reject) => 
     {
@@ -527,7 +528,7 @@ eveSegunPreferencias(idUser){
    * Metodo para visualizar la lista de integrantes de un grupo
    * @param id Identificador del grupo
    */
-  public listaMiembroGrupo(id)
+  public listaMiembroGrupo(id : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -550,7 +551,7 @@ eveSegunPreferencias(idUser){
  * Metodo para visualizar el perfil del usuario
  * @param nombre Nombre de usuario
  */
-  public obtenerPerfilPublico(nombre)
+  public obtenerPerfilPublico(nombre : string)
   {
     return new Promise((resolve, reject) => 
     {
@@ -574,7 +575,7 @@ eveSegunPreferencias(idUser){
  * @param id Identificacor unico del usuario
  * @param nombre Nombre de usuario del amigo
  */
-  public agregarAmigo(id, nombre) 
+  public agregarAmigo(id : number, nombre : string) 
   {
     return new Promise
     ( (resolve, reject) => 
@@ -602,7 +603,7 @@ eveSegunPreferencias(idUser){
  * @param nombre Nombre del usuario al que se desea agregar
  * @param correo Correo del usuario al que se desea agregar
  */
-  public enviarCorreo(id, nombre, correo) 
+  public enviarCorreo(id : number, nombre : string, correo : string) 
   {
     return new Promise((resolve, reject) => 
     {
@@ -626,7 +627,7 @@ eveSegunPreferencias(idUser){
 * Metodo para agregar el grupo
 * @param grupo Datos del grupo
 */
-  public agregarGrupo(grupo) 
+  public agregarGrupo(grupo : Entidad) 
   {
   return new Promise((resolve, reject) => 
   {
@@ -650,7 +651,7 @@ eveSegunPreferencias(idUser){
  * @param idUsuario Identificador del usuario
  * @param idGrupo Identificador del grupo
  */
-  public salirGrupo(idUsuario, idGrupo)
+  public salirGrupo(idUsuario : number, idGrupo : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -673,7 +674,7 @@ eveSegunPreferencias(idUser){
    * @param grupo Datos a modificar del grupo
    * @param idUsuario Identificador del usuario lider
    */
-  public modificarGrupo(grupo, idUsuario)
+  public modificarGrupo(grupo : Entidad, idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -695,7 +696,7 @@ eveSegunPreferencias(idUser){
    * @param nombreUsuario Nombre del integrante a eliminar
    * @param idGrupo Identificador del grupo
    */
-  public eliminarIntegrante(nombreUsuario, idGrupo)
+  public eliminarIntegrante(nombreUsuario : string, idGrupo : number)
   {
     return new Promise((resolve, reject) => 
     {
@@ -720,7 +721,7 @@ eveSegunPreferencias(idUser){
  * @param idGrupo Identificador del grupo
  * @param nombreAmigo Nombre del amigo a agregar
  */
-public agregarIntegrante(idGrupo, nombreAmigo) 
+public agregarIntegrante(idGrupo : number, nombreAmigo : string) 
 {
   return new Promise((resolve, reject) => 
   {
@@ -744,7 +745,7 @@ public agregarIntegrante(idGrupo, nombreAmigo)
  * @param idGrupo Identificador del grupo
  * @param idUsuario Identificador del usuario
  */
-public verificarLider(idGrupo, idUsuario)
+public verificarLider(idGrupo : number, idUsuario : number)
 {
   return new Promise((resolve, reject) => 
   {
@@ -768,7 +769,7 @@ public verificarLider(idGrupo, idUsuario)
  * Metodo para obtener al usuario lider
  * @param idGrupo Identificador del grupo
  */
-public obtenerLider(idGrupo)
+public obtenerLider(idGrupo : number)
 {
   return new Promise((resolve, reject) => 
   {
@@ -791,7 +792,7 @@ public obtenerLider(idGrupo)
  * Metodo que obtiene la lista de integrantes, sin el integrante lider
  * @param idGrupo identificador del grupo
  */
-public obtenerSinLider(idGrupo)
+public obtenerSinLider(idGrupo : number)
 {
   return new Promise((resolve, reject) => 
   {
@@ -815,7 +816,7 @@ public obtenerSinLider(idGrupo)
  * @param idUsuario Identificador de usuario
  * @param idGrupo Identificador del grupo
  */
-public obtenerMiembrosSinGrupo(idUsuario, idGrupo)
+public obtenerMiembrosSinGrupo(idUsuario : number, idGrupo : number)
 {
   return new Promise((resolve, reject) => 
   {
@@ -838,7 +839,7 @@ public obtenerMiembrosSinGrupo(idUsuario, idGrupo)
  * Metodo que obtiene el ultimo grupo agregado por un usuario
  * @param idUsuario Identificador del usuario
  */
-public obtenerUltimoGrupo(idUsuario)
+public obtenerUltimoGrupo(idUsuario : number)
 {
   return new Promise((resolve, reject) => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarUltimoGrupo/?idUsuario=' + idUsuario, "")
@@ -858,4 +859,5 @@ public obtenerUltimoGrupo(idUsuario)
 //****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
 //****************************************************************************************************//
+
 }

@@ -33,7 +33,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        mensaje.Id = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo); 
+        mensaje.Id = Number.parseInt(chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo).toString(), 10); 
         catProd.info("Saliendo del metodo agrega de DAO ");
         return mensaje;
         
@@ -50,7 +50,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        mensaje.Id = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
+        mensaje.Id = Number.parseInt(chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario).toString(), 10);
         catProd.info("Saliendo del metodo agregarMensajeGrupo de DAOChat");
         return mensaje;
     }
