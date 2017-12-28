@@ -222,7 +222,7 @@ create table evento
 	ev_id int primary key,
 	ev_nombre varchar(100) not null,
 	ev_descripcion varchar(500),
-	ev_precio int,
+	ev_precio double precision,
 	ev_fecha_inicio timestamp,
 	ev_fecha_fin timestamp,
 	ev_hora_inicio time,

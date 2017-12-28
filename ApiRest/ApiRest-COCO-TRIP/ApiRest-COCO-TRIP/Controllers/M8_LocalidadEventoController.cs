@@ -1,15 +1,13 @@
 using System.Web.Http;
-using ApiRest_COCO_TRIP.Models;
 using System.Web.Http.Cors;
 using System.Collections.Generic;
-using System;
 using System.Collections;
 using System.Web.Http.Description;
-using Newtonsoft.Json.Linq;
-using ApiRest_COCO_TRIP.Models.Excepcion;
-using System.Data.SqlClient;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Models.BaseDeDatos;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+
 namespace ApiRest_COCO_TRIP.Controllers
 {
 
@@ -20,6 +18,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   public class M8_LocalidadEventoController : ApiController
   {
     private IDictionary respuesta = new Dictionary<string, object>();
+    private Comando comando;
 
 
     /**
@@ -32,43 +31,23 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ResponseType(typeof(IDictionary))]
     [ActionName("agregarLocalidadEvento")]
     [HttpPost]
-    public IDictionary AgregarLocalidadEvento([FromBody] JObject data)
+    public IDictionary AgregarLocalidadEvento([FromBody] LocalidadEvento data)
     {
       try
       {
-        Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
-        {
-          "nombre","descripcion","coordenadas"
-        });
-        LocalidadEvento lEvento = (LocalidadEvento)data.ToObject<LocalidadEvento>();
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        int idEvento = peticionLocalidadEvento.AgregarLocalidadEvento(lEvento);
+        comando = FabricaComando.CrearComandoAgregarLocalidad(data);
+        comando.Ejecutar();
         respuesta.Add("dato", "Se ha creado una localidad");
-
       }
       catch (BaseDeDatosExcepcion e)
       {
         respuesta.Add("Error", e.Message);
       }
-      catch (ParametrosNullException e)
+      catch (CasteoInvalidoExcepcion e)
       {
-        respuesta.Add("dato", e.Mensaje);
-
+        respuesta.Add("Error", e.Message);
       }
-      catch (System.InvalidCastException e)
-      {
-        Console.WriteLine(e.Message);
-      }
-      catch (Exception e)
-      {
-        respuesta.Add("Error", "Error noo esperado " + e.Message);
-
-      }
-     
-
       return respuesta;
-
-
     }
 
 
@@ -84,26 +63,19 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       try
       {
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-       String respuestaPeticion = peticionLocalidadEvento.EliminarLocalidadEvento(id).ToString();
-        respuesta.Add("dato", "Localidad Eliminada Satisfactoriamente ");
+        comando = FabricaComando.CrearComandoEliminarLocalidad(id);
+        comando.Ejecutar();
+        respuesta.Add("dato", "Se ha eliminado una localidad");
       }
       catch (BaseDeDatosExcepcion e)
       {
-        respuesta.Add("Error Eliminar Evento", e.Message);
+        respuesta.Add("Error", e.Message);
       }
-      catch (ParametrosNullException e)
+      catch (CasteoInvalidoExcepcion e)
       {
-        respuesta.Add("Error Eliminar Localidad Evento", e.Mensaje);
-
+        respuesta.Add("Error", e.Message);
       }
-      catch (Exception e)
-      {
-        respuesta.Add("Error Eliminar Localidad Evento", "Error noo esperado ");
-
-      }
-
-       return respuesta;
+      return respuesta;
     }
 
 
@@ -119,90 +91,25 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       try
       {
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        LocalidadEvento localidadEvento =  peticionLocalidadEvento.ConsultarLocalidadEvento(id);
-        respuesta.Add("dato", localidadEvento);
+        comando = FabricaComando.CrearComandoConsultarLocalidad(id);
+        comando.Ejecutar();
+        respuesta.Add("dato", comando.Retornar());
       }
       catch (BaseDeDatosExcepcion e)
       {
-        respuesta.Add("Error Consultat Evento por id", e.Message);
+        respuesta.Add("Error", e.Message);
       }
-      catch (ParametrosNullException e)
+      catch (CasteoInvalidoExcepcion e)
       {
-        respuesta.Add("Error Consultat Evento por id", e.Mensaje);
-
+        respuesta.Add("Error", e.Message);
       }
-      catch (Exception e)
+
+      catch (OperacionInvalidaException e)
       {
-        respuesta.Add("Error Consultat Evento por id", "Error noo esperado ");
-
+        respuesta.Add("Error", e.Message);
       }
-
       return respuesta;
     }
-
-    /*
-    [HttpGet]
-    public int GetIdLocalPorNombre(string nombreLocalidad)
-    {
-      try
-      {
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        int id = peticionLocalidadEvento.ConsultarLocalidadEventoNombreID(nombreLocalidad).Id;
-        return id;
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
-        throw e;
-      }
-      catch (ParametrosNullException e)
-      {
-        throw e;
-
-      }
-      catch (FormatException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw e;
-
-      }
-
-    }
-
-    [HttpGet]
-    public LocalidadEvento LocalidadEventoPorNombre (string nombreLocalidad)
-    {
-      try
-      {
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        LocalidadEvento lce = peticionLocalidadEvento.ConsultarLocalidadEventoPorNombre(nombreLocalidad);
-        return lce;
-       
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
-        throw e;
-      }
-      catch (ParametrosNullException e)
-      {
-        throw e;
-
-      }
-      catch (FormatException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw e;
-
-      }
-
-    }
-    */
 
     /**
      * <summary>Metodo de controlador para Listar todos las localidades de los eventos</summary>
@@ -216,25 +123,23 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       try
       {
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-        IList<LocalidadEvento> list = peticionLocalidadEvento.ListaLocalidadEventos();
-        respuesta.Add("dato", list);
+        comando = FabricaComando.CrearComandoConsultarLocalidades();
+        comando.Ejecutar();
+        respuesta.Add("dato", comando.RetornarLista());
       }
       catch (BaseDeDatosExcepcion e)
       {
-        respuesta.Add("Error ListaLocalidadEventos", e.Message);
+        respuesta.Add("Error", e.Message);
       }
-      catch (ParametrosNullException e)
+      catch (CasteoInvalidoExcepcion e)
       {
-        respuesta.Add("Error ListaLocalidadEventos", e.Mensaje);
-
+        respuesta.Add("Error", e.Message);
       }
-      catch (Exception e)
+
+      catch (OperacionInvalidaException e)
       {
-        respuesta.Add("Error ListaLocalidadEventos", "Error noo esperado ");
-
+        respuesta.Add("Error", e.Message);
       }
-
       return respuesta;
     }
 
@@ -249,42 +154,23 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ResponseType(typeof(IDictionary))]
     [ActionName("actualizarLocalidadEvento")]
     [HttpPut]
-    public IDictionary ActualizarLocalidadEvento([FromBody] JObject data)
+    public IDictionary ActualizarLocalidadEvento([FromBody] LocalidadEvento data)
     {
       try
       {
-        Validaciones.ValidacionWS.validarParametrosNotNull(data, new List<string>
-        {
-          "id","nombre","descripcion","coordenadas"
-        });
-        LocalidadEvento lEvento = (LocalidadEvento)data.ToObject<LocalidadEvento>();
-        PeticionLocalidadEvento peticionLocalidadEvento = new PeticionLocalidadEvento();
-
-        int idEvento = peticionLocalidadEvento.ActualizarLocalidadEvento(lEvento);
-        respuesta.Add("dato", "Se ha actualizado una localidad");
-
+        comando = FabricaComando.CrearComandoModificarLocalidad(data);
+        comando.Ejecutar();
+        respuesta.Add("dato", "Se ha modificado una localidad");
       }
       catch (BaseDeDatosExcepcion e)
       {
         respuesta.Add("Error", e.Message);
       }
-      catch (ParametrosNullException e)
+      catch (CasteoInvalidoExcepcion e)
       {
-        respuesta.Add("dato", e.Mensaje);
-
+        respuesta.Add("Error", e.Message);
       }
-      catch (System.InvalidCastException e)
-      {
-        Console.WriteLine(e.Message);
-      }
-      catch (Exception e)
-      {
-        respuesta.Add("Error", "Error noo esperado " + e.Message);
-
-      }
-
       return respuesta;
-
 
     }
 

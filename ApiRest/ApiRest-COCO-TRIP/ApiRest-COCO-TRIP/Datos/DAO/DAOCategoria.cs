@@ -15,7 +15,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     private NpgsqlParameter parametro;
     private NpgsqlDataReader leerDatos;
 
-
     private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
     {
       var parametro = new NpgsqlParameter
@@ -34,6 +33,23 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       parametro = new NpgsqlParameter();
       lista = new List<Entidad>();
     }
+
+    private void StoredProcedure(string sp)
+    {
+      base.Conectar();
+      base.Comando = base.SqlConexion.CreateCommand();
+      base.Comando.CommandType = CommandType.StoredProcedure;
+      base.Comando.CommandText = sp;
+    }
+
+    private void ParametrosModificar(Categoria categoria)
+    {
+      base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
+      base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
+      base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
+      base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
+    }
+
     //Metodos CREATE
     public override void Insertar(Entidad objeto)
     { 
@@ -41,11 +57,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       try
       {
         int exitoso = 0;
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandText = "m9_agregarsubcategoria";
-        base.Comando.CommandType = CommandType.StoredProcedure;
-
+        StoredProcedure("m9_agregarsubcategoria");
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre); //Nombre de la categoria
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion); //descripcion de la categoría
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
@@ -107,37 +119,25 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       categoria = (Categoria)objeto;
       int exitoso = 0;
-      base.Conectar();
       try
       {
 
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandText = "m9_ModificarCategoria";
-        base.Comando.CommandType = CommandType.StoredProcedure;
+        StoredProcedure("m9_ModificarCategoria");
         DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
         IList<Categoria> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
 
-
-
         if (Lcategoria.First<Categoria>().Nivel == categoria.Nivel)
         {
-          base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
-          base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
-          base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
-          base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
+          ParametrosModificar(categoria);
         }
         else
         {
           //categories = listaCategorias.Where(s => s.Id == id).First();
-          IList<Categoria> Listacategoria = ObtenerTodasLasCategorias();
+          IList<Categoria> Listacategoria = daoc.ObtenerTodasLasCategorias();
           var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
           if (hijos.Count == 0)
           {
-            base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
-            base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
-            base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);
-            base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
+            ParametrosModificar(categoria);
           }
           else
           {
@@ -150,7 +150,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
         }
         else
-        {
+        {          
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
         }
         exitoso = base.Comando.ExecuteNonQuery();
@@ -184,12 +184,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       int exitoso = 0;
       try
       {
-
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandText = "m9_actualizarEstatusCategoria";
-        base.Comando.CommandType = CommandType.StoredProcedure;
-
+        StoredProcedure("m9_actualizarEstatusCategoria");
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, categoria.Estatus);
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
 
@@ -256,10 +251,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       IList<Categoria> listaCategorias;
       try
       {
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandType = CommandType.StoredProcedure;
-        base.Comando.CommandText = "m9_ConsultarCategoriaHabilitada";/* aqui va el stored procedure */
+        StoredProcedure("m9_ConsultarCategoriaHabilitada");
         leerDatos = base.Comando.ExecuteReader();
         listaCategorias = SetListaCategoria();
       }
@@ -291,10 +283,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       IList<Categoria> listaCategorias;
       try
       {
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandType = CommandType.StoredProcedure;
-        base.Comando.CommandText = "m9_ObtenerCategoriaPorId";
+        StoredProcedure("m9_ObtenerCategoriaPorId");
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
         leerDatos = base.Comando.ExecuteReader();
         listaCategorias = SetListaCategoria();
@@ -328,10 +317,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       IList<Categoria> listaCategorias;
       try
       {
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandType = CommandType.StoredProcedure;
-        base.Comando.CommandText = "m9_devolverTodasCategorias";
+        StoredProcedure("m9_devolverTodasCategorias");
         leerDatos = base.Comando.ExecuteReader();
         listaCategorias = SetListaCategoria();
       }
@@ -363,10 +349,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       try
       {
         int Superior = 0;
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandType = CommandType.StoredProcedure;
-        base.Comando.CommandText = "m9_devolverid";
+        StoredProcedure("m9_devolverid");
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
         leerDatos = base.Comando.ExecuteReader();
         if (leerDatos.Read())
@@ -410,16 +393,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       IList<Categoria> listaCategorias = new List<Categoria>();
       try
       {
-        base.Conectar();
-        base.Comando = base.SqlConexion.CreateCommand();
-        base.Comando.CommandType = CommandType.StoredProcedure;
+        
         if (categoria.Id == -1)
         {
-          base.Comando.CommandText = "m9_obtenerCategoriaTop";
+          StoredProcedure("m9_obtenerCategoriaTop");
         }
         else
         {
-          base.Comando.CommandText = "m9_obtenerCategoriaNoTop";
+          StoredProcedure("m9_obtenerCategoriaNoTop");
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
         }
 
@@ -442,7 +423,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         base.Desconectar();
       }
       return listaCategorias;
-
     }
+
   }
 }

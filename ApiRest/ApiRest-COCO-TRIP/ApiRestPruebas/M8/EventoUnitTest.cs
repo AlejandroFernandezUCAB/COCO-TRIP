@@ -1,8 +1,10 @@
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,9 @@ namespace ApiRestPruebas.M8
     private DAO daoCategoria;
     private List<Entidad> lista;
     private Comando comando;
+    private M8_EventosController controlador;
+    private Dictionary<string, object> esperado = new Dictionary<string, object>();
+    private Dictionary<string, object> respuesta = new Dictionary<string, object>();
 
     [SetUp]
     public void SetUpEvento()
@@ -206,6 +211,408 @@ namespace ApiRestPruebas.M8
         daoEvento.Actualizar(evento);
       });
 
+    }
+
+    [Test]
+    public void TestComandoAgregarEvento()
+    {
+
+      daoEvento.Eliminar(evento);
+      comando = FabricaComando.CrearComandoAgregarEvento(evento);
+
+      Assert.DoesNotThrow(() => {
+        comando.Ejecutar();
+      });
+      evento.Id += 1;
+      daoEvento.Eliminar(evento);
+      ((Evento)evento).Nombre = null;
+
+      comando = FabricaComando.CrearComandoAgregarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+      ((Evento)evento).Nombre = "Test";
+      ((Evento)evento).Descripcion = null;
+      comando = FabricaComando.CrearComandoAgregarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+      ((Evento)evento).Descripcion = "Test";
+      ((Evento)evento).Foto = null;
+      comando = FabricaComando.CrearComandoAgregarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+      evento = FabricaEntidad.CrearEntidadEvento();
+      comando = FabricaComando.CrearComandoAgregarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+    }
+
+    [Test]
+    public void TestComandoConsultarEvento()
+    {
+      comando = FabricaComando.CrearComandoConsultarEvento(evento.Id);
+
+      Assert.DoesNotThrow(() => {
+        comando.Ejecutar();
+      });
+      Entidad prueba = comando.Retornar();
+      Assert.AreEqual(prueba.Id, evento.Id);
+      Assert.AreEqual(((Evento)evento).Nombre, ((Evento)prueba).Nombre);
+      Assert.AreEqual(((Evento)evento).Descripcion, ((Evento)prueba).Descripcion);
+      Assert.AreEqual(((Evento)evento).FechaInicio.Date, ((Evento)prueba).FechaInicio.Date);
+      Assert.AreEqual(((Evento)evento).FechaFin.Date, ((Evento)prueba).FechaFin.Date);
+      Assert.AreEqual(((Evento)evento).Foto, ((Evento)prueba).Foto);
+      Assert.AreEqual(((Evento)evento).HoraInicio.Hour, ((Evento)prueba).HoraInicio.Hour);
+      Assert.AreEqual(((Evento)evento).HoraInicio.Minute, ((Evento)prueba).HoraInicio.Minute);
+      Assert.AreEqual(((Evento)evento).HoraInicio.Second, ((Evento)prueba).HoraInicio.Second);
+      Assert.AreEqual(((Evento)evento).HoraFin.Hour, ((Evento)prueba).HoraFin.Hour);
+      Assert.AreEqual(((Evento)evento).HoraFin.Minute, ((Evento)prueba).HoraFin.Minute);
+      Assert.AreEqual(((Evento)evento).HoraFin.Second, ((Evento)prueba).HoraFin.Second);
+      Assert.AreEqual(((Evento)evento).Precio, ((Evento)prueba).Precio);
+      Assert.AreEqual(((Evento)evento).IdCategoria, ((Evento)prueba).IdCategoria);
+      Assert.AreEqual(((Evento)evento).IdLocalidad, ((Evento)prueba).IdLocalidad);
+
+      evento.Id = 0;
+      comando = FabricaComando.CrearComandoConsultarEvento(evento.Id);
+
+      Assert.Throws<OperacionInvalidaException>(() => {
+        comando.Ejecutar();
+      });
+
+      evento = FabricaEntidad.CrearEntidadEvento();
+      comando = FabricaComando.CrearComandoConsultarEvento(evento.Id);
+      Assert.Throws<OperacionInvalidaException>(() => {
+        comando.Ejecutar();
+      });
+
+    }
+
+    [Test]
+    public void TestComandoConsultarEventos()
+    {
+      Entidad prueba = evento;
+      comando = FabricaComando.CrearComandoConsultarEventosPorCategoria(categoria.Id);
+      Assert.DoesNotThrow(() => {
+        comando.Ejecutar();
+      });
+      foreach (Entidad entidad in comando.RetornarLista())
+      {
+        if (entidad.Id == localidad.Id)
+        {
+          Assert.AreEqual(entidad.Id, evento.Id);
+          Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);
+          Assert.AreEqual(((Evento)evento).Descripcion, ((Evento)entidad).Descripcion);
+          Assert.AreEqual(((Evento)evento).FechaInicio.Date, ((Evento)entidad).FechaInicio.Date);
+          Assert.AreEqual(((Evento)evento).FechaFin.Date, ((Evento)entidad).FechaFin.Date);
+          Assert.AreEqual(((Evento)evento).Foto, ((Evento)entidad).Foto);
+          Assert.AreEqual(((Evento)evento).HoraInicio.Hour, ((Evento)entidad).HoraInicio.Hour);
+          Assert.AreEqual(((Evento)evento).HoraInicio.Minute, ((Evento)entidad).HoraInicio.Minute);
+          Assert.AreEqual(((Evento)evento).HoraInicio.Second, ((Evento)entidad).HoraInicio.Second);
+          Assert.AreEqual(((Evento)evento).HoraFin.Hour, ((Evento)entidad).HoraFin.Hour);
+          Assert.AreEqual(((Evento)evento).HoraFin.Minute, ((Evento)entidad).HoraFin.Minute);
+          Assert.AreEqual(((Evento)evento).HoraFin.Second, ((Evento)entidad).HoraFin.Second);
+          Assert.AreEqual(((Evento)evento).Precio, ((Evento)entidad).Precio);
+          Assert.AreEqual(((Evento)evento).IdCategoria, ((Evento)entidad).IdCategoria);
+          Assert.AreEqual(((Evento)evento).IdLocalidad, ((Evento)entidad).IdLocalidad);
+        }
+
+      }
+
+    }
+
+    [Test]
+    public void TestComandoEliminarEvento()
+    {
+
+      comando = FabricaComando.CrearComandoEliminarEvento(evento.Id);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+
+      evento.Id = 0;
+      comando = FabricaComando.CrearComandoEliminarEvento(evento.Id);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+
+      evento = FabricaEntidad.CrearEntidadEvento();
+      comando = FabricaComando.CrearComandoEliminarEvento(evento.Id);
+      Assert.DoesNotThrow(() => {
+        comando.Ejecutar();
+      });
+
+    }
+
+    [Test]
+    public void TestComandoActualizarEvento()
+    {
+      ((Evento)evento).Nombre = "Test2";
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+      Assert.AreEqual(((Evento)evento).Nombre,
+        ((Evento)daoEvento.ConsultarPorId(evento)).Nombre);
+
+      ((Evento)evento).Descripcion = "Test2";
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+      Assert.AreEqual(((Evento)evento).Descripcion,
+        ((Evento)daoEvento.ConsultarPorId(evento)).Descripcion);
+
+      ((Evento)evento).Foto = "/test2";
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.DoesNotThrow(() =>
+      {
+        comando.Ejecutar();
+      });
+      Assert.AreEqual(((Evento)evento).Foto,
+        ((Evento)daoEvento.ConsultarPorId(evento)).Foto);
+
+
+      ((Evento)evento).Nombre = null;
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+      ((Evento)evento).Nombre = "Test";
+      ((Evento)evento).Descripcion = null;
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+      ((Evento)evento).Descripcion = "Test";
+      ((Evento)evento).Foto = null;
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        comando.Ejecutar();
+      });
+    }
+
+    [Test]
+    public void TestControladorAgregarEvento()
+    {
+
+      daoEvento.Eliminar(evento);
+      controlador = new M8_EventosController();
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("dato", "Se ha creado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento.Id += 1;
+
+      ((Evento)evento).Nombre = null;
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Nombre = "Test";
+      ((Evento)evento).Descripcion = null;
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Descripcion = "Test";
+      ((Evento)evento).Foto = null;
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento = FabricaEntidad.CrearEntidadEvento();
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+    }
+
+    [Test]
+    public void TestControladorConsultarEvento()
+    {
+      Object prueba;
+      Entidad entidad;
+      controlador = new M8_EventosController();
+      respuesta = (Dictionary<string, object>)controlador.ConsultarEvento(evento.Id);
+      respuesta.TryGetValue("dato", out prueba);
+      entidad = (Evento)prueba;
+      Assert.AreEqual(evento.Id, entidad.Id);
+      Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);
+      Assert.AreEqual(((Evento)evento).Descripcion, ((Evento)entidad).Descripcion);
+      Assert.AreEqual(((Evento)evento).FechaInicio.Date, ((Evento)entidad).FechaInicio.Date);
+      Assert.AreEqual(((Evento)evento).FechaFin.Date, ((Evento)entidad).FechaFin.Date);
+      Assert.AreEqual(((Evento)evento).Foto, ((Evento)entidad).Foto);
+      Assert.AreEqual(((Evento)evento).HoraInicio.Hour, ((Evento)entidad).HoraInicio.Hour);
+      Assert.AreEqual(((Evento)evento).HoraInicio.Minute, ((Evento)entidad).HoraInicio.Minute);
+      Assert.AreEqual(((Evento)evento).HoraInicio.Second, ((Evento)entidad).HoraInicio.Second);
+      Assert.AreEqual(((Evento)evento).HoraFin.Hour, ((Evento)entidad).HoraFin.Hour);
+      Assert.AreEqual(((Evento)evento).HoraFin.Minute, ((Evento)entidad).HoraFin.Minute);
+      Assert.AreEqual(((Evento)evento).HoraFin.Second, ((Evento)entidad).HoraFin.Second);
+      Assert.AreEqual(((Evento)evento).Precio, ((Evento)entidad).Precio);
+      Assert.AreEqual(((Evento)evento).IdCategoria, ((Evento)entidad).IdCategoria);
+      Assert.AreEqual(((Evento)evento).IdLocalidad, ((Evento)entidad).IdLocalidad);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      int id = evento.Id;
+      evento.Id = 0;
+
+      respuesta = (Dictionary<string, object>)controlador.ConsultarEvento(evento.Id);
+      esperado.Add("Error", "Operation is not valid due to the current state of the object.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento = FabricaEntidad.CrearEntidadEvento();
+
+      respuesta = (Dictionary<string, object>)controlador.ConsultarEvento(evento.Id);
+      esperado.Add("Error", "Operation is not valid due to the current state of the object.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento.Id = id;
+    }
+
+    [Test]
+    public void TestControladorConsultarEventos()
+    {
+      Object prueba;
+      List<Entidad> entidades;
+      controlador = new M8_EventosController();
+      respuesta = (Dictionary<string, object>)controlador.ListaEventosPorCategoria(categoria.Id);
+      respuesta.TryGetValue("dato", out prueba);
+      entidades = (List<Entidad>)prueba;
+      foreach (Entidad entidad in entidades)
+      {
+        if (entidad.Id == localidad.Id)
+        {
+          Assert.AreEqual(entidad.Id, evento.Id);
+          Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);
+          Assert.AreEqual(((Evento)evento).Descripcion, ((Evento)entidad).Descripcion);
+          Assert.AreEqual(((Evento)evento).FechaInicio.Date, ((Evento)entidad).FechaInicio.Date);
+          Assert.AreEqual(((Evento)evento).FechaFin.Date, ((Evento)entidad).FechaFin.Date);
+          Assert.AreEqual(((Evento)evento).Foto, ((Evento)entidad).Foto);
+          Assert.AreEqual(((Evento)evento).HoraInicio.Hour, ((Evento)entidad).HoraInicio.Hour);
+          Assert.AreEqual(((Evento)evento).HoraInicio.Minute, ((Evento)entidad).HoraInicio.Minute);
+          Assert.AreEqual(((Evento)evento).HoraInicio.Second, ((Evento)entidad).HoraInicio.Second);
+          Assert.AreEqual(((Evento)evento).HoraFin.Hour, ((Evento)entidad).HoraFin.Hour);
+          Assert.AreEqual(((Evento)evento).HoraFin.Minute, ((Evento)entidad).HoraFin.Minute);
+          Assert.AreEqual(((Evento)evento).HoraFin.Second, ((Evento)entidad).HoraFin.Second);
+          Assert.AreEqual(((Evento)evento).Precio, ((Evento)entidad).Precio);
+          Assert.AreEqual(((Evento)evento).IdCategoria, ((Evento)entidad).IdCategoria);
+          Assert.AreEqual(((Evento)evento).IdLocalidad, ((Evento)entidad).IdLocalidad);
+        }
+
+      }
+
+    }
+
+    [Test]
+    public void TestControladorEliminarEvento()
+    {
+
+      controlador = new M8_EventosController();
+      respuesta = (Dictionary<string, object>)controlador.EliminarEvento(evento.Id);
+      esperado.Add("dato", "Se ha eliminado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento.Id = 0;
+
+      respuesta = (Dictionary<string, object>)controlador.EliminarEvento(evento.Id);
+      esperado.Add("dato", "Se ha eliminado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento = FabricaEntidad.CrearEntidadEvento();
+      respuesta = (Dictionary<string, object>)controlador.EliminarEvento(evento.Id);
+      esperado.Add("dato", "Se ha eliminado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+    }
+
+    [Test]
+    public void TestControladorActualizarEvento()
+    {
+      ((Evento)evento).Nombre = "Test2";
+      controlador = new M8_EventosController();
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
+      esperado.Add("dato", "Se ha modificado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      Assert.AreEqual(((Evento)evento).Nombre,
+      ((Evento)daoEvento.ConsultarPorId(evento)).Nombre);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Descripcion = "Test2";
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
+      esperado.Add("dato", "Se ha modificado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      Assert.AreEqual(((Evento)evento).Descripcion,
+      ((Evento)daoEvento.ConsultarPorId(evento)).Descripcion);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+      
+
+      ((Evento)evento).Foto = "/test2";
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
+      esperado.Add("dato", "Se ha modificado un evento");
+      Assert.AreEqual(respuesta, esperado);
+      Assert.AreEqual(((Evento)evento).Foto,
+      ((Evento)daoEvento.ConsultarPorId(evento)).Foto);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Nombre = null;
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Nombre = "Test";
+      ((Evento)evento).Descripcion = null;
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Descripcion = "Test";
+      ((Evento)evento).Foto = null;
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
     }
 
     [TearDown]

@@ -101,8 +101,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     public IDictionary ObtenerCategorias(int id = -1)
     {
       response = new Dictionary<string, object>();
-      DAO dao = FabricaDAO.CrearDAOCategoria();
-      DAOCategoria daoc = (DAOCategoria)dao;
       try
       {
 
@@ -208,7 +206,10 @@ namespace ApiRest_COCO_TRIP.Controllers
         response.Add(Response_Error, ex.Mensaje);
 
       }
-
+      catch (Exception ex)
+      {
+        response.Add(Response_Error, "Ocurrio un error inesperado");
+      }
 
       return response;
 
