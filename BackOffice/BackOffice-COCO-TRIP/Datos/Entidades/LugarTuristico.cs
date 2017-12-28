@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using BackOffice_COCO_TRIP.Datos.Entidades;
-namespace BackOffice_COCO_TRIP.Models
+
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   /// <summary>
   /// Clase que contiene los datos de lugar turistico

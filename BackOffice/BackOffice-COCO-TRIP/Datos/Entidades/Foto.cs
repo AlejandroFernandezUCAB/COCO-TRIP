@@ -1,7 +1,6 @@
-using BackOffice_COCO_TRIP.Datos.Entidades;
 using System.Linq;
 
-namespace BackOffice_COCO_TRIP.Models
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   /// <summary>
   /// Clase que contiene los datos asociados a las fotos

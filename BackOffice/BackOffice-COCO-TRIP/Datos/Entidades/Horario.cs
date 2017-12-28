@@ -2,7 +2,7 @@ using BackOffice_COCO_TRIP.Datos.Entidades;
 using System;
 
 
-namespace BackOffice_COCO_TRIP.Models
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   /// <summary>
   /// Clase que contiene los datos asociados a los horarios de los lugares turisticos
