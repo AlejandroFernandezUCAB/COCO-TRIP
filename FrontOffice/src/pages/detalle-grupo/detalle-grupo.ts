@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
+import { Comando } from '../../businessLayer/commands/comando';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 
 //****************************************************************************************************// 
 //********************************PAGE DETALLE DE UN GRUPO MODULO 3***********************************//
@@ -27,52 +28,47 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class DetalleGrupoPage 
 {
-  grupo:any;
-  miembro:any;
-  idGrupo: any;
+  /*Atributos que almacenan datos*/
+  public grupo : any; //Datos del grupo
+  public miembro : any; //Lista de usuarios
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public restapiService: RestapiService, private translateService: TranslateService) {
- 
-  }
+  /*Elementos de la vista*/
+  public navCtrl: NavController;
+  public navParams: NavParams;
+  private translateService: TranslateService;
+
+  private comando : Comando;
+  
+  constructor() { }
 
   /**
    * Carga los atributos del grupo, nombre y foto
    */
-  ionViewWillEnter() {
-    this.idGrupo = this.navParams.get('idGrupo');
-      this.restapiService.verperfilGrupo(this.idGrupo)
-      .then(data => {
-        if (data == 0 || data == -1) {
-          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+  public ionViewWillEnter() 
+  {
+    this.comando = FabricaComando.crearComandoVerPerfilGrupo(this.navParams.get('idGrupo'))
+    this.comando.execute();
 
-        }
-        else {
-          this.grupo = data;
-          this.cargarmiembros(this.idGrupo);
-        }
-
-      });
- 
+    if(this.comando.isSuccess)
+    {
+      this.grupo = this.comando.return();
+      this.cargarMiembros(this.navParams.get('idGrupo'));
+    }
   }
 
   /**
    * Carga los integrantes del grupo
    * @param id Identificador del grupo
    */
-  cargarmiembros(id){
-    this.restapiService.listamiembroGrupo(id)
-    .then(data => {
-      if (data == 0 || data == -1) {
-        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+  public cargarMiembros (id) 
+  {
+    this.comando = FabricaComando.crearComandoListaMiembroGrupo(id);
+    this.comando.execute();
 
-      }
-      else {
-        this.miembro = data;
-      }
-
-    });
+    if(this.comando.isSuccess)
+    {
+      this.miembro = this.comando.return();
+    }
   }
 
 }
-

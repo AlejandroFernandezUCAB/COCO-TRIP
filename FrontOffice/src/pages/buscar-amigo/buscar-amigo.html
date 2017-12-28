@@ -10,7 +10,7 @@
     [showCancelButton]="shouldShowCancel">
   </ion-searchbar>
     <ion-list *ngIf="showList">
-        <ion-item *ngFor="let item of lista" (tap)="Visualizarpublico(item.NombreUsuario)">
+        <ion-item *ngFor="let item of lista" (tap)="visualizarPublico(item.NombreUsuario)">
           <ion-avatar item-left>
               <img src="assets/images/profile.png">
         </ion-avatar>
