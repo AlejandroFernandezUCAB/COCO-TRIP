@@ -27,6 +27,7 @@ import { ComandoObtenerLider } from '../commands/comandoObtenerLider';
 import { ComandoObtenerSinLider } from '../commands/comandoObtenerSinLider';
 import { ComandoEliminarIntegrante } from '../commands/comandoEliminarIntegrante';
 import { ComandoModificarGrupo } from '../commands/comandoModificarGrupo';
+import { ComandoObtenerMiembrosSinGrupo } from '../commands/comandoObtenerMiembrosSinGrupo';
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 6*************************************//
 //****************************************************************************************************//
@@ -305,6 +306,17 @@ export class FabricaComando{
     public static crearComandoModificarGrupo(nombreGrupo : string, idUsuario : number, idGrupo : number) : ComandoModificarGrupo
     {
         return new ComandoModificarGrupo(nombreGrupo, idUsuario, idGrupo);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoObtenerMiembrosSinGrupo
+ * @param idUsuario Identificador del usuario
+ * @param idGrupo Identificador del grupo
+ */
+    public static crearComandoObtenerMiembrosSinGrupo(idUsuario : number, idGrupo : number) : ComandoObtenerMiembrosSinGrupo
+    {
+        return new ComandoObtenerMiembrosSinGrupo(idUsuario, idGrupo);
     }
     
 }
