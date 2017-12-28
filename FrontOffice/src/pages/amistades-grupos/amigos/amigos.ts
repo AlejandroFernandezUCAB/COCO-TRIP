@@ -11,6 +11,7 @@ import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
 import { Comando } from '../../../businessLayer/commands/comando';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../../constantes/configImages';
 
 //****************************************************************************************************//
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
@@ -111,6 +112,18 @@ export class AmigosPage
        if(this.comando.isSuccess)
        {
          this.amigo = this.comando.return();
+
+         for(let i = 0; i < this.amigo.length; i++)
+         {
+            if(this.amigo[i].Foto == undefined)
+            {
+              this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+            }
+            else
+            {
+              this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
+            }
+         }
        }
        else
        {
@@ -252,7 +265,7 @@ export class AmigosPage
  */
   public eliminarAmigos(nombreUsuario, index)
   {
-    this.amigo.filter(item => item.NombreUsuario == nombreUsuario)[8];
+    //this.amigo.filter(item => item.nombreUsuario == nombreUsuario)[8];
     this.amigo.splice(index, 1);
   }
 
@@ -299,5 +312,4 @@ export class AmigosPage
     });
     this.toast.present();
   }
-  
 }

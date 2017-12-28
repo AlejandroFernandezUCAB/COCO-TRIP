@@ -4,6 +4,7 @@ import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualiz
 import { Storage } from '@ionic/storage';
 import { Comando } from '../../businessLayer/commands/comando';
 import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../constantes/configImages';
 
 //****************************************************************************************************// 
 //***********************************PAGE BUSCAR AMIGOS MODULO 3**************************************//
@@ -81,6 +82,18 @@ export class BuscarAmigoPage
       if(this.comando.isSuccess)
       {
         this.lista = this.comando.return();
+
+        for(let i = 0; i < this.lista.length; i++)
+        {
+           if(this.lista[i].Foto == undefined)
+           {
+             this.lista[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+           }
+           else
+           {
+             this.lista[i].Foto = ConfiguracionImages.PATH + this.lista[i].Foto;
+           }
+        }
       }
     });    
   }
