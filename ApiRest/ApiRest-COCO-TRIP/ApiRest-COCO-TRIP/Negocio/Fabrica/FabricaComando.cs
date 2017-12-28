@@ -309,6 +309,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoModificarCategoria(entidad);
     }
 
+
+    /// Retorna la instancia de ComandoModificarCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoAgregarCategoria CrearComandoAgregarCategoria(Entidad entidad)
+    {
+      return new ComandoAgregarCategoria(entidad);
+    }
+
     /// <summary>
     /// Retorna la instancia de ComandoObtenerCategorias
     /// </summary>
@@ -506,6 +516,25 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoListarCoincidenciaActividades CrearComandoListarCoincidenciaActividades(string busqueda)
     {
       return new ComandoListarCoincidenciaActividades(busqueda);
+    }
+
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaActividades
+    /// </summary>
+    /// <returns>ComandoObtenerCategoriaPorId</returns>
+    public static ComandoObtenerCategoriaPorId CrearComandoObtenerCategoriaPorId(Entidad entidad)
+    {
+      return new ComandoObtenerCategoriaPorId(entidad);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoObtenerCategoriasHabilitadas
+    /// </summary>
+    /// <returns>ComandoObtenerCategoriasHabilitadas</returns>
+    public static ComandoObtenerCategoriasHabilitadas CrearComandoObtenerCategoriasHabilitadas()
+    {
+      return new ComandoObtenerCategoriasHabilitadas();
     }
   }
 }

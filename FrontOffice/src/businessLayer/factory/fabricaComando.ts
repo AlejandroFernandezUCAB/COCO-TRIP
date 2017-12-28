@@ -7,10 +7,26 @@ import { ComandoModificarMensaje } from './../commands/comandoModificarMensaje';
 import { ComandoEliminarMensajeGrupo } from './../commands/comandoEliminarMensajeGrupo';
 import { ComandoCrearMensajeGrupo } from './../commands/comandoCrearMensajeGrupo';
 import  { ComandoCrearMensaje } from '../commands/comandoCrearMensaje';
+import { ComandoListaAmigos } from '../commands/comandoListaAmigos';
+import { ComandoEliminarAmigo } from '../commands/comandoEliminarAmigo';
+import { ComandoListaGrupos } from '../commands/comandoListaGrupos';
+import { ComandoVerificarLider } from '../commands/comandoVerificarLider';
+import { ComandoSalirGrupo } from '../commands/comandoSalirGrupo';
+import { ComandoListaNotificaciones } from '../commands/comandoListaNotificaciones';
 import  { Comando } from '../commands/comando';
 import { Entidad } from '../../dataAccessLayer/domain/entidad'; 
 import { ComandoEliminarMensaje } from '../commands/comandoEliminarMensaje';
-import {catService,catProd} from "../../logs/config";
+import { catService, catProd } from "../../logs/config";
+import { ComandoAceptarNotificacion } from '../commands/comandoAceptarNotificacion';
+import { ComandoRechazarNotificacion } from '../commands/comandoRechazarNotificacion';
+import { ComandoBuscarAmigo } from '../commands/comandoBuscarAmigo';
+import { ComandoAgregarIntegrante } from '../commands/comandoAgregarIntegrante';
+import { ComandoVerPerfilGrupo } from '../commands/comandoVerPerfilGrupo';
+import { ComandoListaMiembroGrupo } from '../commands/comandoListaMiembroGrupo';
+import { ComandoObtenerLider } from '../commands/comandoObtenerLider';
+import { ComandoObtenerSinLider } from '../commands/comandoObtenerSinLider';
+import { ComandoEliminarIntegrante } from '../commands/comandoEliminarIntegrante';
+import { ComandoModificarGrupo } from '../commands/comandoModificarGrupo';
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 6*************************************//
 //****************************************************************************************************//
@@ -121,4 +137,174 @@ export class FabricaComando{
         return new ComandoInformacionMensajeGrupo();
     }
 
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoListaAmigos
+ * @param id Identificador del usuario
+ */
+    public static crearComandoListaAmigos(id : number) : ComandoListaAmigos
+    {
+        return new ComandoListaAmigos(id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoEliminarAmigo
+ * @param nombreUsuario Nombre de usuario del amigo
+ * @param id Identificador del usuario
+ */
+    public static crearComandoEliminarAmigo(nombreUsuario : string, id : number) : ComandoEliminarAmigo
+    {
+        return new ComandoEliminarAmigo(nombreUsuario, id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoListaGrupos
+ * @param id Identificador del usuario
+ */
+    public static crearComandoListaGrupos(id : number) : ComandoListaGrupos
+    {
+        return new ComandoListaGrupos(id);
+    }
+    
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoVerificarLider
+ * @param idUsuario Identificador del usuario
+ * @param idgrupo Identificador del grupo
+ */
+    public static crearComandoVerificarLider(idGrupo : number, idUsuario : number) : ComandoVerificarLider
+    {
+        return new ComandoVerificarLider(idGrupo, idUsuario);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoSalirGrupo
+ * @param idUsuario Identificador del usuario
+ * @param idgrupo Identificador del grupo
+ */
+    public static crearComandoSalirGrupo(idGrupo : number, idUsuario : number) : ComandoSalirGrupo
+    {
+        return new ComandoSalirGrupo(idGrupo, idUsuario);
+    }
+    
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoListaNotificaciones
+ * @param id Identificador del usuario
+ */
+    public static crearComandoListaNotificaciones(id : number) : ComandoListaNotificaciones
+    {
+        return new ComandoListaNotificaciones(id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoAceptarNotificacion
+ * @param nombreUsuario Nombre de usuario del amigo
+ * @param id Identificador del usuario
+ */
+    public static crearComandoAceptarNotificacion(nombreUsuario : string, id : number) : ComandoAceptarNotificacion
+    {
+        return new ComandoAceptarNotificacion(nombreUsuario, id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoRechazarNotificacion
+ * @param nombreUsuario Nombre de usuario del amigo
+ * @param id Identificador del usuario
+ */
+    public static crearComandoRechazarNotificacion(nombreUsuario : string, id : number) : ComandoRechazarNotificacion
+    {
+        return new ComandoRechazarNotificacion(nombreUsuario, id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoBuscarAmigo
+ * @param nombre Texto de busqueda
+ * @param id  Identificador del usuario
+ */
+    public static crearComandoBuscarAmigo(nombre : string, id : number) : ComandoBuscarAmigo
+    {
+        return new ComandoBuscarAmigo(nombre, id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoAgregarIntegrante
+ * @param idGrupo Identificador del grupo
+ * @param nombreUsuario Nombre de usuario a agregar en el grupo
+ */
+    public static crearComandoAgregarIntegrante(idGrupo : number, nombreUsuario : string) : ComandoAgregarIntegrante
+    {
+        return new ComandoAgregarIntegrante(idGrupo, nombreUsuario);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoVerPerfilGrupo
+ * @param id  Identificador del grupo
+ */
+    public static crearComandoVerPerfilGrupo(id : number) : ComandoVerPerfilGrupo
+    {
+        return new ComandoVerPerfilGrupo(id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoListaMiembroGrupo
+ * @param id Identificador del grupo
+ */
+    public static crearComandoListaMiembroGrupo(id : number) : ComandoListaMiembroGrupo
+    {
+        return new ComandoListaMiembroGrupo(id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoObtenerLider
+ * @param id Identificador del grupo 
+ */
+    public static crearComandoObtenerLider(id : number) : ComandoObtenerLider
+    {
+        return new ComandoObtenerLider(id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoObtenerSinLider
+ * @param id Identificador del grupo
+ */
+    public static crearComandoObtenerSinLider(id : number) : ComandoObtenerSinLider
+    {
+        return new ComandoObtenerSinLider(id);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoEliminarIntegrante
+ * @param idGrupo Identificador del grupo
+ * @param nombreUsuario Nombre de usuario a eliminar en el grupo
+ */
+    public static crearComandoEliminarIntegrante(idGrupo : number, nombreUsuario : string) : ComandoEliminarIntegrante
+    {
+        return new ComandoEliminarIntegrante(idGrupo, nombreUsuario);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoModificarGrupo
+ * @param nombreGrupo Nuevo nombre del grupo
+ * @param idUsuario Identificador del usuario que va a modificar el nombre (para validar si es o no el lider)
+ * @param idGrupo Identificador del grupo 
+ */
+    public static crearComandoModificarGrupo(nombreGrupo : string, idUsuario : number, idGrupo : number) : ComandoModificarGrupo
+    {
+        return new ComandoModificarGrupo(nombreGrupo, idUsuario, idGrupo);
+    }
+    
 }

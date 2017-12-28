@@ -13,7 +13,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
   public class DAOCategoria : DAO
   {
     private NpgsqlParameter parametro;
-
     private NpgsqlDataReader leerDatos;
 
     private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
@@ -160,10 +159,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
       catch (PostgresException ex)
       {
-
-
         throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
-
       }
 
       catch (NpgsqlException ex)
@@ -282,8 +278,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     /// </summary>
     /// <param name="categoria"></param>
     /// <exception cref="BaseDeDatosExcepcion"></exception>
-    public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
+    public IList<Categoria> ObtenerCategoriaPorId(Entidad entidad)
     {
+      categoria = (Categoria)entidad;
       IList<Categoria> listaCategorias;
       try
       {
@@ -348,8 +345,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     /// </summary>
     /// <param name="categoria"></param>
     /// <exception cref="BaseDeDatosExcepcion"></exception>
-    public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
+    public Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
     {
+      categoria = (Categoria)entidad;
       try
       {
         int Superior = 0;

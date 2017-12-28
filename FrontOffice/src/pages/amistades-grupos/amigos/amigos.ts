@@ -4,13 +4,13 @@ import { Component } from '@angular/core';
 import { Platform, ActionSheetController, ToastController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
 import { AlertController, LoadingController } from 'ionic-angular';
-import { RestapiService } from '../../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConversacionPage } from '../../chat/conversacion/conversacion';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { Usuario } from '../../../dataAccessLayer/domain/usuario';
+import { Comando } from '../../../businessLayer/commands/comando';
+import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 
 //****************************************************************************************************//
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
@@ -44,7 +44,6 @@ export class AmigosPage
   
   /*Atributos que almacenan datos*/
   public amigo : any; //Es un arreglo de usuarios
-  public nombreUsuario : string;
 
   /*Texto a mostrar en la vista*/
   public title : string;
@@ -62,13 +61,14 @@ export class AmigosPage
   public platform : Platform
   public actionsheetCtrl : ActionSheetController;
   public alerCtrl : AlertController;
-  public restapiService : RestapiService;
   public loadingCtrl : LoadingController;
   public toastCtrl : ToastController; 
   private storage : Storage;
   private translateService : TranslateService;
 
   public loading = this.loadingCtrl.create({});
+
+  private comando : Comando; //Superclase comando
 
   constructor() { }
 
@@ -105,18 +105,19 @@ export class AmigosPage
      this.storage.get('id')
      .then(idUsuario => 
      {
-        this.restapiService.listaAmigos(idUsuario)
-        .then(datos => 
-        {
-          this.amigo = datos;
-          this.loading.dismiss();
-        }
-        , error =>
-        {
-          this.realizarToast(Texto.ERROR);
-          this.loading.dismiss();
-        }
-        );
+       this.comando = FabricaComando.crearComandoListaAmigos(idUsuario);
+       this.comando.execute();
+
+       if(this.comando.isSuccess)
+       {
+         this.amigo = this.comando.return();
+       }
+       else
+       {
+         this.realizarToast(Texto.ERROR);
+       }
+
+       this.loading.dismiss();
      });
   }
 
@@ -220,15 +221,23 @@ export class AmigosPage
           text: this.accept,
           handler: () => 
           {
-            this.eliminarAmigos(nombreUsuario, index);
-
             this.storage.get('id').then((idUsuario) => 
             {
-              this.restapiService.eliminarAmigo(nombreUsuario, idUsuario);
-            });
+              this.comando = FabricaComando.crearComandoEliminarAmigo(nombreUsuario, idUsuario);
+              this.comando.execute();
 
-            this.delete = false;
-            this.realizarToast(this.succesful);
+              if(this.comando.isSuccess)
+              {
+                this.eliminarAmigos(nombreUsuario, index);
+                this.realizarToast(this.succesful);
+
+                this.delete = false;
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            });
           }
         }
       ]
@@ -243,7 +252,7 @@ export class AmigosPage
  */
   public eliminarAmigos(nombreUsuario, index)
   {
-    //this.amigo.filter(item => item.NombreUsuario == nombreUsuario)[8];
+    this.amigo.filter(item => item.NombreUsuario == nombreUsuario)[8];
     this.amigo.splice(index, 1);
   }
 
@@ -276,14 +285,19 @@ export class AmigosPage
  * Metodo que despliega un toast
  * @param mensaje Texto para el toast
  */
-  public realizarToast(mensaje) 
+  public realizarToast(mensaje : string) 
   {
+    let mensajeTraducido;
+
+    this.translateService.get(mensaje).subscribe(value => {mensajeTraducido = value;})
+
     this.toast = this.toastCtrl.create(
     {
-      message: mensaje,
+      message: mensajeTraducido,
       duration: ConfiguracionToast.DURACION,
       position: ConfiguracionToast.POSICION
     });
     this.toast.present();
   }
+  
 }
