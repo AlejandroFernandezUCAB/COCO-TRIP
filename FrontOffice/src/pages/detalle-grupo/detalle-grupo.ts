@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Comando } from '../../businessLayer/commands/comando';
 import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../constantes/configImages';
 
 //****************************************************************************************************// 
 //********************************PAGE DETALLE DE UN GRUPO MODULO 3***********************************//
@@ -51,7 +52,22 @@ export class DetalleGrupoPage
 
     if(this.comando.isSuccess)
     {
-      this.grupo = this.comando.return();
+      let grupo = this.comando.return();
+
+      if(grupo.RutaFoto == undefined)
+      {
+        grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+      }
+      else
+      {
+        grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
+      }
+      
+      let listaGrupo = new Array();
+      listaGrupo.push(grupo);
+
+      this.grupo = listaGrupo;
+
       this.cargarMiembros(this.navParams.get('idGrupo'));
     }
   }
@@ -68,7 +84,19 @@ export class DetalleGrupoPage
     if(this.comando.isSuccess)
     {
       this.miembro = this.comando.return();
+
+      for(let i = 0; i < this.miembro.length; i++)
+      {
+         if(this.miembro[i].Foto == undefined)
+         {
+           this.miembro[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+         }
+         else
+         {
+           this.miembro[i].Foto = ConfiguracionImages.PATH + this.miembro[i].Foto;
+         }
+      }
     }
   }
-
+  
 }

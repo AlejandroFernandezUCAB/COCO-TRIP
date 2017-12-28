@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController,Platform, ActionSheetController, AlertController, LoadingController, ToastController} from 'ionic-angular';
-import  {CrearGrupoPage } from '../../crear-grupo/crear-grupo';
+import { CrearGrupoPage } from '../../crear-grupo/crear-grupo';
 import { SeleccionarIntegrantesPage } from '../../seleccionar-integrantes/seleccionar-integrantes';
 import { DetalleGrupoPage } from '../../detalle-grupo/detalle-grupo';
 import { ModificarGrupoPage } from '../../modificar-grupo/modificar-grupo';
@@ -11,6 +11,7 @@ import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { Comando } from '../../../businessLayer/commands/comando';
+import { ConfiguracionImages } from '../../constantes/configImages';
 
 //****************************************************************************************************// 
 //*************************************PAGE DE GRUPOS MODULO 3****************************************//
@@ -108,6 +109,18 @@ export class GruposPage
         if(this.comando.isSuccess)
         {
           this.grupo = this.comando.return();
+
+          for(let i = 0; i < this.grupo.length; i++)
+          {
+             if(this.grupo[i].RutaFoto == undefined)
+             {
+               this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+             }
+             else
+             {
+               this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
+             }
+          }
         }
         else
         {
@@ -339,7 +352,7 @@ export class GruposPage
  */
   public eliminarGrupos(id, index)
   {
-    this.grupo.filter(item => item.Id === id)[0];
+    //this.grupo.filter(item => item.Id === id)[0];
     this.grupo.splice(index, 1);
   }
 

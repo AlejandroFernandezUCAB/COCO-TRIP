@@ -13,7 +13,7 @@
       <ion-list>
           <ion-item *ngFor="let item of grupo; let i= index">
             <ion-avatar item-start>
-              <img src="assets/images/grupo.png">
+              <img src={{item.RutaFoto}}>
             </ion-avatar>
             <h2>{{item.Nombre}}</h2>
             <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.Id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">{{ 'Eliminar Grupo' | translate }}</p>
