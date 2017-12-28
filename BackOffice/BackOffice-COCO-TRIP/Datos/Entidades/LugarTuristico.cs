@@ -31,12 +31,68 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     /// </summary>
     public LugarTuristico()
     {
+      // Mi propuesta era pedirle las entidades a los dao.
+      // o a un comando. Por eso cree los dao, ver nota.
+
       foto = new List<Foto>();
       horario = new List<Horario>();
       actividad = new List<Actividad>();
 
       categoria = new List<Categoria>();
       subCategoria = new List<Categoria>();
+
+      // Nota: el apirest devuelve todo junto como un json
+      // y ya tiene aplicado patrones al parecer...
+      // para no hacer mas daos sin necesidad, y evitar hacer mas llamadas
+      // (porque ya todo lo que necesitamos lo envia el api en el json)
+      // lo que se hara:
+      // eliminar los dao de actividad, foto, horario y hacer que el dao Lugar_turistico
+      // extraiga la data, cree las entidades
+      // (foto, horario, actividad, categoria y subCategoria)
+      // y las pase a esta entidad (crear costructor), para luego devolverla al cliente.
+
+
+
+
+
+      //ejemplo json del apirest
+//[
+//    {
+//        "Id": 1,
+//        "Nombre": "Parque Generalisimo de Miranda",
+//        "Costo": 0,
+//        "Descripcion": "Lugar al aire libre",
+//        "Direccion": null,
+//        "Correo": null,
+//        "Telefono": 0,
+//        "Latitud": 0,
+//        "Longitud": 0,
+//        "Activar": true,
+//        "Foto": [
+//            {
+//                "Id": 1,
+//                "Ruta": "Ruta LT1.jpg",
+//                "Contenido": null
+//            }
+//        ],
+//        "Horario": [
+//            {
+//                "Id": 0,
+//                "DiaSemana": 0,
+//                "HoraApertura": "08:00:00",
+//                "HoraCierre": "18:00:00"
+//            }
+//        ],
+//        "Actividad": [],
+//        "Categoria": [],
+//        "SubCategoria": []
+//    }
+//]
+
+
+
+
+
     }
 
 
