@@ -4,6 +4,9 @@ import { Storage } from '@ionic/storage';
 import { TranslateModule , TranslateService  } from '@ngx-translate/core'
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
+import { Comando } from '../../businessLayer/commands/comando';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../constantes/configImages';
 
 //****************************************************************************************************// 
 //***************************PAGE DE VISUALIZAR PERFIL PUBLICO MODULO 3*******************************//
@@ -55,6 +58,8 @@ export class VisualizarPerfilPublicoPage
     content: 'Please wait...'
   });
 
+  private comando : Comando;
+  
   constructor( ) { }
 
 /**
@@ -105,81 +110,110 @@ export class VisualizarPerfilPublicoPage
    */
   public ionViewWillEnter() 
   {
-    //this.nombreUsuario = this.navParams.get('nombreUsuario');
     this.cargando();
 
-     /*this.restapiService.obtenerPerfilPublico(this.nombreUsuario)
-       .then(data => {
-         if (data == 0 || data == -1) {
-           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-         }
-         else {
-           this.amigo = data;
-           this.loading.dismiss();
-         }
- 
-       });*/
-   }
+    this.comando = FabricaComando.crearComandoObtenerPerfilPublico(this.navParams.get('nombreUsuario'));
+    this.comando.execute();
+
+    if(this.comando.isSuccess)
+    {
+      let amigo = this.comando.return();
+      let listaAmigos = new Array();
+
+      if(amigo.Foto == undefined)
+      {
+        amigo.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+      }
+      else
+      {
+        amigo.Foto = ConfiguracionImages.PATH + amigo.Foto;
+      }
+
+      listaAmigos.push(amigo);
+      this.amigo = listaAmigos;
+    }
+    else
+    {
+      this.realizarToast(Texto.ERROR);
+    }
+
+    this.loading.dismiss();
+  }
 
 /**
- * Metodo que carga los datos de un amigo para visualizar su perfil
+ * Metodo que genera una solicitud de peticion de amistad y el envio de un correo
+ * notificando al usuario que recibe la peticion
+ * @param item Datos del usuario a agregar
  */
-   agregarAmigo(item){
-      this.cargando();
-      this.storage.get('id').then((val) => {
-        
-      this.restapiService.agregarAmigo(val,item.NombreUsuario)
-        .then(data => {
-          if (data == 0 || data == -1) {
-            console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-          }
-          else {
-            this.loading.dismiss();
-            this.realizarToast();
-            this.navCtrl.pop();
-          }
-        });
-      });
+  public agregarAmigo (item) 
+  {
+    this.cargando();
 
-      this.storage.get('id').then((val) => {
-        this.restapiService.enviarCorreo(val,item.Nombre,item.Correo)
-          .then(data => {
-            if (data == 0 || data == -1) {
-              console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-            }
-          });
-        });
+    this.storage.get('id').then((idUsuario) => 
+    {
+      this.comando = FabricaComando.crearComandoAgregarAmigo(idUsuario, item.NombreUsuario);
+      this.comando.execute();
 
-   }
+      if(this.comando.isSuccess)
+      {
+        this.realizarToast(Texto.EXITO_CONFIRMAR);
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+
+      this.comando = FabricaComando.crearComandoEnviarCorreo(idUsuario, item.NombreUsuario, item.Correo)
+      this.comando.execute();
+
+      if(this.comando.isSuccess)
+      {
+        this.realizarToast(Texto.EXITO_CORREO);
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    });
+  }
 
 /**
  * Metodo para agregar un usuario
- * @param item Nombre del usuario a agregar
+ * @param item Datos del usuario a agregar
  */
-doConfirm(item) {
-  this.translateService.get(Texto.TITULO_CONFIRMAR).subscribe(value => {this.tituloAlert = value;})
-  this.translateService.get(Texto.MENSJAE_CONFIRMAR).subscribe(value => {this.mensajeAlert = value;})
-  this.translateService.get(Texto.SI_CONFIRMAR).subscribe(value => {this.siAlert = value;})
-    let confirm = this.alerCtrl.create({
-      title: this.tituloAlert,
-      message: this.mensajeAlert,
-      buttons: [
-        {
+  public doConfirm (item) 
+  {
+    this.translateService.get(Texto.TITULO_CONFIRMAR).subscribe(value => {this.tituloAlert = value;})
+    this.translateService.get(Texto.MENSJAE_CONFIRMAR).subscribe(value => {this.mensajeAlert = value;})
+    this.translateService.get(Texto.SI_CONFIRMAR).subscribe(value => {this.siAlert = value;})
+
+    let confirm = this.alerCtrl.create
+    ({
+        title: this.tituloAlert,
+        message: this.mensajeAlert,
+        buttons: 
+        [
+          {
             text: 'No',
-            handler: () => {
-            console.log('No clicked');
+            handler: () => 
+            {
+              console.log('No');
+            }
+          },
+          {
+            text: this.siAlert,
+            handler: () => 
+            {
+              this.agregarAmigo(item);
+              console.log('Si');
+            }
           }
-        },
-        {
-          text: this.siAlert,
-          handler: () => {
-            this.agregarAmigo(item);
-            console.log('Si clicked');
-          }
-        }
-      ]
-    });
-    confirm.present()
+        ]
+      });
+      confirm.present()
   }
 
 }

@@ -312,5 +312,4 @@ export class AmigosPage
     });
     this.toast.present();
   }
-  
 }

@@ -118,8 +118,10 @@ export class CrearGrupoPage
         {
           this.realizarToast(Texto.ERROR);
         }
+
+        this.loading.dismiss();
     });
- }
+  }
 
  /**
  * Metodo que despliega un toast
