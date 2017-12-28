@@ -278,8 +278,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     /// </summary>
     /// <param name="categoria"></param>
     /// <exception cref="BaseDeDatosExcepcion"></exception>
-    public IList<Categoria> ObtenerCategoriaPorId(Categoria categoria)
+    public IList<Categoria> ObtenerCategoriaPorId(Entidad entidad)
     {
+      categoria = (Categoria)entidad;
       IList<Categoria> listaCategorias;
       try
       {
@@ -344,8 +345,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     /// </summary>
     /// <param name="categoria"></param>
     /// <exception cref="BaseDeDatosExcepcion"></exception>
-    public Categoria ObtenerIdCategoriaPorNombre(Categoria categoria)
+    public Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
     {
+      categoria = (Categoria)entidad;
       try
       {
         int Superior = 0;

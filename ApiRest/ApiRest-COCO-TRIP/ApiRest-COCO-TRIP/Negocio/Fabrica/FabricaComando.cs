@@ -517,5 +517,24 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoListarCoincidenciaActividades(busqueda);
     }
+
+
+    /// <summary>
+    /// Retorna la instancia de ComandoListarCoincidenciaActividades
+    /// </summary>
+    /// <returns>ComandoObtenerCategoriaPorId</returns>
+    public static ComandoObtenerCategoriaPorId CrearComandoObtenerCategoriaPorId(Entidad entidad)
+    {
+      return new ComandoObtenerCategoriaPorId(entidad);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoObtenerCategoriasHabilitadas
+    /// </summary>
+    /// <returns>ComandoObtenerCategoriasHabilitadas</returns>
+    public static ComandoObtenerCategoriasHabilitadas CrearComandoObtenerCategoriasHabilitadas()
+    {
+      return new ComandoObtenerCategoriasHabilitadas();
+    }
   }
 }

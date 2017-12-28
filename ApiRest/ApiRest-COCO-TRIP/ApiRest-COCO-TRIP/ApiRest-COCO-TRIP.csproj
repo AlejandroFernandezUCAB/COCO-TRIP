@@ -102,7 +102,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\COCOTRIP.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -222,6 +221,7 @@
     <Compile Include="Negocio\Command\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoModificarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategoriaPorId.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategorias.cs" />
     <Compile Include="Negocio\Command\Comando.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarIntegrante.cs" />
@@ -238,6 +238,7 @@
     <Compile Include="Negocio\Command\ComandoEliminarIntegrante.cs" />
     <Compile Include="Negocio\Command\ComandoEnviarNotificacionCorreo.cs" />
     <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategoriasHabilitadas.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoSalirGrupo.cs" />
@@ -253,7 +254,7 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
