@@ -122,6 +122,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw ex;
       }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
 
       finally
       {
@@ -188,6 +192,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       {
         OperacionInvalidaException ex = new OperacionInvalidaException(e);
         ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        throw ex;
+      }
+      catch (Exception ex)
+      {
         throw ex;
       }
       finally
@@ -257,6 +265,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw ex;
       }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
       finally
       {
         Desconectar();
@@ -302,7 +314,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw ex;
       }
-
+      catch (Exception ex)
+      {
+        throw ex;
+      }
       finally
       {
         Desconectar();
@@ -395,7 +410,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw ex;
       }
-
+      catch (Exception ex)
+      {
+        throw ex;
+      }
       finally
       {
        Desconectar();

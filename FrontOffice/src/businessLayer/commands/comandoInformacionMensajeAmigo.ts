@@ -21,9 +21,10 @@ import {catService,catProd} from "../../logs/config"
  * 
  * Comando informacion de mensaje
  */
-export class ComandoInformacionMensajeAmigo extends Comando {
+export class ComandoInformacionMensajeAmigo extends Comando 
+{
     public _events : Events;
-    
+
 /**
  * Ejecuta el comando
  */
@@ -55,4 +56,13 @@ export class ComandoInformacionMensajeAmigo extends Comando {
         this._events = events;
     }
     
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
 }

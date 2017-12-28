@@ -22,6 +22,7 @@ import {catService,catProd} from "../../logs/config"
  * Comando informacion de mensaje de grupos
  */
 export class ComandoInformacionMensajeGrupo extends Comando {
+
     public _events : Events;
     
 /**
@@ -55,5 +56,13 @@ export class ComandoInformacionMensajeGrupo extends Comando {
         this._events = events;
     }
     
-    
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
 }

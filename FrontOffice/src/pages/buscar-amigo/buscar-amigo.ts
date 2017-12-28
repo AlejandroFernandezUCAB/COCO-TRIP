@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform, ActionSheetController,AlertController } from 'ionic-angular';
 import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
-import { TranslateService } from '@ngx-translate/core';
-
+import { Comando } from '../../businessLayer/commands/comando';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 
 //****************************************************************************************************// 
 //***********************************PAGE BUSCAR AMIGOS MODULO 3**************************************//
@@ -30,48 +29,60 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class BuscarAmigoPage 
 {
+  /*Condicionales de la vista*/
+  public toggled : boolean;
+  public showList: boolean;
+  public showBar : boolean;
 
-  toggled: boolean;
-  searchTerm: String = '';
-  items:string[];
-  idUsuario: any;
-  lista:any;
-  showList:any;
-  showBar:any;
-  constructor( public navCtrl: NavController, 
-      public navParams: NavParams,public platform: Platform,
-      public actionsheetCtrl: ActionSheetController,
-      public alerCtrl: AlertController,
-      public restapiService: RestapiService,
-      private storage: Storage,
-      private translateService: TranslateService ) {   
-  }
+  /*Atributos que almacenan datos*/
+  public lista : any; //Lista de personas
+
+  /*Elementos de la vista*/
+  public navCtrl: NavController; 
+  public navParams: NavParams;
+  public platform: Platform;
+  public actionsheetCtrl: ActionSheetController;
+  public alerCtrl: AlertController;
+  private storage: Storage;
+
+  private comando : Comando;
+
+  constructor() { }
 
   /**
    * Pone en false la lista y en true 
    * el showBar cuando pasas a otro page
    */
-  ionViewWillEnter() {
+  public ionViewWillEnter() 
+  {
     this.showBar = true;
     this.showList = false;
   }
 
   /**
    * Metodo que busca a un usuario
-   * @param ev un evento
+   * @param evento un evento
    */
-  buscar(ev){
+  public buscar(evento)
+  {
     this.showList = true;
-    this.storage.get('id').then((val) =>{
-      if(ev.target.value){
-        var dato = ev.target.value;
+    this.storage.get('id').then((idUsuario) =>
+    {
+      let dato;
+
+      if(evento.target.value)
+      {
+        dato = evento.target.value;
       } 
-      this.restapiService.buscaramigo(dato, val)
-      .then(data => {
-      this.lista = data;
-      });
-    });
-    
+
+      this.comando = FabricaComando.crearComandoBuscarAmigo(dato, idUsuario);
+      this.comando.execute();
+
+      if(this.comando.isSuccess)
+      {
+        this.lista = this.comando.return();
+      }
+    });    
   }
   
 
@@ -79,11 +90,12 @@ export class BuscarAmigoPage
   * Metodo que inicia la pagina de ver el perfil publico
   * @param nombre Nombre de usuario (resultado del buscador)
   */
-  Visualizarpublico(nombre){
-        this.navCtrl.push(VisualizarPerfilPublicoPage,{
+  public visualizarPublico (nombre)
+  {
+        this.navCtrl.push(VisualizarPerfilPublicoPage,
+        {
           nombreUsuario : nombre
         });
         this.showBar = false;
-      }
-
+  }
 }

@@ -16,7 +16,7 @@
  */
 export class Entidad
 {
-    private _id: String;
+    private _id: number;
 
     constructor()
     {
@@ -26,7 +26,7 @@ export class Entidad
     /**
      * Establece el identificador de la entidad
      */
-    set Id(id : String) 
+    set Id(id : number) 
     {
         this._id = id;
     }
@@ -34,7 +34,7 @@ export class Entidad
     /**
      * Obtiene el identificador de la entidad
      */
-    get Id() : String 
+    get Id() : number
     {
         return this._id;
     }
