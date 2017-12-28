@@ -77,18 +77,15 @@ export class ModificarGrupoPage
       {
         this.grupo = this.comando.return();
 
-        for(let i = 0; i < this.grupo.length; i++)
+        if(this.grupo.RutaFoto == undefined)
         {
-           if(this.grupo[i].RutaFoto == undefined)
-           {
-             this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-           }
-           else
-           {
-             this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
-           }
+          this.grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
         }
-        
+        else
+        {
+             this.grupo.RutaFoto = ConfiguracionImages.PATH + this.grupo.RutaFoto;
+        }
+
         this.cargarLider(this.navParams.get('idGrupo'));
       }
       else
@@ -213,7 +210,7 @@ export class ModificarGrupoPage
    */    
   public eliminarIntegrante(nombreUsuario, index)
   {
-    this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
+    //this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
     this.miembro.splice(index, 1);
   }
 
@@ -230,11 +227,26 @@ export class ModificarGrupoPage
       {
         if(this.nombreGrupo == undefined)
         {
-          /*this.restapiService.verperfilGrupo(this.id)
-          .then(data => {this.grupo = data;});
-            var nombreRestApi = this.grupo.filter(item => item.Nombre)[1];
-            this.realizarToast(this.edited);*/
-          
+          this.comando = FabricaComando.crearComandoVerPerfilGrupo(this.navParams.get('idGrupo'));
+          this.comando.execute();
+
+          if(this.comando.isSuccess)
+          {
+            this.grupo = this.comando.return();
+
+            if(this.grupo.RutaFoto == undefined)
+            {
+              this.grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+            }
+            else
+            {
+              this.grupo.RutaFoto = ConfiguracionImages.PATH + this.grupo.RutaFoto;
+            }
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }          
         } 
         else 
         {
