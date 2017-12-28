@@ -76,19 +76,19 @@ export class ModificarGrupoPage
       if(this.comando.isSuccess)
       {
         let grupo = this.comando.return();
-
-        if(this.grupo.RutaFoto == undefined)
+    
+        if(grupo.RutaFoto == undefined)
         {
-          this.grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+          grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
         }
         else
         {
-             this.grupo.RutaFoto = ConfiguracionImages.PATH + this.grupo.RutaFoto;
+          grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
         }
-
+          
         let listaGrupo = new Array();
         listaGrupo.push(grupo);
-
+    
         this.grupo = listaGrupo;
 
         this.cargarLider(this.navParams.get('idGrupo'));
@@ -112,13 +112,13 @@ export class ModificarGrupoPage
     {
       let lider = this.comando.return();
 
-      if(this.lider.Foto == undefined)
+      if(lider.Foto == undefined)
       {
-        this.lider.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+        lider.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
       }
       else
       {
-        this.lider.Foto = ConfiguracionImages.PATH + this.lider.Foto;
+        lider.Foto = ConfiguracionImages.PATH + lider.Foto;
       }
 
       let listaLider = new Array();
@@ -243,19 +243,19 @@ export class ModificarGrupoPage
           if(this.comando.isSuccess)
           {
             let grupo = this.comando.return();
-
-            if(this.grupo.RutaFoto == undefined)
+    
+            if(grupo.RutaFoto == undefined)
             {
-              this.grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+              grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
             }
             else
             {
-              this.grupo.RutaFoto = ConfiguracionImages.PATH + this.grupo.RutaFoto;
+              grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
             }
-    
+              
             let listaGrupo = new Array();
             listaGrupo.push(grupo);
-    
+        
             this.grupo = listaGrupo;
           }
           else
@@ -274,7 +274,7 @@ export class ModificarGrupoPage
           }
           else
           {
-            this.realizarToast(Texto.ERROR);
+            this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
           }
         }
       });

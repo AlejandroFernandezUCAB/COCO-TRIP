@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController,Platform, ActionSheetController, AlertController, LoadingController, ToastController} from 'ionic-angular';
-import  {CrearGrupoPage } from '../../crear-grupo/crear-grupo';
+import { CrearGrupoPage } from '../../crear-grupo/crear-grupo';
 import { SeleccionarIntegrantesPage } from '../../seleccionar-integrantes/seleccionar-integrantes';
 import { DetalleGrupoPage } from '../../detalle-grupo/detalle-grupo';
 import { ModificarGrupoPage } from '../../modificar-grupo/modificar-grupo';

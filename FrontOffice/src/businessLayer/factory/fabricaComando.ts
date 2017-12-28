@@ -28,6 +28,9 @@ import { ComandoObtenerSinLider } from '../commands/comandoObtenerSinLider';
 import { ComandoEliminarIntegrante } from '../commands/comandoEliminarIntegrante';
 import { ComandoModificarGrupo } from '../commands/comandoModificarGrupo';
 import { ComandoObtenerMiembrosSinGrupo } from '../commands/comandoObtenerMiembrosSinGrupo';
+import { ComandoAgregarGrupo } from '../commands/comandoAgregarGrupo';
+import { ComandoObtenerUltimoGrupo } from '../commands/comandoObtenerUltimoGrupo';
+import { ComandoObtenerPerfilPublico } from '../commands/comandoObtenerPerfilPublico';
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 6*************************************//
 //****************************************************************************************************//
@@ -319,4 +322,34 @@ export class FabricaComando{
         return new ComandoObtenerMiembrosSinGrupo(idUsuario, idGrupo);
     }
     
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoAgregarGrupo
+ * @param idUsuario Identificador del usuario
+ * @param nombreGrupo Nombre del grupo
+ */
+    public static crearComandoAgregarGrupo(idUsuario : number, nombreGrupo : string) : ComandoAgregarGrupo
+    {
+        return new ComandoAgregarGrupo(idUsuario, nombreGrupo);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoObtenerUltimoGrupo
+ * @param idUsuario Identificador del usuario
+ */
+    public static crearComandoObtenerUltimoGrupo(idUsuario : number) : ComandoObtenerUltimoGrupo
+    {
+        return new ComandoObtenerUltimoGrupo(idUsuario);
+    }
+
+/**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoObtenerPerfilPublico
+ * @param nombreUsuario Nombre de usuario
+ */
+    public static crearComandoObtenerPerfilPublico(nombreUsuario : string) : ComandoObtenerPerfilPublico
+    {
+        return new ComandoObtenerPerfilPublico(nombreUsuario);
+    }
 }

@@ -7,6 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
+import { Comando } from '../../businessLayer/commands/comando';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -32,24 +34,27 @@ import { Texto } from '../constantes/texto';
 
 export class SeleccionarIntegrantesPage 
 {
+  /*Texto de la vista*/
   public nombreGrupo: string;
+  public requerido: string;
+  public succesful: string;
+
+  /*Elementos de la vista**/
   public toast: any;
-  public myForm: FormGroup;
   public loader: any;
-  public requerido: any;
-  public succesful: any;
-  public lista:any;
-  public numero:any;
   public navCtrl: NavController; 
   public navParams: NavParams;
   public alerCtrl: AlertController;
-  private storage: Storage;
   public loadingCtrl: LoadingController;
   public toastCtrl: ToastController;
+  public myForm: FormGroup;
   public formBuilder: FormBuilder;
+  private storage: Storage;
   private translateService: TranslateService;
 
   public loading = this.loadingCtrl.create({});
+
+  private comando : Comando;
 
   constructor() 
   {
@@ -64,9 +69,11 @@ export class SeleccionarIntegrantesPage
  * la lista de amigos
  * (Por favor espere/ please wait)
  */
-  cargando(){
+  public cargando()
+  {
     this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
-    this.loading = this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create
+    ({
       content: this.loader,
       dismissOnPageChange: true
     });
@@ -76,41 +83,52 @@ export class SeleccionarIntegrantesPage
 /**
  * Metodo que agrega el nombre y la foto del grupo
  */
-  agregarGrupo(){
+  public agregarGrupo()
+  {
     this.translateService.get(Texto.REQUERIDO).subscribe(value => {this.requerido = value;})
     this.translateService.get(Texto.EXITO_AGREGAR_GRUPO).subscribe(value => {this.succesful = value;})
+    
     if (this.myForm.get('namegroup').errors)
-    this.realizarToast(this.requerido);
-    else{
-      
-      var nombreRestApi = this.nombreGrupo;
+    {
+      this.realizarToast(this.requerido);
+    }
+    else
+    {
       this.cargando();
       
-      this.storage.get('id').then((val) => {
-      this.restapiService.agregarGrupo(val,nombreRestApi,"123")
-       .then(data => {
-         if (data == 0 || data == -1) {
-          console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-   
-            }
-            else {
-              this.storage.get('id').then((val) => {
-                this.restapiService.obtenerultimoGrupo(val)
-              .then(data => {
-              this.lista = data;
-              this.navCtrl.push(CrearGrupoPage,{
-                idGrupo: this.lista
-              });
-              this.loading.dismiss();
-              this.realizarToast(this.succesful);
-  });
-              
-            }
-    
-       )}});
-        });
-      }
-     }
+      this.storage.get('id').then((idUsuario) => 
+      {
+        this.comando = FabricaComando.crearComandoAgregarGrupo(idUsuario, this.nombreGrupo);
+        this.comando.execute();
+
+        if(this.comando.isSuccess)
+        {
+          this.comando = FabricaComando.crearComandoObtenerUltimoGrupo(idUsuario);
+          this.comando.execute();
+
+          if(this.comando.isSuccess)
+          {
+            this.navCtrl.push(CrearGrupoPage,
+            {
+              idGrupo: this.comando.return()
+            });
+
+            this.realizarToast(this.succesful);
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+
+        this.loading.dismiss();
+      });
+    }
+  }
 
 /**
  * Metodo que despliega un toast
@@ -130,5 +148,4 @@ export class SeleccionarIntegrantesPage
     });
     this.toast.present();
   }
-
 }
