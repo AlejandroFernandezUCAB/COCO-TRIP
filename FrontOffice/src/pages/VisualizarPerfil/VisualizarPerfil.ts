@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController , LoadingController, NavParams } from 'ionic-angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { Texto } from '../constantes/texto';
 
 //****************************************************************************************************// 
 //********************************PAGE DE VISUALIZAR PERFIL MODULO 3**********************************//
@@ -9,21 +10,23 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
  * Descripcion de la clase:
  * Carga el perfil de un amigo
  */
-@Component({
+@Component
+({
   selector: 'page-visualizarperfil',
   templateUrl: 'visualizarperfil.html'
 })
-export class VisualizarPerfilPage {
 
+export class VisualizarPerfilPage 
+{
   nombreUsuario : any;
   amigo : any;
   mensajeCargando:any;
@@ -43,7 +46,7 @@ export class VisualizarPerfilPage {
  * (Por favor espere/ please wait)
  */
   cargando(){
-    this.translateService.get('Por favor, espere').subscribe(value => {this.mensajeCargando = value;})
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.mensajeCargando = value;})
     this.loading = this.loadingCtrl.create({
       content: this.mensajeCargando,
       dismissOnPageChange: true

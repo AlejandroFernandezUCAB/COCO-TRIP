@@ -67,6 +67,10 @@ namespace ApiRest_COCO_TRIP.Controllers
         comando.Ejecutar();
         respuesta.Add("dato", "Se ha eliminado una localidad");
       }
+      catch (ItemNoEncontradoException e)
+      {
+        respuesta.Add("Error", e.Message);
+      }
       catch (BaseDeDatosExcepcion e)
       {
         respuesta.Add("Error", e.Message);

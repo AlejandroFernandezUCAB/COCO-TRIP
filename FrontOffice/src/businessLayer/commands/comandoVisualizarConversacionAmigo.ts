@@ -21,6 +21,7 @@ import {catService,catProd} from "../../logs/config"
  * Comando Visualizar conversacion entre amigos
  */
 export class ComandoVisualizarConversacionAmigo extends Comando {
+
     public _events : Events;
     
 /**
@@ -52,5 +53,15 @@ export class ComandoVisualizarConversacionAmigo extends Comando {
      */
     set setEvents(events:Events) {
         this._events = events;
+    }
+
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
     }
 }

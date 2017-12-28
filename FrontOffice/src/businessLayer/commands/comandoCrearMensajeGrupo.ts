@@ -21,7 +21,6 @@ import {catService,catProd} from "../../logs/config"
  */
 export class ComandoCrearMensajeGrupo extends Comando {
 
-    
 /**
  * Ejecuta el comando
  */
@@ -46,4 +45,14 @@ export class ComandoCrearMensajeGrupo extends Comando {
         this._entidad = entidad;
     }
     
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
+
 }

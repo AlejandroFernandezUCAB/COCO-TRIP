@@ -13,7 +13,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad evento;
     private DAO dao;
-
     public ComandoEliminarEvento(int id)
     {
       this.evento = FabricaEntidad.CrearEntidadEvento();
@@ -25,6 +24,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
+        
         dao.Eliminar(evento);
       }
       catch (BaseDeDatosExcepcion e)
@@ -41,6 +41,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         throw e;
         //INSERTAR EN LOG
+      }
+      catch (Exception e)
+      {
+        throw e;
       }
     }
 

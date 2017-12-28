@@ -21,6 +21,7 @@ import {catService,catProd} from "../../logs/config"
  * Comando Modificar un mensaje
  */
 export class ComandoModificarMensaje extends Comando {
+
     private  _respuesta : Boolean;
     
 /**
@@ -52,6 +53,16 @@ export class ComandoModificarMensaje extends Comando {
      */
     get getRespuesta():Boolean {
         return this._respuesta;
+    }
+    
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
     }
     
 }

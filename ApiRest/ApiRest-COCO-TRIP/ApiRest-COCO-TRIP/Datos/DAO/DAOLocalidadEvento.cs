@@ -51,7 +51,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       catch (NpgsqlException e)
       {
         BaseDeDatosExcepcion ex = new BaseDeDatosExcepcion(e);
-        ex.NombreMetodos= this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+        throw ex;
+      }
+      catch (Exception ex)
+      {
         throw ex;
       }
       finally
@@ -104,6 +108,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
         throw ex;
       }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
       finally
       {
         Desconectar();
@@ -153,7 +161,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
-
+      catch (Exception ex)
+      {
+        throw ex;
+      }
       finally
       {
         Desconectar();
@@ -205,6 +216,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
+      catch (Exception ex)
+      {
+        throw ex;
+      }
 
       finally
       {
@@ -244,7 +259,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         ex.NombreMetodos = this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
         throw ex;
       }
-
+      catch (Exception ex)
+      {
+        throw ex;
+      }
       finally
       {
         Desconectar();

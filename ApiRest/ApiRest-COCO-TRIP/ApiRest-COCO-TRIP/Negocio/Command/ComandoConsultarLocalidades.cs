@@ -28,6 +28,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         throw e;
       }
+      catch (Exception e)
+      {
+        throw e;
+      }
     }
 
     public override Entidad Retornar()

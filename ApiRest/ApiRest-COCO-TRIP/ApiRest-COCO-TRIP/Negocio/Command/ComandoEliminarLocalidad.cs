@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -24,7 +25,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
-        dao.Eliminar(localidad);
+          dao.Eliminar(localidad);
       }
       catch (BaseDeDatosExcepcion e)
       {
@@ -35,6 +36,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         throw e;
         //INSERTAR EN LOG
+      }
+      catch (Exception e)
+      {
+        throw e;
       }
     }
 
