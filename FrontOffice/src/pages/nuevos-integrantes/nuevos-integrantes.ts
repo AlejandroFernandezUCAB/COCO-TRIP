@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { ModificarGrupoPage } from '../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
@@ -187,5 +186,4 @@ export class NuevosIntegrantesPage
     });
       alert.present();
  }
-
 }

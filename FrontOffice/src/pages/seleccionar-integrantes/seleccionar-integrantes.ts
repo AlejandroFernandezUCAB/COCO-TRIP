@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController } from 'ionic-angular';
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -33,23 +32,31 @@ import { Texto } from '../constantes/texto';
 
 export class SeleccionarIntegrantesPage 
 {
-  public loading = this.loadingCtrl.create({});
-  nombreGrupo: string;
-  toast: any;
-  myForm: FormGroup;
-  loader: any;
-  requerido: any;
-  succesful: any;
-  lista:any;
-  numero:any;
+  public nombreGrupo: string;
+  public toast: any;
+  public myForm: FormGroup;
+  public loader: any;
+  public requerido: any;
+  public succesful: any;
+  public lista:any;
+  public numero:any;
+  public navCtrl: NavController; 
+  public navParams: NavParams;
+  public alerCtrl: AlertController;
+  private storage: Storage;
+  public loadingCtrl: LoadingController;
+  public toastCtrl: ToastController;
+  public formBuilder: FormBuilder;
+  private translateService: TranslateService;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public alerCtrl: AlertController,private storage: Storage,public loadingCtrl: LoadingController,
-    public restapiService: RestapiService,public toastCtrl: ToastController,public formBuilder: FormBuilder,
-    private translateService: TranslateService) {
-      this.myForm = this.formBuilder.group({
-        namegroup: ['', [Validators.required]]
-      });
+  public loading = this.loadingCtrl.create({});
+
+  constructor() 
+  {
+    this.myForm = this.formBuilder.group
+    ({
+      namegroup: ['', [Validators.required]]
+    });
   }
 
 /**
@@ -72,7 +79,7 @@ export class SeleccionarIntegrantesPage
   agregarGrupo(){
     this.translateService.get(Texto.REQUERIDO).subscribe(value => {this.requerido = value;})
     this.translateService.get(Texto.EXITO_AGREGAR_GRUPO).subscribe(value => {this.succesful = value;})
-    if ( this.myForm.get('namegroup').errors)
+    if (this.myForm.get('namegroup').errors)
     this.realizarToast(this.requerido);
     else{
       
@@ -109,13 +116,19 @@ export class SeleccionarIntegrantesPage
  * Metodo que despliega un toast
  * @param mensaje Texto para el toast
  */
-     realizarToast(mensaje) {
-      this.toast = this.toastCtrl.create({
-        message: mensaje,
-        duration: ConfiguracionToast.DURACION,
-        position: ConfiguracionToast.POSICION
-      });
-      this.toast.present();
-    }
+  public realizarToast(mensaje : string) 
+  {
+    let mensajeTraducido;
+
+    this.translateService.get(mensaje).subscribe(value => {mensajeTraducido = value;})
+
+    this.toast = this.toastCtrl.create(
+    {
+      message: mensajeTraducido,
+      duration: ConfiguracionToast.DURACION,
+      position: ConfiguracionToast.POSICION
+    });
+    this.toast.present();
+  }
 
 }
