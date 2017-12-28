@@ -148,10 +148,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de ComandoModificarGrupo
     /// </summary>
     /// <param name="grupo">Datos del grupo</param>
+    /// <param name="id">Identificador del usuario que quiere modificar los datos del grupo</param>
     /// <returns></returns>
-    public static ComandoModificarGrupo CrearComandoModificarGrupo(Entidad grupo)
+    public static ComandoModificarGrupo CrearComandoModificarGrupo(Entidad grupo, int id)
     {
-      return new ComandoModificarGrupo(grupo);
+      return new ComandoModificarGrupo(grupo, id);
     }
 
     /// <summary>

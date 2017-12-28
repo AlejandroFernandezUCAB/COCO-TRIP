@@ -3,6 +3,8 @@ import { NavController, NavParams, AlertController, LoadingController, ToastCont
 import { Storage } from '@ionic/storage';
 import { TranslateModule , TranslateService  } from '@ngx-translate/core'
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { ConfiguracionToast } from '../constantes/configToast';
+import { Texto } from '../constantes/texto';
 
 //****************************************************************************************************// 
 //***************************PAGE DE VISUALIZAR PERFIL PUBLICO MODULO 3*******************************//
@@ -10,9 +12,9 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -20,12 +22,14 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
  * Carga el perfil publico de un usuario
  */
 
-@Component({
+@Component
+({
   selector: 'page-visualizarperfilpublico',
   templateUrl: 'visualizarperfilpublico.html',
 })
-export class VisualizarPerfilPublicoPage {
 
+export class VisualizarPerfilPublicoPage 
+{
   tituloAlert:any;
   siAlert : any;
   mensajeAlert : any;
@@ -51,15 +55,15 @@ export class VisualizarPerfilPublicoPage {
  * @param mensaje Texto para el toast
  */
   realizarToast() {
-    this.translateService.get('Mensaje agregar').subscribe(
+    this.translateService.get(Texto.AGREGAR_MENSAJE).subscribe(
       value => {
          this.mensajeToast = value;
       }
     )
     this.toast = this.toastCtrl.create({
       message: this.mensajeToast,
-      duration: 3000,
-      position: 'top'
+      duration: ConfiguracionToast.DURACION,
+      position: ConfiguracionToast.POSICION
     });
     this.toast.present();
   }
@@ -70,7 +74,7 @@ export class VisualizarPerfilPublicoPage {
  * (Por favor espere/ please wait)
  */
   cargando(){
-    this.translateService.get('Por favor, espere').subscribe(
+    this.translateService.get(Texto.CARGANDO).subscribe(
       value => {
         // value is our translated string
          this.mensajeCargando = value;
@@ -139,9 +143,9 @@ export class VisualizarPerfilPublicoPage {
  * @param item Nombre del usuario a agregar
  */
 doConfirm(item) {
-  this.translateService.get('Agregar?').subscribe(value => {this.tituloAlert = value;})
-  this.translateService.get('Desea agregar a esta persona como amigo?').subscribe(value => {this.mensajeAlert = value;})
-  this.translateService.get('Si').subscribe(value => {this.siAlert = value;})
+  this.translateService.get(Texto.TITULO_CONFIRMAR).subscribe(value => {this.tituloAlert = value;})
+  this.translateService.get(Texto.MENSJAE_CONFIRMAR).subscribe(value => {this.mensajeAlert = value;})
+  this.translateService.get(Texto.SI_CONFIRMAR).subscribe(value => {this.siAlert = value;})
     let confirm = this.alerCtrl.create({
       title: this.tituloAlert,
       message: this.mensajeAlert,

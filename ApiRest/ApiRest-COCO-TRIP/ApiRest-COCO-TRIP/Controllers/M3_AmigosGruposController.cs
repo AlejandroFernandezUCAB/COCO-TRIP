@@ -20,11 +20,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Agrega una peticion de amistad
     /// </summary>
     /// <param name="id">ID del usuario que desea agregar un amigo</param>
-    /// <param name="usuario">Nombre de usuario que recibira la notificacion</param>
+    /// <param name="nombre">Nombre de usuario que recibira la notificacion</param>
     [HttpPost]
-    public void AgregarAmigo(int id, string usuario) //READY
+    public void AgregarAmigo(int id, string nombre) //READY
     {
-      comando = FabricaComando.CrearComandoAgregarAmigo(id, usuario);
+      comando = FabricaComando.CrearComandoAgregarAmigo(id, nombre);
       comando.Ejecutar();
 
       /*try
@@ -60,12 +60,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <summary>
     /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
     /// </summary>
-    /// <param name="usuario">Nombre del usuario que se quiere visualizar perfil</param>
+    /// <param name="nombre">Nombre del usuario que se quiere visualizar perfil</param>
     /// <returns>Retorna los datos del usuario para generar el perfil del amigo</returns>
     [HttpGet]
-    public Entidad VisualizarPerfilAmigo (string usuario) //READY
+    public Entidad VisualizarPerfilAmigo (string nombre) //READY
     {
-      comando = FabricaComando.CrearComandoVisualizarPerfilAmigo(usuario);
+      comando = FabricaComando.CrearComandoVisualizarPerfilAmigo(nombre);
       comando.Ejecutar();
       return comando.Retornar();
 
@@ -101,11 +101,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// </summary>
     /// <param name="correo">Correo electronico de la persona a la que se le va a recomendar la aplicacion</param>
     /// <param name="id">ID del usuario que envia la notificacion</param>
-    /// <param name="nombreDestino">Nombre de usuario al que va destinada la notificacion</param>
+    /// <param name="nombre">Nombre de usuario al que va destinada la notificacion</param>
     [HttpPost]
-    public void EnviarNotificacionCorreo(string correo, int id, string nombreDestino) //READY
+    public void EnviarNotificacionCorreo(string correo, int id, string nombre) //READY
     {
-      comando = FabricaComando.CrearComandoEnviarNotificacionCorreo(correo, id, nombreDestino);
+      comando = FabricaComando.CrearComandoEnviarNotificacionCorreo(correo, id, nombre);
       comando.Ejecutar();
 
       /*try
@@ -507,11 +507,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// modificar los datos de un grupo
     /// </summary>
     /// <param name="grupo">Datos del grupo</param>
+    /// <param name="id">Identificador del usuario que modifica los datos del grupo</param>
     /// <returns></returns>
     [HttpPut]
-    public void ModificarGrupo (Entidad grupo) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
+    public void ModificarGrupo (Entidad grupo, int id) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
     {
-      comando = FabricaComando.CrearComandoModificarGrupo(grupo);
+      comando = FabricaComando.CrearComandoModificarGrupo(grupo, id);
       comando.Ejecutar();
 
       //int resultado;

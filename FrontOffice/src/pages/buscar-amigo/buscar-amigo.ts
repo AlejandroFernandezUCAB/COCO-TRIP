@@ -12,9 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -22,11 +22,14 @@ import { TranslateService } from '@ngx-translate/core';
  * Buscador de amigos
  */
 @IonicPage()
-@Component({
+@Component
+({
   selector: 'page-buscar-amigo',
   templateUrl: 'buscar-amigo.html',
 })
-export class BuscarAmigoPage {
+
+export class BuscarAmigoPage 
+{
 
   toggled: boolean;
   searchTerm: String = '';
