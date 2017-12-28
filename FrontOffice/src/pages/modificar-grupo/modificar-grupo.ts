@@ -8,6 +8,7 @@ import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
 import { Comando } from '../../businessLayer/commands/comando';
 import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../constantes/configImages';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
@@ -75,6 +76,19 @@ export class ModificarGrupoPage
       if(this.comando.isSuccess)
       {
         this.grupo = this.comando.return();
+
+        for(let i = 0; i < this.grupo.length; i++)
+        {
+           if(this.grupo[i].RutaFoto == undefined)
+           {
+             this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+           }
+           else
+           {
+             this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
+           }
+        }
+        
         this.cargarLider(this.navParams.get('idGrupo'));
       }
       else
@@ -95,6 +109,16 @@ export class ModificarGrupoPage
     if(this.comando.isSuccess)
     {
       this.lider = this.comando.return();
+
+      if(this.lider.Foto == undefined)
+      {
+        this.lider.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+      }
+      else
+      {
+        this.lider.Foto = ConfiguracionImages.PATH + this.lider.Foto;
+      }
+
       this.cargarMiembros(id);
     }
     else
@@ -115,6 +139,18 @@ export class ModificarGrupoPage
     if(this.comando.isSuccess)
     {
       this.miembro = this.comando.return();
+
+      for(let i = 0; i < this.miembro.length; i++)
+      {
+         if(this.miembro[i].Foto == undefined)
+         {
+           this.miembro[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+         }
+         else
+         {
+           this.miembro[i].Foto = ConfiguracionImages.PATH + this.miembro[i].Foto;
+         }
+      }
     }
     else
     {
@@ -202,9 +238,17 @@ export class ModificarGrupoPage
         } 
         else 
         {
-            /*nombreRestApi = this.nombreGrupo;
-              this.restapiService.modificarGrupo(nombreRestApi,idUsuario,this.navParams.get('idGrupo'));
-              this.realizarToast(this.edited);*/
+          this.comando = FabricaComando.crearComandoModificarGrupo(this.nombreGrupo, idUsuario, this.navParams.get('idGrupo'));
+          this.comando.execute();
+          
+          if(this.comando.isSuccess)
+          {
+            this.realizarToast(this.edited);
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
         }
       });
   }

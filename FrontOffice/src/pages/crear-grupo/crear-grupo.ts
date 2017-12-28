@@ -7,6 +7,7 @@ import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
 import { Comando } from '../../businessLayer/commands/comando';
 import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../constantes/configImages';
 
 //****************************************************************************************************// 
 //**********************************PAGE AGREGAR INTEGRANTES MODULO 3*********************************//
@@ -100,6 +101,18 @@ export class CrearGrupoPage
         if(this.comando.isSuccess)
         {
           this.amigo = this.comando.return();
+
+          for(let i = 0; i < this.amigo.length; i++)
+          {
+             if(this.amigo[i].Foto == undefined)
+             {
+               this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+             }
+             else
+             {
+               this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
+             }
+          }
         }
         else
         {
@@ -186,4 +199,5 @@ export class CrearGrupoPage
     this.realizarToast(this.succesful);
     this.navCtrl.popToRoot();
   }
+  
 }
