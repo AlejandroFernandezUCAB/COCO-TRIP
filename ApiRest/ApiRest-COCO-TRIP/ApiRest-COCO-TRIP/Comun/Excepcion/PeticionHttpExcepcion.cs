@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
@@ -50,12 +51,12 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// </summary>
         /// <param name="excepcion">Excepción generada del tipo "HttpRequestException"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public PeticionHttpExcepcion(HttpRequestException excepcion, string mensaje)
+       /* public PeticionHttpExcepcion(HttpRequestException excepcion, string mensaje)
         {
             this.excepcion = excepcion;
             this.mensaje = mensaje;
             this.fechaHora = DateTime.Now;
-        }
+        } */
 
         /// <summary>
         /// Constructor

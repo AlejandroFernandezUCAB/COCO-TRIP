@@ -21,8 +21,7 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -214,6 +213,7 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
     <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />

@@ -308,6 +308,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoModificarCategoria(entidad);
     }
 
+
+    /// Retorna la instancia de ComandoModificarCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoAgregarCategoria CrearComandoAgregarCategoria(Entidad entidad)
+    {
+      return new ComandoAgregarCategoria(entidad);
+    }
+
     /// <summary>
     /// Retorna la instancia de ComandoObtenerCategorias
     /// </summary>
