@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -15,13 +16,15 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     private DAO daoEvento;
     private DAO daoCategoria;
     private List<Entidad> eventos;
+    private Log log;
 
-    public ComandoConsultarEventosPorCategoria(int id)
+        public ComandoConsultarEventosPorCategoria(int id)
     {
       this.categoria = FabricaEntidad.CrearEntidadCategoria();
       this.categoria.Id = id;
       daoEvento = FabricaDAO.CrearDAOEvento();
       daoCategoria = FabricaDAO.CrearDAOCategoria();
+       log = Log.ObtenerInstancia();
     }
 
     public override void Ejecutar()
@@ -37,23 +40,29 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             eventos.Add(ev);
           }
         }
-      }
+                log.ApiRestInfo("ComandoConsultarEventosPorCategoria","Ejecutado el comando");
+            }
 
       catch (BaseDeDatosExcepcion e)
       {
+                log.ApiRestError("ComandoConsultarEventosPorCategoria",e.Message);
         throw e;
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        throw e;
+                log.ApiRestError("ComandoConsultarEventosPorCategoria", e.Message);
+                throw e;
       }
       catch (OperacionInvalidaException e)
       {
-        throw e;
+                log.ApiRestError("ComandoConsultarEventosPorCategoria", e.Message);
+                throw e;
       }
       catch (Exception e)
+
       {
-        throw e;
+                log.ApiRestError("ComandoConsultarEventosPorCategoria", e.Message);
+                throw e;
       }
     }
 
