@@ -1,0 +1,58 @@
+import { Comando } from './comando';
+import { RestapiService } from '../../providers/restapi-service/restapi-service';
+
+/**
+ * Autores:
+ * Joaquin Camacho
+ * Jose Herrera
+ * Joaquin Camacho
+ */
+
+//*************************************************************************************//
+//*************************************MODULO 3****************************************//
+//*************************************************************************************//
+
+/**
+ * Solicita al servicio web la lista de grupos asociados al usuario
+ */
+export class ComandoListaGrupos extends Comando
+{
+    private id : number;
+
+    private exito: boolean;
+    private listaGrupos: any;
+
+    private servicio: RestapiService;
+
+    public constructor(id : number)
+    {
+        super();
+
+        this.id = id;
+    }
+
+    public execute(): void 
+    {
+        this.servicio.listaGrupo(this.id)
+        .then(datos => 
+        {
+            this.exito = true;
+            this.listaGrupos = datos;
+        }
+        , error =>
+        {
+            this.exito = false;
+            this.listaGrupos = error;
+        });
+    }
+
+    public return() 
+    {
+        return this.listaGrupos;
+    }
+
+    public isSuccess(): boolean 
+    {
+        return this.exito;
+    }
+}
