@@ -52,20 +52,22 @@ export class DetalleGrupoPage
 
     if(this.comando.isSuccess)
     {
-      this.grupo = this.comando.return();
+      let grupo = this.comando.return();
 
-      for(let i = 0; i < this.grupo.length; i++)
+      if(grupo.RutaFoto == undefined)
       {
-         if(this.grupo[i].RutaFoto == undefined)
-         {
-           this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-         }
-         else
-         {
-           this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
-         }
+        grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+      }
+      else
+      {
+        grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
       }
       
+      let listaGrupo = new Array();
+      listaGrupo.push(grupo);
+
+      this.grupo = listaGrupo;
+
       this.cargarMiembros(this.navParams.get('idGrupo'));
     }
   }
@@ -96,5 +98,5 @@ export class DetalleGrupoPage
       }
     }
   }
-
+  
 }

@@ -75,7 +75,7 @@ export class ModificarGrupoPage
 
       if(this.comando.isSuccess)
       {
-        this.grupo = this.comando.return();
+        let grupo = this.comando.return();
 
         if(this.grupo.RutaFoto == undefined)
         {
@@ -85,6 +85,11 @@ export class ModificarGrupoPage
         {
              this.grupo.RutaFoto = ConfiguracionImages.PATH + this.grupo.RutaFoto;
         }
+
+        let listaGrupo = new Array();
+        listaGrupo.push(grupo);
+
+        this.grupo = listaGrupo;
 
         this.cargarLider(this.navParams.get('idGrupo'));
       }
@@ -105,7 +110,7 @@ export class ModificarGrupoPage
 
     if(this.comando.isSuccess)
     {
-      this.lider = this.comando.return();
+      let lider = this.comando.return();
 
       if(this.lider.Foto == undefined)
       {
@@ -115,6 +120,11 @@ export class ModificarGrupoPage
       {
         this.lider.Foto = ConfiguracionImages.PATH + this.lider.Foto;
       }
+
+      let listaLider = new Array();
+      listaLider.push(lider);
+
+      this.lider = listaLider;
 
       this.cargarMiembros(id);
     }
@@ -232,7 +242,7 @@ export class ModificarGrupoPage
 
           if(this.comando.isSuccess)
           {
-            this.grupo = this.comando.return();
+            let grupo = this.comando.return();
 
             if(this.grupo.RutaFoto == undefined)
             {
@@ -242,6 +252,11 @@ export class ModificarGrupoPage
             {
               this.grupo.RutaFoto = ConfiguracionImages.PATH + this.grupo.RutaFoto;
             }
+    
+            let listaGrupo = new Array();
+            listaGrupo.push(grupo);
+    
+            this.grupo = listaGrupo;
           }
           else
           {
@@ -294,5 +309,4 @@ export class ModificarGrupoPage
       idGrupo: this.navParams.get('idGrupo')
     });
   }
-  
 }
