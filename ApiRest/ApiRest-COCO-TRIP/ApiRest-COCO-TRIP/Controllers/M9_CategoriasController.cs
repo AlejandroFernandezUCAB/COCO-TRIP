@@ -103,7 +103,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
 
-        categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
+        categoria = new Categoria(id);
         com = FabricaComando.CrearComandoObtenerCategorias(categoria);
         com.Ejecutar();
         IList<Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 
