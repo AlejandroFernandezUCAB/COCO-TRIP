@@ -114,5 +114,14 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
       return new LugarTuristico();
     }
 
-  }
+	/// <summary>
+	/// Retorna la instancia de la entidad horario
+	/// </summary>
+	/// <returns>Horario</returns>
+	public static Horario CrearEntidadHorario()
+	{
+		return new Horario();
+	}
+
+	}
 }

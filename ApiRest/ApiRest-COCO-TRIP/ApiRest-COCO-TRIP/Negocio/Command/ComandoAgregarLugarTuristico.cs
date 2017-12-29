@@ -17,14 +17,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 	{
 
 		private Entidad _lugarTuristico;
-		private Entidad _horario;
 		private List<Entidad> _foto;
-		private Entidad _actividad;
+		private List<Entidad> _horario; 
+		private List<Entidad> _actividad; 
+		private List<Entidad> _categoria; 
+		private List<Entidad> _subCategoria; 
 		private IDAOLugarTuristico iDAOLugarTuristico;
 		private IDAOFoto iDAOFoto;
 		private IDAOHorario iDAOHorario;
 		private IDAOActividad iDAOActividad;
-		
+		private IDAOCategoria iDAOCategoria;
 		JObject _datos;
 		private Log log;
 
@@ -38,10 +40,15 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_datos = datos;
 			_lugarTuristico = _datos.ToObject<LugarTuristico>();
-            //Esta podria ser otra solucion, pero NOSE :'(
-            _foto = ((LugarTuristico)_lugarTuristico).Foto.ConvertAll(x => new Entidad { Id = x.Id });
 
-            iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			_foto = ((LugarTuristico)_lugarTuristico).Foto.ConvertAll(new Converter<Foto, Entidad>(ConvertListFoto));
+			_horario = ((LugarTuristico)_lugarTuristico).Horario.ConvertAll(new Converter<Horario, Entidad>(ConvertListHorario));
+			_actividad = ((LugarTuristico)_lugarTuristico).Actividad.ConvertAll(new Converter<Actividad, Entidad>(ConvertListActividad));
+			_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
+			_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
+
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			iDAOCategoria = FabricaDAO.CrearDAOCategoria();
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOHorario = FabricaDAO.CrearDAOHorario();
 			iDAOActividad = FabricaDAO.CrearDAOActividad();
@@ -58,6 +65,33 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			try
 			{
 				iDAOLugarTuristico.Insertar(_lugarTuristico);
+				
+				for(int i=0; i <=_foto.Count; i++)
+				{
+					iDAOFoto.Insertar( _foto[i] );
+				}
+
+				for (int i = 0; i <= _horario.Count; i++)
+				{
+					iDAOHorario.Insertar(_horario[i]);
+				}
+
+				for (int i = 0; i <= _actividad.Count; i++)
+				{
+					iDAOActividad.Insertar(_actividad[i]);
+				}
+
+				/*
+				for (int i = 0; i <= _categoria.Count; i++)
+				{
+					//iDAOCategoria.Insertar(_horario[i]);
+				}
+
+				for (int i = 0; i <= _horario.Count; i++)
+				{
+					//iDAOHorario.Insertar(_horario[i]);
+				}
+				*/
 
 			}
 			catch ( Exception e)
@@ -78,19 +112,31 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			throw new NotImplementedException();
 		}
 
-		/// <summary>
-		/// Metodo para insertar en una lista, sacandolo por indice. Funciona para todos los list
-		/// </summary>
-		/// <param name="objeto">Este parametro hay que parsearlo antes de todo, para que sea un objeto 
-		/// diferente cuando entre en el if</param>
-		public void InsertarObjetoEnLista(Object objeto)
+	
+
+		private Entidad ConvertListFoto(Foto input)
 		{
-			//Verifico que tipo de objeto es primero para que segun sea se vaya llenando
-			if( Object.ReferenceEquals( objeto.GetType(), new List<Foto>()) )
-			{
-				Console.WriteLine("Hola");
-			}
-			
+			return input;
+		}
+
+		private Entidad ConvertListSubCategoria(Categoria input)
+		{
+			return input;
+		}
+
+		private Entidad ConvertListCategoria(Categoria input)
+		{
+			return input;
+		}
+
+		private Entidad ConvertListActividad(Actividad input)
+		{
+			return input;
+		}
+
+		private Entidad ConvertListHorario(Horario input)
+		{
+			return input;
 		}
 	}
 }
