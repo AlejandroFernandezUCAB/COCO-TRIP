@@ -24,7 +24,6 @@ namespace ApiRestPruebas.M9
     private Dictionary<string, object> respuesta = new Dictionary<string, object>();
     private DAO dao;
     private JObject data;
-    private Entidad respuesta2;
     private Entidad _resp;
 
     ////////////////////////////////////////    SETUPS    ////////////////////////////////////////
