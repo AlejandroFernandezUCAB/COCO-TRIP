@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
 import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoAgregarGrupo extends Comando
     private grupo : Grupo;
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idUsuario : number, nombreGrupo : string)
+    public constructor(idUsuario : number, nombreGrupo : string,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -39,10 +39,12 @@ export class ComandoAgregarGrupo extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('AgregarGrupo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de AgregarGrupo. Datos: ' + error);
         });
     }
 

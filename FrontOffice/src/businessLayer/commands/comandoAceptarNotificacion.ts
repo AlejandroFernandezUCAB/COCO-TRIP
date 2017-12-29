@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoAceptarNotificacion extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(nombreUsuario : string, id : number)
+    public constructor(nombreUsuario : string, id : number,
+                        private servicio?: RestapiService)
     {
         super();
 
@@ -38,10 +38,12 @@ export class ComandoAceptarNotificacion extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('AceptarNotificacion exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de AcpetarNotificacion. Datos: ' + error);
         });
     }
 
@@ -54,5 +56,4 @@ export class ComandoAceptarNotificacion extends Comando
     {
         return this.exito;
     }
-    
 }

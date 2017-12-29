@@ -19,8 +19,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M9_CategoriasController : ApiController
   {
-
-    private PeticionCategoria Peticion;
+    
     private IDictionary response = new Dictionary<string, object>();
     private const string Response_Data = "data";
     private const string Response_Error = "error";
@@ -104,7 +103,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
 
-        categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
+        categoria = new Categoria(id);
         com = FabricaComando.CrearComandoObtenerCategorias(categoria);
         com.Ejecutar();
         IList<Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 

@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -23,9 +24,8 @@ export class ComandoBuscarAmigo extends Comando
     private exito: boolean;
     private listaUsuarios: any;
 
-    private servicio: RestapiService;
-
-    public constructor(nombre : string, id : number)
+    public constructor(nombre : string, id : number, 
+        private servicio?: RestapiService)
     {
         super();
 
@@ -40,11 +40,13 @@ export class ComandoBuscarAmigo extends Comando
         {
             this.exito = true;
             this.listaUsuarios = datos;
+            catProd.info('BuscarAmigos exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
             this.listaUsuarios = error;
+            catErr.info('Fallo de BuscarAmigos. Datos: ' + error);
         });
     }
 

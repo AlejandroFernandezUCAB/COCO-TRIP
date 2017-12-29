@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoObtenerUltimoGrupo extends Comando
     private exito: boolean;
     private grupo: any;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number)
+    public constructor(id : number,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -38,11 +38,13 @@ export class ComandoObtenerUltimoGrupo extends Comando
         {
             this.exito = true;
             this.grupo = datos;
+            catProd.info('ObtenerUltimoGrupo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
             this.grupo = error;
+            catErr.info('Fallo de ObtenerUltimoGrupo. Datos: ' + error);
         });
     }
 

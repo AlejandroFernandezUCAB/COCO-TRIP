@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoListaNotificaciones extends Comando
     private exito: boolean;
     private listaNotificaciones: any;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number)
+    public constructor(id : number,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -38,11 +38,13 @@ export class ComandoListaNotificaciones extends Comando
         {
             this.exito = true;
             this.listaNotificaciones = datos;
+            catProd.info('ListaNotificaciones exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
             this.listaNotificaciones = error;
+            catErr.info('Fallo de ListaNotificaciones. Datos: ' + error);
         });
     }
 

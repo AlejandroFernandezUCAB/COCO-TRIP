@@ -44,23 +44,25 @@ export class VisualizarPerfilPublicoPage
 
   /*Elementos de la vista*/
   public toast: any;
-  public navCtrl: NavController;
-  public navParams: NavParams;
-  public alerCtrl: AlertController;
-  public loadingCtrl: LoadingController;
-  public toastCtrl: ToastController; 
-  private storage: Storage; 
-  private translate : TranslateModule;
-  private translateService : TranslateService;
+
+  private comando : Comando;
+  
+  public constructor
+  ( 
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alerCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController, 
+    private storage: Storage,
+    private translate : TranslateModule,
+    private translateService : TranslateService
+  ) { }
 
   public loading = this.loadingCtrl.create
   ({
     content: 'Please wait...'
   });
-
-  private comando : Comando;
-  
-  constructor( ) { }
 
 /**
  * Metodo que despliega un toast

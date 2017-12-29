@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
 import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -24,9 +25,8 @@ export class ComandoModificarGrupo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(nombreGrupo : string, idUsuario : number, idGrupo : number)
+    public constructor(nombreGrupo : string, idUsuario : number, idGrupo : number,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -42,10 +42,12 @@ export class ComandoModificarGrupo extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('ModificarGrupo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catProd.info('Fallo de ModificarGrupo (no autorizado o error interno). Datos: ' + error);
         });
     }
 

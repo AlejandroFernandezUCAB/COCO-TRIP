@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoSalirGrupo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idGrupo : number, idUsuario : number)
+    public constructor(idGrupo : number, idUsuario : number,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -38,10 +38,12 @@ export class ComandoSalirGrupo extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('SalirGrupo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de SalirGrupo. Datos: ' + error);
         });
     }
 

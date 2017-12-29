@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoVerificarLider extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idGrupo : number, idUsuario : number)
+    public constructor(idGrupo : number, idUsuario : number,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -38,10 +38,12 @@ export class ComandoVerificarLider extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('VerificarLider exitoso (es el lider). Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catProd.info('Fallo de VerificarLider (no es el lider o error interno). Datos: ' + error);
         });
     }
 
@@ -54,5 +56,4 @@ export class ComandoVerificarLider extends Comando
     {
         return this.exito;
     }
-
 }

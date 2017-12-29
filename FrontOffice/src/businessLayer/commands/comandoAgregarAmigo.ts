@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ export class ComandoAgregarAmigo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number, nombreUsuario : string)
+    public constructor(id : number, nombreUsuario : string,
+                        private servicio?: RestapiService)
     {
         super();
 
@@ -38,10 +38,12 @@ export class ComandoAgregarAmigo extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('AgregarAmigo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de AgregarAmigo. Datos: ' + error);
         });
     }
 

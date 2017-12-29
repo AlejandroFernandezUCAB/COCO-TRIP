@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -24,9 +25,8 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idUsuario : number, idGrupo : number)
+    public constructor(idUsuario : number, idGrupo : number,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -41,11 +41,13 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
         {
             this.exito = true;
             this.listaUsuarios = datos;
+            catProd.info('MiembrosSinGrupo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
             this.listaUsuarios = error;
+            catErr.info('Fallo de MiembrosSinGrupo. Datos: ' + error);
         });
     }
 

@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -21,6 +22,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private DAOGrupo datos;
     private Archivo archivo;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoEliminarGrupo(int idUsuario, int idGrupo)
     {
@@ -48,22 +51,25 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
           {
             archivo.EliminarArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
           }
+
+          log.Info("IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id);
         }
         else
         {
+          log.Info("No autorizado|IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id);
           throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "IdUsuario:" + usuario.Id + " idGrupo:" + grupo.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (IOExcepcion e)
       {
-        e.DatosAsociados = "IdUsuario:" + usuario.Id + " idGrupo:" + grupo.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }

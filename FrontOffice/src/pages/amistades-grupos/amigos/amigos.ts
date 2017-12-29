@@ -58,21 +58,22 @@ export class AmigosPage
   public toast : any;
   public loader : any;
 
-  public navCtrl : NavController;
-  public platform : Platform
-  public actionsheetCtrl : ActionSheetController;
-  public alerCtrl : AlertController;
-  public loadingCtrl : LoadingController;
-  public toastCtrl : ToastController; 
-  private storage : Storage;
-  private translateService : TranslateService;
-
-  public loading = this.loadingCtrl.create({});
-
   private comando : Comando; //Superclase comando
 
-  constructor() { }
+  public constructor
+  (
+    public navCtrl : NavController,
+    public platform : Platform,
+    public actionsheetCtrl : ActionSheetController,
+    public alerCtrl : AlertController,
+    public loadingCtrl : LoadingController,
+    public toastCtrl : ToastController,
+    private storage : Storage,
+    private translateService : TranslateService,
+  ) { }
 
+  public loading = this.loadingCtrl.create({});
+  
   public onLink(url: string) 
   {
       window.open(url);

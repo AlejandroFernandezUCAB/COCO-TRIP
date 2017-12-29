@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using System.Net;
 using System.Web.Http;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -18,6 +19,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     private Grupo grupo;
 
     private DAOGrupo datos;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoVerificarLider(int idGrupo, int idUsuario)
     {
@@ -38,13 +41,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
         if (lider.Id != usuario.Id) //Si no es el lider retorna una excepcion
         {
+          log.Info("No es lider|IdGrupo: " + grupo.Id + " IdUsuario: " + usuario.Id);
           throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
+        else
+        {
+          log.Info("Lider|IdGrupo: " + grupo.Id + " IdUsuario: " + usuario.Id);
         }
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "IdGrupo:" + grupo.Id + " IdUsuario: " + usuario.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "IdGrupo: " + grupo.Id + " IdUsuario: " + usuario.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
 
@@ -60,5 +68,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
-
 }

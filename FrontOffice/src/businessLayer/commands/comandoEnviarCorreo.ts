@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -23,9 +24,8 @@ export class ComandoEnviarCorreo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number, nombre : string, correo : string)
+    public constructor(id : number, nombre : string, correo : string,
+        private servicio?: RestapiService)
     {
         super();
 
@@ -40,10 +40,12 @@ export class ComandoEnviarCorreo extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('EnviarCorreo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de EnviarCorreo. Datos: ' + error);
         });
     }
 

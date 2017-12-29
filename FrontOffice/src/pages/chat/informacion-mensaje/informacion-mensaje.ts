@@ -21,16 +21,13 @@ import {catService,catProd} from "../../../logs/config";
  */
 
 /**
-<<<<<<< HEAD
  * Autores:
  * Mariangel Perez
  * Oswaldo Lopez
  * Aquiles Pulido
-=======
  * Descripcion de la clase:
  * 
  * Informacion de un mensaje
->>>>>>> 4c466cd213358a4aedea52b55ff9ca7e24c96ba5
  */
 
 /**
@@ -84,7 +81,7 @@ export class InformacionMensajePage {
     catProd.info("Entrando en el metodo ionViewDidEnter de informacion-mensaje");
     let entidad: Mensaje;
     entidad = new Mensaje("",this.Mensajerec.emisor,this.Mensajerec.receptor,0,"","",false);
-    entidad.setId=this.Mensajerec.idmensaje;
+    entidad.Id=this.Mensajerec.idmensaje;
     let comando = FabricaComando.crearComandoInformacionMensajeAmigo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;
