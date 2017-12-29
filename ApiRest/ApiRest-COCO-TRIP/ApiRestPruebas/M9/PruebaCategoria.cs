@@ -260,16 +260,27 @@ namespace ApiRestPruebas.M9
         [Test]
         public void M9_PruebaComandoObtenerCategoriasHabilitadas()
         {
-
-
             _com = FabricaComando.CrearComandoObtenerCategoriasHabilitadas();
             _com.Ejecutar();
             _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
             foreach (Categoria _Entidad in ((ComandoObtenerCategoriaPorId)_com).RetornarLista2())
             {
-                //if (_Entidad.Id = )
+                switch (_Entidad.Id)
+                {
+                    case 1000:
+                        Assert.AreEqual(_Entidad.Id, 1000);
+                        break;
+
+                    case 1001:
+                        Assert.AreEqual(_Entidad.Id, 1001);
+                        break;
+
+                    case 1002:
+                        Assert.AreEqual(_Entidad.Id, 1002);
+                        break;
+                }
             }
-            Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
+            
         }
         #endregion comandos
 
