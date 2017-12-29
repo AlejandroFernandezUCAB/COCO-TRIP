@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -18,6 +19,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private DAOUsuario baseUsuario;
     private DAOAmigo baseAmigo;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     /// <summary>
     /// Constructor del comando
@@ -45,17 +48,23 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         if (amigo.Id == 0)
         {
           baseAmigo.Insertar(amigo);
+          log.Info("Id:" + amigo.Activo + " Nombre: " + usuario.NombreUsuario);
+        }
+        else
+        {
+          log.Warn("Ya existe la peticion de amistad|" +
+          "Id:" + amigo.Activo + " Nombre: " + usuario.NombreUsuario);
         }
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.DatosAsociados = "Id:" + amigo.Activo + " Nombre: " + usuario.NombreUsuario;
-        e.NombreMetodos = this.GetType().FullName;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        e.NombreMetodos = this.GetType().FullName;
+        log.Warn(e.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }

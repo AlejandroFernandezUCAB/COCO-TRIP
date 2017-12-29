@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Datos.Entity;
+
 namespace ApiRest_COCO_TRIP.Models
 {
   public class Usuario
