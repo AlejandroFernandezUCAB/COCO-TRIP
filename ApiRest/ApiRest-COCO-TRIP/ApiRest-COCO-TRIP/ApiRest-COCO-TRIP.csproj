@@ -127,6 +127,7 @@
     <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
+    <Compile Include="Comun\Fabrica\FabricaExcepcion.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
