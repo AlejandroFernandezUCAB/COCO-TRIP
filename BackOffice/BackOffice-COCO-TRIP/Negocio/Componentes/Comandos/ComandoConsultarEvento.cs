@@ -12,7 +12,8 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
   {
     private int id;
     private ArrayList resultado = new ArrayList();
-
+    private Comando comando;
+    private Entidad entidad;
     public override void Execute()
     {
       IDAOEvento peticion = FabricaDAO.GetDAOEvento();
@@ -25,7 +26,22 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       }
       else
       {
-        resultado.Add(respuesta["dato"].ToObject<Evento>());
+        entidad = respuesta["dato"].ToObject<Evento>();
+        resultado.Add(entidad);
+
+
+        comando = FabricaComando.GetComandoConsultarLocalidad();
+        comando.SetPropiedad(((Evento)entidad).IdLocalidad);
+        comando.Execute();
+        resultado.Add(((Localidad)comando.GetResult()[0]).Nombre);
+
+        comando = FabricaComando.GetComandoConsultarCategoriaPorId();
+        comando.SetPropiedad(((Evento)entidad).IdCategoria);
+        comando.Execute();
+        JObject cat = (JObject)comando.GetResult()[0];
+        Categoria entidad2 = cat["data"][0].ToObject<Categoria>();
+        resultado.Add((entidad2).Name);
+
         resultado.Add("Se hizo con exito");
       }
     }

@@ -120,7 +120,9 @@ namespace BackOffice_COCO_TRIP.Controllers
       Comando comando = FabricaComando.GetComandoConsultarEvento();
       comando.SetPropiedad(id);
       comando.Execute();
-
+      //TempData["ncategoria"] = (String)comando.GetResult()[2];
+      TempData["ncategoria"] = "localidades";
+      TempData["nlocalidad"] = comando.GetResult()[1];
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
       return View(comando.GetResult()[0]);
 
