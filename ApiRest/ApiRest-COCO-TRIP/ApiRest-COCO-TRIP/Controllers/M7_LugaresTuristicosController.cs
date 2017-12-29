@@ -20,7 +20,7 @@ namespace ApiRest_COCO_TRIP.Controllers
   [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M7_LugaresTuristicosController : ApiController
     {
-        private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion
+        private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion <-- Esto hay que borrarlo luego.
 												 //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
 		private Comando com;
         //GET

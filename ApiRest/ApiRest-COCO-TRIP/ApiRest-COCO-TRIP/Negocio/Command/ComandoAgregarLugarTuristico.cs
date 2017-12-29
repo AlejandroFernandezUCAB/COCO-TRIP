@@ -13,7 +13,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 	{
 
 		private Entidad _lugarTuristico;
+		private Entidad _horario;
+		private Entidad _foto;
+		private Entidad _actividad;
 		private IDAOLugarTuristico iDAO;
+		
 		JObject _datos;
 		private Log log;
 		/// <summary>
