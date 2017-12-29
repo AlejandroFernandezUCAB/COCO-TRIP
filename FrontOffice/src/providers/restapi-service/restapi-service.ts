@@ -19,9 +19,8 @@ export class RestapiService
   private data : any;
   private userData: any;
   private idUser: number;
-  private http: Http;
   
-  public constructor() {}
+  public constructor (private http: Http) {}
 
   iniciarSesion(usuario,clave)
   {
@@ -954,4 +953,5 @@ public obtenerUltimoGrupo(idUsuario : number)
 //****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
 //****************************************************************************************************//
+
 }
