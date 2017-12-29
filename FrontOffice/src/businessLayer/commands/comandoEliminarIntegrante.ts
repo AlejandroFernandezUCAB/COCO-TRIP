@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -38,10 +39,12 @@ export class ComandoEliminarIntegrante extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('EliminarIntegrante exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de EliminarIntegrante. Datos: ' + error);
         });
     }
 

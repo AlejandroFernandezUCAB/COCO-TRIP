@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Net;
 using System.Web.Http;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -17,6 +18,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     private List<Entidad> lista;
 
     private DAOAmigo datos;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoBuscarAmigos(int id, string nombre)
     {
@@ -33,16 +36,17 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         datos = FabricaDAO.CrearDAOAmigo();
         lista = datos.BuscarAmigos(usuario);
+        log.Info("Id: " + usuario.Id + " Nombre: " + usuario.Nombre);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "Id" + usuario.Id + " Nombre:" + usuario.Nombre;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Id: " + usuario.Id + " Nombre: " + usuario.Nombre;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        e.NombreMetodos = this.GetType().FullName;
+        log.Warn(e.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }

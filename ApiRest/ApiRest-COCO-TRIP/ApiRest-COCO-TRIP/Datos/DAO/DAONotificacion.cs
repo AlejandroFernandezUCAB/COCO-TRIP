@@ -13,10 +13,15 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 {
   public class DAONotificacion : DAO
   {
-    private Itinerario itinerario;
-    private NpgsqlParameter parmetro;
     private NpgsqlDataReader respuesta;
     private NpgsqlCommand comando;
+
+    /// <summary>
+    /// Metodo que modifica si el registro de notificaciones por correo  de la base de datos
+    /// </summary>
+    /// <param name="id_usuario">Id del usuario al que se desea modificar las notificaciones</param>
+    /// <param name="correo">Variable que determina si se desea recibir o no, notificaciones por correo</param>
+    /// <returns>True si modifica existosamente, false en caso de error</returns>
     public override void Actualizar(Entidad objeto)
     {
       Notificacion notificacion = (Notificacion)objeto;
@@ -73,7 +78,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         if (respuesta.Read())
         {
-          notificacion.Push = respuesta.GetBoolean(0);
+          notificacion.Correo = respuesta.GetBoolean(0);
           return notificacion;
         }
         base.Desconectar();
