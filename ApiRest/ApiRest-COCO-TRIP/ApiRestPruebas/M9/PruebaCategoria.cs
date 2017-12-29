@@ -246,7 +246,17 @@ namespace ApiRestPruebas.M9
             _resp = _com.Retornar();
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
-        
+
+        [Test]
+        public void M9_PruebaComandoObtenerCategorias()
+        {
+            ((Categoria)_categoria).Id = 1000;
+            _com = FabricaComando.CrearComandoObtenerCategorias(_categoria);
+            _com.Ejecutar();
+            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+            Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
+        }
+
         #endregion comandos
 
 
