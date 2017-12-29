@@ -25,7 +25,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		private IDAOFoto iDAOFoto;
 		private IDAOHorario iDAOHorario;
 		private IDAOActividad iDAOActividad;
-		
+		private IDAOCategoria iDAOCategoria;
 		JObject _datos;
 		private Log log;
 
@@ -47,6 +47,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
 
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			iDAOCategoria = FabricaDAO.CrearDAOCategoria();
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOHorario = FabricaDAO.CrearDAOHorario();
 			iDAOActividad = FabricaDAO.CrearDAOActividad();
@@ -63,6 +64,33 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			try
 			{
 				iDAOLugarTuristico.Insertar(_lugarTuristico);
+				
+				for(int i=0; i <=_foto.Count; i++)
+				{
+					iDAOFoto.Insertar( _foto[i] );
+				}
+
+				for (int i = 0; i <= _horario.Count; i++)
+				{
+					iDAOHorario.Insertar(_horario[i]);
+				}
+
+				for (int i = 0; i <= _actividad.Count; i++)
+				{
+					iDAOActividad.Insertar(_actividad[i]);
+				}
+
+				/*
+				for (int i = 0; i <= _categoria.Count; i++)
+				{
+					//iDAOCategoria.Insertar(_horario[i]);
+				}
+
+				for (int i = 0; i <= _horario.Count; i++)
+				{
+					//iDAOHorario.Insertar(_horario[i]);
+				}
+				*/
 
 			}
 			catch ( Exception e)
