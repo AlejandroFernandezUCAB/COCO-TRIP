@@ -8,6 +8,7 @@ import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
 import { Comando } from '../../businessLayer/commands/comando';
 import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ConfiguracionImages } from '../constantes/configImages';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
@@ -74,7 +75,22 @@ export class ModificarGrupoPage
 
       if(this.comando.isSuccess)
       {
-        this.grupo = this.comando.return();
+        let grupo = this.comando.return();
+    
+        if(grupo.RutaFoto == undefined)
+        {
+          grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+        }
+        else
+        {
+          grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
+        }
+          
+        let listaGrupo = new Array();
+        listaGrupo.push(grupo);
+    
+        this.grupo = listaGrupo;
+
         this.cargarLider(this.navParams.get('idGrupo'));
       }
       else
@@ -94,7 +110,22 @@ export class ModificarGrupoPage
 
     if(this.comando.isSuccess)
     {
-      this.lider = this.comando.return();
+      let lider = this.comando.return();
+
+      if(lider.Foto == undefined)
+      {
+        lider.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+      }
+      else
+      {
+        lider.Foto = ConfiguracionImages.PATH + lider.Foto;
+      }
+
+      let listaLider = new Array();
+      listaLider.push(lider);
+
+      this.lider = listaLider;
+
       this.cargarMiembros(id);
     }
     else
@@ -115,6 +146,18 @@ export class ModificarGrupoPage
     if(this.comando.isSuccess)
     {
       this.miembro = this.comando.return();
+
+      for(let i = 0; i < this.miembro.length; i++)
+      {
+         if(this.miembro[i].Foto == undefined)
+         {
+           this.miembro[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+         }
+         else
+         {
+           this.miembro[i].Foto = ConfiguracionImages.PATH + this.miembro[i].Foto;
+         }
+      }
     }
     else
     {
@@ -177,7 +220,7 @@ export class ModificarGrupoPage
    */    
   public eliminarIntegrante(nombreUsuario, index)
   {
-    this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
+    //this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
     this.miembro.splice(index, 1);
   }
 
@@ -194,17 +237,45 @@ export class ModificarGrupoPage
       {
         if(this.nombreGrupo == undefined)
         {
-          /*this.restapiService.verperfilGrupo(this.id)
-          .then(data => {this.grupo = data;});
-            var nombreRestApi = this.grupo.filter(item => item.Nombre)[1];
-            this.realizarToast(this.edited);*/
-          
+          this.comando = FabricaComando.crearComandoVerPerfilGrupo(this.navParams.get('idGrupo'));
+          this.comando.execute();
+
+          if(this.comando.isSuccess)
+          {
+            let grupo = this.comando.return();
+    
+            if(grupo.RutaFoto == undefined)
+            {
+              grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+            }
+            else
+            {
+              grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
+            }
+              
+            let listaGrupo = new Array();
+            listaGrupo.push(grupo);
+        
+            this.grupo = listaGrupo;
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }          
         } 
         else 
         {
-            /*nombreRestApi = this.nombreGrupo;
-              this.restapiService.modificarGrupo(nombreRestApi,idUsuario,this.navParams.get('idGrupo'));
-              this.realizarToast(this.edited);*/
+          this.comando = FabricaComando.crearComandoModificarGrupo(this.nombreGrupo, idUsuario, this.navParams.get('idGrupo'));
+          this.comando.execute();
+          
+          if(this.comando.isSuccess)
+          {
+            this.realizarToast(this.edited);
+          }
+          else
+          {
+            this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
+          }
         }
       });
   }
@@ -238,5 +309,4 @@ export class ModificarGrupoPage
       idGrupo: this.navParams.get('idGrupo')
     });
   }
-  
 }

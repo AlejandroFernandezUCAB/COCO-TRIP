@@ -6,6 +6,7 @@ import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
 import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { Comando } from '../../../businessLayer/commands/comando';
+import { ConfiguracionImages } from '../../constantes/configImages';
 
 //****************************************************************************************************// 
 //***********************************PAGE DE SOLICITUDES MODULO 3*************************************//
@@ -103,6 +104,18 @@ public realizarToast(mensaje : string)
       if(this.comando.isSuccess)
       {
         this.notificaciones = this.comando.return();
+
+        for(let i = 0; i < this.notificaciones.length; i++)
+        {
+           if(this.notificaciones[i].Foto == undefined)
+           {
+             this.notificaciones[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+           }
+           else
+           {
+             this.notificaciones[i].Foto = ConfiguracionImages.PATH + this.notificaciones[i].Foto;
+           }
+        }
       }
       else
       {
@@ -168,7 +181,7 @@ public realizarToast(mensaje : string)
  */
   public eliminarNotificacionVisual(nombreUsuario, index)
   {
-    this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
+    //this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
     this.notificaciones.splice(index, 1);
   }
 }

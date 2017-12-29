@@ -21,6 +21,8 @@ export class Texto
     public static readonly TITULO_CONFIRMAR : string = 'Agregar';
     public static readonly MENSJAE_CONFIRMAR : string = '¿Deseas agregar a esta persona como amigo?';
     public static readonly SI_CONFIRMAR : string = 'Si';
+    public static readonly EXITO_CONFIRMAR : string = 'Peticion de amistad enviada exitosamente';
+    public static readonly EXITO_CORREO : string = 'Se ha enviado una notificacion al usuario';
 
     //AgregarGrupo
     public static readonly EXITO_AGREGAR_GRUPO : string = 'Agregado exitosamente';
@@ -39,7 +41,7 @@ export class Texto
 
     //AlertaIntegrante
     public static readonly NO_EDITAR_ALERTA_INTEGRANTE : string = 'No puedes modificar';
-    public static readonly SUBTITULO_ALERTA_INTEGRANTE: string = 'No eres lider';
+    public static readonly SUBTITULO_ALERTA_INTEGRANTE: string = 'No eres el lider del grupo';
     public static readonly OK_ALERTA_INTEGRANTE : string = 'Esta bien';    
 
     //Mensajes Toast
@@ -48,5 +50,4 @@ export class Texto
     public static readonly PETICION_ELIMINADA : string = 'Peticion eliminada';
     public static readonly GRUPO_EXITOSO : string = 'Grupo exitoso';
     public static readonly MODIFICAR_EXITOSO : string = 'Modificado exitosamente';
-
 }
