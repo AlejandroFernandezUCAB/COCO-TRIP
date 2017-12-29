@@ -14,14 +14,13 @@ import { catProd, catService, catErr } from '../../logs/config';
 @Injectable()
 export class RestapiService 
 {
-  private readonly apiUrl : string = 'http://localhost:8091/api';
+  public readonly apiUrl : string = 'http://localhost:8090/api';
 
   private data : any;
   private userData: any;
   private idUser: number;
-  private http: Http;
   
-  public constructor() {}
+  public constructor (private http: Http) {}
 
   iniciarSesion(usuario,clave)
   {
@@ -954,4 +953,5 @@ public obtenerUltimoGrupo(idUsuario : number)
 //****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
 //****************************************************************************************************//
+
 }
