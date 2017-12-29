@@ -168,6 +168,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\LugaresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\M7_LugaresTuristicosController.cs" />
     <Compile Include="Controllers\M8EventsController.cs" />
     <Compile Include="Controllers\M8_LocalidadController.cs" />
     <Compile Include="Datos\DAO\DAOCategoria.cs" />

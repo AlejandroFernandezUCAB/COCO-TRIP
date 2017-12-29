@@ -2,6 +2,7 @@ using BackOffice_COCO_TRIP.Datos.DAO;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -26,6 +27,9 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       try
       {
         
+        respuesta = daoLugarTuristico.Post( lugarTuristico );
+        lugarTuristico = respuesta.ToObject<LugarTuristico>();
+        respuesta.Add(lugarTuristico);
         
       }
       catch (Exception e)
