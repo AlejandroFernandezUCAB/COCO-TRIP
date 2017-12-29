@@ -19,6 +19,7 @@ export class Usuario extends Entidad
     private nombreUsuario: string;
     private nombre: string;
     private apellido: string;
+    private correo: string;
     private foto: string;
 
     constructor () //Por ahora vacio
@@ -75,6 +76,22 @@ export class Usuario extends Entidad
     }
 
     /**
+     * Retorna el correo
+     */
+    get Correo() : string 
+    {
+        return this.correo;
+    }
+
+    /**
+     * Establece el correo
+     */
+    set Correo(correo : string) 
+    {
+        this.correo = correo;
+    }
+
+    /**
      * Retorna la ruta de la foto
      */
     get Foto() : string 
@@ -89,4 +106,5 @@ export class Usuario extends Entidad
     {
         this.foto = foto;
     }
+    
 }
