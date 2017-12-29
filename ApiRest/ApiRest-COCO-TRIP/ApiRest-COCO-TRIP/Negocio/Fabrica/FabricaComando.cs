@@ -536,5 +536,38 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoObtenerCategoriasHabilitadas();
     }
+
+    public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion()
+    {
+        return new ComandoLTActualizarInformacion();
+    }
+    public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
+    {
+        return new ComandoLTModificarUbicacion();
+    }
+     public static ComandoLTAgregarCategoria CrearComandoLTAgregarCategoria()
+    {
+        return new ComandoLTAgregarCategoria();
+    }
+    public static ComandoLTEliminarCategoria CrearComandoLTEliminarCategoria()
+    {
+        return new ComandoLTEliminarCategoria();
+    }
+    public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad()
+    {
+        return new ComandoLTEliminarActividad();
+    }
+    public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad()
+    {
+        return new ComandoLTAgregarActividad();
+    }
+     public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto()
+    {
+        return new ComandoLTEliminarFoto();
+    }
+    public static ComandoLTAgregarFoto CrearComandoLTAgregarFoto()
+    {
+        return new ComandoLTAgregarFoto();
+    }
   }
 }
