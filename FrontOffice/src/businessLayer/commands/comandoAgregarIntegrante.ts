@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -38,10 +39,12 @@ export class ComandoAgregarIntegrante extends Comando
         .then(datos => 
         {
             this.exito = true;
+            catProd.info('AgregarIntegrante exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
+            catErr.info('Fallo de AgregarIntegrante. Datos: ' + error);
         });
     }
 
