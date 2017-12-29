@@ -7,7 +7,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 {
 	public class DAOFoto : DAO , IDAOFoto
 	{
-
+        /// <summary>
+        /// Devuelve la lista de fotos de un lugar turistico especifico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Entidad> ConsultarLista(string id)
         {
             throw new NotImplementedException();

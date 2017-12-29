@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
+using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
-	public class DAOHorario : DAO
+	public class DAOHorario : DAO , IDAOHorario
 	{
 		public override void Actualizar(Entidad objeto)
 		{
@@ -16,7 +17,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
-		public override Entidad ConsultarPorId(Entidad objeto)
+        /// <summary>
+        /// Devuelve la lista de Horarios de un lugar turistico especifico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Entidad> ConsultarLista(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Entidad ConsultarPorId(Entidad objeto)
 		{
 			throw new NotImplementedException();
 		}

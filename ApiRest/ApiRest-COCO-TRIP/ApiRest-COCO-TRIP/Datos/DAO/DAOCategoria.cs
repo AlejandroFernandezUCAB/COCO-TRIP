@@ -7,10 +7,11 @@ using NpgsqlTypes;
 using System;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
+using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
-  public class DAOCategoria : DAO
+  public class DAOCategoria : DAO , IDAOCategoria
   {
     private NpgsqlParameter parametro;
     private NpgsqlDataReader leerDatos;
@@ -427,5 +428,15 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       return listaCategorias;
     }
 
-  }
+     /// <summary>
+     /// Devuelve la lista de Horarios de un lugar turistico especifico
+     /// </summary>
+     /// <param name="id"></param>
+     /// <returns></returns>
+     public List<Entidad> ConsultarLista(string id)
+     {
+         throw new NotImplementedException();
+     }
+
+    }
 }
