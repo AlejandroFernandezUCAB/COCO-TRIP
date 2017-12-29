@@ -14,30 +14,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 
     public static LugarTuristico GetLugarTuristico()
     {
-
       return new LugarTuristico();
-
-    }
-
-    public static Foto GetFoto()
-    {
-
-      return new Foto();
-
-    }
-
-    public static Horario GetHorario()
-    {
-
-      return new Horario();
-
-    }
-
-    public static Actividad GetActividad()
-    {
-
-      return new Actividad();
-
     }
 
   }

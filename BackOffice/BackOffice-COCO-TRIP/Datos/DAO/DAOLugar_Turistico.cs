@@ -5,10 +5,11 @@ using System.Net.Http;
 using System.Net;
 using System.Net.Sockets;
 using Newtonsoft.Json;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class DAOLugar_Turistico : DAO<JObject, Entidad>
+  public class DAOLugar_Turistico : DAO<JObject, LugarTuristico> , IDAOLugar_Turistico
   {
     private const string ControllerUri = "M7_LugaresTuristicos";
     private JObject responseData;
@@ -110,14 +111,24 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    public JObject GetAll()
+    {
+      throw new NotImplementedException();
+    }
+
     public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Sirve para agregar un lugar turistico a la bdd con acceso a la API
+    /// </summary>
+    /// <param name="data">Entidad lugar turistico</param>
+    /// <returns></returns>
     public override JObject Post(Entidad data)
     {
-      throw new NotImplementedException();
+      return responseData;
     }
 
     public override JObject Put(Entidad data)
