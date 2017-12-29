@@ -10,7 +10,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 {
   public class DAOLugar_Turistico : DAO<JObject, Entidad>
   {
-    private const string ControllerUri = "M7_LugaresTuristicosController";
+    private const string ControllerUri = "M7_LugaresTuristicos";
     private JObject responseData;
 
     public override JObject Delete(int id)
