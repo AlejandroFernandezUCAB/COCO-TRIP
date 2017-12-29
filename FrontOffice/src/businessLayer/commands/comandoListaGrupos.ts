@@ -23,8 +23,9 @@ export class ComandoListaGrupos extends Comando
     private exito: boolean;
     private listaGrupos: any;
 
-    public constructor(id : number,
-        private servicio: RestapiService)
+    private servicio: RestapiService;
+
+    public constructor(id : number)
     {
         super();
 

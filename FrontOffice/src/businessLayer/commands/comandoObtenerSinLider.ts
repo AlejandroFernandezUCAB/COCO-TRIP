@@ -23,8 +23,9 @@ export class ComandoObtenerSinLider extends Comando
     private exito: boolean;
     private listaMiembros: any;
 
-    public constructor(id : number,
-        private servicio: RestapiService)
+    private servicio: RestapiService;
+
+    public constructor(id : number)
     {
         super();
 

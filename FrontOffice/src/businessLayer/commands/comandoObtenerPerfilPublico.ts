@@ -23,8 +23,9 @@ export class ComandoObtenerPerfilPublico extends Comando
     private exito: boolean;
     private usuario: any;
 
-    public constructor(nombreUsuario : string,
-        private servicio: RestapiService)
+    private servicio: RestapiService;
+
+    public constructor(nombreUsuario : string)
     {
         super();
 
