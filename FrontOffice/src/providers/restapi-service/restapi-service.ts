@@ -14,7 +14,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 @Injectable()
 export class RestapiService 
 {
-  private readonly apiUrl : string = 'http://localhost:8091/api';
+  public readonly apiUrl : string = 'http://localhost:8090/api';
 
   private data : any;
   private userData: any;
