@@ -17,12 +17,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
 		private Entidad _lugarTuristico;
 		private Entidad _horario;
-		private Entidad _foto;
+		private List<Entidad> _foto;
 		private Entidad _actividad;
-		private IDAOLugarTuristico iDAO;
+		private IDAOLugarTuristico iDAOLugarTuristico;
+		private IDAOFoto iDAOFoto;
+		private IDAOHorario iDAOHorario;
+		private IDAOActividad iDAOActividad;
 		
 		JObject _datos;
 		private Log log;
+
 		/// <summary>
 		/// Creo el comando con la lista de datos ya deseralizada
 		/// </summary>
@@ -33,7 +37,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_datos = datos;
 			_lugarTuristico = _datos.ToObject<LugarTuristico>();
-			iDAO = FabricaDAO.CrearLugarTuristico();
+			
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			iDAOFoto = FabricaDAO.CrearDAOFoto();
+			iDAOHorario = FabricaDAO.CrearDAOHorario();
+			iDAOActividad = FabricaDAO.CrearDAOActividad();
+
 			log = Log.ObtenerInstancia();
 
 		}
@@ -45,7 +54,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		{
 			try
 			{
-				iDAO.Insertar(_lugarTuristico);
+				iDAOLugarTuristico.Insertar(_lugarTuristico);
+
 			}
 			catch ( Exception e)
 			{

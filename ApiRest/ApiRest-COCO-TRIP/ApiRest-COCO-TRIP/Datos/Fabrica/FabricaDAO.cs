@@ -105,7 +105,7 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
 	/// Retorna la instancia de DAOLugarTuristico
 	/// </summary>
 	/// <returns></returns>
-	public static DAOLugarTuristico CrearLugarTuristico()
+	public static DAOLugarTuristico CrearDAOLugarTuristico()
 	{
 		return new DAOLugarTuristico();
 	}
@@ -114,7 +114,7 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
 	/// Retorna la instancia de DAOFoto
 	/// </summary>
 	/// <returns></returns>
-	public static DAOFoto CrearFoto() 
+	public static DAOFoto CrearDAOFoto() 
 	{
 		return new DAOFoto();
 	}
