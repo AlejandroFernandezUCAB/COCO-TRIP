@@ -23,9 +23,8 @@ export class ComandoAgregarIntegrante extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idGrupo : number, nombreUsuario : string)
+    public constructor(idGrupo : number, nombreUsuario : string,
+        private servicio: RestapiService)
     {
         super();
 
