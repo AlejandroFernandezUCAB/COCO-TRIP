@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
+using Newtonsoft.Json.Linq;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -24,7 +25,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     // GET: M8Events/Create
     public ActionResult CreateEvent(int id = -1)
     {
-      ViewBag.Title = "Categorías";
+      
       Comando comando = FabricaComando.GetComandoConsultarEventos();
       comando.SetPropiedad(id);
       comando.Execute();
@@ -41,12 +42,8 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult CreateEvent(Evento evento)
     {
       //Debe funcionar con la siguiente linea:
-      evento.IdLocalidad = Int32.Parse(Request["Localidad"].ToString());
-      
-      //var idLocalidad = Request["Localidades"].ToString();
-      //evento.IdLocalidad = Int32.Parse(idLocalidad);
-      //evento.IdLocalidad = 1;
-      evento.Foto = "jorge";
+      evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
+      evento.Foto = "jorge"; 
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
       Comando comando = FabricaComando.GetComandoInsertarEvento();
       comando.SetPropiedad(evento);
@@ -95,11 +92,10 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult FilterEvent()
     { 
       ViewBag.Title = "Eventos por Categorias";
-      Comando comando = FabricaComando.GetComandoConsultarCategorias();
+      Comando comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
       comando.Execute();
-      ViewBag.MyList = comando.GetResult()[0];
-      TempData["listaCategorias"] = comando.GetResult()[0];
-      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      ViewBag.MyList = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
+      TempData["listaCategorias"] = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
       return View((IList<Evento>)TempData["evento"]);
     }
 

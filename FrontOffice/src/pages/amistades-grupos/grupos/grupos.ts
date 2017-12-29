@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import { NavController,Platform, ActionSheetController, AlertController, LoadingController, ToastController} from 'ionic-angular';
-import{CrearGrupoPage} from '../../crear-grupo/crear-grupo';
+import { CrearGrupoPage } from '../../crear-grupo/crear-grupo';
 import { SeleccionarIntegrantesPage } from '../../seleccionar-integrantes/seleccionar-integrantes';
-import{DetalleGrupoPage} from '../../detalle-grupo/detalle-grupo';
-import{ModificarGrupoPage} from '../../modificar-grupo/modificar-grupo';
-import { RestapiService } from '../../../providers/restapi-service/restapi-service';
+import { DetalleGrupoPage } from '../../detalle-grupo/detalle-grupo';
+import { ModificarGrupoPage } from '../../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacion-grupo';
+import { Texto } from '../../constantes/texto';
+import { ConfiguracionToast } from '../../constantes/configToast';
+import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
+import { Comando } from '../../../businessLayer/commands/comando';
+import { ConfiguracionImages } from '../../constantes/configImages';
 
 //****************************************************************************************************// 
 //*************************************PAGE DE GRUPOS MODULO 3****************************************//
@@ -15,9 +19,9 @@ import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacio
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -26,46 +30,64 @@ import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacio
  * Floating button para eliminar grupos, agregar grupos,
  * ver detalle del grupo y modificar grupo
  */
-@Component({
+
+@Component
+({
   selector: 'page-grupos',
   templateUrl: 'grupos.html'
 })
-export class GruposPage {
-  delete= false;
-  edit= false;
-  detail=false;
-  toast : any;
-  grupo:any;
-  loader: any;
-  NoEdit: any;
-  subtitle: any;
-  ok: any;
-  title: any;
-  accept: any;
-  cancel: any;
-  text: any;
-  message: any;
-  succesful: any;
-  chat=false;
+
+export class GruposPage 
+{
+  /*Condicionales de la vista*/
+  public delete : boolean = false;
+  public edit : boolean = false;
+  public detail : boolean = false;
+  public chat : boolean = false;
+
+  /*Atributos que almacenan datos*/
+  public grupo : any; //Arreglo de grupos
+
+  /*Texto a mostrar en la vista*/
+  public noEdit : string;
+  public subtitle : string;
+  public ok : string;
+  public title : string;
+  public accept : string;
+  public cancel : string;
+  public text : string;
+  public message : string;
+  public succesful : string;
+
+  /*Elementos de la vista*/
+  public toast : any;
+  public loader : any;
+
+  public navCtrl : NavController;
+  public platform : Platform;
+  public actionsheetCtrl : ActionSheetController;
+  public alertCtrl : AlertController;
+  public loadingCtrl : LoadingController;
+  public toastCtrl : ToastController;
+  private storage : Storage;
+  private translateService : TranslateService;
+
   public loading = this.loadingCtrl.create({});
 
+  private comando : Comando;
   
-    constructor(public navCtrl: NavController, public platform: Platform,
-      public actionsheetCtrl: ActionSheetController,public alertCtrl: AlertController,
-      public restapiService: RestapiService, public loadingCtrl: LoadingController,
-      public toastCtrl: ToastController, private storage: Storage,
-      private translateService: TranslateService) {
- 
-   }
+  constructor() { }
 
 /**
  * Metodo que carga un loading controller al iniciar 
  * la lista de amigos
  * (Por favor espere/ please wait)
  */
-   cargando(){
-    this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
-    this.loading = this.loadingCtrl.create({
+  public cargando()
+  {
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
+    this.loading = this.loadingCtrl.create
+    ({
       content: this.loader,
       dismissOnPageChange: true
     });
@@ -76,52 +98,72 @@ export class GruposPage {
    * Metodo que carga la lista de grupos automaticamente
    * al entrar a la vista
    */
-   ionViewWillEnter() {
-     this.cargando();
-    this.storage.get('id').then((val) => {
-    this.restapiService.listaGrupo(val)
-      .then(data => {
-        if (data == 0 || data == -1) {
-          
-          this.loading.dismiss();
-        }
-        else {
-          this.grupo = data;
-          this.loading.dismiss();
-        }
+   public ionViewWillEnter() 
+   {
+      this.cargando();
+      this.storage.get('id').then((idUsuario) => 
+      {
+        this.comando = FabricaComando.crearComandoListaGrupos(idUsuario);
+        this.comando.execute();
+ 
+        if(this.comando.isSuccess)
+        {
+          this.grupo = this.comando.return();
 
+          for(let i = 0; i < this.grupo.length; i++)
+          {
+             if(this.grupo[i].RutaFoto == undefined)
+             {
+               this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+             }
+             else
+             {
+               this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
+             }
+          }
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+ 
+        this.loading.dismiss();
       });
-    });
-  }
+    }
 
   /**
    * Metodo que coloca los textos de las cartas
    * en false e inicia la pagina de crear grupo
    */
-  crearGrupo(){
-    this.edit=false;
-    this.detail=false;
-    this.delete=false;
+  public crearGrupo()
+  {
+    this.edit = false;
+    this.detail = false;
+    this.delete = false;
 
     this.navCtrl.push(SeleccionarIntegrantesPage);
   }
 
-  verChat(){
-    this.edit=false;
-     this.detail=false;
-     this.delete=false;
-     if (this.chat==false){
-      
-          this.chat = true;
-        }
-        else{
-          this.chat=false;
-        }
-      
-   }
+  public verChat()
+  {
+     this.edit = false;
+     this.detail = false;
+     this.delete = false;
+     
+     if (this.chat == false)
+     {
+       this.chat = true;
+    }
+    else
+    {
+      this.chat = false;
+    }  
+  }
   
-   chatGrupo(IdGrupo,NombreGupo) {
-    this.navCtrl.push(ConversacionGrupoPage,{
+  public chatGrupo (IdGrupo, NombreGupo) 
+  {
+    this.navCtrl.push(ConversacionGrupoPage ,
+    {
         idGrupo : IdGrupo,
         nombreGrupo : NombreGupo
     });
@@ -131,54 +173,56 @@ export class GruposPage {
    * Metodo que coloca los textos de las cartas en false
    * (Cuando dice eliminar grupo)
    */
-  eliminar(){
-    this.edit=false;
-    this.detail=false;
+  public eliminar()
+  {
+    this.edit = false;
+    this.detail = false;
 
-    if (this.delete==false){
-
+    if (this.delete == false)
+    {
       this.delete = true;
     }
-    else{
-      this.delete=false;
+    else
+    {
+      this.delete = false;
     }
-    
   }
 
   /**
    * Metodo que coloca los textos de las cartas en false
    * (Cuando dice modificar grupo)
    */
-  editar(){
-    this.delete=false;
-    this.detail=false;
+  public editar()
+  {
+    this.delete = false;
+    this.detail = false;
 
-    if (this.edit==false){
-
+    if (this.edit == false)
+    {
       this.edit = true;
     }
-    else{
-      this.edit=false;
+    else
+    {
+      this.edit = false;
     }
-    
   }
 
 /**
  *Metodo que coloca los textos de las cartas en false
  (Cuando dice ver detalle del grupo) 
  */
-  detallegrupo(){
-    this.delete=false;
-    this.edit=false;
-    if(this.detail==false){
-
+  public detallegrupo()
+  {
+    this.delete = false;
+    this.edit = false;
+    if(this.detail == false)
+    {
       this.detail = true;
     }
-    else{
-
-      this.detail=false;
+    else
+    {
+      this.detail = false;
     }
-    
   }
 
   /**
@@ -187,40 +231,42 @@ export class GruposPage {
    * @param id Identificador del usuario
    * @param index Posicion en la lista
    */
-  modificarGrupo(id, index){
-    this.edit=false;
-    this.detail=false;
-    this.delete=false;
+  public modificarGrupo (id, index) 
+  {
+    this.edit = false;
+    this.detail = false;
+    this.delete = false;
     
-    this.storage.get('id').then((val) => {
-      this.restapiService.verificarLider(id,val)
-      .then(data => {
-        if (data == 0 || data == -1) {
-    
-          this.alertaIntegrante();
+    this.storage.get('id').then((idUsuario) => 
+    {
+      this.comando = FabricaComando.crearComandoVerificarLider(id, idUsuario);
+      this.comando.execute();
 
-        }
-        else {
-          
-          this.navCtrl.push(ModificarGrupoPage,{
-            idGrupo: id
-          });
-        }
-
-      });
-      this.delete = false;
-    });
-   
+      if(this.comando.isSuccess)
+      {
+        this.navCtrl.push(ModificarGrupoPage,
+        {
+          idGrupo: id
+        });
+      }
+      else
+      {
+        this.alertaIntegrante();
+      }
+    }); 
   } 
+
 /**
  * Alert que explica que el usuario no es lider del grupo
  */
-  alertaIntegrante() {
-    this.translateService.get('No puedes modificar').subscribe(value => {this.NoEdit = value;})
-    this.translateService.get('No eres lider').subscribe(value => {this.subtitle = value;})
-    this.translateService.get('Esta bien').subscribe(value => {this.ok = value;})
-    let alert = this.alertCtrl.create({
-      title: this.NoEdit,
+  public alertaIntegrante() 
+  {
+    this.translateService.get(Texto.NO_EDITAR_ALERTA_INTEGRANTE).subscribe(value => {this.noEdit = value;})
+    this.translateService.get(Texto.SUBTITULO_ALERTA_INTEGRANTE).subscribe(value => {this.subtitle = value;})
+    this.translateService.get(Texto.OK_ALERTA_INTEGRANTE).subscribe(value => {this.ok = value;})
+    let alert = this.alertCtrl.create
+    ({
+      title: this.noEdit,
       subTitle: this.subtitle,
       buttons: [this.ok]
     });
@@ -231,11 +277,17 @@ export class GruposPage {
    * Metodo que despliega un toast
    * @param mensaje Texto para el toast
    */
-  realizarToast(mensaje) {
-    this.toast = this.toastCtrl.create({
-      message: mensaje,
-      duration: 3000,
-      position: 'top'
+  public realizarToast(mensaje : string) 
+  {
+    let mensajeTraducido;
+
+    this.translateService.get(mensaje).subscribe(value => {mensajeTraducido = value;})
+
+    this.toast = this.toastCtrl.create(
+    {
+      message: mensajeTraducido,
+      duration: ConfiguracionToast.DURACION,
+      position: ConfiguracionToast.POSICION
     });
     this.toast.present();
   }
@@ -246,52 +298,49 @@ export class GruposPage {
    * @param id Identificador del grupo
    * @param index Posicion de la lista
    */
-  eliminarGrupo(id, index) {
-    this.translateService.get('Por favor, Confirmar').subscribe(value => {this.title = value;})
-    this.translateService.get('Borrar Grupo').subscribe(value => {this.message = value;})
-    this.translateService.get('Cancelar').subscribe(value => {this.cancel = value;})
-    this.translateService.get('Aceptar').subscribe(value => {this.accept = value;})
-    this.translateService.get('Salir Grupo').subscribe(value => {this.succesful = value;})
-    const alert = this.alertCtrl.create({
-    title: this.title,
-    message:this.message,
-    buttons: [
-      {
-        text: this.cancel,
-        role: 'cancel',
-        handler: () => {
-      
-        }
-      },
-      {
-        text: this.accept,
-        handler: () => {
-          
-          
-          this.storage.get('id').then((val) => {
-            console.log('El id del usuario es ', val);
-            this.restapiService.salirGrupo(val,id)
-            .then(data => {
-              if (data == 0 || data == -1) {
-                console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-          
-                this.realizarToast('Hubo un error');
+  public eliminarGrupo(id, index) 
+  {
+    this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
+    this.translateService.get(Texto.MENSAJE_ELIMINAR_GRUPO).subscribe(value => {this.message = value;})
+    this.translateService.get(Texto.CANCELAR).subscribe(value => {this.cancel = value;})
+    this.translateService.get(Texto.ACEPTAR).subscribe(value => {this.accept = value;})
+    this.translateService.get(Texto.EXITO_ELIMINAR_GRUPO).subscribe(value => {this.succesful = value;})
+    const alert = this.alertCtrl.create
+    ({
+      title: this.title,
+      message:this.message,
+      buttons: [
+        {
+          text: this.cancel,
+          role: 'cancel',
+          handler: () => { }
+        },
+        {
+          text: this.accept,
+          handler: () => 
+          {
+              this.storage.get('id').then((idUsuario) => 
+              {
+                console.log('El id del usuario es ' + idUsuario);
 
-              }
-              else {
-                
-                console.log("la data es "+data);
-                this.realizarToast(this.succesful);
-                 
-                this.eliminarGrupos(id, index);
-              }
-      
-            });
-            this.delete = false;
-          });
+                this.comando = FabricaComando.crearComandoSalirGrupo(id, idUsuario);
+                this.comando.execute();
+          
+                if(this.comando.isSuccess)
+                {
+                  this.realizarToast(this.succesful);
+                  this.eliminarGrupos(id, index);
+                }
+                else
+                {
+                  this.realizarToast(Texto.ERROR);
+                }
+
+                  this.delete = false;
+              });
+            }
           }
-        }
-      ]
+        ]
     });
     alert.present();
   }
@@ -301,23 +350,22 @@ export class GruposPage {
  * @param nombreUsuario Nombre del amigo a eliminar
  * @param index 
  */
-eliminarGrupos(id, index){
-  let eliminado = this.grupo.filter(item => item.Id === id)[0];
-  var removed_elements = this.grupo.splice(index, 1);
-}
+  public eliminarGrupos(id, index)
+  {
+    //this.grupo.filter(item => item.Id === id)[0];
+    this.grupo.splice(index, 1);
+  }
 
 /**
  * Metodo para iniciar la pagina del detalle del grupo
  * @param id Identificador del grupo
  * @param index Posicion de la lista
  */
-  verDetalleGrupo(id, index) {
-    this.navCtrl.push(DetalleGrupoPage,{
+  public verDetalleGrupo(id, index) 
+  {
+    this.navCtrl.push(DetalleGrupoPage,
+    {
       idGrupo: id
     });
-  
   }
-  
 }
-
-

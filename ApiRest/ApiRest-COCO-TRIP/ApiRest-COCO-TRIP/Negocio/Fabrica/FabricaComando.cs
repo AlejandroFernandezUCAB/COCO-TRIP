@@ -148,10 +148,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     /// Retorna la instancia de ComandoModificarGrupo
     /// </summary>
     /// <param name="grupo">Datos del grupo</param>
+    /// <param name="id">Identificador del usuario que quiere modificar los datos del grupo</param>
     /// <returns></returns>
-    public static ComandoModificarGrupo CrearComandoModificarGrupo(Entidad grupo)
+    public static ComandoModificarGrupo CrearComandoModificarGrupo(Entidad grupo, int id)
     {
-      return new ComandoModificarGrupo(grupo);
+      return new ComandoModificarGrupo(grupo, id);
     }
 
     /// <summary>
@@ -308,6 +309,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoModificarCategoria(entidad);
     }
 
+
+    /// Retorna la instancia de ComandoModificarCategoria
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns></returns>
+    public static ComandoAgregarCategoria CrearComandoAgregarCategoria(Entidad entidad)
+    {
+      return new ComandoAgregarCategoria(entidad);
+    }
+
     /// <summary>
     /// Retorna la instancia de ComandoObtenerCategorias
     /// </summary>
@@ -372,6 +383,48 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoEliminarLocalidad(id);
     }
+
+    public static ComandoAgregarEvento CrearComandoAgregarEvento(Entidad evento)
+    {
+      return new ComandoAgregarEvento(evento);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidad
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidad</returns>
+    public static ComandoConsultarEvento CrearComandoConsultarEvento(int id)
+    {
+      return new ComandoConsultarEvento(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarLocalidades
+    /// </summary>
+    /// <returns>ComandoConsultarLocalidades</returns>
+    public static ComandoConsultarEventosPorCategoria CrearComandoConsultarEventosPorCategoria(int id)
+    {
+      return new ComandoConsultarEventosPorCategoria(id);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoModificarLocalidad
+    /// </summary>
+    /// <returns>ComandoModificarLocalidad</returns>
+    public static ComandoModificarEvento CrearComandoModificarEvento(Entidad evento)
+    {
+      return new ComandoModificarEvento(evento);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoEliminarLocalidad
+    /// </summary>
+    /// <returns>ComandoEliminarLocalidad</returns>
+    public static ComandoEliminarEvento CrearComandoEliminarEvento(int id)
+    {
+      return new ComandoEliminarEvento(id);
+    }
+
 
     /// <summary>
     /// Retorna la instancia de ComandoAgregarAgenda
@@ -465,13 +518,34 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoListarCoincidenciaActividades(busqueda);
     }
 
+
+        /// <summary>
+        /// Retorna la instancia de ComandoConsultarNotificacion
+        /// </summary>
+        /// <returns>ComandoConsultarNotificacion</returns>
+        public static ComandoConsultarNotificacion CrearComandoConsultarNotificacion(int idUsuario)
+        {
+            return new ComandoConsultarNotificacion(idUsuario);
+        }
+
+
     /// <summary>
-    /// Retorna la instancia de ComandoConsultarNotificacion
+    /// Retorna la instancia de ComandoListarCoincidenciaActividades
     /// </summary>
-    /// <returns>ComandoConsultarNotificacion</returns>
-    public static ComandoConsultarNotificacion CrearComandoConsultarNotificacion(int idUsuario)
+    /// <returns>ComandoObtenerCategoriaPorId</returns>
+    public static ComandoObtenerCategoriaPorId CrearComandoObtenerCategoriaPorId(Entidad entidad)
     {
-      return new ComandoConsultarNotificacion(idUsuario);
+      return new ComandoObtenerCategoriaPorId(entidad);
+    }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoObtenerCategoriasHabilitadas
+    /// </summary>
+    /// <returns>ComandoObtenerCategoriasHabilitadas</returns>
+    public static ComandoObtenerCategoriasHabilitadas CrearComandoObtenerCategoriasHabilitadas()
+    {
+      return new ComandoObtenerCategoriasHabilitadas();
+
     }
   }
 }

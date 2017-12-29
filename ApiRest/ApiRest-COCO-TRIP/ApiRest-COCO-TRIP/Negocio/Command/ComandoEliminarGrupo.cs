@@ -49,6 +49,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             archivo.EliminarArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
           }
         }
+        else
+        {
+          throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
       }
       catch (BaseDeDatosExcepcion e)
       {

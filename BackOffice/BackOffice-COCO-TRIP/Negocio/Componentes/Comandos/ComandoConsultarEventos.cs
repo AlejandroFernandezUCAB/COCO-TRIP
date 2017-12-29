@@ -22,7 +22,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         DAO<JObject, Categoria> peticionCategoria = FabricaDAO.GetDAOCategoria();
         
         IDAOLocalidad peticionLocalidad = FabricaDAO.GetDAOLocalidad();
-        JObject respuestaCategoria = peticionCategoria.Get(id);
+        JObject respuestaCategoria = ((DAOCategoria)peticionCategoria).GetCategoriasHabilitadas();
         JObject respuestaLocalidad = peticionLocalidad.GetAll();
         if (respuestaCategoria.Property("data") != null)
         {

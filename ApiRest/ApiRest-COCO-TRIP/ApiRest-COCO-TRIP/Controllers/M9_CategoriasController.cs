@@ -10,7 +10,7 @@ using System.Collections;
 using ApiRest_COCO_TRIP.Validaciones;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
-using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 
@@ -25,7 +25,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     private const string Response_Data = "data";
     private const string Response_Error = "error";
     private Comando com;
-    private ApiRest_COCO_TRIP.Datos.Entity.Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
+    private Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
     
 
     /// <summary>
@@ -47,7 +47,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           "estatus"
         });
         
-        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        categoria = data.ToObject<Categoria>();
         com = FabricaComando.CrearComandoEstadoCategoria(categoria);
         com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
@@ -101,15 +101,13 @@ namespace ApiRest_COCO_TRIP.Controllers
     public IDictionary ObtenerCategorias(int id = -1)
     {
       response = new Dictionary<string, object>();
-      DAO dao = FabricaDAO.CrearDAOCategoria();
-      DAOCategoria daoc = (DAOCategoria)dao;
       try
       {
 
         categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
         com = FabricaComando.CrearComandoObtenerCategorias(categoria);
         com.Ejecutar();
-        IList<ApiRest_COCO_TRIP.Datos.Entity.Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 
+        IList<Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 
         response.Add(Response_Data, lista);
 
       }
@@ -162,7 +160,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             "nivel"
         });
 
-        categoria = data.ToObject<ApiRest_COCO_TRIP.Datos.Entity.Categoria>();
+        categoria = data.ToObject<Categoria>();
         com = FabricaComando.CrearComandoModificarCategoria(categoria);
         com.Ejecutar();
         response.Add(Response_Data, "Se actualizo de forma exitosa");
@@ -208,7 +206,10 @@ namespace ApiRest_COCO_TRIP.Controllers
         response.Add(Response_Error, ex.Mensaje);
 
       }
-
+      catch (Exception ex)
+      {
+        response.Add(Response_Error, "Ocurrio un error inesperado");
+      }
 
       return response;
 
@@ -230,9 +231,9 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
 
-        PeticionCategoria peticion = new PeticionCategoria();
-        IList<Categoria> lista = peticion.ObtenerCategoriasHabilitadas();
-
+        com = FabricaComando.CrearComandoObtenerCategoriasHabilitadas();
+        com.Ejecutar();
+        IList<Categoria> lista = ((ComandoObtenerCategoriasHabilitadas)com).RetornarLista2();
         response.Add(Response_Data, lista);
 
       }
@@ -270,9 +271,9 @@ namespace ApiRest_COCO_TRIP.Controllers
                     "nivel"
                  });
 
-        Categoria categoria = data.ToObject<Categoria>();
-        Peticion = new PeticionCategoria();
-        Peticion.AgregarCategoria(categoria);
+        categoria = data.ToObject<Categoria>();
+        com = FabricaComando.CrearComandoAgregarCategoria(categoria);
+        com.Ejecutar();
         response.Add(Response_Data, "Se agrego la categoria de forma exitosa.");
 
       }
@@ -330,9 +331,9 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
         Categoria categoria = new Categoria(id);
-        PeticionCategoria peticion = new PeticionCategoria();
-        IList<Categoria> lista = peticion.ObtenerCategoriaPorId(categoria);
-
+        com=FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
+        com.Ejecutar();
+        IList<Categoria> lista = ((ComandoObtenerCategoriaPorId)com).RetornarLista2();
         response.Add(Response_Data, lista);
 
       }

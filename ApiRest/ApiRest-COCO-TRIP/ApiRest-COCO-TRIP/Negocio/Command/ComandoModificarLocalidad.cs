@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -14,28 +15,37 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad localidad;
     private DAO dao;
+        private Log log;
 
     public ComandoModificarLocalidad(Entidad localidad) {
       this.localidad = (LocalidadEvento)localidad;
       dao = FabricaDAO.CrearDAOLocalidad();
+            log = Log.ObtenerInstancia();
     }
 
     public override void Ejecutar()
     {
       try
-      {
-          validarEntidad();
+      { 
           dao.Actualizar(localidad);
+                log.ApiRestInfo("ComandoModificarLocalidad","Comando Ejecutado");
       }
       catch (BaseDeDatosExcepcion e)
       {
+                log.ApiRestError("ComandoModificarLocalidad",e.Message);
         throw e;
         //INSERTAR EN LOG
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        throw e;
+                log.ApiRestError("ComandoModificarLocalidad", e.Message);
+                throw e;
        //INSERTAR EN LOG
+      }
+      catch (Exception e)
+      {
+                log.ApiRestError("ComandoModificarLocalidad", e.Message);
+                throw e;
       }
     }
 
@@ -47,13 +57,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     public override List<Entidad> RetornarLista()
     {
       throw new NotImplementedException();
-    }
-
-    private void validarEntidad()
-    {
-      if (((LocalidadEvento)localidad).Descripcion == null)
-        ((LocalidadEvento)localidad).Descripcion = "";
-      
     }
   }
 }

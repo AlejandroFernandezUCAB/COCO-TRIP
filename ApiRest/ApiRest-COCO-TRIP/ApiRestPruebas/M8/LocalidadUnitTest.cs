@@ -6,7 +6,8 @@ using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using NUnit.Framework;
 using System.Collections.Generic;
-
+using ApiRest_COCO_TRIP.Controllers;
+using System;
 
 namespace ApiRestPruebas.M8
 {
@@ -17,6 +18,9 @@ namespace ApiRestPruebas.M8
     private DAO dao;
     private List<Entidad> lista;
     private Comando comando;
+    private M8_LocalidadEventoController controlador;
+    private Dictionary<string, object> esperado = new Dictionary<string, object>();
+    private Dictionary<string, object> respuesta = new Dictionary<string, object>();
 
     [SetUp]
     public void SetUpLocalidad()
@@ -167,12 +171,10 @@ namespace ApiRestPruebas.M8
       ((LocalidadEvento)localidad).Nombre = "Test";
       ((LocalidadEvento)localidad).Descripcion = null;
       comando = FabricaComando.CrearComandoAgregarLocalidad(localidad);
-      Assert.DoesNotThrow(() => {
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
 
-      localidad.Id += 1;
-      dao.Eliminar(localidad);
       ((LocalidadEvento)localidad).Descripcion = "Test";
       ((LocalidadEvento)localidad).Coordenadas = null;
       comando = FabricaComando.CrearComandoAgregarLocalidad(localidad);
@@ -300,8 +302,7 @@ namespace ApiRestPruebas.M8
       ((LocalidadEvento)localidad).Nombre = "Test";
       ((LocalidadEvento)localidad).Descripcion = null;
       comando = FabricaComando.CrearComandoModificarLocalidad(localidad);
-      Assert.DoesNotThrow(() =>
-      {
+      Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
 
@@ -311,6 +312,198 @@ namespace ApiRestPruebas.M8
       Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
+    }
+
+    [Test]
+    public void TestControladorAgregarLocalidad()
+    {
+      dao.Eliminar(localidad);
+      controlador = new M8_LocalidadEventoController();
+      localidad.Id += 1;
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("dato", "Se ha creado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      dao.Eliminar(localidad);
+      localidad.Id += 1;
+ 
+      ((LocalidadEvento)localidad).Nombre = null;
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      ((LocalidadEvento)localidad).Nombre = "Test";
+      ((LocalidadEvento)localidad).Descripcion = null;
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      ((LocalidadEvento)localidad).Descripcion = "Test";
+      ((LocalidadEvento)localidad).Coordenadas = null;
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      localidad = FabricaEntidad.CrearEntidadLocalidad();
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+    }
+
+    [Test]
+    public void TestControladorEliminarLocalidad()
+    {
+      controlador = new M8_LocalidadEventoController();
+      respuesta = (Dictionary<string, object>)controlador.EliminarLocalidadEvento(localidad.Id);
+      esperado.Add("dato", "Se ha eliminado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      dao.Insertar(localidad);
+      int id = localidad.Id + 1;
+
+      localidad.Id = 0;
+
+      respuesta = (Dictionary<string, object>)controlador.EliminarLocalidadEvento(localidad.Id);
+      esperado.Add("dato", "Se ha eliminado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      localidad = FabricaEntidad.CrearEntidadLocalidad();
+
+      respuesta = (Dictionary<string, object>)controlador.EliminarLocalidadEvento(localidad.Id);
+      esperado.Add("dato", "Se ha eliminado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      localidad.Id = id;
+
+    }
+
+    [Test]
+    public void TestControladorConsultarLocalidad()
+    {
+      Object prueba;
+      Entidad entidad;
+      controlador = new M8_LocalidadEventoController();
+      respuesta = (Dictionary<string, object>)controlador.ConsultarLocalidadEvento(localidad.Id);
+      respuesta.TryGetValue("dato",out prueba);
+      entidad = (LocalidadEvento)prueba;
+      Assert.AreEqual(((LocalidadEvento)localidad).Nombre, ((LocalidadEvento)entidad).Nombre);
+      Assert.AreEqual(((LocalidadEvento)localidad).Descripcion, ((LocalidadEvento)entidad).Descripcion);
+      Assert.AreEqual(((LocalidadEvento)localidad).Coordenadas, ((LocalidadEvento)entidad).Coordenadas);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      int id = localidad.Id;
+      localidad = FabricaEntidad.CrearEntidadLocalidad();
+
+
+      respuesta = (Dictionary<string, object>)controlador.ConsultarLocalidadEvento(localidad.Id);
+      esperado.Add("Error", "Operation is not valid due to the current state of the object.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      localidad.Id = id;
+    }
+
+    [Test]
+    public void TestControladorConsultarLocalidades()
+    {
+      Object prueba;
+      List<Entidad> entidades;
+      controlador = new M8_LocalidadEventoController();
+      respuesta = (Dictionary<string, object>)controlador.ListaLocalidadEventos();
+      respuesta.TryGetValue("dato", out prueba);
+      entidades = (List<Entidad>)prueba;
+
+      foreach (Entidad entidad in entidades)
+      {
+        if (entidad.Id == localidad.Id)
+        {
+          Assert.AreEqual(((LocalidadEvento)localidad).Nombre, ((LocalidadEvento)entidad).Nombre);
+          Assert.AreEqual(((LocalidadEvento)localidad).Descripcion, ((LocalidadEvento)entidad).Descripcion);
+          Assert.AreEqual(((LocalidadEvento)localidad).Coordenadas, ((LocalidadEvento)entidad).Coordenadas);
+        }
+
+      }
+
+    }
+
+    [Test]
+    public void TestControladorActualizarLocalidad()
+    {
+      controlador = new M8_LocalidadEventoController();
+      ((LocalidadEvento)localidad).Nombre = "Test2";
+      respuesta = (Dictionary<string, object>)controlador.ActualizarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("dato", "Se ha modificado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      Assert.AreEqual(((LocalidadEvento)localidad).Nombre,
+      ((LocalidadEvento)dao.ConsultarPorId(localidad)).Nombre);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      ((LocalidadEvento)localidad).Descripcion = "Test2";
+      respuesta = (Dictionary<string, object>)controlador.ActualizarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("dato", "Se ha modificado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      Assert.AreEqual(((LocalidadEvento)localidad).Descripcion,
+      ((LocalidadEvento)dao.ConsultarPorId(localidad)).Descripcion);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      ((LocalidadEvento)localidad).Coordenadas = "0.2, 0.02";
+      respuesta = (Dictionary<string, object>)controlador.ActualizarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("dato", "Se ha modificado una localidad");
+      Assert.AreEqual(respuesta, esperado);
+      Assert.AreEqual(((LocalidadEvento)localidad).Coordenadas,
+      ((LocalidadEvento)dao.ConsultarPorId(localidad)).Coordenadas);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+    
+
+
+      ((LocalidadEvento)localidad).Nombre = null;
+      respuesta = (Dictionary<string, object>)controlador.ActualizarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      ((LocalidadEvento)localidad).Nombre = "Test";
+      ((LocalidadEvento)localidad).Descripcion = null;
+      respuesta = (Dictionary<string, object>)controlador.ActualizarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
+
+      ((LocalidadEvento)localidad).Descripcion = "Test";
+      ((LocalidadEvento)localidad).Coordenadas = null;
+      respuesta = (Dictionary<string, object>)controlador.ActualizarLocalidadEvento((LocalidadEvento)localidad);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_LocalidadEventoController();
     }
 
     [TearDown]
