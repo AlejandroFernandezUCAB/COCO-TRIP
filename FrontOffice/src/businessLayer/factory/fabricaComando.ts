@@ -33,6 +33,8 @@ import { ComandoObtenerUltimoGrupo } from '../commands/comandoObtenerUltimoGrupo
 import { ComandoObtenerPerfilPublico } from '../commands/comandoObtenerPerfilPublico';
 import { ComandoAgregarAmigo } from '../commands/comandoAgregarAmigo';
 import { ComandoEnviarCorreo } from '../commands/comandoEnviarCorreo';
+import { ComandoVerPerfil } from '../commands/comandoVerPerfil'
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 6*************************************//
 //****************************************************************************************************//
@@ -376,5 +378,11 @@ export class FabricaComando{
     public static crearComandoEnviarCorreo(id : number, nombreUsuario : string, correo : string) : ComandoEnviarCorreo
     {
         return new ComandoEnviarCorreo(id, nombreUsuario, correo);
+    }
+
+
+    public static crearComandoVerPerfil(usuario : Usuario)
+    {
+        return new ComandoVerPerfil(usuario);
     }
 }

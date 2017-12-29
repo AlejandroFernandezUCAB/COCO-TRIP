@@ -247,7 +247,16 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
-
+        console.log('aqui');
+        //TODO
+        //datos cableado. Quitar cuando conecte con el api
+        /*let respuesta = {
+          Id: 1,
+          Nombre: 'Jesus',
+          Apellido: 'Rivero',
+          Correo: 'rosamaro@guadalupo.com',
+          FechaNacimiento: new Date('1995-04-11T00:00:00.196Z').toISOString()
+        }*/
         resolve(0);
 
       });

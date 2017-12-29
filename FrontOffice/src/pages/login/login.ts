@@ -67,6 +67,8 @@ export class LoginPage {
 
 
   login() {
+    //Dato cableado
+    //this.storage.set('id', 1).then(bien =>this.navCtrl.setRoot(HomePage));
     if (this.myForm.get('password').errors || this.myForm.get('userName').errors)
       this.realizarToast('Por favor, rellene los campos');
     else {

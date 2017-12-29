@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
 import { EditProfilePage } from '../edit-profile/edit-profile';
 import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
 import { PreferenciasPage } from '../preferencias/preferencias';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { Comando } from '../../businessLayer/commands/comando';
+
 // usos del @ionic/storage:
 // para acceder a las variables que guarde en la vista de 'Configuracion'
 // para acceder a la variable id alamcenada durante el login
 import { Storage } from '@ionic/storage'; 
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Generated class for the PerfilPage page.
@@ -30,23 +34,19 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
+  private comando : Comando;
 
   // valores por defecto para el usuario
-  usuario: any = {
-    Id: 0,
-    Nombre: 'Nombre',
-    Apellido: 'Apellido',
-    Correo: 'Correo',
-  };
-  idUsuario = 0;
-
+  usuario : Usuario = FabricaEntidad.crearUsuarioConParametros(0, 'Nombre', 'Apellido', 'Correo', 'default');
   //parametros para la pagina de configuracion
+  /*
   configParams: any = {
     idUsuario: 0,
     NombreUsuario: 'default'
   };
+  */
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage, private translateService: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   
   }
 
@@ -63,18 +63,20 @@ export class PerfilPage {
   // dispositivo
   cargarUsuario(){
     // obtenemos el id ya almacenado desde el login
-    this.storage.get('id').then((val) => { 
+    this.comando = FabricaComando.crearComandoVerPerfil(this.usuario);
+    this.comando.execute();
+    this.storage.get('id').then((val) => {
 
-      this.idUsuario = val;
+      this.usuario.Id = val;
       // hacemos la llamada al apirest con el id obtenido
-      this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
+      this.restapiService.ObtenerDatosUsuario(this.usuario.Id).then(data => {
         if(data != 0)
         {  
-          this.usuario = data;
-          this.usuario.id = this.idUsuario; 
+          this.usuario = data as Usuario;
+          //this.usuario.Id = this.idUsuario; 
 
               // cargamos el idioma
-              this.storage.get(this.usuario.id.toString()).then((val) => {
+              this.storage.get(this.usuario.Id.toString()).then((val) => {
                 //verificamos que posee configuracion previa de idioma
                 if(val != null || val != undefined){
                   this.translateService.use(val);
@@ -82,8 +84,8 @@ export class PerfilPage {
               });
 
               // cargamos los datos para la vista de configuracion
-              this.configParams.idUsuario = this.idUsuario;
-              this.configParams.NombreUsuario = this.usuario.NombreUsuario;
+             // this.configParams.idUsuario = this.idUsuario;
+             // this.configParams.NombreUsuario = this.usuario.NombreUsuario;
         }
       });
 
