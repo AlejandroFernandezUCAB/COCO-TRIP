@@ -202,7 +202,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 throw bdException;
 
             }
-            catch (ArgumentNullException ex) //Esto ocurre en el 
+            catch (ArgumentNullException ex) //Esto ocurre en el momento de utilizar el metodo .ToList().
             {
                 //TODO: Revisar luego, hace conflicto las excepciones de Comun y Models
                 //ArgumentoNuloExcepcion ANE = new ArgumentoNuloExcepcion(ex);
