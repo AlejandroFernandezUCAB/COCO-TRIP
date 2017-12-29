@@ -53,6 +53,7 @@ namespace ApiRestPruebas.M9
             dao.Desconectar();
         }
         #endregion SetUp
+        
         ////////////////////////////////////////    PRUEBAS CONTROLADOR    ////////////////////////////////////////
         #region controlador
         [Test]
@@ -167,6 +168,7 @@ namespace ApiRestPruebas.M9
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
         }
         #endregion controlador
+        
         ////////////////////////////////////////    PRUEBAS COMANDOS     ////////////////////////////////////////
         #region comandos
         [Test]
@@ -283,7 +285,6 @@ namespace ApiRestPruebas.M9
             
         }
         #endregion comandos
-
 
         ////////////////////////////////////////    PRUEBAS DAO    ////////////////////////////////////////
         #region DAOs
@@ -416,6 +417,22 @@ namespace ApiRestPruebas.M9
             _com.Ejecutar();
         }
         //ItemNoEncontrado
+
+        public void PruebaExcepcionBaseDedatosComandoObtenerCategoriaPorId()
+        {
+            //Implementar moq el metodo que llama a este metodo aun no esta implementado.
+        }
+
+        public void PruebaExcepcionBaseDedatosComandoObtenerCategorias()
+        {
+            //Implementar moq el metodo que llama a este metodo aun no esta implementado.
+        }
+
+        public void PruebaExcepcionBaseDedatosComandoObtenerCategoriasHabilitadas()
+        {
+            //Implementar moq el metodo que llama a este metodo aun no esta implementado.
+        }
+
         #endregion auxiliaresExcepciones
 
         ////////////////////////////////////////    TEARDOWN   ////////////////////////////////////////
