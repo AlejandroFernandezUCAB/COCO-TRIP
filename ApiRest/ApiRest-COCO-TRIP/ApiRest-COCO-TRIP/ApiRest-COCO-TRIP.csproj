@@ -22,7 +22,8 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -150,6 +151,10 @@
     <Compile Include="Datos\DAO\DAOLugarTuristico.cs" />
     <Compile Include="Datos\DAO\DAONotificacion.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOActividad.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOCategoria.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOFoto.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOHorario.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOLugarTuristico.cs" />
     <Compile Include="Datos\Entity\Actividad.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
