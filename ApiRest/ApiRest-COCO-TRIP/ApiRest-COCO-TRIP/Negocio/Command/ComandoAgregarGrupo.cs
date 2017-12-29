@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 using Newtonsoft.Json;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -19,6 +20,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private Archivo archivo;
     private DAOGrupo datos;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoAgregarGrupo (Entidad _grupo)
     {
@@ -38,27 +41,29 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         {
           archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
         }
+
+        log.Info(JsonConvert.SerializeObject(grupo));
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.DatosAsociados = JsonConvert.SerializeObject(grupo);
-        e.NombreMetodos = this.GetType().FullName;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (IOExcepcion e)
       {
         e.DatosAsociados = JsonConvert.SerializeObject(grupo);
-        e.NombreMetodos = this.GetType().FullName;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (ReferenciaNulaExcepcion e)
       {
-        e.NombreMetodos = this.GetType().FullName;
+        log.Warn(e.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        e.NombreMetodos = this.GetType().FullName;
+        log.Warn(e.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
@@ -73,5 +78,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
-
 }

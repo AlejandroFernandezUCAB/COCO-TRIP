@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -38,11 +39,13 @@ export class ComandoVerPerfilGrupo extends Comando
         {
             this.exito = true;
             this.grupo = datos;
+            catProd.info('VerPerfilGrupo exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
             this.grupo = error;
+            catErr.info('Fallo de VerPerfilGrupo. Datos: ' + error);
         });
     }
 

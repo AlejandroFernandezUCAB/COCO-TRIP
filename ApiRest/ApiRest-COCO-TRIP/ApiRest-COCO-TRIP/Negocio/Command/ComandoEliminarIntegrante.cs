@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -18,6 +19,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private DAOUsuario baseUsuario;
     private DAOGrupo baseGrupo;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoEliminarIntegrante(int idGrupo, string nombreUsuario)
     {
@@ -37,16 +40,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
         usuario = (Usuario)baseUsuario.ConsultarPorNombre(usuario);
         baseGrupo.EliminarIntegrante(grupo, usuario);
+
+        log.Info("IdGrupo: " + grupo.Id + " Nombre: " + usuario.NombreUsuario);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "IdGrupo:" + grupo.Id + " Nombre:" + usuario.NombreUsuario;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "IdGrupo: " + grupo.Id + " Nombre: " + usuario.NombreUsuario;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (CasteoInvalidoExcepcion e)
       {
-        e.NombreMetodos = this.GetType().FullName;
+        log.Warn(e.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
@@ -60,5 +65,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       throw new System.NotImplementedException();
     }
-  }
+  }  
 }

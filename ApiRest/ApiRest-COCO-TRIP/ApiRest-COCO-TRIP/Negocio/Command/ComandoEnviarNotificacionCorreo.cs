@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Net;
 using System.Web.Http;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -20,6 +21,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private DAOUsuario datos;
     private Correo servicio;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoEnviarNotificacionCorreo (string correo, int id, string nombreDestino)
     {
@@ -40,23 +43,28 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
         servicio = Correo.ObtenerInstancia();
         servicio.RecomendarAplicacion(destinatario.Correo, destinatario.NombreUsuario, remitente.NombreUsuario);
+      
+        log.Info("Correo: " + destinatario.Correo + " Id: " + remitente.Id +
+            " NombreDestino: " + destinatario.NombreUsuario);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "Correo:" + destinatario.Correo + " Id:" + remitente.Id + " NombreDestino:" + destinatario.NombreUsuario;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Correo: " + destinatario.Correo + " Id: " + remitente.Id +
+                    " NombreDestino: " + destinatario.NombreUsuario;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (SmtpExcepcion e)
       {
-        e.DatosAsociados = "Correo:" + destinatario.Correo + " Id:" + remitente.Id + " NombreDestino:" + destinatario.NombreUsuario;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Correo: " + destinatario.Correo + " Id: " + remitente.Id +
+                    " NombreDestino: " + destinatario.NombreUsuario;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (ArgumentoNuloExcepcion e)
       {
-        e.NombreMetodos = this.GetType().FullName;
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        log.Warn(e.Mensaje);
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
 

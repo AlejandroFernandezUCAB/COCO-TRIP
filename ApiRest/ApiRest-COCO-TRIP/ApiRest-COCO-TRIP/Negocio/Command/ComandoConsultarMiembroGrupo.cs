@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -18,6 +19,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private DAOGrupo datos;
 
+    private static Logger log = LogManager.GetCurrentClassLogger();
+
     public ComandoConsultarMiembroGrupo (int id)
     {
       grupo = FabricaEntidad.CrearEntidadGrupo();
@@ -30,11 +33,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         datos = FabricaDAO.CrearDAOGrupo();
         lista = datos.ConsultarMiembros(grupo);
+        log.Info("Id: " + grupo.Id);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "Id:" + grupo.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Id: " + grupo.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
@@ -49,5 +53,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       return lista;
     }
   }
-
+  
 }

@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using System.Web.Http;
 using System.Net;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -17,6 +18,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     private List<Entidad> lista;
 
     private DAOAmigo datos;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoObtenerListaNotificaciones (int id)
     {
@@ -32,11 +35,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         datos = FabricaDAO.CrearDAOAmigo();
         lista = datos.ConsultarListaNotificaciones(usuario);
+        log.Info("Id: " + usuario.Id);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "Id:" + usuario.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Id: " + usuario.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
@@ -51,4 +55,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       return lista;
     }
   }
+
 }

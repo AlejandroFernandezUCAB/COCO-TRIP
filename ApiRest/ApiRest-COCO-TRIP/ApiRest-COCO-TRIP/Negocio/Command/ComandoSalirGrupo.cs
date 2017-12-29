@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -18,6 +19,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     private Grupo grupo;
 
     private DAOGrupo datos;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoSalirGrupo (int idGrupo, int idUsuario)
     {
@@ -39,16 +42,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         if (lider.Id == usuario.Id) //Es el lider?
         {
           datos.Eliminar(grupo);
+          log.Info("Lider|IdGrupo: " + grupo.Id + " IdUsuario: " + usuario.Id);
         }
         else
         {
           datos.AbandonarGrupo(grupo, usuario);
+          log.Info("Miembro|IdGrupo: " + grupo.Id + " IdUsuario: " + usuario.Id);
         }
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "IdGrupo:" + grupo.Id + " IdUsuario: " + usuario.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "IdGrupo: " + grupo.Id + " IdUsuario: " + usuario.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
@@ -63,5 +68,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
-
 }

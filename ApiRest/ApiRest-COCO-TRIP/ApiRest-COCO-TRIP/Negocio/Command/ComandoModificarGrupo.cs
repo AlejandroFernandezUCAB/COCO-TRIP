@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Net;
 using Newtonsoft.Json;
 using System;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -22,6 +23,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     private Usuario lider;
     private Archivo archivo;
     private DAOGrupo datos;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoModificarGrupo (Entidad _grupo, int id)
     {
@@ -50,28 +53,31 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
           {
             archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
           }
+
+          log.Info(JsonConvert.SerializeObject(grupo));
         }
         else
         {
-            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+          log.Info("No autorizado|" + JsonConvert.SerializeObject(grupo));
+          throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
       }
       catch (BaseDeDatosExcepcion e)
       {
         e.DatosAsociados = JsonConvert.SerializeObject(grupo);
-        e.NombreMetodos = this.GetType().FullName;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (IOExcepcion e)
       {
         e.DatosAsociados = JsonConvert.SerializeObject(grupo);
-        e.NombreMetodos = this.GetType().FullName;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (NullReferenceException e)
       {
-        ReferenciaNulaExcepcion excepcion = new ReferenciaNulaExcepcion(e, "Parametros de entrada nulo");
-        excepcion.NombreMetodos = this.GetType().FullName;
+        ReferenciaNulaExcepcion excepcion = new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos");
+        log.Warn(excepcion.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }
