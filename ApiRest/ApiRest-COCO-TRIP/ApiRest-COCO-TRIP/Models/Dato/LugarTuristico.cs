@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using ApiRest_COCO_TRIP.Datos.Entity;
 
 namespace ApiRest_COCO_TRIP.Datos.Entity
 {

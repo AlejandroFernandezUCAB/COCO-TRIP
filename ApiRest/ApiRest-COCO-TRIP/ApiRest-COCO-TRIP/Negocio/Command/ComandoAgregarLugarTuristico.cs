@@ -16,9 +16,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 	{
 
 		private Entidad _lugarTuristico;
-		private Entidad _horario;
 		private List<Entidad> _foto;
-		private Entidad _actividad;
+		private List<Entidad> _horario; 
+		private List<Entidad> _actividad; 
+		private List<Entidad> _categoria; 
+		private List<Entidad> _subCategoria; 
 		private IDAOLugarTuristico iDAOLugarTuristico;
 		private IDAOFoto iDAOFoto;
 		private IDAOHorario iDAOHorario;
@@ -37,8 +39,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_datos = datos;
 			_lugarTuristico = _datos.ToObject<LugarTuristico>();
-			//Esta podria ser otra solucion, pero NOSE :'(
-			_foto = ((LugarTuristico)_lugarTuristico).Foto;
+
+			_foto = ((LugarTuristico)_lugarTuristico).Foto.ConvertAll(new Converter<Foto, Entidad>(ConvertListFoto));
+			_horario = ((LugarTuristico)_lugarTuristico).Horario.ConvertAll(new Converter<Horario, Entidad>(ConvertListHorario));
+			_actividad = ((LugarTuristico)_lugarTuristico).Actividad.ConvertAll(new Converter<Actividad, Entidad>(ConvertListActividad));
+			_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
+			_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
 
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
@@ -77,19 +83,31 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			throw new NotImplementedException();
 		}
 
-		/// <summary>
-		/// Metodo para insertar en una lista, sacandolo por indice. Funciona para todos los list
-		/// </summary>
-		/// <param name="objeto">Este parametro hay que parsearlo antes de todo, para que sea un objeto 
-		/// diferente cuando entre en el if</param>
-		public void InsertarObjetoEnLista(Object objeto)
+	
+
+		private Entidad ConvertListFoto(Foto input)
 		{
-			//Verifico que tipo de objeto es primero para que segun sea se vaya llenando
-			if( Object.ReferenceEquals( objeto.GetType(), new List<Foto>()) )
-			{
-				Console.WriteLine("Hola");
-			}
-			
+			return input;
+		}
+
+		private Entidad ConvertListSubCategoria(Categoria input)
+		{
+			return input;
+		}
+
+		private Entidad ConvertListCategoria(Categoria input)
+		{
+			return input;
+		}
+
+		private Entidad ConvertListActividad(Actividad input)
+		{
+			return input;
+		}
+
+		private Entidad ConvertListHorario(Horario input)
+		{
+			return input;
 		}
 	}
 }
