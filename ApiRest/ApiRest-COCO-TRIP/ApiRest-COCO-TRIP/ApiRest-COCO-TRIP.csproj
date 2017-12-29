@@ -22,8 +22,7 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -222,6 +221,14 @@
     <Compile Include="Negocio\Command\ComandoListarCoincidenciaActividades.cs" />
     <Compile Include="Negocio\Command\ComandoListarCoincidenciaEventos.cs" />
     <Compile Include="Negocio\Command\ComandoListarCoincidenciaLugaresTurisiticos.cs" />
+    <Compile Include="Negocio\Command\ComandoLTActualizarInformacion.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarActividad.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarFoto.cs" />
+    <Compile Include="Negocio\Command\ComandoLTEliminarActividad.cs" />
+    <Compile Include="Negocio\Command\ComandoLTEliminarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoLTEliminarFoto.cs" />
+    <Compile Include="Negocio\Command\ComandoLTModificarUbicacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
