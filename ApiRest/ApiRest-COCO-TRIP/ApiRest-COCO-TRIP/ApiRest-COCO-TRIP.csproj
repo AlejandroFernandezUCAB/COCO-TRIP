@@ -144,6 +144,7 @@
     <Compile Include="Datos\DAO\DAOLugarTuristico.cs" />
     <Compile Include="Datos\DAO\DAONotificacion.cs" />
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOLugarTuristico.cs" />
     <Compile Include="Datos\Entity\Actividad.cs" />
     <Compile Include="Datos\Entity\Agenda.cs" />
     <Compile Include="Datos\Entity\Amigo.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLugarTuristico.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarNotificacion.cs" />
@@ -280,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Datos\DAO\Interfaces\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

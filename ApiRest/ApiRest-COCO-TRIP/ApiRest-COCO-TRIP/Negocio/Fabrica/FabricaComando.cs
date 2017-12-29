@@ -1,6 +1,7 @@
 using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Command;
+using Newtonsoft.Json.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 {
@@ -569,5 +570,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
         return new ComandoLTAgregarFoto();
     }
+
+	public static ComandoAgregarLugarTuristico CrearComandoLTAgregar(JObject datos)
+	{
+		return new ComandoAgregarLugarTuristico(datos);
+	}
+
   }
 }

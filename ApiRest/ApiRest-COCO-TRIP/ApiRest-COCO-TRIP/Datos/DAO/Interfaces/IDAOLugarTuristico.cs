@@ -15,6 +15,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 		List<Entidad> ConsultarLista(Entidad objeto);
 
 		Entidad ConsultarPorId(Entidad objeto);
+
 		void Eliminar(Entidad objeto);
 
 		void Insertar(Entidad objeto);
