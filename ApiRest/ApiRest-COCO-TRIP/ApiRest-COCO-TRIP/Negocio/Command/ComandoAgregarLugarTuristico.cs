@@ -8,7 +8,10 @@ using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
-{
+{	
+	/// <summary>
+	/// Comando que permite agregar el lugares turistico con su foto, actividad y horario
+	/// </summary>
 	public class ComandoAgregarLugarTuristico : Comando
 	{
 
