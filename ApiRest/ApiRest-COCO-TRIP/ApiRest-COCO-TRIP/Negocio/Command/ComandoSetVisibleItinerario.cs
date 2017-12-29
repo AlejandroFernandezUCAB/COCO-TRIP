@@ -27,11 +27,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       dAOItinerario = FabricaDAO.CrearDAOItinerario();
       retorno = dAOItinerario.SetVisible(itinerario.IdUsuario, itinerario.Id, visible);
+      itinerario.Visible = retorno;
     }
 
     public override Entidad Retornar()
     {
-      throw new NotImplementedException();
+      return itinerario;
     }
 
     public override List<Entidad> RetornarLista()

@@ -35,9 +35,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarItinerario()
     {
-      Comando comando = FabricaComando.CrearComandoAgregarItinerario(2,"itinerario3");
+      string nombre = "Pirulin30";
+      Comando comando = FabricaComando.CrearComandoAgregarItinerario(2,nombre);
       comando.Ejecutar();
-      Assert.IsFalse(false);
+      Itinerario itNew =(Itinerario) comando.Retornar();
+      Assert.AreEqual(nombre,itNew.Nombre);
+      Assert.AreEqual(30,itNew.Id);
     }
 
     /// <summary>
@@ -95,20 +98,13 @@ namespace ApiRestPruebas
     [Test]
     public void PUModificarItinerario()
     {
-      x = false;
+      string nombre = "gavilan";
       DateTime fechaini = new DateTime(2040, 12, 12);
       DateTime fechafin = new DateTime(2044, 12, 12);
-      comando = FabricaComando.CrearComandoModificarItinerario(19, "ususu", fechaini, fechafin, 1);
+      comando = FabricaComando.CrearComandoModificarItinerario(28, nombre, fechaini, fechafin, 2);
       comando.Ejecutar();
-      comando = FabricaComando.CrearComandoConsultarItinerarios(1);
-      comando.Ejecutar();
-      lista = comando.RetornarLista();
-      foreach (Entidad item in lista)
-      {
-        Itinerario itinerario = (Itinerario)item;
-        if (itinerario.Nombre == "ususu") x = true;
-      }
-      Assert.True(x);
+      Itinerario itNew = (Itinerario)comando.Retornar();
+      Assert.AreEqual(nombre, itNew.Nombre);
     }
 
     /// <summary>
@@ -380,10 +376,19 @@ namespace ApiRestPruebas
     [Test]
     public void PU_ConsultarNotificacion()
     {
-      comando = FabricaComando.CrearComandoModificarNotificacion(1, false, true);
+      comando = FabricaComando.CrearComandoConsultarNotificacion(1);
       comando.Ejecutar();
       notificacion = (Notificacion)comando.Retornar();
-      Assert.True(notificacion.Push);
+      Assert.True(notificacion.Correo);
+    }
+
+    [Test]
+    public void PU_ConsultarNotificacionUsuarioNoExiste()
+    {
+      comando = FabricaComando.CrearComandoConsultarNotificacion(2);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.False(notificacion.Correo);
     }
 
     [Test]

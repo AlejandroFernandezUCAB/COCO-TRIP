@@ -10,7 +10,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 {
   public class DAOAgenda : DAO
   {
-    private NpgsqlParameter parmetro;
     private NpgsqlDataReader respuesta;
     private NpgsqlCommand comando;
     private Agenda agenda;

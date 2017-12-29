@@ -464,5 +464,14 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
       return new ComandoListarCoincidenciaActividades(busqueda);
     }
+
+    /// <summary>
+    /// Retorna la instancia de ComandoConsultarNotificacion
+    /// </summary>
+    /// <returns>ComandoConsultarNotificacion</returns>
+    public static ComandoConsultarNotificacion CrearComandoConsultarNotificacion(int idUsuario)
+    {
+      return new ComandoConsultarNotificacion(idUsuario);
+    }
   }
 }
