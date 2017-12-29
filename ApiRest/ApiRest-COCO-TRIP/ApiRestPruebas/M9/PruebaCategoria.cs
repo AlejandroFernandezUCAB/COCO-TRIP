@@ -257,6 +257,20 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
         }
 
+        [Test]
+        public void M9_PruebaComandoObtenerCategoriasHabilitadas()
+        {
+
+
+            _com = FabricaComando.CrearComandoObtenerCategoriasHabilitadas();
+            _com.Ejecutar();
+            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+            foreach (Categoria _Entidad in ((ComandoObtenerCategoriaPorId)_com).RetornarLista2())
+            {
+                //if (_Entidad.Id = )
+            }
+            Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
+        }
         #endregion comandos
 
 
