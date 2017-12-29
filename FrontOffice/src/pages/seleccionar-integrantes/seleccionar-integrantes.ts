@@ -42,27 +42,29 @@ export class SeleccionarIntegrantesPage
   /*Elementos de la vista**/
   public toast: any;
   public loader: any;
-  public navCtrl: NavController; 
-  public navParams: NavParams;
-  public alerCtrl: AlertController;
-  public loadingCtrl: LoadingController;
-  public toastCtrl: ToastController;
-  public myForm: FormGroup;
-  public formBuilder: FormBuilder;
-  private storage: Storage;
-  private translateService: TranslateService;
-
-  public loading = this.loadingCtrl.create({});
 
   private comando : Comando;
 
-  constructor() 
+  public constructor
+  (
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public alerCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public myForm: FormGroup,
+    public formBuilder: FormBuilder,
+    private storage: Storage,
+    private translateService: TranslateService
+  ) 
   {
     this.myForm = this.formBuilder.group
     ({
       namegroup: ['', [Validators.required]]
     });
   }
+
+  public loading = this.loadingCtrl.create({});
 
 /**
  * Metodo que carga un loading controller al iniciar 
