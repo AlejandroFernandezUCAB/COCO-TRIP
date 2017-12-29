@@ -508,7 +508,7 @@ export class ItinerarioPage {
   }
   else
   {
-    for(var i = 0;i< this.its.length;i++) {
+    for( i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
@@ -565,7 +565,7 @@ ionview
          });
        }
     }else{
-      for(var i = 0;i< this.its.length;i++) {
+      for(i = 0;i< this.its.length;i++) {
         this.its[i].Items_agenda.sort(function(a,b){
              return new Date(a.FechaInicio).getTime() - new Date(b.FechaInicio).getTime();
           });
