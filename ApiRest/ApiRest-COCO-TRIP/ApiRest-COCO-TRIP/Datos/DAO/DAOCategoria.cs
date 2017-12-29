@@ -7,6 +7,8 @@ using NpgsqlTypes;
 using System;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
+//using ApiRest_COCO_TRIP.Comun.Excepcion; 
+//TODO: La Excepcion "BaseDeDatosExcepcion" del using anterior, hace conflito con la que se encuentra en Models.
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -14,7 +16,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
         private NpgsqlParameter parametro;
         private NpgsqlDataReader leerDatos;
-
         private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
         {
             var parametro = new NpgsqlParameter
@@ -28,12 +29,19 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         private List<Entidad> lista;
         private Categoria categoria;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public DAOCategoria()
         {
             parametro = new NpgsqlParameter();
             lista = new List<Entidad>();
         }
 
+        /// <summary>
+        /// Metodo que permite preparar un StoredProcedure para su ejecución.
+        /// </summary>
+        /// <param name="sp">Nombre del Stored Procedure que se desea utilizar.</param>
         private void StoredProcedure(string sp)
         {
             base.Conectar();
@@ -42,6 +50,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             base.Comando.CommandText = sp;
         }
 
+        /// <summary>
+        /// Metodo que permite modificar los parametro del comando que se ejecutara.
+        /// </summary>
+        /// <param name="categoria">Instancia categoria con la que se desea modificar los parametros del comando.</param>
         private void ParametrosModificar(Categoria categoria)
         {
             base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
@@ -50,7 +62,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
         }
 
-        //Metodos CREATE
+        /// <summary>
+        /// Metodo Create, permite insertar una Entidad tipo categoria en la base de datos.
+        /// </summary>
+        /// <param name="objeto">instancia Catgoria que se desea insertar.</param>
+        /// <exception cref="NombreDuplicadoException">Nombre duplicado al momento de insertar.</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al momento de agregar una categoria.</exception>
+        /// <exception cref="Exception">Error inesperado.</exception>
         public override void Insertar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
@@ -58,10 +76,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             {
                 int exitoso = 0;
                 StoredProcedure("m9_agregarsubcategoria");
-                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre); //Nombre de la categoria
-                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion); //descripcion de la categoría
-                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
-                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true por defecto
+                //TODO: Porque no usar el metodo anterior "ParametrosModificar"?
+                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);       //Nombre de la categoria
+                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);  //descripcion de la categoría
+                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);        //nivel de la categoria
+                base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true);                   //status de la categoria, en true por defecto
 
                 if (categoria.CategoriaSuperior == 0)
                 {
@@ -96,25 +115,42 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
         }
 
-        //Metodos READ
+        /// <summary>
+        /// Metodo Read, consulta mediante un Id. 
+        /// </summary>
+        /// <param name="objeto">Instacia tipo categoria con Id con el que se desea consultar.</param>
+        /// <returns>Entidad asociada al Id colocado por parametro.</returns>
+        /// <exception cref="NotImplementedException">Metodo no implementado</exception>
         public override Entidad ConsultarPorId(Entidad objeto)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Metodo Read.
+        /// </summary>
+        /// <param name="objeto">Instacia tipo Categoria que se desea consultar.</param>
+        /// <returns>Lista de Categorias referenciadas a la consulta</returns>
+        /// <exception cref="NotImplementedException">Metodo no implementado</exception>
         public override List<Entidad> ConsultarLista(Entidad objeto)
         {
             throw new NotImplementedException();
         }
 
         //Metodos UPDATE
+        /// <summary>
+        /// Metodo Update, actualiza una categoria enviada por parametro.
+        /// </summary>
+        /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
+        /// <exception cref="NpgsqlException">Error al actualizar la categoria</exception>
+        /// <exception cref="HijoConDePendenciaException">La categoria que intenta actualizar tiene dependencias.</exception>
+        /// <exception cref="ArgumentNullException">Ocurre en el momento de utlizar el metodo .ToList()</exception>
         public override void Actualizar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
             int exitoso = 0;
             try
             {
-
                 StoredProcedure("m9_ModificarCategoria");
                 DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
                 IList<Categoria> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
@@ -125,8 +161,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 }
                 else
                 {
-                    //categories = listaCategorias.Where(s => s.Id == id).First();
+                    //categories = listaCategorias.Where(s => s.Id == id).First();        <------- Borrar? TODO
                     IList<Categoria> Listacategoria = daoc.ObtenerTodasLasCategorias();
+                    //TODO: Una variable con "var" revisar.
                     var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
                     if (hijos.Count == 0)
                     {
@@ -134,7 +171,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     }
                     else
                     {
-
+                        //TODO: Cambiar "hijos" por "dependecias".
+                        //precaucion con las pruebas de Michel usa estos mensajes. 
+                        //Revisar constructor, no recibe una Excepción"
                         throw new HijoConDePendenciaException($"Esta categoria id:{categoria.Id} nombre:{categoria.Nombre} tiene hijos");
                     }
                 }
@@ -147,16 +186,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
                 }
                 exitoso = base.Comando.ExecuteNonQuery();
-
             }
-
             catch (PostgresException ex)
             {
                 throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
             }
-
             catch (NpgsqlException ex)
             {
+                //TODO: utilizar la excepcion "BaseDeDatosExcepcion" que se encuentra en la carpeta Comun, precaucion con las  pruebas de Michel.
                 BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
                 {
                     DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior}, NIVEL : {categoria.Nivel} ",
@@ -165,12 +202,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 throw bdException;
 
             }
+            catch (ArgumentNullException ex) //Esto ocurre en el 
+            {
+                //TODO: Revisar luego, hace conflicto las excepciones de Comun y Models
+                //ArgumentoNuloExcepcion ANE = new ArgumentoNuloExcepcion(ex);
+            }
             finally
             {
                 base.Desconectar();
-
             }
         }
+
         public void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
@@ -201,6 +243,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
             }
         }
+        
         //Metodos DELETE
         public override void Eliminar(Entidad objeto)
         {
@@ -267,7 +310,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         }
 
         /// <summary>
-        /// Obtener la categorida dado un Id
+        /// Obtener la categoria dado un Id
         /// </summary>
         /// <param name="categoria"></param>
         /// <exception cref="BaseDeDatosExcepcion"></exception>
