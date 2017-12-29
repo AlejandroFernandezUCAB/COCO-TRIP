@@ -195,7 +195,7 @@ namespace ApiRestPruebas.M7
       lugar.Horario.Add(horario);
       lugar.Foto.Add(foto);
 
-      idLugar = controlador.PostLugar(lugar);
+      //idLugar = controlador.PostLugar(lugar);
       Assert.AreEqual(true, idLugar > 0);
     }
 
@@ -222,7 +222,7 @@ namespace ApiRestPruebas.M7
     /// </summary>
     public void ExcepcionPostLugar()
     {
-      controlador.PostLugar(lugar);
+      //controlador.PostLugar(lugar);
     }
 
     /// <summary>

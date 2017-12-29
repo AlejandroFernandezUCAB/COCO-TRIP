@@ -37,7 +37,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_datos = datos;
 			_lugarTuristico = _datos.ToObject<LugarTuristico>();
-			
+			//Esta podria ser otra solucion, pero NOSE :'(
+			_foto = ((LugarTuristico)_lugarTuristico).Foto;
+
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOHorario = FabricaDAO.CrearDAOHorario();
@@ -73,6 +75,21 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		public override List<Entidad> RetornarLista()
 		{
 			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Metodo para insertar en una lista, sacandolo por indice. Funciona para todos los list
+		/// </summary>
+		/// <param name="objeto">Este parametro hay que parsearlo antes de todo, para que sea un objeto 
+		/// diferente cuando entre en el if</param>
+		public void InsertarObjetoEnLista(Object objeto)
+		{
+			//Verifico que tipo de objeto es primero para que segun sea se vaya llenando
+			if( Object.ReferenceEquals( objeto.GetType(), new List<Foto>()) )
+			{
+				Console.WriteLine("Hola");
+			}
+			
 		}
 	}
 }

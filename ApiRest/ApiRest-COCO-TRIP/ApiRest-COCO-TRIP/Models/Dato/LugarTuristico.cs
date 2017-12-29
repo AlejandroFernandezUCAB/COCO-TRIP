@@ -168,36 +168,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
 
     }
 
-    /// <summary>
-    /// Compara si dos objetos de tipo LugarTuristico son iguales
-    /// </summary>
-    /// <param name="obj">LugarTuristico</param>
-    /// <returns>(bool) Si son iguales retorna true</returns>
-    public override bool Equals(object obj)
-    {
-      if (obj != null && obj is LugarTuristico)
-      {
-        var objeto = obj as LugarTuristico;
 
-        if (/*id != objeto.id ||*/ nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
-            || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
-            || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
-            || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)
-          /*|| !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria)*/)
-        {
-
-          return (false);
-        }
-        else
-        {
-          return (true);
-        }
-      }
-      else
-      {
-        return (false);
-      }
-    }
 
     /// <summary>
     /// Sobreescritura recomendada del metodo GetHashCode
