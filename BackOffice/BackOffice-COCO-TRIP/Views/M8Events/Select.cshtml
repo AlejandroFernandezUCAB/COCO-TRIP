@@ -66,11 +66,17 @@
   <div class="form-group">
     @Html.Label("Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-     @Html.Display((String)TempData["ncategoria"])
+      @ViewData["ncategoria"]
+    </div>
+  </div>
+  <div class="form-group">
+    @Html.Label("Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @ViewData["nlocalidad"]
     </div>
   </div>
 
 
-  
+
 </div>
 

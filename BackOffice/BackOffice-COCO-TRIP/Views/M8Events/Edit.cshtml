@@ -1,0 +1,88 @@
+@using BackOffice_COCO_TRIP.Helpers
+@model BackOffice_COCO_TRIP.Datos.Entidades.Evento
+
+<h2>Modificar  un Evento</h2>
+
+@using (Html.BeginForm("Edit", "M8Event", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
+{
+  @Html.AntiForgeryToken()
+
+  <div class="form-horizontal">
+    <hr />
+    <div><h4>Ingrese los datos:</h4></div>
+    <hr>
+
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-4">
+        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-10">
+        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-2">
+        @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control", @type = "number", @Min = "0", @Max = "32000" } })
+        @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-8">
+        @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = "2018-01-01", @max = "2020-12-31" } })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-8">
+        @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "form-control", @type = "date", @Min = "2018-01-01", @Max = "2020-12-31" } })
+      </div>
+    </div>
+
+    <div class="form-group row">
+      @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-2">
+        @Html.EditorFor(model => model.HoraInicio, new { htmlAttributes = new { @class = "form-control", @type = "time", @Min = "01:00", @Max = "23:59" } })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-2">
+        @Html.EditorFor(model => model.HoraFin, new { htmlAttributes = new { @class = "form-control", @type = "time", @Min = "01:00", @Max = "23:59" } })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-5">
+        <input class="col-sm-6" type="file" multiple="" id="perfilphoto">
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.Label("Categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
+      <div class="col-sm-10">
+        @Html.DropDownListCategoriesEvents("Categoria", ViewBag.ListCategoria as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria>, htmlAttributes: new { @class = "form-control" })
+      </div>
+    </div>
+    <div class="form-group row">
+      @Html.Label("Localidad", htmlAttributes: new { @class = "col-sm-2 control-label" })
+      <div class="col-sm-10">
+        @Html.DropDownListLocalidadesEventos("Localidades", ViewBag.ListLocalidades as IList<BackOffice_COCO_TRIP.Datos.Entidades.Localidad>, htmlAttributes: new { @class = "form-control" })
+      </div>
+    </div>
+
+    <br>
+
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Update" class="btn btn-default" />
+      </div>
+    </div>
+  </div>
+}

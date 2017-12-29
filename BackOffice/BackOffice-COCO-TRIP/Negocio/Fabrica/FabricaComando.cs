@@ -23,7 +23,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoEditarLocalidad();
         }
 
-        public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
+        public static ComandoEditarLocalidad GetComandoEditarEvento()
+        {
+            return new ComandoEditarLocalidad();
+        }
+
+    public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
         {
             return new ComandoEliminarLocalidad();
         }

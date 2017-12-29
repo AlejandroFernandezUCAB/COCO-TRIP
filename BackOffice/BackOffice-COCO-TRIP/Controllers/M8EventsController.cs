@@ -31,7 +31,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.Execute();
       
       ModelState.AddModelError(string.Empty,(String) comando.GetResult()[1]);
-      //ViewBag.ListLocalidad = comando.GetResult()[2];
       ViewBag.ListLocalidades = comando.GetResult()[2];
       ViewBag.ListCategoria = comando.GetResult()[0];
       return View();
@@ -53,30 +52,40 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     }
 
-    // GET: M8Events/Edit/5
+    // GET: M8_Localidad/Edit/5
     public ActionResult Edit(int id)
     {
-      return View();
+      ViewBag.Title = "Editar Evento";
+
+      Comando comand = FabricaComando.GetComandoConsultarEventos();
+      comand.SetPropiedad(id);
+      comand.Execute();
+
+      ModelState.AddModelError(string.Empty, (String)comand.GetResult()[1]);
+      ViewBag.ListLocalidades = comand.GetResult()[2];
+      ViewBag.ListCategoria = comand.GetResult()[0];
+
+      Comando comando = FabricaComando.GetComandoConsultarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      return View(comando.GetResult()[0]);
     }
 
-    // POST: M8Events/Edit/5
+    // POST: M8_Localidad/Edit/5
     [HttpPost]
-    public ActionResult Edit(int id, FormCollection collection)
+    public ActionResult Edit(Evento evento)
     {
-      try
-      {
-        // TODO: Add update logic here
-
-        return RedirectToAction("Index");
-      }
-      catch
-      {
-        return View();
-      }
+      Comando comando = FabricaComando.GetComandoEditarEvento();
+      comando.SetPropiedad(evento);
+      comando.Execute();
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+      return RedirectToAction("FilterEvent");
     }
+
 
     // GET: M8Events/Delete/5
-    
+
     public ActionResult Delete(int id)
     {
       Comando comando = FabricaComando.GetComandoEliminarEvento();
@@ -120,9 +129,10 @@ namespace BackOffice_COCO_TRIP.Controllers
       Comando comando = FabricaComando.GetComandoConsultarEvento();
       comando.SetPropiedad(id);
       comando.Execute();
-      //TempData["ncategoria"] = (String)comando.GetResult()[2];
-      TempData["ncategoria"] = "localidades";
-      TempData["nlocalidad"] = comando.GetResult()[1];
+      ViewData["ncategoria"] = (String)comando.GetResult()[2];
+      //TempData["ncategoria"] = "localidades";
+      ViewData["nlocalidad"] = comando.GetResult()[1];
+      
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
       return View(comando.GetResult()[0]);
 
