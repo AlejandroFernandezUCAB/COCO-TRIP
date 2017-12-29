@@ -54,7 +54,7 @@ namespace ApiRestPruebas.M9
         }
         #endregion SetUp
         
-        ////////////////////////////////////////    PRUEBAS CONTROLADOR    ////////////////////////////////////////
+        ////////////////////////////////////////    PRUEBAS CONTROLADOR    ///////////////////////////
         #region controlador
         [Test]
         public void M9_PruebaModificarCategoria()
@@ -169,7 +169,7 @@ namespace ApiRestPruebas.M9
         }
         #endregion controlador
         
-        ////////////////////////////////////////    PRUEBAS COMANDOS     ////////////////////////////////////////
+        ////////////////////////////////////////    PRUEBAS COMANDOS     /////////////////////////////
         #region comandos
         [Test]
         public void M9_PruebaComandoModificarCategoria()
@@ -286,7 +286,7 @@ namespace ApiRestPruebas.M9
         }
         #endregion comandos
 
-        ////////////////////////////////////////    PRUEBAS DAO    ////////////////////////////////////////
+        ////////////////////////////////////////    PRUEBAS DAO    ///////////////////////////////////
         #region DAOs
         [Test]
         public void M9_PruebaDAOModificarCategoria()
@@ -346,7 +346,7 @@ namespace ApiRestPruebas.M9
         */
         #endregion DAOs
 
-        ////////////////////////////////////////    METODOS AUXILIARES DE EXCEPCIONES   ////////////////////////////////////////
+        ////////////////////////////////////////    METODOS AUXILIARES DE EXCEPCIONES   //////////////
         #region auxiliaresExcepciones
         public void PruebaExcepcionBaseDatoDAOInsertar()
         {
@@ -454,7 +454,7 @@ namespace ApiRestPruebas.M9
         }
         #endregion TearDown
 
-        ////////////////////////////////////////    METODOS AUXILIARES    ////////////////////////////////////////
+        ////////////////////////////////////////    METODOS AUXILIARES    /////////////////////////////
         #region metodosAuxiliares
 
         private void Borrar(String categoria)
