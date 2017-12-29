@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -13,11 +14,13 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad evento;
     private DAO dao;
+        private Log log;
 
     public  ComandoModificarEvento(Entidad evento)
     {
       this.evento = evento;
       dao = FabricaDAO.CrearDAOEvento();
+            log = Log.ObtenerInstancia();
 
     }
 
@@ -25,6 +28,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try {
         dao.Actualizar(evento);
+                log.ApiRestInfo("ComandoModificarEvento","Ejecutado el comando");
       }
       catch (BaseDeDatosExcepcion e)
       {
@@ -33,17 +37,20 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       }
       catch (CasteoInvalidoExcepcion e)
       {
+                log.ApiRestError("ComandoModificarEvento",e.Message);
         throw e;
         //INSERTAR EN LOG
       }
       catch (OperacionInvalidaException e)
       {
-        throw e;
+                log.ApiRestError("ComandoModificarEvento", e.Message);
+                throw e;
         //INSERTAR EN LOG
       }
       catch (Exception e)
       {
-        throw e;
+                log.ApiRestError("ComandoModificarEvento", e.Message);
+                throw e;
       }
     }
 

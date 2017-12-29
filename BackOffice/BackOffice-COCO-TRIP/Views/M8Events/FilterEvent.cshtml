@@ -53,7 +53,7 @@
             <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
             <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
             <td>@Html.DisplayFor(modelItem => item.Precio)</td>
-            <td>@Html.DisplayFor(modelItem => item.FechaInicio)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaInicio.Date)</td>
 
             <td>
               <a class="btn btn-default circle" href="@Url.Action("Delete", "M8Events", new { id = item.Id })" data-toggle="tooltip"

@@ -20,6 +20,7 @@ import {catService,catProd} from "../../logs/config"
  * Comando Modificar un mensaje de grupos
  */
 export class ComandoModificarMensajeGrupo extends Comando {
+
     private  _respuesta : Boolean;
     
 /**
@@ -53,4 +54,13 @@ export class ComandoModificarMensajeGrupo extends Comando {
         return this._respuesta;
     }
     
+    public return() 
+    {
+        throw new Error("Method not implemented.");
+    }
+
+    public isSuccess(): boolean 
+    {
+        throw new Error("Method not implemented.");
+    }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
+using Newtonsoft.Json.Linq;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -91,11 +92,10 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult FilterEvent()
     { 
       ViewBag.Title = "Eventos por Categorias";
-      Comando comando = FabricaComando.GetComandoConsultarCategorias();
+      Comando comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
       comando.Execute();
-      ViewBag.MyList = comando.GetResult()[0];
-      TempData["listaCategorias"] = comando.GetResult()[0];
-      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      ViewBag.MyList = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
+      TempData["listaCategorias"] = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
       return View((IList<Evento>)TempData["evento"]);
     }
 

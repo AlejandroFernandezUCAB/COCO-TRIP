@@ -104,8 +104,20 @@ namespace ApiRestPruebas.M8
       Assert.Throws<CasteoInvalidoExcepcion>(() => {
         daoEvento.Insertar(evento);
       });
+      int id = ((Evento)evento).IdCategoria;
+      ((Evento)evento).Foto = "/Test";
+      ((Evento)evento).IdCategoria = 0;
+      Assert.Throws<BaseDeDatosExcepcion>(() => {
+        daoEvento.Insertar(evento);
+      });
 
+      ((Evento)evento).IdCategoria = id;
+      id=((Evento)evento).IdLocalidad;
+      ((Evento)evento).IdLocalidad = 0;
 
+      Assert.Throws<BaseDeDatosExcepcion>(() => {
+        daoEvento.Insertar(evento);
+      });
     }
     [Test]
     public void TestEliminarEvento()
@@ -208,6 +220,20 @@ namespace ApiRestPruebas.M8
       ((Evento)evento).Descripcion = "test";
       ((Evento)evento).Foto = null;
       Assert.Throws<CasteoInvalidoExcepcion>(() => {
+        daoEvento.Actualizar(evento);
+      });
+
+      ((Evento)evento).Foto = "/Test";
+      ((Evento)evento).IdCategoria = 0;
+      Assert.Throws<BaseDeDatosExcepcion>(() => {
+        daoEvento.Actualizar(evento);
+      });
+
+      ((Evento)evento).IdCategoria = id;
+      id = ((Evento)evento).IdLocalidad;
+      ((Evento)evento).IdLocalidad = 0;
+
+      Assert.Throws<BaseDeDatosExcepcion>(() => {
         daoEvento.Actualizar(evento);
       });
 
@@ -401,6 +427,23 @@ namespace ApiRestPruebas.M8
       Assert.Throws<CasteoInvalidoExcepcion>(() => {
         comando.Ejecutar();
       });
+      ((Evento)evento).Foto = "/Test";
+      int id=((Evento)evento).IdCategoria;
+      ((Evento)evento).IdCategoria = 0;
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.Throws<BaseDeDatosExcepcion>(() => {
+        comando.Ejecutar();
+      });
+
+      ((Evento)evento).IdCategoria=id;
+      id=((Evento)evento).IdLocalidad;
+      ((Evento)evento).IdCategoria= 0;
+      comando = FabricaComando.CrearComandoModificarEvento(evento);
+      Assert.Throws<BaseDeDatosExcepcion>(() => {
+        comando.Ejecutar();
+      });
+      ((Evento)evento).IdCategoria = id;
+
     }
 
     [Test]
@@ -441,12 +484,33 @@ namespace ApiRestPruebas.M8
       esperado = new Dictionary<string, object>();
       controlador = new M8_EventosController();
 
+      ((Evento)evento).Foto = "/Test";
+      int id = ((Evento)evento).IdCategoria;
+      ((Evento)evento).IdCategoria = 0;
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error","External component has thrown an exception.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).IdCategoria = id;
+      id=((Evento)evento).IdLocalidad;
+      ((Evento)evento).IdLocalidad = 0;
+
+      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      esperado.Add("Error", "External component has thrown an exception.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+
       evento = FabricaEntidad.CrearEntidadEvento();
       respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
       esperado.Add("Error", "Specified cast is not valid.");
       Assert.AreEqual(respuesta, esperado);
       esperado = new Dictionary<string, object>();
       controlador = new M8_EventosController();
+
 
     }
 
@@ -592,7 +656,7 @@ namespace ApiRestPruebas.M8
       controlador = new M8_EventosController();
 
       ((Evento)evento).Nombre = null;
-      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
       esperado.Add("Error", "Specified cast is not valid.");
       Assert.AreEqual(respuesta, esperado);
       esperado = new Dictionary<string, object>();
@@ -600,7 +664,7 @@ namespace ApiRestPruebas.M8
 
       ((Evento)evento).Nombre = "Test";
       ((Evento)evento).Descripcion = null;
-      respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
       esperado.Add("Error", "Specified cast is not valid.");
       Assert.AreEqual(respuesta, esperado);
       esperado = new Dictionary<string, object>();
@@ -608,11 +672,38 @@ namespace ApiRestPruebas.M8
 
       ((Evento)evento).Descripcion = "Test";
       ((Evento)evento).Foto = null;
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
+      esperado.Add("Error", "Specified cast is not valid.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).Foto = "/Test";
+      int id = ((Evento)evento).IdCategoria;
+      ((Evento)evento).IdCategoria = 0;
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
+      esperado.Add("Error", "External component has thrown an exception.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      ((Evento)evento).IdCategoria = id;
+      id = ((Evento)evento).IdLocalidad;
+      ((Evento)evento).IdLocalidad = 0;
+
+      respuesta = (Dictionary<string, object>)controlador.ActualizarEvento((Evento)evento);
+      esperado.Add("Error", "External component has thrown an exception.");
+      Assert.AreEqual(respuesta, esperado);
+      esperado = new Dictionary<string, object>();
+      controlador = new M8_EventosController();
+
+      evento = FabricaEntidad.CrearEntidadEvento();
       respuesta = (Dictionary<string, object>)controlador.AgregarEvento((Evento)evento);
       esperado.Add("Error", "Specified cast is not valid.");
       Assert.AreEqual(respuesta, esperado);
       esperado = new Dictionary<string, object>();
       controlador = new M8_EventosController();
+
     }
 
     [TearDown]

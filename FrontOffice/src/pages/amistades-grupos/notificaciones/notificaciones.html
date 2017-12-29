@@ -14,7 +14,7 @@
      <ion-item-sliding *ngFor="let item of notificaciones; let i = index">
       <ion-item>
         <ion-avatar item-left>
-            <img src="assets/images/profile.png">
+            <img src="{{item.Foto}}">
         </ion-avatar>
         <h2>{{item.Nombre}} {{item.Apellido}}</h2>    
         <h3>{{item.NombreUsuario}}</h3> 

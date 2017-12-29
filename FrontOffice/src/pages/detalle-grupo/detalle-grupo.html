@@ -17,7 +17,7 @@
   
       
           <ion-card *ngFor="let item of grupo" >
-            <img src="assets/images/grupo.png" class="imagen-perfil"/>
+            <img src={{item.RutaFoto}} class="imagen-perfil"/>
             <div class="card-title">{{item.Nombre}}</div>
           </ion-card>
   
@@ -29,7 +29,7 @@
               <h2>{{item.Nombre}} {{item.Apellido}}</h2>
               <h3>{{item.NombreUsuario}}</h3>
               <ion-avatar item-left>
-                  <img src="assets/images/profile.png" >
+                  <img src={{item.Foto}} >
             </ion-avatar>
             </ion-item>
           
