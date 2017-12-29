@@ -5,56 +5,57 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using Npgsql;
 
 namespace ApiRestPruebas.M9
 {
   [TestFixture]
   class PruebaCategoria
   {
-    Categoria pCategoria;
-    PeticionCategoria pPeticion;
+    private Entidad _categoria;
+    private Comando _com;
     private M9_CategoriasController controller;
     private Dictionary<string, object> esperado = new Dictionary<string, object>();
     private Dictionary<string, object> respuesta = new Dictionary<string, object>();
     private DAO dao;
     private JObject data;
     private Entidad respuesta2;
+    private Entidad _resp;
 
-//////////////////////////////////////////////////////////////////////////////////////SETUPS////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////    SETUPS    ////////////////////////////////////////
+    #region SetUp
+        [OneTimeSetUp]
+        protected void OTSU()
+        {
+          controller = new M9_CategoriasController();
+          _categoria = FabricaEntidad.CrearEntidadCategoria();
+          dao = FabricaDAO.CrearDAOCategoria();
+        }
 
-    [OneTimeSetUp]
-    protected void OTSU()
-    {
-      controller = new M9_CategoriasController();
-      pCategoria = FabricaEntidad.CrearEntidadCategoria();
-      dao = FabricaDAO.CrearDAOCategoria();
-    }
-
-    [SetUp]
-    public void SetUp()
-    {
-      esperado = new Dictionary<string, object>();
-      dao.Conectar();
-      dao.Comando = dao.SqlConexion.CreateCommand();
-      dao.Comando.CommandText = "INSERT INTO categoria values (1000, 'prueba', 'descripcion de prueba', true, null, 1)";
-      dao.Comando.ExecuteNonQuery();
-      dao.Comando = dao.SqlConexion.CreateCommand();
-      dao.Comando.CommandText = "INSERT INTO categoria values (1001, 'prueba2', 'descripcion de prueba', true, 1000, 2)";
-      dao.Comando.ExecuteNonQuery();
-      dao.Comando = dao.SqlConexion.CreateCommand();
-      dao.Comando.CommandText = "INSERT INTO categoria values (1002, 'prueba3', 'descripcion de prueba', true, 1001, 3)";
-      dao.Comando.ExecuteNonQuery();
-      dao.Desconectar();
-    }
-//////////////////////////////////////////////////////////////////////////////////////PRUEBAS CONTROLADOR////////////////////////////////////////////////////////////////////
+        [SetUp]
+        public void SetUp()
+        {
+          esperado = new Dictionary<string, object>();
+          dao.Conectar();
+          dao.Comando = dao.SqlConexion.CreateCommand();
+          dao.Comando.CommandText = "INSERT INTO categoria values (1000, 'prueba', 'descripcion de prueba', true, null, 1)";
+          dao.Comando.ExecuteNonQuery();
+          dao.Comando = dao.SqlConexion.CreateCommand();
+          dao.Comando.CommandText = "INSERT INTO categoria values (1001, 'prueba2', 'descripcion de prueba', true, 1000, 2)";
+          dao.Comando.ExecuteNonQuery();
+          dao.Comando = dao.SqlConexion.CreateCommand();
+          dao.Comando.CommandText = "INSERT INTO categoria values (1002, 'prueba3', 'descripcion de prueba', true, 1001, 3)";
+          dao.Comando.ExecuteNonQuery();
+          dao.Desconectar();
+        }
+        #endregion SetUp
+    ////////////////////////////////////////    PRUEBAS CONTROLADOR    ////////////////////////////////////////
+    #region controlador
     [Test]
     public void M9_PruebaModificarCategoria()
     {
@@ -166,48 +167,23 @@ namespace ApiRestPruebas.M9
       var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
       Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
     }
-
-//////////////////////////////////////////////////////////////////////////////////////PRUEBAS COMANDOS////////////////////////////////////////////////////////////////////
+    #endregion controlador
+    ////////////////////////////////////////    PRUEBAS COMANDOS     ////////////////////////////////////////
+    #region comandos
     [Test]
     public void M9_PruebaComandoModificarCategoria()
     {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1000;
-      categoria.Nombre = "MODIFICAR";
-      categoria.Descripcion = "MODIFICAR";
-      categoria.CategoriaSuperior = 0;
-      categoria.Nivel = 1;
-      ComandoModificarCategoria com = FabricaComando.CrearComandoModificarCategoria(categoria);
-      com.Ejecutar();
-      ComandoObtenerCategoriaPorId com2 = FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
-      com2.Ejecutar();
-      respuesta2 = com2.RetornarLista2()[0];
-      Categoria resp = (Categoria)respuesta2;
-      Assert.AreEqual(categoria.Nombre, resp.Nombre);
-    }
-   
-    public void PruebaExcepcionDuplicadoComandoModificarCategoria()
-    {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1001;
-      categoria.Nombre = "prueba";
-      categoria.Descripcion = "MODIFICAR";
-      categoria.CategoriaSuperior = 1000;
-      categoria.Nivel = 2;
-      ComandoModificarCategoria com = FabricaComando.CrearComandoModificarCategoria(categoria);
-      com.Ejecutar();
-    }
-
-    public void PruebaExcepcionDependenciaComandoModificarCategoria()
-    {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1001;
-      categoria.Nombre = "MODIFICAR";
-      categoria.Descripcion = "MODIFICAR";
-      categoria.CategoriaSuperior = 0;
-      categoria.Nivel = 1;
-      ComandoModificarCategoria com = FabricaComando.CrearComandoModificarCategoria(categoria);
-      com.Ejecutar();
+      ((Categoria)_categoria).Id = 1000;
+      ((Categoria)_categoria).Nombre = "MODIFICAR";
+      ((Categoria)_categoria).Descripcion = "MODIFICAR";
+      ((Categoria)_categoria).CategoriaSuperior = 0;
+      ((Categoria)_categoria).Nivel = 1;
+      _com = FabricaComando.CrearComandoModificarCategoria(((Categoria)_categoria));
+      _com.Ejecutar();
+      _com = FabricaComando.CrearComandoObtenerCategoriaPorId(((Categoria)_categoria));
+      _com.Ejecutar();
+      _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+      Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
     }
 
     [Test]
@@ -220,58 +196,66 @@ namespace ApiRestPruebas.M9
     [Test]
     public void M9_PruebaComandoEstadoCategoria()
     {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1000;
-      categoria.Estatus = false;
-      ComandoEstadoCategoria com = FabricaComando.CrearComandoEstadoCategoria(categoria);
-      com.Ejecutar();
-      ComandoObtenerCategoriaPorId com2 = FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
-      com2.Ejecutar();
-      respuesta2 = com2.RetornarLista2()[0];
-      Categoria resp = (Categoria)respuesta2;
-      Assert.AreEqual(categoria.Estatus, resp.Estatus);
+      ((Categoria)_categoria).Id = 1000;
+      ((Categoria)_categoria).Estatus = false;
+      _com = FabricaComando.CrearComandoEstadoCategoria(((Categoria)_categoria));
+      _com.Ejecutar();
+      _com = FabricaComando.CrearComandoObtenerCategoriaPorId(((Categoria)_categoria));
+      _com.Ejecutar();
+      _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+      Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
     }
 
-//////////////////////////////////////////////////////////////////////////////////////PRUEBAS DAO////////////////////////////////////////////////////////////////////
+    [Test]
+    public void M9_PruebaComandoInsertarCategoria()
+    {
+      ((Categoria)_categoria).Nombre = "PRUEBA AGREGAR";
+      ((Categoria)_categoria).Descripcion = "AGREGAR";
+      ((Categoria)_categoria).CategoriaSuperior = 0;
+      ((Categoria)_categoria).Nivel = 1;
+      _com = FabricaComando.CrearComandoAgregarCategoria(_categoria);
+      _com.Ejecutar();
+      _com = FabricaComando.CrearComandoObtenerCategoriaPorNombre(_categoria);
+      _com.Ejecutar();
+      _resp = _com.Retornar();
+      Borrar(((Categoria)_categoria).Nombre);
+      Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
+    }
 
+    [Test]
+    public void M9_PruebaExcepcionComandoAgregarCategoria()
+    {
+      Assert.Catch<NombreDuplicadoException>(PruebaExcepcionDuplicadoComandoAgregarCategoria);
+    }
+
+    [Test]
+    public void M9_PruebaComandoObtenerPorNombre()
+    {
+      ((Categoria)_categoria).Nombre = "prueba2";
+      _com = FabricaComando.CrearComandoObtenerCategoriaPorNombre(_categoria);
+      _com.Ejecutar();
+      _resp = _com.Retornar();
+      Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
+    }
+
+    #endregion comandos
+
+
+    ////////////////////////////////////////    PRUEBAS DAO    ////////////////////////////////////////
+    #region DAOs
     [Test]
     public void M9_PruebaDAOModificarCategoria()
     {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1000;
-      categoria.Nombre = "MODIFICAR";
-      categoria.Descripcion = "MODIFICAR";
-      categoria.CategoriaSuperior = 0;
-      categoria.Nivel = 1;
-      dao.Actualizar(categoria);
-      DAOCategoria daoc = (DAOCategoria)dao;
-      respuesta2 = daoc.ObtenerCategoriaPorId(categoria)[0];
-      Categoria resp = (Categoria)respuesta2;
-      Assert.AreEqual(categoria.Nombre, resp.Nombre);
+      ((Categoria)_categoria).Id = 1000;
+      ((Categoria)_categoria).Nombre = "MODIFICAR";
+      ((Categoria)_categoria).Descripcion = "MODIFICAR";
+      ((Categoria)_categoria).CategoriaSuperior = 0;
+      ((Categoria)_categoria).Nivel = 1;
+      dao.Actualizar(_categoria);
+      _resp = ((DAOCategoria)dao).ObtenerCategoriaPorId(_categoria)[0];
+      Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
     }
-
-    public void PruebaExcepcionDuplicadoDAOModificarCategoria()
-    {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1001;
-      categoria.Nombre = "prueba";
-      categoria.Descripcion = "MODIFICAR";
-      categoria.CategoriaSuperior = 1000;
-      categoria.Nivel = 2;
-      dao.Actualizar(categoria);
-    }
-
-    public void PruebaExcepcionDependenciaDAOModificarCategoria()
-    {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1001;
-      categoria.Nombre = "MODIFICAR";
-      categoria.Descripcion = "MODIFICAR";
-      categoria.CategoriaSuperior = 0;
-      categoria.Nivel = 1;
-      dao.Actualizar(categoria);
-    }
-
+    
     [Test]
     public void M9_PruebaExcepcionDAOModificarCategoria()
     {
@@ -282,33 +266,142 @@ namespace ApiRestPruebas.M9
     [Test]
     public void M9_PruebaDAOEstadoCategoria()
     {
-      Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-      categoria.Id = 1000;
-      categoria.Estatus = false;
-      DAOCategoria daoc = (DAOCategoria)dao;
-      daoc.ActualizarEstado(categoria);
-      respuesta2 = daoc.ObtenerCategoriaPorId(categoria)[0];
-      Categoria resp = (Categoria)respuesta2;
-      Assert.AreEqual(categoria.Estatus, resp.Estatus);
+      ((Categoria)_categoria).Id = 1000;
+      ((Categoria)_categoria).Estatus = false;
+      ((DAOCategoria)dao).ActualizarEstado(_categoria);
+      _resp = ((DAOCategoria)dao).ObtenerCategoriaPorId(_categoria)[0];
+      Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
     }
 
+    [Test]
+    public void M9_PruebaDAOInsertarCategoria()
+    {
+      ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA 1";
+      ((Categoria)_categoria).Descripcion = "abc";
+      ((Categoria)_categoria).CategoriaSuperior = 0;
+      ((Categoria)_categoria).Nivel = 1;
+      dao.Insertar(_categoria);
+      _resp = ((DAOCategoria)dao).ObtenerIdCategoriaPorNombre(_categoria);
+      Borrar(((Categoria)_categoria).Nombre);
+      Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
+    }
 
-//////////////////////////////////////////////////////////////////////////////////////TEARDOWN////////////////////////////////////////////////////////////////////
+    [Test]
+    public void M9_PruebaExcepcionDuplicadoDAOInsertar()
+    {
+      Assert.Catch<NombreDuplicadoException>(PruebaExcepcionDuplicadoDAOInsertar);
+    }
+
+    /*[Test]
+    public void M9_PruebaExcepcionBaseDatoDAOInsertar()
+    {
+      Assert.Catch<BaseDeDatosExcepcion>(PruebaExcepcionDuplicadoDAOInsertar);
+      Borrar("XYZ");
+    }
+    */
+    #endregion DAOs
+
+    ////////////////////////////////////////    METODOS AUXILIARES DE EXCEPCIONES   ////////////////////////////////////////
+    #region auxiliaresExcepciones
+      public void PruebaExcepcionBaseDatoDAOInsertar()
+      {
+        ((Categoria)_categoria).Nombre = "XYZ";
+        ((Categoria)_categoria).CategoriaSuperior = 0;
+        ((Categoria)_categoria).Nivel = 0;
+        dao.Insertar(_categoria);
+      }
+
+      public void PruebaExcepcionDuplicadoDAOInsertar()
+      {
+        ((Categoria)_categoria).Nombre = "prueba2";
+        ((Categoria)_categoria).Descripcion = "abc";
+        ((Categoria)_categoria).CategoriaSuperior = 0;
+        ((Categoria)_categoria).Nivel = 1;
+        dao.Insertar(_categoria);
+      }
+        
+      public void PruebaExcepcionDuplicadoDAOModificarCategoria()
+      {
+        ((Categoria)_categoria).Id = 1001;
+        ((Categoria)_categoria).Nombre = "prueba";
+        ((Categoria)_categoria).Descripcion = "MODIFICAR";
+        ((Categoria)_categoria).CategoriaSuperior = 1000;
+        ((Categoria)_categoria).Nivel = 2;
+        dao.Actualizar(_categoria);
+      }
+
+      public void PruebaExcepcionDependenciaDAOModificarCategoria()
+      {
+        ((Categoria)_categoria).Id = 1001;
+        ((Categoria)_categoria).Nombre = "MODIFICAR";
+        ((Categoria)_categoria).Descripcion = "MODIFICAR";
+        ((Categoria)_categoria).CategoriaSuperior = 0;
+        ((Categoria)_categoria).Nivel = 1;
+        dao.Actualizar(_categoria);
+      }
+    
+      public void PruebaExcepcionDuplicadoComandoModificarCategoria()
+      {
+        ((Categoria)_categoria).Id = 1001;
+        ((Categoria)_categoria).Nombre = "prueba";
+        ((Categoria)_categoria).Descripcion = "MODIFICAR";
+        ((Categoria)_categoria).CategoriaSuperior = 1000;
+        ((Categoria)_categoria).Nivel = 2;
+        _com = FabricaComando.CrearComandoModificarCategoria(_categoria);
+        _com.Ejecutar();
+      }
+
+      public void PruebaExcepcionDuplicadoComandoAgregarCategoria()
+      {
+        ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA";
+        ((Categoria)_categoria).Descripcion = "PRUEBA";
+        ((Categoria)_categoria).CategoriaSuperior = 10;
+        ((Categoria)_categoria).Nivel = 2;
+        _com = FabricaComando.CrearComandoAgregarCategoria(_categoria);
+        _com.Ejecutar();
+      }
+
+    public void PruebaExcepcionDependenciaComandoModificarCategoria()
+      {
+        ((Categoria)_categoria).Id = 1001;
+        ((Categoria)_categoria).Nombre = "MODIFICAR";
+        ((Categoria)_categoria).Descripcion = "MODIFICAR";
+        ((Categoria)_categoria).CategoriaSuperior = 0;
+        ((Categoria)_categoria).Nivel = 1;
+        _com = FabricaComando.CrearComandoModificarCategoria(_categoria);
+        _com.Ejecutar();
+      }
+        //ItemNoEncontrado
+    #endregion auxiliaresExcepciones
+
+    ////////////////////////////////////////    TEARDOWN   ////////////////////////////////////////
     [TearDown]
-        public void TearDown()
-        {
-          dao.Conectar();
-          dao.Comando = dao.SqlConexion.CreateCommand();
-          dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 1002";
-          dao.Comando.ExecuteNonQuery();
-          dao.Comando = dao.SqlConexion.CreateCommand();
-          dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 1001";
-          dao.Comando.ExecuteNonQuery();
-          dao.Comando = dao.SqlConexion.CreateCommand();
-          dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 1000";
-          dao.Comando.ExecuteNonQuery();
-          dao.Desconectar();
-        }
-  
+    public void TearDown()
+    {
+      dao.Conectar();
+      dao.Comando = dao.SqlConexion.CreateCommand();
+      dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 1002";
+      dao.Comando.ExecuteNonQuery();
+      dao.Comando = dao.SqlConexion.CreateCommand();
+      dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 1001";
+      dao.Comando.ExecuteNonQuery();
+      dao.Comando = dao.SqlConexion.CreateCommand();
+      dao.Comando.CommandText = "DELETE FROM categoria where ca_id = 1000";
+      dao.Comando.ExecuteNonQuery();
+      dao.Desconectar();
+    }
+
+    ////////////////////////////////////////    METODOS AUXILIARES    ////////////////////////////////////////
+    #region metodosAuxiliares
+
+    private void Borrar(String categoria)
+    {
+      dao.Conectar();
+      dao.Comando = dao.SqlConexion.CreateCommand();
+      dao.Comando.CommandText = "DELETE FROM categoria where ca_nombre ='" + categoria +"'";
+      dao.Comando.ExecuteNonQuery();
+      dao.Desconectar();
+    }
+    #endregion metodosAuxiliares
   }
 }

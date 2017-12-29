@@ -6,12 +6,13 @@ using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoAgregarCategoria : Comando
+  public class ComandoObtenerCategoriaPorNombre:Comando
   {
-    DAO dao = FabricaDAO.CrearDAOCategoria();
+    private DAO dao = FabricaDAO.CrearDAOCategoria();
     private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
+    private Entidad resultado;
 
-    public ComandoAgregarCategoria(Entidad entidad)
+    public ComandoObtenerCategoriaPorNombre(Entidad entidad)
     {
       this.entidad = entidad;
     }
@@ -20,12 +21,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
-        dao.Insertar(entidad);
+        resultado = ((DAOCategoria)dao).ObtenerIdCategoriaPorNombre(entidad);
       }
       catch (Exception e)
       {
-        //sql exception
-        //null reference exception
         //TERMINAR
         throw e;
       }
@@ -33,7 +32,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override Entidad Retornar()
     {
-      throw new System.NotImplementedException();
+      return resultado;
     }
 
     public override List<Entidad> RetornarLista()

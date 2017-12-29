@@ -61,45 +61,38 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre); //Nombre de la categoria
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion); //descripcion de la categoría
         base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel); //nivel de la categoria
-        base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true.
-
-
+        base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, true); // status de la categoria, en true por defecto
+        
         if (categoria.CategoriaSuperior == 0)
         {
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
-
         }
         else
         {
           base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
         }
-
         exitoso = base.Comando.ExecuteNonQuery();
-
-
       }
-
       catch (PostgresException ex)
       {
-
-
         throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
-
       }
       catch (NpgsqlException ex)
       {
         BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
         {
-          DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
+          DatosAsociados = $"ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
           Mensaje = $"Error al momento de agregar la catgoria {categoria.Id}"
         };
         throw bdException;
-
+      }
+      catch (Exception ex)
+      {
+        throw ex;
       }
       finally
       {
         base.Desconectar();
-
       }
     }
 

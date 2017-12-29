@@ -222,6 +222,7 @@
     <Compile Include="Negocio\Command\ComandoModificarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoModificarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategoriaPorId.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategoriaPorNombre.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategorias.cs" />
     <Compile Include="Negocio\Command\Comando.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarIntegrante.cs" />
