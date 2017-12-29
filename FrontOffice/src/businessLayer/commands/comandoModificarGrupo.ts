@@ -26,7 +26,7 @@ export class ComandoModificarGrupo extends Comando
     private exito: boolean;
 
     public constructor(nombreGrupo : string, idUsuario : number, idGrupo : number,
-        private servicio: RestapiService)
+        private servicio?: RestapiService)
     {
         super();
 

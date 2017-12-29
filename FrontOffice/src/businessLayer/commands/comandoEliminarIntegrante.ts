@@ -24,7 +24,7 @@ export class ComandoEliminarIntegrante extends Comando
     private exito: boolean;
 
     public constructor(idGrupo : number, nombreUsuario : string,
-        private servicio: RestapiService)
+        private servicio?: RestapiService)
     {
         super();
 

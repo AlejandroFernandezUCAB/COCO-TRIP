@@ -24,7 +24,7 @@ export class ComandoObtenerLider extends Comando
     private usuario: any;
 
     public constructor(id : number,
-        private servicio: RestapiService)
+        private servicio?: RestapiService)
     {
         super();
 

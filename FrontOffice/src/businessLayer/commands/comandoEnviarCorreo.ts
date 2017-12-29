@@ -25,7 +25,7 @@ export class ComandoEnviarCorreo extends Comando
     private exito: boolean;
 
     public constructor(id : number, nombre : string, correo : string,
-        private servicio: RestapiService)
+        private servicio?: RestapiService)
     {
         super();
 
