@@ -9,6 +9,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
     interface IDAOFoto
     {
+        List<Entidad> ConsultarLista(string id);
 
         void Eliminar(Entidad objeto);
 
