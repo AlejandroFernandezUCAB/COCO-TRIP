@@ -23,9 +23,8 @@ export class ComandoListaAmigos extends Comando
     private exito: boolean;
     private listaAmigos: any;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number)
+    public constructor(id : number,
+        private servicio: RestapiService)
     {
         super();
 

@@ -23,9 +23,8 @@ export class ComandoVerPerfilGrupo extends Comando
     private exito: boolean;
     private grupo: any;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number)
+    public constructor(id : number,
+        private servicio: RestapiService)
     {
         super();
 
