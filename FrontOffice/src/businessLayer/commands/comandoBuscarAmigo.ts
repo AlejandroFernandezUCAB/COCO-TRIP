@@ -25,7 +25,7 @@ export class ComandoBuscarAmigo extends Comando
     private listaUsuarios: any;
 
     public constructor(nombre : string, id : number, 
-        private servicio: RestapiService)
+        private servicio?: RestapiService)
     {
         super();
 

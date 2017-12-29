@@ -24,7 +24,7 @@ export class ComandoListaNotificaciones extends Comando
     private listaNotificaciones: any;
 
     public constructor(id : number,
-        private servicio: RestapiService)
+        private servicio?: RestapiService)
     {
         super();
 
