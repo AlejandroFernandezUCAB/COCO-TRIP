@@ -23,9 +23,8 @@ export class ComandoSalirGrupo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idGrupo : number, idUsuario : number)
+    public constructor(idGrupo : number, idUsuario : number,
+        private servicio?: RestapiService)
     {
         super();
 

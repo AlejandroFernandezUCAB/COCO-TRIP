@@ -23,9 +23,8 @@ export class ComandoEliminarAmigo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(nombreUsuario : string, id : number)
+    public constructor(nombreUsuario : string, id : number,
+        private servicio?: RestapiService)
     {
         super();
 

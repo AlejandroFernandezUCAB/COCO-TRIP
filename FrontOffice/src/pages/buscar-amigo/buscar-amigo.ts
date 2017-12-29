@@ -37,18 +37,18 @@ export class BuscarAmigoPage
 
   /*Atributos que almacenan datos*/
   public lista : any; //Lista de personas
-
-  /*Elementos de la vista*/
-  public navCtrl: NavController; 
-  public navParams: NavParams;
-  public platform: Platform;
-  public actionsheetCtrl: ActionSheetController;
-  public alerCtrl: AlertController;
-  private storage: Storage;
-
+  
   private comando : Comando;
 
-  constructor() { }
+  public constructor
+  (
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public platform: Platform,
+    public actionsheetCtrl: ActionSheetController,
+    public alerCtrl: AlertController,
+    private storage: Storage
+  ) { }
 
   /**
    * Pone en false la lista y en true 

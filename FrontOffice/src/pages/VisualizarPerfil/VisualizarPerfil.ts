@@ -35,21 +35,21 @@ export class VisualizarPerfilPage
   /*Texto en la vista*/
   public mensajeCargando : string;
 
-  /*Elementos en la vista*/
-  public navCtrl : NavController;
-  public alerCtrl : AlertController; 
-  public loadingCtrl : LoadingController; 
-  private navParams : NavParams; 
-  private translateService : TranslateService;
+  private comando : Comando;
+
+  public constructor
+  (
+    public navCtrl : NavController,
+    public alerCtrl : AlertController,
+    public loadingCtrl : LoadingController, 
+    private navParams : NavParams,
+    private translateService : TranslateService
+  ) {}
 
   public loading = this.loadingCtrl.create
   ({
     content: 'Please wait...'
   });
-
-  private comando : Comando;
-  
-  constructor() {}
 
 /**
  * Metodo que carga un loading controller al iniciar 

@@ -50,19 +50,21 @@ export class ModificarGrupoPage
 
   /*Elementos de la vista*/
   public toast :  any;
-  public navCtrl: NavController; 
-  public loadingCtrl: LoadingController;
-  public alerCtrl: AlertController;
-  public toastCtrl: ToastController;
-  private navParams: NavParams;
-  private storage: Storage; 
-  private translateService: TranslateService;
-
-  public loading = this.loadingCtrl.create({});
 
   private comando : Comando;
   
-  constructor() {}
+  public constructor
+  (
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public alerCtrl: AlertController,
+    public toastCtrl: ToastController,
+    private navParams: NavParams,
+    private storage: Storage,
+    private translateService: TranslateService
+  ) {}
+
+  public loading = this.loadingCtrl.create({});
     
 /**
  * Carga la vista del grupo apenas entras a la pagina 
