@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import 'rxjs/add/operator/map';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /*
   Generated class for the Restapi provider.
@@ -13,14 +14,13 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RestapiService 
 {
-  private readonly apiUrl : string = 'http://localhost:8091/api';
+  public readonly apiUrl : string = 'http://localhost:8090/api';
 
   private data : any;
   private userData: any;
   private idUser: number;
-  private http: Http;
   
-  public constructor() {}
+  public constructor (private http: Http) {}
 
   iniciarSesion(usuario,clave)
   {
@@ -321,11 +321,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('ListaAmigos exitoso. IdUsuario: ' + idUsuario);
+        catProd.info('ListaAmigos exitoso. IdUsuario: ' + idUsuario);
+
         resolve(datos);
       }
       , error =>
       {
         console.log('Fallo de ListaAmigos. IdUsuario: ' + idUsuario);
+        catErr.info('Fallo de ListaAmigos. IdUsuario: ' + idUsuario);
+
         reject(error);
       });
     });
@@ -344,11 +348,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('ListaNotificaciones exitoso. Id: ' + id);
+        catProd.info('ListaNotificaciones exitoso. Id: ' + id);
+
         resolve(datos);
       }
       , error =>
       {
         console.log('Fallo de ListaNotificaciones. Id: ' + id);
+        catErr.info('Fallo de ListaNotificaciones. Id: ' + id);
+
         reject(error);
       });
     });
@@ -369,11 +377,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('AceptarNotificacion exitoso. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
+        catProd.info('AceptarNotificacion exitoso. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
+        
         resolve(datos);
       }
       , error =>
       {
         console.log('Fallo de AceptarNotificacion. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
+        catErr.info('Fallo de AceptarNotificacion. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
+        
         reject(error);
       });
     });
@@ -394,11 +406,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
           console.log('RechazarNotificacion exitoso. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
+          catProd.info('RechazarNotificacion exitoso. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
+          
           resolve(datos);
       }
       ,error => 
       {
           console.log('Fallo de RechazarNotificacion. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
+          catErr.info('Fallo de RechazarNotificacion. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
+          
           reject(error);
       });
     });
@@ -419,11 +435,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('EliminarAmigo exitoso. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
+        catProd.info('EliminarAmigo exitoso. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
+        
         resolve(datos);
       }
       , error => 
       {
         console.log('Fallo de EliminarAmigo. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
+        catErr.info('Fallo de EliminarAmigo. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
+        
         reject(error);
       });
     });
@@ -443,11 +463,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('EliminarGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+        catProd.info('EliminarGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+        
         resolve(datos);
       }
       , error => 
       {
         console.log('Fallo de EliminarGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+        catProd.info('Fallo de EliminarGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+
         reject(error);
       });
     });
@@ -466,11 +490,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('ListaGrupo exitoso. IdUsuario: ' + idUsuario);
+        catProd.info('ListaGrupo exitoso. IdUsuario: ' + idUsuario);
+
         resolve(datos);
       }
       , error => 
       {
         console.log('Fallo de ListaGrupo. IdUsuario: ' + idUsuario);
+        catErr.info('Fallo de ListaGrupo. IdUsuario: ' + idUsuario);
+
         reject(error);
       });
     });
@@ -491,11 +519,15 @@ eveSegunPreferencias(idUser){
        .subscribe(datos => 
       {
         console.log('BuscarAmigos exitoso. Id: ' + id + ' Nombre: ' + nombre);
+        catProd.info('BuscarAmigos exitoso. Id: ' + id + ' Nombre: ' + nombre);
+
         resolve(datos);
       }
       , error =>
       {
         console.log('Fallo de BuscarAmigos. Id: ' + id + ' Nombre: ' + nombre);
+        catErr.info('Fallo de BuscarAmigos. Id: ' + id + ' Nombre: ' + nombre);
+
         reject(error);
       });
      });
@@ -513,11 +545,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('VerPerfilGrupo exitoso. Id: ' + id);
+        catProd.info('VerPerfilGrupo exitoso. Id: ' + id);
+        
         resolve(datos);
       }
       ,error => 
       {
         console.log('Fallo de VerPerfilGrupo. Id: ' + id);
+        catErr.info('Fallo de VerPerfilGrupo. Id: ' + id);
+
         reject(error);
       });
     });
@@ -536,11 +572,15 @@ eveSegunPreferencias(idUser){
         .subscribe(datos => 
         {
           console.log('listaMiembroGrupo exitoso. Id: ' + id);
+          catProd.info('listaMiembroGrupo exitoso. Id: ' + id);
+
           resolve(datos);
         }
         ,error =>
         {
           console.log('Fallo de listaMiembroGrupo. Id: ' + id);
+          catErr.info('Fallo de listaMiembroGrupo. Id: ' + id);
+
           reject(error);
         });
     });
@@ -559,11 +599,15 @@ eveSegunPreferencias(idUser){
         .subscribe(datos => 
         {
           console.log('ObtenerPerfilPublico exitoso. Nombre:' + nombre);
+          catProd.info('ObtenerPerfilPublico exitoso. Nombre:' + nombre);
+
           resolve(datos);
         }
         ,error =>
         {
           console.log('Fallo de ObtenerPerfilPublico. Nombre:' + nombre);
+          catErr.info('Fallo de ObtenerPerfilPublico. Nombre:' + nombre);
+
           reject(error);
         });
     });
@@ -584,11 +628,15 @@ eveSegunPreferencias(idUser){
         .subscribe(datos => 
         {
           console.log('AgregarAmigo exitoso. Id: ' + id + ' Nombre: ' + nombre);
+          catProd.info('AgregarAmigo exitoso. Id: ' + id + ' Nombre: ' + nombre);
+
           resolve(datos);
         }
         , error => 
         {
           console.log('Fallo de AgregarAmigo. Id: ' + id + ' Nombre: ' + nombre);
+          catErr.info('Fallo de AgregarAmigo. Id: ' + id + ' Nombre: ' + nombre);
+
           reject(error);
         });
       }
@@ -612,11 +660,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('EnviarCorreo exitoso. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
+        catProd.info('EnviarCorreo exitoso. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
+
         resolve(datos);
       }
       ,error =>
       {
         console.log('Fallo de EnviarCorreo. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
+        catErr.info('Fallo de EnviarCorreo. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
+
         reject(error);
       });
     });
@@ -635,11 +687,15 @@ eveSegunPreferencias(idUser){
     .subscribe(datos => 
     {
       console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
+      catProd.info('AgregarGrupo exitoso. Grupo: ' + grupo);
+
       resolve(datos);
     }
     , error =>
     {
       console.log('Fallo de AgregarGrupo. Grupo: ' + grupo);
+      catErr.info('Fallo de AgregarGrupo. Grupo: ' + grupo);
+
       reject(error);
     });
   });
@@ -659,10 +715,14 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('SalirGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+        catProd.info('SalirGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+
         resolve(datos);
       }, (error) => 
       {
         console.log('Fallo de SalirGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+        catErr.info('Fallo de SalirGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+
         reject(error);
       });
     });
@@ -681,10 +741,16 @@ eveSegunPreferencias(idUser){
       this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?idUsuario=' + idUsuario, grupo)
       .subscribe(datos => 
       {
+        console.log('ModificarGrupo exitoso. IdUsuario: ' + idUsuario + ' Grupo: ' + grupo);
+        catProd.info('ModificarGrupo exitoso. IdUsuario: ' + idUsuario + ' Grupo: ' + grupo);
+
         resolve(datos);
       }
       , error => 
       {
+        console.log('Fallo de ModificarGrupo. IdUsuario: ' + idUsuario + ' Grupo: ' + grupo);  
+        catProd.info('Fallo de ModificarGrupo. IdUsuario: ' + idUsuario + ' Grupo: ' + grupo);      
+
         reject(error);
       });
     });
@@ -705,11 +771,15 @@ eveSegunPreferencias(idUser){
       .subscribe(datos => 
       {
         console.log('EliminarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
+        catProd.info('EliminarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
+        
         resolve(datos);
       }
       , error => 
       {
         console.log('Fallo de EliminarIntegrante. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
+        catErr.info('Fallo de EliminarIntegrante. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
+        
         reject(error);
       });
     });
@@ -729,11 +799,15 @@ public agregarIntegrante(idGrupo : number, nombreAmigo : string)
     .subscribe(datos => 
     {
       console.log('AgregarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
+      catProd.info('AgregarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
+      
       resolve(datos);
     }
     , error =>
     {
       console.log('Fallo de AgregarIntegrante. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
+      catErr.info('Fallo de AgregarIntegrante. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
+      
       reject(error);
     });
   });
@@ -754,11 +828,15 @@ public verificarLider(idGrupo : number, idUsuario : number)
       .subscribe(datos => 
       {
         console.log('VerificarLider exitoso. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
+        catProd.info('VerificarLider exitoso. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
+
         resolve(datos);
       }
       , error =>
       {
         console.log('Fallo de VerificarLider. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
+        catProd.info('Fallo de VerificarLider. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
+
         reject(error);
       });
   });
@@ -777,11 +855,15 @@ public obtenerLider(idGrupo : number)
       .subscribe(datos => 
       {
         console.log('ObtenerLider exitoso. IdGrupo: ' + idGrupo);
+        catProd.info('ObtenerLider exitoso. IdGrupo: ' + idGrupo);
+
         resolve(datos);
       }
       , error =>
       {
         console.log('Fallo de ObtenerLider. IdGrupo: ' + idGrupo);
+        catErr.info('Fallo de ObtenerLider. IdGrupo: ' + idGrupo);
+
         reject(error);
       });
   });
@@ -800,11 +882,15 @@ public obtenerSinLider(idGrupo : number)
     .subscribe(datos => 
     {
       console.log('ObtenerSinLider exitoso. IdGrupo: ' + idGrupo);
+      catProd.info('ObtenerSinLider exitoso. IdGrupo: ' + idGrupo);
+
       resolve(datos);
     }
     , error => 
     {
       console.log('Fallo de ObtenerSinLider. IdGrupo: ' + idGrupo);
+      catErr.info('Fallo de ObtenerSinLider. IdGrupo: ' + idGrupo);
+
       reject(error);
     });
   });
@@ -825,11 +911,15 @@ public obtenerMiembrosSinGrupo(idUsuario : number, idGrupo : number)
     .subscribe(datos => 
     {
       console.log('ObtenerMiembrosSinGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+      catProd.info('ObtenerMiembrosSinGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+
       resolve(datos);
     }
     , error =>
     {
       console.log('Fallo de ObtenerMiembrosSinGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+      catErr.info('Fallo de ObtenerMiembrosSinGrupo. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
+      
       reject(error);
     });
   });
@@ -846,11 +936,15 @@ public obtenerUltimoGrupo(idUsuario : number)
       .subscribe(datos => 
       {
         console.log('ObtenerUltimoGrupo exitoso. IdUsuario: ' + idUsuario);
+        catProd.info('ObtenerUltimoGrupo exitoso. IdUsuario: ' + idUsuario);
+
         resolve(datos);
       }
       , error => 
       {
         console.log('Fallo de ObtenerUltimoGrupo. IdUsuario: ' + idUsuario);
+        catErr.info('Fallo de ObtenerUltimoGrupo. IdUsuario: ' + idUsuario);
+
         reject(error);
       });
   });

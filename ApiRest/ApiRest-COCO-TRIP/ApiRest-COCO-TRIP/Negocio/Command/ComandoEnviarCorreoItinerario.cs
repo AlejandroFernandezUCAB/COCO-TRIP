@@ -20,8 +20,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       usuario.Id = idUsuario;
     }
 
-    public bool Respuesta { get => respuesta; set => respuesta = value; }
-
     public override void Ejecutar()
     {
       respuesta = dAONotificacion.EnviarCorreo(usuario);
@@ -29,7 +27,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override Entidad Retornar()
     {
-      throw new NotImplementedException();
+      usuario.Valido = respuesta;
+      return usuario;
     }
 
     public override List<Entidad> RetornarLista()

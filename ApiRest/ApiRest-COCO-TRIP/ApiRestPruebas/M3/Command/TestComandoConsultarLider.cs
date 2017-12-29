@@ -24,7 +24,6 @@ namespace ApiRestPruebas.M3.Command
 
     private Comando comando;
     private List<Grupo> listaGrupo;
-    private List<Usuario> listaUsuario;
 
     [SetUp]
     public void SetUp()
@@ -58,4 +57,5 @@ namespace ApiRestPruebas.M3.Command
       Assert.AreEqual(true, listaGrupo[0].Lider == usuario.Id);
     }
   }
+
 }
