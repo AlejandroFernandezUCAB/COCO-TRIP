@@ -436,6 +436,7 @@ namespace ApiRestPruebas.M9
         #endregion auxiliaresExcepciones
 
         ////////////////////////////////////////    TEARDOWN   ////////////////////////////////////////
+        #region TearDown
         [TearDown]
         public void TearDown()
         {
@@ -451,6 +452,7 @@ namespace ApiRestPruebas.M9
             dao.Comando.ExecuteNonQuery();
             dao.Desconectar();
         }
+        #endregion TearDown
 
         ////////////////////////////////////////    METODOS AUXILIARES    ////////////////////////////////////////
         #region metodosAuxiliares
