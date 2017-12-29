@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using System.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {	
@@ -37,10 +38,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_datos = datos;
 			_lugarTuristico = _datos.ToObject<LugarTuristico>();
-			//Esta podria ser otra solucion, pero NOSE :'(
-			_foto = ((LugarTuristico)_lugarTuristico).Foto;
+            //Esta podria ser otra solucion, pero NOSE :'(
+            _foto = ((LugarTuristico)_lugarTuristico).Foto.ConvertAll(x => new Entidad { Id = x.Id });
 
-			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOHorario = FabricaDAO.CrearDAOHorario();
 			iDAOActividad = FabricaDAO.CrearDAOActividad();

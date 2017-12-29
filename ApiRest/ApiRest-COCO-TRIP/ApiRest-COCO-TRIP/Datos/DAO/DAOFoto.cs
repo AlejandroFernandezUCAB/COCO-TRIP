@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
+using System.Data;
+using Npgsql;
+using NpgsqlTypes;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
 	public class DAOFoto : DAO , IDAOFoto
 	{
+        private Foto _foto;
+        private List<Entidad> _listaFotos;
+        private NpgsqlCommand _comando;
+        private NpgsqlDataReader _respuesta;
+
         /// <summary>
         /// Devuelve la lista de fotos de un lugar turistico especifico
         /// </summary>
@@ -22,10 +31,65 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
+        /// <summary>
+        /// Devuelve la lista de fotos de un lugar turistico especifico.
+        /// Recibe un lugar turistico.
+        /// </summary>
+        /// <param name="objeto"></param>
+        /// <returns></returns>
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
-			throw new NotImplementedException();
-		}
+            // Inicializamos la lista de fotos;
+            _listaFotos = new List<Entidad>();
+            // Se evita castear el objeto a un objeto lugar turistico
+            // pues no es necesario.
+            try
+            {
+
+                base.Conectar(); //Inicia una sesion con la base de datos
+
+
+                _comando = new NpgsqlCommand("ConsultarFotos", base.SqlConexion);
+                _comando.CommandType = CommandType.StoredProcedure;
+                // Recordar que objeto es un lugar turistico
+                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, objeto.Id);
+                _respuesta = _comando.ExecuteReader();
+                while (_respuesta.Read())
+                {
+                    // Creo cada entidad Foto y la agrego a la lista
+                    Foto nuevaFoto;
+                    if (!_respuesta.IsDBNull(1))
+                    {
+                        nuevaFoto = new Foto(_respuesta.GetInt32(0), _respuesta.GetString(1));
+                        _listaFotos.Add(nuevaFoto);
+                    }
+                }
+
+                base.Desconectar();
+                // Retorno la lista de entidades
+                return _listaFotos;
+            }
+            catch (NpgsqlException e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+            catch (InvalidCastException e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+            catch (NullReferenceException e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+            catch (Exception e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+        }
 
 		public override Entidad ConsultarPorId(Entidad objeto)
 		{
@@ -37,9 +101,57 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
-		public override void Insertar(Entidad objeto)
+        /// <summary>
+        /// Inserta una nueva foto.
+        /// Requiere la id del Lugar Turistico al que pertenece
+        /// </summary>
+        /// <param name="foto"></param>
+        /// <param name="idLugar"></param>
+		public void InsertarFotoLugar(Entidad foto, int idLugar)
 		{
-			throw new NotImplementedException();
-		}
-	}
+            try
+            {
+                _foto = (Foto)foto;
+
+                base.Conectar(); //Inicia una sesion con la base de datos
+
+
+                _comando = new NpgsqlCommand("add_itinerario", base.SqlConexion);
+                _comando.CommandType = CommandType.StoredProcedure;
+                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
+                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idLugar);
+                _respuesta = _comando.ExecuteReader();
+                _respuesta.Read();
+                // Esto Devuelve un id de base de datos
+                // pero no hace falta utilizarlo aqui...
+                base.Desconectar();
+
+            }
+            catch (NpgsqlException e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+            catch (InvalidCastException e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+            catch (NullReferenceException e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+            catch (Exception e)
+            {
+                base.Desconectar();
+                throw e;
+            }
+        }
+
+        public override void Insertar(Entidad objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
