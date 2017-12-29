@@ -8,7 +8,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// <summary>
     /// Superclase de las excepciones
     /// </summary>
-    public abstract class Excepcion: Exception
+    public class Excepcion: Exception
     {
         private Exception _excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
