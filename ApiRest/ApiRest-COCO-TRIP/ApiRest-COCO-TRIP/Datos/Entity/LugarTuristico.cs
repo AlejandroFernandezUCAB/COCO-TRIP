@@ -7,9 +7,9 @@ namespace ApiRest_COCO_TRIP.Models.Dato
   /// <summary>
   /// Clase que contiene los datos de lugar turistico
   /// </summary>
-  public class LugarTuristico
+  public class LugarTuristico: Entidad
   {
-    private int id; //Identificador unico del lugar turistico
+    
     private string nombre; //Nombre del lugar turistico
     private double costo; //Costo del lugar turistico
     private string descripcion; //Descripcion del lugar turistico
@@ -37,15 +37,6 @@ namespace ApiRest_COCO_TRIP.Models.Dato
 
       categoria = new List<Categoria>();
       subCategoria = new List<Categoria>();
-    }
-
-    /// <summary>
-    /// Getters y Setters del atributo ID
-    /// </summary>
-    public int Id
-    {
-      get { return id; }
-      set { id = value; }
     }
 
     /// <summary>
@@ -188,7 +179,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
       {
         var objeto = obj as LugarTuristico;
 
-        if (id != objeto.id || nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
+        if (nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
             || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
             || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
             || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)
