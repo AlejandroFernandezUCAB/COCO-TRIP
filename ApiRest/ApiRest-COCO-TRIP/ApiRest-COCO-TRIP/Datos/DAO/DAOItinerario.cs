@@ -11,7 +11,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
   public class DAOItinerario : DAO
   {
     private Itinerario itinerario;
-    private NpgsqlParameter parmetro;
     private NpgsqlDataReader respuesta;
     private NpgsqlCommand comando;
     public override void Actualizar(Entidad objeto)

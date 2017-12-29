@@ -10,12 +10,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   public class ComandoAgregarItinerario : Comando
   {
-    private DAOItinerario DAOitinerario;
+    private DAOItinerario DAOitinerario = FabricaDAO.CrearDAOItinerario();
     private Itinerario itinerario;
+    private Usuario usuario;
+    private List<Entidad> listaItinerarios;
 
     public ComandoAgregarItinerario(int idUsuario,string nombreItinerario)
     {
       itinerario = FabricaEntidad.CrearEntidadItinerario();
+      usuario = FabricaEntidad.CrearEntidadUsuario();
+      usuario.Id = idUsuario;
       itinerario.Nombre = nombreItinerario;
       itinerario.IdUsuario = idUsuario;
       
@@ -23,13 +27,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override void Ejecutar()
     {
-      DAOitinerario = FabricaDAO.CrearDAOItinerario();
       DAOitinerario.Insertar(itinerario);
     }
 
     public override Entidad Retornar()
     {
-      throw new NotImplementedException();
+      listaItinerarios =  DAOitinerario.ConsultarLista(usuario);
+      foreach (Entidad item in listaItinerarios)
+      {
+        Itinerario itinerarioNew = (Itinerario)item;
+        if (itinerarioNew.Nombre == itinerario.Nombre) return itinerarioNew;
+      }
+      return null;
     }
 
     public override List<Entidad> RetornarLista()

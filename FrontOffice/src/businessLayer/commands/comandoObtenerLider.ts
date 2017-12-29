@@ -1,5 +1,6 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { catProd, catService, catErr } from '../../logs/config';
 
 /**
  * Autores:
@@ -38,11 +39,13 @@ export class ComandoObtenerLider extends Comando
         {
             this.exito = true;
             this.usuario = datos;
+            catProd.info('ObtenerLider exitoso. Datos: ' + datos);
         }
         , error =>
         {
             this.exito = false;
             this.usuario = error;
+            catErr.info('Fallo de ObtenerLider. Datos: ' + error);
         });
     }
 

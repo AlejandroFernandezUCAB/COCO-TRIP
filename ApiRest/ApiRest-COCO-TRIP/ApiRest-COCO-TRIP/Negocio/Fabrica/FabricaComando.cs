@@ -519,6 +519,16 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     }
 
 
+        /// <summary>
+        /// Retorna la instancia de ComandoConsultarNotificacion
+        /// </summary>
+        /// <returns>ComandoConsultarNotificacion</returns>
+        public static ComandoConsultarNotificacion CrearComandoConsultarNotificacion(int idUsuario)
+        {
+            return new ComandoConsultarNotificacion(idUsuario);
+        }
+
+
     /// <summary>
     /// Retorna la instancia de ComandoListarCoincidenciaActividades
     /// </summary>
@@ -535,6 +545,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     public static ComandoObtenerCategoriasHabilitadas CrearComandoObtenerCategoriasHabilitadas()
     {
       return new ComandoObtenerCategoriasHabilitadas();
+
     }
   }
 }

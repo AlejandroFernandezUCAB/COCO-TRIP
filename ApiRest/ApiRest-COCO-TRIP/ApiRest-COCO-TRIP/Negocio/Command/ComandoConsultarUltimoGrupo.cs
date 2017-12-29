@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Web.Http;
 using System.Net;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -19,6 +20,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     private DAOGrupo datos;
     private Archivo archivo;
+
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoConsultarUltimoGrupo(int idUsuario)
     {
@@ -40,17 +43,19 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         {
           grupo.RutaFoto = Archivo.Ruta + Archivo.FotoGrupo + grupo.Id + Archivo.Extension;
         }
+
+        log.Info("Id: " + usuario.Id);
       }
       catch (BaseDeDatosExcepcion e)
       {
-        e.DatosAsociados = "Id:" + usuario.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Id: " + usuario.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
       catch (IOExcepcion e)
       {
-        e.DatosAsociados = "Id:" + usuario.Id;
-        e.NombreMetodos = this.GetType().FullName;
+        e.DatosAsociados = "Id: " + usuario.Id;
+        log.Error(e.Mensaje + "|" + e.DatosAsociados);
         throw new HttpResponseException(HttpStatusCode.InternalServerError);
       }
     }
@@ -65,5 +70,4 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
-
 }
