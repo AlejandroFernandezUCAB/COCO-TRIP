@@ -49,8 +49,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_actividad = ((LugarTuristico)_lugarTuristico).Actividad.ConvertAll(new Converter<Actividad, Entidad>(ConvertListActividad));
 			
 			
-			//_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
-			//_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
+			_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
+			_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
 
 			daoLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 			//daoCategoria = FabricaDAO.CrearDAOCategoria();
@@ -91,9 +91,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 					daoActividad.Insertar (_actividad[i], _lugarTuristico);
 				}
 				
-				for (int i = 0; i <= _categoria.Count; i++)
+				for (int i = 0; i < _categoria.Count; i++)
 				{
-					daoCategoria.Insertar (_horario[i], _lugarTuristico);
+					daoCategoria.Insertar (_categoria[i], _lugarTuristico);
 				}
 
 			}
