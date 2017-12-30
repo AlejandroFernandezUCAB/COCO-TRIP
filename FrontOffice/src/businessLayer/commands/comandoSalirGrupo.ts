@@ -1,6 +1,7 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -16,6 +17,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web eliminar el grupo (si es el lider) o eliminar el usuario del grupo
  */
+@Injectable()
 export class ComandoSalirGrupo extends Comando
 {
     private idGrupo : number;
@@ -23,14 +25,19 @@ export class ComandoSalirGrupo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
+    set IdUsuario(id : number)
+    {
+        this.idUsuario = id;
+    }
 
-    public constructor(idGrupo : number, idUsuario : number)
+    set IdGrupo(id : number)
+    {
+        this.idGrupo = id;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.idGrupo = idGrupo;
-        this.idUsuario = idUsuario;
     }
 
     public execute() : void 

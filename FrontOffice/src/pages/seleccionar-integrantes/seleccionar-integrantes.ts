@@ -7,8 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ComandoAgregarGrupo } from '../../businessLayer/commands/comandoAgregarGrupo';
+import { ComandoObtenerUltimoGrupo } from '../../businessLayer/commands/comandoObtenerUltimoGrupo';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -42,27 +42,29 @@ export class SeleccionarIntegrantesPage
   /*Elementos de la vista**/
   public toast: any;
   public loader: any;
-  public navCtrl: NavController; 
-  public navParams: NavParams;
-  public alerCtrl: AlertController;
-  public loadingCtrl: LoadingController;
-  public toastCtrl: ToastController;
-  public myForm: FormGroup;
-  public formBuilder: FormBuilder;
-  private storage: Storage;
-  private translateService: TranslateService;
 
-  public loading = this.loadingCtrl.create({});
-
-  private comando : Comando;
-
-  constructor() 
+  public constructor
+  (
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public alerCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public myForm: FormGroup,
+    public formBuilder: FormBuilder,
+    private storage: Storage,
+    private translateService: TranslateService,
+    private comandoAgregarGrupo: ComandoAgregarGrupo,
+    private comandoObtenerUltimoGrupo: ComandoObtenerUltimoGrupo
+  ) 
   {
     this.myForm = this.formBuilder.group
     ({
       namegroup: ['', [Validators.required]]
     });
   }
+
+  public loading = this.loadingCtrl.create({});
 
 /**
  * Metodo que carga un loading controller al iniciar 
@@ -98,19 +100,20 @@ export class SeleccionarIntegrantesPage
       
       this.storage.get('id').then((idUsuario) => 
       {
-        this.comando = FabricaComando.crearComandoAgregarGrupo(idUsuario, this.nombreGrupo);
-        this.comando.execute();
+        this.comandoAgregarGrupo.Lider = idUsuario;
+        this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
+        this.comandoAgregarGrupo.execute();
 
-        if(this.comando.isSuccess)
+        if(this.comandoAgregarGrupo.isSuccess)
         {
-          this.comando = FabricaComando.crearComandoObtenerUltimoGrupo(idUsuario);
-          this.comando.execute();
+          this.comandoObtenerUltimoGrupo.Id = idUsuario;
+          this.comandoObtenerUltimoGrupo.execute();
 
-          if(this.comando.isSuccess)
+          if(this.comandoObtenerUltimoGrupo.isSuccess)
           {
             this.navCtrl.push(CrearGrupoPage,
             {
-              idGrupo: this.comando.return()
+              idGrupo: this.comandoObtenerUltimoGrupo.return().Id
             });
 
             this.realizarToast(this.succesful);

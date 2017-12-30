@@ -54,7 +54,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			//_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
 
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
-			iDAOCategoria = FabricaDAO.CrearDAOCategoria();
+			//iDAOCategoria = FabricaDAO.CrearDAOCategoria();
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOHorario = FabricaDAO.CrearDAOHorario();
 			iDAOActividad = FabricaDAO.CrearDAOActividad();

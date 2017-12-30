@@ -9,9 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConversacionPage } from '../../chat/conversacion/conversacion';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { Comando } from '../../../businessLayer/commands/comando';
-import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
-import { ConfiguracionImages } from '../../constantes/configImages';
+import { ComandoListaAmigos } from '../../../businessLayer/commands/comandoListaAmigos';
+import { ComandoEliminarAmigo } from '../../../businessLayer/commands/comandoEliminarAmigo';
 
 //****************************************************************************************************//
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
@@ -58,21 +57,22 @@ export class AmigosPage
   public toast : any;
   public loader : any;
 
-  public navCtrl : NavController;
-  public platform : Platform
-  public actionsheetCtrl : ActionSheetController;
-  public alerCtrl : AlertController;
-  public loadingCtrl : LoadingController;
-  public toastCtrl : ToastController; 
-  private storage : Storage;
-  private translateService : TranslateService;
+  public constructor
+  (
+    public navCtrl : NavController,
+    public platform : Platform,
+    public actionsheetCtrl : ActionSheetController,
+    public alerCtrl : AlertController,
+    public loadingCtrl : LoadingController,
+    public toastCtrl : ToastController,
+    private storage : Storage,
+    private translateService : TranslateService,
+    private comandoListaAmigos : ComandoListaAmigos,
+    private comandoEliminarAmigo : ComandoEliminarAmigo
+  ) { }
 
   public loading = this.loadingCtrl.create({});
-
-  private comando : Comando; //Superclase comando
-
-  constructor() { }
-
+  
   public onLink(url: string) 
   {
       window.open(url);
@@ -106,24 +106,12 @@ export class AmigosPage
      this.storage.get('id')
      .then(idUsuario => 
      {
-       this.comando = FabricaComando.crearComandoListaAmigos(idUsuario);
-       this.comando.execute();
+       this.comandoListaAmigos.Id = idUsuario;
+       this.comandoListaAmigos.execute();
 
-       if(this.comando.isSuccess)
+       if(this.comandoListaAmigos.isSuccess)
        {
-         this.amigo = this.comando.return();
-
-         for(let i = 0; i < this.amigo.length; i++)
-         {
-            if(this.amigo[i].Foto == undefined)
-            {
-              this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-            }
-            else
-            {
-              this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
-            }
-         }
+         this.amigo = this.comandoListaAmigos.return();
        }
        else
        {
@@ -236,10 +224,11 @@ export class AmigosPage
           {
             this.storage.get('id').then((idUsuario) => 
             {
-              this.comando = FabricaComando.crearComandoEliminarAmigo(nombreUsuario, idUsuario);
-              this.comando.execute();
+              this.comandoEliminarAmigo.NombreUsuario = nombreUsuario;
+              this.comandoEliminarAmigo.Id = idUsuario;
+              this.comandoEliminarAmigo.execute();
 
-              if(this.comando.isSuccess)
+              if(this.comandoEliminarAmigo.isSuccess)
               {
                 this.eliminarAmigos(nombreUsuario, index);
                 this.realizarToast(this.succesful);

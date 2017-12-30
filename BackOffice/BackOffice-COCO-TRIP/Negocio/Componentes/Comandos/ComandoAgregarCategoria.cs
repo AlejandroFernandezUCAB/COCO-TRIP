@@ -25,7 +25,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
             }
             catch (Exception e)
             {
-                //Agregar excepciones personalizadas que haga horacio
+                //Agregar excepciones personalizadas 
                 throw e;
             }
         }

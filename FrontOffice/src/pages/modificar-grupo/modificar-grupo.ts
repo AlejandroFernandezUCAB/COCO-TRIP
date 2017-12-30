@@ -6,9 +6,11 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
-import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoVerPerfilGrupo } from '../../businessLayer/commands/comandoVerPerfilGrupo';
+import { ComandoObtenerLider } from '../../businessLayer/commands/comandoObtenerLider';
+import { ComandoObtenerSinLider } from '../../businessLayer/commands/comandoObtenerSinLider';
+import { ComandoEliminarIntegrante } from '../../businessLayer/commands/comandoEliminarIntegrante';
+import { ComandoModificarGrupo } from '../../businessLayer/commands/comandoModificarGrupo';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
@@ -50,19 +52,25 @@ export class ModificarGrupoPage
 
   /*Elementos de la vista*/
   public toast :  any;
-  public navCtrl: NavController; 
-  public loadingCtrl: LoadingController;
-  public alerCtrl: AlertController;
-  public toastCtrl: ToastController;
-  private navParams: NavParams;
-  private storage: Storage; 
-  private translateService: TranslateService;
+
+  public constructor
+  (
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public alerCtrl: AlertController,
+    public toastCtrl: ToastController,
+    private navParams: NavParams,
+    private storage: Storage,
+    private translateService: TranslateService,
+    private comandoVerPerfilGrupo: ComandoVerPerfilGrupo,
+    private comandoObtenerLider: ComandoObtenerLider,
+    private comandoObtenerSinLider: ComandoObtenerSinLider,
+    private comandoEliminarIntegrante: ComandoEliminarIntegrante,
+    private comandoModificarGrupo: ComandoModificarGrupo
+
+  ) {}
 
   public loading = this.loadingCtrl.create({});
-
-  private comando : Comando;
-  
-  constructor() {}
     
 /**
  * Carga la vista del grupo apenas entras a la pagina 
@@ -70,27 +78,12 @@ export class ModificarGrupoPage
  */
   public ionViewWillEnter() 
   {
-      this.comando = FabricaComando.crearComandoVerPerfilGrupo(this.navParams.get('idGrupo'));
-      this.comando.execute();
+      this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
+      this.comandoVerPerfilGrupo.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoVerPerfilGrupo.isSuccess)
       {
-        let grupo = this.comando.return();
-    
-        if(grupo.RutaFoto == undefined)
-        {
-          grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-        }
-        else
-        {
-          grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
-        }
-          
-        let listaGrupo = new Array();
-        listaGrupo.push(grupo);
-    
-        this.grupo = listaGrupo;
-
+        this.grupo = this.comandoVerPerfilGrupo.return();
         this.cargarLider(this.navParams.get('idGrupo'));
       }
       else
@@ -105,27 +98,12 @@ export class ModificarGrupoPage
  */    
   public cargarLider(id)
   {
-    this.comando = FabricaComando.crearComandoObtenerLider(id);
-    this.comando.execute();
+    this.comandoObtenerLider.Id = id;
+    this.comandoObtenerLider.execute();
 
-    if(this.comando.isSuccess)
+    if(this.comandoObtenerLider.isSuccess)
     {
-      let lider = this.comando.return();
-
-      if(lider.Foto == undefined)
-      {
-        lider.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-      }
-      else
-      {
-        lider.Foto = ConfiguracionImages.PATH + lider.Foto;
-      }
-
-      let listaLider = new Array();
-      listaLider.push(lider);
-
-      this.lider = listaLider;
-
+      this.lider = this.comandoObtenerLider.return();
       this.cargarMiembros(id);
     }
     else
@@ -135,29 +113,17 @@ export class ModificarGrupoPage
   }
 
 /**
- * Carga la lista de los integrantes del grupo (Si incluir al lider)
+ * Carga la lista de los integrantes del grupo (sin incluir al lider)
  * @param id identificador del grupo
  */
   public cargarMiembros(id)
   {
-    this.comando = FabricaComando.crearComandoObtenerSinLider(id);
-    this.comando.execute();
+    this.comandoObtenerSinLider.Id = id;
+    this.comandoObtenerSinLider.execute();
 
-    if(this.comando.isSuccess)
+    if(this.comandoObtenerSinLider.isSuccess)
     {
-      this.miembro = this.comando.return();
-
-      for(let i = 0; i < this.miembro.length; i++)
-      {
-         if(this.miembro[i].Foto == undefined)
-         {
-           this.miembro[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-         }
-         else
-         {
-           this.miembro[i].Foto = ConfiguracionImages.PATH + this.miembro[i].Foto;
-         }
-      }
+      this.miembro = this.comandoObtenerSinLider.return();
     }
     else
     {
@@ -193,11 +159,11 @@ export class ModificarGrupoPage
             text: this.accept,  
             handler: () => 
             {
-              this.comando = FabricaComando.crearComandoEliminarIntegrante
-              (this.navParams.get('idGrupo'), nombreUsuario);
-              this.comando.execute();
+              this.comandoEliminarIntegrante.IdGrupo = this.navParams.get('idGrupo');
+              this.comandoEliminarIntegrante.NombreUsuario = nombreUsuario;
+              this.comandoEliminarIntegrante.execute();
 
-              if(this.comando.isSuccess)
+              if(this.comandoEliminarIntegrante.isSuccess)
               {
                 this.eliminarIntegrante(nombreUsuario, index);
                 this.realizarToast(this.succesful);
@@ -237,26 +203,12 @@ export class ModificarGrupoPage
       {
         if(this.nombreGrupo == undefined)
         {
-          this.comando = FabricaComando.crearComandoVerPerfilGrupo(this.navParams.get('idGrupo'));
-          this.comando.execute();
+          this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
+          this.comandoVerPerfilGrupo.execute();
 
-          if(this.comando.isSuccess)
+          if(this.comandoVerPerfilGrupo.isSuccess)
           {
-            let grupo = this.comando.return();
-    
-            if(grupo.RutaFoto == undefined)
-            {
-              grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-            }
-            else
-            {
-              grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
-            }
-              
-            let listaGrupo = new Array();
-            listaGrupo.push(grupo);
-        
-            this.grupo = listaGrupo;
+            this.grupo = this.comandoVerPerfilGrupo.return();
           }
           else
           {
@@ -265,10 +217,12 @@ export class ModificarGrupoPage
         } 
         else 
         {
-          this.comando = FabricaComando.crearComandoModificarGrupo(this.nombreGrupo, idUsuario, this.navParams.get('idGrupo'));
-          this.comando.execute();
+          this.comandoModificarGrupo.IdUsuario = idUsuario;
+          this.comandoModificarGrupo.IdGrupo = this.navParams.get('idGrupo');
+          this.comandoModificarGrupo.Nombre = this.nombreGrupo;
+          this.comandoModificarGrupo.execute();
           
-          if(this.comando.isSuccess)
+          if(this.comandoModificarGrupo.isSuccess)
           {
             this.realizarToast(this.edited);
           }
@@ -308,5 +262,5 @@ export class ModificarGrupoPage
     {
       idGrupo: this.navParams.get('idGrupo')
     });
-  }
+  } 
 }

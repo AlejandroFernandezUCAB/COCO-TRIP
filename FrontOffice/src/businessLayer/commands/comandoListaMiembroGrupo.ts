@@ -1,6 +1,8 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -16,20 +18,22 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web la lista de miembros pertenecientes al grupo
  */
+@Injectable()
 export class ComandoListaMiembroGrupo extends Comando
 {
     private id : number;
 
     private exito: boolean;
-    private listaMiembros: any;
+    private listaMiembros = new Array();
 
-    private servicio: RestapiService;
+    set Id(id : number)
+    {
+        this.id = id;
+    }
 
-    public constructor(id : number)
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.id = id;
     }
 
     public execute(): void 
@@ -37,14 +41,38 @@ export class ComandoListaMiembroGrupo extends Comando
         this.servicio.listaMiembroGrupo(this.id)
         .then(datos => 
         {
+            let lista : any = datos;
+
+            if(this.listaMiembros != undefined)
+            {
+              let cantidad : number = this.listaMiembros.length;
+              
+              for(let i = 0; i < cantidad; i++)
+              {
+                this.listaMiembros.pop();
+              }
+            }
+
+            for(let usuario of lista)
+            {
+               if(lista.Foto == undefined)
+               {
+                 lista.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+               }
+               else
+               {
+                 lista.Foto = ConfiguracionImages.PATH + lista.Foto;
+               }
+
+               this.listaMiembros.push(usuario);
+            }
+
             this.exito = true;
-            this.listaMiembros = datos;
-            catProd.info('ListaMiembroGrupo exitoso. Datos: ' + datos);
+            catProd.info('ListaMiembroGrupo exitoso. Datos: ' + this.listaMiembros);
         }
         , error =>
         {
             this.exito = false;
-            this.listaMiembros = error;
             catErr.info('Fallo de ListaMiembroGrupo. Datos: ' + error);
         });
     }
