@@ -7,6 +7,10 @@ using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.BaseDeDatos;
+using Newtonsoft.Json.Linq;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using System;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -16,9 +20,9 @@ namespace ApiRest_COCO_TRIP.Controllers
   [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M7_LugaresTuristicosController : ApiController
     {
-        private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion
-        //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
-
+        private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion <-- Esto hay que borrarlo luego.
+												 //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
+		private Comando com;
         //GET
 
         /// <summary>
@@ -263,42 +267,22 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>ID del lugar turistico insertado</returns>
         /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         [HttpPost]
-        public int PostLugar(LugarTuristico lugar)
+        public int PostLugar(JObject datos)
         {
-            peticion = new PeticionLugarTuristico();
-
             try
-            {
-              return peticion.InsertarLugarTuristico(lugar);
-            }
-            catch (BaseDeDatosExcepcion e)
-            {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
+			{
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
-            catch (CasteoInvalidoExcepcion e)
-            {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
+				com = FabricaComando.CrearComandoLTAgregar(datos);
+				com.Ejecutar();
+				return 1;
 
-              throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            catch (ReferenciaNulaExcepcion e)
-            {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
+			}catch(Exception e)
+			{
+				return 0;
+			}
 
-              throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            catch (ArchivoExcepcion)
-            {
-              //RegistrarExcepcion(e); NLog
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
-    }
+		}
 
         /// <summary>
         /// Inserta una actividad asociada a un lugar turistico
