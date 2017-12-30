@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController , ToastController, LoadingController} from 'ionic-angular';
+import { NavController , ToastController, LoadingController, Platform, ActionSheetController, AlertController} from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { Texto } from '../../constantes/texto';
@@ -41,6 +41,9 @@ export class NotificacionesPage
   public constructor
   (
     public navCtrl : NavController,
+    public platform : Platform,
+    public actionsheetCtrl : ActionSheetController,
+    public alertCtrl : AlertController,
     public loadingCtrl : LoadingController,
     public toastCtrl : ToastController,
     private storage : Storage,
