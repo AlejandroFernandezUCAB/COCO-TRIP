@@ -71,15 +71,15 @@ export class BuscarAmigoPage
       if(evento.target.value)
       {
         dato = evento.target.value;
-      } 
+        
+        this.comandoBuscarAmigo.Nombre = dato;
+        this.comandoBuscarAmigo.Id = idUsuario;
+        this.comandoBuscarAmigo.execute();
 
-      this.comandoBuscarAmigo.Nombre = dato;
-      this.comandoBuscarAmigo.Id = idUsuario;
-      this.comandoBuscarAmigo.execute();
-
-      if(this.comandoBuscarAmigo.isSuccess)
-      {
-        this.lista = this.comandoBuscarAmigo.return();
+        if(this.comandoBuscarAmigo.isSuccess)
+        {
+          this.lista = this.comandoBuscarAmigo.return();
+        }
       }
     });    
   }

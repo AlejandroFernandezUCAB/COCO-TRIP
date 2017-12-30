@@ -43,6 +43,16 @@ export class ComandoListaNotificaciones extends Comando
         {
             let lista : any = datos;
 
+            if(this.listaNotificaciones != undefined)
+            {
+              let cantidad : number = this.listaNotificaciones.length;
+              
+              for(let i = 0; i < cantidad; i++)
+              {
+                this.listaNotificaciones.pop();
+              }
+            }
+
             for(let usuario of lista)
             {
                if(usuario.Foto == undefined)

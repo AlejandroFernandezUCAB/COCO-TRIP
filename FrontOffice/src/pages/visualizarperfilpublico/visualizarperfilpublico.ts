@@ -114,7 +114,7 @@ export class VisualizarPerfilPublicoPage
   public ionViewWillEnter() 
   {
     this.cargando();
-
+    
     this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
     this.comandoObtenerPerfilPublico.execute();
 
@@ -208,4 +208,5 @@ export class VisualizarPerfilPublicoPage
       });
       confirm.present()
   }
+  
 }

@@ -70,7 +70,7 @@ export class VisualizarPerfilPage
   public ionViewWillEnter() 
   {
     this.cargando();
-
+    
     this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
     this.comandoObtenerPerfilPublico.execute();
 

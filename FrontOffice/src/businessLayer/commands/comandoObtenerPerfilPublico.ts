@@ -51,6 +51,11 @@ export class ComandoObtenerPerfilPublico extends Comando
             {
               usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
             }
+
+            if(this.usuario != undefined)
+            {
+                this.usuario.pop();
+            }
       
             this.usuario.push(usuario);
 
@@ -73,4 +78,5 @@ export class ComandoObtenerPerfilPublico extends Comando
     {
         return this.exito;
     }
+    
 }

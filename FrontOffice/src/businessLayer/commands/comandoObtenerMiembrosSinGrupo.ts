@@ -50,6 +50,16 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
         {
             let lista : any = datos;
             
+            if(this.listaUsuarios != undefined)
+            {
+              let cantidad : number = this.listaUsuarios.length;
+              
+              for(let i = 0; i < cantidad; i++)
+              {
+                this.listaUsuarios.pop();
+              }
+            }
+            
             for(let usuario of lista)
             {
                 if(usuario.Foto == undefined)

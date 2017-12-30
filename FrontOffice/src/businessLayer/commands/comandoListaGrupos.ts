@@ -43,6 +43,16 @@ export class ComandoListaGrupos extends Comando
         {
             let lista : any = datos;            
 
+            if(this.listaGrupos != undefined)
+            {
+              let cantidad : number = this.listaGrupos.length;
+              
+              for(let i = 0; i < cantidad; i++)
+              {
+                this.listaGrupos.pop();
+              }
+            }
+
             for(let grupo of lista)
             {
                 if(grupo.RutaFoto == undefined)

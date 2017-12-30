@@ -52,6 +52,11 @@ export class ComandoVerPerfilGrupo extends Comando
               grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
             }
 
+            if(this.grupo != undefined)
+            {
+              this.grupo.pop();
+            }
+
             this.grupo.push(grupo);
             
             this.exito = true;

@@ -43,6 +43,16 @@ export class ComandoObtenerSinLider extends Comando
         {
             let lista : any = datos;
 
+            if(this.listaMiembros != undefined)
+            {
+              let cantidad : number = this.listaMiembros.length;
+              
+              for(let i = 0; i < cantidad; i++)
+              {
+                this.listaMiembros.pop();
+              }
+            }
+
             for(let usuario of lista)
             {
                if(usuario.Foto == undefined)

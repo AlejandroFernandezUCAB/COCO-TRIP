@@ -52,6 +52,11 @@ export class ComandoObtenerLider extends Comando
               usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
             }
 
+            if(this.usuario != undefined)
+            {
+              this.usuario.pop();
+            }
+
             this.usuario.push(usuario);
 
             this.exito = true;
