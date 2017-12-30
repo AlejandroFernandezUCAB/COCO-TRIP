@@ -286,7 +286,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 
             { "nombre", ((Evento)data).Nombre },
             { "descripcion", ((Evento)data).Descripcion },
-             { "precio", ((Evento)data).Precio },
+            { "precio", ((Evento)data).Precio },
             { "fechaInicio",((Evento)data).FechaInicio.ToString()},
             {"fechaFin",((Evento)data).FechaFin.ToString() },
             {"horaInicio",((Evento)data).HoraInicio.Hour+":"+((Evento)data).FechaInicio.Minute+":00" },
@@ -374,7 +374,100 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 
     public override JObject Put(Entidad data)
     {
-      throw new NotImplementedException();
+      try
+      {
+        using (HttpClient cliente = new HttpClient())
+        {
+          cliente.BaseAddress = new Uri(BaseUri);
+          cliente.DefaultRequestHeaders.Accept.Clear();
+          JObject jsonData = new JObject
+          {
+            { "id", data.Id },
+            { "nombre", ((Evento)data).Nombre },
+            { "descripcion", ((Evento)data).Descripcion },
+            { "precio", ((Evento)data).Precio },
+            { "fechaInicio", ((Evento)data).FechaInicio},
+            { "fechaFin", ((Evento)data).FechaFin},
+            { "horaInicio", ((Evento)data).HoraInicio },
+            { "horaFin", ((Evento)data).HoraFin },
+            { "foto", ((Evento)data).Foto },
+            { "idLocalidad",((Evento)data).IdLocalidad },
+            { "idCategoria",((Evento)data).IdCategoria }
+          };
+          var responseTask = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/actualizarEvento", jsonData);
+          responseTask.Wait();
+          var response = responseTask.Result;
+          var readTask = response.Content.ReadAsAsync<JObject>();
+          readTask.Wait();
+
+          responseData = readTask.Result;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+
+      catch (WebException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (SocketException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (AggregateException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonSerializationException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonReaderException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (Exception ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+
+          };
+      }
+
+      return responseData;
     }
   }
 }

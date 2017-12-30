@@ -76,6 +76,9 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult Edit(Evento evento)
     {
+      evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
+      evento.Foto = "jorge";
+      evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
       Comando comando = FabricaComando.GetComandoEditarEvento();
       comando.SetPropiedad(evento);
       comando.Execute();
@@ -130,7 +133,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.SetPropiedad(id);
       comando.Execute();
       ViewData["ncategoria"] = (String)comando.GetResult()[2];
-      //TempData["ncategoria"] = "localidades";
       ViewData["nlocalidad"] = comando.GetResult()[1];
       
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);

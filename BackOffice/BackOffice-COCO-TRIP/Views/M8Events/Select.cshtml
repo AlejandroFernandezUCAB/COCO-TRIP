@@ -32,28 +32,28 @@
   <div class="form-group">
     @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.FechaInicio)
+      @Html.DisplayFor(model => model.FechaInicio.Date)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.FechaFin)
+      @Html.DisplayFor(model => model.FechaFin.Date)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.HoraInicio)
+      @Html.DisplayFor(model => model.HoraInicio.TimeOfDay)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.HoraFin)
+      @Html.DisplayFor(model => model.HoraFin.TimeOfDay)
     </div>
   </div>
 
