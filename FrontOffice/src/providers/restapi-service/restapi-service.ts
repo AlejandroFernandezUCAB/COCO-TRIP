@@ -318,6 +318,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/VisualizarListaAmigos?idUsuario=' + idUsuario, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ListaAmigos exitoso. IdUsuario: ' + idUsuario);

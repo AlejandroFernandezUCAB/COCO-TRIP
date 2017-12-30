@@ -112,19 +112,24 @@ export class AmigosPage
 
        if(this.comandoListaAmigos.isSuccess)
        {
-         this.amigo = this.comandoListaAmigos.return();
+         let resultado = this.comandoListaAmigos.return();
+         let listaAmigos = new Array();
 
-         for(let i = 0; i < this.amigo.length; i++)
+         for(let amigo of resultado)
          {
-            if(this.amigo[i].Foto == undefined)
+            if(amigo.Foto == undefined)
             {
-              this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+              amigo.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
             }
             else
             {
-              this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
+              amigo.Foto = ConfiguracionImages.PATH + amigo.Foto;
             }
+
+            listaAmigos.push(amigo);
          }
+
+         this.amigo = listaAmigos;
        }
        else
        {
