@@ -23,7 +23,7 @@ import { Injectable } from '@angular/core';
 export class ComandoAgregarGrupo extends Comando
 {
     private grupo : Grupo;
-    private exito: boolean;
+    private exito : boolean;
 
     set Lider(id : number)
     {
@@ -42,7 +42,7 @@ export class ComandoAgregarGrupo extends Comando
         this.grupo = FabricaEntidad.crearGrupo();
     }
 
-    public execute() : void 
+    public execute() : void
     {
         this.servicio.agregarGrupo(this.grupo)
         .then(datos => 
@@ -54,7 +54,7 @@ export class ComandoAgregarGrupo extends Comando
         {
             this.exito = false;
             catErr.info('Fallo de AgregarGrupo. Datos: ' + error);
-        });
+        })
     }
 
     public return() 
@@ -66,4 +66,5 @@ export class ComandoAgregarGrupo extends Comando
     {
         return this.exito;
     }
+
 }

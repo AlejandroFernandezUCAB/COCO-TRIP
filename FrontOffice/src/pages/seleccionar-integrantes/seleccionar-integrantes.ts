@@ -42,6 +42,7 @@ export class SeleccionarIntegrantesPage
   /*Elementos de la vista**/
   public toast: any;
   public loader: any;
+  public myForm : any;
 
   public constructor
   (
@@ -50,9 +51,7 @@ export class SeleccionarIntegrantesPage
     public alerCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public myForm: FormGroup,
     public formBuilder: FormBuilder,
-    private formControl: NgControl,
     private storage: Storage,
     private translateService: TranslateService,
     private comandoAgregarGrupo: ComandoAgregarGrupo,
@@ -61,7 +60,7 @@ export class SeleccionarIntegrantesPage
   {
     this.myForm = this.formBuilder.group
     ({
-      namegroup: ['', [Validators.required]]
+      namegroup: ['', [Validators.required, Validators.maxLength(300)]]
     });
   }
 

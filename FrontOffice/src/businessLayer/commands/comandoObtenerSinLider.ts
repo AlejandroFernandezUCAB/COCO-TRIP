@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -24,7 +25,7 @@ export class ComandoObtenerSinLider extends Comando
     private id : number;
 
     private exito: boolean;
-    private listaMiembros = new Array();
+    private listaMiembros : Array<Usuario>;
 
     set Id(id : number)
     {
@@ -34,6 +35,8 @@ export class ComandoObtenerSinLider extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaMiembros = new Array<Usuario>();
     }
 
     public execute(): void 

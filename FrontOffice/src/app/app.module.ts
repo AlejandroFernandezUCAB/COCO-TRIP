@@ -93,7 +93,7 @@ import { ComandoRechazarNotificacion } from '../businessLayer/commands/comandoRe
 import { ComandoSalirGrupo } from '../businessLayer/commands/comandoSalirGrupo';
 import { ComandoVerificarLider } from '../businessLayer/commands/comandoVerificarLider';
 import { ComandoVerPerfilGrupo } from '../businessLayer/commands/comandoVerPerfilGrupo';
-import { FormsModule, FormControlDirective, FormGroupDirective } from '@angular/forms';
+import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -138,6 +138,7 @@ firebase.initializeApp(config);
     HttpClientModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(CocoTrip),
     TranslateModule.forRoot({
       loader: {

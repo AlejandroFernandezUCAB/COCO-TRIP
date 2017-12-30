@@ -64,4 +64,5 @@ export class ComandoVerificarLider extends Comando
     {
         return this.exito;
     }
+    
 }

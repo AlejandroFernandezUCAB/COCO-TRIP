@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 
 /**
  * Autores:
@@ -23,8 +24,8 @@ export class ComandoObtenerUltimoGrupo extends Comando
 {
     private id : number;
 
-    private exito: boolean;
     private grupo: Grupo;
+    private exito: boolean;
 
     set Id(id : number)
     {
@@ -34,6 +35,8 @@ export class ComandoObtenerUltimoGrupo extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.grupo = FabricaEntidad.crearGrupo();
     }
 
     public execute(): void 
@@ -54,7 +57,7 @@ export class ComandoObtenerUltimoGrupo extends Comando
         {
             this.exito = false;
             catErr.info('Fallo de ObtenerUltimoGrupo. Datos: ' + error);
-        });
+        })
     }
 
     public return() 
@@ -65,5 +68,5 @@ export class ComandoObtenerUltimoGrupo extends Comando
     public isSuccess(): boolean 
     {
         return this.exito;
-    }
+    }    
 }

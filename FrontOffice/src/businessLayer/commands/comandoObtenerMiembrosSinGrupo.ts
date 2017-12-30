@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -24,7 +25,7 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     private idUsuario : number;
     private idGrupo : number;
 
-    private listaUsuarios = new Array();
+    private listaUsuarios : Array<Usuario>;
 
     private exito: boolean;
 
@@ -41,6 +42,8 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaUsuarios = new Array<Usuario>();
     }
 
     public execute(): void 
@@ -93,4 +96,5 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     {
         return this.exito;
     }
+    
 }

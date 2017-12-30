@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import 'rxjs/add/operator/map';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
 
 /*
   Generated class for the Restapi provider.
@@ -692,27 +692,27 @@ eveSegunPreferencias(idUser){
 * Metodo para agregar el grupo
 * @param grupo Datos del grupo
 */
-  public agregarGrupo(grupo : Entidad) 
+  public agregarGrupo(grupo : Grupo) 
   {
-  return new Promise((resolve, reject) => 
-  {
-    this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
-    .map(respuesta => respuesta.json())
-    .subscribe(datos => 
+    return new Promise((resolve, reject) => 
     {
-      console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
-      catProd.info('AgregarGrupo exitoso. Grupo: ' + grupo);
+      this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
+      .map(respuesta => respuesta.json())
+      .subscribe(datos => 
+      {
+        console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
+        catProd.info('AgregarGrupo exitoso. Grupo: ' + grupo);
 
-      resolve(datos);
-    }
-    , error =>
-    {
-      console.log('Fallo de AgregarGrupo. Grupo: ' + grupo);
-      catErr.info('Fallo de AgregarGrupo. Grupo: ' + grupo);
+        resolve(datos);
+      }
+      , error =>
+      {
+        console.log('Fallo de AgregarGrupo. Grupo: ' + grupo);
+        catErr.info('Fallo de AgregarGrupo. Grupo: ' + grupo);
 
-      reject(error);
+        reject(error);
+      });
     });
-  });
   }
 
 /**
@@ -749,7 +749,7 @@ eveSegunPreferencias(idUser){
    * @param grupo Datos a modificar del grupo
    * @param idUsuario Identificador del usuario lider
    */
-  public modificarGrupo(grupo : Entidad, idUsuario : number)
+  public modificarGrupo(grupo : Grupo, idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {

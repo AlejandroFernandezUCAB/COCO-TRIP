@@ -40,7 +40,7 @@ export class ComandoAceptarNotificacion extends Comando
         super();
     }
 
-    public execute(): void 
+    public execute() : void
     {
         this.servicio.aceptarNotificacion(this.nombreUsuario, this.id)
         .then(datos => 

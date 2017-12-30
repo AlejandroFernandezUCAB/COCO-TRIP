@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
 
 /**
  * Autores:
@@ -24,7 +25,7 @@ export class ComandoListaGrupos extends Comando
     private id : number;
 
     private exito: boolean;
-    private listaGrupos = new Array();
+    private listaGrupos : Array<Grupo>;
     
     set Id(id : number)
     {
@@ -34,6 +35,8 @@ export class ComandoListaGrupos extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaGrupos = new Array<Grupo>();
     }
 
     public execute(): void 

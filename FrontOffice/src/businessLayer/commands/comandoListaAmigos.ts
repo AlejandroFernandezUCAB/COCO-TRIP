@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -24,7 +25,7 @@ export class ComandoListaAmigos extends Comando
     private id : number;
 
     private exito: boolean;
-    private listaUsuarios = new Array();
+    private listaUsuarios : Array<Usuario>;
 
     set Id(id : number)
     {
@@ -34,6 +35,8 @@ export class ComandoListaAmigos extends Comando
     public constructor(private servicio : RestapiService)
     {
         super();
+
+        this.listaUsuarios = new Array<Usuario>();
     }
 
     public execute(): void 
@@ -86,5 +89,4 @@ export class ComandoListaAmigos extends Comando
     {
         return this.exito;
     }
-
 }

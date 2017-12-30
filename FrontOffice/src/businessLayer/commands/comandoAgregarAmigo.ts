@@ -40,7 +40,7 @@ export class ComandoAgregarAmigo extends Comando
         super();
     }
 
-    public execute(): void 
+    public execute() : void
     {
         this.servicio.agregarAmigo(this.id, this.nombreUsuario)
         .then(datos => 
