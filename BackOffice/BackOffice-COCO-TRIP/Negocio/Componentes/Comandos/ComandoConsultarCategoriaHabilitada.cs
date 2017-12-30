@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
 {
@@ -11,13 +12,13 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
   {
     private Entidad categoria = FabricaEntidad.GetCategoria();
     private ArrayList resultado = new ArrayList();
-    DAO<JObject, Categoria> dao = FabricaDAO.GetDAOCategoria();
+    IDAOCategoria dao = FabricaDAO.GetDAOCategoria();
 
     public override void Execute()
     {
       try
       {
-        JObject respuesta = ((DAOCategoria)dao).GetCategoriasHabilitadas();
+        JObject respuesta = dao.GetCategoriasHabilitadas();
         resultado.Add(respuesta);
       }
       catch (Exception e)
@@ -25,8 +26,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         //TERMINAR
         throw e;
       }
-
-
     }
     public override ArrayList GetResult()
     {

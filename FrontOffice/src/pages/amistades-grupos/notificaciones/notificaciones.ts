@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController , ToastController, LoadingController} from 'ionic-angular';
+import { NavController , ToastController, LoadingController, Platform, ActionSheetController, AlertController} from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
-import { Comando } from '../../../businessLayer/commands/comando';
-import { ConfiguracionImages } from '../../constantes/configImages';
+import { ComandoListaNotificaciones } from '../../../businessLayer/commands/comandoListaNotificaciones';
+import { ComandoAceptarNotificacion } from '../../../businessLayer/commands/comandoAceptarNotificacion';
+import { ComandoRechazarNotificacion } from '../../../businessLayer/commands/comandoRechazarNotificacion';
 
 //****************************************************************************************************// 
 //***********************************PAGE DE SOLICITUDES MODULO 3*************************************//
@@ -38,15 +38,16 @@ export class NotificacionesPage
   public toast: any;
   public loader: any;
 
-  private comando : Comando;
-
   public constructor
   (
     public navCtrl : NavController,
     public loadingCtrl : LoadingController,
     public toastCtrl : ToastController,
     private storage : Storage,
-    private translateService : TranslateService
+    private translateService : TranslateService,
+    private comandoListaNotificaciones : ComandoListaNotificaciones,
+    private comandoAceptarNotificacion : ComandoAceptarNotificacion,
+    private comandoRechazarNotificacion : ComandoRechazarNotificacion,
   ) { }
 
   public loading = this.loadingCtrl.create({});
@@ -99,24 +100,12 @@ public realizarToast(mensaje : string)
     this.cargando();
     this.storage.get('id').then((idUsuario) => 
     {
-      this.comando = FabricaComando.crearComandoListaNotificaciones(idUsuario);
-      this.comando.execute();
+      this.comandoListaNotificaciones.Id = idUsuario;
+      this.comandoListaNotificaciones.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoListaNotificaciones.isSuccess)
       {
-        this.notificaciones = this.comando.return();
-
-        for(let i = 0; i < this.notificaciones.length; i++)
-        {
-           if(this.notificaciones[i].Foto == undefined)
-           {
-             this.notificaciones[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-           }
-           else
-           {
-             this.notificaciones[i].Foto = ConfiguracionImages.PATH + this.notificaciones[i].Foto;
-           }
-        }
+        this.notificaciones = this.comandoListaNotificaciones.return();
       }
       else
       {
@@ -136,12 +125,13 @@ public realizarToast(mensaje : string)
   {
     this.storage.get('id').then((idUsuario) => 
     {
-      this.comando = FabricaComando.crearComandoAceptarNotificacion(nombreUsuarioAceptado, idUsuario);
-      this.comando.execute();
+      this.comandoAceptarNotificacion.NombreUsuario = nombreUsuarioAceptado; 
+      this.comandoAceptarNotificacion.Id = idUsuario;
+      this.comandoAceptarNotificacion.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoAceptarNotificacion.isSuccess)
       {
-        this.realizarToast(Texto.AGREGAR_MENSAJE);
+        this.realizarToast(Texto.ACEPTAR_PETICION);
         this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
       }
       else
@@ -160,12 +150,13 @@ public realizarToast(mensaje : string)
   {
     this.storage.get('id').then((idUsuario) => 
     {
-      this.comando = FabricaComando.crearComandoRechazarNotificacion(nombreUsuarioRechazado, idUsuario);
-      this.comando.execute();
+      this.comandoRechazarNotificacion.NombreUsuario = nombreUsuarioRechazado;
+      this.comandoRechazarNotificacion.Id = idUsuario;
+      this.comandoRechazarNotificacion.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoRechazarNotificacion.isSuccess)
       {
-        this.realizarToast(Texto.AGREGAR_MENSAJE);
+        this.realizarToast(Texto.RECHAZAR_PETICION);
         this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
       }
       else
@@ -185,4 +176,5 @@ public realizarToast(mensaje : string)
     //this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
     this.notificaciones.splice(index, 1);
   }
+  
 }

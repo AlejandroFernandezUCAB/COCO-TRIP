@@ -1,6 +1,7 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -16,6 +17,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web rechazar la notificacion (solicitud de amistad)
  */
+@Injectable()
 export class ComandoRechazarNotificacion extends Comando
 {
     private id : number;
@@ -23,13 +25,19 @@ export class ComandoRechazarNotificacion extends Comando
 
     private exito: boolean;
 
-    public constructor(nombreUsuario : string, id : number,
-        private servicio?: RestapiService)
+    set Id(id : number)
+    {
+        this.id = id;
+    }
+
+    set NombreUsuario(nombreUsuario : string)
+    {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.id = id;
-        this.nombreUsuario = nombreUsuario;
     }
 
     public execute(): void 

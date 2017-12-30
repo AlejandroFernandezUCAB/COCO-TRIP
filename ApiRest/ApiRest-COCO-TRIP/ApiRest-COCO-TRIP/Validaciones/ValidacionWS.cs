@@ -7,22 +7,19 @@ using System.Web;
 
 namespace ApiRest_COCO_TRIP.Validaciones
 {
-  public class ValidacionWS
-  {
-
-    public static void validarParametrosNotNull(JObject parametros, IList<string> obligatorios)
+    public class ValidacionWS
     {
-      foreach(string item in obligatorios)
-      {
-        
-        if (parametros.Property(item) == null || (string)parametros[item] == null)
+
+        public static void validarParametrosNotNull(JObject parametros, IList<string> obligatorios)
         {
-          throw new ParametrosNullException(item);
+            foreach (string item in obligatorios)
+            {
+                if (parametros.Property(item) == null || (string)parametros[item] == null)
+                {
+                    throw new ParametrosNullException(item);
+                }
+            }
         }
 
-        
-      }
     }
-
-  }
 }

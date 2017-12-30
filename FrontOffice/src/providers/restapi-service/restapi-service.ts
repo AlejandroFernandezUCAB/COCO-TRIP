@@ -326,6 +326,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/VisualizarListaAmigos?idUsuario=' + idUsuario, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ListaAmigos exitoso. IdUsuario: ' + idUsuario);
@@ -353,6 +354,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ObtenerListaNotificaciones?id=' + id, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ListaNotificaciones exitoso. Id: ' + id);
@@ -382,6 +384,7 @@ eveSegunPreferencias(idUser){
     {
       this.http.put(this.apiUrl + '/M3_AmigosGrupos/AceptarNotificacion?idUsuario=' + id 
       + '&nombreUsuarioAceptado=' + nombreUsuarioAceptado, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('AceptarNotificacion exitoso. Id: ' + id + ' NombreUsuarioAceptado: ' + nombreUsuarioAceptado);
@@ -411,6 +414,7 @@ eveSegunPreferencias(idUser){
     {
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/RechazarNotificacion?idUsuario=' + idUsuario 
       + '&nombreUsuarioRechazado=' + nombreUsuarioRechazado, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
           console.log('RechazarNotificacion exitoso. Id: ' + idUsuario + ' NombreUsuarioRechazado: ' + nombreUsuarioRechazado);
@@ -440,6 +444,7 @@ eveSegunPreferencias(idUser){
     {
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/EliminarAmigo?idUsuario=' 
       + idUsuario + '&nombreAmigo=' + nombreAmigo, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('EliminarAmigo exitoso. IdUsuario: ' + idUsuario + ' NombreAmigo: ' + nombreAmigo);
@@ -468,6 +473,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/EliminarGrupo?idUsuario=' + idUsuario + '&idGrupo=' + idGrupo, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('EliminarGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
@@ -495,6 +501,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarListaGrupos?idUsuario=' + idUsuario, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ListaGrupo exitoso. IdUsuario: ' + idUsuario);
@@ -524,6 +531,7 @@ eveSegunPreferencias(idUser){
      return new Promise((resolve, reject) => 
      {
        this.http.get(this.apiUrl + '/M3_AmigosGrupos/BuscarAmigos?id=' + id + '&nombre=' + nombre, "")
+       .map(respuesta => respuesta.json())
        .subscribe(datos => 
       {
         console.log('BuscarAmigos exitoso. Id: ' + id + ' Nombre: ' + nombre);
@@ -550,6 +558,7 @@ eveSegunPreferencias(idUser){
     return new Promise ((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarPerfilGrupo?id=' + id, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('VerPerfilGrupo exitoso. Id: ' + id);
@@ -577,6 +586,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarMiembroGrupo?idGrupo=' + id, "")
+      .map(respuesta => respuesta.json())
         .subscribe(datos => 
         {
           console.log('listaMiembroGrupo exitoso. Id: ' + id);
@@ -604,6 +614,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.get(this.apiUrl + '/M3_AmigosGrupos/VisualizarPerfilAmigo?nombre=' + nombre, "")
+      .map(respuesta => respuesta.json())
         .subscribe(datos => 
         {
           console.log('ObtenerPerfilPublico exitoso. Nombre:' + nombre);
@@ -633,6 +644,7 @@ eveSegunPreferencias(idUser){
     ( (resolve, reject) => 
       {
         this.http.post (this.apiUrl + '/M3_AmigosGrupos/AgregarAmigo?id=' + id + '&nombre=' + nombre, "")
+        .map(respuesta => respuesta.json())
         .subscribe(datos => 
         {
           console.log('AgregarAmigo exitoso. Id: ' + id + ' Nombre: ' + nombre);
@@ -665,6 +677,7 @@ eveSegunPreferencias(idUser){
     {
       this.http.post(this.apiUrl+'/M3_AmigosGrupos/EnviarNotificacionCorreo?correo=' + correo 
       + '&id=' + id + '&nombre=' + nombre, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('EnviarCorreo exitoso. Id: ' + id + ' Nombre: ' + nombre + ' Correo: ' + correo);
@@ -692,6 +705,7 @@ eveSegunPreferencias(idUser){
   return new Promise((resolve, reject) => 
   {
     this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
+    .map(respuesta => respuesta.json())
     .subscribe(datos => 
     {
       console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
@@ -720,6 +734,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/SalirGrupo?idGrupo=' + idGrupo + '&idUsuario=' + idUsuario, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('SalirGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
@@ -747,6 +762,7 @@ eveSegunPreferencias(idUser){
     return new Promise((resolve, reject) => 
     {
       this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?idUsuario=' + idUsuario, grupo)
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ModificarGrupo exitoso. IdUsuario: ' + idUsuario + ' Grupo: ' + grupo);
@@ -776,6 +792,7 @@ eveSegunPreferencias(idUser){
     {
       this.http.delete(this.apiUrl + '/M3_AmigosGrupos/EliminarIntegrante?idGrupo=' + idGrupo + 
       '&nombreUsuario=' + nombreUsuario, "")
+      .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('EliminarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreUsuario);
@@ -804,6 +821,7 @@ public agregarIntegrante(idGrupo : number, nombreAmigo : string)
   return new Promise((resolve, reject) => 
   {
     this.http.post(this.apiUrl+'/M3_AmigosGrupos/AgregarIntegrante?idGrupo=' + idGrupo + '&nombreUsuario=' + nombreAmigo, "")
+    .map(respuesta => respuesta.json())
     .subscribe(datos => 
     {
       console.log('AgregarIntegrante exitoso. IdGrupo: ' + idGrupo + ' NombreUsuario: ' + nombreAmigo);
@@ -833,6 +851,7 @@ public verificarLider(idGrupo : number, idUsuario : number)
   {
     this.http.get(this.apiUrl + '/M3_AmigosGrupos/VerificarLider?idGrupo=' + idGrupo
     + '&idUsuario=' + idUsuario, "")
+    .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('VerificarLider exitoso. IdGrupo: ' + idGrupo + ' IdUsuario: ' + idUsuario);
@@ -860,6 +879,7 @@ public obtenerLider(idGrupo : number)
   return new Promise((resolve, reject) => 
   {
     this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarLider?idGrupo=' + idGrupo, "")
+    .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ObtenerLider exitoso. IdGrupo: ' + idGrupo);
@@ -887,6 +907,7 @@ public obtenerSinLider(idGrupo : number)
   return new Promise((resolve, reject) => 
   {
     this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarMiembroSinLider/?idGrupo=' + idGrupo, "")
+    .map(respuesta => respuesta.json())
     .subscribe(datos => 
     {
       console.log('ObtenerSinLider exitoso. IdGrupo: ' + idGrupo);
@@ -916,6 +937,7 @@ public obtenerMiembrosSinGrupo(idUsuario : number, idGrupo : number)
   {
     this.http.get(this.apiUrl + '/M3_AmigosGrupos/ConsultarMiembroSinGrupo/?idGrupo=' + idGrupo
     + '&idUsuario=' + idUsuario, "")
+    .map(respuesta => respuesta.json())
     .subscribe(datos => 
     {
       console.log('ObtenerMiembrosSinGrupo exitoso. IdUsuario: ' + idUsuario + ' IdGrupo: ' + idGrupo);
@@ -941,6 +963,7 @@ public obtenerUltimoGrupo(idUsuario : number)
 {
   return new Promise((resolve, reject) => {
     this.http.get(this.apiUrl+'/M3_AmigosGrupos/ConsultarUltimoGrupo/?idUsuario=' + idUsuario, "")
+    .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
         console.log('ObtenerUltimoGrupo exitoso. IdUsuario: ' + idUsuario);
@@ -961,5 +984,4 @@ public obtenerUltimoGrupo(idUsuario : number)
 //****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
 //****************************************************************************************************//
-
 }
