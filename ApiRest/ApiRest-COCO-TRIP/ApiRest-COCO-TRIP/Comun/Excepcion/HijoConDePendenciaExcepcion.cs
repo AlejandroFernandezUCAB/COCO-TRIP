@@ -6,7 +6,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// Excepcion logica que encapsula la información de "Exception"
     /// cuando se generar una ocurrencia sobre la dependencias de una entidad.
     /// </summary>
-    public class HijoConDePendenciaException : Exception
+    public class HijoConDePendenciaExcepcion : Exception
     {
         private Exception excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
@@ -31,7 +31,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// Metodo Constructor.
         /// </summary>
         /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
-        public HijoConDePendenciaException(Exception excepcion)
+        public HijoConDePendenciaExcepcion(Exception excepcion)
         {
             this.excepcion = excepcion;
             fechaHora = DateTime.Now;
@@ -42,14 +42,14 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// </summary>
         /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public HijoConDePendenciaException(Exception excepcion, string mensaje)
+        public HijoConDePendenciaExcepcion(Exception excepcion, string mensaje)
         {
             this.excepcion = excepcion;
             this.mensaje = mensaje;
             fechaHora = DateTime.Now;
         }
 
-        public HijoConDePendenciaException(string parametro)
+        public HijoConDePendenciaExcepcion(string parametro)
         {
             mensaje = $"Falta el hijo {parametro} posee dependencia";
         }
