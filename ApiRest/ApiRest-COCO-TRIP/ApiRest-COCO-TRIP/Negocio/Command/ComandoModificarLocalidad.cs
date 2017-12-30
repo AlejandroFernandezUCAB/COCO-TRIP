@@ -8,6 +8,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -15,9 +16,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad localidad;
     private DAO dao;
-        private Log log;
-
-    public ComandoModificarLocalidad(Entidad localidad) {
+   private static Logger log = LogManager.GetCurrentClassLogger();
+        public ComandoModificarLocalidad(Entidad localidad) {
       this.localidad = (LocalidadEvento)localidad;
       dao = FabricaDAO.CrearDAOLocalidad();
             log = Log.ObtenerInstancia();
