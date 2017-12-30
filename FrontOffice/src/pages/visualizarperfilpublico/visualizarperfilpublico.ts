@@ -4,9 +4,10 @@ import { Storage } from '@ionic/storage';
 import { TranslateModule , TranslateService  } from '@ngx-translate/core'
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comandoObtenerPerfilPublico';
+import { ComandoAgregarAmigo } from '../../businessLayer/commands/comandoAgregarAmigo';
+import { ComandoEnviarCorreo } from '../../businessLayer/commands/comandoEnviarCorreo';
 
 //****************************************************************************************************// 
 //***************************PAGE DE VISUALIZAR PERFIL PUBLICO MODULO 3*******************************//
@@ -44,8 +45,6 @@ export class VisualizarPerfilPublicoPage
 
   /*Elementos de la vista*/
   public toast: any;
-
-  private comando : Comando;
   
   public constructor
   ( 
@@ -56,7 +55,10 @@ export class VisualizarPerfilPublicoPage
     public toastCtrl: ToastController, 
     private storage: Storage,
     private translate : TranslateModule,
-    private translateService : TranslateService
+    private translateService : TranslateService,
+    private comandoObtenerPerfilPublico : ComandoObtenerPerfilPublico,
+    private comandoAgregarAmigo : ComandoAgregarAmigo,
+    private comandoEnviarCorreo : ComandoEnviarCorreo
   ) { }
 
   public loading = this.loadingCtrl.create
@@ -114,12 +116,12 @@ export class VisualizarPerfilPublicoPage
   {
     this.cargando();
 
-    this.comando = FabricaComando.crearComandoObtenerPerfilPublico(this.navParams.get('nombreUsuario'));
-    this.comando.execute();
+    this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
+    this.comandoObtenerPerfilPublico.execute();
 
-    if(this.comando.isSuccess)
+    if(this.comandoObtenerPerfilPublico.isSuccess)
     {
-      let amigo = this.comando.return();
+      let amigo = this.comandoObtenerPerfilPublico.return();
       let listaAmigos = new Array();
 
       if(amigo.Foto == undefined)
@@ -153,10 +155,11 @@ export class VisualizarPerfilPublicoPage
 
     this.storage.get('id').then((idUsuario) => 
     {
-      this.comando = FabricaComando.crearComandoAgregarAmigo(idUsuario, item.NombreUsuario);
-      this.comando.execute();
+      this.comandoAgregarAmigo.Id = idUsuario;
+      this.comandoAgregarAmigo.NombreUsuario = item.NombreUsuario;
+      this.comandoAgregarAmigo.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoAgregarAmigo.isSuccess)
       {
         this.realizarToast(Texto.EXITO_CONFIRMAR);
       }
@@ -165,10 +168,12 @@ export class VisualizarPerfilPublicoPage
         this.realizarToast(Texto.ERROR);
       }
 
-      this.comando = FabricaComando.crearComandoEnviarCorreo(idUsuario, item.NombreUsuario, item.Correo)
-      this.comando.execute();
+      this.comandoEnviarCorreo.IdUsuario = idUsuario;
+      this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
+      this.comandoEnviarCorreo.Correo = item.Correo;
+      this.comandoEnviarCorreo.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoEnviarCorreo.isSuccess)
       {
         this.realizarToast(Texto.EXITO_CORREO);
       }
@@ -217,5 +222,4 @@ export class VisualizarPerfilPublicoPage
       });
       confirm.present()
   }
-
 }

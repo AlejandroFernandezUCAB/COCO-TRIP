@@ -9,9 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConversacionPage } from '../../chat/conversacion/conversacion';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { Comando } from '../../../businessLayer/commands/comando';
-import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
 import { ConfiguracionImages } from '../../constantes/configImages';
+import { ComandoListaAmigos } from '../../../businessLayer/commands/comandoListaAmigos';
+import { ComandoEliminarAmigo } from '../../../businessLayer/commands/comandoEliminarAmigo';
 
 //****************************************************************************************************//
 //*************************************PAGE DE AMIGOS MODULO 3****************************************//
@@ -58,8 +58,6 @@ export class AmigosPage
   public toast : any;
   public loader : any;
 
-  private comando : Comando; //Superclase comando
-
   public constructor
   (
     public navCtrl : NavController,
@@ -70,6 +68,8 @@ export class AmigosPage
     public toastCtrl : ToastController,
     private storage : Storage,
     private translateService : TranslateService,
+    private comandoListaAmigos : ComandoListaAmigos,
+    private comandoEliminarAmigo : ComandoEliminarAmigo
   ) { }
 
   public loading = this.loadingCtrl.create({});
@@ -107,12 +107,12 @@ export class AmigosPage
      this.storage.get('id')
      .then(idUsuario => 
      {
-       this.comando = FabricaComando.crearComandoListaAmigos(idUsuario);
-       this.comando.execute();
+       this.comandoListaAmigos.Id = idUsuario;
+       this.comandoListaAmigos.execute();
 
-       if(this.comando.isSuccess)
+       if(this.comandoListaAmigos.isSuccess)
        {
-         this.amigo = this.comando.return();
+         this.amigo = this.comandoListaAmigos.return();
 
          for(let i = 0; i < this.amigo.length; i++)
          {
@@ -237,10 +237,11 @@ export class AmigosPage
           {
             this.storage.get('id').then((idUsuario) => 
             {
-              this.comando = FabricaComando.crearComandoEliminarAmigo(nombreUsuario, idUsuario);
-              this.comando.execute();
+              this.comandoEliminarAmigo.NombreUsuario = nombreUsuario;
+              this.comandoEliminarAmigo.Id = idUsuario;
+              this.comandoEliminarAmigo.execute();
 
-              if(this.comando.isSuccess)
+              if(this.comandoEliminarAmigo.isSuccess)
               {
                 this.eliminarAmigos(nombreUsuario, index);
                 this.realizarToast(this.succesful);

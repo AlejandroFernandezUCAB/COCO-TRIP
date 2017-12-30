@@ -23,13 +23,19 @@ export class ComandoAgregarIntegrante extends Comando
 
     private exito: boolean;
 
-    public constructor(idGrupo : number, nombreUsuario : string,
-        private servicio?: RestapiService)
+    set IdGrupo(idGrupo : number)
+    {
+        this.idGrupo = idGrupo;
+    }
+
+    set NombreUsuario (nombreUsuario : string)
+    {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.idGrupo = idGrupo;
-        this.nombreUsuario = nombreUsuario;
     }
 
     public execute() : void 

@@ -25,13 +25,19 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
 
     private exito: boolean;
 
-    public constructor(idUsuario : number, idGrupo : number,
-        private servicio?: RestapiService)
+    set IdUsuario(id : number)
+    {
+        this.idUsuario = id;
+    }
+
+    set IdGrupo(id : number)
+    {
+        this.idGrupo = id;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.idUsuario = idUsuario;
-        this.idGrupo = idGrupo;
     }
 
     public execute(): void 

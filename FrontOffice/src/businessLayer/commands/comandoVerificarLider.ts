@@ -21,15 +21,21 @@ export class ComandoVerificarLider extends Comando
     private idGrupo : number;
     private idUsuario : number;
 
+    set IdUsuario(id : number)
+    {
+        this.idUsuario = id;
+    }
+
+    set IdGrupo(id : number)
+    {
+        this.idGrupo = id;
+    }
+
     private exito: boolean;
 
-    public constructor(idGrupo : number, idUsuario : number,
-        private servicio?: RestapiService)
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.idGrupo = idGrupo;
-        this.idUsuario = idUsuario;
     }
 
     public execute() : void 

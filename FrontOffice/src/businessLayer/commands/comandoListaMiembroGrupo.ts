@@ -23,12 +23,14 @@ export class ComandoListaMiembroGrupo extends Comando
     private exito: boolean;
     private listaMiembros: any;
 
-    public constructor(id : number,
-        private servicio?: RestapiService)
+    set Id(id : number)
+    {
+        this.id = id;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.id = id;
     }
 
     public execute(): void 

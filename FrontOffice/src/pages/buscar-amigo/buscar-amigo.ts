@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform, ActionSheetController,AlertController } from 'ionic-angular';
 import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
 import { Storage } from '@ionic/storage';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoBuscarAmigo } from '../../businessLayer/commands/comandoBuscarAmigo';
 
 //****************************************************************************************************// 
 //***********************************PAGE BUSCAR AMIGOS MODULO 3**************************************//
@@ -37,8 +36,6 @@ export class BuscarAmigoPage
 
   /*Atributos que almacenan datos*/
   public lista : any; //Lista de personas
-  
-  private comando : Comando;
 
   public constructor
   (
@@ -47,7 +44,8 @@ export class BuscarAmigoPage
     public platform: Platform,
     public actionsheetCtrl: ActionSheetController,
     public alerCtrl: AlertController,
-    private storage: Storage
+    private storage: Storage,
+    private comandoBuscarAmigo: ComandoBuscarAmigo
   ) { }
 
   /**
@@ -76,12 +74,13 @@ export class BuscarAmigoPage
         dato = evento.target.value;
       } 
 
-      this.comando = FabricaComando.crearComandoBuscarAmigo(dato, idUsuario);
-      this.comando.execute();
+      this.comandoBuscarAmigo.Nombre = dato;
+      this.comandoBuscarAmigo.Id = idUsuario;
+      this.comandoBuscarAmigo.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoBuscarAmigo.isSuccess)
       {
-        this.lista = this.comando.return();
+        this.lista = this.comandoBuscarAmigo.return();
 
         for(let i = 0; i < this.lista.length; i++)
         {

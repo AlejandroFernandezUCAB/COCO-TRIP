@@ -23,12 +23,14 @@ export class ComandoObtenerPerfilPublico extends Comando
     private exito: boolean;
     private usuario: any;
 
-    public constructor(nombreUsuario : string,
-        private servicio?: RestapiService)
+    set NombreUsuario(nombreUsuario : string)
+    {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.nombreUsuario = nombreUsuario;
     }
 
     public execute(): void 

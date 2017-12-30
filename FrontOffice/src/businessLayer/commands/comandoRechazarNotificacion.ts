@@ -23,13 +23,19 @@ export class ComandoRechazarNotificacion extends Comando
 
     private exito: boolean;
 
-    public constructor(nombreUsuario : string, id : number,
-        private servicio?: RestapiService)
+    set Id(id : number)
+    {
+        this.id = id;
+    }
+
+    set NombreUsuario(nombreUsuario : string)
+    {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.id = id;
-        this.nombreUsuario = nombreUsuario;
     }
 
     public execute(): void 

@@ -24,14 +24,24 @@ export class ComandoEnviarCorreo extends Comando
 
     private exito: boolean;
 
-    public constructor(id : number, nombre : string, correo : string,
-        private servicio?: RestapiService)
+    set IdUsuario(id : number)
+    {
+        this.idUsuario = id;
+    }
+
+    set NombreUsuario(nombreUsuario : string)
+    {
+        this.nombreDestinatario = nombreUsuario;
+    }
+
+    set Correo(correo : string)
+    {
+        this.correoDestinatario = correo;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.idUsuario = id;
-        this.nombreDestinatario = nombre;
-        this.correoDestinatario = correo;
     }
 
     public execute(): void 

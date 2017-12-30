@@ -23,14 +23,21 @@ export class ComandoAgregarGrupo extends Comando
     private grupo : Grupo;
     private exito: boolean;
 
-    public constructor(idUsuario : number, nombreGrupo : string,
-        private servicio?: RestapiService)
+    set Lider(id : number)
+    {
+        this.grupo.Lider = id;
+    }
+
+    set Nombre(nombre : string)
+    {
+        this.grupo.Nombre = nombre;
+    }
+
+    public constructor(private servicio : RestapiService)
     {
         super();
 
         this.grupo = FabricaEntidad.crearGrupo();
-        this.grupo.Lider = idUsuario;
-        this.grupo.Nombre = nombreGrupo;
     }
 
     public execute() : void 

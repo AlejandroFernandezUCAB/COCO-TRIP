@@ -24,13 +24,19 @@ export class ComandoBuscarAmigo extends Comando
     private exito: boolean;
     private listaUsuarios: any;
 
-    public constructor(nombre : string, id : number, 
-        private servicio?: RestapiService)
+    set Id(id : number)
+    {
+        this.id = id;
+    }
+
+    set Nombre(nombre : string)
+    {
+        this.nombre = nombre;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.nombre = nombre;
-        this.id = id;
     }
 
     public execute(): void 

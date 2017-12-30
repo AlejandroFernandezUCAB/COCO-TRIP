@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, AlertController , LoadingController, NavParams } from 'ionic-angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comandoObtenerPerfilPublico';
 
 //****************************************************************************************************// 
 //********************************PAGE DE VISUALIZAR PERFIL MODULO 3**********************************//
@@ -35,15 +34,14 @@ export class VisualizarPerfilPage
   /*Texto en la vista*/
   public mensajeCargando : string;
 
-  private comando : Comando;
-
   public constructor
   (
     public navCtrl : NavController,
     public alerCtrl : AlertController,
     public loadingCtrl : LoadingController, 
     private navParams : NavParams,
-    private translateService : TranslateService
+    private translateService : TranslateService,
+    private comandoObtenerPerfilPublico : ComandoObtenerPerfilPublico
   ) {}
 
   public loading = this.loadingCtrl.create
@@ -74,12 +72,12 @@ export class VisualizarPerfilPage
   {
     this.cargando();
 
-    this.comando = FabricaComando.crearComandoObtenerPerfilPublico(this.navParams.get('nombreUsuario'));
-    this.comando.execute();
+    this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
+    this.comandoObtenerPerfilPublico.execute();
 
-    if(this.comando.isSuccess)
+    if(this.comandoObtenerPerfilPublico.isSuccess)
     {
-      let amigo = this.comando.return();
+      let amigo = this.comandoObtenerPerfilPublico.return();
       let listaAmigos = new Array();
 
       if(amigo.Foto == undefined)

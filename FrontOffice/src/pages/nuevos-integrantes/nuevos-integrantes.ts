@@ -5,9 +5,9 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoObtenerMiembrosSinGrupo } from '../../businessLayer/commands/comandoObtenerMiembrosSinGrupo';
+import { ComandoAgregarIntegrante } from '../../businessLayer/commands/comandoAgregarIntegrante';
 
 //****************************************************************************************************// 
 //****************************PAGE AGREGAR INTEGRANTES AL MODIFICAR MODULO 3**************************//
@@ -48,8 +48,6 @@ export class NuevosIntegrantesPage
   /*Elementos de la vista*/
   public toast: any;
   public loader: any;
-
-  private comando : Comando;
   
   public constructor 
   (
@@ -59,7 +57,9 @@ export class NuevosIntegrantesPage
     private storage: Storage,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private comandoObtenerMiembrosSinGrupo: ComandoObtenerMiembrosSinGrupo,
+    private comandoAgregarIntegrante: ComandoAgregarIntegrante
   ) {}
 
   public loading = this.loadingCtrl.create({});
@@ -97,12 +97,13 @@ export class NuevosIntegrantesPage
       {
         console.log('El id del usuario es: ', idUsuario);
         
-        this.comando = FabricaComando.crearComandoObtenerMiembrosSinGrupo(idUsuario, this.navParams.get('idGrupo'));
-        this.comando.execute();
+        this.comandoObtenerMiembrosSinGrupo.IdUsuario = idUsuario;
+        this.comandoObtenerMiembrosSinGrupo.IdGrupo = this.navParams.get('idGrupo');
+        this.comandoObtenerMiembrosSinGrupo.execute();
 
-        if(this.comando.isSuccess)
+        if(this.comandoObtenerMiembrosSinGrupo.isSuccess)
         {
-          this.amigo = this.comando.return();
+          this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
 
           for(let i = 0; i < this.amigo.length; i++)
           {
@@ -171,10 +172,11 @@ export class NuevosIntegrantesPage
           text: this.accept,
           handler: () => 
           {
-            this.comando = FabricaComando.crearComandoAgregarIntegrante(this.navParams.get('idGrupo'), nombreUsuario);
-            this.comando.execute();
+            this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
+            this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
+            this.comandoAgregarIntegrante.execute();
 
-            if(this.comando.isSuccess)
+            if(this.comandoAgregarIntegrante.isSuccess)
             {
               this.realizarToast(this.succesful);
             }
