@@ -40,11 +40,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_datos = datos;
 			_lugarTuristico = _datos.ToObject<LugarTuristico>();
 
+			// Esto se hara con los comandos...
+
+			// ComandoLTAgregarFoto
 			_foto = ((LugarTuristico)_lugarTuristico).Foto.ConvertAll(new Converter<Foto, Entidad>(ConvertListFoto));
+			// ComandoLTAgregarHorario
 			_horario = ((LugarTuristico)_lugarTuristico).Horario.ConvertAll(new Converter<Horario, Entidad>(ConvertListHorario));
+			// ComandoLTAgregarActividad
 			_actividad = ((LugarTuristico)_lugarTuristico).Actividad.ConvertAll(new Converter<Actividad, Entidad>(ConvertListActividad));
-			_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
-			_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
+			
+			
+			//_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
+			//_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
 
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 			iDAOCategoria = FabricaDAO.CrearDAOCategoria();
