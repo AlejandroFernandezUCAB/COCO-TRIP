@@ -148,20 +148,20 @@ export class VisualizarPerfilPublicoPage
       if(this.comandoAgregarAmigo.isSuccess)
       {
         this.realizarToast(Texto.EXITO_CONFIRMAR);
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR);
-      }
 
-      this.comandoEnviarCorreo.IdUsuario = idUsuario;
-      this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
-      this.comandoEnviarCorreo.Correo = item.Correo;
-      this.comandoEnviarCorreo.execute();
-
-      if(this.comandoEnviarCorreo.isSuccess)
-      {
-        this.realizarToast(Texto.EXITO_CORREO);
+        this.comandoEnviarCorreo.IdUsuario = idUsuario;
+        this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
+        this.comandoEnviarCorreo.Correo = item.Correo;
+        this.comandoEnviarCorreo.execute();
+  
+        if(this.comandoEnviarCorreo.isSuccess)
+        {
+          this.realizarToast(Texto.EXITO_CORREO);
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
       }
       else
       {
@@ -208,5 +208,4 @@ export class VisualizarPerfilPublicoPage
       });
       confirm.present()
   }
-  
 }

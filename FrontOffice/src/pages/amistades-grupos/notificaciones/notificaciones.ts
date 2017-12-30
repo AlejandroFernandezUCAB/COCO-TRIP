@@ -134,7 +134,7 @@ public realizarToast(mensaje : string)
 
       if(this.comandoAceptarNotificacion.isSuccess)
       {
-        this.realizarToast(Texto.AGREGAR_MENSAJE);
+        this.realizarToast(Texto.ACEPTAR_PETICION);
         this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
       }
       else
@@ -159,7 +159,7 @@ public realizarToast(mensaje : string)
 
       if(this.comandoRechazarNotificacion.isSuccess)
       {
-        this.realizarToast(Texto.AGREGAR_MENSAJE);
+        this.realizarToast(Texto.RECHAZAR_PETICION);
         this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
       }
       else
