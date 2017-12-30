@@ -41,5 +41,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		{
 			throw new NotImplementedException();
 		}
+
+		public void InsertarActividadLugar(Entidad entidad, int id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
