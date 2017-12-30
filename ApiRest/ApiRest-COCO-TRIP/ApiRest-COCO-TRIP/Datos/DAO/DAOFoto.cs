@@ -107,7 +107,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// </summary>
         /// <param name="foto"></param>
         /// <param name="idLugar"></param>
-		public void InsertarFotoLugar(Entidad foto, int idLugar)
+		public void InsertarFotoLugar(Entidad foto, Entidad lugar)
 		{
             try
             {
@@ -119,7 +119,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 _comando = new NpgsqlCommand("add_itinerario", base.SqlConexion);
                 _comando.CommandType = CommandType.StoredProcedure;
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
-                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, idLugar);
+                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lugar.Id);
                 _respuesta = _comando.ExecuteReader();
                 _respuesta.Read();
                 // Esto Devuelve un id de base de datos
