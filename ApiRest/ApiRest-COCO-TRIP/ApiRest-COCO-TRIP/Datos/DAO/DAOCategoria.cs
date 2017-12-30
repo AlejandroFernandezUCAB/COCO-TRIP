@@ -92,7 +92,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
-                throw new NombreDuplicadoException(ex, this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name, )
+               // throw new NombreDuplicadoException(ex, this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name, )
                 throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
             }
             catch (NpgsqlException ex)
