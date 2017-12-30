@@ -9,7 +9,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
     /// Clase que encapsula la información de "WebException"
-    /// Breve descripcion de cuando se genera.
+    /// Excepción que se produce cuando ocurre un error al acceder a la red mediente un protocolo acoplable.
     /// </summary>
     public class WebExcepcion: WebException
     {

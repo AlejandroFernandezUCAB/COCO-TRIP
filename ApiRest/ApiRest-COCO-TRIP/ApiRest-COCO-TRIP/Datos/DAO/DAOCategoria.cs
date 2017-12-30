@@ -5,9 +5,9 @@ using System.Data;
 using Npgsql;
 using NpgsqlTypes;
 using System;
-using ApiRest_COCO_TRIP.Models.Excepcion;
+//using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
-//using ApiRest_COCO_TRIP.Comun.Excepcion; 
+using ApiRest_COCO_TRIP.Comun.Excepcion; 
 //TODO: La Excepcion "BaseDeDatosExcepcion" del comentario anterior, hace conflito con la que se encuentra en Models.
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
