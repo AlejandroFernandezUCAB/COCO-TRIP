@@ -41,54 +41,54 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		{
             // Inicializamos la lista de fotos;
             _listaFotos = new List<Entidad>();
-            // Se evita castear el objeto a un objeto lugar turistico
-            // pues no es necesario.
-            try
-            {
+			// Se evita castear el objeto a un objeto lugar turistico
+			// pues no es necesario.
+			try
+			{
 
-                base.Conectar(); //Inicia una sesion con la base de datos
+				base.Conectar(); //Inicia una sesion con la base de datos
 
 
-                _comando = new NpgsqlCommand("ConsultarFotos", base.SqlConexion);
-                _comando.CommandType = CommandType.StoredProcedure;
-                // Recordar que objeto es un lugar turistico
-                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, objeto.Id);
-                _respuesta = _comando.ExecuteReader();
-                while (_respuesta.Read())
-                {
-                    // Creo cada entidad Foto y la agrego a la lista
-                    Foto nuevaFoto;
-                    if (!_respuesta.IsDBNull(1))
-                    {
-                        nuevaFoto = new Foto(_respuesta.GetInt32(0), _respuesta.GetString(1));
-                        _listaFotos.Add(nuevaFoto);
-                    }
-                }
+				_comando = new NpgsqlCommand("ConsultarFotos", base.SqlConexion);
+				_comando.CommandType = CommandType.StoredProcedure;
+				// Recordar que objeto es un lugar turistico
+				_comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, objeto.Id);
+				_respuesta = _comando.ExecuteReader();
+				while (_respuesta.Read())
+				{
+					// Creo cada entidad Foto y la agrego a la lista
+					Foto nuevaFoto;
+					if (!_respuesta.IsDBNull(1))
+					{
+						nuevaFoto = new Foto(_respuesta.GetInt32(0), _respuesta.GetString(1));
+						_listaFotos.Add(nuevaFoto);
+					}
+				}
 
-                base.Desconectar();
-                // Retorno la lista de entidades
-                return _listaFotos;
-            }
-            catch (NpgsqlException e)
-            {
-                base.Desconectar();
-                throw e;
-            }
-            catch (InvalidCastException e)
-            {
-                base.Desconectar();
-                throw e;
-            }
-            catch (NullReferenceException e)
-            {
-                base.Desconectar();
-                throw e;
-            }
-            catch (Exception e)
-            {
-                base.Desconectar();
-                throw e;
-            }
+				
+				// Retorno la lista de entidades
+				return _listaFotos;
+			}
+			catch (NpgsqlException e)
+			{				
+				throw e;
+			}
+			catch (InvalidCastException e)
+			{
+				throw e;
+			}
+			catch (NullReferenceException e)
+			{
+				throw e;
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+			finally
+			{
+				base.Desconectar();
+			}
         }
 
 		public override Entidad ConsultarPorId(Entidad objeto)
@@ -124,29 +124,28 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 _respuesta.Read();
                 // Esto Devuelve un id de base de datos
                 // pero no hace falta utilizarlo aqui...
-                base.Desconectar();
 
             }
             catch (NpgsqlException e)
             {
-                base.Desconectar();
                 throw e;
             }
             catch (InvalidCastException e)
             {
-                base.Desconectar();
                 throw e;
             }
             catch (NullReferenceException e)
             {
-                base.Desconectar();
                 throw e;
             }
             catch (Exception e)
-            {
-                base.Desconectar();
+            {               
                 throw e;
             }
+			finally
+			{
+				base.Desconectar();
+			}
         }
 
         public override void Insertar(Entidad objeto)
