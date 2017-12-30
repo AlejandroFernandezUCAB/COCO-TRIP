@@ -27,7 +27,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		private IDAOActividad daoActividad;
 		private IDAOLugarTuristicoCategoria daoCategoria;
 		JObject _datos;
-		private Log log;
 
 		/// <summary>
 		/// Creo el comando con la lista de datos ya deseralizada
@@ -58,8 +57,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			daoFoto = FabricaDAO.CrearDAOFoto();
 			daoHorario = FabricaDAO.CrearDAOHorario();
 			daoActividad = FabricaDAO.CrearDAOActividad();
-
-			log = Log.ObtenerInstancia();
 
 		}
 
@@ -102,7 +99,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			}
 			catch ( Exception e)
 			{
-				log.ApiRestError( e.ToString(), "Error");
+				
 
 			}
 
