@@ -7,32 +7,8 @@ import { ComandoModificarMensaje } from './../commands/comandoModificarMensaje';
 import { ComandoEliminarMensajeGrupo } from './../commands/comandoEliminarMensajeGrupo';
 import { ComandoCrearMensajeGrupo } from './../commands/comandoCrearMensajeGrupo';
 import  { ComandoCrearMensaje } from '../commands/comandoCrearMensaje';
-import { ComandoListaAmigos } from '../commands/comandoListaAmigos';
-import { ComandoEliminarAmigo } from '../commands/comandoEliminarAmigo';
-import { ComandoListaGrupos } from '../commands/comandoListaGrupos';
-import { ComandoVerificarLider } from '../commands/comandoVerificarLider';
-import { ComandoSalirGrupo } from '../commands/comandoSalirGrupo';
-import { ComandoListaNotificaciones } from '../commands/comandoListaNotificaciones';
-import  { Comando } from '../commands/comando';
-import { Entidad } from '../../dataAccessLayer/domain/entidad'; 
 import { ComandoEliminarMensaje } from '../commands/comandoEliminarMensaje';
 import { catService, catProd } from "../../logs/config";
-import { ComandoAceptarNotificacion } from '../commands/comandoAceptarNotificacion';
-import { ComandoRechazarNotificacion } from '../commands/comandoRechazarNotificacion';
-import { ComandoBuscarAmigo } from '../commands/comandoBuscarAmigo';
-import { ComandoAgregarIntegrante } from '../commands/comandoAgregarIntegrante';
-import { ComandoVerPerfilGrupo } from '../commands/comandoVerPerfilGrupo';
-import { ComandoListaMiembroGrupo } from '../commands/comandoListaMiembroGrupo';
-import { ComandoObtenerLider } from '../commands/comandoObtenerLider';
-import { ComandoObtenerSinLider } from '../commands/comandoObtenerSinLider';
-import { ComandoEliminarIntegrante } from '../commands/comandoEliminarIntegrante';
-import { ComandoModificarGrupo } from '../commands/comandoModificarGrupo';
-import { ComandoObtenerMiembrosSinGrupo } from '../commands/comandoObtenerMiembrosSinGrupo';
-import { ComandoAgregarGrupo } from '../commands/comandoAgregarGrupo';
-import { ComandoObtenerUltimoGrupo } from '../commands/comandoObtenerUltimoGrupo';
-import { ComandoObtenerPerfilPublico } from '../commands/comandoObtenerPerfilPublico';
-import { ComandoAgregarAmigo } from '../commands/comandoAgregarAmigo';
-import { ComandoEnviarCorreo } from '../commands/comandoEnviarCorreo';
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 6*************************************//
 //****************************************************************************************************//

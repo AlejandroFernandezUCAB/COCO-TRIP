@@ -41,7 +41,7 @@ export class BuscarAmigoPage
     public navCtrl: NavController, 
     public navParams: NavParams,
     public platform: Platform,
-    public actionsheetCtrl: ActionSheetController,
+    public actionSheetCtrl: ActionSheetController,
     public alerCtrl: AlertController,
     private storage: Storage,
     private comandoBuscarAmigo: ComandoBuscarAmigo
@@ -97,4 +97,5 @@ export class BuscarAmigoPage
         });
         this.showBar = false;
   }
+  
 }
