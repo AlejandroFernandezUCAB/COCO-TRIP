@@ -83,19 +83,5 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
 
             fechaHora = DateTime.Now;
         }
-
-        /// <summary>
-        /// Metodo Constructor.
-        /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "ArgumentException"</param>
-        /// <param name="nombreMetodo">Nombre del metodo donde se genero la excepción</param>
-        /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public ArgumentoNuloExcepcion(ArgumentException excepcion, string nombreMetodo, string mensaje)
-        {
-            this.excepcion = excepcion;
-            this.nombreMetodo = nombreMetodo;
-            this.mensaje = mensaje;
-            fechaHora = DateTime.Now;
-        }
     }
 }
