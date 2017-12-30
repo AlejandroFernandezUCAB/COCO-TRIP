@@ -41,16 +41,13 @@ export class NotificacionesPage
   public constructor
   (
     public navCtrl : NavController,
-    public platform : Platform,
-    public actionsheetCtrl : ActionSheetController,
-    public alertCtrl : AlertController,
     public loadingCtrl : LoadingController,
     public toastCtrl : ToastController,
     private storage : Storage,
     private translateService : TranslateService,
     private comandoListaNotificaciones : ComandoListaNotificaciones,
     private comandoAceptarNotificacion : ComandoAceptarNotificacion,
-    private comandoRechazarNotificacion : ComandoRechazarNotificacion
+    private comandoRechazarNotificacion : ComandoRechazarNotificacion,
   ) { }
 
   public loading = this.loadingCtrl.create({});
@@ -179,4 +176,5 @@ public realizarToast(mensaje : string)
     //this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
     this.notificaciones.splice(index, 1);
   }
+  
 }

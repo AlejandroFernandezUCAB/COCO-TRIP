@@ -93,7 +93,6 @@ import { ComandoRechazarNotificacion } from '../businessLayer/commands/comandoRe
 import { ComandoSalirGrupo } from '../businessLayer/commands/comandoSalirGrupo';
 import { ComandoVerificarLider } from '../businessLayer/commands/comandoVerificarLider';
 import { ComandoVerPerfilGrupo } from '../businessLayer/commands/comandoVerPerfilGrupo';
-import { FormGroup } from '@angular/forms/src/model';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
