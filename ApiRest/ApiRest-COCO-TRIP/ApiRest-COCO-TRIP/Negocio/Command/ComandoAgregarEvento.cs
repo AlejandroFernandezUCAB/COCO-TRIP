@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -14,38 +15,38 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad evento;
     private DAO dao;
-    private Log log;
+        private static Logger log;
 
-    public ComandoAgregarEvento(Entidad evento) {
+        public ComandoAgregarEvento(Entidad evento) {
       this.evento = (Evento)evento;
       dao = FabricaDAO.CrearDAOEvento();
-      log = Log.ObtenerInstancia();
-    }
+            log = LogManager.GetCurrentClassLogger();
+        }
     public override void Ejecutar()
     {
       try
       {
                 dao.Insertar(evento);
-                log.ApiRestInfo("ComandoAgregarEvento", "Ejecutado el comando");
+                log.Info("Ejecutado el comando");
       }
       catch (BaseDeDatosExcepcion e)
       {
-                log.ApiRestInfo("ComandoAgregarEvento",e.Message);
+                log.Error(e.Message);
                 throw e;
       }
       catch (CasteoInvalidoExcepcion e)
       {
-                log.ApiRestInfo("ComandoAgregarEvento", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
       catch (OperacionInvalidaException e)
       {
-                log.ApiRestInfo("ComandoAgregarEvento", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
       catch (Exception e)
       {
-                log.ApiRestInfo("ComandoAgregarEvento", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
 

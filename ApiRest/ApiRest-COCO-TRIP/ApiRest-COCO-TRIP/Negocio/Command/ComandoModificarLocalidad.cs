@@ -16,11 +16,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad localidad;
     private DAO dao;
-   private static Logger log = LogManager.GetCurrentClassLogger();
+        private static Logger log;
         public ComandoModificarLocalidad(Entidad localidad) {
-      this.localidad = (LocalidadEvento)localidad;
-      dao = FabricaDAO.CrearDAOLocalidad();
-            log = Log.ObtenerInstancia();
+        this.localidad = (LocalidadEvento)localidad;
+        dao = FabricaDAO.CrearDAOLocalidad();
+        log = LogManager.GetCurrentClassLogger();
     }
 
     public override void Ejecutar()
@@ -28,23 +28,23 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       try
       { 
           dao.Actualizar(localidad);
-                log.ApiRestInfo("ComandoModificarLocalidad","Comando Ejecutado");
+                log.Info("Comando Ejecutado");
       }
       catch (BaseDeDatosExcepcion e)
       {
-                log.ApiRestError("ComandoModificarLocalidad",e.Message);
+                log.Error(e.Message);
         throw e;
         //INSERTAR EN LOG
       }
       catch (CasteoInvalidoExcepcion e)
       {
-                log.ApiRestError("ComandoModificarLocalidad", e.Message);
+                log.Error(e.Message);
                 throw e;
        //INSERTAR EN LOG
       }
       catch (Exception e)
       {
-                log.ApiRestError("ComandoModificarLocalidad", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
     }
