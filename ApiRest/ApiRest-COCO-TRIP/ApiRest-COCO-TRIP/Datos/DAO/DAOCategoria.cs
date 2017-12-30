@@ -7,11 +7,10 @@ using NpgsqlTypes;
 using System;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
-using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
-  public class DAOCategoria : DAO , IDAOCategoria
+  public class DAOCategoria : DAO
   {
     private NpgsqlParameter parametro;
     private NpgsqlDataReader leerDatos;
