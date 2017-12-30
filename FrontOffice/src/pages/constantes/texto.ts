@@ -46,7 +46,8 @@ export class Texto
 
     //Mensajes Toast
     public static readonly ERROR : string = 'Algo ha salido mal :(';
-    public static readonly AGREGAR_MENSAJE : string = 'Agregar mensaje';
+    public static readonly ACEPTAR_PETICION : string = 'Peticion de amistad aceptada';
+    public static readonly RECHAZAR_PETICION : string = 'Peticion de amistad rechazada';
     public static readonly PETICION_ELIMINADA : string = 'Peticion eliminada';
     public static readonly GRUPO_EXITOSO : string = 'Grupo exitoso';
     public static readonly MODIFICAR_EXITOSO : string = 'Modificado exitosamente';

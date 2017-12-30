@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform, ActionSheetController,AlertController } from 'ionic-angular';
 import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
 import { Storage } from '@ionic/storage';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
-import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoBuscarAmigo } from '../../businessLayer/commands/comandoBuscarAmigo';
 
 //****************************************************************************************************// 
 //***********************************PAGE BUSCAR AMIGOS MODULO 3**************************************//
@@ -37,17 +35,16 @@ export class BuscarAmigoPage
 
   /*Atributos que almacenan datos*/
   public lista : any; //Lista de personas
-  
-  private comando : Comando;
 
   public constructor
   (
     public navCtrl: NavController, 
     public navParams: NavParams,
     public platform: Platform,
-    public actionsheetCtrl: ActionSheetController,
+    public actionSheetCtrl: ActionSheetController,
     public alerCtrl: AlertController,
-    private storage: Storage
+    private storage: Storage,
+    private comandoBuscarAmigo: ComandoBuscarAmigo
   ) { }
 
   /**
@@ -74,25 +71,14 @@ export class BuscarAmigoPage
       if(evento.target.value)
       {
         dato = evento.target.value;
-      } 
+        
+        this.comandoBuscarAmigo.Nombre = dato;
+        this.comandoBuscarAmigo.Id = idUsuario;
+        this.comandoBuscarAmigo.execute();
 
-      this.comando = FabricaComando.crearComandoBuscarAmigo(dato, idUsuario);
-      this.comando.execute();
-
-      if(this.comando.isSuccess)
-      {
-        this.lista = this.comando.return();
-
-        for(let i = 0; i < this.lista.length; i++)
+        if(this.comandoBuscarAmigo.isSuccess)
         {
-           if(this.lista[i].Foto == undefined)
-           {
-             this.lista[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-           }
-           else
-           {
-             this.lista[i].Foto = ConfiguracionImages.PATH + this.lista[i].Foto;
-           }
+          this.lista = this.comandoBuscarAmigo.return();
         }
       }
     });    
@@ -111,4 +97,5 @@ export class BuscarAmigoPage
         });
         this.showBar = false;
   }
+  
 }
