@@ -37,7 +37,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         public string Mensaje { get => mensaje; set => mensaje = value; }
 
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor
         /// </summary>
         /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
         public Excepcion(Exception _excepcion)
@@ -45,9 +45,9 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
             this._excepcion = _excepcion;
             fechaHora = DateTime.Now;
         }
-        
+
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor
         /// </summary>
         /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="nombreMetodo">Nombre del metodo donde se genero la excepción</param>
