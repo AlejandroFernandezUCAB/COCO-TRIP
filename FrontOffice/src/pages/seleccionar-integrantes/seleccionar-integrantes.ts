@@ -7,8 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { ComandoAgregarGrupo } from '../../businessLayer/commands/comandoAgregarGrupo';
+import { ComandoObtenerUltimoGrupo } from '../../businessLayer/commands/comandoObtenerUltimoGrupo';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -43,8 +43,6 @@ export class SeleccionarIntegrantesPage
   public toast: any;
   public loader: any;
 
-  private comando : Comando;
-
   public constructor
   (
     public navCtrl: NavController, 
@@ -55,7 +53,9 @@ export class SeleccionarIntegrantesPage
     public myForm: FormGroup,
     public formBuilder: FormBuilder,
     private storage: Storage,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private comandoAgregarGrupo: ComandoAgregarGrupo,
+    private comandoObtenerUltimoGrupo: ComandoObtenerUltimoGrupo
   ) 
   {
     this.myForm = this.formBuilder.group
@@ -100,19 +100,20 @@ export class SeleccionarIntegrantesPage
       
       this.storage.get('id').then((idUsuario) => 
       {
-        this.comando = FabricaComando.crearComandoAgregarGrupo(idUsuario, this.nombreGrupo);
-        this.comando.execute();
+        this.comandoAgregarGrupo.Lider = idUsuario;
+        this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
+        this.comandoAgregarGrupo.execute();
 
-        if(this.comando.isSuccess)
+        if(this.comandoAgregarGrupo.isSuccess)
         {
-          this.comando = FabricaComando.crearComandoObtenerUltimoGrupo(idUsuario);
-          this.comando.execute();
+          this.comandoObtenerUltimoGrupo.Id = idUsuario;
+          this.comandoObtenerUltimoGrupo.execute();
 
-          if(this.comando.isSuccess)
+          if(this.comandoObtenerUltimoGrupo.isSuccess)
           {
             this.navCtrl.push(CrearGrupoPage,
             {
-              idGrupo: this.comando.return()
+              idGrupo: this.comandoObtenerUltimoGrupo.return().Id
             });
 
             this.realizarToast(this.succesful);

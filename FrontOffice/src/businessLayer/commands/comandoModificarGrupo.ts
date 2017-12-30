@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
 import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -18,6 +19,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web modificar el nombre del grupo
  */
+@Injectable()
 export class ComandoModificarGrupo extends Comando
 {
     private grupo : Grupo;
@@ -25,15 +27,26 @@ export class ComandoModificarGrupo extends Comando
 
     private exito: boolean;
 
-    public constructor(nombreGrupo : string, idUsuario : number, idGrupo : number,
-        private servicio?: RestapiService)
+    set IdUsuario(id : number)
+    {
+        this.idUsuario = id;
+    }
+
+    set IdGrupo(id : number)
+    {
+        this.grupo.Id = id;
+    }
+
+    set Nombre(nombre : string)
+    {
+        this.grupo.Nombre = nombre;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
 
         this.grupo = FabricaEntidad.crearGrupo();
-        this.grupo.Id = idGrupo;
-        this.grupo.Nombre = nombreGrupo;
-        this.idUsuario = idUsuario;
     }
 
     public execute() : void 
@@ -60,5 +73,4 @@ export class ComandoModificarGrupo extends Comando
     {
         return this.exito;
     }
-
 }
