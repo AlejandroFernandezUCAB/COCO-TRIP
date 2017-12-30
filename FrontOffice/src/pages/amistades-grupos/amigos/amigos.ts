@@ -112,8 +112,8 @@ export class AmigosPage
 
        if(this.comandoListaAmigos.isSuccess)
        {
-         let resultado = this.comandoListaAmigos.return();
-         let listaAmigos = new Array();
+         this.amigo = this.comandoListaAmigos.return();
+         /*let listaAmigos = new Array();
 
          for(let amigo of resultado)
          {
@@ -129,7 +129,7 @@ export class AmigosPage
             listaAmigos.push(amigo);
          }
 
-         this.amigo = listaAmigos;
+         this.amigo = listaAmigos;*/
        }
        else
        {
