@@ -22,6 +22,7 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     int idLocalidad;
     int idCategoria;
 
+
     // Getters y Setters de la clase Evento.
     public string Nombre { get => nombre; set => nombre = value; }
     public string Descripcion { get => descripcion; set => descripcion = value; }

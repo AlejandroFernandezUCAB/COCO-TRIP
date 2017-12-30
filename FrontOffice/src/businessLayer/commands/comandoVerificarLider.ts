@@ -1,6 +1,7 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -16,20 +17,27 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web verificar si el usuario actual es el lider del grupo
  */
+@Injectable()
 export class ComandoVerificarLider extends Comando
 {
     private idGrupo : number;
     private idUsuario : number;
 
+    set IdUsuario(id : number)
+    {
+        this.idUsuario = id;
+    }
+
+    set IdGrupo(id : number)
+    {
+        this.idGrupo = id;
+    }
+
     private exito: boolean;
 
-    public constructor(idGrupo : number, idUsuario : number,
-        private servicio?: RestapiService)
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.idGrupo = idGrupo;
-        this.idUsuario = idUsuario;
     }
 
     public execute() : void 

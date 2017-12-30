@@ -76,7 +76,7 @@
                           <select class="form-control" id="categoria" name="categoria_@(contador+1) ">
                             <option selected disabled>Elige una categor&iacute;a</option>
 
-                              <option>@categoria.Nombre</option>
+                              <option>@categoria.Name</option>
 
 
                           </select>
@@ -94,9 +94,9 @@
                             @foreach (var subCategoria in ViewBag.SubCategoria)
                             {
 
-                              if (subCategoria.CategoriaSuperior == categoria.Id)
+                              if (subCategoria.UpperCategories == categoria.Id)
                               {
-                                  <option>@subCategoria.Nombre</option>
+                                  <option>@subCategoria.Name</option>
                               }
                             }
 

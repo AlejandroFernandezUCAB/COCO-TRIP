@@ -338,7 +338,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
 
       }
 

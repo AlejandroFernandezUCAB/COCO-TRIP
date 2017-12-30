@@ -1,8 +1,5 @@
 using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 
 namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 {
@@ -23,7 +20,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoEditarLocalidad();
         }
 
-        public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
+        public static ComandoEditarLocalidad GetComandoEditarEvento()
+        {
+            return new ComandoEditarLocalidad();
+        }
+
+    public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
         {
             return new ComandoEliminarLocalidad();
         }
@@ -37,7 +39,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoConsultarEventos();
         }
 
-        public static ComandoInsertarEvento GetComandoInsertarEvento()
+        public static ComandoConsultarEvento GetComandoConsultarEvento()
+        {
+            return new ComandoConsultarEvento();
+        }
+
+    public static ComandoInsertarEvento GetComandoInsertarEvento()
         {
             return new ComandoInsertarEvento();
         }
@@ -89,5 +96,26 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
         {
             return new ComandoConsultarListaCategoria();
         }
-    }
+
+        public static ComandoConsultarLugaresTuristicos GetComandoConsultarLugaresTuristicos()
+        {
+            return new ComandoConsultarLugaresTuristicos();
+        }
+
+        public static ComandoAgregarLugarTuristico GetComandoAgregarLugarTuristico()
+        {
+            return new ComandoAgregarLugarTuristico();
+        }
+
+        public static ComandoAgregarActividad GetComandoAgregarActividad()
+        {
+            return new ComandoAgregarActividad();
+        }
+
+        public static ComandoAgregarHorario GetComandoAgregarHorario()
+        {
+            return new ComandoAgregarHorario();
+        }
+
+  }
 }
