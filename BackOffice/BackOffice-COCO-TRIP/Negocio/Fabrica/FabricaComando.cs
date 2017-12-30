@@ -20,7 +20,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoEditarLocalidad();
         }
 
-        public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
+        public static ComandoEditarLocalidad GetComandoEditarEvento()
+        {
+            return new ComandoEditarLocalidad();
+        }
+
+    public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
         {
             return new ComandoEliminarLocalidad();
         }
@@ -34,7 +39,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoConsultarEventos();
         }
 
-        public static ComandoInsertarEvento GetComandoInsertarEvento()
+        public static ComandoConsultarEvento GetComandoConsultarEvento()
+        {
+            return new ComandoConsultarEvento();
+        }
+
+    public static ComandoInsertarEvento GetComandoInsertarEvento()
         {
             return new ComandoInsertarEvento();
         }

@@ -1,4 +1,4 @@
-using ApiRest_COCO_TRIP;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using NUnit.Framework;
 using ApiRest_COCO_TRIP.Datos.DAO;
@@ -23,6 +23,7 @@ namespace ApiRestPruebas.M9
         private Dictionary<string, object> esperado = new Dictionary<string, object>();
         private Dictionary<string, object> respuesta = new Dictionary<string, object>();
         private DAO dao;
+        private MensajeResultadoOperacion mensaje = MensajeResultadoOperacion.ObtenerInstancia();
         private JObject data;
         private Entidad _resp;
 
@@ -69,7 +70,7 @@ namespace ApiRestPruebas.M9
             { "nivel", 1 }
           };
             respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
-            esperado.Add("data", "Se actualizo de forma exitosa");
+            esperado.Add("data", mensaje.ExitoModificar);
             var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
             var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
@@ -146,7 +147,7 @@ namespace ApiRestPruebas.M9
             { "estatus", false },
           };
             respuesta = (Dictionary<string, object>)controller.ActualizarEstatusCategoria(data);
-            esperado.Add("data", "Se actualizo de forma exitosa");
+            esperado.Add("data", mensaje.ExitoModificar);
             var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
             var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
@@ -181,9 +182,9 @@ namespace ApiRestPruebas.M9
             ((Categoria)_categoria).Nivel = 1;
             _com = FabricaComando.CrearComandoModificarCategoria(((Categoria)_categoria));
             _com.Ejecutar();
-            _com = FabricaComando.CrearComandoObtenerCategoriaPorId(((Categoria)_categoria));
-            _com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+            Comando __com = FabricaComando.CrearComandoObtenerCategoriaPorId(((Categoria)_categoria));
+            __com.Ejecutar();
+            _resp = ((ComandoObtenerCategoriaPorId)__com).RetornarLista2()[0];
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
@@ -232,7 +233,7 @@ namespace ApiRestPruebas.M9
         [Test]
         public void M9_PruebaComandoObtenerPorId()
         {
-            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Id = 1001;
             _com = FabricaComando.CrearComandoObtenerCategoriaPorId(_categoria);
             _com.Ejecutar();
             _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
@@ -249,23 +250,24 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
-        [Test]
+      /*  [Test]
         public void M9_PruebaComandoObtenerCategorias()
         {
-            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Id = 1002;
             _com = FabricaComando.CrearComandoObtenerCategorias(_categoria);
             _com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
-            Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
+            _resp = ((ComandoObtenerCategorias)_com).RetornarLista2()[0];
+            Assert.AreEqual(((Categoria)_categoria).Id, _resp.Id);
         }
+        */
 
         [Test]
         public void M9_PruebaComandoObtenerCategoriasHabilitadas()
         {
             _com = FabricaComando.CrearComandoObtenerCategoriasHabilitadas();
             _com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
-            foreach (Categoria _Entidad in ((ComandoObtenerCategoriaPorId)_com).RetornarLista2())
+            _resp = ((ComandoObtenerCategoriasHabilitadas)_com).RetornarLista2()[0];
+            foreach (Categoria _Entidad in ((ComandoObtenerCategoriasHabilitadas)_com).RetornarLista2())
             {
                 switch (_Entidad.Id)
                 {

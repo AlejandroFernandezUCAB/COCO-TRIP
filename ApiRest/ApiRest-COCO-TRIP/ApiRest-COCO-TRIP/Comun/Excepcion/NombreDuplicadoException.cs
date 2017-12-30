@@ -3,10 +3,10 @@ using System;
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
-    /// Excepcion logica que encapsula la información de "Exception"
-    /// ocurre cuando no se encuentra un Item buscado.
+    /// Clase que encapsula la información de "JsonReaderException"
+    /// se genera cuando ocurre un error leyendo el Json.
     /// </summary>
-    public class ItemNoEncontradoException : Exception
+    public class NombreDuplicadoException : Exception
     {
         private Exception excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
@@ -28,30 +28,30 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         public string Mensaje { get => mensaje; set => mensaje = value; }
 
         /// <summary>
-        /// Metodo Constructor
+        /// Constructor
         /// </summary>
-        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
-        public ItemNoEncontradoException(Exception excepcion)
+        /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
+        public NombreDuplicadoException(Exception excepcion)
         {
             this.excepcion = excepcion;
             fechaHora = DateTime.Now;
         }
 
         /// <summary>
-        /// Metodo Constructor
+        /// Constructor
         /// </summary>
-        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
+        /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public ItemNoEncontradoException(Exception excepcion, string mensaje)
+        public NombreDuplicadoException(Exception excepcion, string mensaje)
         {
             this.excepcion = excepcion;
             this.mensaje = mensaje;
             fechaHora = DateTime.Now;
         }
 
-        public ItemNoEncontradoException(string mensajeError)
+        public NombreDuplicadoException(string parametro)
         {
-            mensaje = mensajeError;
-        }
+            mensaje = $" {parametro} ";
+        } 
     }
 }

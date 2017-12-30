@@ -25,13 +25,10 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         if (respuesta.Property("data") != null)
         {
           listCategories = respuesta["data"].ToObject<IList<Categoria>>();
-
         }
-
         else
         {
           listCategories = null;
-
         }
         resultado.Add(listCategories);
       }
@@ -40,9 +37,9 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         //TERMINAR
         throw e;
       }
-
-
     }
+
+
     public override ArrayList GetResult()
     {
       return resultado;

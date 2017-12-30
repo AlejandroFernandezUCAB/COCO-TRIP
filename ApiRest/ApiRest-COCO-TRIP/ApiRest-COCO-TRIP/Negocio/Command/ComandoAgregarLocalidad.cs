@@ -8,6 +8,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -15,32 +16,32 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private Entidad localidad;
     private DAO dao;
-    private Log log;
-    public ComandoAgregarLocalidad(Entidad localidad) {
+        private static Logger log;
+        public ComandoAgregarLocalidad(Entidad localidad) {
       this.localidad = (LocalidadEvento)localidad;
       dao = FabricaDAO.CrearDAOLocalidad();
-            log = Log.ObtenerInstancia(); 
-    }
+            log = LogManager.GetCurrentClassLogger();
+        }
     public override void Ejecutar()
     {
       try
       {
         dao.Insertar(localidad);
-                log.ApiRestInfo("ComandoAgregarLocalidad","Ejecutado el comando");
+                log.Info("Ejecutado el comando");
       }
       catch (BaseDeDatosExcepcion e)
       {
-                log.ApiRestError("ComandoAgregarLocalidad",e.Message);
+                log.Error(e.Message);
                 throw e;
       }
       catch (CasteoInvalidoExcepcion e)
       {
-                log.ApiRestError("ComandoAgregarLocalidad", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
       catch (Exception e)
       {
-                log.ApiRestError("ComandoAgregarLocalidad", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
 
