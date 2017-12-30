@@ -116,7 +116,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 base.Conectar(); //Inicia una sesion con la base de datos
 
 
-                _comando = new NpgsqlCommand("add_itinerario", base.SqlConexion);
+                _comando = new NpgsqlCommand("InsertarFoto", base.SqlConexion);
                 _comando.CommandType = CommandType.StoredProcedure;
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lugar.Id);
