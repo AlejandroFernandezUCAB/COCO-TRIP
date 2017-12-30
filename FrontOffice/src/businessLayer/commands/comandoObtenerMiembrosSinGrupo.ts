@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -23,7 +24,7 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     private idUsuario : number;
     private idGrupo : number;
 
-    private listaUsuarios : any;
+    private listaUsuarios = new Array();
 
     private exito: boolean;
 
@@ -47,14 +48,28 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
         this.servicio.obtenerMiembrosSinGrupo(this.idUsuario, this.idGrupo)
         .then(datos => 
         {
+            let lista : any = datos;
+            
+            for(let usuario of lista)
+            {
+                if(usuario.Foto == undefined)
+                {
+                    usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+                }
+                else
+                {
+                    usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
+                }
+
+                this.listaUsuarios.push(usuario);
+            }
+
             this.exito = true;
-            this.listaUsuarios = datos;
-            catProd.info('MiembrosSinGrupo exitoso. Datos: ' + datos);
+            catProd.info('MiembrosSinGrupo exitoso. Datos: ' + this.listaUsuarios);
         }
         , error =>
         {
             this.exito = false;
-            this.listaUsuarios = error;
             catErr.info('Fallo de MiembrosSinGrupo. Datos: ' + error);
         });
     }
@@ -68,5 +83,4 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     {
         return this.exito;
     }
-    
 }

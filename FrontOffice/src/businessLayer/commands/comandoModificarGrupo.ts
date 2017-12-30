@@ -73,5 +73,4 @@ export class ComandoModificarGrupo extends Comando
     {
         return this.exito;
     }
-
 }

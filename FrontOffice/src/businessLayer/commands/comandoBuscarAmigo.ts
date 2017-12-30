@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -24,7 +25,7 @@ export class ComandoBuscarAmigo extends Comando
     private nombre : string;
 
     private exito: boolean;
-    private listaUsuarios: any;
+    private listaUsuarios = new Array();
 
     set Id(id : number)
     {
@@ -46,9 +47,24 @@ export class ComandoBuscarAmigo extends Comando
         this.servicio.buscarAmigos(this.nombre, this.id)
         .then(datos => 
         {
+            let lista : any = datos;
+            
+            for(let usuario of lista)
+            {
+                if(usuario.Foto == undefined)
+                {
+                    usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+                }
+                else
+                {
+                    usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
+                }
+
+                this.listaUsuarios.push(usuario);
+            }
+
             this.exito = true;
-            this.listaUsuarios = datos;
-            catProd.info('BuscarAmigos exitoso. Datos: ' + datos);
+            catProd.info('BuscarAmigos exitoso. Datos: ' + this.listaUsuarios);
         }
         , error =>
         {

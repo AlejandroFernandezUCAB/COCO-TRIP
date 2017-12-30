@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -23,7 +24,7 @@ export class ComandoObtenerLider extends Comando
     private id : number;
 
     private exito: boolean;
-    private usuario: any;
+    private usuario = new Array();
 
     set Id(id : number)
     {
@@ -40,14 +41,25 @@ export class ComandoObtenerLider extends Comando
         this.servicio.obtenerLider(this.id)
         .then(datos => 
         {
+            let usuario : any = datos;
+
+            if(usuario.Foto == undefined)
+            {
+              usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+            }
+            else
+            {
+              usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
+            }
+
+            this.usuario.push(usuario);
+
             this.exito = true;
-            this.usuario = datos;
-            catProd.info('ObtenerLider exitoso. Datos: ' + datos);
+            catProd.info('ObtenerLider exitoso. Datos: ' + this.usuario);
         }
         , error =>
         {
             this.exito = false;
-            this.usuario = error;
             catErr.info('Fallo de ObtenerLider. Datos: ' + error);
         });
     }

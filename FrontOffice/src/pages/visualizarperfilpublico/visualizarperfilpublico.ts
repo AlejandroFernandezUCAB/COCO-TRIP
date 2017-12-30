@@ -4,7 +4,6 @@ import { Storage } from '@ionic/storage';
 import { TranslateModule , TranslateService  } from '@ngx-translate/core'
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comandoObtenerPerfilPublico';
 import { ComandoAgregarAmigo } from '../../businessLayer/commands/comandoAgregarAmigo';
 import { ComandoEnviarCorreo } from '../../businessLayer/commands/comandoEnviarCorreo';
@@ -121,20 +120,7 @@ export class VisualizarPerfilPublicoPage
 
     if(this.comandoObtenerPerfilPublico.isSuccess)
     {
-      let amigo = this.comandoObtenerPerfilPublico.return();
-      let listaAmigos = new Array();
-
-      if(amigo.Foto == undefined)
-      {
-        amigo.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-      }
-      else
-      {
-        amigo.Foto = ConfiguracionImages.PATH + amigo.Foto;
-      }
-
-      listaAmigos.push(amigo);
-      this.amigo = listaAmigos;
+      this.amigo = this.comandoObtenerPerfilPublico.return();
     }
     else
     {

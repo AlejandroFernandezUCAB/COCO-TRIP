@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoObtenerMiembrosSinGrupo } from '../../businessLayer/commands/comandoObtenerMiembrosSinGrupo';
 import { ComandoAgregarIntegrante } from '../../businessLayer/commands/comandoAgregarIntegrante';
 
@@ -104,18 +103,6 @@ export class NuevosIntegrantesPage
         if(this.comandoObtenerMiembrosSinGrupo.isSuccess)
         {
           this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
-
-          for(let i = 0; i < this.amigo.length; i++)
-          {
-             if(this.amigo[i].Foto == undefined)
-             {
-               this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-             }
-             else
-             {
-               this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
-             }
-          }
         }
         else
         {
@@ -190,4 +177,5 @@ export class NuevosIntegrantesPage
     });
       alert.present();
  }
+ 
 }

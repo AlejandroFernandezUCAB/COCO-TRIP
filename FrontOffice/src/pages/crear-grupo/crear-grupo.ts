@@ -102,18 +102,6 @@ export class CrearGrupoPage
         if(this.comandoListaAmigos.isSuccess)
         {
           this.amigo = this.comandoListaAmigos.return();
-
-          for(let i = 0; i < this.amigo.length; i++)
-          {
-             if(this.amigo[i].Foto == undefined)
-             {
-               this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-             }
-             else
-             {
-               this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
-             }
-          }
         }
         else
         {

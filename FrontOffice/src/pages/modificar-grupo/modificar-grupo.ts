@@ -6,7 +6,6 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoVerPerfilGrupo } from '../../businessLayer/commands/comandoVerPerfilGrupo';
 import { ComandoObtenerLider } from '../../businessLayer/commands/comandoObtenerLider';
 import { ComandoObtenerSinLider } from '../../businessLayer/commands/comandoObtenerSinLider';
@@ -84,22 +83,7 @@ export class ModificarGrupoPage
 
       if(this.comandoVerPerfilGrupo.isSuccess)
       {
-        let grupo = this.comandoVerPerfilGrupo.return();
-    
-        if(grupo.RutaFoto == undefined)
-        {
-          grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-        }
-        else
-        {
-          grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
-        }
-          
-        let listaGrupo = new Array();
-        listaGrupo.push(grupo);
-    
-        this.grupo = listaGrupo;
-
+        this.grupo = this.comandoVerPerfilGrupo.return();
         this.cargarLider(this.navParams.get('idGrupo'));
       }
       else
@@ -119,22 +103,7 @@ export class ModificarGrupoPage
 
     if(this.comandoObtenerLider.isSuccess)
     {
-      let lider = this.comandoObtenerLider.return();
-
-      if(lider.Foto == undefined)
-      {
-        lider.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-      }
-      else
-      {
-        lider.Foto = ConfiguracionImages.PATH + lider.Foto;
-      }
-
-      let listaLider = new Array();
-      listaLider.push(lider);
-
-      this.lider = listaLider;
-
+      this.lider = this.comandoObtenerLider.return();
       this.cargarMiembros(id);
     }
     else
@@ -155,18 +124,6 @@ export class ModificarGrupoPage
     if(this.comandoObtenerSinLider.isSuccess)
     {
       this.miembro = this.comandoObtenerSinLider.return();
-
-      for(let i = 0; i < this.miembro.length; i++)
-      {
-         if(this.miembro[i].Foto == undefined)
-         {
-           this.miembro[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-         }
-         else
-         {
-           this.miembro[i].Foto = ConfiguracionImages.PATH + this.miembro[i].Foto;
-         }
-      }
     }
     else
     {
@@ -251,21 +208,7 @@ export class ModificarGrupoPage
 
           if(this.comandoVerPerfilGrupo.isSuccess)
           {
-            let grupo = this.comandoVerPerfilGrupo.return();
-    
-            if(grupo.RutaFoto == undefined)
-            {
-              grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-            }
-            else
-            {
-              grupo.RutaFoto = ConfiguracionImages.PATH + grupo.RutaFoto;
-            }
-              
-            let listaGrupo = new Array();
-            listaGrupo.push(grupo);
-        
-            this.grupo = listaGrupo;
+            this.grupo = this.comandoVerPerfilGrupo.return();
           }
           else
           {
@@ -319,6 +262,5 @@ export class ModificarGrupoPage
     {
       idGrupo: this.navParams.get('idGrupo')
     });
-  }
-  
+  } 
 }

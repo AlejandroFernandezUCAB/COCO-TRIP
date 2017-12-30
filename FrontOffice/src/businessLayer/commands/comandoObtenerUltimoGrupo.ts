@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
 
 /**
  * Autores:
@@ -23,7 +24,7 @@ export class ComandoObtenerUltimoGrupo extends Comando
     private id : number;
 
     private exito: boolean;
-    private grupo: any;
+    private grupo: Grupo;
 
     set Id(id : number)
     {
@@ -40,14 +41,18 @@ export class ComandoObtenerUltimoGrupo extends Comando
         this.servicio.obtenerUltimoGrupo(this.id)
         .then(datos => 
         {
+            let grupo : any = datos;
+
+            this.grupo.Id = grupo.Id;
+            this.grupo.Nombre = grupo.Nombre;
+            this.grupo.RutaFoto = grupo.RutaFoto;
+            
             this.exito = true;
-            this.grupo = datos;
-            catProd.info('ObtenerUltimoGrupo exitoso. Datos: ' + datos);
+            catProd.info('ObtenerUltimoGrupo exitoso. Datos: ' + this.grupo);
         }
         , error =>
         {
             this.exito = false;
-            this.grupo = error;
             catErr.info('Fallo de ObtenerUltimoGrupo. Datos: ' + error);
         });
     }

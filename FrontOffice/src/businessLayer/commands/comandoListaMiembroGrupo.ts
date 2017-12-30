@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -23,7 +24,7 @@ export class ComandoListaMiembroGrupo extends Comando
     private id : number;
 
     private exito: boolean;
-    private listaMiembros: any;
+    private listaMiembros = new Array();
 
     set Id(id : number)
     {
@@ -40,14 +41,28 @@ export class ComandoListaMiembroGrupo extends Comando
         this.servicio.listaMiembroGrupo(this.id)
         .then(datos => 
         {
+            let lista : any = datos;
+
+            for(let usuario of lista)
+            {
+               if(lista.Foto == undefined)
+               {
+                 lista.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+               }
+               else
+               {
+                 lista.Foto = ConfiguracionImages.PATH + lista.Foto;
+               }
+
+               this.listaMiembros.push(usuario);
+            }
+
             this.exito = true;
-            this.listaMiembros = datos;
-            catProd.info('ListaMiembroGrupo exitoso. Datos: ' + datos);
+            catProd.info('ListaMiembroGrupo exitoso. Datos: ' + this.listaMiembros);
         }
         , error =>
         {
             this.exito = false;
-            this.listaMiembros = error;
             catErr.info('Fallo de ListaMiembroGrupo. Datos: ' + error);
         });
     }

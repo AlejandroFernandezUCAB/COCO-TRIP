@@ -2,6 +2,7 @@ import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -23,7 +24,7 @@ export class ComandoListaAmigos extends Comando
     private id : number;
 
     private exito: boolean;
-    private listaAmigos: any;
+    private listaUsuarios = new Array();
 
     set Id(id : number)
     {
@@ -40,25 +41,40 @@ export class ComandoListaAmigos extends Comando
         this.servicio.listaAmigos(this.id)
         .then(datos => 
         {
+            let lista : any = datos;
+
+            for(let usuario of lista)
+            {
+                if(usuario.Foto == undefined)
+                {
+                    usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+                }
+                else
+                {
+                    usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
+                }
+
+                this.listaUsuarios.push(usuario);
+            }
+
             this.exito = true;
-            this.listaAmigos = datos;
-            catProd.info('ListaAmigos exitoso. Datos: ' + datos);
+            catProd.info('ListaAmigos exitoso. Datos: ' + this.listaUsuarios);
         }
         , error =>
         {
             this.exito = false;
-            this.listaAmigos = error;
-            catErr.info('Fallo de Listamaigos. Datos: ' + error);
+            catErr.info('Fallo de ListaAmigos. Datos: ' + error);
         });
     }
 
     public return() 
     {
-        return this.listaAmigos;
+        return this.listaUsuarios;
     }
 
     public isSuccess(): boolean 
     {
         return this.exito;
     }
+
 }

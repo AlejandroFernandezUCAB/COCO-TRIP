@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConversacionPage } from '../../chat/conversacion/conversacion';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { ConfiguracionImages } from '../../constantes/configImages';
 import { ComandoListaAmigos } from '../../../businessLayer/commands/comandoListaAmigos';
 import { ComandoEliminarAmigo } from '../../../businessLayer/commands/comandoEliminarAmigo';
 
@@ -113,23 +112,6 @@ export class AmigosPage
        if(this.comandoListaAmigos.isSuccess)
        {
          this.amigo = this.comandoListaAmigos.return();
-         /*let listaAmigos = new Array();
-
-         for(let amigo of resultado)
-         {
-            if(amigo.Foto == undefined)
-            {
-              amigo.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-            }
-            else
-            {
-              amigo.Foto = ConfiguracionImages.PATH + amigo.Foto;
-            }
-
-            listaAmigos.push(amigo);
-         }
-
-         this.amigo = listaAmigos;*/
        }
        else
        {

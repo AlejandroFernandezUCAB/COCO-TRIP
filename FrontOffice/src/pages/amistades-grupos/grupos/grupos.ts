@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacion-grupo';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { ConfiguracionImages } from '../../constantes/configImages';
 import { ComandoListaGrupos } from '../../../businessLayer/commands/comandoListaGrupos';
 import { ComandoVerificarLider } from '../../../businessLayer/commands/comandoVerificarLider';
 import { ComandoSalirGrupo } from '../../../businessLayer/commands/comandoSalirGrupo';
@@ -112,18 +111,6 @@ export class GruposPage
         if(this.comandoListaGrupos.isSuccess)
         {
           this.grupo = this.comandoListaGrupos.return();
-
-          for(let i = 0; i < this.grupo.length; i++)
-          {
-             if(this.grupo[i].RutaFoto == undefined)
-             {
-               this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-             }
-             else
-             {
-               this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
-             }
-          }
         }
         else
         {

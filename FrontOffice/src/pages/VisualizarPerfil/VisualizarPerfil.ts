@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, AlertController , LoadingController, NavParams } from 'ionic-angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { Texto } from '../constantes/texto';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comandoObtenerPerfilPublico';
 
 //****************************************************************************************************// 
@@ -77,23 +76,9 @@ export class VisualizarPerfilPage
 
     if(this.comandoObtenerPerfilPublico.isSuccess)
     {
-      let amigo = this.comandoObtenerPerfilPublico.return();
-      let listaAmigos = new Array();
-
-      if(amigo.Foto == undefined)
-      {
-        amigo.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-      }
-      else
-      {
-        amigo.Foto = ConfiguracionImages.PATH + amigo.Foto;
-      }
-
-      listaAmigos.push(amigo);
-      this.amigo = listaAmigos;
+      this.amigo = this.comandoObtenerPerfilPublico.return();
     }
 
     this.loading.dismiss();
-   }
-   
+   }   
 }

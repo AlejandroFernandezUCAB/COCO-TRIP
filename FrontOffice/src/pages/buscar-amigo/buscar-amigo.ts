@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform, ActionSheetController,AlertController } from 'ionic-angular';
 import { VisualizarPerfilPublicoPage } from '../visualizarperfilpublico/visualizarperfilpublico';
 import { Storage } from '@ionic/storage';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoBuscarAmigo } from '../../businessLayer/commands/comandoBuscarAmigo';
 
 //****************************************************************************************************// 
@@ -81,18 +80,6 @@ export class BuscarAmigoPage
       if(this.comandoBuscarAmigo.isSuccess)
       {
         this.lista = this.comandoBuscarAmigo.return();
-
-        for(let i = 0; i < this.lista.length; i++)
-        {
-           if(this.lista[i].Foto == undefined)
-           {
-             this.lista[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-           }
-           else
-           {
-             this.lista[i].Foto = ConfiguracionImages.PATH + this.lista[i].Foto;
-           }
-        }
       }
     });    
   }

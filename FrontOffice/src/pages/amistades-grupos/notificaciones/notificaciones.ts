@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { ConfiguracionImages } from '../../constantes/configImages';
 import { ComandoListaNotificaciones } from '../../../businessLayer/commands/comandoListaNotificaciones';
 import { ComandoAceptarNotificacion } from '../../../businessLayer/commands/comandoAceptarNotificacion';
 import { ComandoRechazarNotificacion } from '../../../businessLayer/commands/comandoRechazarNotificacion';
@@ -107,18 +106,6 @@ public realizarToast(mensaje : string)
       if(this.comandoListaNotificaciones.isSuccess)
       {
         this.notificaciones = this.comandoListaNotificaciones.return();
-
-        for(let i = 0; i < this.notificaciones.length; i++)
-        {
-           if(this.notificaciones[i].Foto == undefined)
-           {
-             this.notificaciones[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-           }
-           else
-           {
-             this.notificaciones[i].Foto = ConfiguracionImages.PATH + this.notificaciones[i].Foto;
-           }
-        }
       }
       else
       {
