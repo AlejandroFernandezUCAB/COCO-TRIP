@@ -8,7 +8,7 @@ using System;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
 //using ApiRest_COCO_TRIP.Comun.Excepcion; 
-//TODO: La Excepcion "BaseDeDatosExcepcion" del using anterior, hace conflito con la que se encuentra en Models.
+//TODO: La Excepcion "BaseDeDatosExcepcion" del comentario anterior, hace conflito con la que se encuentra en Models.
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -98,6 +98,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
+                //TODO: utilizar la excepcion "BaseDeDatosExcepcion" que se encuentra en la carpeta Comun, precaucion con las  pruebas de Michel.
                 BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
                 {
                     DatosAsociados = $"ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
@@ -119,7 +120,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// Metodo Read, consulta mediante un Id. 
         /// </summary>
         /// <param name="objeto">Instacia tipo categoria con Id con el que se desea consultar.</param>
-        /// <returns>Entidad asociada al Id colocado por parametro.</returns>
+        /// <returns>Categoria asociada al Id colocado por parametro.</returns>
         /// <exception cref="NotImplementedException">Metodo no implementado</exception>
         public override Entidad ConsultarPorId(Entidad objeto)
         {
@@ -137,7 +138,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new NotImplementedException();
         }
 
-        //Metodos UPDATE
         /// <summary>
         /// Metodo Update, actualiza una categoria enviada por parametro.
         /// </summary>
@@ -145,6 +145,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <exception cref="NpgsqlException">Error al actualizar la categoria</exception>
         /// <exception cref="HijoConDePendenciaException">La categoria que intenta actualizar tiene dependencias.</exception>
         /// <exception cref="ArgumentNullException">Ocurre en el momento de utlizar el metodo .ToList()</exception>
+        /// <exception cref="Exception">Error inesperado.</exception>
         public override void Actualizar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
@@ -206,6 +207,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             {
                 //TODO: Revisar luego, hace conflicto las excepciones de Comun y Models
                 //ArgumentoNuloExcepcion ANE = new ArgumentoNuloExcepcion(ex);
+                //throw ANE;
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la personalizada que se encuentra en comun.
+                throw ex;
             }
             finally
             {
@@ -213,10 +221,16 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
         }
 
+        /// <summary>
+        /// Metodo Update, actualiza el estado de una categoria enviada por parametro.
+        /// </summary>
+        /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
+        /// <exception cref="BaseDeDatosExcepcion">Error al momento de actualizar la categoria.</exception>
+        /// <exception cref="Exception">Error inesperado.</exception>
         public void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0;
+            int exitoso = 0; //TODO: Esta variable hace falta?
             try
             {
                 StoredProcedure("m9_actualizarEstatusCategoria");
@@ -224,27 +238,33 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
 
                 exitoso = base.Comando.ExecuteNonQuery();
-
-
             }
             catch (NpgsqlException ex)
             {
+                //TODO: utilizar la excepcion "BaseDeDatosExcepcion" que se encuentra en la carpeta Comun, precaucion con las  pruebas de Michel.
                 BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
                 {
                     DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
                     Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
                 };
                 throw bdException;
-
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la excepcion personalizada que se encuentra en Comun.
+                throw ex;
             }
             finally
             {
                 base.Desconectar();
-
             }
         }
-        
-        //Metodos DELETE
+
+        /// <summary>
+        /// Metodo Delete, elimina una Categoria enviada por parametro.
+        /// </summary>
+        /// <param name="objeto">Instancia Categoria que se desea eliminar</param>
+        /// <exception cref="NotImplementedException">Metodo No implementado</exception>
         public override void Eliminar(Entidad objeto)
         {
             throw new NotImplementedException();
@@ -253,11 +273,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         //Metodos extra
         //TODOS LOS DE CONSULTA ESTAN ACA PORQUE NO CUADRAN CON LOS GENERALES
         /// <summary>
-        ///Lee los datos de la categoria
+        /// Metodo que lee los datos de la categoria
         /// </summary>
+        /// <returns>IList con las categorias que se encuentran en el atributo "leerDatos"</returns>
         private IList<Categoria> SetListaCategoria()
         {
-
             IList<Categoria> listaCategorias = new List<Categoria>();
             while (leerDatos.Read())
             {
@@ -272,7 +292,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
                 listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
             }
-
             return listaCategorias;
         }
 
@@ -280,8 +299,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// EndPoint para obtener las categorias hijas a partir de una categoria padre dado un ID,
         /// si el id no viene en la peticion se devuelve las categorias padres absolutas
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>IList de las categorias habilitadas</returns>
+        /// <exception cref="BaseDeDatosExcepcion">Error al momento de realizar la consulta de las categorias</exception>
+        /// <exception cref="Exception">Error inesperado</exception>
         public IList<Categoria> ObtenerCategoriasHabilitadas()
         {
             IList<Categoria> listaCategorias;
@@ -298,22 +318,26 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     Mensaje = $"Error al momento de buscar las todas categorias"
                 };
                 throw bdException;
-
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
+                throw ex;
             }
             finally
             {
                 base.Desconectar();
-
             }
             return listaCategorias;
-
         }
-
+        
         /// <summary>
-        /// Obtener la categoria dado un Id
+        /// Metodo que obtiene la categoria dado un Id.
         /// </summary>
-        /// <param name="categoria"></param>
-        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        /// <param name="entidad">Instacia Categoria que contiene el id por el cual se consultara.</param>
+        /// <returns>IList con la categoria que se desea cuyo Id se encuentra en la instancia del parametro.</returns>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
+        /// <exception cref="Exception">Error inesperado</exception>
         public IList<Categoria> ObtenerCategoriaPorId(Entidad entidad)
         {
             categoria = (Categoria)entidad;
@@ -324,7 +348,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
                 leerDatos = base.Comando.ExecuteReader();
                 listaCategorias = SetListaCategoria();
-
             }
             catch (NpgsqlException ex)
             {
@@ -333,22 +356,25 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     Mensaje = $"Error al momento de buscar las todas categorias"
                 };
                 throw bdException;
-
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
+                throw ex;
             }
             finally
             {
                 base.Desconectar();
-
             }
             return listaCategorias;
-
         }
 
         /// <summary>
-        /// Obtener las listas de la categorias
+        /// Metodo que obtiene una lista con todas las categorias.
         /// </summary>
-        /// <param name="categoria"></param>
-        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        /// <returns>IList con las Categorias.</returns>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
+        /// <exception cref="Exception">Error inesperado</exception>
         public IList<Categoria> ObtenerTodasLasCategorias()
         {
             IList<Categoria> listaCategorias;
@@ -365,22 +391,26 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     Mensaje = $"Error al momento de buscar las todas categorias"
                 };
                 throw bdException;
-
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
+                throw ex;
             }
             finally
             {
                 base.Desconectar();
-
             }
             return listaCategorias;
-
         }
 
         /// <summary>
-        /// Obtener el id de una categorida dado el nombre de la misma
+        /// Metodo que obtiene el id de una categoria dado el nombre de la misma.
         /// </summary>
-        /// <param name="categoria"></param>
-        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        /// <param name="entidad">Instacia Categoria que contiene el nombre por el cual se consultara.</param>
+        /// <returns>Categoria asociada al nombre colocado en la instacia por parametro.</returns>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
+        /// <exception cref="Exception">Error inesperado</exception>
         public Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
         {
             categoria = (Categoria)entidad;
@@ -390,6 +420,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 StoredProcedure("m9_devolverid");
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);
                 leerDatos = base.Comando.ExecuteReader();
+
                 if (leerDatos.Read())
                 {
                     Int32.TryParse(leerDatos.GetValue(0).ToString(), out Superior);
@@ -401,7 +432,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 }
 
                 categoria.Id = Superior;
-
             }
             catch (NpgsqlException ex)
             {
@@ -410,22 +440,25 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     Mensaje = $"Error al momento de buscar el id de una categoria a partir del nombre"
                 };
                 throw bdException;
-
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
+                throw ex;
             }
             finally
             {
                 base.Desconectar();
-
             }
-
             return categoria;
         }
 
         /// <summary>
-        /// Obtener la lista de la categoria
+        /// Metodo que obtiene la lista de la categoria.
         /// </summary>
-        /// <param name="categoria"></param>
-        /// <exception cref="BaseDeDatosExcepcion"></exception>
+        /// <param name="categoria">Instacia Categoria que contiene el Id por el cual se consultara.</param>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
+        /// <exception cref="Exception">Error inesperado</exception>
         public IList<Categoria> ObtenerCategorias(Entidad categoria)
         {
             IList<Categoria> listaCategorias = new List<Categoria>();
@@ -454,7 +487,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     Mensaje = $"Error al momento de buscar las categorias"
                 };
                 throw bdException;
-
+            }
+            catch (Exception ex)
+            {
+                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
+                throw ex;
             }
             finally
             {
@@ -462,6 +499,5 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
-
     }
 }
