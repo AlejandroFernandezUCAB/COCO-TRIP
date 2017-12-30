@@ -14,13 +14,10 @@ namespace ApiRest_COCO_TRIP.Validaciones
     {
       foreach(string item in obligatorios)
       {
-        
         if (parametros.Property(item) == null || (string)parametros[item] == null)
         {
           throw new ParametrosNullException(item);
         }
-
-        
       }
     }
 

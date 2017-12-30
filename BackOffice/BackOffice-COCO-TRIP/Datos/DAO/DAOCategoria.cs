@@ -5,10 +5,11 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class DAOCategoria:DAO<JObject,Categoria>
+  public class DAOCategoria: DAO<JObject,Categoria> , IDAOCategoria
   {
     private const string ControllerUri = "M9_Categorias";
     private JObject responseData;
@@ -201,18 +202,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
             { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
           };
       }
-
       return responseData;
-
-
-
     }
 
 
