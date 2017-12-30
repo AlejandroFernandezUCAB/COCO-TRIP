@@ -1,14 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
+//using ApiRest_COCO_TRIP.Models.Excepcion;
+using System.Linq;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-using System.Data;
 using Npgsql;
 using NpgsqlTypes;
-using System;
-using ApiRest_COCO_TRIP.Models.Excepcion;
-using System.Linq;
-//using ApiRest_COCO_TRIP.Comun.Excepcion; 
-//TODO: La Excepcion "BaseDeDatosExcepcion" del comentario anterior, hace conflito con la que se encuentra en Models.
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -30,7 +29,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         private Categoria categoria;
 
         /// <summary>
-        /// Constructor.
+        /// Metodo Constructor.
         /// </summary>
         public DAOCategoria()
         {
@@ -76,7 +75,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             {
                 int exitoso = 0;
                 StoredProcedure("m9_agregarsubcategoria");
-                //TODO: Porque no usar el metodo anterior "ParametrosModificar"?
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Nombre);       //Nombre de la categoria
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, categoria.Descripcion);  //descripcion de la categoría
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);        //nivel de la categoria
@@ -94,6 +92,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
+                throw new NombreDuplicadoException(ex, this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name, )
                 throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
             }
             catch (NpgsqlException ex)

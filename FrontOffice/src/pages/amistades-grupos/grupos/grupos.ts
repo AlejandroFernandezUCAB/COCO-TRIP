@@ -9,9 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConversacionGrupoPage } from '../../chat/conversacion-grupo/conversacion-grupo';
 import { Texto } from '../../constantes/texto';
 import { ConfiguracionToast } from '../../constantes/configToast';
-import { FabricaComando } from '../../../businessLayer/factory/fabricaComando';
-import { Comando } from '../../../businessLayer/commands/comando';
-import { ConfiguracionImages } from '../../constantes/configImages';
+import { ComandoListaGrupos } from '../../../businessLayer/commands/comandoListaGrupos';
+import { ComandoVerificarLider } from '../../../businessLayer/commands/comandoVerificarLider';
+import { ComandoSalirGrupo } from '../../../businessLayer/commands/comandoSalirGrupo';
 
 //****************************************************************************************************// 
 //*************************************PAGE DE GRUPOS MODULO 3****************************************//
@@ -63,8 +63,6 @@ export class GruposPage
   public toast : any;
   public loader : any;
 
-  private comando : Comando;
-  
   public constructor
   (
     public navCtrl : NavController,
@@ -74,7 +72,10 @@ export class GruposPage
     public loadingCtrl : LoadingController,
     public toastCtrl : ToastController,
     private storage : Storage,
-    private translateService : TranslateService
+    private translateService : TranslateService,
+    private comandoListaGrupos : ComandoListaGrupos,
+    private comandoVerificarLider: ComandoVerificarLider,
+    private comandoSalirGrupo : ComandoSalirGrupo
   ) { }
 
   public loading = this.loadingCtrl.create({});
@@ -104,24 +105,12 @@ export class GruposPage
       this.cargando();
       this.storage.get('id').then((idUsuario) => 
       {
-        this.comando = FabricaComando.crearComandoListaGrupos(idUsuario);
-        this.comando.execute();
+        this.comandoListaGrupos.Id = idUsuario;
+        this.comandoListaGrupos.execute();
  
-        if(this.comando.isSuccess)
+        if(this.comandoListaGrupos.isSuccess)
         {
-          this.grupo = this.comando.return();
-
-          for(let i = 0; i < this.grupo.length; i++)
-          {
-             if(this.grupo[i].RutaFoto == undefined)
-             {
-               this.grupo[i].RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
-             }
-             else
-             {
-               this.grupo[i].RutaFoto = ConfiguracionImages.PATH + this.grupo[i].RutaFoto;
-             }
-          }
+          this.grupo = this.comandoListaGrupos.return();
         }
         else
         {
@@ -240,10 +229,11 @@ export class GruposPage
     
     this.storage.get('id').then((idUsuario) => 
     {
-      this.comando = FabricaComando.crearComandoVerificarLider(id, idUsuario);
-      this.comando.execute();
+      this.comandoVerificarLider.IdGrupo = id;
+      this.comandoVerificarLider.IdUsuario = idUsuario;
+      this.comandoVerificarLider.execute();
 
-      if(this.comando.isSuccess)
+      if(this.comandoVerificarLider.isSuccess)
       {
         this.navCtrl.push(ModificarGrupoPage,
         {
@@ -324,10 +314,11 @@ export class GruposPage
               {
                 console.log('El id del usuario es ' + idUsuario);
 
-                this.comando = FabricaComando.crearComandoSalirGrupo(id, idUsuario);
-                this.comando.execute();
+                this.comandoSalirGrupo.IdGrupo = id;
+                this.comandoSalirGrupo.IdUsuario = idUsuario;
+                this.comandoSalirGrupo.execute();
           
-                if(this.comando.isSuccess)
+                if(this.comandoSalirGrupo.isSuccess)
                 {
                   this.realizarToast(this.succesful);
                   this.eliminarGrupos(id, index);

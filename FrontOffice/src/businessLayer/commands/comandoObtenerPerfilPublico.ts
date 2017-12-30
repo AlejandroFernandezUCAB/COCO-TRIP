@@ -1,6 +1,8 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -16,19 +18,22 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web el perfil publico del identificador de usuario asociado
  */
+@Injectable()
 export class ComandoObtenerPerfilPublico extends Comando
 {
     private nombreUsuario : string;
 
     private exito: boolean;
-    private usuario: any;
+    private usuario = new Array();
 
-    public constructor(nombreUsuario : string,
-        private servicio?: RestapiService)
+    set NombreUsuario(nombreUsuario : string)
+    {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public constructor(private servicio: RestapiService)
     {
         super();
-
-        this.nombreUsuario = nombreUsuario;
     }
 
     public execute(): void 
@@ -36,14 +41,30 @@ export class ComandoObtenerPerfilPublico extends Comando
         this.servicio.obtenerPerfilPublico(this.nombreUsuario)
         .then(datos => 
         {
+            let usuario : any = datos;
+
+            if(usuario.Foto == undefined)
+            {
+              usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+            }
+            else
+            {
+              usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
+            }
+
+            if(this.usuario != undefined)
+            {
+                this.usuario.pop();
+            }
+      
+            this.usuario.push(usuario);
+
             this.exito = true;
-            this.usuario = datos;
-            catProd.info('ObtenerPerfilPublico exitoso. Datos: ' + datos); 
+            catProd.info('ObtenerPerfilPublico exitoso. Datos: ' + this.usuario); 
         }
         , error =>
         {
             this.exito = false;
-            this.usuario = error;
             catErr.info('Fallo de ObtenerPerfilPublico. Datos: ' + error);
         });
     }
@@ -57,4 +78,5 @@ export class ComandoObtenerPerfilPublico extends Comando
     {
         return this.exito;
     }
+    
 }
