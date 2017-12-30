@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
 import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -18,6 +19,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web agregar el nuevo grupo
  */
+@Injectable()
 export class ComandoAgregarGrupo extends Comando
 {
     private grupo : Grupo;

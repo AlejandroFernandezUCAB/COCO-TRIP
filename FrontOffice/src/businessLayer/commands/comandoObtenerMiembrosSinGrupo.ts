@@ -1,6 +1,7 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -16,6 +17,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web los datos de los miembros asociados al usuario sin grupo
  */
+@Injectable()
 export class ComandoObtenerMiembrosSinGrupo extends Comando
 {
     private idUsuario : number;

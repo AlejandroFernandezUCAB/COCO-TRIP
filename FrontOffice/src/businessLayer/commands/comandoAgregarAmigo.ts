@@ -1,6 +1,7 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
 
 /**
  * Autores:
@@ -16,6 +17,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita la peticion de amistad del usuario asociado al identificador con el usuario asociado al nombre
  */
+@Injectable()
 export class ComandoAgregarAmigo extends Comando
 {
     private id : number;
