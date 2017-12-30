@@ -1,13 +1,13 @@
 using System;
 
-namespace BackOffice_COCO_TRIP.Models
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   /// <summary>
   /// Clase que contiene los datos asociados a la actividades de los lugares turisticos
   /// </summary>
-  public class Actividad
+  public class Actividad: Entidad
   {
-    private int id; //Identificador unico de la actividad
+    
     private string nombre; //Nombre de la actividad
     private TimeSpan duracion; //Tiempo estimado de duracion de la actividad
     private string descripcion; //Descripcion de la actividad
@@ -22,15 +22,6 @@ namespace BackOffice_COCO_TRIP.Models
     {
       duracion = new TimeSpan();
       foto = new Foto();
-    }
-
-    /// <summary>
-    /// Getters y Setters del atributo ID
-    /// </summary>
-    public int Id
-    {
-      get { return id; }
-      set { id = value; }
     }
 
     /// <summary>
@@ -89,7 +80,7 @@ namespace BackOffice_COCO_TRIP.Models
       {
         var objeto = obj as Actividad;
 
-        if (id != objeto.id || !foto.Equals(objeto.foto) || nombre != objeto.nombre
+        if (!foto.Equals(objeto.foto) || nombre != objeto.nombre
             || duracion.ToString("c") != objeto.duracion.ToString("c") ||
             descripcion != objeto.descripcion || activar != objeto.activar)
         {

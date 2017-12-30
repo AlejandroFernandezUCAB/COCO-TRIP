@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using BackOffice_COCO_TRIP.Datos.Entidades;
-namespace BackOffice_COCO_TRIP.Models
+
+namespace BackOffice_COCO_TRIP.Datos.Entidades
 {
   /// <summary>
   /// Clase que contiene los datos de lugar turistico
   /// </summary>
-  public class LugarTuristico
+  public class LugarTuristico: Entidad
   {
-    private int id; //Identificador unico del lugar turistico
+    
     private string nombre; //Nombre del lugar turistico
     private double costo; //Costo del lugar turistico
     private string descripcion; //Descripcion del lugar turistico
@@ -31,22 +31,70 @@ namespace BackOffice_COCO_TRIP.Models
     /// </summary>
     public LugarTuristico()
     {
+      // Mi propuesta era pedirle las entidades a los dao.
+      // o a un comando. Por eso cree los dao, ver nota.
+
       foto = new List<Foto>();
       horario = new List<Horario>();
       actividad = new List<Actividad>();
 
       categoria = new List<Categoria>();
       subCategoria = new List<Categoria>();
+
+      // Nota: el apirest devuelve todo junto como un json
+      // y ya tiene aplicado patrones al parecer...
+      // para no hacer mas daos sin necesidad, y evitar hacer mas llamadas
+      // (porque ya todo lo que necesitamos lo envia el api en el json)
+      // lo que se hara:
+      // eliminar los dao de actividad, foto, horario y hacer que el dao Lugar_turistico
+      // extraiga la data, cree las entidades
+      // (foto, horario, actividad, categoria y subCategoria)
+      // y las pase a esta entidad (crear costructor), para luego devolverla al cliente.
+
+
+
+
+
+      //ejemplo json del apirest
+//[
+//    {
+//        "Id": 1,
+//        "Nombre": "Parque Generalisimo de Miranda",
+//        "Costo": 0,
+//        "Descripcion": "Lugar al aire libre",
+//        "Direccion": null,
+//        "Correo": null,
+//        "Telefono": 0,
+//        "Latitud": 0,
+//        "Longitud": 0,
+//        "Activar": true,
+//        "Foto": [
+//            {
+//                "Id": 1,
+//                "Ruta": "Ruta LT1.jpg",
+//                "Contenido": null
+//            }
+//        ],
+//        "Horario": [
+//            {
+//                "Id": 0,
+//                "DiaSemana": 0,
+//                "HoraApertura": "08:00:00",
+//                "HoraCierre": "18:00:00"
+//            }
+//        ],
+//        "Actividad": [],
+//        "Categoria": [],
+//        "SubCategoria": []
+//    }
+//]
+
+
+
+
+
     }
 
-    /// <summary>
-    /// Getters y Setters del atributo ID
-    /// </summary>
-    public int Id
-    {
-      get { return id; }
-      set { id = value; }
-    }
 
     /// <summary>
     /// Getters y Setters del atributo Nombre
@@ -208,7 +256,7 @@ namespace BackOffice_COCO_TRIP.Models
       {
         var objeto = obj as LugarTuristico;
 
-        if (id != objeto.id || nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
+        if (nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
             || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
             || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
             || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)

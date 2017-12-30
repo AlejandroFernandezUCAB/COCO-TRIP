@@ -9,11 +9,22 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
   {
     private string ruta; //Ruta de la imagen en el servidor
     private byte[] contenido; //Bytes de la foto
+        private string v2;
 
-    /// <summary>
-    /// Getters y Setters del atributo Ruta
-    /// </summary>
-    public string Ruta
+		public Foto()
+		{
+
+		}
+        public Foto(int id, string ruta)
+        {
+            this.Id = id;
+            this.Ruta = ruta;
+        }
+
+        /// <summary>
+        /// Getters y Setters del atributo Ruta
+        /// </summary>
+        public string Ruta
     {
       get { return ruta; }
       set { ruta = value; }
