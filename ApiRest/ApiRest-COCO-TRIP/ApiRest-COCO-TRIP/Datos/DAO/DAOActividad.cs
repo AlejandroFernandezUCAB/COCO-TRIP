@@ -42,7 +42,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
-		public void InsertarActividadLugar(Entidad entidad, int id)
+		public void InsertarActividadLugar(Entidad entidad, Entidad lugarTuristico )
 		{
 			throw new NotImplementedException();
 		}
