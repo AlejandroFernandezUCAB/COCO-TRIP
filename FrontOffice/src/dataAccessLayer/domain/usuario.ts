@@ -1,4 +1,5 @@
 import { Entidad } from './entidad';
+import { DateTime } from 'ionic-angular/components/datetime/datetime';
 //****************************************************************************************************//
 //*****************************************CLASE MENSAJE MODULO 3*************************************//
 //****************************************************************************************************//
@@ -21,6 +22,10 @@ export class Usuario extends Entidad
     private apellido: string;
     private correo: string;
     private foto: string;
+    private genero: string;
+    private clave: string;
+    private valido: boolean;
+    private fechaNacimiento: DateTime;
 
     constructor () //Por ahora vacio
     {
@@ -106,5 +111,68 @@ export class Usuario extends Entidad
     {
         this.foto = foto;
     }
-    
+
+    /**
+     * Retorna el genero del usuario
+     */
+    get Genero() : string 
+    {
+        return this.genero;
+    }
+
+    /**
+     * Establece el genero del usuario
+     */
+    set Genero(genero : string)
+    {
+        this.genero = genero;
+    }
+
+    /**
+     * Retorna la clave del usuario
+     */
+    get Clave() : string 
+    {
+        return this.clave;
+    }
+
+    /**
+     * Establece la clave del usuario
+     */
+    set Clave(clave : string)
+    {
+        this.clave = clave;
+    }
+
+    /**
+     * Retorna la confirmacion del usuario
+     */
+    get Valido() : boolean
+    {
+        return this.valido;
+    }
+
+    /**
+     * Establece la confirmacion del usuario
+     */
+    set Valido(valido : boolean)
+    {
+        this.valido = valido;
+    }
+
+    /**
+     * Retorna la fecha de nacimiento del usuario
+     */
+    get FechaNacimiento() : DateTime
+    {
+        return this.fechaNacimiento;
+    }
+
+    /**
+     * Establece la fecha de nacimiento del usuario
+     */
+    set FechaNacimiento(fechaNacimiento : DateTime)
+    {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 }

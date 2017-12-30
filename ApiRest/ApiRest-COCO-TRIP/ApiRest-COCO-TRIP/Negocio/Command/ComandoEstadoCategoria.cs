@@ -21,7 +21,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         }
 
         /// <summary>
-        /// Ejecuta el comando al cual fue designado, actualizar estado de la categoria
+        /// Ejecuta el comando al cual fue designado, actualiza estado de la categoria
         /// </summary>
         /// <exception cref="Exception"></exception>
         public override void Ejecutar()

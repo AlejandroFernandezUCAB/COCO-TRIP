@@ -5,9 +5,9 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { Comando } from '../../businessLayer/commands/comando';
-import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 import { ConfiguracionImages } from '../constantes/configImages';
+import { ComandoListaAmigos } from '../../businessLayer/commands/comandoListaAmigos';
+import { ComandoAgregarIntegrante } from '../../businessLayer/commands/comandoAgregarIntegrante';
 
 //****************************************************************************************************// 
 //**********************************PAGE AGREGAR INTEGRANTES MODULO 3*********************************//
@@ -49,8 +49,6 @@ export class CrearGrupoPage
   public toast: any;
   public loader: any;
 
-  private comando : Comando;
-  
   public constructor
   (
     public loadingCtrl: LoadingController,
@@ -59,7 +57,9 @@ export class CrearGrupoPage
     private storage: Storage,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private comandoListaAmigos: ComandoListaAmigos,
+    private comandoAgregarIntegrante: ComandoAgregarIntegrante
   ) { }
 
   public loading = this.loadingCtrl.create({content: 'Please wait...'});
@@ -96,24 +96,12 @@ export class CrearGrupoPage
     {
         console.log('El id del usuario es: ' + idUsuario);
         
-        this.comando = FabricaComando.crearComandoListaAmigos(idUsuario);
-        this.comando.execute();
+        this.comandoListaAmigos.Id = idUsuario;
+        this.comandoListaAmigos.execute();
 
-        if(this.comando.isSuccess)
+        if(this.comandoListaAmigos.isSuccess)
         {
-          this.amigo = this.comando.return();
-
-          for(let i = 0; i < this.amigo.length; i++)
-          {
-             if(this.amigo[i].Foto == undefined)
-             {
-               this.amigo[i].Foto = ConfiguracionImages.DEFAULT_USER_PATH;
-             }
-             else
-             {
-               this.amigo[i].Foto = ConfiguracionImages.PATH + this.amigo[i].Foto;
-             }
-          }
+          this.amigo = this.comandoListaAmigos.return();
         }
         else
         {
@@ -173,11 +161,11 @@ export class CrearGrupoPage
           text: this.accept,
           handler: () => 
           {
-            this.comando = FabricaComando.crearComandoAgregarIntegrante
-            (this.navParams.get('idGrupo'), nombreUsuario);
-            this.comando.execute();
+            this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
+            this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
+            this.comandoAgregarIntegrante.execute();
 
-            if(this.comando.isSuccess)
+            if(this.comandoAgregarIntegrante.isSuccess)
             {
               this.realizarToast(this.succesful);
             }
