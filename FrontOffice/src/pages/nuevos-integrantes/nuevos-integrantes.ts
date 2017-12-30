@@ -48,19 +48,21 @@ export class NuevosIntegrantesPage
   /*Elementos de la vista*/
   public toast: any;
   public loader: any;
-  public navCtrl: NavController;
-  public navParams: NavParams;
-  public loadingCtrl: LoadingController;
-  private storage: Storage; 
-  private toastCtrl: ToastController;
-  private alertCtrl: AlertController;
-  private translateService: TranslateService;
-
-  public loading = this.loadingCtrl.create({});
 
   private comando : Comando;
   
-  constructor () {}
+  public constructor 
+  (
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public loadingCtrl: LoadingController,
+    private storage: Storage,
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
+    private translateService: TranslateService
+  ) {}
+
+  public loading = this.loadingCtrl.create({});
 
   public onLink(url: string) 
   {

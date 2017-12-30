@@ -49,19 +49,20 @@ export class CrearGrupoPage
   public toast: any;
   public loader: any;
 
-  public loadingCtrl: LoadingController;
-  public navCtrl: NavController;
-  public navParams: NavParams;
-  private storage: Storage; 
-  private toastCtrl: ToastController;
-  private alertCtrl: AlertController; 
-  private translateService: TranslateService;
-
-  public loading = this.loadingCtrl.create({content: 'Please wait...'});
-
   private comando : Comando;
   
-  constructor() { }
+  public constructor
+  (
+    public loadingCtrl: LoadingController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private storage: Storage,
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
+    private translateService: TranslateService
+  ) { }
+
+  public loading = this.loadingCtrl.create({content: 'Please wait...'});
 
   public onLink(url: string) 
   {

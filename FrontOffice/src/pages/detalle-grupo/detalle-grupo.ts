@@ -33,15 +33,15 @@ export class DetalleGrupoPage
   public grupo : any; //Datos del grupo
   public miembro : any; //Lista de usuarios
 
-  /*Elementos de la vista*/
-  public navCtrl: NavController;
-  public navParams: NavParams;
-  private translateService: TranslateService;
+  public constructor
+  (
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private translateService: TranslateService
+  ) { }
 
   private comando : Comando;
   
-  constructor() { }
-
   /**
    * Carga los atributos del grupo, nombre y foto
    */

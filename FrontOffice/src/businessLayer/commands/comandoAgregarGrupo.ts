@@ -23,9 +23,8 @@ export class ComandoAgregarGrupo extends Comando
     private grupo : Grupo;
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(idUsuario : number, nombreGrupo : string)
+    public constructor(idUsuario : number, nombreGrupo : string,
+        private servicio?: RestapiService)
     {
         super();
 

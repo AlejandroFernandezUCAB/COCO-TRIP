@@ -23,9 +23,8 @@ export class ComandoAgregarAmigo extends Comando
 
     private exito: boolean;
 
-    private servicio: RestapiService;
-
-    public constructor(id : number, nombreUsuario : string)
+    public constructor(id : number, nombreUsuario : string,
+                        private servicio?: RestapiService)
     {
         super();
 
