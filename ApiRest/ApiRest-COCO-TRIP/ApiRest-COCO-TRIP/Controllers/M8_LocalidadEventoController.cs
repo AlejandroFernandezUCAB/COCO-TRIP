@@ -25,7 +25,7 @@ namespace ApiRest_COCO_TRIP.Controllers
      * <summary>Metodo de controlador para Agregar un Localidad de Evento a la BBDD</summary>
      * <param name="lEvento">Objeto con infomarcion de la localidad evento a agregar</param>
      * <exception cref="BaseDeDatosExcepcion"></exception>
-     * <exception cref="ParametrosNullException"></exception>
+     * <exception cref="ParametrosNullExcepcion"></exception>
      * <returns>Retorna el ID de la localidad agregada</returns>
      * **/
     [ResponseType(typeof(IDictionary))]
@@ -67,7 +67,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         comando.Ejecutar();
         respuesta.Add("dato", "Se ha eliminado una localidad");
       }
-      catch (ItemNoEncontradoException e)
+      catch (ItemNoEncontradoExcepcion e)
       {
         respuesta.Add("Error", e.Message);
       }
@@ -108,7 +108,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         respuesta.Add("Error", e.Message);
       }
 
-      catch (OperacionInvalidaException e)
+      catch (OperacionInvalidaExcepcion e)
       {
         respuesta.Add("Error", e.Message);
       }
@@ -140,7 +140,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         respuesta.Add("Error", e.Message);
       }
 
-      catch (OperacionInvalidaException e)
+      catch (OperacionInvalidaExcepcion e)
       {
         respuesta.Add("Error", e.Message);
       }
@@ -152,7 +152,7 @@ namespace ApiRest_COCO_TRIP.Controllers
      * <summary>Metodo de controlador para Agregar un Localidad de Evento a la BBDD</summary>
      * <param name="lEvento">Objeto con infomarcion de la localidad evento a agregar</param>
      * <exception cref="BaseDeDatosExcepcion"></exception>
-     * <exception cref="ParametrosNullException"></exception>
+     * <exception cref="ParametrosNullExcepcion"></exception>
      * <returns>Retorna el ID de la localidad agregada</returns>
      * **/
     [ResponseType(typeof(IDictionary))]

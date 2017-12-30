@@ -66,7 +66,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// Metodo Create, permite insertar una Entidad tipo categoria en la base de datos.
         /// </summary>
         /// <param name="objeto">instancia Catgoria que se desea insertar.</param>
-        /// <exception cref="NombreDuplicadoException">Nombre duplicado al momento de insertar.</exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Nombre duplicado al momento de insertar.</exception>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de agregar una categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado.</exception>
         public override void Insertar(Entidad objeto)
@@ -105,7 +105,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 =======
                // throw new NombreDuplicadoException(ex, this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name, )
 >>>>>>> 595d69ee13f089a3a66a083207294c3ba1e29904
-                throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+                throw new NombreDuplicadoExcepcion($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
             }
             catch (NpgsqlException ex)
             {
@@ -222,7 +222,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     " porque este nombre ya existe";
                 throw new NombreDuplicadoException(ex,mensaje);
                 */
-                throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+                throw new NombreDuplicadoExcepcion($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
             }
             catch (NpgsqlException ex)
             {
@@ -499,7 +499,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
                 if (Superior == 0)
                 {
-                    throw new ItemNoEncontradoException($"No se encontro la categoria con el nombre {categoria.Nombre}");
+                    throw new ItemNoEncontradoExcepcion($"No se encontro la categoria con el nombre {categoria.Nombre}");
                 }
 
                 categoria.Id = Superior;

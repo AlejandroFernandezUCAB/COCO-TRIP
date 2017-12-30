@@ -120,15 +120,15 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Comun\Excepcion\DirectorioNoEncontradoExcepcion.cs" />
-    <Compile Include="Comun\Excepcion\HijoConDePendenciaException.cs" />
+    <Compile Include="Comun\Excepcion\HijoConDePendenciaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\LectorJsonExcepcion.cs" />
-    <Compile Include="Comun\Excepcion\NombreDuplicadoException.cs" />
-    <Compile Include="Comun\Excepcion\ParametrosNullException.cs" />
+    <Compile Include="Comun\Excepcion\NombreDuplicadoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ParametrosNullExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SerializacionJsonExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
     <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
-    <Compile Include="Comun\Excepcion\ItemNoEncontradoException.cs" />
+    <Compile Include="Comun\Excepcion\ItemNoEncontradoExcepcion.cs" />
     <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
     <Compile Include="Comun\Excepcion\AgregadoExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SocketExcepcion.cs" />
@@ -185,7 +185,7 @@
     <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
-    <Compile Include="Comun\Excepcion\OperacionInvalidaException.cs" />
+    <Compile Include="Comun\Excepcion\OperacionInvalidaExcepcion.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Models\Itinerario.cs" />
