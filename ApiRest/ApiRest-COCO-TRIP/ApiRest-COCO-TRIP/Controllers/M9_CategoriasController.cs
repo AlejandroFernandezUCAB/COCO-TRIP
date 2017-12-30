@@ -26,14 +26,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     private Comando com;
     private MensajeResultadoOperacion mensaje = MensajeResultadoOperacion.ObtenerInstancia();
     private Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
-    
-
-
 
     /// <summary>
-    /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id.
+    /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id
     /// </summary>
-    /// <param name="data"></param>
+    /// <param name="data"></param>     
     /// <returns></returns>
     [ResponseType(typeof(IDictionary))]
     [ActionName("actualizarEstatus")]
@@ -137,16 +134,6 @@ namespace ApiRest_COCO_TRIP.Controllers
     ///<summary>
     ///EndPoint para modificar los datos de la categoria
     ///</summary>
-    ///
-
-
-
-
-    /// <summary>
-    /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id.
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
     [ResponseType(typeof(IDictionary))]
     [ActionName("ModificarCategoria")]
     [HttpPut]
