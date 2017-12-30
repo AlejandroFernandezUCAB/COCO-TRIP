@@ -93,6 +93,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
+<<<<<<< HEAD
                 /* TODO: Cambiar este throw por el de abajo, cuidar pruebas de Michel.
                  * Nota para Horacio, estar pendiente de los mensajes del registry.
                 string mensaje = "Error de duplicidad en nombre en " + this.GetType().FullName + "." +
@@ -101,6 +102,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     " porque este nombre ya existe";
                 throw new NombreDuplicadoException(ex,mensaje);
                 */
+=======
+               // throw new NombreDuplicadoException(ex, this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name, )
+>>>>>>> 595d69ee13f089a3a66a083207294c3ba1e29904
                 throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
             }
             catch (NpgsqlException ex)
