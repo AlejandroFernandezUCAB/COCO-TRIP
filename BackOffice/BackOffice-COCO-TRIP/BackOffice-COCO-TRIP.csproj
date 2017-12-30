@@ -180,7 +180,9 @@
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaPorId.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategorias.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarCategoriaHabilitada.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Componentes\Comandos\ComandoEditarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoEstadoCategoria.cs" />
     <Compile Include="Negocio\Componentes\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
@@ -320,6 +322,7 @@
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\M8Events\Select.cshtml" />
+    <Content Include="Views\M8Events\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,37 +32,51 @@
   <div class="form-group">
     @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.FechaInicio);
+      @Html.DisplayFor(model => model.FechaInicio)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.FechaFin);
+      @Html.DisplayFor(model => model.FechaFin)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.HoraInicio);
+      @Html.DisplayFor(model => model.HoraInicio)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.HoraFin);
+      @Html.DisplayFor(model => model.HoraFin)
     </div>
   </div>
 
   <div class="form-group">
     @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-      @Html.DisplayFor(model => model.Foto);
+      @Html.DisplayFor(model => model.Foto)
     </div>
   </div>
+  <div class="form-group">
+    @Html.Label("Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @ViewData["ncategoria"]
+    </div>
+  </div>
+  <div class="form-group">
+    @Html.Label("Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+      @ViewData["nlocalidad"]
+    </div>
+  </div>
+
+
 
 </div>
 
