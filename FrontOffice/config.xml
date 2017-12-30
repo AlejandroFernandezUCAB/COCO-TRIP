@@ -117,4 +117,5 @@
     <engine name="browser" spec="5.0.1" />
     <engine name="ios" spec="^4.5.3" />
     <engine name="android" spec="^6.3.0" />
+    <allow-navigation href="http://10.7.76.104:8100" />
 </widget>

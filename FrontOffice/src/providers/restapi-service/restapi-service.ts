@@ -238,11 +238,10 @@ eveSegunPreferencias(idUser){
    }
 
    ObtenerDatosUsuario(idUsuario){
-    return new Promise( resolve => {
+    return new Promise( (resolve, reject) => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ObtenerDatosUsuario?idUsuario=' + idUsuario,"")
       .map(res => res.json())
       .subscribe(data => {
-
         this.data = data;
         resolve(this.data);
 
@@ -256,8 +255,8 @@ eveSegunPreferencias(idUser){
           Apellido: 'Rivero',
           Correo: 'rosamaro@guadalupo.com',
           FechaNacimiento: new Date('1995-04-11T00:00:00.196Z').toISOString()
-        }*/
-        resolve(0);
+        };*/
+        reject(error);
 
       });
     });

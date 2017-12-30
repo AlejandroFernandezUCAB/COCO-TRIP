@@ -24,7 +24,7 @@ export abstract class Comando
     /**
      * Ejecuta la logica de negocios del comando
      */
-    public abstract execute(): void;
+    public abstract execute(): any;
 
     /**
      * Retorna el resultado de la ejecucion

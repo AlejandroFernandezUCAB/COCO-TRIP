@@ -8,6 +8,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
 import { Comando } from '../../businessLayer/commands/comando';
+import { TranslateService } from '@ngx-translate/core';
 
 // usos del @ionic/storage:
 // para acceder a las variables que guarde en la vista de 'Configuracion'
@@ -46,7 +47,7 @@ export class PerfilPage {
   };
   */
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private translateService: TranslateService, public restapiService: RestapiService) {
   
   }
 
@@ -62,34 +63,15 @@ export class PerfilPage {
   // ademas obtiene el lenguaje previamente seleccionado de la memoria del
   // dispositivo
   cargarUsuario(){
-    // obtenemos el id ya almacenado desde el login
-    this.comando = FabricaComando.crearComandoVerPerfil(this.usuario);
-    this.comando.execute();
-    this.storage.get('id').then((val) => {
-
-      this.usuario.Id = val;
-      // hacemos la llamada al apirest con el id obtenido
-      this.restapiService.ObtenerDatosUsuario(this.usuario.Id).then(data => {
-        if(data != 0)
-        {  
-          this.usuario = data as Usuario;
-          //this.usuario.Id = this.idUsuario; 
-
-              // cargamos el idioma
-              this.storage.get(this.usuario.Id.toString()).then((val) => {
-                //verificamos que posee configuracion previa de idioma
-                if(val != null || val != undefined){
-                  this.translateService.use(val);
-                }
-              });
-
-              // cargamos los datos para la vista de configuracion
-             // this.configParams.idUsuario = this.idUsuario;
-             // this.configParams.NombreUsuario = this.usuario.NombreUsuario;
-        }
-      });
-
+    
+    this.comando = FabricaComando.crearComandoVerPerfil(
+      this.usuario, this.storage, this.translateService, this.restapiService);
+    this.comando.execute().then( () => {
+      if (this.comando.isSuccess()) {
+        this.usuario = this.comando.return() as Usuario;
+      }
     });
+  
   }
 
 }
