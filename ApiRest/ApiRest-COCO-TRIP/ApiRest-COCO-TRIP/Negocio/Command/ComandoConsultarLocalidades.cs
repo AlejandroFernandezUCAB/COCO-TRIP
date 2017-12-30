@@ -7,6 +7,7 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -14,29 +15,29 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private List<Entidad> localidades;
     private DAO dao;
-        private Log log;
+        private static Logger log;
 
-    public ComandoConsultarLocalidades() {
+        public ComandoConsultarLocalidades() {
       dao = FabricaDAO.CrearDAOLocalidad();
-            log = Log.ObtenerInstancia();
-    }
+            log = LogManager.GetCurrentClassLogger();
+        }
 
     public override void Ejecutar()
     {
       try
       {
         localidades = dao.ConsultarLista(null);
-                log.ApiRestInfo("ComandoConsultarLocalidades","Ejecutado el comando");
+                log.Info("Comando Ejecutado");
 
-      }
+            }
       catch (BaseDeDatosExcepcion e)
       {
-                log.ApiRestError("ComandoConsultarLocalidades", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
       catch (Exception e)
       {
-                log.ApiRestError("ComandoConsultarLocalidades", e.Message);
+                log.Error(e.Message);
                 throw e;
       }
     }

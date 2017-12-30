@@ -71,6 +71,28 @@ import { Firebase } from '@ionic-native/firebase';
 import * as firebase from 'firebase';
 import { RestapiService } from '../providers/restapi-service/restapi-service';
 import { HttpCProvider } from '../providers/http-c/http-c';
+import { ComandoAceptarNotificacion } from '../businessLayer/commands/comandoAceptarNotificacion';
+import { ComandoAgregarAmigo } from '../businessLayer/commands/comandoAgregarAmigo';
+import { ComandoAgregarGrupo } from '../businessLayer/commands/comandoAgregarGrupo';
+import { ComandoAgregarIntegrante } from '../businessLayer/commands/comandoAgregarIntegrante';
+import { ComandoBuscarAmigo } from '../businessLayer/commands/comandoBuscarAmigo';
+import { ComandoEliminarAmigo } from '../businessLayer/commands/comandoEliminarAmigo';
+import { ComandoEliminarIntegrante } from '../businessLayer/commands/comandoEliminarIntegrante';
+import { ComandoEnviarCorreo } from '../businessLayer/commands/comandoEnviarCorreo';
+import { ComandoListaAmigos } from '../businessLayer/commands/comandoListaAmigos';
+import { ComandoListaGrupos } from '../businessLayer/commands/comandoListaGrupos';
+import { ComandoListaMiembroGrupo } from '../businessLayer/commands/comandoListaMiembroGrupo';
+import { ComandoListaNotificaciones } from '../businessLayer/commands/comandoListaNotificaciones';
+import { ComandoModificarGrupo } from '../businessLayer/commands/comandoModificarGrupo';
+import { ComandoObtenerLider } from '../businessLayer/commands/comandoObtenerLider';
+import { ComandoObtenerMiembrosSinGrupo } from '../businessLayer/commands/comandoObtenerMiembrosSinGrupo';
+import { ComandoObtenerPerfilPublico } from '../businessLayer/commands/comandoObtenerPerfilPublico';
+import { ComandoObtenerSinLider } from '../businessLayer/commands/comandoObtenerSinLider';
+import { ComandoObtenerUltimoGrupo } from '../businessLayer/commands/comandoObtenerUltimoGrupo';
+import { ComandoRechazarNotificacion } from '../businessLayer/commands/comandoRechazarNotificacion';
+import { ComandoSalirGrupo } from '../businessLayer/commands/comandoSalirGrupo';
+import { ComandoVerificarLider } from '../businessLayer/commands/comandoVerificarLider';
+import { ComandoVerPerfilGrupo } from '../businessLayer/commands/comandoVerPerfilGrupo';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -180,6 +202,28 @@ firebase.initializeApp(config);
     FilePath,
     ChatProvider,
     AngularFireAuth,
+    ComandoAceptarNotificacion,
+    ComandoAgregarAmigo,
+    ComandoAgregarGrupo,
+    ComandoAgregarIntegrante,
+    ComandoBuscarAmigo,
+    ComandoEliminarAmigo,
+    ComandoEliminarIntegrante,
+    ComandoEnviarCorreo,
+    ComandoListaAmigos,
+    ComandoListaGrupos,
+    ComandoListaMiembroGrupo,
+    ComandoListaNotificaciones,
+    ComandoModificarGrupo,
+    ComandoObtenerLider,
+    ComandoObtenerMiembrosSinGrupo,
+    ComandoObtenerPerfilPublico,
+    ComandoObtenerSinLider,
+    ComandoObtenerUltimoGrupo,
+    ComandoRechazarNotificacion,
+    ComandoSalirGrupo,
+    ComandoVerificarLider,
+    ComandoVerPerfilGrupo
   ]
 })
 export class AppModule {}

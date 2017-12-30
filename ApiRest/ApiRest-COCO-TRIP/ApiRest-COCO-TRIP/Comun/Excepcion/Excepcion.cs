@@ -1,22 +1,21 @@
-using System;
-using System.Net.Http;
+﻿using System;
 
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
-    /// Clase que encapsula la información de "HttpRequestException"
-    /// Breve descripcion de cuando se genera.
+    /// Excepcion logica que encapsula la información de "Exception"
+    /// representa los errores que se producen durante la ejecucion del programa.
     /// </summary>
-    public class PeticionHttpExcepcion : HttpRequestException
+    public class Excepcion: Exception
     {
-        private HttpRequestException excepcion;
+        private Exception _excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
         private string mensaje;       //Breve descripción de la excepción genereda con parametro del metodo con la que se ocasiono.
 
         /// <summary>
-        /// Getters y Setters del atributo "excepcion".
+        /// Getters y Setters del atributo "_excepcion".
         /// </summary>
-        public HttpRequestException Excepcion { get => excepcion; set => excepcion = value; }
+        public Exception _Excepcion { get => _excepcion; set => _excepcion = value; }
 
         /// <summary>
         /// Getters y Setters del atributo "fechaHora". 
@@ -29,25 +28,25 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         public string Mensaje { get => mensaje; set => mensaje = value; }
 
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor
         /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "HttpRequestException"</param>
-        public PeticionHttpExcepcion(HttpRequestException excepcion)
+        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
+        public Excepcion(Exception _excepcion)
         {
-            this.excepcion = excepcion;
-            this.fechaHora = DateTime.Now;
+            this._excepcion = _excepcion;
+            fechaHora = DateTime.Now;
         }
 
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor
         /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "HttpRequestException"</param>
+        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public PeticionHttpExcepcion(HttpRequestException excepcion, string mensaje)
+        public Excepcion(Exception _excepcion, string mensaje)
         {
-            this.excepcion = excepcion;
+            this._excepcion = _excepcion;
             this.mensaje = mensaje;
-            this.fechaHora = DateTime.Now;
+            fechaHora = DateTime.Now;
         }
     }
 }

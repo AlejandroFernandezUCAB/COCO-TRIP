@@ -1,18 +1,18 @@
- using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using System;
+using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoObtenerCategorias: Comando
+  public class ComandoObtenerCategoriaPorNombre:Comando
   {
     private DAO dao = FabricaDAO.CrearDAOCategoria();
     private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
-    private IList<Categoria> resultado = new List<Categoria>();
+    private Entidad resultado;
 
-    public ComandoObtenerCategorias(Entidad entidad)
+    public ComandoObtenerCategoriaPorNombre(Entidad entidad)
     {
       this.entidad = entidad;
     }
@@ -21,7 +21,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
-        resultado=((DAOCategoria)dao).ObtenerCategorias(entidad);
+        resultado = ((DAOCategoria)dao).ObtenerIdCategoriaPorNombre(entidad);
       }
       catch (Exception e)
       {
@@ -32,17 +32,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
     public override Entidad Retornar()
     {
-      throw new System.NotImplementedException();
+      return resultado;
     }
 
     public override List<Entidad> RetornarLista()
     {
       throw new System.NotImplementedException();
-    }
-
-    public IList<Categoria> RetornarLista2()
-    {
-      return resultado;
     }
 
   }

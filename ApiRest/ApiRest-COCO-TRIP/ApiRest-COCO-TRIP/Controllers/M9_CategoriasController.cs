@@ -11,22 +11,24 @@ using ApiRest_COCO_TRIP.Validaciones;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M9_CategoriasController : ApiController
   {
-
-    private PeticionCategoria Peticion;
+    
     private IDictionary response = new Dictionary<string, object>();
     private const string Response_Data = "data";
     private const string Response_Error = "error";
     private Comando com;
+    private MensajeResultadoOperacion mensaje = MensajeResultadoOperacion.ObtenerInstancia();
     private Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
     
+
+
 
     /// <summary>
     /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id.
@@ -50,7 +52,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         categoria = data.ToObject<Categoria>();
         com = FabricaComando.CrearComandoEstadoCategoria(categoria);
         com.Ejecutar();
-        response.Add(Response_Data, "Se actualizo de forma exitosa");
+        response.Add(Response_Data, mensaje.ExitoModificar);
       }
 
       catch (JsonSerializationException ex)
@@ -79,7 +81,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
 
       }
 
@@ -87,6 +89,8 @@ namespace ApiRest_COCO_TRIP.Controllers
       return response;
 
     }
+
+
 
 
     /// <summary>
@@ -104,7 +108,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       try
       {
 
-        categoria = new ApiRest_COCO_TRIP.Datos.Entity.Categoria(id);
+        categoria = new Categoria(id);
         com = FabricaComando.CrearComandoObtenerCategorias(categoria);
         com.Ejecutar();
         IList<Categoria> lista = ((ComandoObtenerCategorias)com).RetornarLista2(); 
@@ -123,7 +127,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
 
       }
 
@@ -163,7 +167,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         categoria = data.ToObject<Categoria>();
         com = FabricaComando.CrearComandoModificarCategoria(categoria);
         com.Ejecutar();
-        response.Add(Response_Data, "Se actualizo de forma exitosa");
+        response.Add(Response_Data, mensaje.ExitoModificar);
       }
 
 
@@ -171,7 +175,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", "No se puede mover porque tiene categorias asociadas");
+        response.Add("MensajeError", mensaje.ErrorCategoriaAsociada);
 
       }
 
@@ -179,7 +183,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", "Este nombre de categoria ya existe");
+        response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
 
       }
 
@@ -208,7 +212,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
       }
 
       return response;
@@ -249,7 +253,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
 
       }
 
@@ -270,12 +274,10 @@ namespace ApiRest_COCO_TRIP.Controllers
                     "categoriaSuperior",
                     "nivel"
                  });
-
         categoria = data.ToObject<Categoria>();
         com = FabricaComando.CrearComandoAgregarCategoria(categoria);
         com.Ejecutar();
-        response.Add(Response_Data, "Se agrego la categoria de forma exitosa.");
-
+        response.Add(Response_Data, mensaje.ExitoInsertarCategoria);
       }
 
       catch (JsonSerializationException ex)
@@ -289,7 +291,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
 
         response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", "Este nombre de categoria ya existe");
+        response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
 
       }
 
@@ -311,7 +313,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
 
       }
 
@@ -349,7 +351,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (Exception ex)
       {
-        response.Add(Response_Error, "Ocurrio un error inesperado");
+        response.Add(Response_Error, mensaje.ErrorInesperado);
 
       }
 

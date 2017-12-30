@@ -1,6 +1,8 @@
 import { Comando } from './comando';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Injectable } from '@angular/core';
+import { ConfiguracionImages } from '../../pages/constantes/configImages';
 
 /**
  * Autores:
@@ -16,20 +18,22 @@ import { catProd, catService, catErr } from '../../logs/config';
 /**
  * Solicita al servicio web la lista de amigos asociado al usuario
  */
+@Injectable()
 export class ComandoListaAmigos extends Comando
 {
     private id : number;
 
     private exito: boolean;
-    private listaAmigos: any;
+    private listaUsuarios = new Array();
 
-    private servicio: RestapiService;
-
-    public constructor(id : number)
+    set Id(id : number)
+    {
+        this.id = id;
+    }
+    
+    public constructor(private servicio : RestapiService)
     {
         super();
-
-        this.id = id;
     }
 
     public execute(): void 
@@ -37,25 +41,50 @@ export class ComandoListaAmigos extends Comando
         this.servicio.listaAmigos(this.id)
         .then(datos => 
         {
+            let lista : any = datos;
+
+            if(this.listaUsuarios != undefined)
+            {
+              let cantidad : number = this.listaUsuarios.length;
+              
+              for(let i = 0; i < cantidad; i++)
+              {
+                this.listaUsuarios.pop();
+              }
+            }
+            
+            for(let usuario of lista)
+            {
+                if(usuario.Foto == undefined)
+                {
+                    usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+                }
+                else
+                {
+                    usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
+                }
+
+                this.listaUsuarios.push(usuario);
+            }
+
             this.exito = true;
-            this.listaAmigos = datos;
-            catProd.info('ListaAmigos exitoso. Datos: ' + datos);
+            catProd.info('ListaAmigos exitoso. Datos: ' + this.listaUsuarios);
         }
         , error =>
         {
             this.exito = false;
-            this.listaAmigos = error;
-            catErr.info('Fallo de Listamaigos. Datos: ' + error);
+            catErr.info('Fallo de ListaAmigos. Datos: ' + error);
         });
     }
 
     public return() 
     {
-        return this.listaAmigos;
+        return this.listaUsuarios;
     }
 
     public isSuccess(): boolean 
     {
         return this.exito;
     }
+
 }
