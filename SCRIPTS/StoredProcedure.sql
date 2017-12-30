@@ -1493,6 +1493,30 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+--Consultar los Lugares turisticos
+CREATE OR REPLACE FUNCTION ConsultarLugaresTuristico ()
+RETURNS TABLE
+	  (
+    id integer,
+    nombre varchar,
+    costo decimal,
+    descripcion varchar,
+    direccion varchar,
+    correo varchar,
+    telefono bigint,
+    latitud decimal,
+    longitud decimal,
+    activar boolean)
+AS
+$$
+BEGIN
+	RETURN QUERY SELECT lu_id,lu_nombre, lu_costo,
+	lu_descripcion, lu_direccion,
+	lu_correo, lu_telefono, lu_latitud, lu_longitud, lu_activar
+  FROM lugar_turistico;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Insertar datos en la tabla lt_horario
 -- Retorna el ID de la tupla insertada
 CREATE OR REPLACE FUNCTION InsertarHorario

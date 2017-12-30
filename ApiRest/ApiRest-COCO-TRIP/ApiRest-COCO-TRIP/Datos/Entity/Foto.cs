@@ -11,6 +11,10 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     private byte[] contenido; //Bytes de la foto
         private string v2;
 
+		public Foto()
+		{
+
+		}
         public Foto(int id, string ruta)
         {
             this.Id = id;

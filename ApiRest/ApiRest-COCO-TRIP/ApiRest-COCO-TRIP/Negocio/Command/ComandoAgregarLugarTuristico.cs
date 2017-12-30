@@ -6,7 +6,6 @@ using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Singleton;
-using System.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {	
@@ -62,10 +61,17 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		/// </summary>
 		public override void Ejecutar()
 		{
+			
 			try
 			{
 				iDAOLugarTuristico.Insertar(_lugarTuristico);
-				
+
+				//En la siguiente linea se invoca al DAO para que devuelva la lista de todos los lugares turisticos,
+				//Luego esta lista pasa a UltimoLugarTuristico y ese id que devuelve se lo pasa al lugar turistico anteriormente insertado.
+
+				_lugarTuristico.Id = UltimoIdLugarTuristico( iDAOLugarTuristico.ConsultarTodaLaLista() );
+					
+
 				for(int i=0; i <=_foto.Count; i++)
 				{
 					iDAOFoto.Insertar( _foto[i] );
@@ -137,6 +143,17 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		private Entidad ConvertListHorario(Horario input)
 		{
 			return input;
+		}
+
+		/// <summary>
+		/// Se busca el ID del ultimo objeto en la lista
+		/// </summary>
+		/// <param name="lugaresTuristicos">Lista de lugares turisticos</param>
+		/// <returns>El ultimo id del ultimo objeto de la lista</returns>
+		private int UltimoIdLugarTuristico(List<Entidad> lugaresTuristicos)
+		{
+			int cantidadDeLugares = lugaresTuristicos.Count - 1;
+			return lugaresTuristicos[cantidadDeLugares].Id;
 		}
 	}
 }

@@ -41,5 +41,15 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		{
 			throw new NotImplementedException();
 		}
+
+		/// <summary>
+		/// Insertar el horario relacionado con un lugar en la BDD  
+		/// </summary>
+		/// <param name="entidad">Horario</param>
+		/// <param name="id">Id lugar turistico</param>
+		public void InsertarHorarioLugar(Entidad entidad, int id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
