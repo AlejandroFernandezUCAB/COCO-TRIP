@@ -22,7 +22,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase que le pide al Api la lista de las categorias existentes
+    /// Metodo para solicitar la lista de las categorias existentes
     /// </summary>
     public override JObject Get(int id)
     {
