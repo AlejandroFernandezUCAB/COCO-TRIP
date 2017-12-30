@@ -773,6 +773,7 @@ ionview
       }
       }else{
         this.its = data;
+        console.log(data);
         this.loading.dismiss();
         if (this.its.length == 0){
           this.noIts = true;
