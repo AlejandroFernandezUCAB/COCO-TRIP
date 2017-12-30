@@ -16,6 +16,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 		void Eliminar(Entidad objeto);
 
 		void Insertar(Entidad objeto);
-		void InsertarActividadLugar(Entidad entidad, Entidad lugar);
+
+		void Insertar(Entidad entidad, Entidad lugar);
 	}
 }

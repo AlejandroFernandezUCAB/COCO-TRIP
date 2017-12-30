@@ -6,7 +6,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
     interface IDAOFoto
     {
 
-        void InsertarFotoLugar(Entidad foto, Entidad lugar);
+        void Insertar(Entidad foto, Entidad lugar);
 
         List<Entidad> ConsultarLista(string id);
 

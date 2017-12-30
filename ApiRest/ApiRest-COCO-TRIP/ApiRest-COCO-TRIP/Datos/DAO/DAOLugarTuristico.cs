@@ -53,12 +53,18 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 					lugaresTuristicos.Add(lugarTuristico);
 				}
 
+				return lugaresTuristicos;
 			}
 			catch (Exception e)
 			{
-
+				return null;
 			}
-			return lugaresTuristicos;
+			finally
+			{
+				base.Desconectar();
+			}
+
+			
 		}
 
 		public override Entidad ConsultarPorId(Entidad objeto)
@@ -80,8 +86,18 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			{
 
 				StoredProcedure("insertarlugarturistico");
-				ParametrosAgregar(_lugarTuristico);
-				success = base.Comando.ExecuteNonQuery();
+				//Seteando los parametros al SP
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Direccion);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Correo);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Bigint, _lugarTuristico.Telefono);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Latitud);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Longitud);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, _lugarTuristico.Activar);
+				//Ejecucion
+				success = Comando.ExecuteNonQuery();
 
 			}
 			catch(InvalidCastException e)
@@ -104,28 +120,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		/// <param name="sp"></param>
 		private void StoredProcedure(string sp)
 		{
-			base.Conectar();
-			base.Comando = base.SqlConexion.CreateCommand();
-			base.Comando.CommandType = CommandType.StoredProcedure;
-			base.Comando.CommandText = sp;
+			Conectar();
+			Comando = SqlConexion.CreateCommand();
+			Comando.CommandType = CommandType.StoredProcedure;
+			Comando.CommandText = sp;
 		}
 
-		/// <summary>
-		/// Automatizando el llenado de los parametros de agregar
-		/// </summary>
-		/// <param name="lugarturistico"></param>
-		private void ParametrosAgregar(LugarTuristico lugarTuristico)
-		{
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Direccion);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Correo);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Bigint, _lugarTuristico.Telefono);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Latitud);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Longitud);
-			base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, _lugarTuristico.Activar);
-
-		}
 	}
 }

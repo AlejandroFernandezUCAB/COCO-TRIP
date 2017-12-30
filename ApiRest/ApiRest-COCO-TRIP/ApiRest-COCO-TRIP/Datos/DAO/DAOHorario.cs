@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
+using System.Data;
+using NpgsqlTypes;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -45,11 +47,51 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		/// <summary>
 		/// Insertar el horario relacionado con un lugar en la BDD  
 		/// </summary>
-		/// <param name="entidad">Horario</param>
-		/// <param name="id">Id lugar turistico</param>
-		public void InsertarHorarioLugar(Entidad entidad, int id)
+		/// <param name="objeto">Horario</param>
+		/// <param name="lugarTuristico">Lugar TUristico</param>
+		public void Insertar(Entidad objeto, Entidad lugarTuristico)
 		{
-			throw new NotImplementedException();
+			Horario horario = (Horario)objeto;
+			int success = 0;
+
+			try
+			{
+				StoredProcedure("insertarhorario");
+				//Asignando parametros al SP
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, horario.DiaSemana);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Time, horario.HoraApertura);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Time, horario.HoraCierre);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, lugarTuristico.Id);
+				//Ejecucion
+				success = Comando.ExecuteNonQuery();
+
+			}
+			catch (InvalidCastException e)
+			{
+
+			}
+			catch (Exception e)
+			{
+
+			}
+			finally
+			{
+				Desconectar();
+			}
+
+		}
+
+		/// <summary>
+		/// Para hacer la conexion y crear el stored procedure
+		/// </summary>
+		/// <param name="sp"></param>
+		private void StoredProcedure(string sp)
+		{
+			Conectar();
+			Comando = base.SqlConexion.CreateCommand();
+			Comando.CommandType = CommandType.StoredProcedure;
+			Comando.CommandText = sp;
+
 		}
 	}
 }

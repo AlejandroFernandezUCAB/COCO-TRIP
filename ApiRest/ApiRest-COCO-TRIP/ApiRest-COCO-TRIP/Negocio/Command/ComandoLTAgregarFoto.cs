@@ -34,7 +34,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 // Insercion y asociacion de las fotos
 				for(int i=0; i <=_foto.Count; i++)
 				{
-					iDAOFoto.InsertarFotoLugar( _foto[i] , _lugarTuristico );
+					iDAOFoto.Insertar( _foto[i] , _lugarTuristico );
 				}
             }
             catch (System.Exception)

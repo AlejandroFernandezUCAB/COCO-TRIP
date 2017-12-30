@@ -16,6 +16,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 		void Eliminar(Entidad objeto);
 
 		void Insertar(Entidad objeto);
-		void InsertarHorarioLugar(Entidad entidad, int id);
+
+		void Insertar(Entidad objeto , Entidad lugarTuristico);
 	}
 }

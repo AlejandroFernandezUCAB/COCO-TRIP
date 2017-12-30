@@ -21,11 +21,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		private List<Entidad> _actividad; 
 		private List<Entidad> _categoria; 
 		private List<Entidad> _subCategoria; 
-		private IDAOLugarTuristico iDAOLugarTuristico;
-		private IDAOFoto iDAOFoto;
-		private IDAOHorario iDAOHorario;
-		private IDAOActividad iDAOActividad;
-		private IDAOCategoria iDAOCategoria;
+		private IDAOLugarTuristico daoLugarTuristico;
+		private IDAOFoto daoFoto;
+		private IDAOHorario daoHorario;
+		private IDAOActividad daoActividad;
+		private IDAOLugarTuristicoCategoria daoCategoria;
 		JObject _datos;
 		private Log log;
 
@@ -53,11 +53,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			//_categoria = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
 			//_subCategoria = ((LugarTuristico)_lugarTuristico).SubCategoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListSubCategoria));
 
-			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
-			//iDAOCategoria = FabricaDAO.CrearDAOCategoria();
-			iDAOFoto = FabricaDAO.CrearDAOFoto();
-			iDAOHorario = FabricaDAO.CrearDAOHorario();
-			iDAOActividad = FabricaDAO.CrearDAOActividad();
+			daoLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			//daoCategoria = FabricaDAO.CrearDAOCategoria();
+			daoFoto = FabricaDAO.CrearDAOFoto();
+			daoHorario = FabricaDAO.CrearDAOHorario();
+			daoActividad = FabricaDAO.CrearDAOActividad();
 
 			log = Log.ObtenerInstancia();
 
@@ -71,40 +71,33 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			
 			try
 			{
-				iDAOLugarTuristico.Insertar(_lugarTuristico);
+				daoLugarTuristico.Insertar(_lugarTuristico);
 
 				//En la siguiente linea se invoca al DAO para que devuelva la lista de todos los lugares turisticos,
 				//Luego esta lista pasa a UltimoLugarTuristico y ese id que devuelve se lo pasa al lugar turistico anteriormente insertado.
 
-				_lugarTuristico.Id = UltimoIdLugarTuristico( iDAOLugarTuristico.ConsultarTodaLaLista() );
+				_lugarTuristico.Id = UltimoIdLugarTuristico( daoLugarTuristico.ConsultarTodaLaLista() );
 					
 
-				for(int i=0; i <=_foto.Count; i++)
+				for(int i=0; i < _foto.Count; i++)
 				{
-					iDAOFoto.Insertar( _foto[i] );
+					daoFoto.Insertar( _foto[i] , _lugarTuristico);
 				}
 
-				for (int i = 0; i <= _horario.Count; i++)
+				for (int i = 0; i < _horario.Count; i++)
 				{
-					iDAOHorario.Insertar(_horario[i]);
+					daoHorario.Insertar(_horario[i], _lugarTuristico);
 				}
 
-				for (int i = 0; i <= _actividad.Count; i++)
+				for (int i = 0; i < _actividad.Count; i++)
 				{
-					iDAOActividad.Insertar(_actividad[i]);
+					daoActividad.Insertar (_actividad[i], _lugarTuristico);
 				}
-
-				/*
+				
 				for (int i = 0; i <= _categoria.Count; i++)
 				{
-					//iDAOCategoria.Insertar(_horario[i]);
+					daoCategoria.Insertar (_horario[i], _lugarTuristico);
 				}
-
-				for (int i = 0; i <= _horario.Count; i++)
-				{
-					//iDAOHorario.Insertar(_horario[i]);
-				}
-				*/
 
 			}
 			catch ( Exception e)

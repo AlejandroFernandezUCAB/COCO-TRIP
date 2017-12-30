@@ -107,7 +107,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// </summary>
         /// <param name="foto"></param>
         /// <param name="idLugar"></param>
-		public void InsertarFotoLugar(Entidad foto, Entidad lugar)
+		public void Insertar(Entidad foto, Entidad lugar)
 		{
             try
             {
