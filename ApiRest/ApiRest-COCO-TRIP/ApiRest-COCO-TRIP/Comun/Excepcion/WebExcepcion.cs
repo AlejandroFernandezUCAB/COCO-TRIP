@@ -1,9 +1,5 @@
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System;
 using System.Net;
-using System.Net.Http;
-using System.Net.Sockets;
 
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
