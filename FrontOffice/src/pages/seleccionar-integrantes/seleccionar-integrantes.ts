@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController } from 'ionic-angular';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 import { ConfiguracionToast } from '../constantes/configToast';
@@ -52,6 +52,7 @@ export class SeleccionarIntegrantesPage
     public toastCtrl: ToastController,
     public myForm: FormGroup,
     public formBuilder: FormBuilder,
+    private formControl: NgControl,
     private storage: Storage,
     private translateService: TranslateService,
     private comandoAgregarGrupo: ComandoAgregarGrupo,
