@@ -198,5 +198,4 @@ export class CrearGrupoPage
     this.realizarToast(this.succesful);
     this.navCtrl.popToRoot();
   }
-  
 }

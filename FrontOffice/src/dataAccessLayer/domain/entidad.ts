@@ -16,7 +16,7 @@
  */
 export class Entidad
 {
-    private Id: number;
+    private id: number;
 
     constructor()
     {
@@ -28,7 +28,7 @@ export class Entidad
      */
     set setId(id : number) 
     {
-        this.Id = id;
+        this.id = id;
     }
 
     /**
@@ -36,7 +36,7 @@ export class Entidad
      */
     get getId() : number
     {
-        return this.Id;
+        return this.id;
     }
     
 }
