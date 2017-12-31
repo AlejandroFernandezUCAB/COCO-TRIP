@@ -57,13 +57,13 @@ export class ComandoListaMiembroGrupo extends Comando
 
             for(let usuario of lista)
             {
-               if(lista.Foto == undefined)
+               if(usuario.Foto == undefined)
                {
-                 lista.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+                 usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
                }
                else
                {
-                 lista.Foto = ConfiguracionImages.PATH + lista.Foto;
+                 usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
                }
 
                this.listaMiembros.push(usuario);
