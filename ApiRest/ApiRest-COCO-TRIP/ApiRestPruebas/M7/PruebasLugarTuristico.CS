@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Npgsql;
+using NpgsqlTypes;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -158,25 +159,59 @@ namespace ApiRestPruebas.M7
 		//Pruebas Excepciones de DAO
 
 		[Test]
-		public void PruebasExcepciones()
+		public void PruebasExcepcionesDAOInsertarLugarTuristico()
 		{
 
-			Assert.Catch<BaseDeDatosExcepcion>(BaseDeDatosExcepcion);
+			Assert.Catch<BaseDeDatosExcepcion>(BaseDeDatosExcepcionDAOLugarTuristicoInsertar);
+			Assert.Catch<SocketExcepcion>(SocketExcepcionDAOLugarTuristicoInsertar);
+			Assert.Catch<ReferenciaNulaExcepcion>(ParametrosNulosDAOLugarTuristicoInsertar);
+			Assert.Catch<CasteoInvalidoExcepcion>(CasteoInvalidoDAOLugarTuristicoInsertar);
 
 		}
-	
-		///Auxiliar
-		public void BaseDeDatosExcepcion()
+
+		//Auxiliares de Pruebas unitarias de las excepcions
+		#region
+		public void BaseDeDatosExcepcionDAOLugarTuristicoInsertar()
 		{
-			DAO hola = FabricaDAO.CrearDAOLugarTuristico();
-			hola.SqlConexion = new NpgsqlConnection("Host = localhost; Port = 5432; " +
+
+			DAO dao= FabricaDAO.CrearDAOLugarTuristico();
+			dao.SqlConexion = new NpgsqlConnection("Host = localhost; Port = 5432; " +
+			"Username = admin_cocotrip; " +
+			"Password = ds1718a; " +
+			"Database = cocotip");
+			dao.Insertar(_lugarTuristico);
+
+		}
+
+		public void SocketExcepcionDAOLugarTuristicoInsertar()
+		{
+
+			DAO dao = FabricaDAO.CrearDAOLugarTuristico();
+			dao.SqlConexion = new NpgsqlConnection("Host = localhost; Port =5435; " +
 			"Username = admin_cocotrip; " +
 			"Password = ds1718a; " +
 			"Database = cocotrip");
-			hola.Insertar(_lugarTuristico);
+			dao.Insertar(_lugarTuristico);
 
 		}
-	
+
+		public void ParametrosNulosDAOLugarTuristicoInsertar()
+		{
+
+			DAO dao = FabricaDAO.CrearDAOLugarTuristico();
+			dao.Insertar(null);
+
+		}
+
+		public void CasteoInvalidoDAOLugarTuristicoInsertar()
+		{
+
+			DAO dao = FabricaDAO.CrearDAOLugarTuristico();
+			_lugarTuristico.Descripcion = null; 
+			dao.Insertar(_lugarTuristico);
+			
+		}
+		#endregion
 
 		[TearDown]
 		public void TearDown()
