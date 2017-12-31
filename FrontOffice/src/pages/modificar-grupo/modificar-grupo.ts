@@ -247,7 +247,7 @@ export class ModificarGrupoPage
             }
             else
             {
-              this.realizarToast(Texto.NO_EDITAR_ALERTA_INTEGRANTE);
+              this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
             }
           })
           .catch(() => this.realizarToast(Texto.ERROR));

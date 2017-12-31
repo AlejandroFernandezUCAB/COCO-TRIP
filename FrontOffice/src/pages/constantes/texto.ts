@@ -28,7 +28,6 @@ export class Texto
     public static readonly EXITO_AGREGAR_GRUPO : string = 'Agregado grupo exitosamente';
 
     //EliminarGrupo
-    public static readonly MENSAJE_ELIMINAR_GRUPO : string = 'Borrar grupo';
     public static readonly EXITO_ELIMINAR_GRUPO : string = 'Saliste del grupo';
 
     //AgregarIntegrante
@@ -40,7 +39,8 @@ export class Texto
     public static readonly EXITO_ELIMINAR_INTEGRANTE : string = 'Eliminado miembro exitosamente';
 
     //AlertaIntegrante
-    public static readonly NO_EDITAR_ALERTA_INTEGRANTE : string = 'No eres el lider del grupo';
+    public static readonly NO_EDITAR_ALERTA_INTEGRANTE : string = 'No puedes modificar';
+    public static readonly SUBTITULO_ALERTA_INTEGRANTE: string = 'No eres el lider del grupo';
     public static readonly OK_ALERTA_INTEGRANTE : string = 'Esta bien';    
 
     //Mensajes Toast
