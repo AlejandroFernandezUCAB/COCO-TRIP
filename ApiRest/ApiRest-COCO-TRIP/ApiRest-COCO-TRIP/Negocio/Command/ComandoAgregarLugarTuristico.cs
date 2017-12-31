@@ -116,12 +116,22 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		}
 
 	
-
+		/// <summary>
+		/// Convierte el objeto foto a Entidad
+		/// </summary>
+		/// <param name="input">Objeto Foto</param>
+		/// <returns>Objeto Entidad</returns>
 		private Entidad ConvertListFoto(Foto input)
 		{
 			return input;
 		}
 
+
+		/// <summary>
+		/// Convierte el objeto Categoria a Entidad
+		/// </summary>
+		/// <param name="input">Objeto Foto</param>
+		/// <returns>Objeto Entidad</returns>
 		private Entidad ConvertListSubCategoria(Categoria input)
 		{
 			return input;
