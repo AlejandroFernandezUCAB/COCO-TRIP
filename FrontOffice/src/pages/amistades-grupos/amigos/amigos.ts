@@ -262,7 +262,6 @@ export class AmigosPage
  */
   public eliminarAmigos(nombreUsuario, index)
   {
-    //this.amigo.filter(item => item.nombreUsuario == nombreUsuario)[8];
     this.amigo.splice(index, 1);
   }
 

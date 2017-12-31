@@ -213,7 +213,6 @@ export class ModificarGrupoPage
    */    
   public eliminarIntegrante(nombreUsuario, index)
   {
-    //this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
     this.miembro.splice(index, 1);
   }
 

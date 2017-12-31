@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoListaAmigos } from '../../businessLayer/commands/comandoListaAmigos';
 import { ComandoAgregarIntegrante } from '../../businessLayer/commands/comandoAgregarIntegrante';
 
