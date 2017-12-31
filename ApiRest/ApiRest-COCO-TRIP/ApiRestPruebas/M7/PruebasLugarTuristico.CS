@@ -1,7 +1,9 @@
-﻿using ApiRest_COCO_TRIP.Datos.DAO;
+﻿using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using Moq;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using NUnit.Framework;
@@ -152,8 +154,28 @@ namespace ApiRestPruebas.M7
 			}
 
 		}
-	
 
+		//Pruebas Excepciones de DAO
+
+		[Test]
+		public void PruebasExcepciones()
+		{
+
+			Assert.Catch<BaseDeDatosExcepcion>(BaseDeDatosExcepcion);
+
+		}
+	
+		///Auxiliar
+		public void BaseDeDatosExcepcion()
+		{
+			DAO hola = FabricaDAO.CrearDAOLugarTuristico();
+			hola.SqlConexion = new NpgsqlConnection("Host = localhost; Port = 5432; " +
+			"Username = admin_cocotrip; " +
+			"Password = ds1718a; " +
+			"Database = cocotrip");
+			hola.Insertar(_lugarTuristico);
+
+		}
 	
 
 		[TearDown]

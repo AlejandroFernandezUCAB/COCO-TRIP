@@ -9,6 +9,7 @@ using Npgsql;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using NLog;
+using System.Net.Sockets;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -110,6 +111,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			}
 			catch(NullReferenceException e)
 			{
+
 				log.Error(e.Message);
 				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
@@ -117,6 +119,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			}
 			catch(InvalidCastException e)
 			{
+
 				log.Error("Casteo invalido en:"
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
@@ -125,14 +128,25 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			}
 			catch(NpgsqlException e)
 			{
+
 				log.Error("Ocurrio un error en la base de datos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
+			catch(SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
 			catch(Exception e)
 			{
+
 				log.Error("Ocurrio un error desconocido: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new Excepcion(e, "Ocurrio un error desconocido en: "
