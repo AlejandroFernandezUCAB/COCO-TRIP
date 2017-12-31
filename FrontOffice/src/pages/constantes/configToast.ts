@@ -6,5 +6,5 @@
 export class ConfiguracionToast
 {
     public static readonly POSICION : string = 'top';
-    public static readonly DURACION : number = 4000;
+    public static readonly DURACION : number = 2000;
 }

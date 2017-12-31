@@ -12,13 +12,18 @@ Modulo 3: Gestion de Amigos y Grupos de Amigos
     Rechazar notificacion [estado] success
 
   (3) Grupo:
-    Ver lista de Grupos
-    Crear Grupo [estado]
+    Ver lista de Grupos [estado] success
+    Crear Grupo sin miembros [estado] success
+    crear Grupo con miembros [estado] fail
+    [Bad Request (AgregarIntegrante => idGrupo = undefined)]
     (3.1) Como Lider:
-      Eliminar Grupo (Salir del grupo) [estado]
+      Eliminar Grupo (Salir del grupo) [estado] fail
+      [Bad Request (Salir Grupo => idGrupo = undefined)]
       Modificar Grupo (Nombre) [estado]
-      Modificar Grupo (Agregar miembro) [estado]
-      Modificar Grupo (Eliminar miembro) [estado]
+      Modificar Grupo (Agregar miembro) [estado] fail
+      [Bad Request (AgregarIntegrante => idGrupo = undefined)]
+      Modificar Grupo (Eliminar miembro) [estado] fail
+      [Bad Request (EliminarIntegrante => idGrupo = undefined)]
     (3.2) Como Miembro:
       Abandonar el grupo (sin eliminar el grupo) [estado]
       Modificar datos del grupo sin exito [estado]
@@ -28,7 +33,9 @@ Modulo 3: Gestion de Amigos y Grupos de Amigos
   (4) Perfil:
     Ver perfil de amigo (sin agregar) [estado] success
     Ver perfil de amigo (agregado) [estado] success
-    Ver perfil de grupo [estado]
+    Ver perfil de grupo [estado] fail
+    [Bad Request (ConsultarPerfil => idGrupo = undefined)]
+    [Bad Request (ConsultarMiembroGrupo => idGrupo = undefined)]
 
   (5) Fotos (Opcional):
     Ver foto de grupo [estado]

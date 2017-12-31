@@ -46,7 +46,7 @@ export class ComandoObtenerUltimoGrupo extends Comando
             let grupo : any = datos;
             
             this.grupo.setId = grupo.Id;
-
+            console.log("en comando id: " + this.grupo.getId);
             catProd.info('ObtenerUltimoGrupo exitoso. Datos: ' + this.grupo);
             return true;
         }

@@ -115,6 +115,7 @@ export class SeleccionarIntegrantesPage
             {
               if(resultado)
               {
+                console.log("En seleccionar-int id: " + this.comandoObtenerUltimoGrupo.return().getId);
                 this.navCtrl.push(CrearGrupoPage,
                 {
                   idGrupo: this.comandoObtenerUltimoGrupo.return().getId
