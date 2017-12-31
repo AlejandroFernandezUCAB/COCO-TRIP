@@ -6,6 +6,9 @@ using System.Data;
 using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Npgsql;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Reflection;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -13,6 +16,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 	{
 		private LugarTuristico _lugarTuristico;
 		private NpgsqlDataReader _datos;
+		private static Logger log = LogManager.GetCurrentClassLogger();
 
 		public override void Actualizar(Entidad objeto)
 		{
@@ -77,6 +81,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Insertar un lugar turistico en la base de datos
+		/// </summary>
+		/// <param name="objeto">Objeto lugar turistico</param>
 		public override void Insertar(Entidad objeto)
 		{
 			int success = 0 ;
@@ -89,7 +97,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				//Seteando los parametros al SP
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
-				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, null);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Direccion);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Correo);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Bigint, _lugarTuristico.Telefono);
@@ -100,17 +108,37 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				success = Comando.ExecuteNonQuery();
 
 			}
+			catch(NullReferenceException e)
+			{
+				
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
 			catch(InvalidCastException e)
 			{
+
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch(NpgsqlException e)
+			{
+				
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			catch(Exception e)
 			{
 
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			finally
 			{
-				base.Desconectar();
+				Desconectar();
 			}
 		}
 
