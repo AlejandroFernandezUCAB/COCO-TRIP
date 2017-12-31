@@ -49,22 +49,20 @@ export class ComandoAgregarGrupo extends Comando
         {
             this.exito = true;
             catProd.info('AgregarGrupo exitoso. Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de AgregarGrupo. Datos: ' + error);
+
+            return this.exito;
         })
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
+    } 
 }

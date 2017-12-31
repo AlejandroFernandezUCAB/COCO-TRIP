@@ -79,11 +79,15 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
 
             this.exito = true;
             catProd.info('MiembrosSinGrupo exitoso. Datos: ' + this.listaUsuarios);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de MiembrosSinGrupo. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -91,10 +95,4 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     {
         return this.listaUsuarios;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
 }

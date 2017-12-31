@@ -72,11 +72,15 @@ export class ComandoListaAmigos extends Comando
 
             this.exito = true;
             catProd.info('ListaAmigos exitoso. Datos: ' + this.listaUsuarios);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ListaAmigos. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -84,9 +88,5 @@ export class ComandoListaAmigos extends Comando
     {
         return this.listaUsuarios;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

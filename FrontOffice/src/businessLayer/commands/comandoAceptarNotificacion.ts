@@ -47,11 +47,15 @@ export class ComandoAceptarNotificacion extends Comando
         {
             this.exito = true;
             catProd.info('AceptarNotificacion exitoso. Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de AcpetarNotificacion. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -59,10 +63,4 @@ export class ComandoAceptarNotificacion extends Comando
     {
         throw new Error("Method not implemented.");
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
 }

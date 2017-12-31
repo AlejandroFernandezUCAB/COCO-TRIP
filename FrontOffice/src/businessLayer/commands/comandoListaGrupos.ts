@@ -72,11 +72,15 @@ export class ComandoListaGrupos extends Comando
 
             this.exito = true;
             catProd.info('ListaGrupos exitoso. Datos: ' + this.listaGrupos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ListaGrupos. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -84,9 +88,5 @@ export class ComandoListaGrupos extends Comando
     {
         return this.listaGrupos;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

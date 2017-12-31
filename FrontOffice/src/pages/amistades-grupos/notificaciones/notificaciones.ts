@@ -101,9 +101,8 @@ public realizarToast(mensaje : string)
     this.storage.get('id').then((idUsuario) => 
     {
       this.comandoListaNotificaciones.Id = idUsuario;
-      this.comandoListaNotificaciones.execute();
 
-      if(this.comandoListaNotificaciones.isSuccess)
+      if(this.comandoListaNotificaciones.execute())
       {
         this.notificaciones = this.comandoListaNotificaciones.return();
       }
@@ -127,9 +126,8 @@ public realizarToast(mensaje : string)
     {
       this.comandoAceptarNotificacion.NombreUsuario = nombreUsuarioAceptado; 
       this.comandoAceptarNotificacion.Id = idUsuario;
-      this.comandoAceptarNotificacion.execute();
 
-      if(this.comandoAceptarNotificacion.isSuccess)
+      if(this.comandoAceptarNotificacion.execute())
       {
         this.realizarToast(Texto.ACEPTAR_PETICION);
         this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
@@ -152,9 +150,8 @@ public realizarToast(mensaje : string)
     {
       this.comandoRechazarNotificacion.NombreUsuario = nombreUsuarioRechazado;
       this.comandoRechazarNotificacion.Id = idUsuario;
-      this.comandoRechazarNotificacion.execute();
 
-      if(this.comandoRechazarNotificacion.isSuccess)
+      if(this.comandoRechazarNotificacion.execute())
       {
         this.realizarToast(Texto.RECHAZAR_PETICION);
         this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
@@ -176,5 +173,4 @@ public realizarToast(mensaje : string)
     //this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
     this.notificaciones.splice(index, 1);
   }
-  
 }

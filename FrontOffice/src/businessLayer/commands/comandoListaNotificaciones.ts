@@ -72,11 +72,15 @@ export class ComandoListaNotificaciones extends Comando
 
             this.exito = true;
             catProd.info('ListaNotificaciones exitoso. Datos: ' + this.listaNotificaciones);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ListaNotificaciones. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -84,9 +88,5 @@ export class ComandoListaNotificaciones extends Comando
     {
         return this.listaNotificaciones;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

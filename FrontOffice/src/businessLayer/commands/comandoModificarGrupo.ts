@@ -56,21 +56,20 @@ export class ComandoModificarGrupo extends Comando
         {
             this.exito = true;
             catProd.info('ModificarGrupo exitoso. Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catProd.info('Fallo de ModificarGrupo (no autorizado o error interno). Datos: ' + error);
+
+            return this.exito;
         });
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
     }
 }

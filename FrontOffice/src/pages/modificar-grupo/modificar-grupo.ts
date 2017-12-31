@@ -79,9 +79,8 @@ export class ModificarGrupoPage
   public ionViewWillEnter() 
   {
       this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
-      this.comandoVerPerfilGrupo.execute();
 
-      if(this.comandoVerPerfilGrupo.isSuccess)
+      if(this.comandoVerPerfilGrupo.execute())
       {
         this.grupo = this.comandoVerPerfilGrupo.return();
         this.cargarLider(this.navParams.get('idGrupo'));
@@ -99,9 +98,8 @@ export class ModificarGrupoPage
   public cargarLider(id)
   {
     this.comandoObtenerLider.Id = id;
-    this.comandoObtenerLider.execute();
 
-    if(this.comandoObtenerLider.isSuccess)
+    if(this.comandoObtenerLider.execute())
     {
       this.lider = this.comandoObtenerLider.return();
       this.cargarMiembros(id);
@@ -119,9 +117,8 @@ export class ModificarGrupoPage
   public cargarMiembros(id)
   {
     this.comandoObtenerSinLider.Id = id;
-    this.comandoObtenerSinLider.execute();
 
-    if(this.comandoObtenerSinLider.isSuccess)
+    if(this.comandoObtenerSinLider.execute())
     {
       this.miembro = this.comandoObtenerSinLider.return();
     }
@@ -161,9 +158,8 @@ export class ModificarGrupoPage
             {
               this.comandoEliminarIntegrante.IdGrupo = this.navParams.get('idGrupo');
               this.comandoEliminarIntegrante.NombreUsuario = nombreUsuario;
-              this.comandoEliminarIntegrante.execute();
 
-              if(this.comandoEliminarIntegrante.isSuccess)
+              if(this.comandoEliminarIntegrante.execute())
               {
                 this.eliminarIntegrante(nombreUsuario, index);
                 this.realizarToast(this.succesful);
@@ -204,9 +200,8 @@ export class ModificarGrupoPage
         if(this.nombreGrupo == undefined)
         {
           this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
-          this.comandoVerPerfilGrupo.execute();
 
-          if(this.comandoVerPerfilGrupo.isSuccess)
+          if(this.comandoVerPerfilGrupo.execute())
           {
             this.grupo = this.comandoVerPerfilGrupo.return();
           }
@@ -220,9 +215,8 @@ export class ModificarGrupoPage
           this.comandoModificarGrupo.IdUsuario = idUsuario;
           this.comandoModificarGrupo.IdGrupo = this.navParams.get('idGrupo');
           this.comandoModificarGrupo.Nombre = this.nombreGrupo;
-          this.comandoModificarGrupo.execute();
           
-          if(this.comandoModificarGrupo.isSuccess)
+          if(this.comandoModificarGrupo.execute())
           {
             this.realizarToast(this.edited);
           }

@@ -106,9 +106,8 @@ export class GruposPage
       this.storage.get('id').then((idUsuario) => 
       {
         this.comandoListaGrupos.Id = idUsuario;
-        this.comandoListaGrupos.execute();
  
-        if(this.comandoListaGrupos.isSuccess)
+        if(this.comandoListaGrupos.execute())
         {
           this.grupo = this.comandoListaGrupos.return();
         }
@@ -231,9 +230,8 @@ export class GruposPage
     {
       this.comandoVerificarLider.IdGrupo = id;
       this.comandoVerificarLider.IdUsuario = idUsuario;
-      this.comandoVerificarLider.execute();
 
-      if(this.comandoVerificarLider.isSuccess)
+      if(this.comandoVerificarLider.execute())
       {
         this.navCtrl.push(ModificarGrupoPage,
         {
@@ -316,9 +314,8 @@ export class GruposPage
 
                 this.comandoSalirGrupo.IdGrupo = id;
                 this.comandoSalirGrupo.IdUsuario = idUsuario;
-                this.comandoSalirGrupo.execute();
           
-                if(this.comandoSalirGrupo.isSuccess)
+                if(this.comandoSalirGrupo.execute())
                 {
                   this.realizarToast(this.succesful);
                   this.eliminarGrupos(id, index);

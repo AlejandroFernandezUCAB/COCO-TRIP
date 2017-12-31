@@ -64,11 +64,15 @@ export class ComandoVerPerfilGrupo extends Comando
             
             this.exito = true;
             catProd.info('VerPerfilGrupo exitoso. Datos: ' + this.grupo);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de VerPerfilGrupo. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -76,9 +80,5 @@ export class ComandoVerPerfilGrupo extends Comando
     {
         return this.grupo;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

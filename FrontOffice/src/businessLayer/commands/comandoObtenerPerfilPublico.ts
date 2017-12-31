@@ -64,11 +64,15 @@ export class ComandoObtenerPerfilPublico extends Comando
 
             this.exito = true;
             catProd.info('ObtenerPerfilPublico exitoso. Datos: ' + this.usuario); 
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ObtenerPerfilPublico. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -76,9 +80,5 @@ export class ComandoObtenerPerfilPublico extends Comando
     {
         return this.usuario;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

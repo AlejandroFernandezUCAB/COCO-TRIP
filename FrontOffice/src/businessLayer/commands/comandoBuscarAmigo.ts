@@ -78,11 +78,15 @@ export class ComandoBuscarAmigo extends Comando
 
             this.exito = true;
             catProd.info('BuscarAmigos exitoso. Datos: ' + this.listaUsuarios);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de BuscarAmigos. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -91,8 +95,4 @@ export class ComandoBuscarAmigo extends Comando
         return this.listaUsuarios;
     }
 
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
 }

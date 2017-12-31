@@ -102,14 +102,12 @@ export class SeleccionarIntegrantesPage
       {
         this.comandoAgregarGrupo.Lider = idUsuario;
         this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
-        this.comandoAgregarGrupo.execute();
 
-        if(this.comandoAgregarGrupo.isSuccess)
+        if(this.comandoAgregarGrupo.execute())
         {
           this.comandoObtenerUltimoGrupo.Id = idUsuario;
-          this.comandoObtenerUltimoGrupo.execute();
 
-          if(this.comandoObtenerUltimoGrupo.isSuccess)
+          if(this.comandoObtenerUltimoGrupo.execute())
           {
             this.navCtrl.push(CrearGrupoPage,
             {

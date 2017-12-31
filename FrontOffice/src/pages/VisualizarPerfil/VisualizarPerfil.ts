@@ -72,9 +72,8 @@ export class VisualizarPerfilPage
     this.cargando();
     
     this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
-    this.comandoObtenerPerfilPublico.execute();
 
-    if(this.comandoObtenerPerfilPublico.isSuccess)
+    if(this.comandoObtenerPerfilPublico.execute())
     {
       this.amigo = this.comandoObtenerPerfilPublico.return();
     }

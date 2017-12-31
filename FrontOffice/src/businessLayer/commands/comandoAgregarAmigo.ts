@@ -47,11 +47,15 @@ export class ComandoAgregarAmigo extends Comando
         {
             this.exito = true;
             catProd.info('AgregarAmigo exitoso. Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de AgregarAmigo. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -59,10 +63,4 @@ export class ComandoAgregarAmigo extends Comando
     {
         throw new Error("Method not implemented.");
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
 }

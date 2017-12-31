@@ -52,11 +52,15 @@ export class ComandoObtenerUltimoGrupo extends Comando
             
             this.exito = true;
             catProd.info('ObtenerUltimoGrupo exitoso. Datos: ' + this.grupo);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ObtenerUltimoGrupo. Datos: ' + error);
+
+            return this.exito;
         })
     }
 
@@ -64,9 +68,5 @@ export class ComandoObtenerUltimoGrupo extends Comando
     {
         return this.grupo;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

@@ -74,9 +74,8 @@ export class BuscarAmigoPage
         
         this.comandoBuscarAmigo.Nombre = dato;
         this.comandoBuscarAmigo.Id = idUsuario;
-        this.comandoBuscarAmigo.execute();
 
-        if(this.comandoBuscarAmigo.isSuccess)
+        if(this.comandoBuscarAmigo.execute())
         {
           this.lista = this.comandoBuscarAmigo.return();
         }
@@ -97,5 +96,4 @@ export class BuscarAmigoPage
         });
         this.showBar = false;
   }
-  
 }

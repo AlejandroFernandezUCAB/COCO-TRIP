@@ -47,22 +47,20 @@ export class ComandoAgregarIntegrante extends Comando
         {
             this.exito = true;
             catProd.info('AgregarIntegrante exitoso. Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de AgregarIntegrante. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
+    }   
 }

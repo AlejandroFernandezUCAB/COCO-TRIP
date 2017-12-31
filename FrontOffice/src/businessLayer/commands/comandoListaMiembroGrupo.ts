@@ -72,11 +72,15 @@ export class ComandoListaMiembroGrupo extends Comando
 
             this.exito = true;
             catProd.info('ListaMiembroGrupo exitoso. Datos: ' + this.listaMiembros);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ListaMiembroGrupo. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -84,9 +88,5 @@ export class ComandoListaMiembroGrupo extends Comando
     {
         return this.listaMiembros;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }

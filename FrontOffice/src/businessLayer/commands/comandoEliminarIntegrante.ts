@@ -47,11 +47,15 @@ export class ComandoEliminarIntegrante extends Comando
         {
             this.exito = true;
             catProd.info('EliminarIntegrante exitoso. Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de EliminarIntegrante. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -59,10 +63,4 @@ export class ComandoEliminarIntegrante extends Comando
     {
         throw new Error("Method not implemented.");
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
 }

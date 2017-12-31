@@ -98,9 +98,8 @@ export class NuevosIntegrantesPage
         
         this.comandoObtenerMiembrosSinGrupo.IdUsuario = idUsuario;
         this.comandoObtenerMiembrosSinGrupo.IdGrupo = this.navParams.get('idGrupo');
-        this.comandoObtenerMiembrosSinGrupo.execute();
 
-        if(this.comandoObtenerMiembrosSinGrupo.isSuccess)
+        if(this.comandoObtenerMiembrosSinGrupo.execute())
         {
           this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
         }
@@ -161,9 +160,8 @@ export class NuevosIntegrantesPage
           {
             this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
             this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
-            this.comandoAgregarIntegrante.execute();
 
-            if(this.comandoAgregarIntegrante.isSuccess)
+            if(this.comandoAgregarIntegrante.execute())
             {
               this.realizarToast(this.succesful);
             }

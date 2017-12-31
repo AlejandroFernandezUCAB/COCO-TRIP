@@ -107,9 +107,8 @@ export class AmigosPage
      .then(idUsuario => 
      {
        this.comandoListaAmigos.Id = idUsuario;
-       this.comandoListaAmigos.execute();
 
-       if(this.comandoListaAmigos.isSuccess)
+       if(this.comandoListaAmigos.execute()) //try-catch
        {
          this.amigo = this.comandoListaAmigos.return();
        }
@@ -226,9 +225,8 @@ export class AmigosPage
             {
               this.comandoEliminarAmigo.NombreUsuario = nombreUsuario;
               this.comandoEliminarAmigo.Id = idUsuario;
-              this.comandoEliminarAmigo.execute();
 
-              if(this.comandoEliminarAmigo.isSuccess)
+              if(this.comandoEliminarAmigo.execute())
               {
                 this.eliminarAmigos(nombreUsuario, index);
                 this.realizarToast(this.succesful);

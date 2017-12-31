@@ -97,9 +97,8 @@ export class CrearGrupoPage
         console.log('El id del usuario es: ' + idUsuario);
         
         this.comandoListaAmigos.Id = idUsuario;
-        this.comandoListaAmigos.execute();
 
-        if(this.comandoListaAmigos.isSuccess)
+        if(this.comandoListaAmigos.execute())
         {
           this.amigo = this.comandoListaAmigos.return();
         }
@@ -163,9 +162,8 @@ export class CrearGrupoPage
           {
             this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
             this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
-            this.comandoAgregarIntegrante.execute();
 
-            if(this.comandoAgregarIntegrante.isSuccess)
+            if(this.comandoAgregarIntegrante.execute())
             {
               this.realizarToast(this.succesful);
             }

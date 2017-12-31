@@ -116,9 +116,8 @@ export class VisualizarPerfilPublicoPage
     this.cargando();
     
     this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
-    this.comandoObtenerPerfilPublico.execute();
 
-    if(this.comandoObtenerPerfilPublico.isSuccess)
+    if(this.comandoObtenerPerfilPublico.execute())
     {
       this.amigo = this.comandoObtenerPerfilPublico.return();
     }
@@ -143,18 +142,16 @@ export class VisualizarPerfilPublicoPage
     {
       this.comandoAgregarAmigo.Id = idUsuario;
       this.comandoAgregarAmigo.NombreUsuario = item.NombreUsuario;
-      this.comandoAgregarAmigo.execute();
 
-      if(this.comandoAgregarAmigo.isSuccess)
+      if(this.comandoAgregarAmigo.execute())
       {
         this.realizarToast(Texto.EXITO_CONFIRMAR);
 
         this.comandoEnviarCorreo.IdUsuario = idUsuario;
         this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
         this.comandoEnviarCorreo.Correo = item.Correo;
-        this.comandoEnviarCorreo.execute();
   
-        if(this.comandoEnviarCorreo.isSuccess)
+        if(this.comandoEnviarCorreo.execute())
         {
           this.realizarToast(Texto.EXITO_CORREO);
         }

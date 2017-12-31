@@ -47,11 +47,15 @@ export class ComandoVerificarLider extends Comando
         {
             this.exito = true;
             catProd.info('VerificarLider exitoso (es el lider). Datos: ' + datos);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catProd.info('Fallo de VerificarLider (no es el lider o error interno). Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -59,10 +63,4 @@ export class ComandoVerificarLider extends Comando
     {
         throw new Error("Method not implemented.");
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
-    
 }

@@ -64,11 +64,15 @@ export class ComandoObtenerLider extends Comando
 
             this.exito = true;
             catProd.info('ObtenerLider exitoso. Datos: ' + this.usuario);
+
+            return this.exito;
         }
         , error =>
         {
             this.exito = false;
             catErr.info('Fallo de ObtenerLider. Datos: ' + error);
+
+            return this.exito;
         });
     }
 
@@ -76,9 +80,5 @@ export class ComandoObtenerLider extends Comando
     {
         return this.usuario;
     }
-
-    public isSuccess(): boolean
-    {
-        return this.exito;
-    }
+    
 }
