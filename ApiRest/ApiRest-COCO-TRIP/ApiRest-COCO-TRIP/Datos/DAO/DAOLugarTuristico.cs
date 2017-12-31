@@ -35,7 +35,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			try
 			{
 				StoredProcedure("ConsultarLugaresTuristico");
-				_datos = base.Comando.ExecuteReader();
+				_datos = Comando.ExecuteReader();
 
 				while (_datos.Read())
 				{

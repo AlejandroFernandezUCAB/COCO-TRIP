@@ -5,11 +5,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApiRestPruebas.M7
 {
@@ -156,8 +152,6 @@ namespace ApiRestPruebas.M7
 			}
 
 		}
-
-		[Test]
 
 
 
