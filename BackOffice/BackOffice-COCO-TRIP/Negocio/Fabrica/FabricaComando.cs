@@ -1,8 +1,5 @@
 using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 
 namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 {
@@ -99,5 +96,26 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
         {
             return new ComandoConsultarListaCategoria();
         }
-    }
+
+        public static ComandoConsultarLugaresTuristicos GetComandoConsultarLugaresTuristicos()
+        {
+            return new ComandoConsultarLugaresTuristicos();
+        }
+
+        public static ComandoAgregarLugarTuristico GetComandoAgregarLugarTuristico()
+        {
+            return new ComandoAgregarLugarTuristico();
+        }
+
+        public static ComandoAgregarActividad GetComandoAgregarActividad()
+        {
+            return new ComandoAgregarActividad();
+        }
+
+        public static ComandoAgregarHorario GetComandoAgregarHorario()
+        {
+            return new ComandoAgregarHorario();
+        }
+
+  }
 }

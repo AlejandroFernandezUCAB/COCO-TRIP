@@ -1,6 +1,4 @@
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using System.Linq;
-using System.Web;
 
 namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 {
@@ -9,10 +7,16 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
   /// </summary>
   public class FabricaEntidad
   {
-        public static Categoria GetCategoria()
-        {
-            return new Categoria();
-        }
-
+    public static Categoria GetCategoria()
+    {
+      return new Categoria();
     }
+
+    public static LugarTuristico GetLugarTuristico()
+    {
+      return new LugarTuristico();
+    }
+
+  }
+
 }
