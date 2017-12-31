@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-//using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
 using System.Reflection;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
@@ -9,6 +8,9 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Npgsql;
 using NpgsqlTypes;
+using ApiRest_COCO_TRIP.Datos.Singleton;
+
+
 /// <summary>
 /// Autores - MODULO 9:
 ///      Marialette Arguelles, Michel Jraiche y Horacio Orrillo
@@ -23,6 +25,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         private NpgsqlDataReader leerDatos;
         private List<Entidad> lista;
         private Categoria categoria;
+        private static MensajeResultadoOperacion mensajeRegistry = MensajeResultadoOperacion.ObtenerInstancia();
+        private string mensaje;
 
         public DAOCategoria()
         {
@@ -30,7 +34,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             lista = new List<Entidad>();
         }
 
-
+        /////////////////////////////////////// METODOS AUXILIARES DE DAO ///////////////////////////////////////
+        #region metodosAuxiliares
         private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
         {
             var parametro = new NpgsqlParameter
@@ -67,6 +72,36 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
         }
 
+
+        /// <summary>
+        /// Metodo que lee los datos de la categoria
+        /// </summary>
+        /// <returns>IList con las categorias que se encuentran en el atributo "leerDatos"</returns>
+        private IList<Categoria> SetListaCategoria()
+        {
+            IList<Categoria> listaCategorias = new List<Categoria>();
+            while (leerDatos.Read())
+            {
+                listaCategorias.Add(new Categoria()
+                {
+                    Id = leerDatos.GetInt32(0),
+                    Nombre = leerDatos.GetString(1),
+                    Descripcion = leerDatos.GetString(2),
+                    Estatus = leerDatos.GetBoolean(3),
+                    Nivel = leerDatos.GetInt32(4)
+                });
+                Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
+                listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
+            }
+            return listaCategorias;
+        }
+
+
+        #endregion metodosAuxiliares
+
+
+        /////////////////////////////////////// METODOS HEREDADOS DE DAO ///////////////////////////////////////
+        #region metodosHeredados
         /// <summary>
         /// Metodo Create, permite insertar una Entidad tipo categoria en la base de datos.
         /// </summary>
@@ -98,43 +133,27 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
-                /* TODO: Cambiar este throw por el de abajo, cuidar pruebas de Michel.
-                 * Nota para Horacio, estar pendiente de los mensajes del registry.
-                string mensaje = "Error de duplicidad en nombre en " + this.GetType().FullName + "." +
-                    MethodBase.GetCurrentMethod().Name + " donde id:" + categoria.Id +
-                    " No se puede agregar con el nombre:" + categoria.Nombre +
-                    " porque este nombre ya existe";
-                throw new NombreDuplicadoException(ex,mensaje);
-                */
-                throw new NombreDuplicadoExcepcion($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+                mensaje = "Error de duplicidad de nombre en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name 
+                    + ". Este nombre de categoria ya existe. || " + ex.Message;
+                throw new NombreDuplicadoExcepcion(ex, mensaje);
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $"ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
-                    Mensaje = $"Error al momento de agregar la catgoria {categoria.Id}"
-                };
-
-                //TODO: Cambiar el otro throw por este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al agregar registro en " + this.GetType().FullName + "." +
-                    MethodBase.GetCurrentMethod().Name + " donde id:" + categoria.Id +
-                    " y el nombre:" + categoria.Nombre;
+                mensaje = "Error al agregar categoria en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name 
+                    + " || "+ ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex,mensaje);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);
             }
             finally
             {
                 base.Desconectar();
             }
         }
+
+
 
         /// <summary>
         /// Metodo Read, consulta mediante un Id. 
@@ -187,24 +206,18 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 else
                 {
                     IList<Categoria> Listacategoria = daoc.ObtenerTodasLasCategorias();
-                    //TODO: Una variable con "var" revisar.
-                    var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
+                    IList<Categoria> hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
                     if (hijos.Count == 0)
                     {
                         ParametrosModificar(categoria);
                     }
                     else
                     {
-                        //TODO: Cambiar "hijos" por "dependecias".
-                        //precaucion con las pruebas de Michel usa estos mensajes. 
-                        /*
                         Exception ex = new Exception("Dependencias asociadas.");
-                        string mensaje = "Error de dependiencia en " + this.GetType().FullName + "." +
-                            MethodBase.GetCurrentMethod().Name + " donde id:" + categoria.Id +
-                            " y nombre:" + categoria.Nombre + " ya que tiene dependencia";
+                        mensaje = "Error de dependiencia en " + this.GetType().FullName + ". " +
+                            MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
+                            " y nombre: " + categoria.Nombre + " ya que tiene dependencia";
                         throw new HijoConDePendenciaExcepcion(ex, mensaje);
-                        */
-                        throw new HijoConDePendenciaExcepcion($"Esta categoria id:{categoria.Id} nombre:{categoria.Nombre} tiene hijos");
                     }
                 }
                 if (categoria.CategoriaSuperior == 0)
@@ -219,45 +232,29 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
-                /* TODO: Cambiar este throw por el de abajo, cuidar pruebas de Michel.
-                 * Nota para Horacio, estar pendiente de los mensajes del registry.
-                string mensaje = "Error de duplicidad en nombre en " + this.GetType().FullName + "." +
-                    MethodBase.GetCurrentMethod().Name + " donde id:" + categoria.Id +
-                    " No se puede agregar con el nombre:" + categoria.Nombre +
-                    " porque este nombre ya existe";
-                throw new NombreDuplicadoException(ex,mensaje);
-                */
-                throw new NombreDuplicadoExcepcion($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+                mensaje = "Error de duplicidad en nombre en " + this.GetType().FullName + ". " +
+                    MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
+                    " No se puede modificar al nombre: " + categoria.Nombre +
+                    " porque este nombre de categoria ya existe" + " || " + ex.Message;
+                throw new NombreDuplicadoExcepcion(ex, mensaje);
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior}, NIVEL : {categoria.Nivel} ",
-                    Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
-                };
-
-                //TODO: Cambiar el otro throw poe este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al agregar registro en " + this.GetType().FullName + "." +
-                    MethodBase.GetCurrentMethod().Name + " donde id:" + categoria.Id +
-                    " y el nombre:" + categoria.Nombre;
+                mensaje = "Error al actualizar/modificar el registro en " + this.GetType().FullName + ". " +
+                    MethodBase.GetCurrentMethod().Name + " donde ca_id: " + categoria.Id +
+                    " y ca_nombre: " + categoria.Nombre + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
 
             }
             catch (ArgumentNullException ex) //Esto ocurre en el momento de utilizar el metodo .ToList().
             {
                 //TODO Mejorar ese mensaje de error, no tengo idea de que hace esa linea.
-                string mensaje = "Error creando las lista para las categorias";
+                string mensaje = "Error creando las lista para las categorias " + " || " + ex.Message;
                 throw new ArgumentoNuloExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);
             }
             finally
             {
@@ -276,7 +273,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         public void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0; //TODO: Esta variable hace falta?
+            int exitoso = 0;
             try
             {
                 StoredProcedure("m9_actualizarEstatusCategoria");
@@ -287,34 +284,19 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
-                    Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
-                };
-
-                //TODO: Cambiar el otro throw por este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al agregar registro en " + this.GetType().FullName + "." +
-                    MethodBase.GetCurrentMethod().Name + " donde id:" + categoria.Id +
-                    " y el nombre:" + categoria.Nombre;
+                mensaje = "Error al actualizar el estado de la categoria. || " + this.GetType().FullName 
+                    + ". En el metodo " + MethodBase.GetCurrentMethod().Name + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);
             }
             finally
             {
                 base.Desconectar();
             }
         }
-
-
 
         /// <summary>
         /// Metodo Delete, elimina una Categoria enviada por parametro.
@@ -326,32 +308,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new NotImplementedException();
         }
 
+        #endregion metodosHeredados
 
 
-        //Metodos extra
-        //TODOS LOS DE CONSULTA ESTAN ACA PORQUE NO CUADRAN CON LOS GENERALES
-        /// <summary>
-        /// Metodo que lee los datos de la categoria
-        /// </summary>
-        /// <returns>IList con las categorias que se encuentran en el atributo "leerDatos"</returns>
-        private IList<Categoria> SetListaCategoria()
-        {
-            IList<Categoria> listaCategorias = new List<Categoria>();
-            while (leerDatos.Read())
-            {
-                listaCategorias.Add(new Categoria()
-                {
-                    Id = leerDatos.GetInt32(0),
-                    Nombre = leerDatos.GetString(1),
-                    Descripcion = leerDatos.GetString(2),
-                    Estatus = leerDatos.GetBoolean(3),
-                    Nivel = leerDatos.GetInt32(4)
-                });
-                Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
-                listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
-            }
-            return listaCategorias;
-        }
+        /////////////////////////////////////// METODOS ESPECIFICOS DE DAOCATEGORIA ///////////////////////////////////////
+        #region metodosEspecificos
 
         /// <summary>
         /// EndPoint para obtener las categorias hijas a partir de una categoria padre dado un ID,
@@ -371,24 +332,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar las todas categorias"
-                };
-
-                //TODO: Cambiar el otro throw por este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al realizar la consulta de todas las categorias en " + 
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+                mensaje = "Error al realizar la consulta de las categorias habilitadas " +
+                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -419,28 +369,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar las todas categorias"
-                };
-
-                //TODO: Cambiar el otro throw por este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al realizar la consulta de todas las categorias en " + 
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+                string mensaje = "Error al consultar categoria por id " + 
+                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " || ca_id = " + categoria.Id + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+              throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
-                base.Desconectar();
+              base.Desconectar();
             }
             return listaCategorias;
         }
@@ -448,7 +387,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 
         /// <summary>
-        /// Metodo que obtiene una lista con todas las categorias.
+        /// Metodo que obtiene una lista con todas las categorias de la base de datos.
         /// </summary>
         /// <returns>IList con las Categorias.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
@@ -464,28 +403,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar las todas categorias"
-                };
-
-                //TODO: Cambiar el otro throw por este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al realizar la consulta de todas las categorias en " + 
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+                mensaje = "Error al realizar la consulta de todas las categorias en " + 
+                 this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+              throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
-                base.Desconectar();
+              base.Desconectar();
             }
             return listaCategorias;
         }
@@ -523,28 +451,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar el id de una categoria a partir del nombre"
-                };
-
-                //TODO: Cambiar el otro throw por este, precaucion con las  pruebas de Michel.
-                /*
-                string mensaje = "Error al realizar la consulta por el nombre de la categorias en " + 
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+                mensaje = "Error al realizar la consulta por el nombre de las categorias en " + 
+                this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " ca_nombre = " + categoria.Nombre + "  || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+              throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
-                base.Desconectar();
+              base.Desconectar();
             }
             return categoria;
         }
@@ -579,25 +496,15 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}",
-                    Mensaje = $"Error al momento de buscar las categorias"
-                };
-
-                /*
-                string mensaje = "Error al realizar la consulta de la categorias en " + 
+                mensaje = "Error al realizar la consulta de la categorias en " + 
                     this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + 
                     " con el id:" + categoria.Id;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
-                */
-
-                throw bdException;
             }
             catch (Exception ex)
             {
-                string mensaje = "Error inesperado";
-                throw new Excepcion(ex, mensaje);
+                
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -605,5 +512,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
+       
+        
+        #endregion metodosEspecificos
     }
 }

@@ -2,7 +2,8 @@
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-using System;
+using NLog;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 /// <summary>
 /// Autores - MODULO 9:
@@ -16,7 +17,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     private DAO dao = FabricaDAO.CrearDAOCategoria();
     private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
+    //TODO: Esta debe ser una lista de Entidades, no de categorias.
     private IList<Categoria> resultado = new List<Categoria>();
+    private string datosCategoria;
+    private static Logger log = LogManager.GetCurrentClassLogger();
 
     public ComandoObtenerCategorias(Entidad entidad)
     {
@@ -27,12 +31,21 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
+        datosCategoria = " ID: " + ((Categoria)entidad).Id;
         resultado=((DAOCategoria)dao).ObtenerCategorias(entidad);
+        log.Info("Categorias consultadas con exito: " + datosCategoria);
       }
-      catch (Exception e)
+      catch (BaseDeDatosExcepcion e)
       {
-        //TERMINAR
-        throw e;
+          e.DatosAsociados = datosCategoria;
+          log.Error(e.Mensaje + " || " + e.DatosAsociados);
+          throw e;
+      }
+      catch (Excepcion e)
+      {
+          e.DatosAsociados = datosCategoria;
+          log.Error(e.Mensaje + " || " + e.DatosAsociados);
+          throw e;
       }
     }
 

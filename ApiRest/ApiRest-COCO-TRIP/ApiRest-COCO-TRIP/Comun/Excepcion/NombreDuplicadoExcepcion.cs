@@ -9,7 +9,8 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     public class NombreDuplicadoExcepcion : Exception
     {
         private Exception excepcion;
-        private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
+        private DateTime fechaHora; //Hora y fecha de cuando se genero la excepción.
+        private string datosAsociados;
         private string mensaje;       //Breve descripción de la excepción genereda con parametro del metodo con la que se ocasiono.
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// Getters y Setters del atributo "mensaje".
         /// </summary>
         public string Mensaje { get => mensaje; set => mensaje = value; }
+        public string DatosAsociados { get => datosAsociados; set => datosAsociados = value; }
 
         /// <summary>
         /// Constructor

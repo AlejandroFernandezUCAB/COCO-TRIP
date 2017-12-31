@@ -4,7 +4,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -12,7 +12,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
         DAO dao = FabricaDAO.CrearDAOCategoria();
         private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
-
+        private string datosCategoria;
+        private static Logger log = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Metodo Constructor.
         /// </summary>
@@ -32,30 +33,27 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         {
             try
             {
+                datosCategoria = " Nombre: " + ((Categoria)entidad).Nombre + " - NivelCategoria: " + ((Categoria)entidad).Nivel;
                 ((DAOCategoria)dao).Insertar(entidad);
-                //dao.Insertar(entidad);
+                log.Info("Categoria nueva agregada con exito: " + datosCategoria);
             }
-            catch (NombreDuplicadoExcepcion ex)
+            catch (NombreDuplicadoExcepcion e)
             {
-                string mensaje = "Error en duplicidad de nombre en " + 
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-                throw new NombreDuplicadoExcepcion(ex, mensaje);
+                e.DatosAsociados = datosCategoria;
+                log.Error(e.Mensaje + " || " + e.DatosAsociados);
+                throw e;
             }
-            catch (BaseDeDatosExcepcion ex)
+            catch (BaseDeDatosExcepcion e)
             {
-                string mensaje = "Error al realizar operacion con la base de datos en " +
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-                throw new BaseDeDatosExcepcion(ex, mensaje);
+                e.DatosAsociados = datosCategoria;
+                log.Error(e.Mensaje + " || " + e.DatosAsociados);
+                throw e;
             }
-            catch (Excepcion ex)
+            catch (Excepcion e)
             {
-                //TODO: Se puede borrar esto?
-                //sql exception
-                //null reference exception
-                //TERMINAR
-                string mensaje = "Error inesperado en " +
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
-                throw new Excepcion(ex, mensaje);
+                e.DatosAsociados = datosCategoria;
+                log.Error(e.Mensaje + " || " + e.DatosAsociados);
+                throw e;
             }
         }
 
