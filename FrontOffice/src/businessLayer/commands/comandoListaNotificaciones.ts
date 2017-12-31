@@ -39,9 +39,9 @@ export class ComandoListaNotificaciones extends Comando
         this.listaNotificaciones = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.listaNotificaciones(this.id)
+        return this.servicio.listaNotificaciones(this.id)
         .then(datos => 
         {
             let lista : any = datos;

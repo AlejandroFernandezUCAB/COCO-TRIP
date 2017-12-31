@@ -39,9 +39,9 @@ export class ComandoListaAmigos extends Comando
         this.listaUsuarios = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.listaAmigos(this.id)
+        return this.servicio.listaAmigos(this.id)
         .then(datos => 
         {
             let lista : any = datos;

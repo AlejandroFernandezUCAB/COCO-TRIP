@@ -39,9 +39,9 @@ export class ComandoVerPerfilGrupo extends Comando
         this.grupo = Array<Grupo>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.verPerfilGrupo(this.id)
+        return this.servicio.verPerfilGrupo(this.id)
         .then(datos => 
         {
             let grupo : any = datos;

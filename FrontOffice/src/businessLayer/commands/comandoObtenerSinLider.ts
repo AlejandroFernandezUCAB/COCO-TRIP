@@ -39,9 +39,9 @@ export class ComandoObtenerSinLider extends Comando
         this.listaMiembros = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.obtenerSinLider(this.id)
+        return this.servicio.obtenerSinLider(this.id)
         .then(datos => 
         {
             let lista : any = datos;

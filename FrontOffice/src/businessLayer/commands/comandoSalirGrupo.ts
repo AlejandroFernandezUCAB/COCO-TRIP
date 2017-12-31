@@ -40,9 +40,9 @@ export class ComandoSalirGrupo extends Comando
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.salirGrupo(this.idUsuario, this.idGrupo)
+        return this.servicio.salirGrupo(this.idUsuario, this.idGrupo)
         .then(datos => 
         {
             this.exito = true;

@@ -40,9 +40,9 @@ export class ComandoEliminarAmigo extends Comando
         super();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.eliminarAmigo(this.nombreUsuario, this.id)
+        return this.servicio.eliminarAmigo(this.nombreUsuario, this.id)
         .then(datos => 
         {
             this.exito = true;

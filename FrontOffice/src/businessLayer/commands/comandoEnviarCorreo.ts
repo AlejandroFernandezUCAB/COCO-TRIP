@@ -46,9 +46,9 @@ export class ComandoEnviarCorreo extends Comando
         super();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.enviarCorreo(this.idUsuario, this.nombreDestinatario, this.correoDestinatario)
+        return this.servicio.enviarCorreo(this.idUsuario, this.nombreDestinatario, this.correoDestinatario)
         .then(datos => 
         {
             this.exito = true;

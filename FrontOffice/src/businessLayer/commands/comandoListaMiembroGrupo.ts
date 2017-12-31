@@ -39,9 +39,9 @@ export class ComandoListaMiembroGrupo extends Comando
         this.listaMiembros = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.listaMiembroGrupo(this.id)
+        return this.servicio.listaMiembroGrupo(this.id)
         .then(datos => 
         {
             let lista : any = datos;

@@ -49,9 +49,9 @@ export class ComandoModificarGrupo extends Comando
         this.grupo = FabricaEntidad.crearGrupo();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.modificarGrupo(this.grupo, this.idUsuario)
+        return this.servicio.modificarGrupo(this.grupo, this.idUsuario)
         .then(datos => 
         {
             this.exito = true;

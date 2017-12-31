@@ -45,9 +45,9 @@ export class ComandoBuscarAmigo extends Comando
         this.listaUsuarios = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.buscarAmigos(this.nombre, this.id)
+        return this.servicio.buscarAmigos(this.nombre, this.id)
         .then(datos => 
         {
             let lista : any = datos;

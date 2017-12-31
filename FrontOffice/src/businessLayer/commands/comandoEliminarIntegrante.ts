@@ -40,9 +40,9 @@ export class ComandoEliminarIntegrante extends Comando
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.eliminarIntegrante(this.nombreUsuario, this.idGrupo)
+        return this.servicio.eliminarIntegrante(this.nombreUsuario, this.idGrupo)
         .then(datos => 
         {
             this.exito = true;

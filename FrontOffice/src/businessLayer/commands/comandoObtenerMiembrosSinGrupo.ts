@@ -46,9 +46,9 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
         this.listaUsuarios = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.obtenerMiembrosSinGrupo(this.idUsuario, this.idGrupo)
+        return this.servicio.obtenerMiembrosSinGrupo(this.idUsuario, this.idGrupo)
         .then(datos => 
         {
             let lista : any = datos;

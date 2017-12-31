@@ -39,9 +39,9 @@ export class ComandoObtenerLider extends Comando
         this.usuario = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.obtenerLider(this.id)
+        return this.servicio.obtenerLider(this.id)
         .then(datos => 
         {
             let usuario : any = datos;

@@ -40,9 +40,9 @@ export class ComandoVerificarLider extends Comando
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.verificarLider(this.idGrupo, this.idUsuario)
+        return this.servicio.verificarLider(this.idGrupo, this.idUsuario)
         .then(datos => 
         {
             this.exito = true;

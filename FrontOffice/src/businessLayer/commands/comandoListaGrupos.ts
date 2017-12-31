@@ -39,9 +39,9 @@ export class ComandoListaGrupos extends Comando
         this.listaGrupos = new Array<Grupo>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.listaGrupo(this.id)
+        return this.servicio.listaGrupo(this.id)
         .then(datos => 
         {
             let lista : any = datos;            

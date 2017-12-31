@@ -39,9 +39,9 @@ export class ComandoObtenerPerfilPublico extends Comando
         this.usuario = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute() 
     {
-        this.servicio.obtenerPerfilPublico(this.nombreUsuario)
+        return this.servicio.obtenerPerfilPublico(this.nombreUsuario)
         .then(datos => 
         {
             let usuario : any = datos;

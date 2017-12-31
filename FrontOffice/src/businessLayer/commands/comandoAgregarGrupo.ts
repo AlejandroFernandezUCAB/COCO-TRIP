@@ -28,11 +28,13 @@ export class ComandoAgregarGrupo extends Comando
     set Lider(id : number)
     {
         this.grupo.Lider = id;
+        console.log('this.grupo.Lider ' + this.grupo.Lider);
     }
 
     set Nombre(nombre : string)
     {
         this.grupo.Nombre = nombre;
+        console.log('this.grupo.Nombre ' + this.grupo.Nombre);
     }
 
     public constructor(private servicio : RestapiService)
@@ -42,9 +44,11 @@ export class ComandoAgregarGrupo extends Comando
         this.grupo = FabricaEntidad.crearGrupo();
     }
 
-    public execute() : void
+    public execute()
     {
-        this.servicio.agregarGrupo(this.grupo)
+        console.log('Execute lider: ' + this.grupo.Lider);
+        console.log('Execute nombre: ' + this.grupo.Nombre);
+        return this.servicio.agregarGrupo(this.grupo)
         .then(datos => 
         {
             this.exito = true;

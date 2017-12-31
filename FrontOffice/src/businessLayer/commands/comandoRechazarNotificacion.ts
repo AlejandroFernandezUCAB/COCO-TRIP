@@ -40,9 +40,9 @@ export class ComandoRechazarNotificacion extends Comando
         super();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.rechazarNotificacion(this.nombreUsuario, this.id)
+        return this.servicio.rechazarNotificacion(this.nombreUsuario, this.id)
         .then(datos => 
         {
             this.exito = true;

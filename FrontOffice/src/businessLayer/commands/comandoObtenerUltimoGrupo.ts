@@ -39,9 +39,9 @@ export class ComandoObtenerUltimoGrupo extends Comando
         this.grupo = FabricaEntidad.crearGrupo();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.obtenerUltimoGrupo(this.id)
+        return this.servicio.obtenerUltimoGrupo(this.id)
         .then(datos => 
         {
             let grupo : any = datos;

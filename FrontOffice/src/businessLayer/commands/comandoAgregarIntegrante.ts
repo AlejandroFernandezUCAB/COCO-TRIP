@@ -40,9 +40,9 @@ export class ComandoAgregarIntegrante extends Comando
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.agregarIntegrante(this.idGrupo, this.nombreUsuario)
+        return this.servicio.agregarIntegrante(this.idGrupo, this.nombreUsuario)
         .then(datos => 
         {
             this.exito = true;
