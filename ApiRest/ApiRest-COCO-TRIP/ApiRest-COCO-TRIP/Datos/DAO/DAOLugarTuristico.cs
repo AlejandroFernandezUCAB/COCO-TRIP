@@ -97,7 +97,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				//Seteando los parametros al SP
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
-				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, null);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Direccion);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Correo);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Bigint, _lugarTuristico.Telefono);
@@ -110,28 +110,31 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			}
 			catch(NullReferenceException e)
 			{
-				
+				log.Error(e.Message);
 				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			catch(InvalidCastException e)
 			{
-
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			catch(NpgsqlException e)
 			{
-				
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			catch(Exception e)
 			{
-
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new Excepcion(e, "Ocurrio un error desconocido en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 

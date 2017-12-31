@@ -82,6 +82,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 				{
 					daoFoto.Insertar(_foto[i], _lugarTuristico);
 				}
+				//TODO: Agregar el archivo foto.
 
 				for (int i = 0; i < _horario.Count; i++)
 				{
@@ -108,14 +109,18 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			}
 			catch (CasteoInvalidoExcepcion e)
 			{
-				log.Error(e.Mensaje);
-				throw new CasteoInvalidoExcepcion(e, "Parametros de entrada nulos en: "
+
+				log.Error("Casteo invalido en:"
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			catch (BaseDeDatosExcepcion e)
 			{
 
-				log.Error(e.Mensaje);
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
@@ -123,7 +128,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			catch (Excepcion e)
 			{
 
-				log.Error(e.Mensaje);
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 				throw new Excepcion(e, "Ocurrio un error desconocido en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
