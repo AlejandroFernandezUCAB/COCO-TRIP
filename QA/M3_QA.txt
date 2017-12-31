@@ -1,4 +1,6 @@
 Modulo 3: Gestion de Amigos y Grupos de Amigos
+-- Version aprobada para entrar a QS
+-- Version aprobada para entrar a master
 
   (1) Amigos:
     Ver lista de amigos [estado] success
