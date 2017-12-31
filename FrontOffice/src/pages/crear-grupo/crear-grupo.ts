@@ -140,7 +140,7 @@ export class CrearGrupoPage
  * @param evento evento
  * @param nombreUsuario Nombre del usuario a ser agregado
  */
-  public agregarIntegrantes(evento, nombreUsuario)
+  public agregarIntegrantes(evento, nombreUsuario, index)
   {
     this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
     this.translateService.get(Texto.MENSAJE_AGREGAR_INTEGRANTE).subscribe(value => {this.message = value;})
@@ -173,6 +173,7 @@ export class CrearGrupoPage
             {
               if(resultado)
               {
+                this.amigo.splice(index, 1);
                 this.realizarToast(this.succesful)
               }
               else

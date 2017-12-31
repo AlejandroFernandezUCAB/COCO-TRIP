@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController} from 'ionic-angular';
 import { ModificarGrupoPage } from '../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
@@ -141,7 +141,7 @@ export class NuevosIntegrantesPage
  * @param evento evento
  * @param nombreUsuario Nombre del usuario a agregar
  */
-  public agregarIntegrantes(evento, nombreUsuario)
+  public agregarIntegrantes(evento, nombreUsuario, index)
   {
     this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
     this.translateService.get(Texto.MENSAJE_AGREGAR_INTEGRANTE).subscribe(value => {this.message = value;})
@@ -171,6 +171,7 @@ export class NuevosIntegrantesPage
             {
               if(resultado)
               {
+                this.amigo.splice(index, 1);
                 this.realizarToast(this.succesful);
               }
               else
@@ -185,5 +186,4 @@ export class NuevosIntegrantesPage
     });
       alert.present();
  }
- 
 }

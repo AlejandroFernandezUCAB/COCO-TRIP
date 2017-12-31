@@ -20,7 +20,7 @@ Modulo 3: Gestion de Amigos y Grupos de Amigos
       Eliminar Grupo (Salir del grupo sin miembros) [estado] success
       Eliminar Grupo (Salir del grupo con miembros) [estado] success
       Modificar Grupo (Nombre) [estado] fail
-      Modificar Grupo (Agregar miembro) [estado] success (con bugs)
+      Modificar Grupo (Agregar miembro) [estado] success
       Modificar Grupo (Eliminar miembro) [estado] success
     (3.2) Como Miembro:
       Abandonar el grupo (sin eliminar el grupo) [estado]
