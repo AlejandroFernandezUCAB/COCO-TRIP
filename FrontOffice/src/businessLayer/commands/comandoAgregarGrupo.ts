@@ -26,12 +26,12 @@ export class ComandoAgregarGrupo extends Comando
 
     set Lider(id : number)
     {
-        this.grupo.Lider = id;
+        this.grupo.setLider = id;
     }
 
     set Nombre(nombre : string)
     {
-        this.grupo.Nombre = nombre;
+        this.grupo.setNombre = nombre;
     }
 
     public constructor(private servicio : RestapiService)
@@ -39,6 +39,13 @@ export class ComandoAgregarGrupo extends Comando
         super();
 
         this.grupo = FabricaEntidad.crearGrupo();
+
+        this.grupo.setId = 0;
+        this.grupo.setNombre = null;
+        this.grupo.setContenidoFoto = null;
+        this.grupo.setRutaFoto = null;
+        this.grupo.setLider = 0;
+        this.grupo.setCantidadIntegrantes = 0;
     }
 
     public execute()
@@ -60,5 +67,4 @@ export class ComandoAgregarGrupo extends Comando
     {
         throw new Error("Method not implemented.");
     } 
-    
 }

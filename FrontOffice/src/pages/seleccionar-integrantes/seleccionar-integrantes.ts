@@ -117,7 +117,7 @@ export class SeleccionarIntegrantesPage
               {
                 this.navCtrl.push(CrearGrupoPage,
                 {
-                  idGrupo: this.comandoObtenerUltimoGrupo.return().Id
+                  idGrupo: this.comandoObtenerUltimoGrupo.return().getId
                 });
       
                 this.realizarToast(this.succesful);

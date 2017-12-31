@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
+import { Entidad } from '../../dataAccessLayer/domain/entidad';
 
 /*
   Generated class for the Restapi provider.
@@ -692,13 +693,11 @@ eveSegunPreferencias(idUser){
 * Metodo para agregar el grupo
 * @param grupo Datos del grupo
 */
-  public agregarGrupo(grupo : Grupo) 
+  public agregarGrupo(grupo : Entidad) 
   {
     return new Promise((resolve, reject) => 
-    {
-      console.log('restapi-service grupo.Id ' + grupo.Id);
-      console.log('restapi-service grupo.Lider ' + grupo.Lider);
-      console.log('restapi-service grupo.Nombre ' + grupo.Nombre);
+    { 
+      console.log('restapi-service json: ' + JSON.stringify(grupo));
       
       this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
       .map(respuesta => respuesta.json())
@@ -753,7 +752,7 @@ eveSegunPreferencias(idUser){
    * @param grupo Datos a modificar del grupo
    * @param idUsuario Identificador del usuario lider
    */
-  public modificarGrupo(grupo : Grupo, idUsuario : number)
+  public modificarGrupo(grupo : Entidad, idUsuario : number)
   {
     return new Promise((resolve, reject) => 
     {
