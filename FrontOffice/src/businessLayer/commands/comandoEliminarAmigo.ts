@@ -23,8 +23,6 @@ export class ComandoEliminarAmigo extends Comando
     private id : number;
     private nombreUsuario : string;
 
-    private exito: boolean;
-
     set Id(id : number)
     {
         this.id = id;
@@ -45,17 +43,13 @@ export class ComandoEliminarAmigo extends Comando
         return this.servicio.eliminarAmigo(this.nombreUsuario, this.id)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('EliminarAmigo exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de EliminarAmigo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

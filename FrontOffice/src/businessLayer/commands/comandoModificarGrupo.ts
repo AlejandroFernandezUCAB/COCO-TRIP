@@ -25,8 +25,6 @@ export class ComandoModificarGrupo extends Comando
     private grupo : Grupo;
     private idUsuario : number;
 
-    private exito: boolean;
-
     set IdUsuario(id : number)
     {
         this.idUsuario = id;
@@ -54,17 +52,13 @@ export class ComandoModificarGrupo extends Comando
         return this.servicio.modificarGrupo(this.grupo, this.idUsuario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('ModificarGrupo exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catProd.info('Fallo de ModificarGrupo (no autorizado o error interno). Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -72,4 +66,5 @@ export class ComandoModificarGrupo extends Comando
     {
         throw new Error("Method not implemented.");
     }
+    
 }

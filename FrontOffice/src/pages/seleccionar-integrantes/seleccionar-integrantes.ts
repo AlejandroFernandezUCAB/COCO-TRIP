@@ -103,28 +103,38 @@ export class SeleccionarIntegrantesPage
         this.comandoAgregarGrupo.Lider = idUsuario;
         this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
 
-        if(this.comandoAgregarGrupo.execute())
+        this.comandoAgregarGrupo.execute()
+        .then((resultado) => 
         {
-          this.comandoObtenerUltimoGrupo.Id = idUsuario;
-
-          if(this.comandoObtenerUltimoGrupo.execute())
+          if(resultado)
           {
-            this.navCtrl.push(CrearGrupoPage,
-            {
-              idGrupo: this.comandoObtenerUltimoGrupo.return().Id
-            });
+            this.comandoObtenerUltimoGrupo.Id = idUsuario;
 
-            this.realizarToast(this.succesful);
+            this.comandoObtenerUltimoGrupo.execute()
+            .then((resultado) => 
+            {
+              if(resultado)
+              {
+                this.navCtrl.push(CrearGrupoPage,
+                {
+                  idGrupo: this.comandoObtenerUltimoGrupo.return().Id
+                });
+      
+                this.realizarToast(this.succesful);
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
           else
           {
             this.realizarToast(Texto.ERROR);
           }
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
       });
@@ -149,4 +159,5 @@ export class SeleccionarIntegrantesPage
     });
     this.toast.present();
   }
+  
 }

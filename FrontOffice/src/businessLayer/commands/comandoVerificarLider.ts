@@ -33,8 +33,6 @@ export class ComandoVerificarLider extends Comando
         this.idGrupo = id;
     }
 
-    private exito: boolean;
-
     public constructor(private servicio: RestapiService)
     {
         super();
@@ -45,17 +43,13 @@ export class ComandoVerificarLider extends Comando
         return this.servicio.verificarLider(this.idGrupo, this.idUsuario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('VerificarLider exitoso (es el lider). Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catProd.info('Fallo de VerificarLider (no es el lider o error interno). Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

@@ -117,14 +117,19 @@ export class VisualizarPerfilPublicoPage
     
     this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
 
-    if(this.comandoObtenerPerfilPublico.execute())
+    this.comandoObtenerPerfilPublico.execute()
+    .then((resultado) => 
     {
-      this.amigo = this.comandoObtenerPerfilPublico.return();
-    }
-    else
-    {
-      this.realizarToast(Texto.ERROR);
-    }
+      if(resultado)
+      {
+        this.amigo = this.comandoObtenerPerfilPublico.return();
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+    })
+    .catch(() => this.realizarToast(Texto.ERROR));
 
     this.loading.dismiss();
   }
@@ -143,27 +148,37 @@ export class VisualizarPerfilPublicoPage
       this.comandoAgregarAmigo.Id = idUsuario;
       this.comandoAgregarAmigo.NombreUsuario = item.NombreUsuario;
 
-      if(this.comandoAgregarAmigo.execute())
+      this.comandoAgregarAmigo.execute()
+      .then((resultado) => 
       {
-        this.realizarToast(Texto.EXITO_CONFIRMAR);
-
-        this.comandoEnviarCorreo.IdUsuario = idUsuario;
-        this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
-        this.comandoEnviarCorreo.Correo = item.Correo;
-  
-        if(this.comandoEnviarCorreo.execute())
+        if(resultado)
         {
-          this.realizarToast(Texto.EXITO_CORREO);
+          this.realizarToast(Texto.EXITO_CONFIRMAR);
+
+          this.comandoEnviarCorreo.IdUsuario = idUsuario;
+          this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
+          this.comandoEnviarCorreo.Correo = item.Correo;
+    
+          this.comandoEnviarCorreo.execute()
+          .then((resultado) => 
+          {
+            if(resultado)
+            {
+              this.realizarToast(Texto.EXITO_CORREO);
+            }
+            else
+            {
+              this.realizarToast(Texto.ERROR);
+            }
+          })
+          .catch(() => this.realizarToast(Texto.ERROR));
         }
         else
         {
           this.realizarToast(Texto.ERROR);
         }
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR);
-      }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
 
       this.loading.dismiss();
       this.navCtrl.pop();

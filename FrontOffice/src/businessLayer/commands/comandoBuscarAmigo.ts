@@ -25,7 +25,6 @@ export class ComandoBuscarAmigo extends Comando
     private id : number;
     private nombre : string;
 
-    private exito: boolean;
     private listaUsuarios : Array<Usuario>;
 
     set Id(id : number)
@@ -76,17 +75,13 @@ export class ComandoBuscarAmigo extends Comando
                 this.listaUsuarios.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('BuscarAmigos exitoso. Datos: ' + this.listaUsuarios);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de BuscarAmigos. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -94,5 +89,4 @@ export class ComandoBuscarAmigo extends Comando
     {
         return this.listaUsuarios;
     }
-
 }

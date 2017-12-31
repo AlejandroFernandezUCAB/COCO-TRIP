@@ -24,7 +24,6 @@ export class ComandoObtenerPerfilPublico extends Comando
 {
     private nombreUsuario : string;
 
-    private exito: boolean;
     private usuario : Array<Usuario>;
 
     set NombreUsuario(nombreUsuario : string)
@@ -62,23 +61,18 @@ export class ComandoObtenerPerfilPublico extends Comando
       
             this.usuario.push(usuario);
 
-            this.exito = true;
             catProd.info('ObtenerPerfilPublico exitoso. Datos: ' + this.usuario); 
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ObtenerPerfilPublico. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
     public return() 
     {
         return this.usuario;
-    }
-    
+    }   
 }

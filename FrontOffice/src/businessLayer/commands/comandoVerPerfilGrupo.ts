@@ -23,8 +23,7 @@ import { Grupo } from '../../dataAccessLayer/domain/grupo';
 export class ComandoVerPerfilGrupo extends Comando
 {
     private id : number;
-
-    private exito: boolean;
+    
     private grupo : Array<Grupo>;
 
     set Id(id : number)
@@ -62,17 +61,13 @@ export class ComandoVerPerfilGrupo extends Comando
 
             this.grupo.push(grupo);
             
-            this.exito = true;
             catProd.info('VerPerfilGrupo exitoso. Datos: ' + this.grupo);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de VerPerfilGrupo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -80,5 +75,4 @@ export class ComandoVerPerfilGrupo extends Comando
     {
         return this.grupo;
     }
-    
 }

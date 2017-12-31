@@ -48,11 +48,12 @@ export class DetalleGrupoPage
   {
     this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
 
-    if(this.comandoVerPerfilGrupo.execute())
+    this.comandoVerPerfilGrupo.execute()
+    .then(() =>
     {
       this.grupo = this.comandoVerPerfilGrupo.return();
       this.cargarMiembros(this.navParams.get('idGrupo'));
-    }
+    });
   }
 
   /**
@@ -63,10 +64,7 @@ export class DetalleGrupoPage
   {
     this.comandoListaMiembroGrupo.Id = id;
 
-    if(this.comandoListaMiembroGrupo.execute())
-    {
-      this.miembro = this.comandoListaMiembroGrupo.return();
-    }
+    this.comandoListaMiembroGrupo.execute()
+    .then(() => this.miembro = this.comandoListaMiembroGrupo.return());
   }
-  
 }

@@ -23,8 +23,6 @@ export class ComandoAgregarIntegrante extends Comando
     private idGrupo : number;
     private nombreUsuario : string;
 
-    private exito: boolean;
-
     set IdGrupo(idGrupo : number)
     {
         this.idGrupo = idGrupo;
@@ -45,17 +43,13 @@ export class ComandoAgregarIntegrante extends Comando
         return this.servicio.agregarIntegrante(this.idGrupo, this.nombreUsuario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('AgregarIntegrante exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de AgregarIntegrante. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

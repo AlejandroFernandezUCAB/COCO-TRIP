@@ -102,14 +102,19 @@ public realizarToast(mensaje : string)
     {
       this.comandoListaNotificaciones.Id = idUsuario;
 
-      if(this.comandoListaNotificaciones.execute())
+      this.comandoListaNotificaciones.execute()
+      .then((resultado) => 
       {
-        this.notificaciones = this.comandoListaNotificaciones.return();
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR)
-      }
+        if(resultado)
+        {
+          this.notificaciones = this.comandoListaNotificaciones.return();
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
 
       this.loading.dismiss();
     });
@@ -127,15 +132,20 @@ public realizarToast(mensaje : string)
       this.comandoAceptarNotificacion.NombreUsuario = nombreUsuarioAceptado; 
       this.comandoAceptarNotificacion.Id = idUsuario;
 
-      if(this.comandoAceptarNotificacion.execute())
+      this.comandoAceptarNotificacion.execute()
+      .then((resultado) => 
       {
-        this.realizarToast(Texto.ACEPTAR_PETICION);
-        this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR);
-      }
+        if(resultado)
+        {
+          this.realizarToast(Texto.ACEPTAR_PETICION);
+          this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
     });
   }
 
@@ -151,15 +161,20 @@ public realizarToast(mensaje : string)
       this.comandoRechazarNotificacion.NombreUsuario = nombreUsuarioRechazado;
       this.comandoRechazarNotificacion.Id = idUsuario;
 
-      if(this.comandoRechazarNotificacion.execute())
+      this.comandoRechazarNotificacion.execute()
+      .then((resultado) =>
       {
-        this.realizarToast(Texto.RECHAZAR_PETICION);
-        this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR);
-      }
+        if(resultado)
+        {
+          this.realizarToast(Texto.RECHAZAR_PETICION);
+          this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
     });
   }
 
@@ -173,4 +188,5 @@ public realizarToast(mensaje : string)
     //this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
     this.notificaciones.splice(index, 1);
   }
+  
 }

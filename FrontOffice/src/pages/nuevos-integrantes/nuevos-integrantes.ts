@@ -99,14 +99,19 @@ export class NuevosIntegrantesPage
         this.comandoObtenerMiembrosSinGrupo.IdUsuario = idUsuario;
         this.comandoObtenerMiembrosSinGrupo.IdGrupo = this.navParams.get('idGrupo');
 
-        if(this.comandoObtenerMiembrosSinGrupo.execute())
+        this.comandoObtenerMiembrosSinGrupo.execute()
+        .then((resultado) => 
         {
-          this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+          if(resultado)
+          {
+            this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
       });
@@ -161,14 +166,19 @@ export class NuevosIntegrantesPage
             this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
             this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
 
-            if(this.comandoAgregarIntegrante.execute())
+            this.comandoAgregarIntegrante.execute()
+            .then((resultado) => 
             {
-              this.realizarToast(this.succesful);
-            }
-            else
-            {
-              this.realizarToast(Texto.ERROR);
-            }
+              if(resultado)
+              {
+                this.realizarToast(this.succesful);
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
         }
       ]

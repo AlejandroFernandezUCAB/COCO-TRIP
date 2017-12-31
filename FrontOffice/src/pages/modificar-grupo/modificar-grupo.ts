@@ -80,15 +80,20 @@ export class ModificarGrupoPage
   {
       this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
 
-      if(this.comandoVerPerfilGrupo.execute())
+      this.comandoVerPerfilGrupo.execute()
+      .then((resultado) => 
       {
-        this.grupo = this.comandoVerPerfilGrupo.return();
-        this.cargarLider(this.navParams.get('idGrupo'));
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR);
-      }
+        if(resultado)
+        {
+          this.grupo = this.comandoVerPerfilGrupo.return();
+          this.cargarLider(this.navParams.get('idGrupo'));
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
   }
 
 /**
@@ -99,15 +104,20 @@ export class ModificarGrupoPage
   {
     this.comandoObtenerLider.Id = id;
 
-    if(this.comandoObtenerLider.execute())
+    this.comandoObtenerLider.execute()
+    .then((resultado) => 
     {
-      this.lider = this.comandoObtenerLider.return();
-      this.cargarMiembros(id);
-    }
-    else
-    {
-      this.realizarToast(Texto.ERROR);
-    }
+      if(resultado)
+      {
+        this.lider = this.comandoObtenerLider.return();
+        this.cargarMiembros(id);
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+    })
+    .catch(() => this.realizarToast(Texto.ERROR));
   }
 
 /**
@@ -118,14 +128,19 @@ export class ModificarGrupoPage
   {
     this.comandoObtenerSinLider.Id = id;
 
-    if(this.comandoObtenerSinLider.execute())
+    this.comandoObtenerSinLider.execute()
+    .then((resultado) => 
     {
-      this.miembro = this.comandoObtenerSinLider.return();
-    }
-    else
-    {
-      this.realizarToast(Texto.ERROR);
-    }
+      if(resultado)
+      {
+        this.miembro = this.comandoObtenerSinLider.return();
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+    })
+    .catch(() => this.realizarToast(Texto.ERROR));
   }
 
 /**
@@ -159,15 +174,20 @@ export class ModificarGrupoPage
               this.comandoEliminarIntegrante.IdGrupo = this.navParams.get('idGrupo');
               this.comandoEliminarIntegrante.NombreUsuario = nombreUsuario;
 
-              if(this.comandoEliminarIntegrante.execute())
+              this.comandoEliminarIntegrante.execute()
+              .then((resultado) => 
               {
-                this.eliminarIntegrante(nombreUsuario, index);
-                this.realizarToast(this.succesful);
-              }
-              else
-              {
-                this.realizarToast(Texto.ERROR);
-              }
+                if(resultado)
+                {
+                  this.eliminarIntegrante(nombreUsuario, index);
+                  this.realizarToast(this.succesful);
+                }
+                else
+                {
+                  this.realizarToast(Texto.ERROR);
+                }
+              })
+              .catch(() => this.realizarToast(Texto.ERROR));
             }
           }
         ]
@@ -201,14 +221,19 @@ export class ModificarGrupoPage
         {
           this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
 
-          if(this.comandoVerPerfilGrupo.execute())
+          this.comandoVerPerfilGrupo.execute()
+          .then((resultado) => 
           {
-            this.grupo = this.comandoVerPerfilGrupo.return();
-          }
-          else
-          {
-            this.realizarToast(Texto.ERROR);
-          }          
+            if(resultado)
+            {
+              this.grupo = this.comandoVerPerfilGrupo.return();
+            }
+            else
+            {
+              this.realizarToast(Texto.ERROR);
+            }
+          })
+          .catch(() => this.realizarToast(Texto.ERROR));       
         } 
         else 
         {
@@ -216,14 +241,19 @@ export class ModificarGrupoPage
           this.comandoModificarGrupo.IdGrupo = this.navParams.get('idGrupo');
           this.comandoModificarGrupo.Nombre = this.nombreGrupo;
           
-          if(this.comandoModificarGrupo.execute())
+          this.comandoModificarGrupo.execute()
+          .then((resultado) => 
           {
-            this.realizarToast(this.edited);
-          }
-          else
-          {
-            this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
-          }
+            if(resultado)
+            {
+              this.realizarToast(this.edited);
+            }
+            else
+            {
+              this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
+            }
+          })
+          .catch(() => this.realizarToast(Texto.ERROR));
         }
       });
   }

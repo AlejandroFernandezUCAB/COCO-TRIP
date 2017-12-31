@@ -24,7 +24,6 @@ export class ComandoListaMiembroGrupo extends Comando
 {
     private id : number;
 
-    private exito: boolean;
     private listaMiembros : Array<Usuario>;
 
     set Id(id : number)
@@ -70,17 +69,13 @@ export class ComandoListaMiembroGrupo extends Comando
                this.listaMiembros.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('ListaMiembroGrupo exitoso. Datos: ' + this.listaMiembros);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ListaMiembroGrupo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -88,5 +83,4 @@ export class ComandoListaMiembroGrupo extends Comando
     {
         return this.listaMiembros;
     }
-    
 }

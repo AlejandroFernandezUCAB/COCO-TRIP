@@ -23,18 +23,15 @@ import { Injectable } from '@angular/core';
 export class ComandoAgregarGrupo extends Comando
 {
     private grupo : Grupo;
-    private exito : boolean;
 
     set Lider(id : number)
     {
         this.grupo.Lider = id;
-        console.log('this.grupo.Lider ' + this.grupo.Lider);
     }
 
     set Nombre(nombre : string)
     {
         this.grupo.Nombre = nombre;
-        console.log('this.grupo.Nombre ' + this.grupo.Nombre);
     }
 
     public constructor(private servicio : RestapiService)
@@ -46,22 +43,16 @@ export class ComandoAgregarGrupo extends Comando
 
     public execute()
     {
-        console.log('Execute lider: ' + this.grupo.Lider);
-        console.log('Execute nombre: ' + this.grupo.Nombre);
         return this.servicio.agregarGrupo(this.grupo)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('AgregarGrupo exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de AgregarGrupo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         })
     }
 
@@ -69,4 +60,5 @@ export class ComandoAgregarGrupo extends Comando
     {
         throw new Error("Method not implemented.");
     } 
+    
 }

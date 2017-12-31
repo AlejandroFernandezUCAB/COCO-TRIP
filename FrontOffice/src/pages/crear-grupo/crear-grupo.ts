@@ -98,14 +98,19 @@ export class CrearGrupoPage
         
         this.comandoListaAmigos.Id = idUsuario;
 
-        if(this.comandoListaAmigos.execute())
+        this.comandoListaAmigos.execute()
+        .then((resultado) => 
         {
-          this.amigo = this.comandoListaAmigos.return();
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+          if(resultado)
+          {
+            this.amigo = this.comandoListaAmigos.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
     });
@@ -163,14 +168,19 @@ export class CrearGrupoPage
             this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
             this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
 
-            if(this.comandoAgregarIntegrante.execute())
+            this.comandoAgregarIntegrante.execute()
+            .then((resultado) => 
             {
-              this.realizarToast(this.succesful);
-            }
-            else
-            {
-              this.realizarToast(Texto.ERROR);
-            }
+              if(resultado)
+              {
+                this.realizarToast(this.succesful)
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
         }
       ]

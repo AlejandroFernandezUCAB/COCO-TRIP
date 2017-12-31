@@ -24,7 +24,6 @@ export class ComandoObtenerSinLider extends Comando
 {
     private id : number;
 
-    private exito: boolean;
     private listaMiembros : Array<Usuario>;
 
     set Id(id : number)
@@ -70,17 +69,13 @@ export class ComandoObtenerSinLider extends Comando
                this.listaMiembros.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('ObtenerSinLider exitoso. Datos: ' + this.listaMiembros);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ObtenerSinLider. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -88,5 +83,4 @@ export class ComandoObtenerSinLider extends Comando
     {
         return this.listaMiembros;
     }
-
 }

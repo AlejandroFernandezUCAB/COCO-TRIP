@@ -696,6 +696,10 @@ eveSegunPreferencias(idUser){
   {
     return new Promise((resolve, reject) => 
     {
+      console.log('restapi-service grupo.Id ' + grupo.Id);
+      console.log('restapi-service grupo.Lider ' + grupo.Lider);
+      console.log('restapi-service grupo.Nombre ' + grupo.Nombre);
+      
       this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
       .map(respuesta => respuesta.json())
       .subscribe(datos => 

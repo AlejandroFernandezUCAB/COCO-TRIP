@@ -25,7 +25,6 @@ export class ComandoObtenerUltimoGrupo extends Comando
     private id : number;
 
     private grupo: Grupo;
-    private exito: boolean;
 
     set Id(id : number)
     {
@@ -50,17 +49,13 @@ export class ComandoObtenerUltimoGrupo extends Comando
             this.grupo.Nombre = grupo.Nombre;
             this.grupo.RutaFoto = grupo.RutaFoto;
             
-            this.exito = true;
             catProd.info('ObtenerUltimoGrupo exitoso. Datos: ' + this.grupo);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ObtenerUltimoGrupo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         })
     }
 
@@ -68,5 +63,4 @@ export class ComandoObtenerUltimoGrupo extends Comando
     {
         return this.grupo;
     }
-    
 }

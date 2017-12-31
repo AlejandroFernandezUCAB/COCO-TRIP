@@ -24,7 +24,6 @@ export class ComandoListaNotificaciones extends Comando
 {
     private id : number;
 
-    private exito: boolean;
     private listaNotificaciones : Array<Usuario>;
 
     set Id(id : number)
@@ -70,17 +69,13 @@ export class ComandoListaNotificaciones extends Comando
                this.listaNotificaciones.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('ListaNotificaciones exitoso. Datos: ' + this.listaNotificaciones);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ListaNotificaciones. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -88,5 +83,4 @@ export class ComandoListaNotificaciones extends Comando
     {
         return this.listaNotificaciones;
     }
-    
 }

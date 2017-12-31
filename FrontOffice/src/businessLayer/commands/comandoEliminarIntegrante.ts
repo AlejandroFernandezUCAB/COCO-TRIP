@@ -23,8 +23,6 @@ export class ComandoEliminarIntegrante extends Comando
     private idGrupo : number;
     private nombreUsuario : string;
 
-    private exito: boolean;
-
     set IdGrupo(idGrupo : number)
     {
         this.idGrupo = idGrupo;
@@ -45,17 +43,13 @@ export class ComandoEliminarIntegrante extends Comando
         return this.servicio.eliminarIntegrante(this.nombreUsuario, this.idGrupo)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('EliminarIntegrante exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de EliminarIntegrante. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

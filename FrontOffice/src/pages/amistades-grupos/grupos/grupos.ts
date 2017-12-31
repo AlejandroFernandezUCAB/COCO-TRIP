@@ -107,15 +107,20 @@ export class GruposPage
       {
         this.comandoListaGrupos.Id = idUsuario;
  
-        if(this.comandoListaGrupos.execute())
+        this.comandoListaGrupos.execute()
+        .then((resultado) => 
         {
-          this.grupo = this.comandoListaGrupos.return();
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
- 
+          if(resultado)
+          {
+            this.grupo = this.comandoListaGrupos.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
+
         this.loading.dismiss();
       });
     }
@@ -231,17 +236,22 @@ export class GruposPage
       this.comandoVerificarLider.IdGrupo = id;
       this.comandoVerificarLider.IdUsuario = idUsuario;
 
-      if(this.comandoVerificarLider.execute())
+      this.comandoVerificarLider.execute()
+      .then((resultado) => 
       {
-        this.navCtrl.push(ModificarGrupoPage,
+        if(resultado)
         {
-          idGrupo: id
-        });
-      }
-      else
-      {
-        this.alertaIntegrante();
-      }
+          this.navCtrl.push(ModificarGrupoPage,
+          {
+            idGrupo: id
+          });
+        }
+        else
+        {
+          this.alertaIntegrante();
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
     }); 
   } 
 
@@ -315,17 +325,22 @@ export class GruposPage
                 this.comandoSalirGrupo.IdGrupo = id;
                 this.comandoSalirGrupo.IdUsuario = idUsuario;
           
-                if(this.comandoSalirGrupo.execute())
+                this.comandoSalirGrupo.execute()
+                .then((resultado) => 
                 {
-                  this.realizarToast(this.succesful);
-                  this.eliminarGrupos(id, index);
-                }
-                else
-                {
-                  this.realizarToast(Texto.ERROR);
-                }
+                  if(resultado)
+                  {
+                    this.realizarToast(this.succesful);
+                    this.eliminarGrupos(id, index);
+                  }
+                  else
+                  {
+                    this.realizarToast(Texto.ERROR);
+                  }
+                })
+                .catch(() => this.realizarToast(Texto.ERROR));
 
-                  this.delete = false;
+                this.delete = false;
               });
             }
           }
@@ -357,4 +372,5 @@ export class GruposPage
       idGrupo: id
     });
   }
+  
 }

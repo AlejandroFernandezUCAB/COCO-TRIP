@@ -24,7 +24,6 @@ export class ComandoListaAmigos extends Comando
 {
     private id : number;
 
-    private exito: boolean;
     private listaUsuarios : Array<Usuario>;
 
     set Id(id : number)
@@ -70,17 +69,13 @@ export class ComandoListaAmigos extends Comando
                 this.listaUsuarios.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('ListaAmigos exitoso. Datos: ' + this.listaUsuarios);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ListaAmigos. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
@@ -88,5 +83,4 @@ export class ComandoListaAmigos extends Comando
     {
         return this.listaUsuarios;
     }
-    
 }

@@ -22,9 +22,7 @@ export class ComandoAgregarAmigo extends Comando
 {
     private id : number;
     private nombreUsuario : string;
-
-    private exito: boolean;
-
+    
     set Id(id : number)
     {
         this.id = id;
@@ -45,17 +43,13 @@ export class ComandoAgregarAmigo extends Comando
         return this.servicio.agregarAmigo(this.id, this.nombreUsuario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('AgregarAmigo exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de AgregarAmigo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

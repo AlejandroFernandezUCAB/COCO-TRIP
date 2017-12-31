@@ -23,8 +23,6 @@ export class ComandoSalirGrupo extends Comando
     private idGrupo : number;
     private idUsuario : number;
 
-    private exito: boolean;
-
     set IdUsuario(id : number)
     {
         this.idUsuario = id;
@@ -45,17 +43,13 @@ export class ComandoSalirGrupo extends Comando
         return this.servicio.salirGrupo(this.idUsuario, this.idGrupo)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('SalirGrupo exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de SalirGrupo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

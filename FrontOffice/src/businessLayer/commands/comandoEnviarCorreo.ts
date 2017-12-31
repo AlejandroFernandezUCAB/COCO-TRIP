@@ -24,8 +24,6 @@ export class ComandoEnviarCorreo extends Comando
     private nombreDestinatario : string;
     private correoDestinatario : string;
 
-    private exito: boolean;
-
     set IdUsuario(id : number)
     {
         this.idUsuario = id;
@@ -51,17 +49,13 @@ export class ComandoEnviarCorreo extends Comando
         return this.servicio.enviarCorreo(this.idUsuario, this.nombreDestinatario, this.correoDestinatario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('EnviarCorreo exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de EnviarCorreo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

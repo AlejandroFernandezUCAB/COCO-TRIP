@@ -108,15 +108,20 @@ export class AmigosPage
      {
        this.comandoListaAmigos.Id = idUsuario;
 
-       if(this.comandoListaAmigos.execute()) //try-catch
+       this.comandoListaAmigos.execute()
+       .then((resultado) => 
        {
-         this.amigo = this.comandoListaAmigos.return();
-       }
-       else
-       {
-         this.realizarToast(Texto.ERROR);
-       }
-
+          if(resultado)
+          {
+            this.amigo = this.comandoListaAmigos.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+       })
+       .catch(() => this.realizarToast(Texto.ERROR));
+       
        this.loading.dismiss();
      });
   }
@@ -226,17 +231,22 @@ export class AmigosPage
               this.comandoEliminarAmigo.NombreUsuario = nombreUsuario;
               this.comandoEliminarAmigo.Id = idUsuario;
 
-              if(this.comandoEliminarAmigo.execute())
+              this.comandoEliminarAmigo.execute()
+              .then((resultado) => 
               {
-                this.eliminarAmigos(nombreUsuario, index);
-                this.realizarToast(this.succesful);
+                if(resultado)
+                {
+                  this.eliminarAmigos(nombreUsuario, index);
+                  this.realizarToast(this.succesful);
 
-                this.delete = false;
-              }
-              else
-              {
-                this.realizarToast(Texto.ERROR);
-              }
+                  this.delete = false;
+                }
+                else
+                {
+                  this.realizarToast(Texto.ERROR);
+                }
+              })
+              .catch(() => this.realizarToast(Texto.ERROR));
             });
           }
         }

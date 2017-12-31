@@ -22,9 +22,7 @@ export class ComandoRechazarNotificacion extends Comando
 {
     private id : number;
     private nombreUsuario : string;
-
-    private exito: boolean;
-
+    
     set Id(id : number)
     {
         this.id = id;
@@ -44,18 +42,14 @@ export class ComandoRechazarNotificacion extends Comando
     {
         return this.servicio.rechazarNotificacion(this.nombreUsuario, this.id)
         .then(datos => 
-        {
-            this.exito = true;
+        {            
             catProd.info('RechazarNotificacion exitoso. Datos: ' + datos);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de RechazarNotificacion. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 

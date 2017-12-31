@@ -27,8 +27,6 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
 
     private listaUsuarios : Array<Usuario>;
 
-    private exito: boolean;
-
     set IdUsuario(id : number)
     {
         this.idUsuario = id;
@@ -77,17 +75,13 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
                 this.listaUsuarios.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('MiembrosSinGrupo exitoso. Datos: ' + this.listaUsuarios);
-
-            return this.exito;
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de MiembrosSinGrupo. Datos: ' + error);
-
-            return this.exito;
+            return false;
         });
     }
 
