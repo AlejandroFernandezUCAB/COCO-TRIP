@@ -165,7 +165,7 @@ namespace ApiRestPruebas.M8
 
       evento = FabricaEntidad.CrearEntidadEvento();
 
-      Assert.Throws<OperacionInvalidaException>(() => {
+      Assert.Throws<OperacionInvalidaExcepcion>(() => {
         daoEvento.ConsultarPorId(evento);
       });
 
@@ -307,13 +307,13 @@ namespace ApiRestPruebas.M8
       evento.Id = 0;
       comando = FabricaComando.CrearComandoConsultarEvento(evento.Id);
 
-      Assert.Throws<OperacionInvalidaException>(() => {
+      Assert.Throws<OperacionInvalidaExcepcion>(() => {
         comando.Ejecutar();
       });
 
       evento = FabricaEntidad.CrearEntidadEvento();
       comando = FabricaComando.CrearComandoConsultarEvento(evento.Id);
-      Assert.Throws<OperacionInvalidaException>(() => {
+      Assert.Throws<OperacionInvalidaExcepcion>(() => {
         comando.Ejecutar();
       });
 

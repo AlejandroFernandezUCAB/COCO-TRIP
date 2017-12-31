@@ -3,12 +3,11 @@ using System;
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
-    /// Clase que encapsula la información de "Exception"
-    /// se genera cuando ocurre una operacion con un parametro nulo.
+    /// Excepcion logica que encapsula la información de "Exception"
+    /// ocurre cuando no se encuentra un Item buscado.
     /// </summary>
-    public class ParametrosNullException : Exception
+    public class ItemNoEncontradoExcepcion : Exception
     {
-        private string parametroNull;
         private Exception excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
         private string mensaje;       //Breve descripción de la excepción genereda con parametro del metodo con la que se ocasiono.
@@ -28,23 +27,11 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// </summary>
         public string Mensaje { get => mensaje; set => mensaje = value; }
 
-        public string ParametroNull
-        {
-            get { return parametroNull; }
-            set { parametroNull = value; }
-        }
-
-        public ParametrosNullException(string parametro)
-        {
-            parametroNull = parametro;
-            mensaje = $"Falta el parametro {parametro} o este es nulo";
-        }
-
         /// <summary>
         /// Metodo Constructor
         /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
-        public ParametrosNullException(Exception excepcion)
+        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
+        public ItemNoEncontradoExcepcion(Exception excepcion)
         {
             this.excepcion = excepcion;
             fechaHora = DateTime.Now;
@@ -53,13 +40,18 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// <summary>
         /// Metodo Constructor
         /// </summary>
-        /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
+        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public ParametrosNullException(Exception excepcion, string mensaje)
+        public ItemNoEncontradoExcepcion(Exception excepcion, string mensaje)
         {
             this.excepcion = excepcion;
             this.mensaje = mensaje;
             fechaHora = DateTime.Now;
+        }
+
+        public ItemNoEncontradoExcepcion(string mensajeError)
+        {
+            mensaje = mensajeError;
         }
     }
 }

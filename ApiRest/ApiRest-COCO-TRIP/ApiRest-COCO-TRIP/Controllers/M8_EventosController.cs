@@ -103,7 +103,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         respuesta.Add("Error", e.Message);
       }
-      catch (OperacionInvalidaException e)
+      catch (OperacionInvalidaExcepcion e)
       {
         respuesta.Add("Error", e.Message);
       }

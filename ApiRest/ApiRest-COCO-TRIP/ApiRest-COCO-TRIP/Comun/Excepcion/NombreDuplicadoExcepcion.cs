@@ -3,17 +3,17 @@ using System;
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
-    /// Excepcion logica que encapsula la información de "Exception"
-    /// cuando se generar una ocurrencia sobre la dependencias de una entidad.
+    /// Clase que encapsula la información de "JsonReaderException"
+    /// se genera cuando ocurre un error leyendo el Json.
     /// </summary>
-    public class HijoConDePendenciaException : Exception
+    public class NombreDuplicadoExcepcion : Exception
     {
         private Exception excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
         private string mensaje;       //Breve descripción de la excepción genereda con parametro del metodo con la que se ocasiono.
-        
+
         /// <summary>
-        /// Getters y Setters del atributo "_excepcion".
+        /// Getters y Setters del atributo "excepcion".
         /// </summary>
         public Exception Excepcion { get => excepcion; set => excepcion = value; }
 
@@ -28,30 +28,30 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         public string Mensaje { get => mensaje; set => mensaje = value; }
 
         /// <summary>
-        /// Metodo Constructor.
+        /// Constructor
         /// </summary>
         /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
-        public HijoConDePendenciaException(Exception excepcion)
+        public NombreDuplicadoExcepcion(Exception excepcion)
         {
             this.excepcion = excepcion;
             fechaHora = DateTime.Now;
         }
 
         /// <summary>
-        /// Metodo Constructor
+        /// Constructor
         /// </summary>
-        /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
+        /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public HijoConDePendenciaException(Exception excepcion, string mensaje)
+        public NombreDuplicadoExcepcion(Exception excepcion, string mensaje)
         {
             this.excepcion = excepcion;
             this.mensaje = mensaje;
             fechaHora = DateTime.Now;
         }
 
-        public HijoConDePendenciaException(string parametro)
+        public NombreDuplicadoExcepcion(string parametro)
         {
-            mensaje = $"Falta el hijo {parametro} posee dependencia";
-        }
+            mensaje = $" {parametro} ";
+        } 
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using BackOffice_COCO_TRIP.Datos.Entidades;
 
 namespace BackOffice_COCO_TRIP.Models.Peticion
 {

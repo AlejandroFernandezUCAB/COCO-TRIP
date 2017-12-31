@@ -1,6 +1,7 @@
 using System;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Negocio.Command;
+using Newtonsoft.Json.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 {
@@ -556,5 +557,44 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
       return new ComandoObtenerCategoriasHabilitadas();
 
     }
+
+    public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion()
+    {
+        return new ComandoLTActualizarInformacion();
+    }
+    public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
+    {
+        return new ComandoLTModificarUbicacion();
+    }
+     public static ComandoLTAgregarCategoria CrearComandoLTAgregarCategoria()
+    {
+        return new ComandoLTAgregarCategoria();
+    }
+    public static ComandoLTEliminarCategoria CrearComandoLTEliminarCategoria()
+    {
+        return new ComandoLTEliminarCategoria();
+    }
+    public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad()
+    {
+        return new ComandoLTEliminarActividad();
+    }
+    public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad()
+    {
+        return new ComandoLTAgregarActividad();
+    }
+     public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto()
+    {
+        return new ComandoLTEliminarFoto();
+    }
+    public static ComandoLTAgregarFoto CrearComandoLTAgregarFoto(Entidad objeto)
+    {
+        return new ComandoLTAgregarFoto(objeto);
+    }
+
+	public static ComandoAgregarLugarTuristico CrearComandoLTAgregar(JObject datos)
+	{
+		return new ComandoAgregarLugarTuristico(datos);
+	}
+
   }
 }
