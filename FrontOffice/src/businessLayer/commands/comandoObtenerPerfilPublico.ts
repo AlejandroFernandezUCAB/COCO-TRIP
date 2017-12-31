@@ -77,7 +77,7 @@ export class ComandoObtenerPerfilPublico extends Comando
         return this.usuario;
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }

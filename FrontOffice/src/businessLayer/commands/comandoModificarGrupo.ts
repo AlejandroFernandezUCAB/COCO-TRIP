@@ -69,7 +69,7 @@ export class ComandoModificarGrupo extends Comando
         throw new Error("Method not implemented.");
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }

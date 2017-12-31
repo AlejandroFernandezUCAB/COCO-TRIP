@@ -85,7 +85,7 @@ export class ComandoListaNotificaciones extends Comando
         return this.listaNotificaciones;
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }

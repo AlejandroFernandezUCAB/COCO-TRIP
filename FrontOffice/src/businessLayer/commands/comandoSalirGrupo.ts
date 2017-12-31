@@ -60,9 +60,9 @@ export class ComandoSalirGrupo extends Comando
         throw new Error("Method not implemented.");
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }
-
+    
 }

@@ -85,7 +85,7 @@ export class ComandoListaAmigos extends Comando
         return this.listaUsuarios;
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }

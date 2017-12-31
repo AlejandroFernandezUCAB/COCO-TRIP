@@ -65,8 +65,8 @@ export class ComandoObtenerUltimoGrupo extends Comando
         return this.grupo;
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
-    }    
+    }
 }

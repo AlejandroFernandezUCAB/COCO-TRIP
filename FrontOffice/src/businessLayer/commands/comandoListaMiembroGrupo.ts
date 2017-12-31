@@ -85,7 +85,7 @@ export class ComandoListaMiembroGrupo extends Comando
         return this.listaMiembros;
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }

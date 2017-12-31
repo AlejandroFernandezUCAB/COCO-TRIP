@@ -85,7 +85,7 @@ export class ComandoListaGrupos extends Comando
         return this.listaGrupos;
     }
 
-    public isSuccess(): boolean 
+    public isSuccess(): boolean
     {
         return this.exito;
     }
