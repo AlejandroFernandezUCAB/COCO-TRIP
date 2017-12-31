@@ -8,13 +8,28 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Npgsql;
 using NpgsqlTypes;
-
+/// <summary>
+/// Autores - MODULO 9:
+///      Marialette Arguelles, Michel Jraiche y Horacio Orrillo
+/// DESCRIPCION: 
+///     Data Access Object de la entidad Categoria. En esta clase se encapsula el acceso a la fuente de datos.
+/// </summary>
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
     public class DAOCategoria : DAO
     {
         private NpgsqlParameter parametro;
         private NpgsqlDataReader leerDatos;
+        private List<Entidad> lista;
+        private Categoria categoria;
+
+        public DAOCategoria()
+        {
+            parametro = new NpgsqlParameter();
+            lista = new List<Entidad>();
+        }
+
+
         private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
         {
             var parametro = new NpgsqlParameter
@@ -25,18 +40,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
             return parametro;
         }
-        private List<Entidad> lista;
-        private Categoria categoria;
 
-        /// <summary>
-        /// Metodo Constructor.
-        /// </summary>
-        public DAOCategoria()
-        {
-            parametro = new NpgsqlParameter();
-            lista = new List<Entidad>();
-        }
-
+        
         /// <summary>
         /// Metodo que permite preparar un StoredProcedure para su ejecución.
         /// </summary>
@@ -126,6 +131,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new NotImplementedException();
         }
 
+
+
         /// <summary>
         /// Metodo Read.
         /// </summary>
@@ -136,6 +143,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         {
             throw new NotImplementedException();
         }
+
+
 
         /// <summary>
         /// Metodo Update, actualiza una categoria enviada por parametro.
@@ -220,6 +229,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
         }
 
+
+
         /// <summary>
         /// Metodo Update, actualiza el estado de una categoria enviada por parametro.
         /// </summary>
@@ -259,6 +270,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
         }
 
+
+
         /// <summary>
         /// Metodo Delete, elimina una Categoria enviada por parametro.
         /// </summary>
@@ -268,6 +281,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         {
             throw new NotImplementedException();
         }
+
+
 
         //Metodos extra
         //TODOS LOS DE CONSULTA ESTAN ACA PORQUE NO CUADRAN CON LOS GENERALES
@@ -330,6 +345,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             return listaCategorias;
         }
         
+
+
         /// <summary>
         /// Metodo que obtiene la categoria dado un Id.
         /// </summary>
@@ -368,6 +385,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             return listaCategorias;
         }
 
+
+
         /// <summary>
         /// Metodo que obtiene una lista con todas las categorias.
         /// </summary>
@@ -402,6 +421,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
+
+
 
         /// <summary>
         /// Metodo que obtiene el id de una categoria dado el nombre de la misma.
@@ -451,6 +472,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return categoria;
         }
+
+
 
         /// <summary>
         /// Metodo que obtiene la lista de la categoria.

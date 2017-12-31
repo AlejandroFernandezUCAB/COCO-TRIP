@@ -4,6 +4,12 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using System;
 
+/// <summary>
+/// Autores - MODULO 9:
+///      Marialette Arguelles, Michel Jraiche y Horacio Orrillo
+/// DESCRIPCION: 
+///     Comando para obtener categorias
+/// </summary>
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
   public class ComandoObtenerCategorias: Comando

@@ -1704,7 +1704,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Consultar lista de categorias (trabajo de M9)
+-- Consultar lista de categorias
 CREATE OR REPLACE FUNCTION ConsultarCategoria ()
 RETURNS TABLE (id integer, nombre VARCHAR)
 AS
@@ -1718,7 +1718,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Consultar lista de subcategorias de una categoria (trabajo de M9)
+-- Consultar lista de subcategorias de una categoria
 CREATE OR REPLACE FUNCTION ConsultarSubCategoria (_id integer)
 RETURNS TABLE (id integer, nombre VARCHAR)
 AS
@@ -2284,7 +2284,7 @@ RETURNS TABLE
      horaFinEvento time,
      fotoEvento varchar,
      localidadEvento integer,
-     categoriaEvento integer    
+     categoriaEvento integer
   )
 AS
 $$
