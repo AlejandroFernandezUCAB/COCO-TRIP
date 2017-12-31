@@ -40,8 +40,7 @@ export class Texto
     public static readonly EXITO_ELIMINAR_INTEGRANTE : string = 'Eliminado miembro exitosamente';
 
     //AlertaIntegrante
-    public static readonly NO_EDITAR_ALERTA_INTEGRANTE : string = 'No puedes modificar';
-    public static readonly SUBTITULO_ALERTA_INTEGRANTE: string = 'No eres el lider del grupo';
+    public static readonly NO_EDITAR_ALERTA_INTEGRANTE : string = 'No eres el lider del grupo';
     public static readonly OK_ALERTA_INTEGRANTE : string = 'Esta bien';    
 
     //Mensajes Toast
@@ -51,4 +50,5 @@ export class Texto
     public static readonly PETICION_ELIMINADA : string = 'Peticion eliminada';
     public static readonly GRUPO_EXITOSO : string = 'Cambios guardados exitosamente';
     public static readonly MODIFICAR_EXITOSO : string = 'Modificado exitosamente';
+    
 }

@@ -261,12 +261,10 @@ export class GruposPage
   public alertaIntegrante() 
   {
     this.translateService.get(Texto.NO_EDITAR_ALERTA_INTEGRANTE).subscribe(value => {this.noEdit = value;})
-    this.translateService.get(Texto.SUBTITULO_ALERTA_INTEGRANTE).subscribe(value => {this.subtitle = value;})
     this.translateService.get(Texto.OK_ALERTA_INTEGRANTE).subscribe(value => {this.ok = value;})
     let alert = this.alertCtrl.create
     ({
       title: this.noEdit,
-      subTitle: this.subtitle,
       buttons: [this.ok]
     });
     alert.present();
