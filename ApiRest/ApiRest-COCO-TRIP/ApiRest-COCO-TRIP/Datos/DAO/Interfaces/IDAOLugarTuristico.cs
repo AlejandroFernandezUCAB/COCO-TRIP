@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
-	interface IDAOLugarTuristico
+	public interface IDAOLugarTuristico
 	{
 
 		void Actualizar(Entidad objeto);
