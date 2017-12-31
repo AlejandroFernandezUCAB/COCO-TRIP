@@ -196,7 +196,6 @@
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Datos\Entity\LocalidadEvento.cs" />
     <Compile Include="Models\LugarTuristicoPreferencia.cs" />
-    <Compile Include="Models\BaseDeDatos\PeticionAmigoGrupo.cs" />
     <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionItinerario.cs" />
     <Compile Include="Datos\DAO\DAOLocalidadEvento.cs" />
