@@ -37,26 +37,30 @@
   <div class="form-group row">
     @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-8">
-      @Html.EditorFor(model => model.FechaInicio,new { htmlAttributes =new { @class = "form-control", @type = "date", @min = "2018-01-01", @max = "2020-12-31"} })
+      @Html.TextBoxFor(model => model.FechaInicio,
+           new { @class = "form-control", @type = "date", @Value = Model.FechaInicio.ToString("yyyy-MM-dd"), @min = "2018-01-01", @max = "2020-12-31"})
     </div>
   </div>
   <div class="form-group row">
     @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-8">
-      @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "form-control", @type = "date", @Min = "2018-01-01", @Max = "2020-12-31" } })
+      @Html.TextBoxFor(model => model.FechaFin,
+           new { @class = "form-control", @type = "date", @Value = Model.FechaFin.ToString("yyyy-MM-dd"), @min = "2018-01-01", @max = "2020-12-31" })
     </div>
   </div>
 
   <div class="form-group row">
     @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-2">
-      @Html.EditorFor(model => model.HoraInicio, new { htmlAttributes = new { @class = "form-control", @type = "time", @Min = "01:00", @Max = "23:59" } })
+      @Html.TextBoxFor(model => model.HoraInicio,
+           new { @class = "form-control", @type = "time", @Value = Model.HoraInicio.ToString("HH:mm"), @Min = "01:00", @Max = "23:59" })
     </div>
   </div>
   <div class="form-group row">
     @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-2">
-      @Html.EditorFor(model => model.HoraFin, new { htmlAttributes = new { @class = "form-control", @type = "time", @Min = "01:00", @Max = "23:59" } })
+      @Html.TextBoxFor(model => model.HoraFin,
+          new { @class = "form-control", @type = "time", @Value = Model.HoraFin.ToString("HH:mm"), @Min = "01:00", @Max = "23:59" })
     </div>
   </div>
   <div class="form-group row">
