@@ -348,7 +348,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="grupo">Datos del grupo a agregar</param>
     /// <returns></returns>
     [HttpPost]
-    public void AgregarGrupo (Entidad grupo)  /*String nombre, String foto, String idusuario*/ //READY
+    public void AgregarGrupo (Grupo grupo)  /*String nombre, String foto, String idusuario*/ //READY
     {
       comando = FabricaComando.CrearComandoAgregarGrupo(grupo);
       comando.Ejecutar();
@@ -510,7 +510,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="id">Identificador del usuario que modifica los datos del grupo</param>
     /// <returns></returns>
     [HttpPut]
-    public void ModificarGrupo (Entidad grupo, int id) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
+    public void ModificarGrupo (Grupo grupo, int id) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
     {
       comando = FabricaComando.CrearComandoModificarGrupo(grupo, id);
       comando.Ejecutar();
@@ -909,4 +909,5 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
   }
+
 }
