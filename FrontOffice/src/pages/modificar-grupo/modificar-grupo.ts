@@ -11,6 +11,7 @@ import { ComandoObtenerLider } from '../../businessLayer/commands/comandoObtener
 import { ComandoObtenerSinLider } from '../../businessLayer/commands/comandoObtenerSinLider';
 import { ComandoEliminarIntegrante } from '../../businessLayer/commands/comandoEliminarIntegrante';
 import { ComandoModificarGrupo } from '../../businessLayer/commands/comandoModificarGrupo';
+import { FormBuilder, Validators } from '@angular/forms';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
@@ -52,6 +53,7 @@ export class ModificarGrupoPage
 
   /*Elementos de la vista*/
   public toast :  any;
+  public myForm : any;
 
   public constructor
   (
@@ -59,6 +61,7 @@ export class ModificarGrupoPage
     public loadingCtrl: LoadingController,
     public alerCtrl: AlertController,
     public toastCtrl: ToastController,
+    public formBuilder: FormBuilder,
     private navParams: NavParams,
     private storage: Storage,
     private translateService: TranslateService,
@@ -68,7 +71,13 @@ export class ModificarGrupoPage
     private comandoEliminarIntegrante: ComandoEliminarIntegrante,
     private comandoModificarGrupo: ComandoModificarGrupo
 
-  ) {}
+  ) 
+  {
+    this.myForm = this.formBuilder.group
+    ({
+      namegroup: ['', [Validators.required, Validators.maxLength(300)]]
+    });
+  }
 
   public loading = this.loadingCtrl.create({});
     
@@ -86,6 +95,8 @@ export class ModificarGrupoPage
         if(resultado)
         {
           this.grupo = this.comandoVerPerfilGrupo.return();
+          this.nombreGrupo = this.grupo[0].Nombre;
+
           this.cargarLider(this.navParams.get('idGrupo'));
         }
         else
@@ -217,23 +228,9 @@ export class ModificarGrupoPage
       
       this.storage.get('id').then((idUsuario) => 
       {
-        if(this.nombreGrupo == undefined)
+        if(this.myForm.get('namegroup').errors)
         {
-          this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
-
-          this.comandoVerPerfilGrupo.execute()
-          .then((resultado) => 
-          {
-            if(resultado)
-            {
-              this.grupo = this.comandoVerPerfilGrupo.return();
-            }
-            else
-            {
-              this.realizarToast(Texto.ERROR);
-            }
-          })
-          .catch(() => this.realizarToast(Texto.ERROR));       
+          this.realizarToast(Texto.REQUERIDO);     
         } 
         else 
         {

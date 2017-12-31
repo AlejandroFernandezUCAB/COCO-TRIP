@@ -756,7 +756,7 @@ eveSegunPreferencias(idUser){
   {
     return new Promise((resolve, reject) => 
     {
-      this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?idUsuario=' + idUsuario, grupo)
+      this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?id=' + idUsuario, grupo)
       .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {
