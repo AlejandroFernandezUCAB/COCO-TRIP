@@ -5,6 +5,12 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using NLog;
 
+/// <summary>
+/// Autores - MODULO 9:
+///      Marialette Arguelles, Michel Jraiche y Horacio Orrillo
+/// DESCRIPCION: 
+///     Comando para obtener el estado de una categorias.
+/// </summary>
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
     /// <summary>

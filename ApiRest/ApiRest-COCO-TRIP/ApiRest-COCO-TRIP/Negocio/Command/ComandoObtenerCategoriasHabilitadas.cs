@@ -1,10 +1,16 @@
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Datos.Entity;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using NLog;
-using ApiRest_COCO_TRIP.Comun.Excepcion;
 
+/// <summary>
+/// Autores - MODULO 9:
+///      Marialette Arguelles, Michel Jraiche y Horacio Orrillo
+/// DESCRIPCION: 
+///     Comando para obtener las categorias habilitadas.
+/// </summary>
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
     /// <summary>
