@@ -11,56 +11,73 @@ using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoConsultarEvento : Comando
-  {
-    private Entidad evento;
-    private DAO dao;
+    /// <summary>
+    /// Comando que permite consultar un evento.
+    /// </summary>
+    public class ComandoConsultarEvento : Comando
+    {
+        private Entidad evento;
+        private DAO dao;
         private static Logger log;
 
-        public ComandoConsultarEvento(int id) {
-      this.evento = FabricaEntidad.CrearEntidadEvento();
-      this.evento.Id = id;
-      dao = FabricaDAO.CrearDAOEvento();
+        /// <summary>
+        /// Metodo Constructor.
+        /// </summary>
+        /// <param name="id">id del evento a consultar</param>
+        public ComandoConsultarEvento(int id)
+        {
+            this.evento = FabricaEntidad.CrearEntidadEvento();
+            this.evento.Id = id;
+            dao = FabricaDAO.CrearDAOEvento();
             log = LogManager.GetCurrentClassLogger();
         }
 
-    public override void Ejecutar()
-    {
-      try
-      {
-        evento=dao.ConsultarPorId(evento);
+        /// <summary>
+        /// Metodo Ejecutar, realiza la logica del negocio para consultar un evento.
+        /// </summary>
+        public override void Ejecutar()
+        {
+            try
+            {
+                evento = dao.ConsultarPorId(evento);
                 log.Info("Ejecutado el comando");
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
-      catch (CasteoInvalidoExcepcion e)
-      {
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
-      catch (OperacionInvalidaException e)
-      {
+            }
+            catch (OperacionInvalidaException e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
-      catch (Exception e)
-      {
+            }
+            catch (Exception e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
-    }
+            }
+        }
 
-    public override Entidad Retornar()
-    {
-      return evento;
-    }
+        /// <summary>
+        /// Metodo Retornar, obtiene una entidad como resultado de la ejecucion del comando.
+        /// </summary>
+        public override Entidad Retornar()
+        {
+            return evento;
+        }
 
-    public override List<Entidad> RetornarLista()
-    {
-      throw new NotImplementedException();
+        /// <summary>
+        /// Metodo Retornar Lista, obtiene una lista de entidades como resultado de la ejecucion del comando.
+        /// </summary>
+        public override List<Entidad> RetornarLista()
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }
