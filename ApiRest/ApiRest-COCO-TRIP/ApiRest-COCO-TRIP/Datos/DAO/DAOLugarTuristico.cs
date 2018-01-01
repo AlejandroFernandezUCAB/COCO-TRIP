@@ -60,6 +60,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 				return lugaresTuristicos;
 			}
+			catch(NullReferenceException e)
+			{
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+			}
 			catch (Exception e)
 			{
 				return null;

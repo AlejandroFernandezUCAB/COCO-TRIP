@@ -21,6 +21,8 @@ namespace ApiRestPruebas.M7
 		IDAOLugarTuristico iDAOLugarTuristico;
 		JObject objetoJSON;
 		
+		//SetUp
+		#region 
 		[OneTimeSetUp]
 		public void SetUpAll()
 		{
@@ -56,7 +58,8 @@ namespace ApiRestPruebas.M7
 			test.Comando.ExecuteNonQuery();
 			test.Desconectar();
 		}
-
+		
+		//SetUp
 
 		[SetUp]
 		public void SetUp()
@@ -91,7 +94,13 @@ namespace ApiRestPruebas.M7
 			_lugaresTuristicos.Add(_lugarTuristico);
 
 		}
+		#endregion
 
+		//Pruebas de DAO
+		#region
+		
+		//Lugar Turistico
+		#region
 		//Prueba de DAO de Lugar Turistico
 		[Test]
 		public void DAOInsertarLugarTuristico()
@@ -169,6 +178,19 @@ namespace ApiRestPruebas.M7
 
 		}
 
+		[Test]
+		public void PruebasExcepcionesDAOTodosLosLugaresTuristicos()
+		{
+			List<Entidad> lugarTuristico = new List<Entidad>();
+			IDAOLugarTuristico iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			lugarTuristico = iDAOLugarTuristico.ConsultarTodaLaLista();
+
+
+		}
+		#endregion
+		#endregion
+
+
 		//Auxiliares de Pruebas unitarias de las excepcions
 		#region
 		public void BaseDeDatosExcepcionDAOLugarTuristicoInsertar()
@@ -213,11 +235,14 @@ namespace ApiRestPruebas.M7
 		}
 		#endregion
 
+		//TearDown
+		#region
 		[TearDown]
 		public void TearDown()
 		{
 			_lugarTuristico = null;
 			_lugaresTuristicos = null;
 		}
+		#endregion
 	}
 }
