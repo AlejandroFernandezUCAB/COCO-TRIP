@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 
-namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
+namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
   public class ComandoAgregarCategoria : Comando
   {

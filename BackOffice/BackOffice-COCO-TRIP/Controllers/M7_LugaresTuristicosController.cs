@@ -1,5 +1,5 @@
 using System.Web.Mvc;
-using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
+using BackOffice_COCO_TRIP.Negocio.Comandos;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 
 namespace BackOffice_COCO_TRIP.Controllers

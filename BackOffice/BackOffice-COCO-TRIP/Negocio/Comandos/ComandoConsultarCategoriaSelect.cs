@@ -5,7 +5,7 @@ using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using System.Collections.Generic;
 
-namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
+namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
   public class ComandoConsultarCategoriaSelect:Comando
   {

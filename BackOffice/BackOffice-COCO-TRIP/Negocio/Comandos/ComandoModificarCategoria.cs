@@ -6,19 +6,19 @@ using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
-namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
+namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
-  public class ComandoConsultarCategoriaPorId:Comando
+  public class ComandoModificarCategoria : Comando
   {
-    private int Id;
+    private Entidad categoria = FabricaEntidad.GetCategoria();
     private ArrayList resultado = new ArrayList();
     IDAOCategoria dao = FabricaDAO.GetDAOCategoria();
-
+    
     public override void Execute()
     {
       try
       {
-        JObject respuesta = dao.GetPorId(Id);
+        JObject respuesta = dao.Put(categoria);
         resultado.Add(respuesta);
       }
       catch (Exception e)
@@ -33,11 +33,11 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
     {
       return resultado;
     }
-
+   
 
     public override void SetPropiedad(object propiedad)
     {
-      Id = (int)propiedad;
+      categoria = (Categoria)propiedad;
     }
   }
 }

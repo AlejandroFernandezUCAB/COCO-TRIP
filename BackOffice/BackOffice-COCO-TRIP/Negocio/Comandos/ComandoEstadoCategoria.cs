@@ -1,22 +1,23 @@
+using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
-namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
+namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
-  public class ComandoConsultarListaCategoria : Comando
+  public class ComandoEstadoCategoria:Comando
   {
-    private int Id;
+    private Entidad categoria = FabricaEntidad.GetCategoria();
     private ArrayList resultado = new ArrayList();
     IDAOCategoria dao = FabricaDAO.GetDAOCategoria();
-    
+
     public override void Execute()
     {
       try
       {
-        JObject respuesta = dao.Get(Id);
+        JObject respuesta = dao.PutEditarEstado(categoria);
         resultado.Add(respuesta);
       }
       catch (Exception e)
@@ -25,17 +26,15 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
         throw e;
       }
     }
-
-
     public override ArrayList GetResult()
     {
       return resultado;
     }
-   
+
 
     public override void SetPropiedad(object propiedad)
     {
-      Id = (int)propiedad;
+      categoria = (Categoria)propiedad;
     }
   }
 }

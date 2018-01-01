@@ -9,18 +9,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
+namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
+  /// <summary>
+  /// Comando que realiza la lógica de negocio para consultar todos los eventos dado una categoría.
+  /// </summary>
   public class ComandoConsultarEventos : Comando
   {
     private int id;
     private ArrayList resultado = new ArrayList();
+
+    /// <summary>
+    /// Método Execute, ejecuta el comando.
+    /// </summary>
     public override void Execute()
     {
       try
       {
         DAO<JObject, Categoria> peticionCategoria = FabricaDAO.GetDAOCategoria();
-        
+
         IDAOLocalidad peticionLocalidad = FabricaDAO.GetDAOLocalidad();
         JObject respuestaCategoria = ((DAOCategoria)peticionCategoria).GetCategoriasHabilitadas();
         JObject respuestaLocalidad = peticionLocalidad.GetAll();
@@ -50,17 +57,23 @@ namespace BackOffice_COCO_TRIP.Negocio.Componentes.Comandos
       }
       catch (Exception e)
       {
-        //TERMINAR
         throw e;
       }
     }
 
-
+    /// <summary>
+    /// Método GetResult, Obtiene una lista de resultados derivados de la ejecución del comando.
+    /// </summary>
+    /// <returns></returns>
     public override ArrayList GetResult()
     {
       return resultado;
     }
 
+    /// <summary>
+    /// Método SetPropiedad, especifíca algún parámetro para la ejecución del comando.
+    /// </summary>
+    /// <param name="propiedad">propiedad a específicar</param>
     public override void SetPropiedad(object propiedad)
     {
       id = (int)propiedad;

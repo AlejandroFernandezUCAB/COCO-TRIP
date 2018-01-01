@@ -9,11 +9,19 @@ using System.Net.Sockets;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
+  /// <summary>
+  /// Clase que realiza el CRUD de la entidad Evento
+  /// </summary>
   public class DAOEvento : DAO<JObject, Entidad>, IDAOEvento
   {
     private const string ControllerUri = "M8_Eventos";
     private JObject responseData;
 
+    /// <summary>
+    /// Método Delete, elimina un evento dado su id.
+    /// </summary>
+    /// <param name="id">Identificador único del evento</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Delete(int id)
     {
       try
@@ -97,6 +105,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método Get, consulta la lista de eventos dado un id de categoría.
+    /// </summary>
+    /// <param name="id">Identificador único de la categoría</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Get(int id)
     {
       try
@@ -182,6 +195,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método GetEvento, consulta un evento.
+    /// </summary>
+    /// <param name="id">Identificador único del evento</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public JObject GetEvento(int id)
     {
 
@@ -268,11 +286,21 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método Patch.
+    /// </summary>
+    /// <param name="data">Entidad</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Método Post, agrega un evento.
+    /// </summary>
+    /// <param name="data">Entidad evento a agregar</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Post(Entidad data)
     {
       try
@@ -372,6 +400,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método Put, actualiza un evento.
+    /// </summary>
+    /// <param name="data">Entidad evento a actualizar</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Put(Entidad data)
     {
       try
