@@ -1,12 +1,15 @@
 using System.Collections.Generic;
-using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO;
-using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Entity;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
+    /// <summary>
+    /// Comando que tiene como funcion obtener el estado de una categora en la base de datos.
+    /// </summary>
     public class ComandoEstadoCategoria : Comando
     {
         DAO dao = FabricaDAO.CrearDAOCategoria();
@@ -15,7 +18,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         private static Logger log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor.
         /// </summary>
         /// <param name="entidad">Entidad con la que se desea proceder</param>
         public ComandoEstadoCategoria(Entidad entidad)
@@ -24,9 +27,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         }
 
         /// <summary>
-        /// Ejecuta el comando al cual fue designado, actualiza estado de la categoria
+        /// Ejecuta el comando al cual fue designado, actualiza estado de la categoria.
         /// </summary>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar la operacion a la base de datos.</exception>
+        /// <exception cref="Excepcion">Error inesperado</exception>
         public override void Ejecutar()
         {
             try
@@ -50,15 +54,20 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         }
 
         /// <summary>
-        /// No implementado
+        /// Metodo que retorna la respuesta del metodo ejecutar().
         /// </summary>
-        /// <returns>Entidad que fue utilizada en metodo ejecutar</returns>
-        /// <exception cref="NotImplementedException"
+        /// <returns>Una instacia categoria</returns>
+        /// <exception cref="System.NotImplementedException">Metodo No implementado</exception>
         public override Entidad Retornar()
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Metodo que retorna una lista de la respuesta del metodo ejecutar().
+        /// </summary>
+        /// <returns>Una lista de categoria</returns>
+        /// <exception cref="System.NotImplementedException">Metodo No implementado</exception>
         public override List<Entidad> RetornarLista()
         {
             throw new System.NotImplementedException();

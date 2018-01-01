@@ -3,8 +3,8 @@ using System;
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
     /// <summary>
-    /// Clase que encapsula la información de "JsonReaderException"
-    /// se genera cuando ocurre un error leyendo el Json.
+    /// Clase que encapsula la información de "Exception"
+    /// se genera cuando una duplicidad en los nombre sobre la operación que se realiza     .
     /// </summary>
     public class NombreDuplicadoExcepcion : Exception
     {

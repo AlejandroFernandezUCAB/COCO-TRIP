@@ -6,9 +6,9 @@ using System.Reflection;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 using Npgsql;
 using NpgsqlTypes;
-using ApiRest_COCO_TRIP.Datos.Singleton;
 
 
 /// <summary>
@@ -47,7 +47,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             return parametro;
         }
 
-        
+
         /// <summary>
         /// Metodo que permite preparar un StoredProcedure para su ejecución.
         /// </summary>
@@ -77,9 +77,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// Metodo que lee los datos de la categoria
         /// </summary>
         /// <returns>IList con las categorias que se encuentran en el atributo "leerDatos"</returns>
-        private IList<Categoria> SetListaCategoria()
+        private List<Entidad> SetListaCategoria()
         {
-            IList<Categoria> listaCategorias = new List<Categoria>();
+            List<Entidad> listaCategorias = new List<Entidad>();
             while (leerDatos.Read())
             {
                 listaCategorias.Add(new Categoria()
@@ -91,7 +91,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     Nivel = leerDatos.GetInt32(4)
                 });
                 Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
-                listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
+                ((Categoria)listaCategorias[listaCategorias.Count - 1]).CategoriaSuperior = Superior;
             }
             return listaCategorias;
         }
@@ -133,14 +133,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
-                mensaje = "Error de duplicidad de nombre en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name 
+                mensaje = "Error de duplicidad de nombre en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name
                     + ". Este nombre de categoria ya existe. || " + ex.Message;
                 throw new NombreDuplicadoExcepcion(ex, mensaje);
             }
             catch (NpgsqlException ex)
             {
-                mensaje = "Error al agregar categoria en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name 
-                    + " || "+ ex.Message;
+                mensaje = "Error al agregar categoria en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name
+                    + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
@@ -192,21 +192,21 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         public override void Actualizar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0;
+            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_ModificarCategoria");
                 DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
-                IList<Categoria> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
+                List<Entidad> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
 
-                if (Lcategoria.First<Categoria>().Nivel == categoria.Nivel)
+                if (((Categoria)Lcategoria.First<Entidad>()).Nivel == categoria.Nivel)
                 {
                     ParametrosModificar(categoria);
                 }
                 else
                 {
-                    IList<Categoria> Listacategoria = daoc.ObtenerTodasLasCategorias();
-                    IList<Categoria> hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
+                    List<Entidad> Listacategoria = daoc.ObtenerTodasLasCategorias();
+                    List<Entidad> hijos = Listacategoria.Where(item => ((Categoria)item).CategoriaSuperior == categoria.Id).ToList();
                     if (hijos.Count == 0)
                     {
                         ParametrosModificar(categoria);
@@ -273,7 +273,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         public void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0;
+            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_actualizarEstatusCategoria");
@@ -284,7 +284,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                mensaje = "Error al actualizar el estado de la categoria. || " + this.GetType().FullName 
+                mensaje = "Error al actualizar el estado de la categoria. || " + this.GetType().FullName
                     + ". En el metodo " + MethodBase.GetCurrentMethod().Name + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
             }
@@ -321,9 +321,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList de las categorias habilitadas</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de realizar la consulta de las categorias</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public IList<Categoria> ObtenerCategoriasHabilitadas()
+        public List<Entidad> ObtenerCategoriasHabilitadas()
         {
-            IList<Categoria> listaCategorias;
+            List<Entidad> listaCategorias;
             try
             {
                 StoredProcedure("m9_ConsultarCategoriaHabilitada");
@@ -346,7 +346,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
-        
+
 
 
         /// <summary>
@@ -356,10 +356,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList con la categoria que se desea cuyo Id se encuentra en la instancia del parametro.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public IList<Categoria> ObtenerCategoriaPorId(Entidad entidad)
+        public List<Entidad> ObtenerCategoriaPorId(Entidad entidad)
         {
             categoria = (Categoria)entidad;
-            IList<Categoria> listaCategorias;
+            List<Entidad> listaCategorias;
             try
             {
                 StoredProcedure("m9_ObtenerCategoriaPorId");
@@ -369,17 +369,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                string mensaje = "Error al consultar categoria por id " + 
+                string mensaje = "Error al consultar categoria por id " +
                     this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " || ca_id = " + categoria.Id + " || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-              throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
-              base.Desconectar();
+                base.Desconectar();
             }
             return listaCategorias;
         }
@@ -392,9 +392,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList con las Categorias.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public IList<Categoria> ObtenerTodasLasCategorias()
+        public List<Entidad> ObtenerTodasLasCategorias()
         {
-            IList<Categoria> listaCategorias;
+            List<Entidad> listaCategorias;
             try
             {
                 StoredProcedure("m9_devolverTodasCategorias");
@@ -403,17 +403,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                mensaje = "Error al realizar la consulta de todas las categorias en " + 
+                mensaje = "Error al realizar la consulta de todas las categorias en " +
                  this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-              throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
-              base.Desconectar();
+                base.Desconectar();
             }
             return listaCategorias;
         }
@@ -451,17 +451,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                mensaje = "Error al realizar la consulta por el nombre de las categorias en " + 
+                mensaje = "Error al realizar la consulta por el nombre de las categorias en " +
                 this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " ca_nombre = " + categoria.Nombre + "  || " + ex.Message;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-              throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
-              base.Desconectar();
+                base.Desconectar();
             }
             return categoria;
         }
@@ -474,9 +474,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <param name="categoria">Instacia Categoria que contiene el Id por el cual se consultara.</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Exception">Error inesperado</exception>
-        public IList<Categoria> ObtenerCategorias(Entidad categoria)
+        public List<Entidad> ObtenerCategorias(Entidad categoria)
         {
-            IList<Categoria> listaCategorias = new List<Categoria>();
+            List<Entidad> listaCategorias = new List<Entidad>();
             try
             {
 
@@ -496,14 +496,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                mensaje = "Error al realizar la consulta de la categorias en " + 
-                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + 
+                mensaje = "Error al realizar la consulta de la categorias en " +
+                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name +
                     " con el id:" + categoria.Id;
                 throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                
                 throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
@@ -512,8 +511,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
-       
-        
+
+
         #endregion metodosEspecificos
     }
 }

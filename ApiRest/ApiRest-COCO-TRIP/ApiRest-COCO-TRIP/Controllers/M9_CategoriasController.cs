@@ -89,7 +89,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         categoria = new Categoria(id);
         com = FabricaComando.CrearComandoObtenerCategorias(categoria);
         com.Ejecutar();
-        response.Add(Response_Data, ((ComandoObtenerCategorias)com).RetornarLista2());
+        response.Add(Response_Data, ((ComandoObtenerCategorias)com).RetornarLista());
       }
       catch (BaseDeDatosExcepcion ex)
       {
@@ -176,7 +176,7 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         com = FabricaComando.CrearComandoObtenerCategoriasHabilitadas();
         com.Ejecutar();
-        response.Add(Response_Data, ((ComandoObtenerCategoriasHabilitadas)com).RetornarLista2());
+        response.Add(Response_Data, ((ComandoObtenerCategoriasHabilitadas)com).RetornarLista());
       }
       catch (BaseDeDatosExcepcion ex)
       {
@@ -253,7 +253,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         categoria.Id = id;
         com=FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
         com.Ejecutar();
-        response.Add(Response_Data, ((ComandoObtenerCategoriaPorId)com).RetornarLista2());
+        response.Add(Response_Data, ((ComandoObtenerCategoriaPorId)com).RetornarLista());
       }
       catch (BaseDeDatosExcepcion ex)
       {

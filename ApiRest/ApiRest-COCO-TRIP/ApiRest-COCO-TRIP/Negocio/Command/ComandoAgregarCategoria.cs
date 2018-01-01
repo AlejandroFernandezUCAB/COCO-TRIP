@@ -1,19 +1,22 @@
+using System.Collections.Generic;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-using ApiRest_COCO_TRIP.Comun.Excepcion;
-using System;
-using System.Collections.Generic;
 using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
+    /// <summary>
+    /// Comando que tiene como funcion insertar una categora a la base de datos.
+    /// </summary>
     public class ComandoAgregarCategoria : Comando
     {
         DAO dao = FabricaDAO.CrearDAOCategoria();
         private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
         private string datosCategoria;
         private static Logger log = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Metodo Constructor.
         /// </summary>
@@ -24,11 +27,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         }
 
         /// <summary>
-        /// Metodo que ejecuta la accion del comando.
+        /// Metodo que ejecuta la accion del comando, agrega una nueva Categoria.
         /// </summary>
-        /// <exception cref="NombreDuplicadoExcepcion"></exception>
-        /// <exception cref="BaseDeDatosExcepcion"></exception>
-        /// <exception cref="Excepcion"></exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Nombre duplicado al momento de insertar.</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar la operacion a la base de datos.</exception>
+        /// <exception cref="Excepcion">Error inesperado</exception>
         public override void Ejecutar()
         {
             try
@@ -57,11 +60,21 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             }
         }
 
+        /// <summary>
+        /// Metodo que retorna la respuesta del metodo ejecutar().
+        /// </summary>
+        /// <returns>Una instacia categoria</returns>
+        /// <exception cref="System.NotImplementedException">Metodo No implementado</exception>
         public override Entidad Retornar()
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Metodo que retorna una lista de la respuesta del metodo ejecutar().
+        /// </summary>
+        /// <returns>Una lista de categoria</returns>
+        /// <exception cref="System.NotImplementedException">Metodo No implementado</exception>
         public override List<Entidad> RetornarLista()
         {
             throw new System.NotImplementedException();
