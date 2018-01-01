@@ -6,6 +6,10 @@ using System.Data;
 using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Npgsql;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Reflection;
+using NLog;
+using System.Net.Sockets;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -13,6 +17,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 	{
 		private LugarTuristico _lugarTuristico;
 		private NpgsqlDataReader _datos;
+		private static Logger log = LogManager.GetCurrentClassLogger();
 
 		public override void Actualizar(Entidad objeto)
 		{
@@ -35,7 +40,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			try
 			{
 				StoredProcedure("ConsultarLugaresTuristico");
-				_datos = base.Comando.ExecuteReader();
+				_datos = Comando.ExecuteReader();
 
 				while (_datos.Read())
 				{
@@ -77,6 +82,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Insertar un lugar turistico en la base de datos
+		/// </summary>
+		/// <param name="objeto">Objeto lugar turistico</param>
 		public override void Insertar(Entidad objeto)
 		{
 			int success = 0 ;
@@ -100,17 +109,53 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				success = Comando.ExecuteNonQuery();
 
 			}
+			catch(NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
 			catch(InvalidCastException e)
 			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch(NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch(SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			catch(Exception e)
 			{
 
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			finally
 			{
-				base.Desconectar();
+				Desconectar();
 			}
 		}
 
