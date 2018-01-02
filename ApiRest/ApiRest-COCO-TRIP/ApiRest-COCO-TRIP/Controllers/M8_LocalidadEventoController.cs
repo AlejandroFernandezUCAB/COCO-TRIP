@@ -63,7 +63,7 @@ namespace ApiRest_COCO_TRIP.Controllers
                 comando.Ejecutar();
                 respuesta.Add("dato", "Se ha eliminado una localidad");
             }
-            catch (ItemNoEncontradoException e)
+            catch (ItemNoEncontradoExcepcion e)
             {
                 respuesta.Add("Error", e.Message);
             }
@@ -103,7 +103,7 @@ namespace ApiRest_COCO_TRIP.Controllers
                 respuesta.Add("Error", e.Message);
             }
 
-            catch (OperacionInvalidaException e)
+            catch (OperacionInvalidaExcepcion e)
             {
                 respuesta.Add("Error", e.Message);
             }
@@ -133,7 +133,7 @@ namespace ApiRest_COCO_TRIP.Controllers
                 respuesta.Add("Error", e.Message);
             }
 
-            catch (OperacionInvalidaException e)
+            catch (OperacionInvalidaExcepcion e)
             {
                 respuesta.Add("Error", e.Message);
             }

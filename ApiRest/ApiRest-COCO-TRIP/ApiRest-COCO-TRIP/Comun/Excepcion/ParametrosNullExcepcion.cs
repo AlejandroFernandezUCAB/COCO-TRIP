@@ -6,7 +6,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// Clase que encapsula la información de "Exception"
     /// se genera cuando ocurre una operacion con un parametro nulo.
     /// </summary>
-    public class ParametrosNullException : Exception
+    public class ParametrosNullExcepcion : ArgumentNullException
     {
         private string parametroNull;
         private Exception excepcion;
@@ -34,7 +34,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
             set { parametroNull = value; }
         }
 
-        public ParametrosNullException(string parametro)
+        public ParametrosNullExcepcion(string parametro)
         {
             parametroNull = parametro;
             mensaje = $"Falta el parametro {parametro} o este es nulo";
@@ -44,7 +44,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// Metodo Constructor
         /// </summary>
         /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
-        public ParametrosNullException(Exception excepcion)
+        public ParametrosNullExcepcion(Exception excepcion)
         {
             this.excepcion = excepcion;
             fechaHora = DateTime.Now;
@@ -55,7 +55,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// </summary>
         /// <param name="excepcion">Excepción generada del tipo "Exception"</param>
         /// <param name="mensaje">Breve mensaje referenciando como se genero la excepcion, incluir parametros del metodo</param>
-        public ParametrosNullException(Exception excepcion, string mensaje)
+        public ParametrosNullExcepcion(Exception excepcion, string mensaje)
         {
             this.excepcion = excepcion;
             this.mensaje = mensaje;

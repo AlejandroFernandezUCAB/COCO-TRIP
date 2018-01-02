@@ -11,7 +11,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         private Exception _excepcion;
         private DateTime fechaHora;   //Hora y fecha de cuando se genero la excepción.
         private string mensaje;       //Breve descripción de la excepción genereda con parametro del metodo con la que se ocasiono.
-
+        private string datosAsociados;
         /// <summary>
         /// Getters y Setters del atributo "_excepcion".
         /// </summary>
@@ -26,6 +26,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// Getters y Setters del atributo "mensaje".
         /// </summary>
         public string Mensaje { get => mensaje; set => mensaje = value; }
+        public string DatosAsociados { get => datosAsociados; set => datosAsociados = value; }
 
         /// <summary>
         /// Metodo Constructor

@@ -555,7 +555,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       }
       catch (JsonReaderException ex)
       {
-
         responseData = new JObject
           {
             { "error", ex.Message }
