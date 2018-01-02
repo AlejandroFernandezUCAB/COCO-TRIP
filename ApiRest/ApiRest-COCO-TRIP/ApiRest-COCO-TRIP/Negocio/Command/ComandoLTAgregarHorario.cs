@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
+using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
+using System;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using NLog;
-using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-    public class ComandoLTAgregarCategoria : Comando
-    {
+	public class ComandoLTAgregarHorario: Comando
+	{
+		private DAOHorario _daoHorario;
 		private Entidad _lugarTuristico;
-		private List<Entidad> _categorias;
-		private IDAOLugarTuristicoCategoria _daoCategoria;
+		private List<Entidad> _horarios;
 		private static Logger log = LogManager.GetCurrentClassLogger();
 
-		public ComandoLTAgregarCategoria( Entidad lugarTuristico)
+		public ComandoLTAgregarHorario(Entidad lugarTuristico)
 		{
-			_daoCategoria = FabricaDAO.CrearDAOLugarTuristico_Categoria();
 			_lugarTuristico = lugarTuristico;
-			_categorias = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
+			_daoHorario = FabricaDAO.CrearDAOHorario();
+			_horarios = ((LugarTuristico)lugarTuristico).Horario.ConvertAll(new Converter<Horario, Entidad>(ConvertListHorario)); 
+
 		}
 
-        public override void Ejecutar()
-        {
+		public override void Ejecutar()
+		{
 			try
 			{
 
-				for (int i = 0; i < _categorias.Count; i++)
+				for (int i = 0; i < _horarios.Count; i++)
 				{
-					_daoCategoria.Insertar(_categorias[i], _lugarTuristico);
+					_daoHorario.Insertar(_horarios[i], _lugarTuristico);
 				}
 
 			}
@@ -67,27 +68,30 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
+			
 
 		}
 
-        public override Entidad Retornar()
-        {
-            throw new NotImplementedException();
-        }
+		public override Entidad Retornar()
+		{
+			throw new System.NotImplementedException();
+		}
 
-        public override List<Entidad> RetornarLista()
-        {
-            throw new NotImplementedException();
-        }
+		public override List<Entidad> RetornarLista()
+		{
+			throw new System.NotImplementedException();
+		}
 
 		/// <summary>
-		/// Convierte el objeto Categoria a Entidad
+		/// Convierte el objeto Horario a Entidad
 		/// </summary>
 		/// <param name="input">Objeto Foto</param>
 		/// <returns>Objeto Entidad</returns>
-		private Entidad ConvertListCategoria(Categoria input)
+		private Entidad ConvertListHorario(Horario input)
 		{
 			return input;
 		}
+
+
 	}
 }
