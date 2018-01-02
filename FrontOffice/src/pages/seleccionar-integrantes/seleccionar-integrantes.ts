@@ -123,8 +123,6 @@ export class SeleccionarIntegrantesPage
       , permisoDenegado => 
       console.log('Acceso denegado')
     )
-
-    Camera.cleanup();
   }
 
 /**

@@ -184,8 +184,6 @@ public agregarFoto()
     , permisoDenegado => 
     console.log('Acceso denegado')
   )
-
-  Camera.cleanup();
 }
 
 /**
