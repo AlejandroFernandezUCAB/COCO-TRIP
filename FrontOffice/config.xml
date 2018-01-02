@@ -97,8 +97,6 @@
     <allow-navigation href="http://200.8.141.188:8100" />
     <plugin name="cordova-plugin-statusbar" spec="git+https://github.com/apache/cordova-plugin-statusbar.git" />
     <plugin name="cordova-plugin-firebase" spec="^0.1.24" />
-    <plugin name="cordova-plugin-file" spec="^5.0.0" />
-    <plugin name="cordova-plugin-file-transfer" spec="^1.7.0" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
         <variable name="APP_ID" value="1251585011612648" />
         <variable name="APP_NAME" value="cocotrip" />
@@ -114,7 +112,9 @@
     <plugin name="cordova-plugin-advanced-http" spec="^1.9.0" />
     <plugin name="cordova-plugin-camera" spec="^3.0.0" />
     <plugin name="cordova-plugin-filepath" spec="^1.1.0" />
+    <plugin name="cordova-plugin-file" spec="^6.0.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.0" />
     <engine name="browser" spec="5.0.1" />
     <engine name="ios" spec="^4.5.3" />
-    <engine name="android" spec="^6.3.0" />
+    <engine name="android" spec="6.3.0" />
 </widget>

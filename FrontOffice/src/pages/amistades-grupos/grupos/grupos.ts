@@ -318,8 +318,6 @@ export class GruposPage
           {
               this.storage.get('id').then((idUsuario) => 
               {
-                console.log('El id del usuario es ' + idUsuario);
-
                 this.comandoSalirGrupo.IdGrupo = id;
                 this.comandoSalirGrupo.IdUsuario = idUsuario;
           

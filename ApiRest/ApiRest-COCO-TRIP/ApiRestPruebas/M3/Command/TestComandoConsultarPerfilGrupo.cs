@@ -66,7 +66,7 @@ namespace ApiRestPruebas.M3.Command
     [Test]
     public void TestComandoConsultarPerfilGrupoConFotoExitoso()
     {
-      listaGrupo[0].ContenidoFoto = foto;
+      listaGrupo[0].ContenidoFoto = Convert.ToBase64String(foto);
       comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[0], 1);
       comando.Ejecutar();
 

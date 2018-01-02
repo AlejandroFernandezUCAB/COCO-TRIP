@@ -75,7 +75,7 @@ namespace ApiRestPruebas.M3.Command
 
     public void ComandoAgregarGrupoConFotoExitoso()
     {
-      listaGrupo[0].ContenidoFoto = foto;
+      listaGrupo[0].ContenidoFoto = Convert.ToBase64String(foto);
       comando = FabricaComando.CrearComandoAgregarGrupo(listaGrupo[0]);
       comando.Ejecutar();
     }
