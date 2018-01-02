@@ -1,12 +1,8 @@
 using ApiRest_COCO_TRIP.Models.Excepcion;
-using ApiRest_COCO_TRIP.Validaciones;
+using ApiRest_COCO_TRIP.Comun.Validaciones;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApiRestPruebas.M9
 {
@@ -40,7 +36,7 @@ namespace ApiRestPruebas.M9
     {
 
       Assert.Catch<ParametrosNullException>(
-        () => ValidacionWS.validarParametrosNotNull(
+        () => ValidacionWS.ValidarParametrosNotNull(
           parametrosRequest,
           new List<string> {
             "param1",
@@ -55,7 +51,7 @@ namespace ApiRestPruebas.M9
     public void ProbarExceptionConParametroNoExistente()
     {
       Assert.Catch<ParametrosNullException>(
-        () => ValidacionWS.validarParametrosNotNull(
+        () => ValidacionWS.ValidarParametrosNotNull(
           parametrosRequest,
           new List<string> {
             "param1",
@@ -70,7 +66,7 @@ namespace ApiRestPruebas.M9
     public void ProbarValidacionExitosa()
     {
       
-      Assert.DoesNotThrow(() => ValidacionWS.validarParametrosNotNull(
+      Assert.DoesNotThrow(() => ValidacionWS.ValidarParametrosNotNull(
           parametrosRequest,
           new List<string> {
             "param1",

@@ -1,20 +1,41 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-//using ApiRest_COCO_TRIP.Models.Excepcion;
 using System.Linq;
+using System.Reflection;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 using Npgsql;
 using NpgsqlTypes;
 
+
+/// <summary>
+/// Autores - MODULO 9:
+///      Marialette Arguelles, Michel Jraiche y Horacio Orrillo
+/// DESCRIPCION: 
+///     Data Access Object de la entidad Categoria. En esta clase se encapsula el acceso a la fuente de datos.
+/// </summary>
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
     public class DAOCategoria : DAO
     {
         private NpgsqlParameter parametro;
         private NpgsqlDataReader leerDatos;
+        private List<Entidad> lista;
+        private Categoria categoria;
+        private static MensajeResultadoOperacion mensajeRegistry = MensajeResultadoOperacion.ObtenerInstancia();
+        private string mensaje;
+
+        public DAOCategoria()
+        {
+            parametro = new NpgsqlParameter();
+            lista = new List<Entidad>();
+        }
+
+        /////////////////////////////////////// METODOS AUXILIARES DE DAO ///////////////////////////////////////
+        #region metodosAuxiliares
         private NpgsqlParameter AgregarParametro(NpgsqlDbType tipoDeDato, object valor)
         {
             var parametro = new NpgsqlParameter
@@ -25,17 +46,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
             return parametro;
         }
-        private List<Entidad> lista;
-        private Categoria categoria;
 
-        /// <summary>
-        /// Metodo Constructor.
-        /// </summary>
-        public DAOCategoria()
-        {
-            parametro = new NpgsqlParameter();
-            lista = new List<Entidad>();
-        }
 
         /// <summary>
         /// Metodo que permite preparar un StoredProcedure para su ejecución.
@@ -61,13 +72,43 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Nivel);
         }
 
+
+        /// <summary>
+        /// Metodo que lee los datos de la categoria
+        /// </summary>
+        /// <returns>IList con las categorias que se encuentran en el atributo "leerDatos"</returns>
+        private List<Entidad> SetListaCategoria()
+        {
+            List<Entidad> listaCategorias = new List<Entidad>();
+            while (leerDatos.Read())
+            {
+                listaCategorias.Add(new Categoria()
+                {
+                    Id = leerDatos.GetInt32(0),
+                    Nombre = leerDatos.GetString(1),
+                    Descripcion = leerDatos.GetString(2),
+                    Estatus = leerDatos.GetBoolean(3),
+                    Nivel = leerDatos.GetInt32(4)
+                });
+                Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
+                ((Categoria)listaCategorias[listaCategorias.Count - 1]).CategoriaSuperior = Superior;
+            }
+            return listaCategorias;
+        }
+
+
+        #endregion metodosAuxiliares
+
+
+        /////////////////////////////////////// METODOS HEREDADOS DE DAO ///////////////////////////////////////
+        #region metodosHeredados
         /// <summary>
         /// Metodo Create, permite insertar una Entidad tipo categoria en la base de datos.
         /// </summary>
         /// <param name="objeto">instancia Catgoria que se desea insertar.</param>
-        /// <exception cref="NombreDuplicadoException">Nombre duplicado al momento de insertar.</exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Nombre duplicado al momento de insertar.</exception>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de agregar una categoria.</exception>
-        /// <exception cref="Exception">Error inesperado.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         public override void Insertar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
@@ -92,28 +133,27 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
-               // throw new NombreDuplicadoException(ex, this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name, )
-                throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+                mensaje = "Error de duplicidad de nombre en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name
+                    + ". Este nombre de categoria ya existe. || " + ex.Message;
+                throw new NombreDuplicadoExcepcion(ex, mensaje);
             }
             catch (NpgsqlException ex)
             {
-                //TODO: utilizar la excepcion "BaseDeDatosExcepcion" que se encuentra en la carpeta Comun, precaucion con las  pruebas de Michel.
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $"ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
-                    Mensaje = $"Error al momento de agregar la catgoria {categoria.Id}"
-                };
-                throw bdException;
+                mensaje = "Error al agregar categoria en " + this.GetType().FullName + ". " + MethodBase.GetCurrentMethod().Name
+                    + " || " + ex.Message;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);
             }
             finally
             {
                 base.Desconectar();
             }
         }
+
+
 
         /// <summary>
         /// Metodo Read, consulta mediante un Id. 
@@ -126,6 +166,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new NotImplementedException();
         }
 
+
+
         /// <summary>
         /// Metodo Read.
         /// </summary>
@@ -137,44 +179,45 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new NotImplementedException();
         }
 
+
+
         /// <summary>
         /// Metodo Update, actualiza una categoria enviada por parametro.
         /// </summary>
         /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
         /// <exception cref="NpgsqlException">Error al actualizar la categoria</exception>
-        /// <exception cref="HijoConDePendenciaException">La categoria que intenta actualizar tiene dependencias.</exception>
+        /// <exception cref="HijoConDePendenciaExcepcion">La categoria que intenta actualizar tiene dependencias.</exception>
         /// <exception cref="ArgumentNullException">Ocurre en el momento de utlizar el metodo .ToList()</exception>
-        /// <exception cref="Exception">Error inesperado.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         public override void Actualizar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0;
+            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_ModificarCategoria");
                 DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
-                IList<Categoria> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
+                List<Entidad> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
 
-                if (Lcategoria.First<Categoria>().Nivel == categoria.Nivel)
+                if (((Categoria)Lcategoria.First<Entidad>()).Nivel == categoria.Nivel)
                 {
                     ParametrosModificar(categoria);
                 }
                 else
                 {
-                    //categories = listaCategorias.Where(s => s.Id == id).First();        <------- Borrar? TODO
-                    IList<Categoria> Listacategoria = daoc.ObtenerTodasLasCategorias();
-                    //TODO: Una variable con "var" revisar.
-                    var hijos = Listacategoria.Where(item => item.CategoriaSuperior == categoria.Id).ToList();
+                    List<Entidad> Listacategoria = daoc.ObtenerTodasLasCategorias();
+                    List<Entidad> hijos = Listacategoria.Where(item => ((Categoria)item).CategoriaSuperior == categoria.Id).ToList();
                     if (hijos.Count == 0)
                     {
                         ParametrosModificar(categoria);
                     }
                     else
                     {
-                        //TODO: Cambiar "hijos" por "dependecias".
-                        //precaucion con las pruebas de Michel usa estos mensajes. 
-                        //Revisar constructor, no recibe una Excepción"
-                        throw new HijoConDePendenciaException($"Esta categoria id:{categoria.Id} nombre:{categoria.Nombre} tiene hijos");
+                        Exception ex = new Exception("Dependencias asociadas.");
+                        mensaje = "Error de dependiencia en " + this.GetType().FullName + ". " +
+                            MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
+                            " y nombre: " + categoria.Nombre + " ya que tiene dependencia";
+                        throw new HijoConDePendenciaExcepcion(ex, mensaje);
                     }
                 }
                 if (categoria.CategoriaSuperior == 0)
@@ -189,30 +232,29 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (PostgresException ex)
             {
-                throw new NombreDuplicadoException($"Esta Categoria id:{categoria.Id} No se puede agregar con el nombre:{categoria.Nombre} Porque este nombre ya existe");
+                mensaje = "Error de duplicidad en nombre en " + this.GetType().FullName + ". " +
+                    MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
+                    " No se puede modificar al nombre: " + categoria.Nombre +
+                    " porque este nombre de categoria ya existe" + " || " + ex.Message;
+                throw new NombreDuplicadoExcepcion(ex, mensaje);
             }
             catch (NpgsqlException ex)
             {
-                //TODO: utilizar la excepcion "BaseDeDatosExcepcion" que se encuentra en la carpeta Comun, precaucion con las  pruebas de Michel.
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}, NOMBRE : {categoria.Nombre}, DESCRIPCION : {categoria.Descripcion}, CATEGORIASUPERIOR : {categoria.CategoriaSuperior}, NIVEL : {categoria.Nivel} ",
-                    Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
-                };
-                throw bdException;
+                mensaje = "Error al actualizar/modificar el registro en " + this.GetType().FullName + ". " +
+                    MethodBase.GetCurrentMethod().Name + " donde ca_id: " + categoria.Id +
+                    " y ca_nombre: " + categoria.Nombre + " || " + ex.Message;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
 
             }
             catch (ArgumentNullException ex) //Esto ocurre en el momento de utilizar el metodo .ToList().
             {
-                //TODO: Revisar luego, hace conflicto las excepciones de Comun y Models
-                //ArgumentoNuloExcepcion ANE = new ArgumentoNuloExcepcion(ex);
-                //throw ANE;
-                throw ex;
+                //TODO Mejorar ese mensaje de error, no tengo idea de que hace esa linea.
+                string mensaje = "Error creando las lista para las categorias " + " || " + ex.Message;
+                throw new ArgumentoNuloExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la personalizada que se encuentra en comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);
             }
             finally
             {
@@ -220,16 +262,18 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
         }
 
+
+
         /// <summary>
         /// Metodo Update, actualiza el estado de una categoria enviada por parametro.
         /// </summary>
         /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de actualizar la categoria.</exception>
-        /// <exception cref="Exception">Error inesperado.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         public void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0; //TODO: Esta variable hace falta?
+            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_actualizarEstatusCategoria");
@@ -240,18 +284,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                //TODO: utilizar la excepcion "BaseDeDatosExcepcion" que se encuentra en la carpeta Comun, precaucion con las  pruebas de Michel.
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}, ESTATUS: {categoria.Estatus}",
-                    Mensaje = $"Error al momento de actualizar la catgoria {categoria.Id}"
-                };
-                throw bdException;
+                mensaje = "Error al actualizar el estado de la categoria. || " + this.GetType().FullName
+                    + ". En el metodo " + MethodBase.GetCurrentMethod().Name + " || " + ex.Message;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la excepcion personalizada que se encuentra en Comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);
             }
             finally
             {
@@ -269,30 +308,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new NotImplementedException();
         }
 
-        //Metodos extra
-        //TODOS LOS DE CONSULTA ESTAN ACA PORQUE NO CUADRAN CON LOS GENERALES
-        /// <summary>
-        /// Metodo que lee los datos de la categoria
-        /// </summary>
-        /// <returns>IList con las categorias que se encuentran en el atributo "leerDatos"</returns>
-        private IList<Categoria> SetListaCategoria()
-        {
-            IList<Categoria> listaCategorias = new List<Categoria>();
-            while (leerDatos.Read())
-            {
-                listaCategorias.Add(new Categoria()
-                {
-                    Id = leerDatos.GetInt32(0),
-                    Nombre = leerDatos.GetString(1),
-                    Descripcion = leerDatos.GetString(2),
-                    Estatus = leerDatos.GetBoolean(3),
-                    Nivel = leerDatos.GetInt32(4)
-                });
-                Int32.TryParse(leerDatos.GetValue(5).ToString(), out int Superior);
-                listaCategorias[listaCategorias.Count - 1].CategoriaSuperior = Superior;
-            }
-            return listaCategorias;
-        }
+        #endregion metodosHeredados
+
+
+        /////////////////////////////////////// METODOS ESPECIFICOS DE DAOCATEGORIA ///////////////////////////////////////
+        #region metodosEspecificos
 
         /// <summary>
         /// EndPoint para obtener las categorias hijas a partir de una categoria padre dado un ID,
@@ -300,10 +320,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// </summary>
         /// <returns>IList de las categorias habilitadas</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de realizar la consulta de las categorias</exception>
-        /// <exception cref="Exception">Error inesperado</exception>
-        public IList<Categoria> ObtenerCategoriasHabilitadas()
+        /// <exception cref="Excepcion">Error inesperado</exception>
+        public List<Entidad> ObtenerCategoriasHabilitadas()
         {
-            IList<Categoria> listaCategorias;
+            List<Entidad> listaCategorias;
             try
             {
                 StoredProcedure("m9_ConsultarCategoriaHabilitada");
@@ -312,16 +332,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar las todas categorias"
-                };
-                throw bdException;
+                mensaje = "Error al realizar la consulta de las categorias habilitadas " +
+                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " || " + ex.Message;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -329,18 +346,20 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
-        
+
+
+
         /// <summary>
         /// Metodo que obtiene la categoria dado un Id.
         /// </summary>
         /// <param name="entidad">Instacia Categoria que contiene el id por el cual se consultara.</param>
         /// <returns>IList con la categoria que se desea cuyo Id se encuentra en la instancia del parametro.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
-        /// <exception cref="Exception">Error inesperado</exception>
-        public IList<Categoria> ObtenerCategoriaPorId(Entidad entidad)
+        /// <exception cref="Excepcion">Error inesperado</exception>
+        public List<Entidad> ObtenerCategoriaPorId(Entidad entidad)
         {
             categoria = (Categoria)entidad;
-            IList<Categoria> listaCategorias;
+            List<Entidad> listaCategorias;
             try
             {
                 StoredProcedure("m9_ObtenerCategoriaPorId");
@@ -350,16 +369,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar las todas categorias"
-                };
-                throw bdException;
+                string mensaje = "Error al consultar categoria por id " +
+                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " || ca_id = " + categoria.Id + " || " + ex.Message;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -368,15 +384,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             return listaCategorias;
         }
 
+
+
         /// <summary>
-        /// Metodo que obtiene una lista con todas las categorias.
+        /// Metodo que obtiene una lista con todas las categorias de la base de datos.
         /// </summary>
         /// <returns>IList con las Categorias.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
-        /// <exception cref="Exception">Error inesperado</exception>
-        public IList<Categoria> ObtenerTodasLasCategorias()
+        /// <exception cref="Excepcion">Error inesperado</exception>
+        public List<Entidad> ObtenerTodasLasCategorias()
         {
-            IList<Categoria> listaCategorias;
+            List<Entidad> listaCategorias;
             try
             {
                 StoredProcedure("m9_devolverTodasCategorias");
@@ -385,16 +403,13 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar las todas categorias"
-                };
-                throw bdException;
+                mensaje = "Error al realizar la consulta de todas las categorias en " +
+                 this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -402,6 +417,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
+
+
 
         /// <summary>
         /// Metodo que obtiene el id de una categoria dado el nombre de la misma.
@@ -427,23 +444,20 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
                 if (Superior == 0)
                 {
-                    throw new ItemNoEncontradoException($"No se encontro la categoria con el nombre {categoria.Nombre}");
+                    throw new ItemNoEncontradoExcepcion($"No se encontro la categoria con el nombre {categoria.Nombre}");
                 }
 
                 categoria.Id = Superior;
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    Mensaje = $"Error al momento de buscar el id de una categoria a partir del nombre"
-                };
-                throw bdException;
+                mensaje = "Error al realizar la consulta por el nombre de las categorias en " +
+                this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + " ca_nombre = " + categoria.Nombre + "  || " + ex.Message;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -452,15 +466,17 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             return categoria;
         }
 
+
+
         /// <summary>
         /// Metodo que obtiene la lista de la categoria.
         /// </summary>
         /// <param name="categoria">Instacia Categoria que contiene el Id por el cual se consultara.</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Exception">Error inesperado</exception>
-        public IList<Categoria> ObtenerCategorias(Entidad categoria)
+        public List<Entidad> ObtenerCategorias(Entidad categoria)
         {
-            IList<Categoria> listaCategorias = new List<Categoria>();
+            List<Entidad> listaCategorias = new List<Entidad>();
             try
             {
 
@@ -480,17 +496,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException ex)
             {
-                BaseDeDatosExcepcion bdException = new BaseDeDatosExcepcion(ex)
-                {
-                    DatosAsociados = $" ID : {categoria.Id}",
-                    Mensaje = $"Error al momento de buscar las categorias"
-                };
-                throw bdException;
+                mensaje = "Error al realizar la consulta de la categorias en " +
+                    this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name +
+                    " con el id:" + categoria.Id;
+                throw new BaseDeDatosExcepcion(ex, mensaje);
             }
             catch (Exception ex)
             {
-                //TODO: Cambiar por la excepcion personalizada que se encuentra en la carpeta comun.
-                throw ex;
+                throw new Excepcion(ex, mensajeRegistry.ErrorInesperado);
             }
             finally
             {
@@ -498,5 +511,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             return listaCategorias;
         }
+
+
+        #endregion metodosEspecificos
     }
 }
