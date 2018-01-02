@@ -278,6 +278,7 @@ export class ItinerarioPage {
             }else{
               this.loading.dismiss();
               this.delete= !this.delete;
+              console.log(idit);
               this.eliminarItinerario(idit, index);
             }
           });
@@ -350,12 +351,17 @@ export class ItinerarioPage {
       text: 'Aceptar',
       handler: () => {
         this.presentLoading();
+        console.log(evento.Tipo);
+        console.log(id_itinerario);
+        console.log(evento.Id);
         this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
             console.log("ERROR:: no se pudo eliminar el item");
           }else {
             this.loading.dismiss();
+            console.log("data");
+            console.log(data);
             this.eliminarItem(id_itinerario, evento.Id, index);
           }
         });
@@ -488,6 +494,7 @@ export class ItinerarioPage {
    **/
   public done()
   {
+    console.log("Entro a done");
     this.delete=false;
     if (this.translateService.currentLang == 'es'){
     for(var i = 0;i< this.its.length;i++) {
@@ -499,9 +506,12 @@ export class ItinerarioPage {
       }
       else
       {
+        console.log(this.its[i].Nombre);
         this.edit = false;
-        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
+        let moditinerario ={Id:this.its[i].id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
         this.httpc.modificarItinerario(moditinerario).then(data=>{
+          console.log("data: ");
+          console.log(data);
         })
       }
     }
@@ -773,7 +783,9 @@ ionview
       }
       }else{
         this.its = data;
-        console.log(data);
+       // console.log(data); 
+        console.log(this.its);
+       
         this.loading.dismiss();
         if (this.its.length == 0){
           this.noIts = true;

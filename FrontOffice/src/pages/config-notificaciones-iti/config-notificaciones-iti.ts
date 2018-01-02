@@ -63,7 +63,7 @@ export class ConfigNotificacionesItiPage {
     this._itinerarios.forEach(iti => {
       console.log(iti);
       if (iti.Id == itinerario.Id){
-        this.http.setVisible(itinerario.IdUsuario,itinerario.Id,itinerario.Visible).then(
+        this.http.setVisible(itinerario.IdUsuario,itinerario.id,itinerario.Visible).then(
           data=> {
             if (data== 0 || data == -1){
               this.loading.dismiss();

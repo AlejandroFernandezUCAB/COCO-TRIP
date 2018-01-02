@@ -5,6 +5,8 @@ import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import {Observable} from 'rxjs/Rx';
+import { listenToElementOutputs } from '@angular/core/src/view/element';
+import { Itinerario } from '../../dataAccessLayer/domain/itinerario';
 
 
 @Injectable()
@@ -23,6 +25,7 @@ loadItinerarios(id_usuario)
     .subscribe(data => resolve(data),
       err => resolve(-1)
     );
+    
   });
 }
 
@@ -53,9 +56,14 @@ public eliminarItinerario(idit)
 
 public modificarItinerario(itinerario)
 {
+  console.log("http-c");
+  console.log(itinerario.Id);
+  console.log(itinerario.IdUsuario);
   return new Promise(resolve => {
-    this.http.post(this.apiUrl+'/M5_Itinerario/ModificarItinerario', itinerario).subscribe(res => {
+    this.http.put(this.apiUrl+'/M5_Itinerario/ModificarItinerario', itinerario).subscribe(res => {
         resolve(res);
+        console.log("res: ");
+        console.log(res);
       }, (err) => {
         console.log(err)
       });
