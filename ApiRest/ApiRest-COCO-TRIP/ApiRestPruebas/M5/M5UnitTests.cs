@@ -98,7 +98,7 @@ namespace ApiRestPruebas
     [Test]
     public void PUModificarItinerario()
     {
-      string nombre = "gavilan";
+      string nombre = "truman";
       DateTime fechaini = new DateTime(2040, 12, 12);
       DateTime fechafin = new DateTime(2044, 12, 12);
       comando = FabricaComando.CrearComandoModificarItinerario(28, nombre, fechaini, fechafin, 2);
@@ -297,10 +297,11 @@ namespace ApiRestPruebas
      [Test]
     public void PUConsultarItinerarios()
     {
-      Comando comando = FabricaComando.CrearComandoConsultarItinerarios(2);
+      Comando comando = FabricaComando.CrearComandoConsultarItinerarios(1);
       comando.Ejecutar();
       lista =  comando.RetornarLista();
-      Assert.AreNotEqual(0, lista.Count);
+            Itinerario itinerario = (Itinerario)lista[0];
+      Assert.AreEqual(itinerario.Id, lista[0].Id);
     }
     /*
     public void ExcepcionItinerarioNull()

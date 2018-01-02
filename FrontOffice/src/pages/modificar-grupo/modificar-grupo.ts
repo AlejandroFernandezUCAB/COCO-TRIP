@@ -11,6 +11,7 @@ import { ComandoObtenerLider } from '../../businessLayer/commands/comandoObtener
 import { ComandoObtenerSinLider } from '../../businessLayer/commands/comandoObtenerSinLider';
 import { ComandoEliminarIntegrante } from '../../businessLayer/commands/comandoEliminarIntegrante';
 import { ComandoModificarGrupo } from '../../businessLayer/commands/comandoModificarGrupo';
+import { FormBuilder, Validators } from '@angular/forms';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
@@ -52,6 +53,7 @@ export class ModificarGrupoPage
 
   /*Elementos de la vista*/
   public toast :  any;
+  public myForm : any;
 
   public constructor
   (
@@ -59,6 +61,7 @@ export class ModificarGrupoPage
     public loadingCtrl: LoadingController,
     public alerCtrl: AlertController,
     public toastCtrl: ToastController,
+    public formBuilder: FormBuilder,
     private navParams: NavParams,
     private storage: Storage,
     private translateService: TranslateService,
@@ -68,7 +71,13 @@ export class ModificarGrupoPage
     private comandoEliminarIntegrante: ComandoEliminarIntegrante,
     private comandoModificarGrupo: ComandoModificarGrupo
 
-  ) {}
+  ) 
+  {
+    this.myForm = this.formBuilder.group
+    ({
+      namegroup: ['', [Validators.required, Validators.maxLength(300)]]
+    });
+  }
 
   public loading = this.loadingCtrl.create({});
     
@@ -79,17 +88,23 @@ export class ModificarGrupoPage
   public ionViewWillEnter() 
   {
       this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
-      this.comandoVerPerfilGrupo.execute();
 
-      if(this.comandoVerPerfilGrupo.isSuccess)
+      this.comandoVerPerfilGrupo.execute()
+      .then((resultado) => 
       {
-        this.grupo = this.comandoVerPerfilGrupo.return();
-        this.cargarLider(this.navParams.get('idGrupo'));
-      }
-      else
-      {
-        this.realizarToast(Texto.ERROR);
-      }
+        if(resultado)
+        {
+          this.grupo = this.comandoVerPerfilGrupo.return();
+          this.nombreGrupo = this.grupo[0].Nombre;
+
+          this.cargarLider(this.navParams.get('idGrupo'));
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
   }
 
 /**
@@ -99,17 +114,21 @@ export class ModificarGrupoPage
   public cargarLider(id)
   {
     this.comandoObtenerLider.Id = id;
-    this.comandoObtenerLider.execute();
 
-    if(this.comandoObtenerLider.isSuccess)
+    this.comandoObtenerLider.execute()
+    .then((resultado) => 
     {
-      this.lider = this.comandoObtenerLider.return();
-      this.cargarMiembros(id);
-    }
-    else
-    {
-      this.realizarToast(Texto.ERROR);
-    }
+      if(resultado)
+      {
+        this.lider = this.comandoObtenerLider.return();
+        this.cargarMiembros(id);
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+    })
+    .catch(() => this.realizarToast(Texto.ERROR));
   }
 
 /**
@@ -119,17 +138,28 @@ export class ModificarGrupoPage
   public cargarMiembros(id)
   {
     this.comandoObtenerSinLider.Id = id;
-    this.comandoObtenerSinLider.execute();
 
-    if(this.comandoObtenerSinLider.isSuccess)
+    this.comandoObtenerSinLider.execute()
+    .then((resultado) => 
     {
-      this.miembro = this.comandoObtenerSinLider.return();
-    }
-    else
-    {
-      this.realizarToast(Texto.ERROR);
-    }
+      if(resultado)
+      {
+        this.miembro = this.comandoObtenerSinLider.return();
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+    })
+    .catch(() => this.realizarToast(Texto.ERROR));
   }
+
+/**
+ * Metodo que carga una foto desde la galeria de imagenes del celular
+ */
+public agregarFoto()
+{
+}
 
 /**
  * Metodo para confirmar eliminacion de un amigo
@@ -161,17 +191,21 @@ export class ModificarGrupoPage
             {
               this.comandoEliminarIntegrante.IdGrupo = this.navParams.get('idGrupo');
               this.comandoEliminarIntegrante.NombreUsuario = nombreUsuario;
-              this.comandoEliminarIntegrante.execute();
 
-              if(this.comandoEliminarIntegrante.isSuccess)
+              this.comandoEliminarIntegrante.execute()
+              .then((resultado) => 
               {
-                this.eliminarIntegrante(nombreUsuario, index);
-                this.realizarToast(this.succesful);
-              }
-              else
-              {
-                this.realizarToast(Texto.ERROR);
-              }
+                if(resultado)
+                {
+                  this.eliminarIntegrante(nombreUsuario, index);
+                  this.realizarToast(this.succesful);
+                }
+                else
+                {
+                  this.realizarToast(Texto.ERROR);
+                }
+              })
+              .catch(() => this.realizarToast(Texto.ERROR));
             }
           }
         ]
@@ -186,7 +220,6 @@ export class ModificarGrupoPage
    */    
   public eliminarIntegrante(nombreUsuario, index)
   {
-    //this.miembro.filter(item => item.NombreUsuario === nombreUsuario)[0];
     this.miembro.splice(index, 1);
   }
 
@@ -201,35 +234,29 @@ export class ModificarGrupoPage
       
       this.storage.get('id').then((idUsuario) => 
       {
-        if(this.nombreGrupo == undefined)
+        if(this.myForm.get('namegroup').errors)
         {
-          this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
-          this.comandoVerPerfilGrupo.execute();
-
-          if(this.comandoVerPerfilGrupo.isSuccess)
-          {
-            this.grupo = this.comandoVerPerfilGrupo.return();
-          }
-          else
-          {
-            this.realizarToast(Texto.ERROR);
-          }          
+          this.realizarToast(Texto.REQUERIDO);     
         } 
         else 
         {
           this.comandoModificarGrupo.IdUsuario = idUsuario;
           this.comandoModificarGrupo.IdGrupo = this.navParams.get('idGrupo');
           this.comandoModificarGrupo.Nombre = this.nombreGrupo;
-          this.comandoModificarGrupo.execute();
           
-          if(this.comandoModificarGrupo.isSuccess)
+          this.comandoModificarGrupo.execute()
+          .then((resultado) => 
           {
-            this.realizarToast(this.edited);
-          }
-          else
-          {
-            this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
-          }
+            if(resultado)
+            {
+              this.realizarToast(this.edited);
+            }
+            else
+            {
+              this.realizarToast(Texto.SUBTITULO_ALERTA_INTEGRANTE);
+            }
+          })
+          .catch(() => this.realizarToast(Texto.ERROR));
         }
       });
   }

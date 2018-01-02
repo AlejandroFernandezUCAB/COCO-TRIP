@@ -272,7 +272,7 @@ export class ConversacionGrupoPage {
     this.translateService.get('Ocurrio un error').subscribe(value => {this.message = value;})
     let entidad: Mensaje;
     entidad = new Mensaje("",this.usuario.NombreUsuario,"",this.idGrupo,"","",false);
-    entidad.Id = idMensaje;
+    entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensajeGrupo();
     comando.setEntidad = entidad;
     comando.execute();
@@ -320,7 +320,7 @@ modificarMensajeGrupo(idMensaje,nuevoMensaje){
   catProd.info("Entrando en el metodo modificarMensajeGrupo de ConversacionGrupoPage");
   let entidad: Mensaje;
   entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,"",this.idGrupo,"","",true);
-  entidad.Id = idMensaje;
+  entidad.setId = idMensaje;
   let comando = FabricaComando.crearComandoModificarMensajeGrupo();
   comando.setEntidad = entidad;
   comando.execute();

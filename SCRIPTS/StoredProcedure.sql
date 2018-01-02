@@ -500,27 +500,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*CREATE OR REPLACE FUNCTION ModificarFotoGrupo
-(id_grupo integer, foto varchar)
-RETURNS integer
-AS $$
-DECLARE
-resultado integer;
-BEGIN
-
-  UPDATE Grupo SET
-  gr_foto = foto
-  WHERE gr_id = id_grupo;
-
-  IF found THEN
-  resultado := 1;
-  ELSE resultado := 0;
-  END IF;
-
-  RETURN resultado;
-END;
-$$ LANGUAGE plpgsql;*/
-
 -----------------------------PROCEDIMIENTO ELIMINAR INTEGRANTE--------------------------------
 CREATE OR REPLACE FUNCTION EliminarIntegrante
 (id_grupo integer, id_usuario integer)
@@ -563,21 +542,6 @@ BEGIN
   RETURN resultado;
 END;
 $$ LANGUAGE plpgsql;
-
-
--------------------------PROCEDIMIENTO CONOCER ID DE USUARIO----------------------------
-/*CREATE OR REPLACE FUNCTION ConseguirIdUsuario
-(nombre_usuario varchar)
-RETURNS TABLE
-(id integer)
-AS $$
-BEGIN
-  RETURN QUERY
-  SELECT us_id
-  FROM Usuario
-  WHERE us_nombreusuario = nombre_usuario;
-END;
-$$ LANGUAGE plpgsql;*/
 
 -------------------------PROCEDIMIENTO OBTENER LIDER----------------------------
 CREATE OR REPLACE FUNCTION ObtenerLider
@@ -678,7 +642,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 -------------VISUALIZAR EL PERFIL DE LOS USUARIOS-------------
 CREATE OR REPLACE FUNCTION VisualizarPerfilPublico
 (nombre_usuario varchar)
@@ -719,22 +682,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--------------VERIFICAR SI EL USUARIO ES EL LIDER-------------
-/*CREATE OR REPLACE FUNCTION VerificarLider
-(id_grupo integer, id_usuario integer)
-RETURNS TABLE
-(nombre_grupo integer,
-lider integer)
-AS $$
-BEGIN
-  RETURN QUERY
-  SELECT gr_id, fk_usuario
-  FROM grupo
-  WHERE gr_id = id_grupo
-  AND fk_usuario = id_usuario;
-  END;
-$$ LANGUAGE plpgsql;*/
-
 -------------LISTA DE NOTIFICACIONES DE AMIGO DEL USUARIO-------------
 CREATE OR REPLACE FUNCTION ObtenerListaDeNotificaciones
 (id_usuario integer)
@@ -754,7 +701,6 @@ AND u.us_id = id_usuario
 AND a.fk_usuario_conoce = u2.us_id;
 END;
 $$ LANGUAGE plpgsql;
-
 
 -------------RECHAZAR NOTIFICACION DE SOLICITUD DE AMISTAD DEL USUARIO-------------
 CREATE OR REPLACE FUNCTION RechazarNotificacion
@@ -776,7 +722,6 @@ BEGIN
 
   RETURN resultado;
 END;
-
 $$ LANGUAGE plpgsql;
 
 -------------ACEPTAR NOTIFICACION DE SOLICITUD DE AMISTAD DEL USUARIO-------------
@@ -865,62 +810,19 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Crear Grupo de amigos
-
 CREATE OR REPLACE FUNCTION AgregarGrupo
 (nombre varchar, _fk_usuario integer)
 RETURNS integer AS
 $$
 BEGIN
-
   INSERT INTO Grupo
   (gr_id, gr_nombre, fk_usuario)
   VALUES
   (nextval('SEQ_Grupo'), nombre, _fk_usuario);
 
   RETURN currval('SEQ_Grupo');
-
-  --INSERT INTO Miembro (mi_id,fk_grupo,fk_usuario)
-  --  VALUES
-  --(nextval('SEQ_Miembro'),currval('SEQ_Grupo'),_fk_usuario);
-
-  --if found then
-  --result := result + 1;
-  --else result := 0;
-  --end if;
 END;
 $$ LANGUAGE plpgsql;
-
-------
-/*CREATE OR REPLACE FUNCTION AgregarGrupoSinFoto
-(nombre varchar, _fk_usuario integer)
-RETURNS integer AS $$
-DECLARE
-resultado integer;
-BEGIN
-
-  INSERT INTO Grupo
-  (gr_id, gr_nombre, fk_usuario)
-  VALUES
-  (nextval('SEQ_Grupo'), nombre, _fk_usuario);
-
-  IF found THEN
-  resultado := 1;
-  ELSE resultado :=0;
-  END IF;
-
-  --INSERT INTO Miembro (mi_id, fk_grupo, fk_usuario)
-  --  VALUES
-  --(nextval('SEQ_Miembro'), currval('SEQ_Grupo'), _fk_usuario);
-
-  --IF found THEN
-  --resultado := resultado + 1;
-  --ELSE resultado := 0;
-  --END IF;
-
-  RETURN resultado;
-END;
-$$ LANGUAGE plpgsql;*/
-
 
 -- Consultar la tabla de grupos y devolver la lista que coincida con el id de el usuario
 CREATE OR REPLACE FUNCTION ConsultarListaGrupos (id_usuario integer)
@@ -962,21 +864,6 @@ BEGIN
   WHERE g.gr_id = id_grupo;
 END;
 $$ LANGUAGE plpgsql;
-
----------------------------------
-/*CREATE OR REPLACE FUNCTION ConseguirIdUsuario(
-  nombreUsuario character varying)
-    RETURNS TABLE
-    (id integer)
-
-AS $$
-BEGIN
-RETURN QUERY
-SELECT us_id
-FROM Usuario
-WHERE us_nombreusuario = nombreUsuario;
-END;
-$$ LANGUAGE plpgsql;*/
 
 --Consultar a todos los miembros de un grupo incluyendo al lider
 CREATE OR REPLACE FUNCTION VisualizarMiembroGrupo
@@ -2308,7 +2195,7 @@ RETURNS TABLE
      horaFinEvento time,
      fotoEvento varchar,
      localidadEvento integer,
-     categoriaEvento integer    
+     categoriaEvento integer
   )
 AS
 $$

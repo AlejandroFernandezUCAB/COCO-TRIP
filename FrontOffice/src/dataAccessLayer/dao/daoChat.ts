@@ -33,7 +33,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        mensaje.Id = Number.parseInt(chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo).toString(), 10); 
+        mensaje.setId = Number.parseInt(chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo).toString(), 10); 
         catProd.info("Saliendo del metodo agrega de DAO ");
         return mensaje;
         
@@ -50,7 +50,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        mensaje.Id = Number.parseInt(chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario).toString(), 10);
+        mensaje.setId = Number.parseInt(chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario).toString(), 10);
         catProd.info("Saliendo del metodo agregarMensajeGrupo de DAOChat");
         return mensaje;
     }
@@ -65,7 +65,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(events);
-        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.Id);
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId);
         catProd.info("Saliendo del metodo visualizar de DAOChat");
         return null;
     }
@@ -80,7 +80,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(events);
-        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,mensaje.Id);
+        chat.obtenerInfoMensajeGrupo(mensaje.getidGrupo,mensaje.getId);
         catProd.info("Saliendo del metodo visualizarGrupo de DAOChat");
         return null;
     }
@@ -128,7 +128,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        respuesta = chat.eliminarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.Id);
+        respuesta = chat.eliminarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId);
         catProd.info("Saliendo del metodo eliminar de DAOChat");
         return respuesta;
     }
@@ -146,7 +146,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        respuesta = chat.eliminarMensajeGrupo(mensaje.getidGrupo,mensaje.Id,mensaje.getUsuario); 
+        respuesta = chat.eliminarMensajeGrupo(mensaje.getidGrupo,mensaje.getId,mensaje.getUsuario); 
         catProd.info("Saliendo del metodo eliminarMensajeGrupo de DAOChat");
         return respuesta;
     }
@@ -163,7 +163,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        respuesta = chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.Id,mensaje.getMensaje);
+        respuesta = chat.modificarMensajeAmigo(mensaje.getUsuario,mensaje.getAmigo,mensaje.getId,mensaje.getMensaje);
         catProd.info("Saliendo del metodo modificar de DAOChat");
         return respuesta;
     }
@@ -180,7 +180,7 @@ export class DAOChat extends DAO {
         let mensaje = <Mensaje> entidad;
         let chat : ChatProvider;
         chat = ChatProvider.obtenerInstancia(null);
-        respuesta = chat.modificarMensajeGrupo(mensaje.getidGrupo,mensaje.Id,mensaje.getMensaje,mensaje.getUsuario); 
+        respuesta = chat.modificarMensajeGrupo(mensaje.getidGrupo,mensaje.getId,mensaje.getMensaje,mensaje.getUsuario); 
         catProd.info("Saliendo del metodo modificarMensajeGrupo de DAOChat");
         return respuesta;
     }

@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -23,8 +24,7 @@ export class ComandoListaNotificaciones extends Comando
 {
     private id : number;
 
-    private exito: boolean;
-    private listaNotificaciones = new Array();
+    private listaNotificaciones : Array<Usuario>;
 
     set Id(id : number)
     {
@@ -34,11 +34,13 @@ export class ComandoListaNotificaciones extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaNotificaciones = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.listaNotificaciones(this.id)
+        return this.servicio.listaNotificaciones(this.id)
         .then(datos => 
         {
             let lista : any = datos;
@@ -67,23 +69,18 @@ export class ComandoListaNotificaciones extends Comando
                this.listaNotificaciones.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('ListaNotificaciones exitoso. Datos: ' + this.listaNotificaciones);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ListaNotificaciones. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.listaNotificaciones;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }
