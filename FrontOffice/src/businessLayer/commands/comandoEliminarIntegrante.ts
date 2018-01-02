@@ -23,8 +23,6 @@ export class ComandoEliminarIntegrante extends Comando
     private idGrupo : number;
     private nombreUsuario : string;
 
-    private exito: boolean;
-
     set IdGrupo(idGrupo : number)
     {
         this.idGrupo = idGrupo;
@@ -40,18 +38,18 @@ export class ComandoEliminarIntegrante extends Comando
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.eliminarIntegrante(this.nombreUsuario, this.idGrupo)
+        return this.servicio.eliminarIntegrante(this.nombreUsuario, this.idGrupo)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('EliminarIntegrante exitoso. Datos: ' + datos);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de EliminarIntegrante. Datos: ' + error);
+            return false;
         });
     }
 
@@ -59,10 +57,4 @@ export class ComandoEliminarIntegrante extends Comando
     {
         throw new Error("Method not implemented.");
     }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
-    }
-
 }

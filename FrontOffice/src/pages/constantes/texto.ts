@@ -15,7 +15,7 @@ export class Texto
 
     //EliminarAmigo
     public static readonly MENSAJE_ELIMINAR_AMIGO : string = 'Deseas borrar a: ';
-    public static readonly EXITO_ELIMINAR_AMIGO : string = 'Eliminado exitosamente';
+    public static readonly EXITO_ELIMINAR_AMIGO : string = 'Eliminado amigo exitosamente';
 
     //ConfirmarAmigo
     public static readonly TITULO_CONFIRMAR : string = 'Agregar';
@@ -25,19 +25,18 @@ export class Texto
     public static readonly EXITO_CORREO : string = 'Se ha enviado una notificacion al usuario';
 
     //AgregarGrupo
-    public static readonly EXITO_AGREGAR_GRUPO : string = 'Agregado exitosamente';
+    public static readonly EXITO_AGREGAR_GRUPO : string = 'Agregado grupo exitosamente';
 
     //EliminarGrupo
-    public static readonly MENSAJE_ELIMINAR_GRUPO : string = 'Borrar grupo';
-    public static readonly EXITO_ELIMINAR_GRUPO : string = 'Salir grupo';
+    public static readonly EXITO_ELIMINAR_GRUPO : string = 'Saliste del grupo';
 
     //AgregarIntegrante
     public static readonly MENSAJE_AGREGAR_INTEGRANTE : string = 'Deseas agregar a: ';
-    public static readonly EXITO_AGREGAR_INTEGRANTE : string = 'Agregado exitosamente';
+    public static readonly EXITO_AGREGAR_INTEGRANTE : string = 'Agregado miembro exitosamente';
 
     //EliminarIntegrante
     public static readonly MENSAJE_ELIMINAR_INTEGRANTE : string = 'Deseas borrar a: ';
-    public static readonly EXITO_ELIMINAR_INTEGRANTE : string = 'Eliminado exitosamente';
+    public static readonly EXITO_ELIMINAR_INTEGRANTE : string = 'Eliminado miembro exitosamente';
 
     //AlertaIntegrante
     public static readonly NO_EDITAR_ALERTA_INTEGRANTE : string = 'No puedes modificar';
@@ -49,6 +48,7 @@ export class Texto
     public static readonly ACEPTAR_PETICION : string = 'Peticion de amistad aceptada';
     public static readonly RECHAZAR_PETICION : string = 'Peticion de amistad rechazada';
     public static readonly PETICION_ELIMINADA : string = 'Peticion eliminada';
-    public static readonly GRUPO_EXITOSO : string = 'Grupo exitoso';
+    public static readonly GRUPO_EXITOSO : string = 'Cambios guardados exitosamente';
     public static readonly MODIFICAR_EXITOSO : string = 'Modificado exitosamente';
+    
 }

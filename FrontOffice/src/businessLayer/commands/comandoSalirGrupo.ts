@@ -23,8 +23,6 @@ export class ComandoSalirGrupo extends Comando
     private idGrupo : number;
     private idUsuario : number;
 
-    private exito: boolean;
-
     set IdUsuario(id : number)
     {
         this.idUsuario = id;
@@ -40,18 +38,18 @@ export class ComandoSalirGrupo extends Comando
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.salirGrupo(this.idUsuario, this.idGrupo)
+        return this.servicio.salirGrupo(this.idUsuario, this.idGrupo)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('SalirGrupo exitoso. Datos: ' + datos);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de SalirGrupo. Datos: ' + error);
+            return false;
         });
     }
 
@@ -59,10 +57,4 @@ export class ComandoSalirGrupo extends Comando
     {
         throw new Error("Method not implemented.");
     }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
-    }
-
 }

@@ -47,13 +47,13 @@ export class DetalleGrupoPage
   public ionViewWillEnter() 
   {
     this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
-    this.comandoVerPerfilGrupo.execute();
 
-    if(this.comandoVerPerfilGrupo.isSuccess)
+    this.comandoVerPerfilGrupo.execute()
+    .then(() =>
     {
       this.grupo = this.comandoVerPerfilGrupo.return();
       this.cargarMiembros(this.navParams.get('idGrupo'));
-    }
+    });
   }
 
   /**
@@ -63,12 +63,8 @@ export class DetalleGrupoPage
   public cargarMiembros (id) 
   {
     this.comandoListaMiembroGrupo.Id = id;
-    this.comandoListaMiembroGrupo.execute();
 
-    if(this.comandoListaMiembroGrupo.isSuccess)
-    {
-      this.miembro = this.comandoListaMiembroGrupo.return();
-    }
+    this.comandoListaMiembroGrupo.execute()
+    .then(() => this.miembro = this.comandoListaMiembroGrupo.return());
   }
-  
 }

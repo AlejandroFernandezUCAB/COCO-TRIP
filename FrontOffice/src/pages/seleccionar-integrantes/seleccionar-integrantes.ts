@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController } from 'ionic-angular';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 import { ConfiguracionToast } from '../constantes/configToast';
@@ -42,6 +42,7 @@ export class SeleccionarIntegrantesPage
   /*Elementos de la vista**/
   public toast: any;
   public loader: any;
+  public myForm : any;
 
   public constructor
   (
@@ -50,7 +51,6 @@ export class SeleccionarIntegrantesPage
     public alerCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public myForm: FormGroup,
     public formBuilder: FormBuilder,
     private storage: Storage,
     private translateService: TranslateService,
@@ -60,7 +60,7 @@ export class SeleccionarIntegrantesPage
   {
     this.myForm = this.formBuilder.group
     ({
-      namegroup: ['', [Validators.required]]
+      namegroup: ['', [Validators.required, Validators.maxLength(300)]]
     });
   }
 
@@ -102,31 +102,39 @@ export class SeleccionarIntegrantesPage
       {
         this.comandoAgregarGrupo.Lider = idUsuario;
         this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
-        this.comandoAgregarGrupo.execute();
 
-        if(this.comandoAgregarGrupo.isSuccess)
+        this.comandoAgregarGrupo.execute()
+        .then((resultado) => 
         {
-          this.comandoObtenerUltimoGrupo.Id = idUsuario;
-          this.comandoObtenerUltimoGrupo.execute();
-
-          if(this.comandoObtenerUltimoGrupo.isSuccess)
+          if(resultado)
           {
-            this.navCtrl.push(CrearGrupoPage,
-            {
-              idGrupo: this.comandoObtenerUltimoGrupo.return().Id
-            });
+            this.comandoObtenerUltimoGrupo.Id = idUsuario;
 
-            this.realizarToast(this.succesful);
+            this.comandoObtenerUltimoGrupo.execute()
+            .then((resultado) => 
+            {
+              if(resultado)
+              {
+                this.navCtrl.push(CrearGrupoPage,
+                {
+                  idGrupo: this.comandoObtenerUltimoGrupo.return().getId
+                });
+      
+                this.realizarToast(this.succesful);
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
           else
           {
             this.realizarToast(Texto.ERROR);
           }
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
       });
@@ -151,4 +159,5 @@ export class SeleccionarIntegrantesPage
     });
     this.toast.present();
   }
+  
 }

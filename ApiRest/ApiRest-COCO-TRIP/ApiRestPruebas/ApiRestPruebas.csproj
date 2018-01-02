@@ -89,7 +89,6 @@
     <Compile Include="M3\Command\TestConsultarMiembroSinGrupo.cs" />
     <Compile Include="M3\DAO\TestDAOAmigo.cs" />
     <Compile Include="M3\DAO\TestDAOGrupo.cs" />
-    <Compile Include="M3\M3UnitTest.cs" />
     <Compile Include="M5\M5UnitTests.cs" />
     <Compile Include="M7\Base\PruebaConexion.cs" />
     <Compile Include="M7\Base\PruebaPeticion.cs" />
