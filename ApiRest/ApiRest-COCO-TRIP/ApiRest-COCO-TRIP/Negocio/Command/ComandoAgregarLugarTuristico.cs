@@ -12,7 +12,7 @@ using ApiRest_COCO_TRIP.Negocio.Fabrica;
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {	
 	/// <summary>
-	/// Comando que permite agregar el lugares turistico con su foto, actividad y horario
+	/// Comando que permite agregar el lugares turistico con su foto, actividad, horario y su categoria
 	/// </summary>
 	public class ComandoAgregarLugarTuristico : Comando
 	{
@@ -30,11 +30,13 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		/// <param name="datos">JSON de Lugar turistico</param>
 		public ComandoAgregarLugarTuristico(JObject datos)
 		{
-
+			
+			//Iniciando los objetos
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_daoLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 			_lugarTuristico = datos.ToObject<LugarTuristico>();
 
+			//Iniciando los comandos
 			_comandoAgregarActividad = FabricaComando.CrearComandoLTAgregarActividad( _lugarTuristico );
 			_comandoAgregarFoto = FabricaComando.CrearComandoLTAgregarFoto( _lugarTuristico );
 			_comandoAgregarHorario = FabricaComando.CrearComandoLTAgregarHorario( _lugarTuristico );
@@ -56,7 +58,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 				//En la siguiente linea se invoca al DAO para que devuelva la lista de todos los lugares turisticos,
 				//Luego esta lista pasa a UltimoLugarTuristico y ese id que devuelve se lo pasa al lugar turistico anteriormente insertado.
 
-				_lugarTuristico.Id = UltimoIdLugarTuristico(_daoLugarTuristico.ConsultarTodaLaLista());
+				_lugarTuristico.Id = UltimoIdLugarTuristico( _daoLugarTuristico.ConsultarTodaLaLista() ); 
 
 				_comandoAgregarFoto.Ejecutar();
 				_comandoAgregarActividad.Ejecutar();

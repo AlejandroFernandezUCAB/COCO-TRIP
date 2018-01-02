@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Npgsql;
 using NpgsqlTypes;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace ApiRestPruebas.M7
@@ -18,9 +19,11 @@ namespace ApiRestPruebas.M7
 
 		LugarTuristico _lugarTuristico;
 		Foto _foto;
+		Actividad _actividad;
 		List<Entidad> _fotos;
 		List<Entidad> _lugaresTuristicos;
 		IDAOLugarTuristico iDAOLugarTuristico;
+		DAOActividad daoActividad;
 		DAOFoto daoFoto;
 		
 		//SetUp
@@ -37,6 +40,11 @@ namespace ApiRestPruebas.M7
 
 			test.Conectar();
 			test.Comando = new NpgsqlCommand("SELECT setval('seq_lt_foto', 1)", test.SqlConexion);
+			test.Comando.ExecuteNonQuery();
+			test.Desconectar();
+
+			test.Conectar();
+			test.Comando = new NpgsqlCommand("SELECT setval('seq_actividad', 1)", test.SqlConexion);
 			test.Comando.ExecuteNonQuery();
 			test.Desconectar();
 
@@ -105,7 +113,14 @@ namespace ApiRestPruebas.M7
 			_foto.Ruta = "TEST";
 
 			_fotos = new List<Entidad>();
-			
+
+			_actividad = FabricaEntidad.CrearEntidadActividad();
+			_actividad.Id = 2;
+			_actividad.Nombre = "TEST";
+			_actividad.Duracion = new TimeSpan(2, 0, 0);
+			_actividad.Descripcion = "TEST";
+			_actividad.Activar = true;
+
 		}
 		#endregion
 
@@ -251,7 +266,14 @@ namespace ApiRestPruebas.M7
 
 		//Actividad
 		#region
+		[Test]
+		public void DAOInsertarActividad()
+		{
+			daoActividad = FabricaDAO.CrearDAOActividad();
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
+
+		}
 		#endregion
 
 		//Categoria
