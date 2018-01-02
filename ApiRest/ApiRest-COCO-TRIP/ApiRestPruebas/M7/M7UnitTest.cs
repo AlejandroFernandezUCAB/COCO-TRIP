@@ -13,12 +13,15 @@ using System.Collections.Generic;
 namespace ApiRestPruebas.M7
 {
 	[TestFixture]
-	public class PruebasLugarTuristico
+	public class M7UnitTest
 	{
 
 		LugarTuristico _lugarTuristico;
+		Foto _foto;
+		List<Entidad> _fotos;
 		List<Entidad> _lugaresTuristicos;
 		IDAOLugarTuristico iDAOLugarTuristico;
+		DAOFoto daoFoto;
 		JObject objetoJSON;
 		
 		//SetUp
@@ -30,6 +33,11 @@ namespace ApiRestPruebas.M7
 
 			test.Conectar();
 			test.Comando = new NpgsqlCommand("SELECT setval('seq_lugar_turistico', 1)", test.SqlConexion);
+			test.Comando.ExecuteNonQuery();
+			test.Desconectar();
+
+			test.Conectar();
+			test.Comando = new NpgsqlCommand("SELECT setval('seq_lt_foto', 1)", test.SqlConexion);
 			test.Comando.ExecuteNonQuery();
 			test.Desconectar();
 
@@ -93,6 +101,12 @@ namespace ApiRestPruebas.M7
 
 			_lugaresTuristicos.Add(_lugarTuristico);
 
+			_foto = FabricaEntidad.CrearEntidadFoto();
+			_foto.Id = 2;
+			_foto.Ruta = "TEST";
+
+			_fotos = new List<Entidad>();
+			
 		}
 		#endregion
 
@@ -118,7 +132,7 @@ namespace ApiRestPruebas.M7
 				resultado = lugar;
 			}
 
-			Assert.AreEqual(_lugaresTuristicos[0].Id, resultado.Id);
+			Assert.AreEqual( 4 , resultado.Id);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Nombre     , resultado.Nombre);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Costo      , resultado.Costo);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Descripcion, resultado.Descripcion);
@@ -137,10 +151,9 @@ namespace ApiRestPruebas.M7
 			List<Entidad> resultado = new List<Entidad>();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
-			iDAOLugarTuristico.Insertar( _lugaresTuristicos[1] );
 			resultado = iDAOLugarTuristico.ConsultarTodaLaLista();
 
-			for (int i = 0; i < resultado.Count; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				Assert.AreEqual(_lugaresTuristicos[i].Id, resultado[i].Id);
 				Assert.AreEqual(  ((LugarTuristico)_lugaresTuristicos[i]).Nombre, 
@@ -188,7 +201,69 @@ namespace ApiRestPruebas.M7
 
 		}
 		#endregion
+
+		//Foto
+		#region
+		[Test]
+		public void DAOInsertarFoto()
+		{
+			daoFoto = FabricaDAO.CrearDAOFoto();
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
+
+			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+
+			//Inserto la foto
+			daoFoto.Insertar( _foto ,_lugaresTuristicos[0]);
+
+			//Busco la foto
+			_fotos = daoFoto.ConsultarLista(_lugaresTuristicos[0]);
+
+			Assert.IsNotNull(daoFoto);
+			Assert.IsNotNull(iDAOLugarTuristico);
+
+			Assert.AreEqual( _foto.Id , _fotos[0].Id);
+			Assert.AreEqual( _foto.Ruta+"2.jpg", ((Foto)_fotos[0]).Ruta);
+
+		}
+
+		[Test]
+		public void DAOBuscarListaFoto()
+		{
+
+			daoFoto = FabricaDAO.CrearDAOFoto();
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+
+			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+
+			//Inserto la foto
+			daoFoto.Insertar(_foto, _lugaresTuristicos[0]);
+
+			//Busco la foto
+			_fotos = daoFoto.ConsultarLista(_lugaresTuristicos[0]);
+
+			Assert.IsNotNull(daoFoto);
+			Assert.IsNotNull(iDAOLugarTuristico);
+
+			Assert.AreEqual(_foto.Id, _fotos[0].Id);
+			Assert.AreEqual(_foto.Ruta + "2.jpg", ((Foto)_fotos[0]).Ruta);
+
+		}
 		#endregion
+
+		//Actividad
+		#region
+		#endregion
+
+		//Categoria
+		#region
+		#endregion
+
+		//Horario
+		#region
+		#endregion
+
+		#endregion
+
 
 
 		//Auxiliares de Pruebas unitarias de las excepcions
