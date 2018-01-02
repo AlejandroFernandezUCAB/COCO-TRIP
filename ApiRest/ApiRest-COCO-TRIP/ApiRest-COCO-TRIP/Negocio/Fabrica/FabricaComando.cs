@@ -558,17 +558,23 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 
     }
 
-    public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion()
+
+	/// <summary>
+	/// Retorna la instancia de  ComandoLTActualizarInformacion
+	/// </summary>
+	/// <returns>ComandoObtenerCategoriasHabilitadas</returns>
+	public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion()
     {
         return new ComandoLTActualizarInformacion();
     }
+
     public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
     {
         return new ComandoLTModificarUbicacion();
     }
-     public static ComandoLTAgregarCategoria CrearComandoLTAgregarCategoria()
+     public static ComandoLTAgregarCategoria CrearComandoLTAgregarCategoria(Entidad lugarTuristico)
     {
-        return new ComandoLTAgregarCategoria();
+        return new ComandoLTAgregarCategoria(lugarTuristico);
     }
     public static ComandoLTEliminarCategoria CrearComandoLTEliminarCategoria()
     {
@@ -578,9 +584,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
         return new ComandoLTEliminarActividad();
     }
-    public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad()
+    public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
     {
-        return new ComandoLTAgregarActividad();
+        return new ComandoLTAgregarActividad( lugarTuristico );
     }
      public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto()
     {
@@ -594,6 +600,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 	public static ComandoAgregarLugarTuristico CrearComandoLTAgregar(JObject datos)
 	{
 		return new ComandoAgregarLugarTuristico(datos);
+	}
+
+	public static ComandoLTAgregarHorario CrearComandoLTAgregarHorario(Entidad lugarTuristico)
+	{
+		return new ComandoLTAgregarHorario(lugarTuristico);
 	}
 
   }

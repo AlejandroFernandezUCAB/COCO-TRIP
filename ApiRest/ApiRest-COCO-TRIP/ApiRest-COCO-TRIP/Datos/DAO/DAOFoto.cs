@@ -4,8 +4,10 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using System.Data;
 using Npgsql;
-using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Reflection;
+using System.Net.Sockets;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -15,13 +17,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         private List<Entidad> _listaFotos;
         private NpgsqlCommand _comando;
         private NpgsqlDataReader _respuesta;
+		private static Logger log = LogManager.GetCurrentClassLogger();
 
-        /// <summary>
-        /// Devuelve la lista de fotos de un lugar turistico especifico
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public List<Entidad> ConsultarLista(string id)
+		/// <summary>
+		/// Devuelve la lista de fotos de un lugar turistico especifico
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public List<Entidad> ConsultarLista(string id)
         {
             throw new NotImplementedException();
         }
@@ -69,27 +72,55 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				// Retorno la lista de entidades
 				return _listaFotos;
 			}
-			catch (NpgsqlException e)
-			{				
-				throw e;
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			catch (InvalidCastException e)
 			{
-				throw e;
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
-			catch (NullReferenceException e)
+			catch (NpgsqlException e)
 			{
-				throw e;
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			catch (Exception e)
 			{
-				throw e;
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			finally
 			{
-				base.Desconectar();
+				Desconectar();
 			}
-        }
+		}
 
 		public override Entidad ConsultarPorId(Entidad objeto)
 		{
@@ -126,27 +157,55 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 // pero no hace falta utilizarlo aqui...
 
             }
-            catch (NpgsqlException e)
-            {
-                throw e;
-            }
-            catch (InvalidCastException e)
-            {
-                throw e;
-            }
-            catch (NullReferenceException e)
-            {
-                throw e;
-            }
-            catch (Exception e)
-            {               
-                throw e;
-            }
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (Exception e)
+			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
 			finally
 			{
-				base.Desconectar();
+				Desconectar();
 			}
-        }
+		}
 
         public override void Insertar(Entidad objeto)
         {

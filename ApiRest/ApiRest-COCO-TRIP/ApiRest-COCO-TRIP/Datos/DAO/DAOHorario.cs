@@ -4,11 +4,19 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using System.Data;
 using NpgsqlTypes;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Reflection;
+using Npgsql;
+using System.Net.Sockets;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
 	public class DAOHorario : DAO , IDAOHorario
 	{
+
+		private static Logger log = LogManager.GetCurrentClassLogger();
+
 		public override void Actualizar(Entidad objeto)
 		{
 			throw new NotImplementedException();
@@ -66,12 +74,48 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				success = Comando.ExecuteNonQuery();
 
 			}
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
 			catch (InvalidCastException e)
 			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			catch (Exception e)
 			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
 
 			}
 			finally

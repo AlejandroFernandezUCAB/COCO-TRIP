@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Comun.Excepcion
 {
-  public class OperacionInvalidaException : InvalidOperationException
+  public class OperacionInvalidaExcepcion : InvalidOperationException
   {
     private InvalidOperationException excepcion;
     private DateTime fechaHora;
@@ -61,7 +61,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// Constructor que recibe la excepcion, instacia los metodos y, registra la hora y fecha de la incidencia
     /// </summary>
     /// <param name="e">Excepcion de la base de datos</param>
-    public OperacionInvalidaException(InvalidOperationException e)
+    public OperacionInvalidaExcepcion(InvalidOperationException e)
     {
       excepcion = e;
 

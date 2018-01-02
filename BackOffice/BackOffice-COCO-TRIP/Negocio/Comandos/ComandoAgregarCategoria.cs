@@ -1,4 +1,4 @@
-using BackOffice_COCO_TRIP.Datos.DAO;
+
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
@@ -17,13 +17,12 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
         public override void Execute()
         {
             try
-            {
+            {   
                 JObject respuesta = dao.Post(categoria);
                 resultado.Add(respuesta);
             }
             catch (Exception e)
             {
-                //Agregar excepciones personalizadas 
                 throw e;
             }
         }

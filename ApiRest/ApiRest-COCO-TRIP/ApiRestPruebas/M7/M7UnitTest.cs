@@ -8,18 +8,24 @@ using Newtonsoft.Json.Linq;
 using Npgsql;
 using NpgsqlTypes;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace ApiRestPruebas.M7
 {
 	[TestFixture]
-	public class PruebasLugarTuristico
+	public class M7UnitTest
 	{
 
 		LugarTuristico _lugarTuristico;
+		Foto _foto;
+		Actividad _actividad;
+		List<Entidad> _fotos;
 		List<Entidad> _lugaresTuristicos;
+		List<Entidad> _actividades;
 		IDAOLugarTuristico iDAOLugarTuristico;
-		JObject objetoJSON;
+		DAOActividad daoActividad;
+		DAOFoto daoFoto;
 		
 		//SetUp
 		#region 
@@ -30,6 +36,16 @@ namespace ApiRestPruebas.M7
 
 			test.Conectar();
 			test.Comando = new NpgsqlCommand("SELECT setval('seq_lugar_turistico', 1)", test.SqlConexion);
+			test.Comando.ExecuteNonQuery();
+			test.Desconectar();
+
+			test.Conectar();
+			test.Comando = new NpgsqlCommand("SELECT setval('seq_lt_foto', 1)", test.SqlConexion);
+			test.Comando.ExecuteNonQuery();
+			test.Desconectar();
+
+			test.Conectar();
+			test.Comando = new NpgsqlCommand("SELECT setval('seq_actividad', 1)", test.SqlConexion);
 			test.Comando.ExecuteNonQuery();
 			test.Desconectar();
 
@@ -93,6 +109,20 @@ namespace ApiRestPruebas.M7
 
 			_lugaresTuristicos.Add(_lugarTuristico);
 
+			_foto = FabricaEntidad.CrearEntidadFoto();
+			_foto.Id = 2;
+			_foto.Ruta = "TEST";
+
+			_fotos = new List<Entidad>();
+
+			_actividad = FabricaEntidad.CrearEntidadActividad();
+			_actividad.Id = 2;
+			_actividad.Nombre = "TEST";
+			_actividad.Foto.Ruta = "TEST";
+			_actividad.Duracion = new TimeSpan(2, 0, 0);
+			_actividad.Descripcion = "TEST";
+			_actividad.Activar = true;
+
 		}
 		#endregion
 
@@ -118,7 +148,7 @@ namespace ApiRestPruebas.M7
 				resultado = lugar;
 			}
 
-			Assert.AreEqual(_lugaresTuristicos[0].Id, resultado.Id);
+			Assert.AreEqual( 4 , resultado.Id);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Nombre     , resultado.Nombre);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Costo      , resultado.Costo);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Descripcion, resultado.Descripcion);
@@ -137,10 +167,9 @@ namespace ApiRestPruebas.M7
 			List<Entidad> resultado = new List<Entidad>();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
-			iDAOLugarTuristico.Insertar( _lugaresTuristicos[1] );
 			resultado = iDAOLugarTuristico.ConsultarTodaLaLista();
 
-			for (int i = 0; i < resultado.Count; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				Assert.AreEqual(_lugaresTuristicos[i].Id, resultado[i].Id);
 				Assert.AreEqual(  ((LugarTuristico)_lugaresTuristicos[i]).Nombre, 
@@ -188,7 +217,96 @@ namespace ApiRestPruebas.M7
 
 		}
 		#endregion
+
+		//Foto
+		#region
+		[Test]
+		public void DAOInsertarFoto()
+		{
+			daoFoto = FabricaDAO.CrearDAOFoto();
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
+
+			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+
+			//Inserto la foto
+			daoFoto.Insertar( _foto ,_lugaresTuristicos[0]);
+
+			//Busco la foto
+			_fotos = daoFoto.ConsultarLista(_lugaresTuristicos[0]);
+
+			Assert.IsNotNull(daoFoto);
+			Assert.IsNotNull(iDAOLugarTuristico);
+
+			Assert.AreEqual( _foto.Id , _fotos[0].Id);
+			Assert.AreEqual( _foto.Ruta+"2.jpg", ((Foto)_fotos[0]).Ruta);
+
+		}
+
+		[Test]
+		public void DAOBuscarListaFoto()
+		{
+
+			daoFoto = FabricaDAO.CrearDAOFoto();
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+
+			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+
+			//Inserto la foto
+			daoFoto.Insertar(_foto, _lugaresTuristicos[0]);
+
+			//Busco la foto
+			_fotos = daoFoto.ConsultarLista(_lugaresTuristicos[0]);
+
+			Assert.IsNotNull(daoFoto);
+			Assert.IsNotNull(iDAOLugarTuristico);
+
+			Assert.AreEqual(_foto.Id, _fotos[0].Id);
+			Assert.AreEqual(_foto.Ruta + "2.jpg", ((Foto)_fotos[0]).Ruta);
+
+		}
 		#endregion
+
+		//Actividad
+		#region
+		[Test]
+		public void DAOInsertarActividad()
+		{
+			daoActividad = FabricaDAO.CrearDAOActividad();
+			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+
+			daoActividad.Insertar( _actividad , _lugaresTuristicos[0]);
+			_actividades = daoActividad.ConsultarLista( _lugaresTuristicos[0]);
+
+			foreach (Actividad actividad  in _actividades)
+			{
+				_actividad = actividad;
+			}
+
+			Assert.NotNull(_actividad);
+			Assert.NotNull(_actividades);
+			Assert.NotNull(_lugaresTuristicos[0]);
+			Assert.NotNull(iDAOLugarTuristico);
+			Assert.NotNull(daoActividad);
+
+			Assert.AreEqual( _actividad.Id , _actividades[0].Id);
+			Assert.AreEqual(_actividad.Nombre, ((Actividad)_actividades[0]).Nombre);
+			Assert.AreEqual(_actividad.Descripcion, ((Actividad)_actividades[0]).Descripcion);
+			Assert.AreEqual(_actividad.Duracion, ((Actividad)_actividades[0]).Duracion);
+			Assert.AreEqual(_actividad.Activar, ((Actividad)_actividades[0]).Activar);
+
+		}
+		#endregion
+
+		//Categoria
+		#region
+		#endregion
+
+		//Horario
+		#region
+		#endregion
+
+		#endregion
+
 
 
 		//Auxiliares de Pruebas unitarias de las excepcions
