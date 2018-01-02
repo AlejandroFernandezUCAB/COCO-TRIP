@@ -11,6 +11,10 @@ using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using System;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Validaciones;
+using System.Web.Http.Description;
+using System.Collections;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -23,17 +27,21 @@ namespace ApiRest_COCO_TRIP.Controllers
         private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion <-- Esto hay que borrarlo luego.
 												 //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
 		private Comando com;
-        //GET
+		private IDictionary response;
+		private MensajeResultadoOperacion mensaje = MensajeResultadoOperacion.ObtenerInstancia();
+		private const String data = "data";
+		private const String error = "error";
+		//GET
 
-        /// <summary>
-        /// Consulta la lista de lugares turisticos dentro del rango establecido
-        /// </summary>
-        /// <param name="desde">limite inferior</param>
-        /// <param name="hasta">limite superior</param>
-        /// <returns>Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
-        /// de cada lugar turistico. Formato JSON</returns>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpGet]
+		/// <summary>
+		/// Consulta la lista de lugares turisticos dentro del rango establecido
+		/// </summary>
+		/// <param name="desde">limite inferior</param>
+		/// <param name="hasta">limite superior</param>
+		/// <returns>Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
+		/// de cada lugar turistico. Formato JSON</returns>
+		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+		[HttpGet]
         public List<LugarTuristico> GetLista (int desde, int hasta)
         {
             peticion = new PeticionLugarTuristico();
@@ -258,49 +266,53 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
         }
 
-        //POST
+		//POST
 
-        /// <summary>
-        /// Inserta los datos del lugar turistico
-        /// </summary>
-        /// <param name="lugar">Objeto LugarTuristico</param>
-        /// <returns>ID del lugar turistico insertado</returns>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpPost]
-        public int PostLugar(JObject datos)
+		/// <summary>
+		/// Inserta los datos del lugar turistico
+		/// </summary>
+		/// <param name="lugar">Objeto LugarTuristico</param>
+		/// <returns>ID del lugar turistico insertado</returns>
+		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+		[HttpPost]
+        public IDictionary PostLugar(JObject datos)
         {
-            try
-			{
+			response = new Dictionary<string, object>();
+
+			try
+			{			
 
 				com = FabricaComando.CrearComandoLTAgregar(datos);
 				com.Ejecutar();
-				return 1;
+				response.Add(data, mensaje.ExitoInsertar);
 
 			}
 			catch (ReferenciaNulaExcepcion e)
 			{
 
-				return 0;
+				response.Add(error, mensaje.ErrorInesperado);
 
 			}
 			catch (CasteoInvalidoExcepcion e)
 			{
 
-				return 0;
+				response.Add(error, mensaje.ErrorInesperado);
 
 			}
 			catch (BaseDeDatosExcepcion e)
 			{
 
-				return 0;
+				response.Add(error, mensaje.ErrorInesperado);
 
 			}
 			catch (Excepcion e)
 			{
 
-				return 0;
+				response.Add(error, mensaje.ErrorInesperado);
 
 			}
+
+			return response;
 
 
 		}

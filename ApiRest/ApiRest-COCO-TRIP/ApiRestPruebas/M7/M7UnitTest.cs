@@ -22,7 +22,6 @@ namespace ApiRestPruebas.M7
 		List<Entidad> _lugaresTuristicos;
 		IDAOLugarTuristico iDAOLugarTuristico;
 		DAOFoto daoFoto;
-		JObject objetoJSON;
 		
 		//SetUp
 		#region 
@@ -252,6 +251,7 @@ namespace ApiRestPruebas.M7
 
 		//Actividad
 		#region
+
 		#endregion
 
 		//Categoria
