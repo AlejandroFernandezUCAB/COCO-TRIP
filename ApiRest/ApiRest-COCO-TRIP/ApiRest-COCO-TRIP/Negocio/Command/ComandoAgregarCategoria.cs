@@ -5,6 +5,7 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System;
 using System.Collections.Generic;
 using NLog;
+using ApiRest_COCO_TRIP.Comun.Validaciones;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -33,9 +34,15 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         {
             try
             {
+                ValidacionString.ValidarCategoria(entidad);
                 datosCategoria = " Nombre: " + ((Categoria)entidad).Nombre + " - NivelCategoria: " + ((Categoria)entidad).Nivel;
                 ((DAOCategoria)dao).Insertar(entidad);
                 log.Info("Categoria nueva agregada con exito: " + datosCategoria);
+            }
+            catch (ParametrosInvalidosExcepcion e)
+            {
+                log.Error(e.Mensaje);
+                throw e;
             }
             catch (NombreDuplicadoExcepcion e)
             {

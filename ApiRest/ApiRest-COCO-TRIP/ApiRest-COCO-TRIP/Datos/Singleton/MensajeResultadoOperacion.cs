@@ -32,6 +32,15 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
         private const string errorCategoriaAsociada = "No se puede mover porque tiene categorias asociadas";
         public string ErrorCategoriaAsociada => errorCategoriaAsociada;
 
+        private const string errorFormatoCampoCategoria = 
+            "Error de formato de Nombre y/o Descripcion de categoria. Solo se permiten letras y espacios. Al menos 5 caracteres.";
+        public string ErrorFormatoCampoCategoria => errorFormatoCampoCategoria;
+
+        private const string errorParametrosNull = "Todos los campos son obligatorios";
+        public string ErrorParametrosNull => errorParametrosNull;
+
+        private const string errorInternoServidor = "Error interno del servidor. Intente más tarde.";
+        public string ErrorInternoServidor => errorInternoServidor;
 
         private MensajeResultadoOperacion()
         {

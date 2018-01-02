@@ -6,7 +6,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
     /// Clase que encapsula la información de "Exception"
     /// se genera cuando ocurre una operacion con un parametro nulo.
     /// </summary>
-    public class ParametrosNullExcepcion : Exception
+    public class ParametrosNullExcepcion : ArgumentNullException
     {
         private string parametroNull;
         private Exception excepcion;

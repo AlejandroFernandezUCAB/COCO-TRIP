@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Collections;
-using ApiRest_COCO_TRIP.Validaciones;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using ApiRest_COCO_TRIP.Comun.Validaciones;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -36,13 +36,10 @@ namespace ApiRest_COCO_TRIP.Controllers
     [HttpPut]
     public IDictionary ActualizarEstatusCategoria([FromBody] JObject data)
     {
-      response = new Dictionary<string, object>();
       try
       {
-        ValidacionWS.validarParametrosNotNull(data, new List<string> {
-          "id",
-          "estatus"
-        });
+        ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
+          "id","estatus"});
         categoria = data.ToObject<Categoria>();
         com = FabricaComando.CrearComandoEstadoCategoria(categoria);
         com.Ejecutar();
@@ -52,24 +49,22 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         response.Add(Response_Error, ex.Message);
       }
-      catch (JsonReaderException ex)
-      {
-        response.Add(Response_Error, ex.Message);
-      }
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInternoServidor);
       }
       catch (ParametrosNullExcepcion ex)
       {
         response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorParametrosNull);  
       }
       catch (Excepcion ex)
       {
-        response.Add(Response_Error, mensaje.ErrorInesperado);
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInesperado);
       }
       return response;
-
     }
 
 
@@ -113,17 +108,23 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       try
       {
-        ValidacionWS.validarParametrosNotNull(data, new List<string> {
-            "id",
-            "nombre",
-            "descripcion",
-            "categoriaSuperior",
-            "nivel"
-        });
+        ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
+             "nombre","descripcion","categoriaSuperior","nivel"});
         categoria = data.ToObject<Categoria>();
+        ValidacionString.ValidarCategoria(categoria);
         com = FabricaComando.CrearComandoModificarCategoria(categoria);
         com.Ejecutar();
         response.Add(Response_Data, mensaje.ExitoModificar);
+      }
+      catch (ParametrosNullExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorParametrosNull);
+       }
+      catch (ParametrosInvalidosExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorFormatoCampoCategoria);   
       }
       catch (HijoConDePendenciaExcepcion ex)
       {
@@ -132,7 +133,6 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (NombreDuplicadoExcepcion ex)
       {
-                //AQUI SE MANDA EL MENSAJE DE ERROR
         response.Add(Response_Error, ex.Mensaje);
         response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
       }
@@ -140,21 +140,15 @@ namespace ApiRest_COCO_TRIP.Controllers
       {
         response.Add(Response_Error, ex.Message);
       }
-      catch (JsonReaderException ex)
-      {
-        response.Add(Response_Error, ex.Message);
-      }
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Mensaje);
-      }
-      catch (ParametrosNullExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInternoServidor);
       }
       catch (Excepcion ex)
       {
-        response.Add(Response_Error, mensaje.ErrorInesperado);
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInesperado);
       }
       return response;
 
@@ -198,24 +192,31 @@ namespace ApiRest_COCO_TRIP.Controllers
     [ResponseType(typeof(IDictionary))]
     [ActionName("AgregarCategoria")]
     [HttpPost]
-    public IDictionary agregarCategoria([FromBody] JObject data)
+    public IDictionary AgregarCategoria([FromBody] JObject data)
     {
       try
       {
-        ValidacionWS.validarParametrosNotNull(data, new List<string> {
-                    "nombre",
-                    "descripcion",
-                    "categoriaSuperior",
-                    "nivel"
-                 });
-        categoria = data.ToObject<Categoria>();
-        com = FabricaComando.CrearComandoAgregarCategoria(categoria);
-        com.Ejecutar();
-        response.Add(Response_Data, mensaje.ExitoInsertarCategoria);
+       ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
+           "nombre","descripcion","categoriaSuperior","nivel"});
+       categoria = data.ToObject<Categoria>();
+       ValidacionString.ValidarCategoria(categoria);
+       com = FabricaComando.CrearComandoAgregarCategoria(categoria);
+       com.Ejecutar();
+       response.Add(Response_Data, mensaje.ExitoInsertarCategoria);
+      }
+      catch (ParametrosNullExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorParametrosNull);  
       }
       catch (JsonSerializationException ex)
       {
         response.Add(Response_Error, ex.Message);
+      }
+      catch (ParametrosInvalidosExcepcion ex)
+      {
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorFormatoCampoCategoria);   
       }
       catch (NombreDuplicadoExcepcion ex)
       {
@@ -224,15 +225,13 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       catch (BaseDeDatosExcepcion ex)
       {
-        response.Add(Response_Error, ex.Message);
-      }
-      catch (ParametrosNullExcepcion ex)
-      {
         response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInternoServidor);
       }
       catch (Excepcion ex)
       {
-        response.Add(Response_Error, mensaje.ErrorInesperado);
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInesperado);
       }
       return response;
     }
@@ -258,13 +257,17 @@ namespace ApiRest_COCO_TRIP.Controllers
       catch (BaseDeDatosExcepcion ex)
       {
         response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInternoServidor);
       }
       catch (Excepcion ex)
       {
-        response.Add(Response_Error, mensaje.ErrorInesperado);
+        response.Add(Response_Error, ex.Mensaje);
+        response.Add("MensajeError", mensaje.ErrorInesperado);
       }
       return response;
     }
+
+    
   }
 
 }

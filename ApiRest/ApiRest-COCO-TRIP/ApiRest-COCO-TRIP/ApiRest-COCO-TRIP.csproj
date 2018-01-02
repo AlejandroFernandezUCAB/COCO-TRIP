@@ -22,8 +22,7 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -121,6 +120,7 @@
     <Compile Include="Comun\Excepcion\HijoConDePendenciaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\LectorJsonExcepcion.cs" />
     <Compile Include="Comun\Excepcion\NombreDuplicadoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ParametrosInvalidosExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ParametrosNullExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SerializacionJsonExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
@@ -135,6 +135,7 @@
     <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
     <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
     <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
+    <Compile Include="Comun\Validaciones\ValidacionString.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
@@ -284,7 +285,7 @@
     <Compile Include="Negocio\Command\ComandoVisualizarPerfilAmigo.cs" />
     <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validaciones\ValidacionWS.cs" />
+    <Compile Include="Comun\Validaciones\ValidacionWS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
