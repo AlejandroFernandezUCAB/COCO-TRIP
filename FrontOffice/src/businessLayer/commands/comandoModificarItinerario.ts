@@ -1,6 +1,7 @@
 import { Comando } from "./comando";
 import { Injectable } from "@angular/core";
 import { RestapiService } from "../../providers/restapi-service/restapi-service";
+import { Itinerario } from "../../dataAccessLayer/domain/itinerario";
 
 /**
  * Autores:
@@ -17,7 +18,7 @@ import { RestapiService } from "../../providers/restapi-service/restapi-service"
 @Injectable()
 export class ComandoModificarItinerario extends Comando
 {
-    public constructor()
+    public constructor(itinerario:Itinerario)
     {
         super();
     }

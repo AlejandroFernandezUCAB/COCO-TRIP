@@ -17,7 +17,7 @@ import { RestapiService } from "../../providers/restapi-service/restapi-service"
 @Injectable()
 export class ComandoSetVisibleNotificacion extends Comando
 {
-    public constructor()
+    public constructor(idUsuario:number,idIt:number,visible:boolean)
     {
         super();
     }

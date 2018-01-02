@@ -17,7 +17,7 @@ import { RestapiService } from "../../providers/restapi-service/restapi-service"
 @Injectable()
 export class ComandoAgregarItinerario extends Comando
 {
-    public constructor()
+    public constructor(itinerario)
     {
         super();
     }

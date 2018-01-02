@@ -17,7 +17,7 @@ import { RestapiService } from "../../providers/restapi-service/restapi-service"
 @Injectable()
 export class ComandoEliminarItinerario extends Comando
 {
-    public constructor()
+    public constructor(idIt :number)
     {
         super();
     }

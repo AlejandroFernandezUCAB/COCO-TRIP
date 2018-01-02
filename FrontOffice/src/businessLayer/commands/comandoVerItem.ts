@@ -17,7 +17,7 @@ import { RestapiService } from "../../providers/restapi-service/restapi-service"
 @Injectable()
 export class ComandoVerItem extends Comando
 {
-    public constructor()
+    public constructor(idItem :number,tipo:string)
     {
         super();
     }

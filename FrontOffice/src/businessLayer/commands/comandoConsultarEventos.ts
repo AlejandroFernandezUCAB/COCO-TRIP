@@ -1,6 +1,7 @@
 import { Comando } from "./comando";
 import { Injectable } from "@angular/core";
 import { RestapiService } from "../../providers/restapi-service/restapi-service";
+import { DateTime } from "ionic-angular";
 
 /**
  * Autores:
@@ -17,7 +18,7 @@ import { RestapiService } from "../../providers/restapi-service/restapi-service"
 @Injectable()
 export class ComandoConsultarEventos extends Comando
 {
-    public constructor()
+    public constructor(nombre:string,fechai:DateTime,fechaf:DateTime)
     {
         super();
     }
