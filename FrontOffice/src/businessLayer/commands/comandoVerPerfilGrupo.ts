@@ -45,6 +45,8 @@ export class ComandoVerPerfilGrupo extends Comando
         {
             let grupo : any = datos;
 
+            console.log(grupo);
+            
             if(grupo.RutaFoto == undefined)
             {
               grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;

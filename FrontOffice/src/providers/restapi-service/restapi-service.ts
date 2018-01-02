@@ -695,6 +695,8 @@ eveSegunPreferencias(idUser){
 */
   public agregarGrupo(grupo : Entidad) 
   {
+    console.log(JSON.stringify(grupo));
+
     return new Promise((resolve, reject) => 
     { 
       console.log('restapi-service json: ' + JSON.stringify(grupo));
@@ -754,6 +756,8 @@ eveSegunPreferencias(idUser){
    */
   public modificarGrupo(grupo : Entidad, idUsuario : number)
   {
+    console.log(JSON.stringify(grupo));
+
     return new Promise((resolve, reject) => 
     {
       this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?id=' + idUsuario, grupo)
@@ -979,4 +983,5 @@ public obtenerUltimoGrupo(idUsuario : number)
 //****************************************************************************************************//
 //********************************FIN DE LOS METODOS DEL MODULO 3*************************************//
 //****************************************************************************************************//
+
 }
