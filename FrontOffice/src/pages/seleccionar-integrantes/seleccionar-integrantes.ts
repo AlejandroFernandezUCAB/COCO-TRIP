@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController, ActionSheetController } from 'ionic-angular';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators, NgControl } from '@angular/forms';
@@ -9,6 +9,9 @@ import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
 import { ComandoAgregarGrupo } from '../../businessLayer/commands/comandoAgregarGrupo';
 import { ComandoObtenerUltimoGrupo } from '../../businessLayer/commands/comandoObtenerUltimoGrupo';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { ConfiguracionImages } from '../constantes/configImages';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -44,6 +47,8 @@ export class SeleccionarIntegrantesPage
   public loader: any;
   public myForm : any;
 
+  public grupo : Array<Grupo>
+
   public constructor
   (
     public navCtrl: NavController, 
@@ -62,6 +67,13 @@ export class SeleccionarIntegrantesPage
     ({
       namegroup: ['', [Validators.required, Validators.maxLength(300)]]
     });
+
+    this.grupo = new Array<Grupo>();
+
+    let grupo : Grupo = FabricaEntidad.crearGrupo();
+    grupo.setRutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+
+    this.grupo.push(grupo);
   }
 
   public loading = this.loadingCtrl.create({});
@@ -80,6 +92,13 @@ export class SeleccionarIntegrantesPage
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+/**
+ * Metodo que carga una foto desde la galeria de imagenes del celular
+ */
+  public agregarFoto()
+  {
   }
 
 /**

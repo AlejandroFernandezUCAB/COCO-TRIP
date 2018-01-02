@@ -28,6 +28,7 @@
     "@ionic-native/file-path": "^4.4.0",
     "@ionic-native/firebase": "^4.3.3",
     "@ionic-native/http": "^4.3.3",
+    "@ionic-native/photo-library": "^4.5.2",
     "@ionic-native/splash-screen": "4.3.0",
     "@ionic-native/status-bar": "4.3.0",
     "@ionic-native/transfer": "^3.14.0",

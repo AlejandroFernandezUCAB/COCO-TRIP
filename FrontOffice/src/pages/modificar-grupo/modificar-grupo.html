@@ -18,7 +18,7 @@
     <ion-card *ngFor="let item of grupo" class ="item-borderless"  >
         <img src={{item.RutaFoto}} class="imagen-perfil"/>
     </ion-card>
-
+    
      <form [formGroup]="myForm">
          <ion-list>
             <ion-list-header>
@@ -67,6 +67,10 @@
         </ion-item-options>   
         </ion-item-sliding>
         </ion-list>
+
+    <button ion-button type="submit" block
+    (click)="agregarFoto()">{{ 'Foto del Grupo' | translate }}
+    </button>
 
     <button ion-button type="submit" block
     (click)="modificarNombre($event)">{{ 'Guardar Cambios' | translate }}</button>
