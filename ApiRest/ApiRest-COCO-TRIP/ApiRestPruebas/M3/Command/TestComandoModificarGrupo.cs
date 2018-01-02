@@ -87,7 +87,7 @@ namespace ApiRestPruebas.M3.Command
     public void ComandoModificarGrupoConFotoLiderExitoso()
     {
       listaGrupo[1].Id = listaGrupo[0].Id;
-      listaGrupo[1].ContenidoFoto = foto;
+      listaGrupo[1].ContenidoFoto = Convert.ToBase64String(foto);
       comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1], listaUsuario[0].Id);
       comando.Ejecutar();
     }
@@ -118,7 +118,7 @@ namespace ApiRestPruebas.M3.Command
     public void ComandoModificarGrupoConFotoMiembroExitoso()
     {
       listaGrupo[1].Id = listaGrupo[0].Id;
-      listaGrupo[1].ContenidoFoto = foto;
+      listaGrupo[1].ContenidoFoto = Convert.ToBase64String(foto);
       comando = FabricaComando.CrearComandoModificarGrupo(listaGrupo[1], listaUsuario[1].Id);
       comando.Ejecutar();
     }

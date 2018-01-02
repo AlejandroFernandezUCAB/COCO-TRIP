@@ -7,7 +7,7 @@ using NpgsqlTypes;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
-	public class DAOLugarTuristico_Categoria : DAO, IDAOLugarTuristicoCategoria
+	public class DAOLugarTuristicoCategoria : DAO, IDAOLugarTuristicoCategoria
 	{
 		public override void Actualizar(Entidad objeto)
 		{
