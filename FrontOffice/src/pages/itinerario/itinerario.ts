@@ -673,7 +673,7 @@ ionview
     if (this.delete == false){
       let evento1;
       this.presentLoading();
-      this.httpc.verItem(evento.Id,evento.Tipo).then(data =>{
+      this.httpc.verItem(evento.id,evento.Tipo).then(data =>{
         if (data== 0 || data == -1){
           this.loading.dismiss();
           if (this.translateService.currentLang == 'es'){

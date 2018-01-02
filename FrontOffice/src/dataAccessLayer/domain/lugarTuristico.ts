@@ -5,14 +5,12 @@ import { Entidad } from './entidad';
 
 /**
  * Autores:
- * Joaquin Camacho
- * Jose Herrera
- * Sabina Quiroga
+ * Jorge Marin
  */
 
 /**
  * Descripcion de la clase:
- * Entidad que contiene los datos de los grupos de amigos
+ * Entidad que contiene los datos de las localidades turisticas
  */
 export class LugarTuristico extends Entidad
 {
@@ -49,7 +47,7 @@ export class LugarTuristico extends Entidad
     }
 
      /**
-     * Retorna el nombre del costo
+     * Retorna el  costo
      */
     get Costo() : number 
     {
@@ -57,7 +55,7 @@ export class LugarTuristico extends Entidad
     }
 
     /**
-     * Establece el nombre del costo
+     * Establece el costo
      */
     set Costo(costo : number) 
     {
