@@ -1,8 +1,5 @@
-using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using BackOffice_COCO_TRIP.Negocio.Comandos;
+
 
 namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 {
@@ -18,28 +15,38 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
             return new ComandoConsultarLocalidades();
         }
 
-        public static ComandoEditarLocalidad GetComandoEditarLocalidad()
+        public static ComandoModificarLocalidad GetComandoEditarLocalidad()
         {
-            return new ComandoEditarLocalidad();
+            return new ComandoModificarLocalidad();
         }
 
-        public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
+        public static ComandoModificarEvento GetComandoEditarEvento()
+        {
+            return new ComandoModificarEvento();
+        }
+
+    public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
         {
             return new ComandoEliminarLocalidad();
         }
 
-        public static ComandoInsertarLocalidad GetComandoInsertarLocalidad()
+        public static ComandoAgregarLocalidad GetComandoInsertarLocalidad()
         {
-            return new ComandoInsertarLocalidad();
+            return new ComandoAgregarLocalidad();
         }
         public static ComandoConsultarEventos GetComandoConsultarEventos()
         {
             return new ComandoConsultarEventos();
         }
 
-        public static ComandoInsertarEvento GetComandoInsertarEvento()
+        public static ComandoConsultarEvento GetComandoConsultarEvento()
         {
-            return new ComandoInsertarEvento();
+            return new ComandoConsultarEvento();
+        }
+
+    public static ComandoAgregarEvento GetComandoInsertarEvento()
+        {
+            return new ComandoAgregarEvento();
         }
 
         public static ComandoEliminarEvento GetComandoEliminarEvento()
@@ -89,5 +96,26 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
         {
             return new ComandoConsultarListaCategoria();
         }
-    }
+
+        public static ComandoConsultarLugaresTuristicos GetComandoConsultarLugaresTuristicos()
+        {
+            return new ComandoConsultarLugaresTuristicos();
+        }
+
+        public static ComandoAgregarLugarTuristico GetComandoAgregarLugarTuristico()
+        {
+            return new ComandoAgregarLugarTuristico();
+        }
+
+        public static ComandoAgregarActividad GetComandoAgregarActividad()
+        {
+            return new ComandoAgregarActividad();
+        }
+
+        public static ComandoAgregarHorario GetComandoAgregarHorario()
+        {
+            return new ComandoAgregarHorario();
+        }
+
+  }
 }

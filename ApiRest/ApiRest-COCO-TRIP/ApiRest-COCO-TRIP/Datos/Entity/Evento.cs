@@ -3,21 +3,21 @@ using System;
 namespace ApiRest_COCO_TRIP.Datos.Entity
 {
     /// <summary>
-    /// Clase que define la entidad evento de la aplicación.
+    /// Clase de la entidad Evento
     /// </summary>
     public class Evento : Entidad
     {
 
-        private string nombre;
-        private string descripcion;
-        private double precio;
-        private DateTime fechaInicio;
-        private DateTime fechaFin;
-        private DateTime horaInicio;
-        private DateTime horaFin;
-        private string foto;
-        private int idLocalidad;
-        private int idCategoria;
+        private string nombre; // Nombre del evento
+        private string descripcion; // Descripción del evento
+        private double precio; // Precio del evento
+        private DateTime fechaInicio; // Fecha en la que el evento comienza
+        private DateTime fechaFin; // Fecha en la que el evento termina
+        private DateTime horaInicio; // Hora de inicio del evento
+        private DateTime horaFin; // Hora donde culmina el evento
+        private string foto; // Ubicacion de la foto del evento
+        private int idLocalidad; // Id de la localidad asociada al evento
+        private int idCategoria; // Id de la categoria asociada al evento
 
         // Getters y Setters de la clase Evento
         public string Nombre { get => nombre; set => nombre = value; }
@@ -52,7 +52,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
         /// <summary>
         /// Constructor de la clase Evento.
         /// </summary>
-        /// <param name="id">Identificador unico del evento.</param>
+        /// <param name="id">Identificador único del evento.</param>
         /// <param name="nombre">Nombre del evento.</param>
         public Evento(int id, string nombre)
         {
@@ -79,7 +79,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
         /// <param name="fechaInicio">Fecha en la que inicia el evento.</param>
         /// <param name="fechaFin">Fecha en la que termina el evento.</param>
         /// <param name="horaInicio">Hora en la que empieza el evento.</param>
-        /// <param name="horaFin">hora en la que termina el evento.</param>
+        /// <param name="horaFin">Hora en la que termina el evento.</param>
         /// <param name="foto">Foto referencial del evento.</param>
         /// <param name="idLocalidad">Id unico que representa la localidad del evento.</param>
         /// <param name="idCategoria">Id unico que representa la categoria a la que pertenece el evento.</param>
@@ -97,51 +97,30 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
             this.idLocalidad = 0;
             this.idCategoria = 0;
         }
-    /// <summary>
-    /// Constructor de la clase evento sin categoria.
-    /// </summary>
-    /// <param name="id">Identificador unico del evento.</param>
-    /// <param name="nombre">Nombre del evento.</param>
-    /// <param name="descripcion">Descripcion del evento.</param>
-    /// <param name="precio">Precio del evento.</param>
-    /// <param name="fechaInicio">Fecha en la que inicia el evento.</param>
-    /// <param name="fechaFin">Fecha en la que termina el evento.</param>
-    /// <param name="horaInicio">Hora en la que empieza el evento.</param>
-    /// <param name="horaFin">hora en la que termina el evento.</param>
-    /// <param name="foto">Foto referencial del evento.</param>
-    /// <param name="idLocalidad">Id unico que representa la localidad del evento.</param>
-    public Evento(int id, string nombre, string descripcion, double precio, DateTime fechaInicio, DateTime fechaFin, DateTime horaInicio, DateTime horaFin, string foto, int idLocalidad) : this(id, nombre)
-    {
-      this.descripcion = descripcion;
-      this.precio = precio;
-      this.fechaInicio = fechaInicio;
-      this.fechaFin = fechaFin;
-      this.horaInicio = horaInicio;
-      this.horaFin = horaFin;
-      this.foto = foto;
-      this.idLocalidad = idLocalidad;
-    }
-
-
-
-
-    /// <summary>
-    /// Compara si dos objetos del tipo "Evento" son iguales.
-    /// </summary>
-    /// <param name="obj">Objeto del tipo evento con el que se desea comparar.</param>
-    /// <returns>En caso de ser iguales devuelve "true", en caso contrario "false"</returns>
-    public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
         /// <summary>
-        /// Castea el objeto del Evento, en un string.
+        /// Constructor de la clase evento sin categoria.
         /// </summary>
-        /// <returns>Retorna en forma de una cadena de caracteres la informacion del evento.</returns>
-        public override string ToString()
+        /// <param name="id">Identificador unico del evento.</param>
+        /// <param name="nombre">Nombre del evento.</param>
+        /// <param name="descripcion">Descripcion del evento.</param>
+        /// <param name="precio">Precio del evento.</param>
+        /// <param name="fechaInicio">Fecha en la que inicia el evento.</param>
+        /// <param name="fechaFin">Fecha en la que termina el evento.</param>
+        /// <param name="horaInicio">Hora en la que empieza el evento.</param>
+        /// <param name="horaFin">hora en la que termina el evento.</param>
+        /// <param name="foto">Foto referencial del evento.</param>
+        /// <param name="idLocalidad">Id unico que representa la localidad del evento.</param>
+        public Evento(int id, string nombre, string descripcion, double precio, DateTime fechaInicio, DateTime fechaFin, DateTime horaInicio, DateTime horaFin, string foto, int idLocalidad) : this(id, nombre)
         {
-            return base.ToString();
+            this.descripcion = descripcion;
+            this.precio = precio;
+            this.fechaInicio = fechaInicio;
+            this.fechaFin = fechaFin;
+            this.horaInicio = horaInicio;
+            this.horaFin = horaFin;
+            this.foto = foto;
+            this.idLocalidad = idLocalidad;
         }
+
     }
 }

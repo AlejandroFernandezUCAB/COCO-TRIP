@@ -7,64 +7,78 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoEliminarEvento : Comando
-  {
+    /// <summary>
+    /// Comando que permite eliminar un evento.
+    /// </summary>
+    public class ComandoEliminarEvento : Comando
+    {
         private Entidad evento;
         private DAO dao;
-        private Log log;
+        private static Logger log;
 
-    public ComandoEliminarEvento(int id)
-    {
-      this.evento = FabricaEntidad.CrearEntidadEvento();
-      this.evento.Id=id;
-      dao = FabricaDAO.CrearDAOEvento();
-            log = Log.ObtenerInstancia();
-    }
+        /// <summary>
+        /// Metodo Constructor.
+        ///  <param name="id">id del evento que se desea eliminar.</param>
+        /// </summary>
+        public ComandoEliminarEvento(int id)
+        {
+            this.evento = FabricaEntidad.CrearEntidadEvento();
+            this.evento.Id = id;
+            dao = FabricaDAO.CrearDAOEvento();
+            log = LogManager.GetCurrentClassLogger();
+        }
 
-    public override void Ejecutar()
-    {
-      try
-      {
-        
-        dao.Eliminar(evento);
-                log.ApiRestInfo("ComandoEliminarEvento","Ejecutado el Comando");
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
-                log.ApiRestError("ComandoEliminarEvento", e.Message);
-                throw e;
-        //INSERTAR EN LOG
-      }
-      catch (CasteoInvalidoExcepcion e)
-      {
-                log.ApiRestError("ComandoEliminarEvento", e.Message);
-                throw e;
-        //INSERTAR EN LOG
-      }
-      catch (OperacionInvalidaException e)
-      {
-                log.ApiRestError("ComandoEliminarEvento", e.Message);
-                throw e;
-        //INSERTAR EN LOG
-      }
-      catch (Exception e)
-      {
-                log.ApiRestError("ComandoEliminarEvento", e.Message);
-                throw e;
-      }
-    }
+        /// <summary>
+        /// Metodo Ejecutar, realiza la logica del negocio para eliminar un evento.
+        /// </summary>
+        public override void Ejecutar()
+        {
+            try
+            {
 
-    public override Entidad Retornar()
-    {
-      throw new NotImplementedException();
-    }
+                dao.Eliminar(evento);
+                log.Info("Ejecutado el Comando");
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+            catch (OperacionInvalidaException e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+        }
 
-    public override List<Entidad> RetornarLista()
-    {
-      throw new NotImplementedException();
+        /// <summary>
+        /// Metodo Retornar, obtiene una entidad como resultado de la ejecucion del comando.
+        /// </summary>
+        public override Entidad Retornar()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Metodo Retornar Lista, obtiene una lista de entidades como resultado de la ejecucion del comando.
+        /// </summary>
+        public override List<Entidad> RetornarLista()
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }

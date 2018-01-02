@@ -5,10 +5,11 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
-  public class DAOCategoria:DAO<JObject,Categoria>
+  public class DAOCategoria: DAO<JObject,Categoria> , IDAOCategoria
   {
     private const string ControllerUri = "M9_Categorias";
     private JObject responseData;
@@ -21,7 +22,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase que le pide al Api la lista de las categorias existentes
+    /// Metodo para solicitar la lista de las categorias existentes
     /// </summary>
     public override JObject Get(int id)
     {
@@ -201,18 +202,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
             { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
           };
       }
-
       return responseData;
-
-
-
     }
 
 

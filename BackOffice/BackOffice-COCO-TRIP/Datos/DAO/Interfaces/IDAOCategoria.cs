@@ -12,10 +12,10 @@ namespace BackOffice_COCO_TRIP.Datos.DAO.Interfaces
   {
         JObject Delete(int id);
         JObject Get(int id);
-        JObject Patch(Categoria data);
-        JObject Post(Categoria data);
-        JObject Put(Categoria data);
-        JObject PutEditarEstado(Categoria data);
+        JObject Patch(Entidad data);
+        JObject Post(Entidad data);
+        JObject Put(Entidad data);
+        JObject PutEditarEstado(Entidad data);
         JObject GetCategoriasHabilitadas();
         JObject GetPorId(int id);
   }

@@ -97,6 +97,7 @@
     <Compile Include="M7\Dato\PruebaFoto.cs" />
     <Compile Include="M7\Dato\PruebaHorario.cs" />
     <Compile Include="M7\Dato\PruebaLugarTuristico.cs" />
+    <Compile Include="M7\PruebasLugarTuristico.cs" />
     <Compile Include="M7\PruebaController.cs" />
     <Compile Include="M8\EventoUnitTest.cs" />
     <Compile Include="M8\LocalidadUnitTest.cs" />
@@ -117,6 +118,7 @@
     <Folder Include="Library\" />
     <Folder Include="M4\" />
     <Folder Include="M6\" />
+    <Folder Include="M7\Command\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ApiRest-COCO-TRIP\ApiRest-COCO-TRIP.csproj">
