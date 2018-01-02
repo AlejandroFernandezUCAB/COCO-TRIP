@@ -1,5 +1,5 @@
-using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Comun.Validaciones;
+using ApiRest_COCO_TRIP.Models.Excepcion;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
