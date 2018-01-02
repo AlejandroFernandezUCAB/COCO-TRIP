@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -24,8 +25,7 @@ export class ComandoBuscarAmigo extends Comando
     private id : number;
     private nombre : string;
 
-    private exito: boolean;
-    private listaUsuarios = new Array();
+    private listaUsuarios : Array<Usuario>;
 
     set Id(id : number)
     {
@@ -40,11 +40,13 @@ export class ComandoBuscarAmigo extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaUsuarios = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.buscarAmigos(this.nombre, this.id)
+        return this.servicio.buscarAmigos(this.nombre, this.id)
         .then(datos => 
         {
             let lista : any = datos;
@@ -73,24 +75,18 @@ export class ComandoBuscarAmigo extends Comando
                 this.listaUsuarios.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('BuscarAmigos exitoso. Datos: ' + this.listaUsuarios);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
-            this.listaUsuarios = error;
             catErr.info('Fallo de BuscarAmigos. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.listaUsuarios;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

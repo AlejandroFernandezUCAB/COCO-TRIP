@@ -25,8 +25,6 @@ export class ComandoModificarGrupo extends Comando
     private grupo : Grupo;
     private idUsuario : number;
 
-    private exito: boolean;
-
     set IdUsuario(id : number)
     {
         this.idUsuario = id;
@@ -34,12 +32,12 @@ export class ComandoModificarGrupo extends Comando
 
     set IdGrupo(id : number)
     {
-        this.grupo.Id = id;
+        this.grupo.setId = id;
     }
 
     set Nombre(nombre : string)
     {
-        this.grupo.Nombre = nombre;
+        this.grupo.setNombre = nombre;
     }
 
     public constructor(private servicio: RestapiService)
@@ -47,30 +45,32 @@ export class ComandoModificarGrupo extends Comando
         super();
 
         this.grupo = FabricaEntidad.crearGrupo();
+
+        this.grupo.setId = 0;
+        this.grupo.setNombre = null;
+        this.grupo.setContenidoFoto = null;
+        this.grupo.setRutaFoto = null;
+        this.grupo.setLider = 0;
+        this.grupo.setCantidadIntegrantes = 0;
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.modificarGrupo(this.grupo, this.idUsuario)
+        return this.servicio.modificarGrupo(this.grupo, this.idUsuario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('ModificarGrupo exitoso. Datos: ' + datos);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catProd.info('Fallo de ModificarGrupo (no autorizado o error interno). Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

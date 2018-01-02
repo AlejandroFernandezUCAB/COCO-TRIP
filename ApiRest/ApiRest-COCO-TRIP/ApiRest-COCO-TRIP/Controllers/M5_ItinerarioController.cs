@@ -72,7 +72,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
 
 
-    [HttpPost]
+    [HttpPut]
     public Itinerario ModificarItinerario(Itinerario it)
     {
       try
@@ -100,7 +100,9 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       try
       {
-        return false;//peti.AgregarItem_It(tipo,idit, iditem, fechaini, fechafin);
+                comando = FabricaComando.CrearComandoAgregarAgenda(tipo,idit,iditem,fechaini,fechafin);
+                comando.Ejecutar();
+        return true;
       }
       catch (NpgsqlException)
       {
@@ -117,7 +119,10 @@ namespace ApiRest_COCO_TRIP.Controllers
     {
       try
       {
-        return false; // peti.EliminarItem_It(tipo, idit, iditem);
+                comando = FabricaComando.CrearComandoEliminarAgendaItem(tipo,idit,iditem);
+                comando.Ejecutar();
+
+        return true; 
       }
       catch (NpgsqlException e)
       {
@@ -135,7 +140,7 @@ namespace ApiRest_COCO_TRIP.Controllers
 
     
     [HttpGet]
-    public List<Itinerario> ConsultarItinerarios(int id_usuario)
+    public List<Entidad> ConsultarItinerarios(int id_usuario)
     {
       try
       {
@@ -148,7 +153,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           Itinerario itinerarioNew = (Itinerario)item;
           listaItinerarios.Add(itinerarioNew);
         }
-        return listaItinerarios;
+        return comando.RetornarLista();
       }
       catch (NpgsqlException )
       {

@@ -107,17 +107,21 @@ export class AmigosPage
      .then(idUsuario => 
      {
        this.comandoListaAmigos.Id = idUsuario;
-       this.comandoListaAmigos.execute();
 
-       if(this.comandoListaAmigos.isSuccess)
+       this.comandoListaAmigos.execute()
+       .then((resultado) => 
        {
-         this.amigo = this.comandoListaAmigos.return();
-       }
-       else
-       {
-         this.realizarToast(Texto.ERROR);
-       }
-
+          if(resultado)
+          {
+            this.amigo = this.comandoListaAmigos.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+       })
+       .catch(() => this.realizarToast(Texto.ERROR));
+       
        this.loading.dismiss();
      });
   }
@@ -226,19 +230,23 @@ export class AmigosPage
             {
               this.comandoEliminarAmigo.NombreUsuario = nombreUsuario;
               this.comandoEliminarAmigo.Id = idUsuario;
-              this.comandoEliminarAmigo.execute();
 
-              if(this.comandoEliminarAmigo.isSuccess)
+              this.comandoEliminarAmigo.execute()
+              .then((resultado) => 
               {
-                this.eliminarAmigos(nombreUsuario, index);
-                this.realizarToast(this.succesful);
+                if(resultado)
+                {
+                  this.eliminarAmigos(nombreUsuario, index);
+                  this.realizarToast(this.succesful);
 
-                this.delete = false;
-              }
-              else
-              {
-                this.realizarToast(Texto.ERROR);
-              }
+                  this.delete = false;
+                }
+                else
+                {
+                  this.realizarToast(Texto.ERROR);
+                }
+              })
+              .catch(() => this.realizarToast(Texto.ERROR));
             });
           }
         }
@@ -254,7 +262,6 @@ export class AmigosPage
  */
   public eliminarAmigos(nombreUsuario, index)
   {
-    //this.amigo.filter(item => item.nombreUsuario == nombreUsuario)[8];
     this.amigo.splice(index, 1);
   }
 

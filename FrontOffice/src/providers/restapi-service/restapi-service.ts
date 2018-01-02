@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import 'rxjs/add/operator/map';
 import { catProd, catService, catErr } from '../../logs/config';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
+import { Entidad } from '../../dataAccessLayer/domain/entidad';
 
 /*
   Generated class for the Restapi provider.
@@ -14,7 +15,7 @@ import { catProd, catService, catErr } from '../../logs/config';
 @Injectable()
 export class RestapiService 
 {
-  public readonly apiUrl : string = 'http://localhost:8090/api';
+  public readonly apiUrl : string = 'http://localhost:8082/api';
 
   private data : any;
   private userData: any;
@@ -694,25 +695,27 @@ eveSegunPreferencias(idUser){
 */
   public agregarGrupo(grupo : Entidad) 
   {
-  return new Promise((resolve, reject) => 
-  {
-    this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
-    .map(respuesta => respuesta.json())
-    .subscribe(datos => 
-    {
-      console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
-      catProd.info('AgregarGrupo exitoso. Grupo: ' + grupo);
+    return new Promise((resolve, reject) => 
+    { 
+      console.log('restapi-service json: ' + JSON.stringify(grupo));
+      
+      this.http.post(this.apiUrl + '/M3_AmigosGrupos/AgregarGrupo', grupo)
+      .map(respuesta => respuesta.json())
+      .subscribe(datos => 
+      {
+        console.log('AgregarGrupo exitoso. Grupo: ' + grupo);
+        catProd.info('AgregarGrupo exitoso. Grupo: ' + grupo);
 
-      resolve(datos);
-    }
-    , error =>
-    {
-      console.log('Fallo de AgregarGrupo. Grupo: ' + grupo);
-      catErr.info('Fallo de AgregarGrupo. Grupo: ' + grupo);
+        resolve(datos);
+      }
+      , error =>
+      {
+        console.log('Fallo de AgregarGrupo. Grupo: ' + grupo);
+        catErr.info('Fallo de AgregarGrupo. Grupo: ' + grupo);
 
-      reject(error);
+        reject(error);
+      });
     });
-  });
   }
 
 /**
@@ -753,7 +756,7 @@ eveSegunPreferencias(idUser){
   {
     return new Promise((resolve, reject) => 
     {
-      this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?idUsuario=' + idUsuario, grupo)
+      this.http.put(this.apiUrl + '/M3_AmigosGrupos/ModificarGrupo?id=' + idUsuario, grupo)
       .map(respuesta => respuesta.json())
       .subscribe(datos => 
       {

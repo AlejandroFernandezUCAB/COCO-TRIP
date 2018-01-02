@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -23,8 +24,7 @@ export class ComandoObtenerPerfilPublico extends Comando
 {
     private nombreUsuario : string;
 
-    private exito: boolean;
-    private usuario = new Array();
+    private usuario : Array<Usuario>;
 
     set NombreUsuario(nombreUsuario : string)
     {
@@ -34,11 +34,13 @@ export class ComandoObtenerPerfilPublico extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.usuario = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute() 
     {
-        this.servicio.obtenerPerfilPublico(this.nombreUsuario)
+        return this.servicio.obtenerPerfilPublico(this.nombreUsuario)
         .then(datos => 
         {
             let usuario : any = datos;
@@ -59,24 +61,18 @@ export class ComandoObtenerPerfilPublico extends Comando
       
             this.usuario.push(usuario);
 
-            this.exito = true;
             catProd.info('ObtenerPerfilPublico exitoso. Datos: ' + this.usuario); 
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ObtenerPerfilPublico. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.usuario;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
-    }
-    
+    }   
 }

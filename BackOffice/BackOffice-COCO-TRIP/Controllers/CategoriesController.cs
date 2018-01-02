@@ -1,6 +1,6 @@
 using BackOffice_COCO_TRIP.Datos.Entidades;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
-using BackOffice_COCO_TRIP.Negocio.Componentes.Comandos;
+using BackOffice_COCO_TRIP.Negocio.Comandos;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

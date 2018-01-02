@@ -23,16 +23,15 @@ import { Injectable } from '@angular/core';
 export class ComandoAgregarGrupo extends Comando
 {
     private grupo : Grupo;
-    private exito: boolean;
 
     set Lider(id : number)
     {
-        this.grupo.Lider = id;
+        this.grupo.setLider = id;
     }
 
     set Nombre(nombre : string)
     {
-        this.grupo.Nombre = nombre;
+        this.grupo.setNombre = nombre;
     }
 
     public constructor(private servicio : RestapiService)
@@ -40,30 +39,32 @@ export class ComandoAgregarGrupo extends Comando
         super();
 
         this.grupo = FabricaEntidad.crearGrupo();
+
+        this.grupo.setId = 0;
+        this.grupo.setNombre = null;
+        this.grupo.setContenidoFoto = null;
+        this.grupo.setRutaFoto = null;
+        this.grupo.setLider = 0;
+        this.grupo.setCantidadIntegrantes = 0;
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.agregarGrupo(this.grupo)
+        return this.servicio.agregarGrupo(this.grupo)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('AgregarGrupo exitoso. Datos: ' + datos);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de AgregarGrupo. Datos: ' + error);
-        });
+            return false;
+        })
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
-    }
+    } 
 }

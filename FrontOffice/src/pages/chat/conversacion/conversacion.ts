@@ -256,7 +256,7 @@ crearalert(idMensaje){
     catProd.info("Entrando en el metodo ModificarMensajeAmigo de Conversacion");
     let entidad: Mensaje;
     entidad = new Mensaje(nuevoMensaje,this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",true);
-    entidad.Id = idMensaje;
+    entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoModificarMensaje();
     comando.setEntidad = entidad;
     comando.execute();
@@ -274,7 +274,7 @@ crearalert(idMensaje){
     this.translateService.get('Ocurrio un error').subscribe(value => {this.message = value;})
     let entidad: Mensaje;
     entidad = new Mensaje("",this.usuario.NombreUsuario,this.nombreUsuario.NombreAmigo,0,"","",false);
-    entidad.Id = idMensaje;
+    entidad.setId = idMensaje;
     let comando = FabricaComando.crearComandoEliminarMensaje();
     comando.setEntidad = entidad;
     comando.execute();

@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController, ActionSheetController } from 'ionic-angular';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CrearGrupoPage } from '../crear-grupo/crear-grupo';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
 import { ComandoAgregarGrupo } from '../../businessLayer/commands/comandoAgregarGrupo';
 import { ComandoObtenerUltimoGrupo } from '../../businessLayer/commands/comandoObtenerUltimoGrupo';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { ConfiguracionImages } from '../constantes/configImages';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -42,6 +45,9 @@ export class SeleccionarIntegrantesPage
   /*Elementos de la vista**/
   public toast: any;
   public loader: any;
+  public myForm : any;
+
+  public grupo : Array<Grupo>
 
   public constructor
   (
@@ -50,7 +56,6 @@ export class SeleccionarIntegrantesPage
     public alerCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public myForm: FormGroup,
     public formBuilder: FormBuilder,
     private storage: Storage,
     private translateService: TranslateService,
@@ -60,8 +65,15 @@ export class SeleccionarIntegrantesPage
   {
     this.myForm = this.formBuilder.group
     ({
-      namegroup: ['', [Validators.required]]
+      namegroup: ['', [Validators.required, Validators.maxLength(300)]]
     });
+
+    this.grupo = new Array<Grupo>();
+
+    let grupo : Grupo = FabricaEntidad.crearGrupo();
+    grupo.setRutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+
+    this.grupo.push(grupo);
   }
 
   public loading = this.loadingCtrl.create({});
@@ -80,6 +92,13 @@ export class SeleccionarIntegrantesPage
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+/**
+ * Metodo que carga una foto desde la galeria de imagenes del celular
+ */
+  public agregarFoto()
+  {
   }
 
 /**
@@ -102,31 +121,39 @@ export class SeleccionarIntegrantesPage
       {
         this.comandoAgregarGrupo.Lider = idUsuario;
         this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
-        this.comandoAgregarGrupo.execute();
 
-        if(this.comandoAgregarGrupo.isSuccess)
+        this.comandoAgregarGrupo.execute()
+        .then((resultado) => 
         {
-          this.comandoObtenerUltimoGrupo.Id = idUsuario;
-          this.comandoObtenerUltimoGrupo.execute();
-
-          if(this.comandoObtenerUltimoGrupo.isSuccess)
+          if(resultado)
           {
-            this.navCtrl.push(CrearGrupoPage,
-            {
-              idGrupo: this.comandoObtenerUltimoGrupo.return().Id
-            });
+            this.comandoObtenerUltimoGrupo.Id = idUsuario;
 
-            this.realizarToast(this.succesful);
+            this.comandoObtenerUltimoGrupo.execute()
+            .then((resultado) => 
+            {
+              if(resultado)
+              {
+                this.navCtrl.push(CrearGrupoPage,
+                {
+                  idGrupo: this.comandoObtenerUltimoGrupo.return().getId
+                });
+      
+                this.realizarToast(this.succesful);
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
           else
           {
             this.realizarToast(Texto.ERROR);
           }
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
       });
@@ -151,4 +178,5 @@ export class SeleccionarIntegrantesPage
     });
     this.toast.present();
   }
+  
 }

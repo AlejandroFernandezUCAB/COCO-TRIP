@@ -16,11 +16,11 @@ import { Entidad } from './entidad';
  */
 export class Grupo extends Entidad
 {
-    private nombre: string; //Nombre del grupo
-    private rutaFoto: string; //Ruta de la foto
-    private contenidoFoto: any[]; //Bytes de la foto (para cargar)
-    private lider: number; //ID del creador del grupo
-    private cantidadIntegrantes: number; //Cantidad de miembros del grupo
+    private Nombre: string; //Nombre del grupo
+    private RutaFoto: string; //Ruta de la foto
+    private ContenidoFoto: any[]; //Bytes de la foto (para cargar)
+    private Lider: number; //ID del creador del grupo
+    private CantidadIntegrantes: number; //Cantidad de miembros del grupo
 
     constructor () //Por ahora vacio
     {
@@ -30,81 +30,81 @@ export class Grupo extends Entidad
     /**
      * Retorna el nombre del grupo
      */
-    get Nombre() : string 
+    get getNombre() : string 
     {
-        return this.nombre;
+        return this.Nombre;
     }
 
     /**
      * Establece el nombre del grupo
      */
-    set Nombre(nombre : string) 
+    set setNombre(nombre : string) 
     {
-        this.nombre = nombre;
+        this.Nombre = nombre;
     }
 
     /**
      * Retorna la ruta de la foto (del servicio web)
      */
-    get RutaFoto() : string
+    get getRutaFoto() : string
     {
-        return this.rutaFoto;
+        return this.RutaFoto;
     }
 
     /**
      * Establece la ruta de la foto (del servicio web)
      */
-    set RutaFoto(rutaFoto : string)
+    set setRutaFoto(rutaFoto : string)
     {
-        this.rutaFoto = rutaFoto;
+        this.RutaFoto = rutaFoto;
     }
 
     /**
      * Retorna los bytes de la foto
      */
-    get ContenidoFoto() : any[]
+    get getContenidoFoto() : any[]
     {
-        return this.contenidoFoto;
+        return this.ContenidoFoto;
     }
 
     /**
      * Establece los bytes de la foto (para guardar en el servicio web)
      */
-    set ContenidoFoto(contenidoFoto : any[])
+    set setContenidoFoto(contenidoFoto : any[])
     {
-        this.contenidoFoto = contenidoFoto;
+        this.ContenidoFoto = contenidoFoto;
     }
 
     /**
      * Retorna el identificador unico del lider del grupo
      */
-    get Lider() : number
+    get getLider() : number
     {
-        return this.lider;
+        return this.Lider;
     }
 
     /**
      * Establece el identificador unico del lider del grupo
      */
-    set Lider(idLider : number)
+    set setLider(idLider : number)
     {
-        this.lider = idLider;
+        this.Lider = idLider;
     }
 
     /**
      * Retorna la cantidad de miembros del grupo de amigos
      */
-    get CantidadIntegrantes() : number
+    get getCantidadIntegrantes() : number
     {
-        return this.cantidadIntegrantes;
+        return this.CantidadIntegrantes;
     }
 
     /**
      * Establece la cantidad de miembros del grupo de amigos
      */
-    set CantidadIntegrantes(cantidadIntegrantes : number)
+    set setCantidadIntegrantes(cantidadIntegrantes : number)
     {
-        this.cantidadIntegrantes = cantidadIntegrantes;
+        this.CantidadIntegrantes = cantidadIntegrantes;
     }
     
 }

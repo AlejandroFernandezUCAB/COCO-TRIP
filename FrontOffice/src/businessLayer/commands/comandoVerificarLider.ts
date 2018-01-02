@@ -33,35 +33,28 @@ export class ComandoVerificarLider extends Comando
         this.idGrupo = id;
     }
 
-    private exito: boolean;
-
     public constructor(private servicio: RestapiService)
     {
         super();
     }
 
-    public execute() : void 
+    public execute()
     {
-        this.servicio.verificarLider(this.idGrupo, this.idUsuario)
+        return this.servicio.verificarLider(this.idGrupo, this.idUsuario)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('VerificarLider exitoso (es el lider). Datos: ' + datos);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catProd.info('Fallo de VerificarLider (no es el lider o error interno). Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

@@ -12,49 +12,69 @@ using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoAgregarLocalidad : Comando
-  {
-    private Entidad localidad;
-    private DAO dao;
+    /// <summary>
+    /// Comando que permite agregar una localidad.
+    /// </summary>
+    public class ComandoAgregarLocalidad : Comando
+    {
+        private Entidad localidad;
+        private DAO dao;
         private static Logger log;
-        public ComandoAgregarLocalidad(Entidad localidad) {
-      this.localidad = (LocalidadEvento)localidad;
-      dao = FabricaDAO.CrearDAOLocalidad();
+
+        /// <summary>
+        /// Metodo Constructor.
+        /// </summary>
+        /// <param name="localidad">Entidad de la localidad a agregar</param>
+        public ComandoAgregarLocalidad(Entidad localidad)
+        {
+            this.localidad = (LocalidadEvento)localidad;
+            dao = FabricaDAO.CrearDAOLocalidad();
             log = LogManager.GetCurrentClassLogger();
         }
-    public override void Ejecutar()
-    {
-      try
-      {
-        dao.Insertar(localidad);
+
+        /// <summary>
+        /// Metodo Ejecutar, realiza la logica del negocio para agregar una localidad.
+        /// </summary>
+        public override void Ejecutar()
+        {
+            try
+            {
+                dao.Insertar(localidad);
                 log.Info("Ejecutado el comando");
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
-      catch (CasteoInvalidoExcepcion e)
-      {
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
-      catch (Exception e)
-      {
+            }
+            catch (Exception e)
+            {
                 log.Error(e.Message);
                 throw e;
-      }
+            }
 
-    }
+        }
 
-    public override Entidad Retornar()
-    {
-      throw new NotImplementedException();
-    }
+        /// <summary>
+        /// Metodo Retornar, obtiene una entidad como resultado de la ejecucion del comando.
+        /// </summary>
+        public override Entidad Retornar()
+        {
+            throw new NotImplementedException();
+        }
 
-    public override List<Entidad> RetornarLista()
-    {
-      throw new NotImplementedException();
+
+        /// <summary>
+        /// Metodo Retornar Lista, obtiene una lista de entidades como resultado de la ejecucion del comando.
+        /// </summary>
+        public override List<Entidad> RetornarLista()
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }
