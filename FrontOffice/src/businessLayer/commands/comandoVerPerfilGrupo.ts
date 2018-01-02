@@ -44,8 +44,6 @@ export class ComandoVerPerfilGrupo extends Comando
         .then(datos => 
         {
             let grupo : any = datos;
-
-            console.log(grupo);
             
             if(grupo.RutaFoto == undefined)
             {

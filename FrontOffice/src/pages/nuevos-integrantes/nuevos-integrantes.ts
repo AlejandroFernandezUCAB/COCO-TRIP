@@ -93,9 +93,7 @@ export class NuevosIntegrantesPage
       this.cargando();
 
       this.storage.get('id').then((idUsuario) => 
-      {
-        console.log('El id del usuario es: ', idUsuario);
-        
+      {        
         this.comandoObtenerMiembrosSinGrupo.IdUsuario = idUsuario;
         this.comandoObtenerMiembrosSinGrupo.IdGrupo = this.navParams.get('idGrupo');
 

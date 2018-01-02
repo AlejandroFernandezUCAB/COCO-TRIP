@@ -695,8 +695,6 @@ eveSegunPreferencias(idUser){
 */
   public agregarGrupo(grupo : Entidad) 
   {
-    console.log(JSON.stringify(grupo));
-
     return new Promise((resolve, reject) => 
     { 
       console.log('restapi-service json: ' + JSON.stringify(grupo));
