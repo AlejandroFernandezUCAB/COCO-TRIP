@@ -155,6 +155,13 @@ export class ModificarGrupoPage
   }
 
 /**
+ * Metodo que carga una foto desde la galeria de imagenes del celular
+ */
+public agregarFoto()
+{
+}
+
+/**
  * Metodo para confirmar eliminacion de un amigo
  * @param nombreUsuario Nombre del usuario a eliminar
  * @param index Posicion en la lista
