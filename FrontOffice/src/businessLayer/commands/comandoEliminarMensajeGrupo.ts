@@ -58,9 +58,5 @@ export class ComandoEliminarMensajeGrupo extends Comando {
     {
         throw new Error("Method not implemented.");
     }
-    
-    public isSuccess(): boolean 
-    {
-        throw new Error("Method not implemented.");
-    }
+
 }

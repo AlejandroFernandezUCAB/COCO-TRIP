@@ -206,7 +206,6 @@
     <Compile Include="Models\Dato\LugarTuristico.cs" />
     <Compile Include="Datos\Entity\LocalidadEvento.cs" />
     <Compile Include="Models\LugarTuristicoPreferencia.cs" />
-    <Compile Include="Models\BaseDeDatos\PeticionAmigoGrupo.cs" />
     <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionItinerario.cs" />
     <Compile Include="Datos\DAO\DAOLocalidadEvento.cs" />
@@ -291,6 +290,9 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

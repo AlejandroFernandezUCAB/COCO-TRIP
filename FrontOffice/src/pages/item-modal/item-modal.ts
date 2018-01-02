@@ -102,6 +102,7 @@ export class ItemModalPage {
                 }else{
                   this.NoResults= false;
                   this.items = data;
+                  console.log(this.items);
                 }
               }
             );
@@ -149,14 +150,16 @@ export class ItemModalPage {
       }
     }
 
-  agregarItem(item_id){
-        let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
-        vlista.Tipo= this.Tipo_item;
+  
+    agregarItem(item_id,item){
+    console.log(item);
+        //let vlista= this.items.filter(function(e,i){ return e.Id==item_id})[0];
+        
         //Si el lenguaje es espa;ol
         if (this.translateService.currentLang == 'es'){
           let alert = this.alertCtrl.create({
             title: 'Por favor, confirmar',
-            message: '¿Desea agregar '+ vlista.Nombre+ ' a su itinerario en el dia '+ '?',
+            message: '¿Desea agregar '+ item.Nombre+ ' a su itinerario en el dia '+ '?',
             buttons: [{
               text: 'CANCELAR',
               role: 'cancel',
@@ -182,9 +185,18 @@ export class ItemModalPage {
                   }
                   else
                   {
-                    vlista.FechaInicio = this.FechaInicio;
-                    vlista.FechaFin = this.FechaFin;
-                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
+                    let vlista={
+                      Nombre : item.Nombre,
+                      id : item.id,
+                      Tipo : this.Tipo_item,
+                      FechaInicio : this.FechaInicio,
+                      FechaFin : this.FechaFin
+                      
+                    }
+                    
+                    console.log(vlista);
+                    
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
                       if (data == null){
                         this.realizarToast('El item ya esta en el itinerario');
                         this.viewCtrl.dismiss();
@@ -202,7 +214,7 @@ export class ItemModalPage {
         {
           let alert = this.alertCtrl.create({
             title: 'Please, confirm',
-            message: 'Would you like to add '+ vlista.Nombre+ ' to your itinerary on '+ this.FechaInicio +'?',
+            message: 'Would you like to add '+ item.Nombre+ ' to your itinerary on '+ this.FechaInicio +'?',
             buttons: [{
               text: 'CANCEL',
               role: 'cancel',
@@ -228,9 +240,15 @@ export class ItemModalPage {
                   }
                   else
                   {
-                    vlista.FechaInicio = this.FechaInicio;
-                    vlista.FechaFin = this.FechaFin;
-                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.Id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
+                    
+                    let vlista={
+                      Nombre : item.Nombre,
+                      id : item.id,
+                      Tipo : this.Tipo_item,
+                      FechaInicio : this.FechaInicio,
+                      FechaFin : this.FechaFin 
+                    }
+                    this.http.agregarItem_It(this.Tipo_item, this.itinerario.id, item_id , this.FechaInicio,this.FechaFin).then(data=>{
                       if (data==null){
                         this.realizarToast('Item is already added');
                         this.viewCtrl.dismiss();
