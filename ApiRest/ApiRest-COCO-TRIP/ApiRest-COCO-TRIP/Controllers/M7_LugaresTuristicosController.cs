@@ -11,7 +11,6 @@ using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using System;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
-using ApiRest_COCO_TRIP.Validaciones;
 using System.Web.Http.Description;
 using System.Collections;
 using ApiRest_COCO_TRIP.Datos.Singleton;
