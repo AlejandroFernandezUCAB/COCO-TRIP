@@ -36,7 +36,7 @@ namespace ApiRestPruebas.M9
     {
 
       Assert.Catch<ParametrosNullException>(
-        () => ValidacionWS.validarParametrosNotNull(
+        () => ValidacionWS.ValidarParametrosNotNull(
           parametrosRequest,
           new List<string> {
             "param1",
@@ -51,7 +51,7 @@ namespace ApiRestPruebas.M9
     public void ProbarExceptionConParametroNoExistente()
     {
       Assert.Catch<ParametrosNullException>(
-        () => ValidacionWS.validarParametrosNotNull(
+        () => ValidacionWS.ValidarParametrosNotNull(
           parametrosRequest,
           new List<string> {
             "param1",
@@ -66,7 +66,7 @@ namespace ApiRestPruebas.M9
     public void ProbarValidacionExitosa()
     {
       
-      Assert.DoesNotThrow(() => ValidacionWS.validarParametrosNotNull(
+      Assert.DoesNotThrow(() => ValidacionWS.ValidarParametrosNotNull(
           parametrosRequest,
           new List<string> {
             "param1",

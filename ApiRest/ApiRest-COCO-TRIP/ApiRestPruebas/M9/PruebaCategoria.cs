@@ -184,7 +184,7 @@ namespace ApiRestPruebas.M9
             _com.Ejecutar();
             Comando __com = FabricaComando.CrearComandoObtenerCategoriaPorId(((Categoria)_categoria));
             __com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriaPorId)__com).RetornarLista2()[0];
+            _resp = ((ComandoObtenerCategoriaPorId)__com).RetornarLista()[0];
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
@@ -204,7 +204,7 @@ namespace ApiRestPruebas.M9
             _com.Ejecutar();
             _com = FabricaComando.CrearComandoObtenerCategoriaPorId(((Categoria)_categoria));
             _com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista()[0];
             Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
         }
 
@@ -236,7 +236,7 @@ namespace ApiRestPruebas.M9
             ((Categoria)_categoria).Id = 1001;
             _com = FabricaComando.CrearComandoObtenerCategoriaPorId(_categoria);
             _com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista2()[0];
+            _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista()[0];
             Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
         }
 
@@ -266,8 +266,8 @@ namespace ApiRestPruebas.M9
         {
             _com = FabricaComando.CrearComandoObtenerCategoriasHabilitadas();
             _com.Ejecutar();
-            _resp = ((ComandoObtenerCategoriasHabilitadas)_com).RetornarLista2()[0];
-            foreach (Categoria _Entidad in ((ComandoObtenerCategoriasHabilitadas)_com).RetornarLista2())
+            _resp = ((ComandoObtenerCategoriasHabilitadas)_com).RetornarLista()[0];
+            foreach (Categoria _Entidad in ((ComandoObtenerCategoriasHabilitadas)_com).RetornarLista())
             {
                 switch (_Entidad.Id)
                 {

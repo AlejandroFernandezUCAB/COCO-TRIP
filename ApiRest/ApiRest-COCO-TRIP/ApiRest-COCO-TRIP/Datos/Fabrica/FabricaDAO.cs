@@ -118,5 +118,14 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
 	{
 		return new DAOFoto();
 	}
+
+	/// <summary>
+	/// Retorna la instancia de DAOLugarTuristico_Categoria
+	/// </summary>
+	/// <returns></returns>
+	public static DAOLugarTuristico_Categoria CrearDAOLugarTuristico_Categoria()
+	{
+		return new DAOLugarTuristico_Categoria();
+	}
   }
 }
