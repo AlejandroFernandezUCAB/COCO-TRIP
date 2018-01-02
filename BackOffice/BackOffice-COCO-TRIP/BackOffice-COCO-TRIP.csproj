@@ -333,7 +333,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Negocio\Componentes\" />
     <Folder Include="Views\M8Events\App_LocalResources\" />
   </ItemGroup>
   <ItemGroup>
