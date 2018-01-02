@@ -9,6 +9,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using System.Net.Sockets;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -34,6 +35,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Consulta la lista de actividades segun un lugar turistico
+		/// </summary>
+		/// <param name="objeto">Lugar turistico de las actividades que se quieren</param>
+		/// <returns>Lugar turistico</returns>
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
 			_actividad = new List<Entidad>();
@@ -58,6 +64,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				}
 
 				return _actividad;
+
 			}
 			catch (NullReferenceException e)
 			{

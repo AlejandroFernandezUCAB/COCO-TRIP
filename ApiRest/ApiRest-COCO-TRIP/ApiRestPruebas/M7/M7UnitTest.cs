@@ -22,6 +22,7 @@ namespace ApiRestPruebas.M7
 		Actividad _actividad;
 		List<Entidad> _fotos;
 		List<Entidad> _lugaresTuristicos;
+		List<Entidad> _actividades;
 		IDAOLugarTuristico iDAOLugarTuristico;
 		DAOActividad daoActividad;
 		DAOFoto daoFoto;
@@ -117,6 +118,7 @@ namespace ApiRestPruebas.M7
 			_actividad = FabricaEntidad.CrearEntidadActividad();
 			_actividad.Id = 2;
 			_actividad.Nombre = "TEST";
+			_actividad.Foto.Ruta = "TEST";
 			_actividad.Duracion = new TimeSpan(2, 0, 0);
 			_actividad.Descripcion = "TEST";
 			_actividad.Activar = true;
@@ -272,6 +274,25 @@ namespace ApiRestPruebas.M7
 			daoActividad = FabricaDAO.CrearDAOActividad();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
+			daoActividad.Insertar( _actividad , _lugaresTuristicos[0]);
+			_actividades = daoActividad.ConsultarLista( _lugaresTuristicos[0]);
+
+			foreach (Actividad actividad  in _actividades)
+			{
+				_actividad = actividad;
+			}
+
+			Assert.NotNull(_actividad);
+			Assert.NotNull(_actividades);
+			Assert.NotNull(_lugaresTuristicos[0]);
+			Assert.NotNull(iDAOLugarTuristico);
+			Assert.NotNull(daoActividad);
+
+			Assert.AreEqual( _actividad.Id , _actividades[0].Id);
+			Assert.AreEqual(_actividad.Nombre, ((Actividad)_actividades[0]).Nombre);
+			Assert.AreEqual(_actividad.Descripcion, ((Actividad)_actividades[0]).Descripcion);
+			Assert.AreEqual(_actividad.Duracion, ((Actividad)_actividades[0]).Duracion);
+			Assert.AreEqual(_actividad.Activar, ((Actividad)_actividades[0]).Activar);
 
 		}
 		#endregion
