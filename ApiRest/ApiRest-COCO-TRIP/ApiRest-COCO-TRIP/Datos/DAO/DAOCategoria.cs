@@ -252,6 +252,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 string mensaje = "Error creando las lista para las categorias " + " || " + ex.Message;
                 throw new ArgumentoNuloExcepcion(ex, mensaje);
             }
+            catch (HijoConDePendenciaExcepcion ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
                 throw new Excepcion(ex, mensajeRegistry.ErrorInesperado + " || " + ex.Message);

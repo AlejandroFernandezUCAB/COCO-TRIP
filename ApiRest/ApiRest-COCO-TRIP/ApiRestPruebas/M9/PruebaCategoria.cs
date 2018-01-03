@@ -7,7 +7,7 @@ using ApiRest_COCO_TRIP.Controllers;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
-using ApiRest_COCO_TRIP.Models.Excepcion;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -56,7 +56,7 @@ namespace ApiRestPruebas.M9
         #endregion SetUp
         
         ////////////////////////////////////////    PRUEBAS CONTROLADOR    ///////////////////////////
-        #region controlador
+        /*#region controlador
         [Test]
         public void M9_PruebaModificarCategoria()
         {
@@ -117,7 +117,7 @@ namespace ApiRestPruebas.M9
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
         }
 
-        [Test]
+        /*[Test]
         public void M9_PruebaDependenciaModificarCategoria()
         {
 
@@ -132,11 +132,11 @@ namespace ApiRestPruebas.M9
             respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
             HijoConDePendenciaException ex = new HijoConDePendenciaException("Esta categoria id:1001 nombre:prueba2 tiene hijos");
             esperado.Add("error", ex.Mensaje);
-            esperado.Add("MensajeError", "No se puede mover porque tiene categorias asociadas");
+            esperado.Add("MensajeError", mensaje.ErrorCategoriaAsociada);
             var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
             var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        }
+        } 
 
         [Test]
         public void M9_PruebaModificarEstadoCategoria()
@@ -168,7 +168,7 @@ namespace ApiRestPruebas.M9
             var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
         }
-        #endregion controlador
+        #endregion controlador */
         
         ////////////////////////////////////////    PRUEBAS COMANDOS     /////////////////////////////
         #region comandos
@@ -189,10 +189,15 @@ namespace ApiRestPruebas.M9
         }
 
         [Test]
-        public void M9_PruebaExcepcionComandoModificarCategoria()
+        public void M9_PruebaExcepcionDependenciaComandoModificarCategoria()
         {
-            Assert.Catch<NombreDuplicadoException>(PruebaExcepcionDuplicadoComandoModificarCategoria);
-            Assert.Catch<HijoConDePendenciaException>(PruebaExcepcionDependenciaComandoModificarCategoria);
+            Assert.Catch<HijoConDePendenciaExcepcion>(PruebaExcepcionDependenciaComandoModificarCategoria);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionDuplicadoComandoModificarCategoria()
+        {
+            Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoComandoModificarCategoria);
         }
 
         [Test]
@@ -211,7 +216,7 @@ namespace ApiRestPruebas.M9
         [Test]
         public void M9_PruebaComandoInsertarCategoria()
         {
-            ((Categoria)_categoria).Nombre = "PRUEBA AGREGAR";
+            ((Categoria)_categoria).Nombre = "AGREGARPRUEB";
             ((Categoria)_categoria).Descripcion = "AGREGAR";
             ((Categoria)_categoria).CategoriaSuperior = 0;
             ((Categoria)_categoria).Nivel = 1;
@@ -227,7 +232,7 @@ namespace ApiRestPruebas.M9
         [Test]
         public void M9_PruebaExcepcionComandoAgregarCategoria()
         {
-            Assert.Catch<NombreDuplicadoException>(PruebaExcepcionDuplicadoComandoAgregarCategoria);
+            Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoComandoAgregarCategoria);
         }
 
         [Test]
@@ -306,8 +311,8 @@ namespace ApiRestPruebas.M9
         [Test]
         public void M9_PruebaExcepcionDAOModificarCategoria()
         {
-            Assert.Catch<NombreDuplicadoException>(PruebaExcepcionDuplicadoDAOModificarCategoria);
-            Assert.Catch<HijoConDePendenciaException>(PruebaExcepcionDependenciaDAOModificarCategoria);
+            Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoDAOModificarCategoria);
+            Assert.Catch<HijoConDePendenciaExcepcion>(PruebaExcepcionDependenciaDAOModificarCategoria);
         }
 
         [Test]
@@ -336,7 +341,7 @@ namespace ApiRestPruebas.M9
         [Test]
         public void M9_PruebaExcepcionDuplicadoDAOInsertar()
         {
-            Assert.Catch<NombreDuplicadoException>(PruebaExcepcionDuplicadoDAOInsertar);
+            Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoDAOInsertar);
         }
 
         /*[Test]
@@ -380,8 +385,8 @@ namespace ApiRestPruebas.M9
         public void PruebaExcepcionDependenciaDAOModificarCategoria()
         {
             ((Categoria)_categoria).Id = 1001;
-            ((Categoria)_categoria).Nombre = "MODIFICAR";
-            ((Categoria)_categoria).Descripcion = "MODIFICAR";
+            ((Categoria)_categoria).Nombre = "modificar";
+            ((Categoria)_categoria).Descripcion = "modificar";
             ((Categoria)_categoria).CategoriaSuperior = 0;
             ((Categoria)_categoria).Nivel = 1;
             dao.Actualizar(_categoria);
@@ -400,7 +405,7 @@ namespace ApiRestPruebas.M9
 
         public void PruebaExcepcionDuplicadoComandoAgregarCategoria()
         {
-            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA";
+            ((Categoria)_categoria).Nombre = "AGREGARPRUEB";
             ((Categoria)_categoria).Descripcion = "PRUEBA";
             ((Categoria)_categoria).CategoriaSuperior = 10;
             ((Categoria)_categoria).Nivel = 2;
@@ -411,14 +416,13 @@ namespace ApiRestPruebas.M9
         public void PruebaExcepcionDependenciaComandoModificarCategoria()
         {
             ((Categoria)_categoria).Id = 1001;
-            ((Categoria)_categoria).Nombre = "MODIFICAR";
-            ((Categoria)_categoria).Descripcion = "MODIFICAR";
+            ((Categoria)_categoria).Nombre = "modificar";
+            ((Categoria)_categoria).Descripcion = "modificar";
             ((Categoria)_categoria).CategoriaSuperior = 0;
             ((Categoria)_categoria).Nivel = 1;
             _com = FabricaComando.CrearComandoModificarCategoria(_categoria);
             _com.Ejecutar();
         }
-        //ItemNoEncontrado
 
         public void PruebaExcepcionBaseDedatosComandoObtenerCategoriaPorId()
         {

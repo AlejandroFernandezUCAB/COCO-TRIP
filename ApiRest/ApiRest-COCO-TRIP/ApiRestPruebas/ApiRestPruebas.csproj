@@ -101,6 +101,7 @@
     <Compile Include="M8\EventoUnitTest.cs" />
     <Compile Include="M8\LocalidadUnitTest.cs" />
     <Compile Include="M9\PruebaCategoria.cs" />
+    <Compile Include="M9\PruebaValidacionString.cs" />
     <Compile Include="M9\PruebaValidacionWS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
