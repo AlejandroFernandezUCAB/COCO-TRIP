@@ -60,18 +60,16 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult CreateEvent(Evento evento, HttpPostedFileBase file)
     {
-      String ruta = Path.GetFileName(file.FileName);
-      String path = Path.Combine(Server.MapPath("~/App_Data/uploads"), ruta);
-      Directory.CreateDirectory(Server.MapPath("~/App_Data/uploads"));
-      file.SaveAs(path);
-      evento.FotoContenido=System.IO.File.ReadAllBytes(path);
-      System.IO.File.Delete(path);
-      //Debe funcionar con la siguiente linea:
+      String ruta = Path.GetFileName(evento.Nombre + file.FileName);
+      evento.Foto = ruta;
+      
       evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
+
       Comando comando = FabricaComando.GetComandoAgregarEvento();
       comando.SetPropiedad(evento);
       comando.Execute();
+
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
       return RedirectToAction("FilterEvent");  // TERMINAR
 
@@ -97,6 +95,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       Comando comando = FabricaComando.GetComandoConsultarEvento();
       comando.SetPropiedad(id);
       comando.Execute();
+      TempData["fotovieja"] = ((Evento)comando.GetResult()[0]).Foto;
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
       return View(comando.GetResult()[0]);
     }
@@ -107,11 +106,13 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// <param name="localidad">evento a editar</param>
     /// <returns> Vista Index</returns>
     [HttpPost]
-    public ActionResult Edit(Evento evento)
+    public ActionResult Edit(Evento evento, HttpPostedFileBase file)
     {
       evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
-      evento.FotoContenido = null;
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
+      String foto = (String)TempData["fotovieja"];
+      String ruta = Path.GetFileName(evento.Nombre + file.FileName);
+      evento.Foto = ruta;
       Comando comando = FabricaComando.GetComandoModificarEvento();
       comando.SetPropiedad(evento);
       comando.Execute();
