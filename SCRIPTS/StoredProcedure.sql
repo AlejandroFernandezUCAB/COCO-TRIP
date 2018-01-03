@@ -1967,7 +1967,7 @@ BEGIN
    INSERT INTO evento VALUES
     (nextval('SEQ_Evento'), _nombreEvento, _descripcionEvento,
       _precioEvento, _fechaInicioEvento, _fechaFinEvento,
-      _horaInicioEvento, _horaFinEvento, _fotoEvento, _localidadEvento,
+      _horaInicioEvento, _horaFinEvento, currval('SEQ_Evento')||'evento', _localidadEvento,
       _categoriaEvento);
    END;
 $$ LANGUAGE plpgsql;

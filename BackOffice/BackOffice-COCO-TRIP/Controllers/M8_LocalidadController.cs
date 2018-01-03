@@ -52,7 +52,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult Create(Localidad localidad)
     {
-      Comando comando = FabricaComando.GetComandoInsertarLocalidad();
+      Comando comando = FabricaComando.GetComandoAgregarLocalidad();
       comando.SetPropiedad(localidad);
       comando.Execute();
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
@@ -83,7 +83,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult Edit(Localidad localidad)
     {
-      Comando comando = FabricaComando.GetComandoEditarLocalidad();
+      Comando comando = FabricaComando.GetComandoModificarLocalidad();
       comando.SetPropiedad(localidad);
       comando.Execute();
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);

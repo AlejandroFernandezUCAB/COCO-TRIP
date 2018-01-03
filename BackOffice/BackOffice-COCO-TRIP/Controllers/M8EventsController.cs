@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using BackOffice_COCO_TRIP.Negocio.Comandos;
 using Newtonsoft.Json.Linq;
+using System.Web;
+using System.IO;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -56,13 +58,18 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// <param name="evento"> evento a crear</param>
     /// <returns>Vista CreateEvent</returns>
     [HttpPost]
-    public ActionResult CreateEvent(Evento evento)
+    public ActionResult CreateEvent(Evento evento, HttpPostedFileBase file)
     {
+      String ruta = Path.GetFileName(file.FileName);
+      String path = Path.Combine(Server.MapPath("~/App_Data/uploads"), ruta);
+      Directory.CreateDirectory(Server.MapPath("~/App_Data/uploads"));
+      file.SaveAs(path);
+      evento.FotoContenido=System.IO.File.ReadAllBytes(path);
+      System.IO.File.Delete(path);
       //Debe funcionar con la siguiente linea:
       evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
-      evento.Foto = "jorge";
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
-      Comando comando = FabricaComando.GetComandoInsertarEvento();
+      Comando comando = FabricaComando.GetComandoAgregarEvento();
       comando.SetPropiedad(evento);
       comando.Execute();
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
@@ -103,9 +110,9 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Edit(Evento evento)
     {
       evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
-      evento.Foto = "jorge";
+      evento.FotoContenido = null;
       evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
-      Comando comando = FabricaComando.GetComandoEditarEvento();
+      Comando comando = FabricaComando.GetComandoModificarEvento();
       comando.SetPropiedad(evento);
       comando.Execute();
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
