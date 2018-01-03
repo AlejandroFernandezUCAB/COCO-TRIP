@@ -123,9 +123,9 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
 	/// Retorna la instancia de DAOLugarTuristico_Categoria
 	/// </summary>
 	/// <returns></returns>
-	public static DAOLugarTuristico_Categoria CrearDAOLugarTuristico_Categoria()
+	public static DAOLugarTuristicoCategoria CrearDAOLugarTuristico_Categoria()
 	{
-		return new DAOLugarTuristico_Categoria();
+		return new DAOLugarTuristicoCategoria();
 	}
   }
 }

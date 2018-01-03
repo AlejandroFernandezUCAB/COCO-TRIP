@@ -51,7 +51,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
           if (grupo.ContenidoFoto != null)
           {
-            archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+            archivo.EscribirArchivo(Convert.FromBase64String(grupo.ContenidoFoto), Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
           }
 
           log.Info(JsonConvert.SerializeObject(grupo));
@@ -80,6 +80,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         log.Warn(excepcion.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        log.Warn(e.Mensaje);
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
     }
 
     public override Entidad Retornar()
@@ -92,4 +97,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
+
 }

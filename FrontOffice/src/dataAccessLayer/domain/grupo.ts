@@ -18,7 +18,7 @@ export class Grupo extends Entidad
 {
     private Nombre: string; //Nombre del grupo
     private RutaFoto: string; //Ruta de la foto
-    private ContenidoFoto: any[]; //Bytes de la foto (para cargar)
+    private ContenidoFoto: string; //Bytes de la foto (para cargar)
     private Lider: number; //ID del creador del grupo
     private CantidadIntegrantes: number; //Cantidad de miembros del grupo
 
@@ -62,7 +62,7 @@ export class Grupo extends Entidad
     /**
      * Retorna los bytes de la foto
      */
-    get getContenidoFoto() : any[]
+    get getContenidoFoto() : string
     {
         return this.ContenidoFoto;
     }
@@ -70,7 +70,7 @@ export class Grupo extends Entidad
     /**
      * Establece los bytes de la foto (para guardar en el servicio web)
      */
-    set setContenidoFoto(contenidoFoto : any[])
+    set setContenidoFoto(contenidoFoto : string)
     {
         this.ContenidoFoto = contenidoFoto;
     }

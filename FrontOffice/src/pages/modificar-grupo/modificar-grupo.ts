@@ -12,6 +12,7 @@ import { ComandoObtenerSinLider } from '../../businessLayer/commands/comandoObte
 import { ComandoEliminarIntegrante } from '../../businessLayer/commands/comandoEliminarIntegrante';
 import { ComandoModificarGrupo } from '../../businessLayer/commands/comandoModificarGrupo';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Camera, CameraOptions } from 'ionic-native';
 //****************************************************************************************************// 
 //**********************************PAGE MODIFICAR GRUPO MODULO 3*************************************//
 //****************************************************************************************************//  
@@ -55,6 +56,9 @@ export class ModificarGrupoPage
   public toast :  any;
   public myForm : any;
 
+  private base64Imagen : string; //Foto en Base64
+  private camaraOpciones : any; //Opciones de la libreria Camera
+
   public constructor
   (
     public navCtrl: NavController,
@@ -77,6 +81,17 @@ export class ModificarGrupoPage
     ({
       namegroup: ['', [Validators.required, Validators.maxLength(300)]]
     });
+
+    this.camaraOpciones = 
+    {
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: Camera.DestinationType.DATA_URL,
+      quality: 100,
+      targetWidth: 8000,
+      targetHeight: 8000,
+      encodingType: Camera.EncodingType.JPEG,      
+      correctOrientation: true
+    }
   }
 
   public loading = this.loadingCtrl.create({});
@@ -159,6 +174,16 @@ export class ModificarGrupoPage
  */
 public agregarFoto()
 {
+  Camera.getPicture(this.camaraOpciones)
+  .then
+  (
+    base64 => 
+    {
+      this.base64Imagen = base64;
+    }
+    , permisoDenegado => 
+    console.log('Acceso denegado')
+  )
 }
 
 /**
@@ -243,13 +268,29 @@ public agregarFoto()
           this.comandoModificarGrupo.IdUsuario = idUsuario;
           this.comandoModificarGrupo.IdGrupo = this.navParams.get('idGrupo');
           this.comandoModificarGrupo.Nombre = this.nombreGrupo;
+          this.comandoModificarGrupo.ContenidoFoto = this.base64Imagen;
           
           this.comandoModificarGrupo.execute()
           .then((resultado) => 
           {
             if(resultado)
             {
-              this.realizarToast(this.edited);
+              this.comandoVerPerfilGrupo.Id = this.navParams.get('idGrupo');
+
+              this.comandoVerPerfilGrupo.execute()
+              .then((resultado) => 
+              {
+                if(resultado)
+                {
+                  this.grupo = this.comandoVerPerfilGrupo.return();
+                  this.realizarToast(this.edited);
+                }
+                else
+                {
+                  this.realizarToast(Texto.ERROR);
+                }
+              })
+              .catch(() => this.realizarToast(Texto.ERROR));
             }
             else
             {

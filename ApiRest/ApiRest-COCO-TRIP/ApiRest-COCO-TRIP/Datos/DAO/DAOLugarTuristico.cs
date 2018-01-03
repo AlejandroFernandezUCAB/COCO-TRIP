@@ -59,23 +59,58 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				}
 
 				return lugaresTuristicos;
+
 			}
-			catch(NullReferenceException e)
+			catch (NullReferenceException e)
 			{
+
 				log.Error(e.Message);
 				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			catch (Exception e)
 			{
-				return null;
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			finally
 			{
-				base.Desconectar();
+				Desconectar();
 			}
 
-			
+
 		}
 
 		public override Entidad ConsultarPorId(Entidad objeto)
