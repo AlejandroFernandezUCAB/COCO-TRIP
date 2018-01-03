@@ -44,10 +44,10 @@ namespace BackOffice_COCO_TRIP.Helpers
       return MvcHtmlString.Create(dropdown.ToString(TagRenderMode.Normal));
     }
 
-      public static MvcHtmlString DropDownListLocalidadesEventos(this HtmlHelper helper, string name, IList<Localidad> list, object htmlAttributes)
-      {
+    public static MvcHtmlString DropDownListLocalidadesEventos(this HtmlHelper helper, string name, IList<Localidad> list, object htmlAttributes)
+    {
       TagBuilder dropdown = new TagBuilder("select");
-  
+
       dropdown.Attributes.Add("name", name);
       dropdown.Attributes.Add("id", name);
       StringBuilder options = new StringBuilder();

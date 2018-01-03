@@ -8,55 +8,71 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoModificarLocalidad : Comando
-  {
-    private Entidad localidad;
-    private DAO dao;
-        private Log log;
-
-    public ComandoModificarLocalidad(Entidad localidad) {
-      this.localidad = (LocalidadEvento)localidad;
-      dao = FabricaDAO.CrearDAOLocalidad();
-            log = Log.ObtenerInstancia();
-    }
-
-    public override void Ejecutar()
+    /// <summary>
+    /// Comando que modifica una localidad.
+    /// </summary>
+    public class ComandoModificarLocalidad : Comando
     {
-      try
-      { 
-          dao.Actualizar(localidad);
-                log.ApiRestInfo("ComandoModificarLocalidad","Comando Ejecutado");
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
-                log.ApiRestError("ComandoModificarLocalidad",e.Message);
-        throw e;
-        //INSERTAR EN LOG
-      }
-      catch (CasteoInvalidoExcepcion e)
-      {
-                log.ApiRestError("ComandoModificarLocalidad", e.Message);
+        private Entidad localidad;
+        private DAO dao;
+        private static Logger log;
+
+        /// <summary>
+        /// Metodo Constructor.
+        /// </summary>
+        /// <param name="localidad">instacia localidad que se desea modificar.</param>
+        public ComandoModificarLocalidad(Entidad localidad)
+        {
+            this.localidad = (LocalidadEvento)localidad;
+            dao = FabricaDAO.CrearDAOLocalidad();
+            log = LogManager.GetCurrentClassLogger();
+        }
+
+        /// <summary>
+        /// Metodo Ejecutar, realiza la logica del negocio para modificar una localidad.
+        /// </summary>
+        public override void Ejecutar()
+        {
+            try
+            {
+                dao.Actualizar(localidad);
+                log.Info("Comando Ejecutado");
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+                log.Error(e.Message);
                 throw e;
-       //INSERTAR EN LOG
-      }
-      catch (Exception e)
-      {
-                log.ApiRestError("ComandoModificarLocalidad", e.Message);
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+                log.Error(e.Message);
                 throw e;
-      }
-    }
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+        }
 
-    public override Entidad Retornar()
-    {
-      throw new NotImplementedException();
-    }
+        /// <summary>
+        /// Metodo Retornar, obtiene una entidad como resultado de la ejecucion del comando.
+        /// </summary>
+        public override Entidad Retornar()
+        {
+            throw new NotImplementedException();
+        }
 
-    public override List<Entidad> RetornarLista()
-    {
-      throw new NotImplementedException();
+        /// <summary>
+        /// Metodo Retornar Lista, obtiene una lista de entidade como resultado de la ejecucion del comando.
+        /// </summary>
+        public override List<Entidad> RetornarLista()
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }

@@ -3,6 +3,9 @@ using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using System;
+using NLog;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Comun.Validaciones;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -10,6 +13,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
   {
     DAO dao = FabricaDAO.CrearDAOCategoria();
     private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
+    private string datosCategoria;
+    private static Logger log = LogManager.GetCurrentClassLogger();
+
 
     public ComandoModificarCategoria(Entidad entidad)
     {
@@ -20,11 +26,43 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
       try
       {
+        ValidacionString.ValidarCategoria(entidad);
+        datosCategoria = " ID: "+ ((Categoria)entidad).Id + " Nombre: " + ((Categoria)entidad).Nombre;
         dao.Actualizar(entidad);
+        log.Info("Categoria nueva modificada con exito: " + datosCategoria);
       }
-      catch (Exception e)
+      catch (ParametrosInvalidosExcepcion e)
       {
-        //TERMINAR
+        log.Error(e.Mensaje);
+        throw e;
+      }
+      catch (NombreDuplicadoExcepcion e)
+      {
+          e.DatosAsociados = datosCategoria;
+          log.Error(e.Mensaje + " || " + e.DatosAsociados);
+          throw e;
+      }
+      catch (ArgumentoNuloExcepcion e) 
+      {
+          e.DatosAsociados = datosCategoria;
+          log.Error(e.Mensaje + " || " + e.DatosAsociados);
+          throw e;
+      }
+      catch (BaseDeDatosExcepcion e)
+      {
+        e.DatosAsociados = datosCategoria;
+        log.Error(e.Mensaje + " || " + e.DatosAsociados);
+        throw e;
+      }
+      catch (HijoConDePendenciaExcepcion e)
+      {
+         log.Error(e.Mensaje);
+         throw e;
+      }
+      catch (Excepcion e)
+      {
+        e.DatosAsociados = datosCategoria;
+        log.Error(e.Mensaje + " || " + e.DatosAsociados);
         throw e;
       }
     }

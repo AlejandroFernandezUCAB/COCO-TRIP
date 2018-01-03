@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Web.Http;
 using System.Net;
 using NLog;
+using System;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -39,7 +40,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
         if (grupo.ContenidoFoto != null) //Valida si el grupo tiene foto
         {
-          archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+          archivo.EscribirArchivo(Convert.FromBase64String(grupo.ContenidoFoto), Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
         }
 
         log.Info(JsonConvert.SerializeObject(grupo));
@@ -78,4 +79,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
+
 }

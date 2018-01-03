@@ -23,8 +23,6 @@ export class ComandoEliminarAmigo extends Comando
     private id : number;
     private nombreUsuario : string;
 
-    private exito: boolean;
-
     set Id(id : number)
     {
         this.id = id;
@@ -40,28 +38,23 @@ export class ComandoEliminarAmigo extends Comando
         super();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.eliminarAmigo(this.nombreUsuario, this.id)
+        return this.servicio.eliminarAmigo(this.nombreUsuario, this.id)
         .then(datos => 
         {
-            this.exito = true;
             catProd.info('EliminarAmigo exitoso. Datos: ' + datos);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de EliminarAmigo. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         throw new Error("Method not implemented.");
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

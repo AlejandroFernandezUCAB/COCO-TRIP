@@ -906,7 +906,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     public List<LugarTuristico> ConsultarListaLugarTuristico(int desde, int hasta)
     {
       var listaLugarTuristico = new List<LugarTuristico>();
-
+			
       try
       {
         comando = conexion.SqlConexion.CreateCommand();

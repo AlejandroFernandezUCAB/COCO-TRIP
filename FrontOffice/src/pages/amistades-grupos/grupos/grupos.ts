@@ -106,17 +106,21 @@ export class GruposPage
       this.storage.get('id').then((idUsuario) => 
       {
         this.comandoListaGrupos.Id = idUsuario;
-        this.comandoListaGrupos.execute();
  
-        if(this.comandoListaGrupos.isSuccess)
+        this.comandoListaGrupos.execute()
+        .then((resultado) => 
         {
-          this.grupo = this.comandoListaGrupos.return();
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
- 
+          if(resultado)
+          {
+            this.grupo = this.comandoListaGrupos.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
+
         this.loading.dismiss();
       });
     }
@@ -231,19 +235,23 @@ export class GruposPage
     {
       this.comandoVerificarLider.IdGrupo = id;
       this.comandoVerificarLider.IdUsuario = idUsuario;
-      this.comandoVerificarLider.execute();
 
-      if(this.comandoVerificarLider.isSuccess)
+      this.comandoVerificarLider.execute()
+      .then((resultado) => 
       {
-        this.navCtrl.push(ModificarGrupoPage,
+        if(resultado)
         {
-          idGrupo: id
-        });
-      }
-      else
-      {
-        this.alertaIntegrante();
-      }
+          this.navCtrl.push(ModificarGrupoPage,
+          {
+            idGrupo: id
+          });
+        }
+        else
+        {
+          this.alertaIntegrante();
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
     }); 
   } 
 
@@ -292,14 +300,12 @@ export class GruposPage
   public eliminarGrupo(id, index) 
   {
     this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
-    this.translateService.get(Texto.MENSAJE_ELIMINAR_GRUPO).subscribe(value => {this.message = value;})
     this.translateService.get(Texto.CANCELAR).subscribe(value => {this.cancel = value;})
     this.translateService.get(Texto.ACEPTAR).subscribe(value => {this.accept = value;})
     this.translateService.get(Texto.EXITO_ELIMINAR_GRUPO).subscribe(value => {this.succesful = value;})
     const alert = this.alertCtrl.create
     ({
       title: this.title,
-      message:this.message,
       buttons: [
         {
           text: this.cancel,
@@ -312,23 +318,25 @@ export class GruposPage
           {
               this.storage.get('id').then((idUsuario) => 
               {
-                console.log('El id del usuario es ' + idUsuario);
-
                 this.comandoSalirGrupo.IdGrupo = id;
                 this.comandoSalirGrupo.IdUsuario = idUsuario;
-                this.comandoSalirGrupo.execute();
           
-                if(this.comandoSalirGrupo.isSuccess)
+                this.comandoSalirGrupo.execute()
+                .then((resultado) => 
                 {
-                  this.realizarToast(this.succesful);
-                  this.eliminarGrupos(id, index);
-                }
-                else
-                {
-                  this.realizarToast(Texto.ERROR);
-                }
+                  if(resultado)
+                  {
+                    this.realizarToast(this.succesful);
+                    this.eliminarGrupos(id, index);
+                  }
+                  else
+                  {
+                    this.realizarToast(Texto.ERROR);
+                  }
+                })
+                .catch(() => this.realizarToast(Texto.ERROR));
 
-                  this.delete = false;
+                this.delete = false;
               });
             }
           }
@@ -360,4 +368,5 @@ export class GruposPage
       idGrupo: id
     });
   }
+  
 }

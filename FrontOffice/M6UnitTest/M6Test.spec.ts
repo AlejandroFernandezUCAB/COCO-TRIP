@@ -235,10 +235,10 @@ describe("Test for ChatProvider.eliminarMensajeAmigo", ()=>{
         chat = ChatProvider.obtenerInstancia(events);
         let respuesta:boolean;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId=key;
+        mensaje.setFireId= key ;
         respuesta = DAO.eliminar(mensaje);
         firebase.database().ref('/chatAmigo')
-        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("mensaje eliminado").toEqual(temp.mensaje);
@@ -261,10 +261,10 @@ describe("Test for ChatProvider.eliminarMensajeGrupo", ()=>{
         events = new Events;
         chat = ChatProvider.obtenerInstancia(events);
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        mensaje.setId=key;
+        mensaje.setFireId=key;
         respuesta = DAO.eliminarMensajeGrupo(mensaje);
         firebase.database().ref('/chatGrupo')
-        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("mensaje eliminado").toEqual(temp.mensaje);
@@ -331,13 +331,13 @@ describe("Test for ChatProvider.obtenerInfoMensajeAmigo", ()=>{
     it("should return a message with hola", ()=>{
         var str : String;
         let mensaje = new Mensaje("hola", "usuarioTest", "usuarioTest2", 0,"","",false);
-        mensaje.setId="-1";
+        mensaje.setFireId="-1n";
         let chat : ChatProvider;
         let evento : Events;
         evento = new Events;
         chat = ChatProvider.obtenerInstancia(evento);
         str = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario, mensaje.getAmigo,mensaje.getId);
+        chat.obtenerInfoMensajeAmigo(mensaje.getUsuario, mensaje.getAmigo,mensaje.getFireId);
         
         evento.subscribe('infoMensaje', (Mensajes) => {
         expect("hola").toEqual(Mensajes.getMensaje);
@@ -430,7 +430,7 @@ describe("Test for ComandoCrearMensaje.execute", ()=>{
         let entidad,respuesta : Entidad;
         comando.setEntidad = mensaje;
         comando.execute();
-        key = comando.getEntidad.getId;
+        key = comando.getEntidad.getFireId;
         firebase.database().ref('/chatAmigo')
         .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string> key).on('value', 
         (snapshot) =>{
@@ -453,7 +453,7 @@ describe("Test for ComandoCrearMensajeGrupo.execute", ()=>{
         let entidad,respuesta : Entidad;
         comando.setEntidad = mensaje;
         comando.execute();
-        key = comando.getEntidad.getId;
+        key = comando.getEntidad.getFireId;
         firebase.database().ref('/chatGrupo')
         .child(mensaje.getidGrupo.toString()).child(<string> key).on('value', 
         (snapshot) =>{
@@ -475,13 +475,13 @@ describe("Test for ComandoEliminarMensaje.execute", ()=>{
         let entidad : Entidad;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         comando.setEntidad = mensaje;
         comando.execute();
         respuesta = comando.getRespuesta;
 
         firebase.database().ref('/chatAmigo')
-        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("mensaje eliminado").toEqual(temp.mensaje);
@@ -503,13 +503,13 @@ describe("Test for ComandoEliminarMensajeGrupo.execute", ()=>{
         let entidad : Entidad;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         comando.setEntidad = mensaje;
         comando.execute();
         respuesta = comando.getRespuesta;
 
         firebase.database().ref('/chatGrupo')
-        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("mensaje eliminado").toEqual(temp.mensaje);
@@ -579,7 +579,7 @@ describe("Test for ComandoModificarMensaje.execute", ()=>{
         let entidad : Entidad;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         mensaje.setMensaje = "nuevo mensaje";
         comando.setEntidad = mensaje;
         comando.execute();
@@ -606,7 +606,7 @@ describe("Test for ComandoModificarMensajeGrupo.execute", ()=>{
         let entidad : Entidad;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         mensaje.setMensaje = "nuevo mensaje";
         comando.setEntidad = mensaje;
         comando.execute();
@@ -626,7 +626,7 @@ describe("Test for ComandoModificarMensajeGrupo.execute", ()=>{
 describe("Test for ComandoInformacionMensajeAmigo.execute", ()=>{
     it("should return a message", ()=>{
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2", 0,"","",false);
-        mensaje.setId="-1";
+        mensaje.setFireId="-1";
         let events : Events = new Events;
         let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let comando : ComandoInformacionMensajeAmigo = new ComandoInformacionMensajeAmigo;
@@ -647,7 +647,7 @@ describe("Test for ComandoInformacionMensajeAmigo.execute", ()=>{
 describe("Test for ComandoInformacionMensajeGrupo.execute", ()=>{
     it("should return a message", ()=>{
         let mensaje : Mensaje = new Mensaje("MensajePruebaComando", "usuarioTest", "usuarioTest2",-1,"","",false);
-        mensaje.setId="-1";
+        mensaje.setFireId="-1";
         let events : Events = new Events;
         let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let comando : ComandoInformacionMensajeGrupo = new ComandoInformacionMensajeGrupo;
@@ -683,7 +683,7 @@ describe("Test for DAO.agregar", ()=>{
         let entidad,respuesta : Entidad;
         respuesta = DAO.agregar(mensaje);
         firebase.database().ref('/chatAmigo')
-        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string> respuesta.getId).on('value', 
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string> respuesta.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("MensajePruebaDAO").toEqual(temp.mensaje);
@@ -705,7 +705,7 @@ describe("Test for DAO.agregarMensajeGrupo", ()=>{
         let entidad,respuesta : Entidad;
         respuesta = DAO.agregarMensajeGrupo(mensaje);
         firebase.database().ref('/chatGrupo')
-        .child(mensaje.getidGrupo.toString()).child(<string> respuesta.getId).on('value', 
+        .child(mensaje.getidGrupo.toString()).child(<string> respuesta.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("MensajePruebaDAO").toEqual(temp.mensaje);
@@ -726,11 +726,11 @@ describe("Test for DAO.eliminar", ()=>{
         let respuesta : Boolean = false;
         //let entidad : Entidad;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         respuesta = DAO.eliminar(mensaje);
 
         firebase.database().ref('/chatAmigo')
-        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("mensaje eliminado").toEqual(temp.mensaje);
@@ -752,11 +752,11 @@ describe("Test for DAO.eliminarMensajeGrupo", ()=>{
         let respuesta : Boolean = false;
         //let entidad : Entidad;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         DAO.eliminarMensajeGrupo(mensaje);
 
         firebase.database().ref('/chatGrupo')
-        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("mensaje eliminado").toEqual(temp.mensaje);
@@ -776,10 +776,10 @@ describe("Test for DAO.modificar", ()=>{
         let DAO : DAO = new DAOChat;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeAmigo(mensaje.getMensaje,mensaje.getUsuario,mensaje.getAmigo);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         respuesta = DAO.modificar(mensaje);
         firebase.database().ref('/chatAmigo')
-        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getId).on('value', 
+        .child(mensaje.getUsuario).child(mensaje.getAmigo).child(<string>mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("(modificado): MensajePruebaDAO").toEqual(temp.mensaje);
@@ -800,10 +800,10 @@ describe("Test for DAO.modificarMensajeGrupo", ()=>{
         let DAO : DAOChat = new DAOChat;
         let respuesta : Boolean = false;
         key = chat.agregarNuevoMensajeGrupo(mensaje.getMensaje,mensaje.getidGrupo,mensaje.getUsuario);
-        mensaje.setId = key;
+        mensaje.setFireId = key;
         respuesta = DAO.modificarMensajeGrupo(mensaje);
         firebase.database().ref('/chatGrupo')
-        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getId).on('value', 
+        .child(mensaje.getidGrupo.toString()).child(<string> mensaje.getFireId).on('value', 
         (snapshot) =>{
             var temp = snapshot.val();
             expect("(modificado): MensajePruebaDAO").toEqual(temp.mensaje);
@@ -814,7 +814,7 @@ describe("Test for DAO.modificarMensajeGrupo", ()=>{
 describe("Test for DAO.informacionMensajeAmigo", ()=>{
     it("should return an X", ()=>{
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", 0,"","",false);
-        mensaje.setId="-1";
+        mensaje.setFireId="-1";
         let events : Events = new Events;
         let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;
@@ -830,7 +830,7 @@ describe("Test for DAO.informacionMensajeAmigo", ()=>{
 describe("Test for DAO.informacionMensajeGrupo", ()=>{
     it("should return an X", ()=>{
         let mensaje = new Mensaje("MensajePruebaDAO", "usuarioTest", "usuarioTest2", -1,"","",false);
-        mensaje.setId="-1";
+        mensaje.setFireId="-1";
         let events : Events = new Events;
         let chat : ChatProvider = ChatProvider.obtenerInstancia(events)
         let DAO : DAOChat = new DAOChat;

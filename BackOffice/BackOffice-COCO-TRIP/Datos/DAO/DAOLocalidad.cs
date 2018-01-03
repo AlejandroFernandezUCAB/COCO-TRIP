@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -10,11 +9,20 @@ using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
+
+  /// <summary>
+  /// Clase que realiza el CRUD de la entidad Localidad
+  /// </summary>
   public class DAOLocalidad : DAO<JObject, Entidad>, IDAOLocalidad
   {
     private const string ControllerUri = "M8_LocalidadEvento";
     private JObject responseData;
 
+    /// <summary>
+    /// Método Delete, elimina una localidad dado su id.
+    /// </summary>
+    /// <param name="id">Identificador único de la localidad</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Delete(int id)
     {
       try
@@ -98,6 +106,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método Get, consulta una localidad dado su id.
+    /// </summary>
+    /// <param name="id">Identificador único de la localidad</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Get(int id)
     {
       try
@@ -181,6 +194,10 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método GetAll, consulta todas las localidades.
+    /// </summary>
+    /// <returns>JSON de la respuesta del WS</returns>
     public JObject GetAll()
     {
       try
@@ -264,11 +281,21 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método Patch.
+    /// </summary>
+    /// <param name="data">Entidad</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Método Post, agrega una Localidad.
+    /// </summary>
+    /// <param name="data">Entidad localidad a agregar</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Post(Entidad data)
     {
       try
@@ -279,12 +306,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
           {
-            
+
             { "nombre", ((Localidad)data).Nombre },
             { "descripcion", ((Localidad)data).Descripcion },
              { "coordenadas", ((Localidad)data).Coordenadas }
-              
-              
+
+
           };
           var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarLocalidadEvento", jsonData);
           responseTask.Wait();
@@ -362,6 +389,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Método Put, actualiza una Localidad.
+    /// </summary>
+    /// <param name="data">Entidad localidad a actualizar</param>
+    /// <returns>JSON de la respuesta del WS</returns>
     public override JObject Put(Entidad data)
     {
       try

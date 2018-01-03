@@ -62,7 +62,7 @@ export class InformacionMensajeGrupoPage {
     catProd.info("Entrando en el metodo ionViewDidEnter de informacion-mensaje-grupo");
     let entidad: Mensaje;
     entidad = new Mensaje("","","",this.Mensajerec.idgrupo,"","",false);
-    entidad.Id=this.Mensajerec.idmensaje;
+    entidad.setFireId=this.Mensajerec.idmensaje;
     let comando = FabricaComando.crearComandoInformacionMensajeGrupo();
     comando.setEntidad = entidad;
     comando.setEvents = this.events;

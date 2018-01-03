@@ -13,6 +13,22 @@ import { ComandoVerPerfil } from '../commands/comandoVerPerfil';
 import { Storage } from '@ionic/storage';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 
+import { ComandoAgregarAmigo } from '../commands/comandoAgregarAmigo';
+import {ComandoAgregarItinerario} from "../commands/comandoAgregarItinerario";
+import { ComandoEliminarItinerario } from '../commands/comandoEliminarItinerario';
+import { ComandoEliminarItemItinerario } from '../commands/comandoEliminarItemItinerario';
+import { ComandoModificarItinerario } from '../commands/comandoModificarItinerario';
+import { ComandoVerItem } from '../commands/comandoVerItem';
+import { ComandoGetNotificacionesConfig } from '../commands/comandoGetNotificacionesConfig';
+import { ComandoConsultarEventos } from '../commands/comandoConsultarEventos';
+import { ComandoConsultarActividades } from '../commands/comandoConsultarActividades';
+import { ComandoConsultarLugarTuristico } from '../commands/comandoConsultarLugarTuristico';
+import { ComandoAgregarItemItinerario } from '../commands/comandoAgregarItemItinerario';
+import { ComandoModificarNotificacionCorreo } from '../commands/comandoModificarNotificacionCorreo';
+import { ComandoSetVisibleNotificacion } from '../commands/comandoSetVisibleNotificacion';
+import { ComandoConsultarItinerarios } from '../commands/comandoConsultarItinerarios';
+import { Itinerario } from '../../dataAccessLayer/domain/itinerario';
+import { DateTime } from 'ionic-angular/components/datetime/datetime';
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 6*************************************//
 //****************************************************************************************************//
@@ -126,5 +142,134 @@ export class FabricaComando{
     public static crearComandoVerPerfil(entidad : Entidad, storage : Storage, translate, restapi)
     {
         return new ComandoVerPerfil(entidad, storage, translate, restapi);
+    }
+
+    /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoAgregarItinerario
+ * 
+ */
+public static crearComandoAgregarItinerario(itinerario : Itinerario){
+    catProd.info("Entrando en el metodo ComandoAgregarItinerario de fabricaComando");    
+        return new ComandoAgregarItinerario(itinerario);
+    }
+
+        /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoEliminarItinerario
+ * 
+ */
+public static crearComandoEliminarItinerario(idIt :number){
+    catProd.info("Entrando en el metodo ComandoEliminarItinerario de fabricaComando");    
+        return new ComandoEliminarItinerario(idIt);
+    }
+        /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoEliminarItemItinerario
+ * 
+ */
+public static crearComandoEliminarItemItinerario(tipo:string,idIT:number,idItem:number){
+    catProd.info("Entrando en el metodo ComandoEliminarItemItinerario de fabricaComando");    
+        return new ComandoEliminarItemItinerario(tipo,idIT,idItem);
+    }
+
+        /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoModificarItinerario
+ * 
+ */
+public static crearComandoModificarItinerario(itinerario:Itinerario){
+    catProd.info("Entrando en el metodo ComandoModificarItinerario de fabricaComando");    
+        return new ComandoModificarItinerario(itinerario);
+    }
+
+            /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoVerItem
+ * 
+ */
+public static crearComandoVerItem(idItem : number,tipo : string){
+    catProd.info("Entrando en el metodo ComandoVerItem de fabricaComando");    
+        return new ComandoVerItem(idItem,tipo);
+    }
+            /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoGetNotificacionesConfig
+ * 
+ */
+public static crearComandoGetNotificacionesConfig(idUsuario:number){
+    catProd.info("Entrando en el metodo ComandoGetNotificacionesConfig de fabricaComando");    
+        return new ComandoGetNotificacionesConfig(idUsuario);
+    }
+
+                /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoConsultarEventos
+ * 
+ */
+public static crearComandoConsultarEventos(nombre:string,fechai:DateTime,fechaf:DateTime){
+    catProd.info("Entrando en el metodo ComandoConsultarEventos de fabricaComando");    
+        return new ComandoConsultarEventos(nombre,fechai,fechaf);
+    }
+
+                    /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoConsultarActividades
+ * 
+ */
+public static crearComandoConsultarActividades(nombre:string){
+    catProd.info("Entrando en el metodo ComandoConsultarActividades de fabricaComando");    
+        return new ComandoConsultarActividades(nombre);
+    }
+
+                    /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoConsultarLugarTuristico
+ * 
+ */
+public static crearComandoConsultarLugarTuristico(nombre:string){
+    catProd.info("Entrando en el metodo ComandoConsultarLugarTuristico de fabricaComando");    
+        return new ComandoConsultarLugarTuristico(nombre);
+    }
+
+                        /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoAgregarItemItinerario
+ * 
+ */
+public static crearComandoAgregarItemItinerario(tipo:string,idIt:number,itemId:number,fechai:DateTime,
+    fechaf:DateTime){
+    catProd.info("Entrando en el metodo ComandoAgregarItemItinerario de fabricaComando");    
+        return new ComandoAgregarItemItinerario(tipo,idIt,itemId,fechai,fechaf);
+    }
+
+                            /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoModificarNotificacionCorreo
+ * 
+ */
+public static crearComandoModificarNotificacionCorreo(idUsuario :number,valor){
+    catProd.info("Entrando en el metodo ComandoModificarNotificacionCorreo de fabricaComando");    
+        return new ComandoModificarNotificacionCorreo(idUsuario,valor);
+    }
+
+                                /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoSetVisibleNotificacion
+ * 
+ */
+public static crearComandoSetVisibleNotificacion(idUsuario:number,idIt:number,visible:boolean){
+    catProd.info("Entrando en el metodo ComandoSetVisibleNotificacion de fabricaComando");    
+        return new ComandoSetVisibleNotificacion(idUsuario,idIt,visible);
+    }
+
+                            /**
+ * Descripcion del metodo:
+ * Metodo que se encarga de instanciar ComandoConsultarItinerarios
+ * 
+ */
+public static ComandoConsultarItinerarios(idUsuario:number){
+    catProd.info("Entrando en el metodo ComandoConsultarItinerarios de fabricaComando");    
+        return new ComandoConsultarItinerarios(idUsuario);
     }
 }

@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
 
 /**
  * Autores:
@@ -22,9 +23,8 @@ import { ConfiguracionImages } from '../../pages/constantes/configImages';
 export class ComandoVerPerfilGrupo extends Comando
 {
     private id : number;
-
-    private exito: boolean;
-    private grupo = new Array();
+    
+    private grupo : Array<Grupo>;
 
     set Id(id : number)
     {
@@ -34,15 +34,17 @@ export class ComandoVerPerfilGrupo extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.grupo = Array<Grupo>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.verPerfilGrupo(this.id)
+        return this.servicio.verPerfilGrupo(this.id)
         .then(datos => 
         {
             let grupo : any = datos;
-
+            
             if(grupo.RutaFoto == undefined)
             {
               grupo.RutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
@@ -59,23 +61,18 @@ export class ComandoVerPerfilGrupo extends Comando
 
             this.grupo.push(grupo);
             
-            this.exito = true;
             catProd.info('VerPerfilGrupo exitoso. Datos: ' + this.grupo);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de VerPerfilGrupo. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.grupo;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

@@ -30,9 +30,5 @@ export abstract class Comando
      * Retorna el resultado de la ejecucion
      */
     public abstract return(): any;
-
-    /**
-     * Retorna el estado final de la ejecucion
-     */
-    public abstract isSuccess(): boolean;
+    
 }

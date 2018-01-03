@@ -82,5 +82,50 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new DAONotificacion();
     }
+
+	/// <summary>
+	/// Retorna la instancia de DAOActividad
+	/// </summary>
+	/// <returns></returns>
+	public static DAOActividad CrearDAOActividad()
+	{
+		return new DAOActividad();
+	}
+
+	/// <summary>
+	/// Retorna la instancia de DAOHorario
+	/// </summary>
+	/// <returns></returns>
+	public static DAOHorario CrearDAOHorario()
+	{
+		return new DAOHorario();
+	}
+
+	/// <summary>
+	/// Retorna la instancia de DAOLugarTuristico
+	/// </summary>
+	/// <returns></returns>
+	public static DAOLugarTuristico CrearDAOLugarTuristico()
+	{
+		return new DAOLugarTuristico();
+	}
+	
+	/// <summary>
+	/// Retorna la instancia de DAOFoto
+	/// </summary>
+	/// <returns></returns>
+	public static DAOFoto CrearDAOFoto() 
+	{
+		return new DAOFoto();
+	}
+
+	/// <summary>
+	/// Retorna la instancia de DAOLugarTuristico_Categoria
+	/// </summary>
+	/// <returns></returns>
+	public static DAOLugarTuristicoCategoria CrearDAOLugarTuristico_Categoria()
+	{
+		return new DAOLugarTuristicoCategoria();
+	}
   }
 }

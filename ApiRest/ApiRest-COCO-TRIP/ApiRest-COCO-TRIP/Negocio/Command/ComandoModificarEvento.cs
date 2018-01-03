@@ -7,61 +7,78 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoModificarEvento : Comando
-  {
-    private Entidad evento;
-    private DAO dao;
-        private Log log;
-
-    public  ComandoModificarEvento(Entidad evento)
+    /// <summary>
+    /// Comando que permite modificar un evento.
+    /// </summary>
+    public class ComandoModificarEvento : Comando
     {
-      this.evento = evento;
-      dao = FabricaDAO.CrearDAOEvento();
-            log = Log.ObtenerInstancia();
+        private Entidad evento;
+        private DAO dao;
+        private static Logger log;
 
-    }
+        /// <summary>
+        /// Metodo Constructor.
+        /// </summary>
+        /// <param name="evento">instacia evento que se desea modificar.</param>
+        public ComandoModificarEvento(Entidad evento)
+        {
+            this.evento = evento;
+            dao = FabricaDAO.CrearDAOEvento();
+            log = LogManager.GetCurrentClassLogger();
 
-    public override void Ejecutar()
-    {
-      try {
-        dao.Actualizar(evento);
-                log.ApiRestInfo("ComandoModificarEvento","Ejecutado el comando");
-      }
-      catch (BaseDeDatosExcepcion e)
-      {
-        throw e;
-        //INSERTAR EN LOG
-      }
-      catch (CasteoInvalidoExcepcion e)
-      {
-                log.ApiRestError("ComandoModificarEvento",e.Message);
-        throw e;
-        //INSERTAR EN LOG
-      }
-      catch (OperacionInvalidaException e)
-      {
-                log.ApiRestError("ComandoModificarEvento", e.Message);
+        }
+
+        /// <summary>
+        /// Metodo Ejecutar, realiza la logica del negocio para modificar un evento.
+        /// </summary>
+        public override void Ejecutar()
+        {
+            try
+            {
+                dao.Actualizar(evento);
+                log.Info("Ejecutado el comando");
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+                log.Error(e.Message);
                 throw e;
-        //INSERTAR EN LOG
-      }
-      catch (Exception e)
-      {
-                log.ApiRestError("ComandoModificarEvento", e.Message);
+
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+                log.Error(e.Message);
                 throw e;
-      }
-    }
+            }
+                catch (OperacionInvalidaExcepcion e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                throw e;
+            }
+        }
 
-    public override Entidad Retornar()
-    {
-      throw new NotImplementedException();
-    }
+        /// <summary>
+        /// Metodo Retornar, obtiene una entidad como resultado de la ejecucion del comando.
+        /// </summary>
+        public override Entidad Retornar()
+        {
+            throw new NotImplementedException();
+        }
 
-    public override List<Entidad> RetornarLista()
-    {
-      throw new NotImplementedException();
+        /// <summary>
+        /// Metodo Retornar Lista, obtiene una lista de entidade como resultado de la ejecucion del comando.
+        /// </summary>
+        public override List<Entidad> RetornarLista()
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }

@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
-import { ConfiguracionImages } from '../constantes/configImages';
 import { ComandoListaAmigos } from '../../businessLayer/commands/comandoListaAmigos';
 import { ComandoAgregarIntegrante } from '../../businessLayer/commands/comandoAgregarIntegrante';
 
@@ -94,19 +93,21 @@ export class CrearGrupoPage
 
     this.storage.get('id').then((idUsuario) => 
     {
-        console.log('El id del usuario es: ' + idUsuario);
-        
         this.comandoListaAmigos.Id = idUsuario;
-        this.comandoListaAmigos.execute();
 
-        if(this.comandoListaAmigos.isSuccess)
+        this.comandoListaAmigos.execute()
+        .then((resultado) => 
         {
-          this.amigo = this.comandoListaAmigos.return();
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+          if(resultado)
+          {
+            this.amigo = this.comandoListaAmigos.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
     });
@@ -136,7 +137,7 @@ export class CrearGrupoPage
  * @param evento evento
  * @param nombreUsuario Nombre del usuario a ser agregado
  */
-  public agregarIntegrantes(evento, nombreUsuario)
+  public agregarIntegrantes(evento, nombreUsuario, index)
   {
     this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
     this.translateService.get(Texto.MENSAJE_AGREGAR_INTEGRANTE).subscribe(value => {this.message = value;})
@@ -163,16 +164,21 @@ export class CrearGrupoPage
           {
             this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
             this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
-            this.comandoAgregarIntegrante.execute();
 
-            if(this.comandoAgregarIntegrante.isSuccess)
+            this.comandoAgregarIntegrante.execute()
+            .then((resultado) => 
             {
-              this.realizarToast(this.succesful);
-            }
-            else
-            {
-              this.realizarToast(Texto.ERROR);
-            }
+              if(resultado)
+              {
+                this.amigo.splice(index, 1);
+                this.realizarToast(this.succesful)
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
         }
       ]
@@ -190,5 +196,4 @@ export class CrearGrupoPage
     this.realizarToast(this.succesful);
     this.navCtrl.popToRoot();
   }
-  
 }

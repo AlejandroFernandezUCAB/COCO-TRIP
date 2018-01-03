@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -24,9 +25,7 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     private idUsuario : number;
     private idGrupo : number;
 
-    private listaUsuarios = new Array();
-
-    private exito: boolean;
+    private listaUsuarios : Array<Usuario>;
 
     set IdUsuario(id : number)
     {
@@ -41,11 +40,13 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaUsuarios = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.obtenerMiembrosSinGrupo(this.idUsuario, this.idGrupo)
+        return this.servicio.obtenerMiembrosSinGrupo(this.idUsuario, this.idGrupo)
         .then(datos => 
         {
             let lista : any = datos;
@@ -74,23 +75,18 @@ export class ComandoObtenerMiembrosSinGrupo extends Comando
                 this.listaUsuarios.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('MiembrosSinGrupo exitoso. Datos: ' + this.listaUsuarios);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de MiembrosSinGrupo. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.listaUsuarios;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

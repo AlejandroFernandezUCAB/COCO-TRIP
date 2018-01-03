@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController} from 'ionic-angular';
 import { ModificarGrupoPage } from '../modificar-grupo/modificar-grupo';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
@@ -93,21 +93,23 @@ export class NuevosIntegrantesPage
       this.cargando();
 
       this.storage.get('id').then((idUsuario) => 
-      {
-        console.log('El id del usuario es: ', idUsuario);
-        
+      {        
         this.comandoObtenerMiembrosSinGrupo.IdUsuario = idUsuario;
         this.comandoObtenerMiembrosSinGrupo.IdGrupo = this.navParams.get('idGrupo');
-        this.comandoObtenerMiembrosSinGrupo.execute();
 
-        if(this.comandoObtenerMiembrosSinGrupo.isSuccess)
+        this.comandoObtenerMiembrosSinGrupo.execute()
+        .then((resultado) => 
         {
-          this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
-        }
-        else
-        {
-          this.realizarToast(Texto.ERROR);
-        }
+          if(resultado)
+          {
+            this.amigo = this.comandoObtenerMiembrosSinGrupo.return();
+          }
+          else
+          {
+            this.realizarToast(Texto.ERROR);
+          }
+        })
+        .catch(() => this.realizarToast(Texto.ERROR));
 
         this.loading.dismiss();
       });
@@ -137,7 +139,7 @@ export class NuevosIntegrantesPage
  * @param evento evento
  * @param nombreUsuario Nombre del usuario a agregar
  */
-  public agregarIntegrantes(evento, nombreUsuario)
+  public agregarIntegrantes(evento, nombreUsuario, index)
   {
     this.translateService.get(Texto.TITULO).subscribe(value => {this.title = value;})
     this.translateService.get(Texto.MENSAJE_AGREGAR_INTEGRANTE).subscribe(value => {this.message = value;})
@@ -161,21 +163,25 @@ export class NuevosIntegrantesPage
           {
             this.comandoAgregarIntegrante.IdGrupo = this.navParams.get('idGrupo');
             this.comandoAgregarIntegrante.NombreUsuario = nombreUsuario;
-            this.comandoAgregarIntegrante.execute();
 
-            if(this.comandoAgregarIntegrante.isSuccess)
+            this.comandoAgregarIntegrante.execute()
+            .then((resultado) => 
             {
-              this.realizarToast(this.succesful);
-            }
-            else
-            {
-              this.realizarToast(Texto.ERROR);
-            }
+              if(resultado)
+              {
+                this.amigo.splice(index, 1);
+                this.realizarToast(this.succesful);
+              }
+              else
+              {
+                this.realizarToast(Texto.ERROR);
+              }
+            })
+            .catch(() => this.realizarToast(Texto.ERROR));
           }
         }
       ]
     });
       alert.present();
  }
- 
 }

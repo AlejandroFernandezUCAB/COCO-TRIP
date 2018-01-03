@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -23,8 +24,7 @@ export class ComandoObtenerLider extends Comando
 {
     private id : number;
 
-    private exito: boolean;
-    private usuario = new Array();
+    private usuario : Array<Usuario>;
 
     set Id(id : number)
     {
@@ -34,11 +34,13 @@ export class ComandoObtenerLider extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.usuario = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.obtenerLider(this.id)
+        return this.servicio.obtenerLider(this.id)
         .then(datos => 
         {
             let usuario : any = datos;
@@ -59,23 +61,18 @@ export class ComandoObtenerLider extends Comando
 
             this.usuario.push(usuario);
 
-            this.exito = true;
             catProd.info('ObtenerLider exitoso. Datos: ' + this.usuario);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ObtenerLider. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.usuario;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }

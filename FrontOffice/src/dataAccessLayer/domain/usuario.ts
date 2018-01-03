@@ -17,15 +17,15 @@ import { DateTime } from 'ionic-angular/components/datetime/datetime';
  */
 export class Usuario extends Entidad
 {
-    private nombreUsuario: string;
-    private nombre: string;
-    private apellido: string;
-    private correo: string;
-    private foto: string;
-    private genero: string;
-    private clave: string;
-    private valido: boolean;
-    private fechaNacimiento: DateTime;
+    private NombreUsuario: string;
+    private Nombre: string;
+    private Apellido: string;
+    private Correo: string;
+    private Foto: string;
+    private Genero: string;
+    private Clave: string;
+    private Valido: boolean;
+    private FechaNacimiento: DateTime;
 
     constructor () //Por ahora vacio
     {
@@ -35,144 +35,144 @@ export class Usuario extends Entidad
     /**
      * Retorna el nombre de usuario
      */
-    get NombreUsuario() : string 
+    get getNombreUsuario() : string 
     {
-        return this.nombreUsuario;
+        return this.NombreUsuario;
     }
 
     /**
      * Establece el nombre de usuario
      */
-    set NombreUsuario(nombreUsuario : string) 
+    set setNombreUsuario(nombreUsuario : string) 
     {
-        this.nombreUsuario = nombreUsuario;
+        this.NombreUsuario = nombreUsuario;
     }
     
     /**
      * Retorna el nombre
      */
-    get Nombre() : string 
+    get getNombre() : string 
     {
-        return this.nombre;
+        return this.Nombre;
     }
 
     /**
      * Establece el nombre
      */
-    set Nombre(nombre : string) 
+    set setNombre(nombre : string) 
     {
-        this.nombre = nombre;
+        this.Nombre = nombre;
     }
 
     /**
      * Retorna el apellido
      */
-    get Apellido() : string 
+    get getApellido() : string 
     {
-        return this.apellido;
+        return this.Apellido;
     }
 
     /**
      * Establece el apellido
      */
-    set Apellido(apellido : string) 
+    set setApellido(apellido : string) 
     {
-        this.apellido = apellido;
+        this.Apellido = apellido;
     }
 
     /**
      * Retorna el correo
      */
-    get Correo() : string 
+    get getCorreo() : string 
     {
-        return this.correo;
+        return this.Correo;
     }
 
     /**
      * Establece el correo
      */
-    set Correo(correo : string) 
+    set setCorreo(correo : string) 
     {
-        this.correo = correo;
+        this.Correo = correo;
     }
 
     /**
      * Retorna la ruta de la foto
      */
-    get Foto() : string 
+    get getFoto() : string 
     {
-        return this.foto;
+        return this.Foto;
     }
 
     /**
      * Establece el apellido
      */
-    set Foto(foto : string)
+    set setFoto(foto : string)
     {
-        this.foto = foto;
+        this.Foto = foto;
     }
 
     /**
      * Retorna el genero del usuario
      */
-    get Genero() : string 
+    get getGenero() : string 
     {
-        return this.genero;
+        return this.Genero;
     }
 
     /**
      * Establece el genero del usuario
      */
-    set Genero(genero : string)
+    set setGenero(genero : string)
     {
-        this.genero = genero;
+        this.Genero = genero;
     }
 
     /**
      * Retorna la clave del usuario
      */
-    get Clave() : string 
+    get getClave() : string 
     {
-        return this.clave;
+        return this.Clave;
     }
 
     /**
      * Establece la clave del usuario
      */
-    set Clave(clave : string)
+    set setClave(clave : string)
     {
-        this.clave = clave;
+        this.Clave = clave;
     }
 
     /**
      * Retorna la confirmacion del usuario
      */
-    get Valido() : boolean
+    get getValido() : boolean
     {
-        return this.valido;
+        return this.Valido;
     }
 
     /**
      * Establece la confirmacion del usuario
      */
-    set Valido(valido : boolean)
+    set setValido(valido : boolean)
     {
-        this.valido = valido;
+        this.Valido = valido;
     }
 
     /**
      * Retorna la fecha de nacimiento del usuario
      */
-    get FechaNacimiento() : DateTime
+    get getFechaNacimiento() : DateTime
     {
-        return this.fechaNacimiento;
+        return this.FechaNacimiento;
     }
 
     /**
      * Establece la fecha de nacimiento del usuario
      */
-    set FechaNacimiento(fechaNacimiento : DateTime)
+    set setFechaNacimiento(fechaNacimiento : DateTime)
     {
-        this.fechaNacimiento = fechaNacimiento;
+        this.FechaNacimiento = fechaNacimiento;
     }
 }

@@ -102,7 +102,7 @@ namespace ApiRestPruebas.M8
 
       localidad = FabricaEntidad.CrearEntidadLocalidad();
 
-        Assert.Throws<OperacionInvalidaException>(() => {
+        Assert.Throws<OperacionInvalidaExcepcion>(() => {
           dao.ConsultarPorId(localidad);
         });
 
@@ -206,13 +206,13 @@ namespace ApiRestPruebas.M8
       localidad.Id = 0;
       comando = FabricaComando.CrearComandoConsultarLocalidad(localidad.Id);
 
-      Assert.Throws<OperacionInvalidaException>(() => {
+      Assert.Throws<OperacionInvalidaExcepcion>(() => {
         comando.Ejecutar();
       });
 
       localidad = FabricaEntidad.CrearEntidadLocalidad();
       comando = FabricaComando.CrearComandoConsultarLocalidad(localidad.Id);
-      Assert.Throws<OperacionInvalidaException>(() => {
+      Assert.Throws<OperacionInvalidaExcepcion>(() => {
         comando.Ejecutar();
       });
 

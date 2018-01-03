@@ -3,6 +3,7 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { catProd, catService, catErr } from '../../logs/config';
 import { Injectable } from '@angular/core';
 import { ConfiguracionImages } from '../../pages/constantes/configImages';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Autores:
@@ -23,8 +24,7 @@ export class ComandoListaMiembroGrupo extends Comando
 {
     private id : number;
 
-    private exito: boolean;
-    private listaMiembros = new Array();
+    private listaMiembros : Array<Usuario>;
 
     set Id(id : number)
     {
@@ -34,11 +34,13 @@ export class ComandoListaMiembroGrupo extends Comando
     public constructor(private servicio: RestapiService)
     {
         super();
+
+        this.listaMiembros = new Array<Usuario>();
     }
 
-    public execute(): void 
+    public execute()
     {
-        this.servicio.listaMiembroGrupo(this.id)
+        return this.servicio.listaMiembroGrupo(this.id)
         .then(datos => 
         {
             let lista : any = datos;
@@ -55,35 +57,30 @@ export class ComandoListaMiembroGrupo extends Comando
 
             for(let usuario of lista)
             {
-               if(lista.Foto == undefined)
+               if(usuario.Foto == undefined)
                {
-                 lista.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
+                 usuario.Foto = ConfiguracionImages.DEFAULT_USER_PATH;
                }
                else
                {
-                 lista.Foto = ConfiguracionImages.PATH + lista.Foto;
+                 usuario.Foto = ConfiguracionImages.PATH + usuario.Foto;
                }
 
                this.listaMiembros.push(usuario);
             }
 
-            this.exito = true;
             catProd.info('ListaMiembroGrupo exitoso. Datos: ' + this.listaMiembros);
+            return true;
         }
         , error =>
         {
-            this.exito = false;
             catErr.info('Fallo de ListaMiembroGrupo. Datos: ' + error);
+            return false;
         });
     }
 
     public return() 
     {
         return this.listaMiembros;
-    }
-
-    public isSuccess(): boolean 
-    {
-        return this.exito;
     }
 }
