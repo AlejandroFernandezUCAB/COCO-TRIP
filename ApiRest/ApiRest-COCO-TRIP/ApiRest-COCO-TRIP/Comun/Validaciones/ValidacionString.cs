@@ -32,7 +32,7 @@ namespace ApiRest_COCO_TRIP.Comun.Validaciones
 
         public static bool ValidarCaracteresEspeciales(String input)
         {
-            if (Regex.Match(input, @"^[a-zA-Z]+$").Success)
+            if (Regex.Match(input, @"^[a-zA-Z \,\.]+$").Success)
             {
                 return true;
             }
@@ -42,7 +42,8 @@ namespace ApiRest_COCO_TRIP.Comun.Validaciones
         public static void ValidarCategoria(Entidad categoria)
         {
             if (!ValidarLongitudInputDescripcionCategoria(((Categoria)categoria).Descripcion) ||  //Validacion de campos de Nombre y Descripcion
-            !ValidarCaracteresEspeciales(((Categoria)categoria).Descripcion) ||      //Deben tener al menos 5 caracteres, y solo se permiten letras y espacios
+            !ValidarCaracteresEspeciales(((Categoria)categoria).Descripcion) ||      //Deben tener al menos 5 caracteres, y solo se permiten 
+                                                                                    //letras, puntos, comas y espacios
             !ValidarLongitudInputNombreCategoria(((Categoria)categoria).Nombre) ||
             !ValidarCaracteresEspeciales(((Categoria)categoria).Nombre))
             {

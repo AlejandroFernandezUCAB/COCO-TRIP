@@ -42,6 +42,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
           log.Error(e.Mensaje + " || " + e.DatosAsociados);
           throw e;
       }
+      catch (ArgumentoNuloExcepcion e) 
+      {
+          e.DatosAsociados = datosCategoria;
+          log.Error(e.Mensaje + " || " + e.DatosAsociados);
+          throw e;
+      }
       catch (BaseDeDatosExcepcion e)
       {
         e.DatosAsociados = datosCategoria;
