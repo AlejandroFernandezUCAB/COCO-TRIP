@@ -167,7 +167,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       var temp = snapshot.val(); 
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,
         "",0,temp.tiempoDeEnvio,0,temp.modificado);
-      entidad.setId=temp.key;
+      entidad.setFireId=temp.key;
       this.events.publish(Registry.PUBLISH_INFO_MENSAJE_AMIGOS,entidad);
     });
     catProd.info("Saliendo del metodo obtenerInfoMensajeAmigo de chat.ts");
@@ -189,7 +189,7 @@ obtenerMensajesConversacionAmigo(idEmisor,idReceptor) {
       var temp = snapshot.val(); 
       entidad = new Mensaje(temp.mensaje,temp.enviadorPor,"",
       0,temp.tiempoDeEnvio,0,temp.modificado);
-      entidad.setId=temp.key;
+      entidad.setFireId=temp.key;
       this.events.publish(Registry.PUBLISH_INFO_MENSAJE_GRUPOS,entidad);
     });
     catProd.info("Saliendo del metodo obtenerInfoMensajeGrupo de chat.ts");
