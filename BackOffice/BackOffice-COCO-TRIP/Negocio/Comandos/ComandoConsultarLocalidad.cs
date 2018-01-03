@@ -31,7 +31,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       else
       {
         resultado.Add(respuesta["dato"].ToObject<Localidad>());
-        resultado.Add("Se hizo con exito");
+        resultado.Add("");
       }
     }
 

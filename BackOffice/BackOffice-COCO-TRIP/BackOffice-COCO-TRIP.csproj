@@ -324,8 +324,8 @@
     <Content Include="Views\M8_Localidad\Edit.cshtml" />
     <Content Include="Views\M8_Localidad\Index.cshtml" />
     <Content Include="Views\M8_Localidad\Select.cshtml" />
-    <Content Include="Views\M8Events\FilterEvent.cshtml" />
-    <Content Include="Views\M8Events\CreateEvent.cshtml" />
+    <Content Include="Views\M8Events\Index.cshtml" />
+    <Content Include="Views\M8Events\Create.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\M8Events\Select.cshtml" />
