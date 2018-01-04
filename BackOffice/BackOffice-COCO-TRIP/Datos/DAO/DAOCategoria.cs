@@ -13,8 +13,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   {
     private const string ControllerUri = "M9_Categorias";
     private JObject responseData;
-
-
+    private JObject requestData;
 
     public override JObject Delete(int id)
     {
@@ -26,7 +25,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// </summary>
     public override JObject Get(int id)
     {
-
       try
       {
         using (var cliente = new HttpClient())
@@ -41,72 +39,14 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           responseData = readTask.Result;
         }
       }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
+            { "error", ex.Message }
           };
       }
-
       return responseData;
-
     }
 
     /// <summary>
@@ -124,7 +64,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-                Console.WriteLine(data);
         using (var cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
@@ -136,75 +75,19 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
             { "nivel", ((Categoria)data).Nivel },
             { "categoriaSuperior", ((Categoria)data).UpperCategories }
           };
-          
           var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarCategoria", jsonData);
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
-
           responseData = readTask.Result;
         }
-      }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
       }
       catch (Exception ex)
       {
         responseData = new JObject
           {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+            { "error", $"{ex.Message}" }
           };
       }
       return responseData;
@@ -218,7 +101,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -235,76 +118,17 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
-
           responseData = readTask.Result;
         }
       }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
+            { "error", ex.Message }
           };
       }
-
       return responseData;
-
     }
 
     /// <summary>
@@ -314,7 +138,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -328,76 +152,17 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
-
           responseData = readTask.Result;
         }
       }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
+            { "error", ex.Message }
           };
       }
-
       return responseData;
-
     }
 
     /// <summary>
@@ -405,10 +170,9 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// </summary>
     public JObject GetCategoriasHabilitadas()
     {
-
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -420,70 +184,13 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           responseData = readTask.Result;
         }
       }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
+            { "error", ex.Message }
           };
       }
-
       return responseData;
 
     }
@@ -496,7 +203,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 
       try
       {
-        using (var cliente = new HttpClient())
+        using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
@@ -508,71 +215,14 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           responseData = readTask.Result;
         }
       }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
       catch (Exception ex)
       {
-
         responseData = new JObject
           {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
+            { "error", ex.Message }
           };
       }
-
       return responseData;
-
     }
   }
 }
