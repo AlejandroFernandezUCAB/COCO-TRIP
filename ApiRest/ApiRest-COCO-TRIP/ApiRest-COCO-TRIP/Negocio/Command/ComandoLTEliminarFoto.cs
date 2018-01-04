@@ -17,7 +17,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         private Entidad _foto;
         private static Logger log = LogManager.GetCurrentClassLogger();
 
-        public ComandoLTEliminarFoto(Entidad foto){
+        public ComandoLTEliminarFoto(JObject datos){
+            _foto = datos.toObject<Foto>();
             iDAOFoto = FabricaDAO.CrearDAOFoto();
         }
 
