@@ -10,6 +10,7 @@ using BackOffice_COCO_TRIP.Negocio.Comandos;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Text;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -47,19 +48,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       JObject respuestaCategoria;
       ViewBag.Title = "Agregar Lugar Turístico";
       List<Categoria> listCategories = new List<Categoria>() ;
-      Categoria categoria = new Categoria();
 
-      categoria.Id = 1;
-      categoria.Name = "Turismo";
-      listCategories.Add( categoria );
-
-      categoria = new Categoria();
-      categoria.Id = 2;
-      categoria.Name = "Deportes";
-
-      listCategories.Add(categoria);
-
-      ViewBag.Categoria = listCategories;
       
       com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
       com.Execute();
@@ -94,126 +83,9 @@ namespace BackOffice_COCO_TRIP.Controllers
 
       LlenadoLugarTuristico(lugar);
       com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      return RedirectToAction("ViewAll");
 
-
-      //Activar o desactivar lugar turistico
-      if (activar == "Activo")
-      {
-        lugar.Activar = true;
-      }
-      else
-      {
-        lugar.Activar = false;
-      }
-      
-      try
-       {
-        //Categorias y subcategorias del lugar turistico
-        var categoria = new Categoria();
-
-                    foreach (var elemento in ViewBag.Categoria)
-                    {
-                      if(elemento.Nombre == categoriaUno ||
-                        elemento.Nombre == categoriaDos ||
-                        elemento.Nombre == categoriaTres ||
-                        elemento.Nombre == categoriaCuatro)
-                       {
-                          categoria.Id = elemento.Id;
-                          lugar.Categoria.Add(categoria);
-
-                          categoria = new Categoria();
-                       }
-                    }
-
-                    //Dia de los horarios del lugar turistico
-                    int contador = 1;
-
-                    foreach (var horario in lugar.Horario)
-                    {
-                      if (String.Format("{0}", Request.Form["dia_" + contador]) == "Domingo")
-                      {
-                        horario.DiaSemana = 0;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Lunes")
-                      {
-                        horario.DiaSemana = 1;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Martes")
-                      {
-                        horario.DiaSemana = 2;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Miercoles")
-                      {
-                        horario.DiaSemana = 3;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Jueves")
-                      {
-                        horario.DiaSemana = 4;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Viernes")
-                      {
-                        horario.DiaSemana = 5;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Sabado")
-                      {
-                        horario.DiaSemana = 6;
-                      }
-
-                      contador++;
-                    }
-
-                    var temporal = new List<Horario>();
-
-                    foreach (var horario in lugar.Horario)
-                    {
-                        if(horario.HoraApertura == new TimeSpan() && horario.HoraCierre == new TimeSpan())
-                        {
-                          temporal.Add(horario);
-                        }
-                    }
-
-                    foreach( var eliminar in temporal)
-                    {
-                      lugar.Horario.Remove(eliminar);
-                    }
-
-                    var temporalDos = new List<Actividad>();
-
-                    foreach (var actividad in lugar.Actividad)
-                    {
-                        if(string.IsNullOrEmpty(actividad.Nombre))
-                        {
-                          temporalDos.Add(actividad);
-                        }
-                    }
-
-                    foreach (var eliminar in temporalDos)
-                    {
-                        lugar.Actividad.Remove(eliminar);
-                    }
-
-                    var respuestaInsercion = peticion.PostLugar(lugar);
-
-                    if(respuestaInsercion == (int) HttpStatusCode.BadRequest * (-1) )
-                    {
-                      return RedirectToAction("ViewAll");
-        }
-                    else if (respuestaInsercion == (int) HttpStatusCode.InternalServerError * (-1))
-                    {
-                      return RedirectToAction("PageDown");
-                    }
-                    else
-                    {
-                      return RedirectToAction("ViewAll");
-                    }
-            }
-             catch(SocketException)
-            {
-              return RedirectToAction("PageDown");
-            }
-
-
-        }
+    }
 
         // GET:Lugares/Modify
         public ActionResult Modify(int id)
@@ -591,11 +463,20 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     public void LlenadoLugarTuristico(LugarTuristico lugar)
     {
+      //Llenando la foto
+      Foto foto = new Foto();// TODO cambiar esto por fabrica.
+      foto.Contenido = Encoding.ASCII.GetBytes (Request.Form["fotoLugar"]);
+      lugar.Foto.Add(foto);
 
-      String activar = Request.Form["activar"];
-      
+      //Llenando el nombre
+      lugar.Nombre = Request.Form["Nombre"];
+
+      //Llenando el costo
+      Double.TryParse(Request.Form["Costo"], out double costo);
+      lugar.Costo = costo;
+
       //Activar o desactivar lugar turistico
-      if (activar == "Activo")
+      if (Request.Form["activar"] == "Activo")
       {
         lugar.Activar = true;
       }
@@ -603,31 +484,17 @@ namespace BackOffice_COCO_TRIP.Controllers
       {
         lugar.Activar = false;
       }
-      
-      lugar.Categoria = new List<Categoria>();
 
-      //Llenando los objetos de categoria
-      for(int i=0; i <= 3; i++)
+      //Llenando los objetos de categoria solo con el nombre, 
+      for (int i=0; i <= 3; i++)
       {
 
-        
-        lugar.Categoria[i].Name = String.Format("{0}", Request.Form["categoria_1"]);
-
-        //Para buscar el id de la cateogoria
-        foreach (Categoria categoria in ViewBag.Categoria)
-        {
-
-          if ( lugar.Categoria[i].Name == categoria.Name)
-          {
-            lugar.Categoria[i].Id = categoria.Id;
-          }
-
-        }
+        Categoria categoria = FabricaEntidad.GetCategoria(); //Esto no deberia ir aqui, pero no se como resolverlo.
+        categoria.Name = String.Format("{0}", Request.Form["categoria_"+i]);
+        lugar.Categoria.Add(categoria);
+       
       }
-      foreach(Categoria categoria in ViewBag.Categoria)
-      {
-        
-      }
+
       //Llenando el objeto de lugar para pasarlo al Comando.
       for(int i = 0; i <= 6; i++)
       {
@@ -638,6 +505,33 @@ namespace BackOffice_COCO_TRIP.Controllers
         
       }
 
+    }
+
+    private List<Categoria> BusquedaDeCategoriasHabilitadas()
+    {
+
+      JObject respuestaCategoria;
+      List<Categoria> listCategories = new List<Categoria>();
+
+
+      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com.Execute();
+      respuestaCategoria = (JObject)com.GetResult()[0];
+
+      if (respuestaCategoria.Property("data") != null)
+      {
+
+        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
+
+      }
+      else
+      {
+
+        listCategories = new List<Categoria>();
+
+      }
+
+      return listCategories;
     }
 
     private long ExtraerIDCategoria(string categoria)
