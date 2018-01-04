@@ -324,7 +324,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList de las categorias habilitadas</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de realizar la consulta de las categorias</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public List<Entidad> ObtenerCategoriasHabilitadas()
+        public virtual List<Entidad> ObtenerCategoriasHabilitadas()
         {
             List<Entidad> listaCategorias;
             try
@@ -359,7 +359,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList con la categoria que se desea cuyo Id se encuentra en la instancia del parametro.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public List<Entidad> ObtenerCategoriaPorId(Entidad entidad)
+        public virtual List<Entidad> ObtenerCategoriaPorId(Entidad entidad)
         {
             categoria = (Categoria)entidad;
             List<Entidad> listaCategorias;
@@ -395,7 +395,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList con las Categorias.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public List<Entidad> ObtenerTodasLasCategorias()
+        public virtual List<Entidad> ObtenerTodasLasCategorias()
         {
             List<Entidad> listaCategorias;
             try
@@ -430,7 +430,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>Categoria asociada al nombre colocado en la instacia por parametro.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Exception">Error inesperado</exception>
-        public Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
+        public virtual Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
         {
             categoria = (Categoria)entidad;
             try
@@ -477,7 +477,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <param name="categoria">Instacia Categoria que contiene el Id por el cual se consultara.</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Exception">Error inesperado</exception>
-        public List<Entidad> ObtenerCategorias(Entidad categoria)
+        public virtual List<Entidad> ObtenerCategorias(Entidad categoria)
         {
             List<Entidad> listaCategorias = new List<Entidad>();
             try
