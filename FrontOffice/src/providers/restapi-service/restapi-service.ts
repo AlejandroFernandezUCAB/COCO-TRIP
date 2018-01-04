@@ -220,11 +220,12 @@ eveSegunPreferencias(idUser){
     });
    }
 
-   modificarDatosUsuario(usuario){
+   modificarDatosUsuario(entidad: Entidad){
+    let usuario = entidad as Usuario;
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' +
-      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido +
-      "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
+      usuario.getNombreUsuario + "&nombre=" + usuario.getNombre + "&apellido=" + usuario.getApellido +
+      "&fechaDeNacimiento=" + usuario.getFechaNacimiento + "&genero=" + usuario.getGenero ,"")
       .map(res => res.json())
       .subscribe(data => {
 
@@ -248,7 +249,6 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
-        
         reject(error);
 
       });
