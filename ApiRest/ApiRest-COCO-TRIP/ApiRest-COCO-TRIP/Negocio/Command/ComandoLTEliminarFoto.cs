@@ -5,6 +5,8 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using NLog;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -18,7 +20,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         private static Logger log = LogManager.GetCurrentClassLogger();
 
         public ComandoLTEliminarFoto(JObject datos){
-            _foto = datos.toObject<Foto>();
+            _foto = datos.ToObject<Foto>();
             iDAOFoto = FabricaDAO.CrearDAOFoto();
         }
 
