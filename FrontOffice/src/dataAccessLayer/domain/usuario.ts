@@ -25,7 +25,7 @@ export class Usuario extends Entidad
     private Genero: string;
     private Clave: string;
     private Valido: boolean;
-    private FechaNacimiento: DateTime;
+    private FechaNacimiento: Date;
 
     constructor () //Por ahora vacio
     {
@@ -163,7 +163,7 @@ export class Usuario extends Entidad
     /**
      * Retorna la fecha de nacimiento del usuario
      */
-    get getFechaNacimiento() : DateTime
+    get getFechaNacimiento() : Date
     {
         return this.FechaNacimiento;
     }
@@ -171,7 +171,7 @@ export class Usuario extends Entidad
     /**
      * Establece la fecha de nacimiento del usuario
      */
-    set setFechaNacimiento(fechaNacimiento : DateTime)
+    set setFechaNacimiento(fechaNacimiento : Date)
     {
         this.FechaNacimiento = fechaNacimiento;
     }

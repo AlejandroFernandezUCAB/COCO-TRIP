@@ -39,8 +39,8 @@ export class ConfigPage {
   }
 
   choose(lang) {
-    let idUsuario = this.navParams.data.idUsuario;
-    this.storage.set(idUsuario.toString(), lang);    
+    //let idUsuario = this.navParams.data.idUsuario;
+    this.storage.set(this.navParams.data.getId.toString(), lang);    
     this.translateService.use(lang);
   }
 

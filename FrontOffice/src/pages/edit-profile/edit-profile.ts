@@ -6,6 +6,10 @@ import {ChangepassPage} from '../changepass/changepass';
 import { TranslateService } from '@ngx-translate/core';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { transition } from '@angular/core/src/animation/dsl';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { DateTime } from 'ionic-angular/components/datetime/datetime';
+import { ComandoEditarPerfil } from '../../businessLayer/commands/comandoEditarPerfil';
 // storage no es necesario, pues el objeto se pasa por parametros
 //import { Storage } from '@ionic/storage'; 
 
@@ -17,46 +21,44 @@ import { transition } from '@angular/core/src/animation/dsl';
 export class EditProfilePage {  
 
   change = ChangepassPage;
-
-  // variable asociada al campo genero en el formulario
-  genero: string;
-  apiRestResponse: any;
   myForm: FormGroup;
 
-  // datos a cargar por defecto
-  // se sobre escriben si la llamada al
-  // apirest fue exitosa
-  usuario: any = {
-    Nombre: 'Nombre',
-    Apellido: 'Apellido',
-    FechaNacimiento: new Date('1990-04-11T00:00:00.196Z').toISOString(),
-    Genero: "F"
-  };
+  usuario : Usuario;
+  nombreAntiguo : string;
+  apellidoAntiguo : string;
+  fechaAntiguo : Date;
+  generoAntiguo : string;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, 
-    public restapiService: RestapiService )
+    public restapiService: RestapiService, private comando: ComandoEditarPerfil )
   {
     // se obtiene el genero del usuario
-    this.genero = this.usuario.Genero;
-
+    this.usuario = FabricaEntidad.crearUsuarioConParametros(
+      0, 'Nombre', 'Apellido', 'Correo', 'default', new Date('1995-04-11T00:00:00.196Z'), null, "F" )
+    //this.genero = this.usuario.Genero;
+    console.log(navParams);
     // obtengo los datos recibidos de la vista anterior
     // la verificacion de la fecha permite evitar la excepcion de RangeError
-    if(navParams.data != 0 && navParams.data.FechaNacimiento != undefined){
+    if(navParams.data != 0 && navParams.data.getFechaNacimiento != undefined){
       // inyectando datos al objeto usuario
-      this.usuario = navParams.data;
-      this.usuario.FechaNacimiento = new Date(navParams.data.FechaNacimiento).toISOString();
-      this.genero = navParams.data.Genero;
+      this.usuario = navParams.data as Usuario;
+      this.nombreAntiguo = this.usuario.getNombre;
+      this.apellidoAntiguo = this.usuario.getApellido;
+      this.generoAntiguo = this.usuario.getGenero;
+      this.fechaAntiguo = this.usuario.getFechaNacimiento;
+      //this.usuario.setFechaNacimiento = new Date(navParams.data.getFechaNacimiento);
+      //this.genero = navParams.data.Genero;
     }
 
     //inyecto los datos en el formulario
     this.myForm = this.fb.group(
       {
-        nombre: [this.usuario.Nombre, [Validators.required]],
-        apellido: [this.usuario.Apellido,[Validators.required]],
-        genero: [this.genero],
-        fechanac: [this.usuario.FechaNacimiento,[Validators.required]]
+        nombre: [this.usuario.getNombre, [Validators.required]],
+        apellido: [this.usuario.getApellido,[Validators.required]],
+        genero: [this.usuario.getGenero],
+        fechanac: [new Date(this.usuario.getFechaNacimiento).toISOString(),[Validators.required]]
       }
     )
 
@@ -65,30 +67,29 @@ export class EditProfilePage {
 
   // function ejecutada al hacer submit del formulario
   saveData(){
-      // guardamos datos previos
-    let datosPrevios = this.usuario;
-      // inyectamos datos nuevos
-    this.usuario.Nombre = this.myForm.value.nombre;
-    this.usuario.Apellido = this.myForm.value.apellido;
+    // inyectamos datos nuevos
+    this.usuario.setNombre = this.myForm.value.nombre;
+    this.usuario.setApellido = this.myForm.value.apellido;
     // notar que el toISOString es muy importante para que el apirest reconozca a FechaNacimiento
     // como un valor de DateTime valido 
-    this.usuario.FechaNacimiento = new Date(this.myForm.value.fechanac).toISOString();
-    this.usuario.Genero = this.myForm.value.genero;
+    this.usuario.setFechaNacimiento = new Date(this.myForm.value.fechanac);
+    this.usuario.setGenero = this.myForm.value.genero;
 
-    this.restapiService.modificarDatosUsuario(this.usuario).then(data =>{
-        if(data != 0){
-          this.apiRestResponse = data;
-          this.regresarAvistaAnterior(this.apiRestResponse);
-      }
-      else{
-        // en caso de fallo:
-        // restauramos los nombres anteriores...
-        this.usuario = datosPrevios;
-        this.apiRestResponse = false;
-        this.regresarAvistaAnterior(this.apiRestResponse);
-      }
-    }
-    );
+    this.comando._entidad = this.usuario;
+    this.comando.execute().then(data => {
+      let apiRestResponse = data;
+      this.regresarAvistaAnterior(data);
+
+    }, error => {   
+      
+      this.usuario.setNombre = this.nombreAntiguo;
+      this.usuario.setApellido = this.apellidoAntiguo;
+      this.usuario.setGenero = this.generoAntiguo;
+      this.usuario.setFechaNacimiento = this.fechaAntiguo;
+      this.regresarAvistaAnterior(false);
+
+    });
+
   }
 
   // funcion para retornar el resultado de la operacion en un toast

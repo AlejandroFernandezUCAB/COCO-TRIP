@@ -22,7 +22,7 @@ import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comand
 @Component
 ({
   selector: 'page-visualizarperfil',
-  templateUrl: 'visualizarperfil.html'
+  templateUrl: 'VisualizarPerfil.html'
 })
 
 export class VisualizarPerfilPage 
