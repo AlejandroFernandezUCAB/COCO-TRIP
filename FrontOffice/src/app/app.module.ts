@@ -95,6 +95,7 @@ import { ComandoVerificarLider } from '../businessLayer/commands/comandoVerifica
 import { ComandoVerPerfilGrupo } from '../businessLayer/commands/comandoVerPerfilGrupo';
 import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ComandoVerPerfil } from '../businessLayer/commands/comandoVerPerfil';
+import { ComandoEditarPerfil } from '../businessLayer/commands/comandoEditarPerfil';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -230,7 +231,8 @@ firebase.initializeApp(config);
     ComandoSalirGrupo,
     ComandoVerificarLider,
     ComandoVerPerfilGrupo,
-    ComandoVerPerfil
+    ComandoVerPerfil,
+    ComandoEditarPerfil
   ]
 })
 export class AppModule {}
