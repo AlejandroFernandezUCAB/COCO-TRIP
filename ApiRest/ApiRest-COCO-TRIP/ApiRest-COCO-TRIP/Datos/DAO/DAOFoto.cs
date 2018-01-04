@@ -13,7 +13,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 {
 	public class DAOFoto : DAO , IDAOFoto
 	{
-        private Entidad _foto;
+        private Foto _foto;
         private List<Entidad> _listaFotos;
         private NpgsqlCommand _comando;
         private NpgsqlDataReader _respuesta;
@@ -129,7 +129,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 		public override void Eliminar(Entidad objeto)
 		{
-			_foto = objeto;
+			_foto = (Foto)objeto;
 			try
 			{
 				Conectar(); //Inicia una sesion con la base de datos
