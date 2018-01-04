@@ -40,7 +40,7 @@ export class EditProfilePage {
   {
     // se obtiene el genero del usuario
     this.genero = this.usuario.Genero;
-
+    console.log(navParams);
     // obtengo los datos recibidos de la vista anterior
     // la verificacion de la fecha permite evitar la excepcion de RangeError
     if(navParams.data != 0 && navParams.data.FechaNacimiento != undefined){
