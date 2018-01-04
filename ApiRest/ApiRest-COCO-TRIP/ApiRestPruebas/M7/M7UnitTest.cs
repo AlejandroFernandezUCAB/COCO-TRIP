@@ -25,7 +25,7 @@ namespace ApiRestPruebas.M7
 		List<Entidad> _actividades;
 		IDAOLugarTuristico iDAOLugarTuristico;
 		DAOActividad daoActividad;
-		DAOFoto daoFoto;
+		DAOFoto iDAOFoto;
 		
 		//SetUp
 		#region 
@@ -109,11 +109,15 @@ namespace ApiRestPruebas.M7
 
 			_lugaresTuristicos.Add(_lugarTuristico);
 
-			_foto = FabricaEntidad.CrearEntidadFoto();
+
+            _fotos = new List<Entidad>();
+
+            _foto = FabricaEntidad.CrearEntidadFoto();
 			_foto.Id = 2;
 			_foto.Ruta = "TEST";
 
-			_fotos = new List<Entidad>();
+            _fotos.Add(_foto);
+			
 
 			_actividad = FabricaEntidad.CrearEntidadActividad();
 			_actividad.Id = 2;
@@ -223,18 +227,18 @@ namespace ApiRestPruebas.M7
 		[Test]
 		public void DAOInsertarFoto()
 		{
-			daoFoto = FabricaDAO.CrearDAOFoto();
+			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
 
 			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
 			//Inserto la foto
-			daoFoto.Insertar( _foto ,_lugaresTuristicos[0]);
+			iDAOFoto.Insertar( _foto ,_lugaresTuristicos[0]);
 
 			//Busco la foto
-			_fotos = daoFoto.ConsultarLista(_lugaresTuristicos[0]);
+			_fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
 
-			Assert.IsNotNull(daoFoto);
+			Assert.IsNotNull(iDAOFoto);
 			Assert.IsNotNull(iDAOLugarTuristico);
 
 			Assert.AreEqual( _foto.Id , _fotos[0].Id);
@@ -246,29 +250,38 @@ namespace ApiRestPruebas.M7
 		public void DAOBuscarListaFoto()
 		{
 
-			daoFoto = FabricaDAO.CrearDAOFoto();
+			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
 			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
 			//Inserto la foto
-			daoFoto.Insertar(_foto, _lugaresTuristicos[0]);
+			iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
 
 			//Busco la foto
-			_fotos = daoFoto.ConsultarLista(_lugaresTuristicos[0]);
+			_fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
 
-			Assert.IsNotNull(daoFoto);
+			Assert.IsNotNull(iDAOFoto);
 			Assert.IsNotNull(iDAOLugarTuristico);
 
 			Assert.AreEqual(_foto.Id, _fotos[0].Id);
 			Assert.AreEqual(_foto.Ruta + "2.jpg", ((Foto)_fotos[0]).Ruta);
 
 		}
-		#endregion
 
-		//Actividad
-		#region
-		[Test]
+        //[Test]
+        //public void DAOEliminarFoto()
+        //{
+        //    iDAOFoto = FabricaDAO.CrearDAOFoto();
+        //    iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
+
+        //    Assert.IsNotNull(iDAOFoto);
+        //}
+        #endregion
+
+        //Actividad
+        #region
+        [Test]
 		public void DAOInsertarActividad()
 		{
 			daoActividad = FabricaDAO.CrearDAOActividad();

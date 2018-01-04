@@ -42,6 +42,9 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
         private const string errorInternoServidor = "Error interno del servidor. Intente más tarde.";
         public string ErrorInternoServidor => errorInternoServidor;
 
+        private const string exitoEliminarFoto = "Se elimino la foto de forma exitosa.";
+        public string ExitoEliminarFoto => exitoEliminarFoto;
+
         private MensajeResultadoOperacion()
         {
 

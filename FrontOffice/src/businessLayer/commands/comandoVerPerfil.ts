@@ -20,7 +20,7 @@ export class ComandoVerPerfil extends Comando {
 
     public execute() : Promise<null>
     {   
-        return new Promise((resolve => {
+        return new Promise((resolve) => {
             // obtenemos el id ya almacenado desde el login
             this.storage.get('id').then((val) => {
                 this._entidad.setId = val;
@@ -38,13 +38,20 @@ export class ComandoVerPerfil extends Comando {
                     resolve();
                     
                 }, error => {
-                 
+                    this._entidad = FabricaEntidad.crearUsuarioConParametros(error.id, error.Nombre, error.Apellido, error.Correo, error.Nickname, error.FechaNacimiento);
+                    // cargamos el idioma
+                    this.storage.get(this._entidad.getId.toString()).then((val) => {
+                        //verificamos que posee configuracion previa de idioma
+                        if (val != null || val != undefined) {
+                            this.translateService.use(val);
+                        }
+                    });
                     console.log('falla en la carga de los datos');
                     resolve();
                 })
             });
 
-        }))
+        })
     
     }
 
