@@ -35,9 +35,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         archivo = Archivo.ObtenerInstancia();
         grupo = (Grupo)datos.ConsultarPorId(grupo);
 
-        if (archivo.ExisteArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension))
+        if (grupo.RutaFoto != null)
         {
-          grupo.RutaFoto = Archivo.Ruta + Archivo.FotoGrupo + grupo.Id + Archivo.Extension;
+          grupo.RutaFoto = Archivo.Ruta + grupo.RutaFoto + Archivo.Extension;
         }
 
         log.Info("Id: " + grupo.Id);

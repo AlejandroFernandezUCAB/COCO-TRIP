@@ -15,9 +15,6 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
     public const string Ruta = "\\Images\\"; //Ruta relativa que se almacenara en la base de datos
     public const string Extension = ".jpg";
 
-    //Nombres de las fotos
-    public const string FotoGrupo = "GRUPO";
-
     private string rutaAbsoluta; //Ruta absoluta  del servidor donde se almacenan las fotos
 
     /// <summary>
@@ -106,8 +103,7 @@ namespace ApiRest_COCO_TRIP.Datos.Singleton
     /// <returns>(true) existe, (false) no existe</returns>
     public bool ExisteArchivo(string nombre)
     {
-        return File.Exists(rutaAbsoluta + nombre);
+      return File.Exists(rutaAbsoluta + nombre);
     }
   }
-
 }

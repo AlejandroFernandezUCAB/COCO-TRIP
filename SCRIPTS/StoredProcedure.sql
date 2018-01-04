@@ -500,6 +500,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+----------------------------PROCEDIMIENTO MODIFICAR GRUPO----------------------------------
+CREATE OR REPLACE FUNCTION ModificarFotoGrupo
+(id_grupo integer)
+RETURNS VARCHAR
+AS $$
+BEGIN
+  UPDATE Grupo SET
+  gr_foto = CAST(nextval('SEQ_FotoGrupo') as VARCHAR)
+  WHERE gr_id = id_grupo;
+
+  RETURN CAST(currval('SEQ_FotoGrupo') as VARCHAR);
+END;
+$$ LANGUAGE plpgsql;
+
 -----------------------------PROCEDIMIENTO ELIMINAR INTEGRANTE--------------------------------
 CREATE OR REPLACE FUNCTION EliminarIntegrante
 (id_grupo integer, id_usuario integer)
