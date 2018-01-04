@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Singleton;
@@ -19,7 +20,7 @@ using NpgsqlTypes;
 /// </summary>
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
-    public class DAOCategoria : DAO
+    public class DAOCategoria : DAO, IDAOCategoria
     {
         private NpgsqlParameter parametro;
         private NpgsqlDataReader leerDatos;
@@ -185,14 +186,14 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// Metodo Update, actualiza una categoria enviada por parametro.
         /// </summary>
         /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
-        /// <exception cref="NpgsqlException">Error al actualizar la categoria</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al actualizar la categoria</exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Error en duplicidad en el nombre de la categoria que intenta actualizar.</exception>
         /// <exception cref="HijoConDePendenciaExcepcion">La categoria que intenta actualizar tiene dependencias.</exception>
-        /// <exception cref="ArgumentNullException">Ocurre en el momento de utlizar el metodo .ToList()</exception>
+        /// <exception cref="ArgumentoNuloExcepcion">Error al utilizar el ToList, para convertir la lista a Categorias.</exception>
         /// <exception cref="Excepcion">Error inesperado.</exception>
         public override void Actualizar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_ModificarCategoria");
@@ -228,7 +229,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 {
                     base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
                 }
-                exitoso = base.Comando.ExecuteNonQuery();
+                base.Comando.ExecuteNonQuery();
             }
             catch (PostgresException ex)
             {
@@ -246,10 +247,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 throw new BaseDeDatosExcepcion(ex, mensaje);
 
             }
-            catch (ArgumentNullException ex) //Esto ocurre en el momento de utilizar el metodo .ToList().
+            catch (ArgumentNullException ex) 
             {
-                //TODO Mejorar ese mensaje de error, no tengo idea de que hace esa linea.
-                string mensaje = "Error creando las lista para las categorias " + " || " + ex.Message;
+                string mensaje = "Error interno creando las lista para las categorias " + " || " + ex.Message;
                 throw new ArgumentoNuloExcepcion(ex, mensaje);
             }
             catch (HijoConDePendenciaExcepcion ex)
@@ -274,17 +274,16 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de actualizar la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado.</exception>
-        public void ActualizarEstado(Entidad objeto)
+        public virtual void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_actualizarEstatusCategoria");
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, categoria.Estatus);
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
 
-                exitoso = base.Comando.ExecuteNonQuery();
+                base.Comando.ExecuteNonQuery();
             }
             catch (NpgsqlException ex)
             {

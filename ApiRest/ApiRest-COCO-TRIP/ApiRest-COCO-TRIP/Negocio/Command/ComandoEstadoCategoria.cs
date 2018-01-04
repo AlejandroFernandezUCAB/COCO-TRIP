@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.DAO;
+using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using NLog;
@@ -18,7 +19,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     /// </summary>
     public class ComandoEstadoCategoria : Comando
     {
-        DAO dao = FabricaDAO.CrearDAOCategoria();
+        private IDAOCategoria dao = FabricaDAO.CrearDAOCategoria();
         private Entidad entidad = FabricaEntidad.CrearEntidadCategoria();
         private string datosCategoria;
         private static Logger log = LogManager.GetCurrentClassLogger();

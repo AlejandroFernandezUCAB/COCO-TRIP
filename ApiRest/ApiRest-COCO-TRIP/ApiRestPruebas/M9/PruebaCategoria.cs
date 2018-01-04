@@ -393,12 +393,8 @@ namespace ApiRestPruebas.M9
         }
 
         [Test]
-        public void M9_PruebaExcepcionBaseDeDatosDaoEstadoCategotia()
-        {
-            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA 1";
-            ((Categoria)_categoria).Descripcion = "abc";
-            ((Categoria)_categoria).CategoriaSuperior = 0;
-            ((Categoria)_categoria).Nivel = 1;
+        public void M9_PruebaExcepcionBaseDeDatosDaoEstadoCategoria()
+        {            
             ((Categoria)_categoria).Id = 1000;
             ((Categoria)_categoria).Estatus = false;
 
