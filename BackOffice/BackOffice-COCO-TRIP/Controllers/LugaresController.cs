@@ -60,27 +60,27 @@ namespace BackOffice_COCO_TRIP.Controllers
       listCategories.Add(categoria);
 
       ViewBag.Categoria = listCategories;
-      //Esperar que horacio arregle todo.
-      //com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
-      //com.Execute();
-      //respuestaCategoria = (JObject)com.GetResult()[0];
-      //if (respuestaCategoria.Property("data")!= null)
-      //{
+      
+      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com.Execute();
+      respuestaCategoria = (JObject)com.GetResult()[0];
+      if (respuestaCategoria.Property("data")!= null)
+      {
 
-      //  listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
-      //  _categorias = listCategories;
-      //  ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>( respuestaCategoria.ToString() );
+        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
+        _categorias = listCategories;
+        ViewBag.Categoria = _categorias;
 
-      //}
-      //else
-      //{
+      }
+      else
+      {
 
-      //  ViewBag.Categoria = new List<Categoria>();
+        ViewBag.Categoria = new List<Categoria>();
 
-      //}
+      }
 
       return View();
-        }
+    }
 
         // POST:Lugares/Create
         /// <summary>
@@ -95,11 +95,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       LlenadoLugarTuristico(lugar);
       com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
 
-      String activar = String.Format("{0}", Request.Form["activar"]);
-      String categoriaUno = String.Format("{0}", Request.Form["categoria_1"]);
-      String categoriaDos = String.Format("{0}", Request.Form["categoria_2"]);
-      String categoriaTres = String.Format("{0}", Request.Form["categoria_3"]);
-      String categoriaCuatro = String.Format("{0}", Request.Form["categoria_4"]);
 
       //Activar o desactivar lugar turistico
       if (activar == "Activo")
@@ -610,16 +605,22 @@ namespace BackOffice_COCO_TRIP.Controllers
       }
       
       lugar.Categoria = new List<Categoria>();
+
       //Llenando los objetos de categoria
       for(int i=0; i <= 3; i++)
       {
 
-        //lugar.Categoria[i].Id = 1;
+        
         lugar.Categoria[i].Name = String.Format("{0}", Request.Form["categoria_1"]);
 
         //Para buscar el id de la cateogoria
         foreach (Categoria categoria in ViewBag.Categoria)
         {
+
+          if ( lugar.Categoria[i].Name == categoria.Name)
+          {
+            lugar.Categoria[i].Id = categoria.Id;
+          }
 
         }
       }
