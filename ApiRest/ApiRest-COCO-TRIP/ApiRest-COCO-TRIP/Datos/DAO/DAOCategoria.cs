@@ -196,30 +196,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             try
             {
                 StoredProcedure("m9_ModificarCategoria");
-                DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
-                List<Entidad> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
-
-                if (((Categoria)Lcategoria.First<Entidad>()).Nivel == categoria.Nivel)
-                {
-                    ParametrosModificar(categoria);
-                }
-                else
-                {
-                    List<Entidad> Listacategoria = daoc.ObtenerTodasLasCategorias();
-                    List<Entidad> hijos = Listacategoria.Where(item => ((Categoria)item).CategoriaSuperior == categoria.Id).ToList();
-                    if (hijos.Count == 0)
-                    {
-                        ParametrosModificar(categoria);
-                    }
-                    else
-                    {
-                        Exception ex = new Exception("Dependencias asociadas.");
-                        mensaje = "Error de dependiencia en " + this.GetType().FullName + ". " +
-                            MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
-                            " y nombre: " + categoria.Nombre + " ya que tiene dependencia";
-                        throw new HijoConDePendenciaExcepcion(ex, mensaje);
-                    }
-                }
+                VerificarExistenciaCategoria();
                 if (categoria.CategoriaSuperior == 0)
                 {
                     base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
@@ -518,5 +495,32 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 
         #endregion metodosEspecificos
+
+        private void VerificarExistenciaCategoria()
+        {
+            DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
+            List<Entidad> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
+            if (((Categoria)Lcategoria.First<Entidad>()).Nivel == categoria.Nivel)
+            {
+                ParametrosModificar(categoria);
+            }
+            else
+            {
+                List<Entidad> Listacategoria = daoc.ObtenerTodasLasCategorias();
+                List<Entidad> hijos = Listacategoria.Where(item => ((Categoria)item).CategoriaSuperior == categoria.Id).ToList();
+                if (hijos.Count == 0)
+                {
+                    ParametrosModificar(categoria);
+                }
+                else
+                {
+                    Exception ex = new Exception("Dependencias asociadas.");
+                    mensaje = "Error de dependiencia en " + this.GetType().FullName + ". " +
+                        MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
+                        " y nombre: " + categoria.Nombre + " ya que tiene dependencia";
+                    throw new HijoConDePendenciaExcepcion(ex, mensaje);
+                }
+            }
+        }
     }
 }

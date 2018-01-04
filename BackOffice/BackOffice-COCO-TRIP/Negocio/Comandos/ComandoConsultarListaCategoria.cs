@@ -20,8 +20,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
         resultado.Add(respuesta);
       }
       catch (Exception e)
-      {
-        //TERMINAR
+      { 
         throw e;
       }
     }
