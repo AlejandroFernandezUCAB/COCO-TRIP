@@ -44,10 +44,11 @@ namespace ApiRest_COCO_TRIP.Comun.Validaciones
         }
 
         /// <summary>
-        /// 
+        /// Metodo que valida que el parametro de entrada este compuesta unicamente de
+        /// mayusculas, minusculas, puntos, comas y espacios en blanco,
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">Cadena de caracteres que se requiere verificar.</param>
+        /// <returns>Retorna "true", si cumple con no tener caracteres especiales, y "false" en caso contrario.</returns>
         public static bool ValidarCaracteresEspeciales(String input)
         {
             if (Regex.Match(input, @"^[a-zA-Z \,\.]+$").Success)
@@ -58,9 +59,11 @@ namespace ApiRest_COCO_TRIP.Comun.Validaciones
         }
 
         /// <summary>
-        /// 
+        /// Metodo que valida si la instancia del tipo categoria cumple con las condiciones
+        /// para realizar la insercion en la base de datos.
         /// </summary>
-        /// <param name="categoria"></param>
+        /// <param name="categoria">Instancia del tipo categoria que se requiere verificar.</param>
+        /// <exception cref="ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria</exception>
         public static void ValidarCategoria(Entidad categoria)
         {
             if (!ValidarLongitudInputDescripcionCategoria(((Categoria)categoria).Descripcion) ||  //Validacion de campos de Nombre y Descripcion

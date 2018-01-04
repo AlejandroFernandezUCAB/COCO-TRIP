@@ -37,6 +37,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         /// <summary>
         /// Metodo que ejecuta la accion del comando, agrega una nueva Categoria.
         /// </summary>
+        /// <exception cref="ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria</exception>
         /// <exception cref="NombreDuplicadoExcepcion">Nombre duplicado al momento de insertar.</exception>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar la operacion a la base de datos.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>

@@ -37,6 +37,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         /// <summary>
         /// Metodo que ejecuta la accion del comando, modifica una Categoria.
         /// </summary>        
+        /// <exception cref="ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria</exception>
         /// <exception cref="BaseDeDatosExcepcion">Error al actualizar la categoria</exception>
         /// <exception cref="NombreDuplicadoExcepcion">Error en duplicidad en el nombre de la categoria que intenta actualizar.</exception>
         /// <exception cref="HijoConDePendenciaExcepcion">La categoria que intenta actualizar tiene dependencias.</exception>

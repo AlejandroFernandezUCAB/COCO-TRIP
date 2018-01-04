@@ -173,6 +173,9 @@ namespace ApiRestPruebas.M9
 
         ////////////////////////////////////////    PRUEBAS COMANDOS     /////////////////////////////
         #region comandos
+        
+        #region Modificar
+
         [Test]
         public void M9_PruebaComandoModificarCategoria()
         {
@@ -202,6 +205,60 @@ namespace ApiRestPruebas.M9
         }
 
         [Test]
+        public void M9_PruebaExcepcionBaseDeDatosComandoModificarCategoria()
+        {
+            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Nombre = "MODIFICAR";
+            ((Categoria)_categoria).Descripcion = "MODIFICAR";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<ComandoModificarCategoria> _mockComandoModificarCategoria = new Mock<ComandoModificarCategoria>(_categoria);
+            _mockComandoModificarCategoria.Setup(x => x.Ejecutar()).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoModificarCategoria.Object.Ejecutar());
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionParametrosNuloComandoModificarCategoria()
+        {
+            Assert.Catch<ParametrosInvalidosExcepcion>(PruebaExcepcionParametrosNuloComandoModificarCategoria);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionArgumentoNuloComandoModificarCategoria()
+        {
+            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Nombre = "MODIFICAR";
+            ((Categoria)_categoria).Descripcion = "MODIFICAR";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<ComandoModificarCategoria> _mockComandoModificarCategoria = new Mock<ComandoModificarCategoria>(_categoria);
+            _mockComandoModificarCategoria.Setup(x => x.Ejecutar()).Throws(new ArgumentoNuloExcepcion());
+
+            Assert.Throws<ArgumentoNuloExcepcion>(() => _mockComandoModificarCategoria.Object.Ejecutar());
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralComandoModificarCategoria()
+        {
+            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Nombre = "MODIFICAR";
+            ((Categoria)_categoria).Descripcion = "MODIFICAR";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<ComandoModificarCategoria> _mockComandoModificarCategoria = new Mock<ComandoModificarCategoria>(_categoria);
+            _mockComandoModificarCategoria.Setup(x => x.Ejecutar()).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockComandoModificarCategoria.Object.Ejecutar());
+        }
+
+        #endregion Modificar
+
+        #region Estado
+        [Test]
         public void M9_PruebaComandoEstadoCategoria()
         {
             ((Categoria)_categoria).Id = 1000;
@@ -213,7 +270,9 @@ namespace ApiRestPruebas.M9
             _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista()[0];
             Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
         }
-
+        #endregion Estado
+        
+        #region Insertar
         [Test]
         public void M9_PruebaComandoInsertarCategoria()
         {
@@ -231,30 +290,47 @@ namespace ApiRestPruebas.M9
         }
 
         [Test]
-        public void M9_PruebaExcepcionComandoAgregarCategoria()
+        public void M9_PruebaExcepcionNombreDuplicadoComandoAgregarCategoria()
         {
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoComandoAgregarCategoria);
         }
 
-        /*
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoAgregarCategoria()
         {
             ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
             ((Categoria)_categoria).Descripcion = "DESCRIPCION";
             ((Categoria)_categoria).CategoriaSuperior = 0;
-            ((Categoria)_categoria).Nivel = 1;                
-            _com = FabricaComando.CrearComandoAgregarCategoria(_categoria);
-            _com.Ejecutar();
+            ((Categoria)_categoria).Nivel = 1;
 
-            Mock<ComandoAgregarCategoria> _mockComandoAgregarCategoria = new Mock<ComandoAgregarCategoria>();
-
+            Mock<ComandoAgregarCategoria> _mockComandoAgregarCategoria = new Mock<ComandoAgregarCategoria>(_categoria);
             _mockComandoAgregarCategoria.Setup(x => x.Ejecutar()).Throws(new BaseDeDatosExcepcion());
 
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoAgregarCategoria.Object.Ejecutar());
         }
-        */
 
+        [Test]
+        public void M9_PruebaExcepcionParametrosInvalidosComandoAgregarCategoria()
+        {
+            Assert.Catch<ParametrosInvalidosExcepcion>(PruebaExcepcionParametrosInvalidosComandoAgregarCategoria);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralComandoAgregarCategoria()
+        {
+            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
+            ((Categoria)_categoria).Descripcion = "DESCRIPCION";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<ComandoAgregarCategoria> _mockComandoAgregarCategoria = new Mock<ComandoAgregarCategoria>(_categoria);
+            _mockComandoAgregarCategoria.Setup(x => x.Ejecutar()).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockComandoAgregarCategoria.Object.Ejecutar());
+        }
+        #endregion Insertar
+
+        #region ObtenerPorId
         [Test]
         public void M9_PruebaComandoObtenerPorId()
         {
@@ -264,7 +340,9 @@ namespace ApiRestPruebas.M9
             _resp = ((ComandoObtenerCategoriaPorId)_com).RetornarLista()[0];
             Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
         }
-
+        #endregion ObtenerPorId
+        
+        #region ObtenerPorNombre
         [Test]
         public void M9_PruebaComandoObtenerPorNombre()
         {
@@ -274,7 +352,9 @@ namespace ApiRestPruebas.M9
             _resp = _com.Retornar();
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
+        #endregion ObtenerPorNombre
 
+        #region Obtener
         /*  [Test]
           public void M9_PruebaComandoObtenerCategorias()
           {
@@ -285,7 +365,9 @@ namespace ApiRestPruebas.M9
               Assert.AreEqual(((Categoria)_categoria).Id, _resp.Id);
           }
           */
-
+        #endregion Obtener
+        
+        #region ObtenerHabilitadas
         [Test]
         public void M9_PruebaComandoObtenerCategoriasHabilitadas()
         {
@@ -311,10 +393,15 @@ namespace ApiRestPruebas.M9
             }
 
         }
+        #endregion ObtenerHabilitadas
+
         #endregion comandos
 
         ////////////////////////////////////////    PRUEBAS DAO    ///////////////////////////////////
         #region DAOs
+
+        #region Actualizar
+
         [Test]
         public void M9_PruebaDAOActualizarCategoria()
         {
@@ -382,6 +469,10 @@ namespace ApiRestPruebas.M9
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.Actualizar(_categoria));
         }
 
+        #endregion Actualizar
+
+        #region Estado
+
         [Test]
         public void M9_PruebaDAOEstadoCategoria()
         {
@@ -415,6 +506,10 @@ namespace ApiRestPruebas.M9
 
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ActualizarEstado(_categoria));
         }
+
+        #endregion Estado
+
+        #region Insertar
 
         [Test]
         public void M9_PruebaDAOInsertarCategoria()
@@ -463,6 +558,10 @@ namespace ApiRestPruebas.M9
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoDAOInsertar);
         }
 
+        #endregion Insertar
+
+        #region ObtenerHabilitadas
+
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasHabilitadas()
         {
@@ -480,6 +579,10 @@ namespace ApiRestPruebas.M9
 
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriasHabilitadas());
         }
+
+        #endregion ObtenerHabilitadas
+
+        #region ObtenerPorId
 
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasPorId()
@@ -503,6 +606,10 @@ namespace ApiRestPruebas.M9
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriaPorId(_categoria));
         }
 
+        #endregion ObtenePorId
+
+        #region ObtenerPorNombre
+
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasPorNombre()
         {
@@ -525,6 +632,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerIdCategoriaPorNombre(_categoria));
         }
 
+        #endregion ObtenerPorNombre
+
+        #region Obtener
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategorias()
         {
@@ -547,17 +657,15 @@ namespace ApiRestPruebas.M9
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerCategorias(_categoria));
         }
 
-        /*[Test]
-        public void M9_PruebaExcepcionBaseDatoDAOInsertar()
-        {
-          Assert.Catch<BaseDeDatosExcepcion>(PruebaExcepcionDuplicadoDAOInsertar);
-          Borrar("XYZ");
-        }
-        */
+        #endregion Obtener
+
         #endregion DAOs
 
         ////////////////////////////////////////    METODOS AUXILIARES DE EXCEPCIONES   //////////////
         #region auxiliaresExcepciones
+
+        #region DaoInsertar
+
         public void PruebaExcepcionBaseDatoDAOInsertar()
         {
             ((Categoria)_categoria).Nombre = "XYZ";
@@ -574,6 +682,10 @@ namespace ApiRestPruebas.M9
             ((Categoria)_categoria).Nivel = 1;
             dao.Insertar(_categoria);
         }
+
+        #endregion DaoInsertar
+
+        #region DaoModificar
 
         public void PruebaExcepcionDuplicadoDAOModificarCategoria()
         {
@@ -606,6 +718,10 @@ namespace ApiRestPruebas.M9
             _com.Ejecutar();
         }
 
+        #endregion DaoModificar
+
+        #region ComandoAgregar
+
         public void PruebaExcepcionDuplicadoComandoAgregarCategoria()
         {
             ((Categoria)_categoria).Nombre = "AGREGARPRUEB";
@@ -615,6 +731,20 @@ namespace ApiRestPruebas.M9
             _com = FabricaComando.CrearComandoAgregarCategoria(_categoria);
             _com.Ejecutar();
         }
+
+        public void PruebaExcepcionParametrosInvalidosComandoAgregarCategoria()
+        {
+            ((Categoria)_categoria).Nombre = "";
+            ((Categoria)_categoria).Descripcion = "";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+            _com = FabricaComando.CrearComandoAgregarCategoria(_categoria);
+            _com.Ejecutar();
+        }
+
+        #endregion ComandoAgregar
+
+        #region ComandoModificar
 
         public void PruebaExcepcionDependenciaComandoModificarCategoria()
         {
@@ -627,21 +757,46 @@ namespace ApiRestPruebas.M9
             _com.Ejecutar();
         }
 
+        public void PruebaExcepcionParametrosNuloComandoModificarCategoria()
+        {
+            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Nombre = "";
+            ((Categoria)_categoria).Descripcion = "";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            _com = FabricaComando.CrearComandoModificarCategoria(_categoria);
+            _com.Ejecutar();
+        }
+
+        #endregion ComandoModificar
+
+        #region ComandoObtenerPorId
+
         public void PruebaExcepcionBaseDedatosComandoObtenerCategoriaPorId()
         {
             //Implementar moq el metodo que llama a este metodo aun no esta implementado.
         }
+
+        #endregion ComandoObtenerPorId
+
+        #region ComandoObtenerCategorias
 
         public void PruebaExcepcionBaseDedatosComandoObtenerCategorias()
         {
             //Implementar moq el metodo que llama a este metodo aun no esta implementado.
         }
 
+        #endregion ComandoObtenerCategorias
+
+        #region ComandoObtenerHabilitadas
+
         public void PruebaExcepcionBaseDedatosComandoObtenerCategoriasHabilitadas()
         {
             //Implementar moq el metodo que llama a este metodo aun no esta implementado.
         }
 
+        #endregion ComandoObtenerHabilitadas
         #endregion auxiliaresExcepciones
 
         ////////////////////////////////////////    TEARDOWN   ////////////////////////////////////////
