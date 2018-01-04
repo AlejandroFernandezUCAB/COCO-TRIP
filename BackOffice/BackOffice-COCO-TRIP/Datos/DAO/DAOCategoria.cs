@@ -1,10 +1,7 @@
 using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System;
-using System.Net;
 using System.Net.Http;
-using System.Net.Sockets;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
@@ -14,6 +11,8 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     private const string ControllerUri = "M9_Categorias";
     private JObject responseData;
     private JObject requestData;
+    private HttpClient cliente = new HttpClient();
+
 
     public override JObject Delete(int id)
     {
@@ -27,8 +26,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (var cliente = new HttpClient())
-        {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/listarCategorias/{id}");
@@ -37,7 +34,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
           responseData = readTask.Result;
-        }
       }
       catch (Exception ex)
       {
@@ -64,24 +60,21 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (var cliente = new HttpClient())
-        {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
-          JObject jsonData = new JObject
+          requestData = new JObject
           {
             { "nombre", ((Categoria)data).Name },
             { "descripcion", ((Categoria)data).Description },
             { "nivel", ((Categoria)data).Nivel },
             { "categoriaSuperior", ((Categoria)data).UpperCategories }
           };
-          var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarCategoria", jsonData);
+          var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarCategoria", requestData);
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
           responseData = readTask.Result;
-        }
       }
       catch (Exception ex)
       {
@@ -101,8 +94,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (HttpClient cliente = new HttpClient())
-        {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
@@ -119,7 +110,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
           responseData = readTask.Result;
-        }
       }
       catch (Exception ex)
       {
@@ -138,8 +128,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (HttpClient cliente = new HttpClient())
-        {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           JObject jsonData = new JObject
@@ -153,7 +141,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
           responseData = readTask.Result;
-        }
       }
       catch (Exception ex)
       {
@@ -172,8 +159,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     {
       try
       {
-        using (HttpClient cliente = new HttpClient())
-        {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/CategoriasHabilitadas/");
@@ -182,7 +167,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
           responseData = readTask.Result;
-        }
       }
       catch (Exception ex)
       {
@@ -203,8 +187,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 
       try
       {
-        using (HttpClient cliente = new HttpClient())
-        {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
           var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/obtenerCategoriasPorId/{id}");
@@ -213,7 +195,6 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
           responseData = readTask.Result;
-        }
       }
       catch (Exception ex)
       {
