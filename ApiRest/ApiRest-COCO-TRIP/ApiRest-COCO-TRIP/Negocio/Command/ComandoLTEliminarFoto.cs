@@ -8,16 +8,17 @@ using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
+    /// <summary>
+    /// Comando para eliminar la foto de un lugar turistico
+    /// </summary>
     public class ComandoLTEliminarFoto : Comando
     {
         private IDAOFoto iDAOFoto;
         private Entidad _foto;
-        private Entidad _lugarTuristico;
         private static Logger log = LogManager.GetCurrentClassLogger();
 
-        public ComandoLTEliminarFoto(Entidad foto, Entidad lugarTuristico){
+        public ComandoLTEliminarFoto(Entidad foto){
             iDAOFoto = FabricaDAO.CrearDAOFoto();
-            _lugarTuristico = lugarTuristico;
         }
 
         public override void Ejecutar()
