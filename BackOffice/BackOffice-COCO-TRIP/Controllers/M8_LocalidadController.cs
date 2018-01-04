@@ -52,10 +52,13 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult Create(Localidad localidad)
     {
-      Comando comando = FabricaComando.GetComandoAgregarLocalidad();
-      comando.SetPropiedad(localidad);
-      comando.Execute();
-      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+      if (ModelState.IsValid)
+      {
+        Comando comando = FabricaComando.GetComandoAgregarLocalidad();
+        comando.SetPropiedad(localidad);
+        comando.Execute();
+        ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+      }
       return View();
     }
 
@@ -83,11 +86,14 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult Edit(Localidad localidad)
     {
-      Comando comando = FabricaComando.GetComandoModificarLocalidad();
-      comando.SetPropiedad(localidad);
-      comando.Execute();
-      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
-      return RedirectToAction("Index");
+      if (ModelState.IsValid)
+      {
+        Comando comando = FabricaComando.GetComandoModificarLocalidad();
+        comando.SetPropiedad(localidad);
+        comando.Execute();
+        ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+      }
+      return View();
     }
 
     /// <summary>

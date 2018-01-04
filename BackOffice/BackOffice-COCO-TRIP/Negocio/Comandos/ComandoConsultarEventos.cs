@@ -34,7 +34,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
         if (respuestaCategoria.Property("data") != null)
         {
           resultado.Add(respuestaCategoria["data"].ToObject<List<Categoria>>());
-          resultado.Add("Exito en Categoria");
+          resultado.Add("");
         }
 
         else
@@ -46,7 +46,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
         if (respuestaLocalidad.Property("dato") != null)
         {
           resultado.Add(respuestaLocalidad["dato"].ToObject<List<Localidad>>());
-          resultado.Add("Exito en Localidad");
+          resultado.Add("");
         }
 
         else

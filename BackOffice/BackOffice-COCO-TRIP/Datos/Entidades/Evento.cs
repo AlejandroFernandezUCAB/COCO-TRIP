@@ -13,7 +13,6 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
   /// </summary>
   public class Evento : Entidad
   {
-
     private string nombre;
     private string descripcion;
     private double precio;
@@ -27,15 +26,32 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
 
 
     // Getters y Setters de la clase Evento.
+    [Required(ErrorMessage = "Ingrese un nombre")]
+    [StringLength(30, MinimumLength = 2, ErrorMessage = "El nombre debe ser mayor a 1 caracter y menor a 30 ")]
     public string Nombre { get => nombre; set => nombre = value; }
+
+    [Required(ErrorMessage = "Ingrese una descripcion")]
+    [StringLength(200, MinimumLength = 5, ErrorMessage = "La descripcion debe ser mayor a 4 caracteres" +
+" y menor a 200")]
+
     public string Descripcion { get => descripcion; set => descripcion = value; }
+    [Required(ErrorMessage = "Ingrese un precio valido")]
     public double Precio { get => precio; set => precio = value; }
+
     public DateTime FechaInicio { get => fechaInicio; set => fechaInicio = value; }
+
     public DateTime FechaFin { get => fechaFin; set => fechaFin = value; }
+
+    [Required(ErrorMessage = "Ingrese una Hora de Inicio")]
     public DateTime HoraInicio { get => horaInicio; set => horaInicio = value; }
+
+    [Required(ErrorMessage = "Ingrese una Hora Final")]
     public DateTime HoraFin { get => horaFin; set => horaFin = value; }
+
     public string Foto { get => foto; set => foto = value; }
+
     public int IdLocalidad { get => idLocalidad; set => idLocalidad = value; }
+
     public int IdCategoria { get => idCategoria; set => idCategoria = value; }
 
     /// <summary>
