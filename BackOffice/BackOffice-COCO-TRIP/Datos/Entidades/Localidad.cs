@@ -15,19 +15,19 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     private string coordenadas;
 
     [JsonProperty(PropertyName = "nombre")]
-    [Required(ErrorMessage = "Debe ingresar un nombre")]
-    
-    [MaxLength(20, ErrorMessage = "ha excedido el maximo de caracteres (20)")]
+    [Required(ErrorMessage = "Ingrese un nombre")]
+    [StringLength(30, MinimumLength = 2, ErrorMessage = "El nombre debe ser mayor a 1 caracter y menor a 30 ")]
     public string Nombre { get => nombre; set => nombre = value; }
 
     [JsonProperty(PropertyName = "descripcion")]
-    [Required(ErrorMessage = "Debe ingresar descripcion de la localidad")]
-    [StringLength(100)]
+    [Required(ErrorMessage = "Ingrese una descripcion")]
+    [StringLength(200, MinimumLength = 5, ErrorMessage = "La descripcion debe ser mayor a 4 caracteres" +
+      " y menor a 200")]
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
     [JsonProperty(PropertyName = "coordenadas")]
-    [Required(ErrorMessage = "Debe seleccionar unas coordenadas")]
-    [StringLength(60)]
+    [Required(ErrorMessage = "Ingrese unas coordenadas")]
+    [RegularExpression(@"((\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?))", ErrorMessage = "Ingrese unas coordenadas validas")]
     public string Coordenadas { get => coordenadas; set => coordenadas = value; }
     public Localidad(string _nombre, string _descripcion, string _coordenadas)
     {

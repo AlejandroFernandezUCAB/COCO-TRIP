@@ -11,6 +11,7 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Moq;
 
 namespace ApiRestPruebas.M9
 {
@@ -54,7 +55,7 @@ namespace ApiRestPruebas.M9
             dao.Desconectar();
         }
         #endregion SetUp
-        
+
         ////////////////////////////////////////    PRUEBAS CONTROLADOR    ///////////////////////////
         /*#region controlador
         [Test]
@@ -169,7 +170,7 @@ namespace ApiRestPruebas.M9
             Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
         }
         #endregion controlador */
-        
+
         ////////////////////////////////////////    PRUEBAS COMANDOS     /////////////////////////////
         #region comandos
         [Test]
@@ -235,6 +236,25 @@ namespace ApiRestPruebas.M9
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoComandoAgregarCategoria);
         }
 
+        /*
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosComandoAgregarCategoria()
+        {
+            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
+            ((Categoria)_categoria).Descripcion = "DESCRIPCION";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;                
+            _com = FabricaComando.CrearComandoAgregarCategoria(_categoria);
+            _com.Ejecutar();
+
+            Mock<ComandoAgregarCategoria> _mockComandoAgregarCategoria = new Mock<ComandoAgregarCategoria>();
+
+            _mockComandoAgregarCategoria.Setup(x => x.Ejecutar()).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoAgregarCategoria.Object.Ejecutar());
+        }
+        */
+
         [Test]
         public void M9_PruebaComandoObtenerPorId()
         {
@@ -255,16 +275,16 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
-      /*  [Test]
-        public void M9_PruebaComandoObtenerCategorias()
-        {
-            ((Categoria)_categoria).Id = 1002;
-            _com = FabricaComando.CrearComandoObtenerCategorias(_categoria);
-            _com.Ejecutar();
-            _resp = ((ComandoObtenerCategorias)_com).RetornarLista2()[0];
-            Assert.AreEqual(((Categoria)_categoria).Id, _resp.Id);
-        }
-        */
+        /*  [Test]
+          public void M9_PruebaComandoObtenerCategorias()
+          {
+              ((Categoria)_categoria).Id = 1002;
+              _com = FabricaComando.CrearComandoObtenerCategorias(_categoria);
+              _com.Ejecutar();
+              _resp = ((ComandoObtenerCategorias)_com).RetornarLista2()[0];
+              Assert.AreEqual(((Categoria)_categoria).Id, _resp.Id);
+          }
+          */
 
         [Test]
         public void M9_PruebaComandoObtenerCategoriasHabilitadas()
@@ -289,30 +309,77 @@ namespace ApiRestPruebas.M9
                         break;
                 }
             }
-            
+
         }
         #endregion comandos
 
         ////////////////////////////////////////    PRUEBAS DAO    ///////////////////////////////////
         #region DAOs
         [Test]
-        public void M9_PruebaDAOModificarCategoria()
+        public void M9_PruebaDAOActualizarCategoria()
         {
             ((Categoria)_categoria).Id = 1000;
             ((Categoria)_categoria).Nombre = "MODIFICAR";
             ((Categoria)_categoria).Descripcion = "MODIFICAR";
             ((Categoria)_categoria).CategoriaSuperior = 0;
             ((Categoria)_categoria).Nivel = 1;
-            dao.Actualizar(_categoria);
+            ((DAOCategoria)dao).Actualizar(_categoria);
             _resp = ((DAOCategoria)dao).ObtenerCategoriaPorId(_categoria)[0];
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
         [Test]
-        public void M9_PruebaExcepcionDAOModificarCategoria()
+        public void M9_PruebaExcepcionNombreDuplicadoDAOActualizar()
         {
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoDAOModificarCategoria);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionHijoConDePendenciaExcepcionDAOActualizar()
+        {
             Assert.Catch<HijoConDePendenciaExcepcion>(PruebaExcepcionDependenciaDAOModificarCategoria);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoActualizar()
+        {
+            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
+            ((Categoria)_categoria).Descripcion = "DESCRIPCION";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.Actualizar(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.Actualizar(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionArgumentoNuloDaoActualizar()
+        {
+            ((Categoria)_categoria).Nombre = "";
+            ((Categoria)_categoria).Descripcion = "";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.Actualizar(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.Actualizar(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoActualizar()
+        {
+            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
+            ((Categoria)_categoria).Descripcion = "DESCRIPCION";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.Actualizar(It.IsAny<Categoria>())).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.Actualizar(_categoria));
         }
 
         [Test]
@@ -323,6 +390,30 @@ namespace ApiRestPruebas.M9
             ((DAOCategoria)dao).ActualizarEstado(_categoria);
             _resp = ((DAOCategoria)dao).ObtenerCategoriaPorId(_categoria)[0];
             Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoEstadoCategoria()
+        {            
+            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Estatus = false;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ActualizarEstado(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ActualizarEstado(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoEstadoCategoria()
+        {
+            ((Categoria)_categoria).Id = 1000;
+            ((Categoria)_categoria).Estatus = false;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ActualizarEstado(It.IsAny<Categoria>())).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ActualizarEstado(_categoria));
         }
 
         [Test]
@@ -339,9 +430,121 @@ namespace ApiRestPruebas.M9
         }
 
         [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoInsertar()
+        {
+            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
+            ((Categoria)_categoria).Descripcion = "DESCRIPCION";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.Insertar(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.Insertar(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoInsertar()
+        {
+            ((Categoria)_categoria).Nombre = "AGREGAR PRUEBA EXCEPCION";
+            ((Categoria)_categoria).Descripcion = "DESCRIPCION";
+            ((Categoria)_categoria).CategoriaSuperior = 0;
+            ((Categoria)_categoria).Nivel = 1;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.Insertar(It.IsAny<Categoria>())).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.Insertar(_categoria));
+        }
+
+        [Test]
         public void M9_PruebaExcepcionDuplicadoDAOInsertar()
         {
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoDAOInsertar);
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasHabilitadas()
+        {
+             Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerCategoriasHabilitadas()).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriasHabilitadas());
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoObtenerCategoriasHabilitadas()
+        {
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerCategoriasHabilitadas()).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriasHabilitadas());
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasPorId()
+        {
+            ((Categoria)_categoria).Id = 1000;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerCategoriaPorId(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriaPorId(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoObtenerCategoriasPorId()
+        {
+            ((Categoria)_categoria).Id = 1000;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerCategoriaPorId(It.IsAny<Categoria>())).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriaPorId(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasPorNombre()
+        {
+            ((Categoria)_categoria).Nombre = "prueba";
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerIdCategoriaPorNombre(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerIdCategoriaPorNombre(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoObtenerCategoriasPorNombre()
+        {
+            ((Categoria)_categoria).Nombre = "prueba";
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerIdCategoriaPorNombre(It.IsAny<Categoria>())).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerIdCategoriaPorNombre(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategorias()
+        {
+            ((Categoria)_categoria).Id = 1000;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerCategorias(It.IsAny<Categoria>())).Throws(new BaseDeDatosExcepcion());
+
+            Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerCategorias(_categoria));
+        }
+
+        [Test]
+        public void M9_PruebaExcepcionGeneralDaoObtenerCategorias()
+        {
+            ((Categoria)_categoria).Id = 1000;
+
+            Mock<DAOCategoria> _mockDaoCategoria = new Mock<DAOCategoria>();
+            _mockDaoCategoria.Setup(x => x.ObtenerCategorias(It.IsAny<Categoria>())).Throws(new Excepcion());
+
+            Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.ObtenerCategorias(_categoria));
         }
 
         /*[Test]
