@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
-    interface IDAOFoto
+    public interface IDAOFoto
     {
 
         void Insertar(Entidad foto, Entidad lugar);
