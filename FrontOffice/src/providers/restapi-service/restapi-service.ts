@@ -249,6 +249,7 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
+        
         reject(error);
 
       });
@@ -263,10 +264,11 @@ eveSegunPreferencias(idUser){
      * @param passNueva contraseña nueva
      */
 
-   cambiarPass(username, passActual, passNueva){
-    return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + username
-       +"&passwordActual=" + passActual +"&passwordNuevo=" +passNueva ,"")
+   cambiarPass(entidad: Entidad, passActual: string){
+     let usuario = entidad as Usuario;
+    return new Promise( (resolve) => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + usuario.getNombreUsuario
+       +"&passwordActual=" + passActual +"&passwordNuevo=" +usuario.getClave ,"")
       .map(res => res.json())
       .subscribe(data => {
 
@@ -274,7 +276,6 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
-
         resolve(0);
 
       });
