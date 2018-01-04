@@ -81,8 +81,9 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Create(LugarTuristico lugar)
     {
 
-      LlenadoLugarTuristico(lugar);
-      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com = FabricaComando.GetComandoAgregarLugarTuristico();
+      LlenadoLugarTuristico();
+      com.Execute();
       return RedirectToAction("ViewAll");
 
     }
@@ -461,37 +462,26 @@ namespace BackOffice_COCO_TRIP.Controllers
           return View();
         }
 
-    public void LlenadoLugarTuristico(LugarTuristico lugar)
+    public void LlenadoLugarTuristico()
     {
-      //Llenando la foto
-      Foto foto = new Foto();// TODO cambiar esto por fabrica.
-      foto.Contenido = Encoding.ASCII.GetBytes (Request.Form["fotoLugar"]);
-      lugar.Foto.Add(foto);
+      //Llenando la foto      
+      com.SetPropiedad (Encoding.ASCII.GetBytes (Request.Form["fotoLugar"]));
 
       //Llenando el nombre
-      lugar.Nombre = Request.Form["Nombre"];
+      com.SetPropiedad(Request.Form["Nombre"]);
 
       //Llenando el costo
       Double.TryParse(Request.Form["Costo"], out double costo);
-      lugar.Costo = costo;
+      com.SetPropiedad(costo);
 
       //Activar o desactivar lugar turistico
-      if (Request.Form["activar"] == "Activo")
-      {
-        lugar.Activar = true;
-      }
-      else
-      {
-        lugar.Activar = false;
-      }
-
+      com.SetPropiedad(Request.Form["activar"]);
+      
       //Llenando los objetos de categoria solo con el nombre, 
       for (int i=0; i <= 3; i++)
       {
 
-        Categoria categoria = FabricaEntidad.GetCategoria(); //Esto no deberia ir aqui, pero no se como resolverlo.
-        categoria.Name = String.Format("{0}", Request.Form["categoria_"+i]);
-        lugar.Categoria.Add(categoria);
+        com.SetPropiedad(String.Format("{0}", Request.Form["categoria_"+i]));       
        
       }
 
@@ -499,92 +489,16 @@ namespace BackOffice_COCO_TRIP.Controllers
       for(int i = 0; i <= 6; i++)
       {
 
-        lugar.Horario[i].DiaSemana = ExtraerDiaSemana(Request.Form["dia_"+i]);
-        lugar.Horario[i].HoraApertura = ExtraerTimeSpan(Request.Form["Horario["+i+"].HoraApertura"]);
-        lugar.Horario[i].HoraCierre = ExtraerTimeSpan(Request.Form["Horario[" + i + "].HoraCierre"]);
+        com.SetPropiedad( Request.Form["dia_"+i]);
+        com.SetPropiedad( Request.Form["Horario["+i+"].HoraApertura"]);
+        com.SetPropiedad( Request.Form["Horario[" + i + "].HoraCierre"]);
         
       }
 
     }
 
-    private List<Categoria> BusquedaDeCategoriasHabilitadas()
-    {
 
-      JObject respuestaCategoria;
-      List<Categoria> listCategories = new List<Categoria>();
-
-
-      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
-      com.Execute();
-      respuestaCategoria = (JObject)com.GetResult()[0];
-
-      if (respuestaCategoria.Property("data") != null)
-      {
-
-        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
-
-      }
-      else
-      {
-
-        listCategories = new List<Categoria>();
-
-      }
-
-      return listCategories;
-    }
-
-    private long ExtraerIDCategoria(string categoria)
-    {
-
-      foreach(Categoria categorias in ViewBag.Categoria )
-      {
-        if(categoria == categorias.Name)
-        return categorias.Id;
-      }
-
-      return 0;
-
-    }
-
-    public TimeSpan ExtraerTimeSpan(String hora)
-    {
-      return TimeSpan.Parse(hora);
-    }
-
-    public int ExtraerDiaSemana(String Dia)
-    {
-      if(Dia.Equals("Domingo"))
-      {
-        return 0;
-      }
-      else if( Dia.Equals("Lunes"))
-      {
-        return 1;
-      }
-      else if ( Dia.Equals("Martes"))
-      {
-        return 2;
-      }
-      else if ( Dia.Equals("Miercoles"))
-      {
-        return 3;
-      }
-      else if (Dia.Equals("Jueves"))
-      {
-        return 4;
-      }
-      else if (Dia.Equals("Viernes"))
-      {
-        return 5;
-      }
-      else if(Dia.Equals("Sabado"))
-      {
-        return 6;
-      }
-
-      return 0;
-    }
+   
 
     }
 }
