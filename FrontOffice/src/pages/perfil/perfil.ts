@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 // para acceder a la variable id alamcenada durante el login
 import { Storage } from '@ionic/storage'; 
 import { Usuario } from '../../dataAccessLayer/domain/usuario';
+import { ComandoVerPerfil } from '../../businessLayer/commands/comandoVerPerfil';
 
 /**
  * Generated class for the PerfilPage page.
@@ -35,7 +36,7 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
-  private comando : Comando;
+  
 
   // valores por defecto para el usuario
   usuario : Usuario = FabricaEntidad.crearUsuarioConParametros(0, 'Nombre', 'Apellido', 'Correo', 'default');
@@ -47,7 +48,7 @@ export class PerfilPage {
   };
   */
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private translateService: TranslateService, public restapiService: RestapiService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private comando : ComandoVerPerfil) {
   
   }
 
@@ -64,13 +65,12 @@ export class PerfilPage {
   // dispositivo
   cargarUsuario(){
     
-    this.comando = FabricaComando.crearComandoVerPerfil(
-      this.usuario, this.storage, this.translateService, this.restapiService);
-    this.comando.execute().then( () => {
-      if (this.comando.isSuccess()) {
-        this.usuario = this.comando.return() as Usuario;
-      }
-    });
+    this.comando._entidad = this.usuario;
+    console.log(this.usuario);
+    this.comando.execute().then( () => 
+      this.usuario = this.comando.return() as Usuario,
+      error => console.log('ocurrio un error cargando los datos')
+    );
   
   }
 

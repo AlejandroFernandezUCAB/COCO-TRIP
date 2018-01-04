@@ -43,14 +43,18 @@ import { Usuario } from '../domain/usuario';
           id : number, nombre : string, 
           apellido : string, 
           correo : string, 
-          nickname : string ) : Usuario
+          nickname : string,
+          fechaNacimiento? ) : Usuario
       {
           let usuario = new Usuario();
-          usuario.Id = id;
-          usuario.Nombre = nombre;
-          usuario.Apellido = apellido;
-          usuario.Correo = correo;
-          usuario.NombreUsuario = nickname;
+          usuario.setId = id;
+          usuario.setNombre = nombre;
+          usuario.setApellido = apellido;
+          usuario.setCorreo = correo;
+          usuario.setNombreUsuario = nickname;
+          if (fechaNacimiento) {
+              usuario.setFechaNacimiento = fechaNacimiento;
+          }
           return usuario;
       }
  }

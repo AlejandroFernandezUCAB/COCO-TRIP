@@ -139,10 +139,6 @@ export class FabricaComando{
         return new ComandoInformacionMensajeGrupo();
     }
 
-    public static crearComandoVerPerfil(entidad : Entidad, storage : Storage, translate, restapi)
-    {
-        return new ComandoVerPerfil(entidad, storage, translate, restapi);
-    }
 
     /**
  * Descripcion del metodo:

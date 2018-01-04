@@ -5,15 +5,17 @@ import { catProd, catService, catErr } from '../../logs/config';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import { Usuario } from '../../dataAccessLayer/domain/usuario';
 import { Storage } from '@ionic/storage';
+import { Injectable } from '@angular/core';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 
+@Injectable()
 export class ComandoVerPerfil extends Comando {
-
-    private exito: boolean;
     
-    constructor( private entidad : Entidad, private storage: Storage, private translateService: TranslateService, public restapiService: RestapiService ) 
+
+    constructor( private storage: Storage, private translateService: TranslateService, public restapiService: RestapiService ) 
     {
         super();
-        this._entidad = entidad;
+        
     };
 
     public execute() : Promise<null>
@@ -21,27 +23,23 @@ export class ComandoVerPerfil extends Comando {
         return new Promise((resolve => {
             // obtenemos el id ya almacenado desde el login
             this.storage.get('id').then((val) => {
-                this._entidad.Id = val;
+                this._entidad.setId = val;
                 // hacemos la llamada al apirest con el id obtenido
-                this.restapiService.ObtenerDatosUsuario(this._entidad.Id).then(data => {
-                     
-                    this._entidad = data as Entidad;
-                    //this.usuario.Id = this.idUsuario; 
+                this.restapiService.ObtenerDatosUsuario(this._entidad.getId).then(data => {
+                    this._entidad = FabricaEntidad.crearUsuarioConParametros(data.id, data.Nombre, data.Apellido, data.Correo, data.Nickname, data.FechaNacimiento);
                     // cargamos el idioma
-                    this.storage.get(this._entidad.Id.toString()).then((val) => {
+                    this.storage.get(this._entidad.getId.toString()).then((val) => {
                         //verificamos que posee configuracion previa de idioma
                         if (val != null || val != undefined) {
                             this.translateService.use(val);
                         }
                     });
-                    this.exito =true;
-                    // cargamos los datos para la vista de configuracion
-                    // this.configParams.idUsuario = this.idUsuario;
-                    // this.configParams.NombreUsuario = this.usuario.NombreUsuario;
+                    
                     resolve();
                     
                 }, error => {
-                    this.exito = false;
+                 
+                    console.log('falla en la carga de los datos');
                     resolve();
                 })
             });
@@ -50,10 +48,6 @@ export class ComandoVerPerfil extends Comando {
     
     }
 
-    public isSuccess() : boolean 
-    {
-        return this.exito;
-    };
     public return() : Entidad 
     { 
         return this._entidad

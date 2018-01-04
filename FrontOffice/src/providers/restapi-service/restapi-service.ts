@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { catProd, catService, catErr } from '../../logs/config';
 import { Grupo } from '../../dataAccessLayer/domain/grupo';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /*
   Generated class for the Restapi provider.
@@ -238,7 +239,7 @@ eveSegunPreferencias(idUser){
     });
    }
 
-   ObtenerDatosUsuario(idUsuario){
+   ObtenerDatosUsuario(idUsuario): Promise<any>{
     return new Promise( (resolve, reject) => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ObtenerDatosUsuario?idUsuario=' + idUsuario,"")
       .map(res => res.json())
@@ -247,16 +248,7 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
-        console.log('aqui');
-        //TODO
-        //datos cableado. Quitar cuando conecte con el api
-        /*let respuesta = {
-          Id: 1,
-          Nombre: 'Jesus',
-          Apellido: 'Rivero',
-          Correo: 'rosamaro@guadalupo.com',
-          FechaNacimiento: new Date('1995-04-11T00:00:00.196Z').toISOString()
-        };*/
+        
         reject(error);
 
       });
