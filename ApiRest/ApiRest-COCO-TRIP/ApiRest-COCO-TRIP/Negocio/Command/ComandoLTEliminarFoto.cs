@@ -24,7 +24,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         {
             try
             {
-                iDAOFoto.Eliminar(_foto , _lugarTuristico);
+                iDAOFoto.Eliminar(_foto);
             }
             catch (ReferenciaNulaExcepcion e)
 			{
