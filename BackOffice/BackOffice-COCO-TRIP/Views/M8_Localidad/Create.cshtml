@@ -1,14 +1,12 @@
 @Styles.Render("~/bundles/lugares_addCSS")
-@using BackOffice_COCO_TRIP.Helpers
-
 @model BackOffice_COCO_TRIP.Datos.Entidades.Localidad
 
 @{
-    ViewBag.Title = "Crear Localidad Evento";
+    ViewBag.Title = "Localidades";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create Localidad para un Evento</h2>
+<h2>Crear Localidad </h2>
 
 @using (Html.BeginForm("Create", "M8_Localidad", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
 {
@@ -45,7 +43,7 @@
 
     <div class="form-group">
       <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="CreateEvent" class="btn btn-default" />
+        <input type="submit" value="Crear Localidad" class="btn btn-default" />
       </div>
     </div>
   </div>

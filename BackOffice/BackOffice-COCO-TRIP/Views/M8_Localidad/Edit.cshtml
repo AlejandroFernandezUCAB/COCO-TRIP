@@ -1,14 +1,16 @@
 @model BackOffice_COCO_TRIP.Datos.Entidades.Localidad
 
-
-<h2>Modificar Localidad para un Evento</h2>
+@{
+    ViewBag.Title = "Localidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Modificar Localidad</h2>
 
 @using (Html.BeginForm("Edit", "M8_Localidad", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
 {
   @Html.AntiForgeryToken()
 
   <div class="form-horizontal">
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
       @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })

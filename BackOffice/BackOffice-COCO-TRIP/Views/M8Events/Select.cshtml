@@ -1,13 +1,13 @@
-
 @model BackOffice_COCO_TRIP.Datos.Entidades.Evento
 
-
-<h2>Evento</h2>
+@{
+    ViewBag.Title = "Eventos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Consultar Evento</h2>
 
 
 <div class="form-horizontal">
-  <hr />
-
   <div class="form-group">
     @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">

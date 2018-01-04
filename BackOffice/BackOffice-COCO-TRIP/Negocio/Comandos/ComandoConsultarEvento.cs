@@ -35,6 +35,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
         entidad = respuesta["dato"].ToObject<Evento>();
         resultado.Add(entidad);
 
+        resultado.Add("");
 
         comando = FabricaComando.GetComandoConsultarLocalidad();
         comando.SetPropiedad(((Evento)entidad).IdLocalidad);
@@ -48,7 +49,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
         Categoria entidad2 = cat["data"][0].ToObject<Categoria>();
         resultado.Add((entidad2).Name);
 
-        resultado.Add("Se hizo con exito");
       }
     }
 

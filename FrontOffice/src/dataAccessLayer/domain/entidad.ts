@@ -18,7 +18,7 @@ export class Entidad
 {
     private id: number;
 
-    private fireId: string;
+    private fireId: String;
 
     constructor()
     {
@@ -44,7 +44,7 @@ export class Entidad
     /**
      * Establece el identificador de la entidad
      */
-    set setFireId(id : string) 
+    set setFireId(id : String) 
     {
         this.fireId = id;
     }
@@ -52,7 +52,7 @@ export class Entidad
     /**
      * Obtiene el identificador de la entidad
      */
-    get getFireId() : string
+    get getFireId() : String
     {
         return this.fireId;
     }
