@@ -1,4 +1,3 @@
-using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Models.Peticion;
 using BackOffice_COCO_TRIP.Datos.Entidades;
 using Newtonsoft.Json;
@@ -6,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
+using BackOffice_COCO_TRIP.Negocio.Comandos;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -17,37 +18,58 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// </summary>
     public class LugaresController : Controller
     {
-        //Horarios del lugar turistico
+    
 
-        private PeticionLugares peticion; //Objeto que realiza la peticion al servicio web
+    private PeticionLugares peticion; //Objeto que realiza la peticion al servicio web
+    private Comando com;
+    private IList<Categoria> _categorias;
 
-        // GET:Lugares
-        public ActionResult Index()
-        {
-            ViewBag.Title = "Lugares Turísticos";
-            return View();
-        }
+    // GET:Lugares
+    public ActionResult Index()
+    {
+      ViewBag.Title = "Lugares Turísticos";
+      return View();
+    }
 
         // GET:Lugares/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+    public ActionResult Details(int id)
+    {
+      return View();
+    }
 
-        /// <summary>
-        /// Metodo GET que se dispara al acceder a la pantalla Create
-        /// </summary>
-        /// <returns></returns>
-        // GET:Lugares/Create
-        public ActionResult Create()
-        {
-            ViewBag.Title = "Agregar Lugar Turístico";
+    /// <summary>
+    /// Metodo GET que se dispara al acceder a la pantalla Create
+    /// </summary>
+    /// <returns></returns>
+    /// GET:Lugares/Create
+    public ActionResult Create()
+    {
+      JObject respuestaCategoria;
+      ViewBag.Title = "Agregar Lugar Turístico";
+      IList<Categoria> listCategories = null;
+      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com.Execute();
+      respuestaCategoria = (JObject)com.GetResult()[0];
+      if (respuestaCategoria.Property("data")!= null)
+      {
 
-            peticion = new PeticionLugares();
+        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
+        _categorias = listCategories;
+        ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>( respuestaCategoria.ToString() );
 
-            try
+      }
+      else
+      {
+
+        ViewBag.Categoria = new List<Categoria>();
+
+      }
+
+      return View();
+            /*try
             {
-              var respuesta = peticion.GetCategoria();
+
+          
 
               if(respuesta == HttpStatusCode.InternalServerError.ToString())
               {
@@ -91,6 +113,7 @@ namespace BackOffice_COCO_TRIP.Controllers
             {
               return RedirectToAction("PageDown");
             }
+            */
         }
 
         // POST:Lugares/Create
@@ -99,36 +122,33 @@ namespace BackOffice_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="lugar">Lugar Turistico</param>
         /// <returns></returns>
-        [HttpPost]
-        public ActionResult Create(LugarTuristico lugar)
-        {
-            peticion = new PeticionLugares();
+    [HttpPost]
+    public ActionResult Create(LugarTuristico lugar)
+    {
+      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
 
-            try
-            {
-                    //Parametros estaticos del form
-                    var activar= String.Format("{0}", Request.Form["activar"]);
-                    var categoriaUno = String.Format("{0}", Request.Form["categoria_1"]);
-                    var categoriaDos = String.Format("{0}", Request.Form["categoria_2"]);
-                    var categoriaTres = String.Format("{0}", Request.Form["categoria_3"]);
-                    var categoriaCuatro = String.Format("{0}", Request.Form["categoria_4"]);
-                    var categoriaCinco = String.Format("{0}", Request.Form["categoria_5"]);
-                    var subCategoriaUno = String.Format("{0}", Request.Form["subcategoria_1"]);
-                    var subCategoriaDos = String.Format("{0}", Request.Form["subcategoria_2"]);
-                    var subCategoriaTres = String.Format("{0}", Request.Form["subcategoria_3"]);
-                    var subCategoriaCuatro = String.Format("{0}", Request.Form["subcategoria_4"]);
-                    var subCategoriaCinco = String.Format("{0}", Request.Form["subcategoria_5"]);
+      String activar = String.Format("{0}", Request.Form["activar"]);
+      String categoriaUno = String.Format("{0}", Request.Form["categoria_1"]);
+      String categoriaDos = String.Format("{0}", Request.Form["categoria_2"]);
+      String categoriaTres = String.Format("{0}", Request.Form["categoria_3"]);
+      String categoriaCuatro = String.Format("{0}", Request.Form["categoria_4"]);
+      String categoriaCinco = String.Format("{0}", Request.Form["categoria_5"]);
 
-                    //Activar o desactivar lugar turistico
-                    if (activar == "Activo")
-                    {
-                      lugar.Activar = true;
-                    }
-                    else
-                    {
-                      lugar.Activar = false;
+      //Activar o desactivar lugar turistico
+      if (activar == "Activo")
+      {
+        lugar.Activar = true;
+      }
+      else
+      {
+        lugar.Activar = false;
+      }
+      
+      try
+       {
+           //Parametros estaticos del form
 
-                    }
+
 
                     //Obtener categorias y subcategorias del api rest
                     var respuesta = peticion.GetCategoria();
@@ -166,20 +186,20 @@ namespace BackOffice_COCO_TRIP.Controllers
                        }
                     }
 
-                    foreach (var elemento in ViewBag.SubCategoria)
-                    {
-                      if (elemento.Nombre == subCategoriaUno ||
-                        elemento.Nombre == subCategoriaDos ||
-                        elemento.Nombre == subCategoriaTres ||
-                        elemento.Nombre == subCategoriaCuatro ||
-                        elemento.Nombre == subCategoriaCinco)
-                      {
-                        categoria.Id = elemento.Id;
-                        lugar.SubCategoria.Add(categoria);
+                    //foreach (var elemento in ViewBag.SubCategoria)
+                    //{
+                    //  if (elemento.Nombre == subCategoriaUno ||
+                    //    elemento.Nombre == subCategoriaDos ||
+                    //    elemento.Nombre == subCategoriaTres ||
+                    //    elemento.Nombre == subCategoriaCuatro ||
+                    //    elemento.Nombre == subCategoriaCinco)
+                    //  {
+                    //    categoria.Id = elemento.Id;
+                    //    lugar.SubCategoria.Add(categoria);
 
-                        categoria = new Categoria();
-                      }
-                    }
+                    //    categoria = new Categoria();
+                    //  }
+                    //}
 
                     //Dia de los horarios del lugar turistico
                     var contador = 1;

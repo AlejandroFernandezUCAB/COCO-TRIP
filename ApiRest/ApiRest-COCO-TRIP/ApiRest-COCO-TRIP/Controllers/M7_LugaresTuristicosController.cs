@@ -274,7 +274,9 @@ namespace ApiRest_COCO_TRIP.Controllers
 		/// <returns>ID del lugar turistico insertado</returns>
 		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
 		[HttpPost]
-        public IDictionary PostLugar(JObject datos)
+		[ResponseType(typeof(IDictionary))]
+		[ActionName("AgregarLugarTuristico")]
+		public IDictionary PostLugar(JObject datos)
         {
 			response = new Dictionary<string, object>();
 
@@ -286,25 +288,25 @@ namespace ApiRest_COCO_TRIP.Controllers
 				response.Add(data, mensaje.ExitoInsertar);
 
 			}
-			catch (ReferenciaNulaExcepcion e)
+			catch (ReferenciaNulaExcepcion)
 			{
 
 				response.Add(error, mensaje.ErrorInesperado);
 
 			}
-			catch (CasteoInvalidoExcepcion e)
+			catch (CasteoInvalidoExcepcion)
 			{
 
 				response.Add(error, mensaje.ErrorInesperado);
 
 			}
-			catch (BaseDeDatosExcepcion e)
+			catch (BaseDeDatosExcepcion)
 			{
 
 				response.Add(error, mensaje.ErrorInesperado);
 
 			}
-			catch (Excepcion e)
+			catch (Excepcion)
 			{
 
 				response.Add(error, mensaje.ErrorInesperado);

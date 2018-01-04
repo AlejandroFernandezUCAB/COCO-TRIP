@@ -144,7 +144,7 @@ namespace BackOffice_COCO_TRIP.Models.Peticion
     /// <returns>Lista de categorias en formato JSON</returns>
     public string GetCategoria()
     {
-      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/{Controlador}/GetCategoria");
+      mensajeAsincrono = cliente.GetAsync($"{DireccionBase}/M9_CategoriasController/CategoriasHabilitadas");
       mensajeAsincrono.Wait();
 
       var mensaje = mensajeAsincrono.Result;
