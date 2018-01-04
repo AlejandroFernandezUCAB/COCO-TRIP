@@ -588,9 +588,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
     {
         return new ComandoLTAgregarActividad( lugarTuristico );
     }
-     public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto(Entidad foto)
+     public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto(JObject foto)
     {
-        return new ComandoLTEliminarFoto(Entidad foto);
+        return new ComandoLTEliminarFoto(foto);
     }
     public static ComandoLTAgregarFoto CrearComandoLTAgregarFoto(Entidad objeto)
     {
