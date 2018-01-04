@@ -265,6 +265,53 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
         }
 
+    /// <summary>
+    /// Elimina la foto de un lugar turistico
+    /// </summary>
+    /// <param name="foto">Objeto Foto</param>
+    /// <returns>Mensaje de exito</returns>
+    /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+    [HttpDelete]
+    [ResponseType(typeof(IDictionary))]
+		[ActionName("EliminarFotoLugarTuristico")]
+    public IDictionary DeleteFoto(JObject datos)
+    {
+      response = new Dictionary<string, object>();
+      try
+      {
+          com = FabricaComando.CrearComandoLTEliminarFoto(datos);
+          com.Ejecutar();
+          response.Add(data, mensaje.ExitoEliminarFoto);
+      }
+catch (ReferenciaNulaExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			return response;
+    }
+
+
 		//POST
 
 		/// <summary>
@@ -595,35 +642,7 @@ namespace ApiRest_COCO_TRIP.Controllers
            //   }
         }
 
-        /// <summary>
-        /// Eliminar foto
-        /// </summary>
-        /// <param name="id">ID de la foto</param>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpDelete]
-        public void DeleteFoto (int id)
-        {
 
-          peticion = new PeticionLugarTuristico();
-
-          try
-          {
-            peticion.EliminarFoto(id);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-        //  catch (ArchivoExcepcion)
-        //  {
-            //RegistrarExcepcion(e); NLog
-
-        //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
-        //  }
-        }
 
         /// <summary>
         /// Eliminar horario
@@ -684,6 +703,41 @@ namespace ApiRest_COCO_TRIP.Controllers
         {
 
         }*/
+
+
+        // Codigo anterior
+
+        /// <summary>
+        /// Eliminar foto
+        /// </summary>
+        /// <param name="id">ID de la foto</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        // [HttpDelete]
+        // public void DeleteFoto (int id)
+        // {
+
+        //   peticion = new PeticionLugarTuristico();
+
+        //   try
+        //   {
+        //     peticion.EliminarFoto(id);
+        //   }
+        //   catch (BaseDeDatosExcepcion e)
+        //   {
+        //     //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        //     //RegistrarExcepcion(e); NLog
+
+        //     throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        //   }
+        // //  catch (ArchivoExcepcion)
+        // //  {
+        //     //RegistrarExcepcion(e); NLog
+
+        // //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        // //  }
+        // }
+
+        // Fin codigo anterior
     }
 
 }
