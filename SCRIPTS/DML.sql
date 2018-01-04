@@ -121,6 +121,22 @@ SELECT InsertarHorario
   1
 );
 
+--INSERTS MODULO 9
+
+INSERT INTO categoria (
+  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
+  VALUES (1, 'Lugares', 'Categoria asociada a los lugares', true, null, 1);
+
+INSERT INTO categoria(
+  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
+  VALUES (2, 'Eventos', 'Categoria asociada a los eventos', true, null, 1);
+
+INSERT INTO categoria(
+  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
+  VALUES (3, 'Turismo', 'Categoria asociada al turismo', true, null, 1);
+
+-- FIN INSERTS MODULO 9
+
 SELECT InsertarCategoriaLugarTuristico
 (
   1,
@@ -130,7 +146,7 @@ SELECT InsertarCategoriaLugarTuristico
 SELECT InsertarCategoriaLugarTuristico
 (
   1,
-  4
+  3
 );
 
 SELECT InsertarLugarTuristico
@@ -229,18 +245,3 @@ SELECT InsertarCategoriaLugarTuristico
   2,
   2
 );
-
-
---INSERTS MODULO 9
-
-INSERT INTO categoria (
-  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
-  VALUES (1, 'Lugares', 'Categoria asociada a los lugares', true, null, 1);
-
-INSERT INTO categoria(
-  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
-  VALUES (2, 'Eventos', 'Categoria asociada a los eventos', true, null, 1);
-
-INSERT INTO categoria(
-  ca_id, ca_nombre, ca_descripcion, ca_status, ca_fkcategoriasuperior, ca_nivel)
-  VALUES (3, 'Turismo', 'Categoria asociada al turismo', true, null, 1);

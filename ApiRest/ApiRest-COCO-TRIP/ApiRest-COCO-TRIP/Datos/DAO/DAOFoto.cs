@@ -129,7 +129,63 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 		public override void Eliminar(Entidad objeto)
 		{
-			throw new NotImplementedException();
+			_foto = (Foto)objeto;
+			try
+			{
+				Conectar(); //Inicia una sesion con la base de datos
+				 _comando = new NpgsqlCommand("EliminarFoto", SqlConexion);
+                _comando.CommandType = CommandType.StoredProcedure;
+                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, _foto.Id);
+                // El Store Procedure devuelve void
+			}
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (Exception e)
+			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			finally
+			{
+				Desconectar();
+			}
 		}
 
         /// <summary>
@@ -151,8 +207,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 _comando.CommandType = CommandType.StoredProcedure;
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lugar.Id);
-                _respuesta = _comando.ExecuteReader();
-                _respuesta.Read();
+                // _respuesta = _comando.ExecuteReader();
+                // _respuesta.Read();
                 // Esto Devuelve un id de base de datos
                 // pero no hace falta utilizarlo aqui...
 
