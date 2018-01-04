@@ -46,74 +46,40 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       JObject respuestaCategoria;
       ViewBag.Title = "Agregar Lugar Turístico";
-      IList<Categoria> listCategories = null;
-      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
-      com.Execute();
-      respuestaCategoria = (JObject)com.GetResult()[0];
-      if (respuestaCategoria.Property("data")!= null)
-      {
+      List<Categoria> listCategories = new List<Categoria>() ;
+      Categoria categoria = new Categoria();
 
-        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
-        _categorias = listCategories;
-        ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>( respuestaCategoria.ToString() );
+      categoria.Id = 1;
+      categoria.Name = "Turismo";
+      listCategories.Add( categoria );
 
-      }
-      else
-      {
+      categoria = new Categoria();
+      categoria.Id = 2;
+      categoria.Name = "Deportes";
 
-        ViewBag.Categoria = new List<Categoria>();
+      listCategories.Add(categoria);
 
-      }
+      ViewBag.Categoria = listCategories;
+      //Esperar que horacio arregle todo.
+      //com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      //com.Execute();
+      //respuestaCategoria = (JObject)com.GetResult()[0];
+      //if (respuestaCategoria.Property("data")!= null)
+      //{
+
+      //  listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
+      //  _categorias = listCategories;
+      //  ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>( respuestaCategoria.ToString() );
+
+      //}
+      //else
+      //{
+
+      //  ViewBag.Categoria = new List<Categoria>();
+
+      //}
 
       return View();
-            /*try
-            {
-
-          
-
-              if(respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown");
-              }
-              else if (respuesta != HttpStatusCode.NotFound.ToString())
-              {
-                ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
-
-                ViewBag.SubCategoria = new List<Categoria>();
-
-                foreach(var elemento in ViewBag.Categoria)
-                {
-                  respuesta = peticion.GetSubCategoria((int)elemento.Id);
-
-                  if (respuesta == HttpStatusCode.InternalServerError.ToString())
-                  {
-                    return RedirectToAction("PageDown");
-                  }
-                  else if (respuesta != HttpStatusCode.NotFound.ToString())
-                  {
-                    var respuestaSubCategoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
-
-                    foreach (var subElemento in respuestaSubCategoria)
-                    {
-                      subElemento.UpperCategories = (int)elemento.Id;
-                      ViewBag.SubCategoria.Add(subElemento);
-                    }
-                  }
-                }
-              }
-              else
-              {
-                ViewBag.Categoria = new List<Categoria>(); //No hay categorias ni sub-categorias en la base de datos
-                ViewBag.SubCategoria = new List<Categoria>();
-              }
-
-                return View();
-            }
-            catch (SocketException)
-            {
-              return RedirectToAction("PageDown");
-            }
-            */
         }
 
         // POST:Lugares/Create
@@ -125,6 +91,8 @@ namespace BackOffice_COCO_TRIP.Controllers
     [HttpPost]
     public ActionResult Create(LugarTuristico lugar)
     {
+
+      LlenadoLugarTuristico(lugar);
       com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
 
       String activar = String.Format("{0}", Request.Form["activar"]);
@@ -132,7 +100,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       String categoriaDos = String.Format("{0}", Request.Form["categoria_2"]);
       String categoriaTres = String.Format("{0}", Request.Form["categoria_3"]);
       String categoriaCuatro = String.Format("{0}", Request.Form["categoria_4"]);
-      String categoriaCinco = String.Format("{0}", Request.Form["categoria_5"]);
 
       //Activar o desactivar lugar turistico
       if (activar == "Activo")
@@ -146,38 +113,15 @@ namespace BackOffice_COCO_TRIP.Controllers
       
       try
        {
-           //Parametros estaticos del form
-
-
-
-                    //Obtener categorias y subcategorias del api rest
-                    var respuesta = peticion.GetCategoria();
-                    ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
-
-                    ViewBag.SubCategoria = new List<Categoria>();
-
-                    foreach (var elemento in ViewBag.Categoria)
-                    {
-                      respuesta = peticion.GetSubCategoria(elemento.Id);
-                      var respuestaSubCategoria = JsonConvert.DeserializeObject<List<Categoria>>(respuesta);
-
-                      foreach (var subElemento in respuestaSubCategoria)
-                      {
-                         ViewBag.SubCategoria.Add(subElemento);
-                      }
-
-                    }
-
-                    //Categorias y subcategorias del lugar turistico
-                    var categoria = new Categoria();
+        //Categorias y subcategorias del lugar turistico
+        var categoria = new Categoria();
 
                     foreach (var elemento in ViewBag.Categoria)
                     {
                       if(elemento.Nombre == categoriaUno ||
                         elemento.Nombre == categoriaDos ||
                         elemento.Nombre == categoriaTres ||
-                        elemento.Nombre == categoriaCuatro ||
-                        elemento.Nombre == categoriaCinco)
+                        elemento.Nombre == categoriaCuatro)
                        {
                           categoria.Id = elemento.Id;
                           lugar.Categoria.Add(categoria);
@@ -186,23 +130,8 @@ namespace BackOffice_COCO_TRIP.Controllers
                        }
                     }
 
-                    //foreach (var elemento in ViewBag.SubCategoria)
-                    //{
-                    //  if (elemento.Nombre == subCategoriaUno ||
-                    //    elemento.Nombre == subCategoriaDos ||
-                    //    elemento.Nombre == subCategoriaTres ||
-                    //    elemento.Nombre == subCategoriaCuatro ||
-                    //    elemento.Nombre == subCategoriaCinco)
-                    //  {
-                    //    categoria.Id = elemento.Id;
-                    //    lugar.SubCategoria.Add(categoria);
-
-                    //    categoria = new Categoria();
-                    //  }
-                    //}
-
                     //Dia de los horarios del lugar turistico
-                    var contador = 1;
+                    int contador = 1;
 
                     foreach (var horario in lugar.Horario)
                     {
@@ -664,5 +593,103 @@ namespace BackOffice_COCO_TRIP.Controllers
 
           return View();
         }
+
+    public void LlenadoLugarTuristico(LugarTuristico lugar)
+    {
+
+      String activar = Request.Form["activar"];
+      
+      //Activar o desactivar lugar turistico
+      if (activar == "Activo")
+      {
+        lugar.Activar = true;
+      }
+      else
+      {
+        lugar.Activar = false;
+      }
+      
+      lugar.Categoria = new List<Categoria>();
+      //Llenando los objetos de categoria
+      for(int i=0; i <= 3; i++)
+      {
+
+        //lugar.Categoria[i].Id = 1;
+        lugar.Categoria[i].Name = String.Format("{0}", Request.Form["categoria_1"]);
+
+        //Para buscar el id de la cateogoria
+        foreach (Categoria categoria in ViewBag.Categoria)
+        {
+
+        }
+      }
+      foreach(Categoria categoria in ViewBag.Categoria)
+      {
+        
+      }
+      //Llenando el objeto de lugar para pasarlo al Comando.
+      for(int i = 0; i <= 6; i++)
+      {
+
+        lugar.Horario[i].DiaSemana = ExtraerDiaSemana(Request.Form["dia_"+i]);
+        lugar.Horario[i].HoraApertura = ExtraerTimeSpan(Request.Form["Horario["+i+"].HoraApertura"]);
+        lugar.Horario[i].HoraCierre = ExtraerTimeSpan(Request.Form["Horario[" + i + "].HoraCierre"]);
+        
+      }
+
+    }
+
+    private long ExtraerIDCategoria(string categoria)
+    {
+
+      foreach(Categoria categorias in ViewBag.Categoria )
+      {
+        if(categoria == categorias.Name)
+        return categorias.Id;
+      }
+
+      return 0;
+
+    }
+
+    public TimeSpan ExtraerTimeSpan(String hora)
+    {
+      return TimeSpan.Parse(hora);
+    }
+
+    public int ExtraerDiaSemana(String Dia)
+    {
+      if(Dia.Equals("Domingo"))
+      {
+        return 0;
+      }
+      else if( Dia.Equals("Lunes"))
+      {
+        return 1;
+      }
+      else if ( Dia.Equals("Martes"))
+      {
+        return 2;
+      }
+      else if ( Dia.Equals("Miercoles"))
+      {
+        return 3;
+      }
+      else if (Dia.Equals("Jueves"))
+      {
+        return 4;
+      }
+      else if (Dia.Equals("Viernes"))
+      {
+        return 5;
+      }
+      else if(Dia.Equals("Sabado"))
+      {
+        return 6;
+      }
+
+      return 0;
+    }
+
     }
 }
