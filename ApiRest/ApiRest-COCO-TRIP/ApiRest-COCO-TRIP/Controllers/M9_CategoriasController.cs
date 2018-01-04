@@ -52,33 +52,33 @@ namespace ApiRest_COCO_TRIP.Controllers
             try
             {
                 ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
-          "id","estatus"});
-        categoria = data.ToObject<Categoria>();
-        com = FabricaComando.CrearComandoEstadoCategoria(categoria);
-        com.Ejecutar();
-        response.Add(Response_Data, mensaje.ExitoModificar);
+                    "id","estatus"});
+                categoria = data.ToObject<Categoria>();
+                com = FabricaComando.CrearComandoEstadoCategoria(categoria);
+                com.Ejecutar();
+                response.Add(Response_Data, mensaje.ExitoModificar);
             }
-      catch (JsonSerializationException ex)
-      {
-        response.Add(Response_Error, ex.Message);
-      }
-      catch (BaseDeDatosExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInternoServidor);
-      }
-      catch (ParametrosNullExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorParametrosNull);  
-      }
-      catch (Excepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInesperado);
-      }
-      return response;
-     }
+            catch (JsonSerializationException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInternoServidor);
+            }
+            catch (ParametrosNullExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorParametrosNull);
+            }
+            catch (Excepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInesperado);
+            }
+            return response;
+        }
 
 
         /// <summary>
@@ -110,59 +110,59 @@ namespace ApiRest_COCO_TRIP.Controllers
             return response;
         }
 
-    ///<summary>
-    ///EndPoint para modificar los datos de la categoria
-    ///</summary>
-    [ResponseType(typeof(IDictionary))]
-    [ActionName("ModificarCategoria")]
-    [HttpPut]
-    public IDictionary ModificarCategorias([FromBody] JObject data)
-    {
-      try
-      {
-        ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
-             "nombre","descripcion","categoriaSuperior","nivel"});
-        categoria = data.ToObject<Categoria>();
-        ValidacionString.ValidarCategoria(categoria);
-        com = FabricaComando.CrearComandoModificarCategoria(categoria);
-        com.Ejecutar();
-        response.Add(Response_Data, mensaje.ExitoModificar);
-      }
-      catch (ParametrosNullExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorParametrosNull);
-       }
-      catch (ParametrosInvalidosExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorFormatoCampoCategoria);   
-      }
-      catch (HijoConDePendenciaExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorCategoriaAsociada);
-      }
-      catch (NombreDuplicadoExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
-      }
-      catch (JsonSerializationException ex)
-      {
-        response.Add(Response_Error, ex.Message);
-      }
-      catch (BaseDeDatosExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInternoServidor);
-      }
-      catch (Excepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInesperado);
-      }
-      return response;
+        ///<summary>
+        ///EndPoint para modificar los datos de la categoria
+        ///</summary>
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("ModificarCategoria")]
+        [HttpPut]
+        public IDictionary ModificarCategorias([FromBody] JObject data)
+        {
+            try
+            {
+                ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
+                    "nombre","descripcion","categoriaSuperior","nivel"});
+                categoria = data.ToObject<Categoria>();
+                ValidacionString.ValidarCategoria(categoria);
+                com = FabricaComando.CrearComandoModificarCategoria(categoria);
+                com.Ejecutar();
+                response.Add(Response_Data, mensaje.ExitoModificar);
+            }
+            catch (ParametrosNullExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorParametrosNull);
+            }
+            catch (ParametrosInvalidosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorFormatoCampoCategoria);
+            }
+            catch (HijoConDePendenciaExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorCategoriaAsociada);
+            }
+            catch (NombreDuplicadoExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
+            }
+            catch (JsonSerializationException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInternoServidor);
+            }
+            catch (Excepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInesperado);
+            }
+            return response;
 
         }
 
@@ -196,90 +196,90 @@ namespace ApiRest_COCO_TRIP.Controllers
         }
 
 
-    /// <summary>
-    /// EndPoint para agregar categorias 
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [ResponseType(typeof(IDictionary))]
-    [ActionName("AgregarCategoria")]
-    [HttpPost]
-    public IDictionary AgregarCategoria([FromBody] JObject data)
-    {
-      try
-      {
-       ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
+        /// <summary>
+        /// EndPoint para agregar categorias 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("AgregarCategoria")]
+        [HttpPost]
+        public IDictionary AgregarCategoria([FromBody] JObject data)
+        {
+            try
+            {
+                ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
            "nombre","descripcion","categoriaSuperior","nivel"});
-       categoria = data.ToObject<Categoria>();
-       ValidacionString.ValidarCategoria(categoria);
-       com = FabricaComando.CrearComandoAgregarCategoria(categoria);
-       com.Ejecutar();
-       response.Add(Response_Data, mensaje.ExitoInsertarCategoria);
-      }
-      catch (ParametrosNullExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorParametrosNull);  
-      }
-      catch (JsonSerializationException ex)
-      {
-        response.Add(Response_Error, ex.Message);
-      }
-      catch (ParametrosInvalidosExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorFormatoCampoCategoria);   
-      }
-      catch (NombreDuplicadoExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
-      }
-      catch (BaseDeDatosExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInternoServidor);
-      }
-      catch (Excepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInesperado);
-      }
-      return response;
+                categoria = data.ToObject<Categoria>();
+                ValidacionString.ValidarCategoria(categoria);
+                com = FabricaComando.CrearComandoAgregarCategoria(categoria);
+                com.Ejecutar();
+                response.Add(Response_Data, mensaje.ExitoInsertarCategoria);
+            }
+            catch (ParametrosNullExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorParametrosNull);
+            }
+            catch (JsonSerializationException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (ParametrosInvalidosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorFormatoCampoCategoria);
+            }
+            catch (NombreDuplicadoExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorCategoriaDuplicada);
+            }
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInternoServidor);
+            }
+            catch (Excepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInesperado);
+            }
+            return response;
+        }
+
+
+        /// <summary>
+        /// EndPoint para consultar una categoria por ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(IDictionary))]
+        [HttpGet]
+        [ActionName("obtenerCategoriasPorId")]
+        public IDictionary ObtenerCategoriaPorId(int id)
+        {
+            try
+            {
+                categoria.Id = id;
+                com = FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
+                com.Ejecutar();
+                response.Add(Response_Data, ((ComandoObtenerCategoriaPorId)com).RetornarLista());
+            }
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInternoServidor);
+            }
+            catch (Excepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInesperado);
+            }
+            return response;
+        }
+
+
     }
-
-
-    /// <summary>
-    /// EndPoint para consultar una categoria por ID
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [ResponseType(typeof(IDictionary))]
-    [HttpGet]
-    [ActionName("obtenerCategoriasPorId")]
-    public IDictionary ObtenerCategoriaPorId(int id)
-    {
-      try
-      {
-        categoria.Id = id;
-        com=FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
-        com.Ejecutar();
-        response.Add(Response_Data, ((ComandoObtenerCategoriaPorId)com).RetornarLista());
-      }
-      catch (BaseDeDatosExcepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInternoServidor);
-      }
-      catch (Excepcion ex)
-      {
-        response.Add(Response_Error, ex.Mensaje);
-        response.Add("MensajeError", mensaje.ErrorInesperado);
-      }
-      return response;
-    }
-
-    
-  }
 
 }
