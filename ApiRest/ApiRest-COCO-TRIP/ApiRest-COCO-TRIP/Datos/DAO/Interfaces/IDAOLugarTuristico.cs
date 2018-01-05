@@ -5,12 +5,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
 	public interface IDAOLugarTuristico
 	{
-        /// <summary>
-        /// Actualiza la informacion de un lugar turistico
-        /// </summary>
-        /// <param name="lugar">Entidad lugar turistico</param>
-        /// <returns></returns>
-        void ActualizarLugarTuristico(Entidad lugar);
 
         void Actualizar(Entidad objeto);
 

@@ -30,7 +30,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             try
             { 
                 // Ejecutamos el dao para actualizar el lugar
-                iDAOLugar.ActualizarLugarTuristico(_lugarTuristico);
+                iDAOLugar.Actualizar(_lugarTuristico);
             }
             catch (ReferenciaNulaExcepcion e)
             {

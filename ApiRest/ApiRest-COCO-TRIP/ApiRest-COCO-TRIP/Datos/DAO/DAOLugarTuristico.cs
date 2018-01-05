@@ -19,10 +19,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		private NpgsqlDataReader _datos;
 		private static Logger log = LogManager.GetCurrentClassLogger();
 
-		public override void Actualizar(Entidad objeto)
-		{
-			
-		}
 
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
@@ -207,7 +203,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// </summary>
         /// <param name="lugar">Entidad lugar turistico</param>
         /// <returns></returns>
-        public void ActualizarLugarTuristico(Entidad lugar)
+        public override void Actualizar(Entidad lugar)
         {
             _lugarTuristico = (LugarTuristico)lugar;
             try
