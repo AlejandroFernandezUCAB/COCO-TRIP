@@ -118,7 +118,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
-          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/ListarEventos/{id}");
+          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/ListarEventosPorCategoria/{id}");
 
 
           responseTask.Wait();

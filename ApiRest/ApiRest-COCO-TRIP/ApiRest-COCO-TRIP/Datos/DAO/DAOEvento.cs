@@ -259,6 +259,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                     ((Evento)evento).HoraFin = horaFin;
                     ((Evento)evento).Foto = leerDatos.GetString(8);
                     ((Evento)evento).IdLocalidad = leerDatos.GetInt32(9);
+                    ((Evento)evento).IdCategoria = categoria.Id;
                     lista.Add(evento);
                 }
             }

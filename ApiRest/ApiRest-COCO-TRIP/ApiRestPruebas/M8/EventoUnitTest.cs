@@ -701,7 +701,7 @@ namespace ApiRestPruebas.M8
             entidades = (List<Entidad>)prueba;
             foreach (Entidad entidad in entidades)
             {
-                if (entidad.Id == localidad.Id)
+                if (entidad.Id == evento.Id)
                 {
                     Assert.AreEqual(entidad.Id, evento.Id);
                     Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);
