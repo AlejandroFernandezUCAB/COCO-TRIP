@@ -1,5 +1,6 @@
 import { Grupo } from '../domain/grupo';
 import { Usuario } from '../domain/usuario';
+import { Itinerario } from '../domain/itinerario';
 
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 3*************************************//
@@ -35,4 +36,12 @@ import { Usuario } from '../domain/usuario';
      {
          return new Usuario();
      }
+
+     /**
+      * Retorna la instancia de la entidad Itinerario
+      */
+      public static crearItinerario() : Itinerario
+      {
+          return new Itinerario();
+      }
  }

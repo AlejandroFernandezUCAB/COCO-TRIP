@@ -140,10 +140,11 @@ export class FabricaComando{
  * Metodo que se encarga de instanciar ComandoAgregarItinerario
  * 
  */
-public static crearComandoAgregarItinerario(itinerario : Itinerario){
+/*public static crearComandoAgregarItinerario(itinerario : Itinerario){
     catProd.info("Entrando en el metodo ComandoAgregarItinerario de fabricaComando");    
-        return new ComandoAgregarItinerario(itinerario);
-    }
+    console.log("Entrando a Fabrica de comando");
+        return new ComandoAgregarItinerario();
+    }*/
 
         /**
  * Descripcion del metodo:

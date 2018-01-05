@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Datos.Entity;
+using System.Web.Http;
 
 namespace ApiRestPruebas
 {
@@ -46,30 +47,24 @@ namespace ApiRestPruebas
     /// <summary>
     /// Prueba de casos borde(excepciones) en AgregarItinerario
     /// </summary>
-    /*[Test]
+    [Test]
     public void FalloAgregarItinerario()
     {
-      Assert.Catch<HttpResponseException>(Excepcion_Agregar);
+      
       Assert.Catch<HttpResponseException>(Excepcion_Agregar2);
-    }*/
+    }
+
+  
 
     /// <summary>
     /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
     /// </summary>
-    /*public void Excepcion_Agregar()
-    {
-      itinerario = null;
-      controller.AgregarItinerario(itinerario);
-    }*/
-
-    /// <summary>
-    /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
-    /// </summary>
-    /*public void Excepcion_Agregar2()
+    public void Excepcion_Agregar2()
     {
       itinerario = new Itinerario("Michel", 0);
-      controller.AgregarItinerario(itinerario);
-    }*/
+            Comando comando = FabricaComando.CrearComandoAgregarItinerario(itinerario.Id, itinerario.Nombre);
+            comando.Ejecutar();
+        }
 
     /// <summary>
     /// Prueba de caso exitoso en EliminaItinerario
@@ -77,9 +72,18 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarItinerario()
     {
-      Comando comando = FabricaComando.CrearComandoEliminarItinerario(15);
+            int id = 15;
+            Boolean x = false;
+      Comando comando = FabricaComando.CrearComandoEliminarItinerario(id);
       comando.Ejecutar();
-      Assert.True(true);
+            comando = FabricaComando.CrearComandoConsultarItinerarios(1);
+            comando.Ejecutar();
+            foreach (Entidad item in comando.RetornarLista())
+            {
+                Itinerario itinerarioNew = (Itinerario)item;
+                if (item.Id == id) x = true;
+            }
+            Assert.False(x);
     }
 
     /// <summary>
@@ -282,7 +286,7 @@ namespace ApiRestPruebas
     /// <summary>
     /// Prueba de caso borde(fallo) en EliminarEvento_It
     /// </summary>
-    /*[Test]
+    [Test]
     public void FalloEliminarEvento_It()
     {
       itinerario = new Itinerario(6);
@@ -292,7 +296,7 @@ namespace ApiRestPruebas
       };
       x = controller.EliminarItem_It("Eventoss", itinerario.Id, ev.Id);
       Assert.False(x);
-    }*/
+    }
 
      [Test]
     public void PUConsultarItinerarios()
@@ -396,7 +400,7 @@ namespace ApiRestPruebas
     public void PU_EnviarCorreo()
     {
       int idUsuario = 1;
-      comando = FabricaComando.CrearComandoEnviarCorreoItinerario(1);
+      comando = FabricaComando.CrearComandoEnviarCorreoItinerario(idUsuario);
       comando.Ejecutar();
     
       Assert.True(true);
