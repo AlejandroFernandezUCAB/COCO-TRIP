@@ -46,12 +46,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         if (lider.Id == usuario.Id) //El usuario que quiere eliminar el grupo es el lider?
         {
           datos.Eliminar(grupo);
-
-          if (archivo.ExisteArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension))
-          {
-            archivo.EliminarArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
-          }
-
           log.Info("IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id);
         }
         else
@@ -61,12 +55,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         }
       }
       catch (BaseDeDatosExcepcion e)
-      {
-        e.DatosAsociados = "IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id;
-        log.Error(e.Mensaje + "|" + e.DatosAsociados);
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (IOExcepcion e)
       {
         e.DatosAsociados = "IdUsuario: " + usuario.Id + " idGrupo: " + grupo.Id;
         log.Error(e.Mensaje + "|" + e.DatosAsociados);
