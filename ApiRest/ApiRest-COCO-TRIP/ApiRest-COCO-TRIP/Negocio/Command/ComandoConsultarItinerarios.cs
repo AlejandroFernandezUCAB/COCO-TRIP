@@ -7,11 +7,18 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoConsultarItinerarios : Comando
+    /// <summary>
+    /// Clase que consulta todos los itinerarios dado un idUsuario
+    /// </summary>
+    public class ComandoConsultarItinerarios : Comando
   {
     Usuario usuario;
     List<Entidad> lista;
-    public ComandoConsultarItinerarios(int idUsuario)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="idUsuario">Id del usuario</param>
+        public ComandoConsultarItinerarios(int idUsuario)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
       usuario.Id = idUsuario;

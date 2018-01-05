@@ -1,5 +1,6 @@
 import { DAOChat } from '../../dataAccessLayer/dao/daoChat';
 import {catService,catProd} from "../../logs/config";
+import { DAOItinerario } from '../../dataAccessLayer/dao/daoItinerario';
 //****************************************************************************************************//
 //**********************************Fabrica Dao de MODULO 6*************************************//
 //****************************************************************************************************//
@@ -27,5 +28,9 @@ export class FabricaDAO{
     catProd.info("Entrando en el metodo DAOChat de fabricaDao"); 
         return new DAOChat();
     }
+    public static crearFabricaDAOItinerariot():DAOItinerario{
+        catProd.info("Entrando en el metodo DAOItinerario de fabricaDao"); 
+            return new DAOItinerario();
+        }
 
 }

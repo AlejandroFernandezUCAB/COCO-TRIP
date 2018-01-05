@@ -8,12 +8,20 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoEnviarCorreoItinerario : Comando
+    /// <summary>
+    /// Comando que agrega el enviar correos al usuario
+    /// </summary>
+    /// <param name="idUsuario">Id del usuario</param>
+    public class ComandoEnviarCorreoItinerario : Comando
   {
     Usuario usuario;
     DAONotificacion dAONotificacion;
     Boolean respuesta;
-    public ComandoEnviarCorreoItinerario(int idUsuario)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="idUsuario">Id del usuario</param>
+        public ComandoEnviarCorreoItinerario(int idUsuario)
     {
       usuario = FabricaEntidad.CrearEntidadUsuario();
       dAONotificacion = FabricaDAO.CrearDAONotifiacacion();

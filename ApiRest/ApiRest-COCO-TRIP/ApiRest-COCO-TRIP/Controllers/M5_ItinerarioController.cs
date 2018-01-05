@@ -1,11 +1,9 @@
 using System;
 using System.Web.Http;
 using System.Net;
-using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
 using Npgsql;
-using Newtonsoft.Json;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Entity;
@@ -17,11 +15,13 @@ namespace ApiRest_COCO_TRIP.Controllers
   {
 
     List<Itinerario> itinerarios = new List<Itinerario>();
-   // private PeticionItinerario peti = new PeticionItinerario();
     Comando comando;
     Itinerario itinerario;
-   
-    [HttpPut]
+        /// <summary>
+        /// Agrega una itinerario
+        /// </summary>
+        /// <param name="itinerario">con el ID y el nombre del ITINERARIO</param>
+        [HttpPut]
     public Itinerario AgregarItinerario(Itinerario it)
     {
       try
@@ -49,8 +49,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
-   
-    [HttpDelete]
+        /// <summary>
+        /// Elimina un itinerario
+        /// </summary>
+        /// <param name="idit">ID del itinerario que se va a eliminar</param>
+        [HttpDelete]
     public Boolean EliminarItinerario(int idit)
     {
       try
@@ -71,8 +74,11 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
 
-
-    [HttpPut]
+        /// <summary>
+        /// Modifica los datos de un itineario, envia el id y los datos nuevos
+        /// </summary>
+        /// <param name="itineraario">con el mismo id y los datos modificados</param>
+        [HttpPut]
     public Itinerario ModificarItinerario(Itinerario it)
     {
       try
@@ -94,8 +100,16 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
-    
-    [HttpGet]
+
+        /// <summary>
+        /// Agrega un item al itinerario
+        /// </summary>
+        /// <param name="idit">ID del itinerario</param>
+        /// <param name="iditem">id del item</param>
+        /// <param name="fechafin">fecha de inicio del item </param>
+        /// <param name="fechaini">fecha fin del item</param>
+        /// <param name="tipo">tipo de item "Evento","Actividad","Lugar Turistico"</param>
+        [HttpGet]
     public Boolean AgregarItem_It(string tipo,int idit, int iditem,DateTime fechaini,DateTime fechafin)
     {
       try
@@ -114,7 +128,13 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
-    [HttpDelete]
+        /// <summary>
+        /// Elimina un item del itinerario
+        /// </summary>
+        /// <param name="idit">ID del itinerario a eliminar el item</param>
+        /// <param name="iditem">ID del item a eliminar</param>
+        /// <param name="tipo">tipo de item "Evento","Actividad","Lugar Turistico"</param>
+        [HttpDelete]
     public Boolean EliminarItem_It(string tipo,int idit, int iditem)
     {
       try
@@ -138,8 +158,12 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
-    
-    [HttpGet]
+        /// <summary>
+        /// consulta toodos los itinerarios de un usuario
+        /// </summary>
+        /// <param name="id_usuario">ID del usuario</param>
+        /// <returns>List de items></returns>
+        [HttpGet]
     public List<Entidad> ConsultarItinerarios(int id_usuario)
     {
       try
@@ -172,8 +196,13 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
-
-     [HttpGet]
+        /// <summary>
+        /// Consulta las coincidencias en el nombre y el rango de fechas
+        /// </summary>
+        /// <param name="busqueda">coincidencia a buscar en bbdd</param>
+        /// <param name="fechafin">fecha de inicio del item </param>
+        /// <param name="fechaini">fecha fin del item</param>
+        [HttpGet]
     public List<Evento> ConsultarEventos(string busqueda, DateTime fechainicio, DateTime fechafin)
     {
       comando = FabricaComando.CrearComandoListarCoincidenciaEventos(busqueda,fechainicio,fechafin);
@@ -186,8 +215,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return listaEventos;
     }
-
-    [HttpGet]
+        /// <summary>
+        /// Busca todas las coincidencias de dicho nombre en los lugares turisticos
+        /// </summary>
+        /// <param name="busqueda">coincidencias de lugar turistico</param>
+        [HttpGet]
     public List<LugarTuristico> ConsultarLugaresTuristicos(string busqueda)
     {
       comando = FabricaComando.CrearComandoListarCoincidenciaLugaresTurisiticos(busqueda);
@@ -200,8 +232,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return listaLugar;
     }
-
-    [HttpGet]
+        /// <summary>
+        /// Busca todas las coincidencias de dicho nombre en los eventos
+        /// </summary>
+        /// <param name="busqueda">coincidencias de eventos</param>
+        [HttpGet]
     public List<Actividad> ConsultarActividad(string busqueda)
     {
       comando = FabricaComando.CrearComandoListarCoincidenciaActividades(busqueda);
@@ -214,8 +249,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
       return listaActividades;
     }
-
-    [HttpGet]
+        /// <summary>
+        /// Activa las notificaciones de correo para dicho usuario
+        /// </summary>
+        /// <param name="id_usuario">id usuario a activar correo</param>
+        [HttpGet]
     public string NotificacionCorreo(int id_usuario)
     {
       comando = FabricaComando.CrearComandoEnviarCorreoItinerario(id_usuario);
@@ -227,8 +265,13 @@ namespace ApiRest_COCO_TRIP.Controllers
       }else return "failure";
     }
 
-
-    [HttpGet]
+        /// <summary>
+        /// Hace visible o invisible el itinerario seleccionado para el usuario determinado
+        /// </summary>
+        /// <param name="idusuario">id del usuario</param>
+        /// <param name="iditinerario">id del itinerario a camibar visibility</param>
+        /// <param name="visible">booleano que decide que visibilidad tendra</param>
+        [HttpGet]
     public Boolean SetVisible(int idusuario, int iditinerario, Boolean visible)
     {
       comando = FabricaComando.CrearComandoSetVisibleItinerario(visible,idusuario,iditinerario);
@@ -237,8 +280,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       return itinerario.Visible;
     }
 
-    //-------------------------------------------------------------------------------
-    [HttpGet]
+        /// <summary>
+        /// agrega una nueva notificacion al usuario
+        /// </summary>
+        /// <param name="id_usario">id del usuario</param>
+        [HttpGet]
     public bool AgregarNotificacionConfiguracion(int id_usuario)
     {
       try
@@ -266,8 +312,11 @@ namespace ApiRest_COCO_TRIP.Controllers
       }
     }
 
-
-    [HttpDelete]
+        /// <summary>
+        /// Elimina la cnfiguracion actual de la notificacion del usuario
+        /// </summary>
+        /// <param name="id_usuario">id del usuario</param>
+        [HttpDelete]
     public bool EliminarNotificacionConfiguracion(int id_usuario)
     {
       try
@@ -288,8 +337,12 @@ namespace ApiRest_COCO_TRIP.Controllers
     }
 
 
-
-    [HttpGet]
+        /// <summary>
+        /// modifica si se desea recibir o no correos
+        /// </summary>
+        /// <param name="id_usuario">id del usuario</param>
+        /// <param name="correo">boolean que decide si se envan correos</param>
+        [HttpGet]
     public bool ModificarNotificacionConfiguracion(int id_usuario, bool correo)
     {
       try
@@ -313,8 +366,11 @@ namespace ApiRest_COCO_TRIP.Controllers
         throw new HttpResponseException(HttpStatusCode.Ambiguous);
       }
     }
-
-    [HttpGet]
+        /// <summary>
+        /// consulta el estad de la notificacion del usuario
+        /// </summary>
+        /// <param name="id_usuario">id del usuario</param>
+        [HttpGet]
     public bool ConsultarNotificacion(int id_usuario)
     {
       comando = FabricaComando.CrearComandoConsultarNotificacion(id_usuario);
