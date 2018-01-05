@@ -249,15 +249,15 @@ namespace ApiRestPruebas.M7
 		public void DAOInsertarFoto()
 		{
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
-			//iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
 
-			//iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
-			//Inserto la foto
-			iDAOFoto.Insertar( _foto ,_lugaresTuristicos[0]);
+            //Inserto la foto
+            iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
 
-			//Busco la foto
-			_fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
+            //Busco la foto
+            _fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
 
 			Assert.IsNotNull(iDAOFoto);
 			Assert.IsNotNull(iDAOLugarTuristico);
@@ -277,7 +277,7 @@ namespace ApiRestPruebas.M7
 			//iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
 			//Inserto la foto
-			iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
+			//iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
 
 			//Busco la foto
 			_fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
@@ -294,23 +294,32 @@ namespace ApiRestPruebas.M7
         public void DAOEliminarFoto()
         {
             int idFoto = 0;
+            int fotosAntesDeBorrar = 0;
+            int fotosDespuesDeBorrar = 0;
 
-            // Obtenemos los daos de la fabrica
-            iDAOFoto = FabricaDAO.CrearDAOFoto();
+            // Descomentar las siguientes lineas al ejecutar la pu de forma individual
+            //iDAOFoto = FabricaDAO.CrearDAOFoto();
             //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
-
-            // Los utilizamos para insertar
             //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
-            iDAOFoto.Insertar(_fotos[0], _lugaresTuristicos[0]);
+            //iDAOFoto.Insertar(_fotos[0], _lugaresTuristicos[0]);
 
-            Assert.IsNotNull(iDAOFoto);
-
-            idFoto = _fotos[0].Id;
 
             //deberia ser la misma foto
             _fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
+            fotosAntesDeBorrar = _fotos.Count;
+
+            idFoto = _fotos[0].Id;
+
 
             Assert.AreEqual(idFoto, _fotos[0].Id);
+
+            iDAOFoto.Eliminar(_fotos[0]);
+
+            
+            _fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
+            fotosDespuesDeBorrar = _fotos.Count;
+
+            Assert.Greater( fotosAntesDeBorrar , fotosDespuesDeBorrar );
 
         }
         #endregion

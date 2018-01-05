@@ -136,8 +136,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				 _comando = new NpgsqlCommand("EliminarFoto", SqlConexion);
                 _comando.CommandType = CommandType.StoredProcedure;
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, _foto.Id);
-                // El Store Procedure devuelve void
-			}
+                // Ejecutar
+                _comando.ExecuteNonQuery();
+            }
 			catch (NullReferenceException e)
 			{
 
