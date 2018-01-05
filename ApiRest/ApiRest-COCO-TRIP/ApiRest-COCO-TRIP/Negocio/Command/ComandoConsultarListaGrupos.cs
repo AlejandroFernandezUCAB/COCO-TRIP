@@ -39,9 +39,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
         foreach (Grupo elemento in listaGrupos)
         {
-          if (archivo.ExisteArchivo(Archivo.FotoGrupo + elemento.Id + Archivo.Extension))
+          if (elemento.RutaFoto != null)
           {
-            elemento.RutaFoto = Archivo.Ruta + Archivo.FotoGrupo + elemento.Id + Archivo.Extension;
+            elemento.RutaFoto = Archivo.Ruta + elemento.RutaFoto + Archivo.Extension;
           }
         }
 
@@ -71,5 +71,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       return listaGrupos;
     }
   }
-  
+
 }
