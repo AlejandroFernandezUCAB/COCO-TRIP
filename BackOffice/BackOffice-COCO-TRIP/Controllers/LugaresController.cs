@@ -10,6 +10,7 @@ using BackOffice_COCO_TRIP.Negocio.Comandos;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Text;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -47,40 +48,28 @@ namespace BackOffice_COCO_TRIP.Controllers
       JObject respuestaCategoria;
       ViewBag.Title = "Agregar Lugar Turístico";
       List<Categoria> listCategories = new List<Categoria>() ;
-      Categoria categoria = new Categoria();
 
-      categoria.Id = 1;
-      categoria.Name = "Turismo";
-      listCategories.Add( categoria );
+      
+      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com.Execute();
+      respuestaCategoria = (JObject)com.GetResult()[0];
+      if (respuestaCategoria.Property("data")!= null)
+      {
 
-      categoria = new Categoria();
-      categoria.Id = 2;
-      categoria.Name = "Deportes";
+        listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
+        _categorias = listCategories;
+        ViewBag.Categoria = _categorias;
 
-      listCategories.Add(categoria);
+      }
+      else
+      {
 
-      ViewBag.Categoria = listCategories;
-      //Esperar que horacio arregle todo.
-      //com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
-      //com.Execute();
-      //respuestaCategoria = (JObject)com.GetResult()[0];
-      //if (respuestaCategoria.Property("data")!= null)
-      //{
+        ViewBag.Categoria = new List<Categoria>();
 
-      //  listCategories = respuestaCategoria["data"].ToObject<List<Categoria>>();
-      //  _categorias = listCategories;
-      //  ViewBag.Categoria = JsonConvert.DeserializeObject<List<Categoria>>( respuestaCategoria.ToString() );
-
-      //}
-      //else
-      //{
-
-      //  ViewBag.Categoria = new List<Categoria>();
-
-      //}
+      }
 
       return View();
-        }
+    }
 
         // POST:Lugares/Create
         /// <summary>
@@ -92,133 +81,12 @@ namespace BackOffice_COCO_TRIP.Controllers
     public ActionResult Create(LugarTuristico lugar)
     {
 
-      LlenadoLugarTuristico(lugar);
-      com = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      com = FabricaComando.GetComandoAgregarLugarTuristico();
+      LlenadoLugarTuristico();
+      com.Execute();
+      return RedirectToAction("ViewAll");
 
-      String activar = String.Format("{0}", Request.Form["activar"]);
-      String categoriaUno = String.Format("{0}", Request.Form["categoria_1"]);
-      String categoriaDos = String.Format("{0}", Request.Form["categoria_2"]);
-      String categoriaTres = String.Format("{0}", Request.Form["categoria_3"]);
-      String categoriaCuatro = String.Format("{0}", Request.Form["categoria_4"]);
-
-      //Activar o desactivar lugar turistico
-      if (activar == "Activo")
-      {
-        lugar.Activar = true;
-      }
-      else
-      {
-        lugar.Activar = false;
-      }
-      
-      try
-       {
-        //Categorias y subcategorias del lugar turistico
-        var categoria = new Categoria();
-
-                    foreach (var elemento in ViewBag.Categoria)
-                    {
-                      if(elemento.Nombre == categoriaUno ||
-                        elemento.Nombre == categoriaDos ||
-                        elemento.Nombre == categoriaTres ||
-                        elemento.Nombre == categoriaCuatro)
-                       {
-                          categoria.Id = elemento.Id;
-                          lugar.Categoria.Add(categoria);
-
-                          categoria = new Categoria();
-                       }
-                    }
-
-                    //Dia de los horarios del lugar turistico
-                    int contador = 1;
-
-                    foreach (var horario in lugar.Horario)
-                    {
-                      if (String.Format("{0}", Request.Form["dia_" + contador]) == "Domingo")
-                      {
-                        horario.DiaSemana = 0;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Lunes")
-                      {
-                        horario.DiaSemana = 1;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Martes")
-                      {
-                        horario.DiaSemana = 2;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Miercoles")
-                      {
-                        horario.DiaSemana = 3;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Jueves")
-                      {
-                        horario.DiaSemana = 4;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Viernes")
-                      {
-                        horario.DiaSemana = 5;
-                      }
-                      else if (String.Format("{0}", Request.Form["dia_" + contador]) == "Sabado")
-                      {
-                        horario.DiaSemana = 6;
-                      }
-
-                      contador++;
-                    }
-
-                    var temporal = new List<Horario>();
-
-                    foreach (var horario in lugar.Horario)
-                    {
-                        if(horario.HoraApertura == new TimeSpan() && horario.HoraCierre == new TimeSpan())
-                        {
-                          temporal.Add(horario);
-                        }
-                    }
-
-                    foreach( var eliminar in temporal)
-                    {
-                      lugar.Horario.Remove(eliminar);
-                    }
-
-                    var temporalDos = new List<Actividad>();
-
-                    foreach (var actividad in lugar.Actividad)
-                    {
-                        if(string.IsNullOrEmpty(actividad.Nombre))
-                        {
-                          temporalDos.Add(actividad);
-                        }
-                    }
-
-                    foreach (var eliminar in temporalDos)
-                    {
-                        lugar.Actividad.Remove(eliminar);
-                    }
-
-                    var respuestaInsercion = peticion.PostLugar(lugar);
-
-                    if(respuestaInsercion == (int) HttpStatusCode.BadRequest * (-1) )
-                    {
-                      return RedirectToAction("ViewAll");
-        }
-                    else if (respuestaInsercion == (int) HttpStatusCode.InternalServerError * (-1))
-                    {
-                      return RedirectToAction("PageDown");
-                    }
-                    else
-                    {
-                      return RedirectToAction("ViewAll");
-                    }
-            }
-             catch(SocketException)
-            {
-              return RedirectToAction("PageDown");
-            }
-
-
-        }
+    }
 
         // GET:Lugares/Modify
         public ActionResult Modify(int id)
@@ -594,102 +462,53 @@ namespace BackOffice_COCO_TRIP.Controllers
           return View();
         }
 
-    public void LlenadoLugarTuristico(LugarTuristico lugar)
+    public void LlenadoLugarTuristico()
     {
+      //Seteando la foto    
+      com.SetPropiedad (Encoding.ASCII.GetBytes (Request.Form["fotoLugar"]));
 
-      String activar = Request.Form["activar"];
+      //Seteando el nombre
+      com.SetPropiedad(Request.Form["Nombre"]);
+
+      //Seteando el costo
+      Double.TryParse(Request.Form["Costo"], out double costo);
+      com.SetPropiedad(costo);
+
+      //Seteando la actividad
+      com.SetPropiedad(Request.Form["activar"]);
       
-      //Activar o desactivar lugar turistico
-      if (activar == "Activo")
-      {
-        lugar.Activar = true;
-      }
-      else
-      {
-        lugar.Activar = false;
-      }
-      
-      lugar.Categoria = new List<Categoria>();
-      //Llenando los objetos de categoria
-      for(int i=0; i <= 3; i++)
+      //Seteando las categorias
+      for (int i=0; i <= 3; i++)
       {
 
-        //lugar.Categoria[i].Id = 1;
-        lugar.Categoria[i].Name = String.Format("{0}", Request.Form["categoria_1"]);
-
-        //Para buscar el id de la cateogoria
-        foreach (Categoria categoria in ViewBag.Categoria)
-        {
-
-        }
+        com.SetPropiedad(String.Format("{0}", Request.Form["categoria_"+i]));       
+       
       }
-      foreach(Categoria categoria in ViewBag.Categoria)
-      {
-        
-      }
-      //Llenando el objeto de lugar para pasarlo al Comando.
+
+      //Seteando los horarios
       for(int i = 0; i <= 6; i++)
       {
 
-        lugar.Horario[i].DiaSemana = ExtraerDiaSemana(Request.Form["dia_"+i]);
-        lugar.Horario[i].HoraApertura = ExtraerTimeSpan(Request.Form["Horario["+i+"].HoraApertura"]);
-        lugar.Horario[i].HoraCierre = ExtraerTimeSpan(Request.Form["Horario[" + i + "].HoraCierre"]);
+        com.SetPropiedad( Request.Form["dia_"+i]);
+        com.SetPropiedad( Request.Form["Horario["+i+"].HoraApertura"]);
+        com.SetPropiedad( Request.Form["Horario[" + i + "].HoraCierre"]);
         
       }
 
-    }
-
-    private long ExtraerIDCategoria(string categoria)
-    {
-
-      foreach(Categoria categorias in ViewBag.Categoria )
+      //Seteando las actividades
+      for (int i = 0; i <= 3; i++)
       {
-        if(categoria == categorias.Name)
-        return categorias.Id;
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Activar"]);
+        com.SetPropiedad(Request.Form["fotoActividad_" + i ]);
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Nombre"]);
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Descripcion"]);
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Duracion"]);
       }
-
-      return 0;
 
     }
 
-    public TimeSpan ExtraerTimeSpan(String hora)
-    {
-      return TimeSpan.Parse(hora);
-    }
 
-    public int ExtraerDiaSemana(String Dia)
-    {
-      if(Dia.Equals("Domingo"))
-      {
-        return 0;
-      }
-      else if( Dia.Equals("Lunes"))
-      {
-        return 1;
-      }
-      else if ( Dia.Equals("Martes"))
-      {
-        return 2;
-      }
-      else if ( Dia.Equals("Miercoles"))
-      {
-        return 3;
-      }
-      else if (Dia.Equals("Jueves"))
-      {
-        return 4;
-      }
-      else if (Dia.Equals("Viernes"))
-      {
-        return 5;
-      }
-      else if(Dia.Equals("Sabado"))
-      {
-        return 6;
-      }
-
-      return 0;
-    }
+   
 
     }
 }

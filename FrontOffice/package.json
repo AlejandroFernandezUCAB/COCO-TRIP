@@ -37,7 +37,7 @@
     "@ngx-translate/http-loader": "^2.0.1",
     "angularfire2": "^5.0.0-rc.3",
     "cordova": "7.1.0",
-    "cordova-android": "^6.3.0",
+    "cordova-android": "6.3.0",
     "cordova-browser": "5.0.1",
     "cordova-ios": "^4.5.3",
     "cordova-plugin-advanced-http": "^1.8.1",
@@ -111,8 +111,7 @@
     },
     "platforms": [
       "browser",
-      "ios",
-      "android"
+      "ios"
     ]
   }
 }
