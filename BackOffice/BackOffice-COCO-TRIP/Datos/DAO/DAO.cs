@@ -13,10 +13,39 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     protected static readonly string BaseUri = Negocio.Registro.ApiRestBaseUri;
 
     // no se si los parametros de salida sea mejor entidad o dejarlo en T1. Creo que entidad. att lele
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public abstract JObject Get(int id);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     public abstract JObject Post(Entidad data);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     public abstract JObject Put(Entidad data);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public abstract JObject Delete(int id);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     public abstract JObject Patch(Entidad data);
 
   }
