@@ -6,6 +6,7 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using NLog;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -22,15 +23,20 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_lugarTuristico = lugarTuristico;
 			_categorias = ((LugarTuristico)_lugarTuristico).Categoria.ConvertAll(new Converter<Categoria, Entidad>(ConvertListCategoria));
 		}
-
+		
         public override void Ejecutar()
         {
 			try
 			{
-
+				Comando comando;
+				
 				for (int i = 0; i < _categorias.Count; i++)
 				{
+					comando = FabricaComando.CrearComandoObtenerCategoriaPorNombre(_categorias[i]);
+					comando.Ejecutar();
+					_categorias[i].Id = comando.Retornar().Id;
 					_daoCategoria.Insertar(_categorias[i], _lugarTuristico);
+
 				}
 
 			}

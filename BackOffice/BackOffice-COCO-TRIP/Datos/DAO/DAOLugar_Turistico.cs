@@ -128,7 +128,20 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// <returns></returns>
     public override JObject Post(Entidad data)
     {
-      return responseData;
+      using (HttpClient cliente = new HttpClient())
+      {
+        cliente.BaseAddress = new Uri(BaseUri);
+        cliente.DefaultRequestHeaders.Accept.Clear();
+        var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/AgregarLugarTuristico", (LugarTuristico)data);
+        responseTask.Wait();
+        var response = responseTask.Result;
+        var readTask = response.Content.ReadAsAsync<JObject>();
+        readTask.Wait();
+
+        responseData = readTask.Result;
+        return responseData;
+      }
+
     }
 
     public override JObject Put(Entidad data)

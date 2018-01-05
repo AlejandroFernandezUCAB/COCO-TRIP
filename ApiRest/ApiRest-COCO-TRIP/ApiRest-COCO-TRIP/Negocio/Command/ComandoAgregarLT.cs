@@ -14,7 +14,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 	/// <summary>
 	/// Comando que permite agregar el lugares turistico con su foto, actividad, horario y su categoria
 	/// </summary>
-	public class ComandoAgregarLugarTuristico : Comando
+	public class ComandoAgregarLT : Comando
 	{
 		private ComandoLTAgregarFoto _comandoAgregarFoto;
 		private ComandoLTAgregarActividad _comandoAgregarActividad;
@@ -28,7 +28,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		/// Creo el comando con la lista de datos ya deseralizada
 		/// </summary>
 		/// <param name="datos">JSON de Lugar turistico</param>
-		public ComandoAgregarLugarTuristico(JObject datos)
+		public ComandoAgregarLT(JObject datos)
 		{
 			
 			//Iniciando los objetos

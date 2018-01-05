@@ -465,7 +465,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     public void LlenadoLugarTuristico()
     {
       //Seteando la foto    
-      com.SetPropiedad (Encoding.ASCII.GetBytes (Request.Form["fotoLugar"]));
+      com.SetPropiedad (Request.Form["fotoLugar"]);
 
       //Seteando el nombre
       com.SetPropiedad(Request.Form["Nombre"]);
@@ -474,7 +474,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       Double.TryParse(Request.Form["Costo"], out double costo);
       com.SetPropiedad(costo);
 
-      //Seteando la actividad
+      //Seteando el status
       com.SetPropiedad(Request.Form["activar"]);
       
       //Seteando las categorias
@@ -505,6 +505,14 @@ namespace BackOffice_COCO_TRIP.Controllers
         com.SetPropiedad(Request.Form["Actividad[" + i + "].Duracion"]);
       }
 
+      //Seteando los ultimos parametros
+
+      com.SetPropiedad(Request.Form["Direccion"]);
+      com.SetPropiedad(Request.Form["Correo"]);
+      com.SetPropiedad(Request.Form["Telefono"]);
+      com.SetPropiedad(Request.Form["Descripcion"]);
+      com.SetPropiedad(Request.Form["Latitud"]);
+      com.SetPropiedad(Request.Form["Longitud"]);
     }
 
 
