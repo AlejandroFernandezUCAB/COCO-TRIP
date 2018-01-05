@@ -572,44 +572,91 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
             return new ComandoLTActualizarInformacion();
         }
 
-        public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
+		/// <summary>
+		/// Retorna la instancia de ComandoLTModificarUbicacion
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
         {
             return new ComandoLTModificarUbicacion();
         }
-        public static ComandoLTAgregarCategoria CrearComandoLTAgregarCategoria(Entidad lugarTuristico)
+
+		/// <summary>
+		/// Retorna la instancia de ComandoLTAgregarCategoria
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTAgregarCategoria CrearComandoLTAgregarCategoria(Entidad lugarTuristico)
         {
             return new ComandoLTAgregarCategoria(lugarTuristico);
         }
-        public static ComandoLTEliminarCategoria CrearComandoLTEliminarCategoria()
+
+		/// <summary>
+		/// Retorna la instancia de ComandoLTEliminarCategoria
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTEliminarCategoria CrearComandoLTEliminarCategoria()
         {
             return new ComandoLTEliminarCategoria();
         }
-        public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad()
+
+		/// <summary>
+		/// Retorna la instancia de ComandoLTEliminarActividad
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad()
         {
             return new ComandoLTEliminarActividad();
         }
-        public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
+
+		/// <summary>
+		/// Retorna la instancia de ComandoLTAgregarActividad
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
         {
             return new ComandoLTAgregarActividad(lugarTuristico);
         }
-        public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto(JObject foto)
+
+		/// <summary>
+		/// Retorna la instancia de ComandoLTEliminarFoto
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTEliminarFoto CrearComandoLTEliminarFoto(JObject foto)
         {
             return new ComandoLTEliminarFoto(foto);
         }
-        public static ComandoLTAgregarFoto CrearComandoLTAgregarFoto(Entidad objeto)
+
+		/// <summary>
+		/// Retorna la instancia de ComandoLTAgregarFoto
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTAgregarFoto CrearComandoLTAgregarFoto(Entidad objeto)
         {
             return new ComandoLTAgregarFoto(objeto);
         }
 
-        public static ComandoAgregarLugarTuristico CrearComandoLTAgregar(JObject datos)
-        {
-            return new ComandoAgregarLugarTuristico(datos);
-        }
+		/// <summary>
+		/// Retorna la instancia de ComandoAgregarLT
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoAgregarLT CrearComandoLTAgregar(JObject datos)
+		{
+			return new ComandoAgregarLT(datos);
+		}
 
-        public static ComandoLTAgregarHorario CrearComandoLTAgregarHorario(Entidad lugarTuristico)
+		/// <summary>
+		/// Retorna la instancia de ComandoLTAgregarHorario
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoLTAgregarHorario CrearComandoLTAgregarHorario(Entidad lugarTuristico)
         {
             return new ComandoLTAgregarHorario(lugarTuristico);
         }
+
+		public static ComandoObtenerLugaresTuristicos CrearComandoObtenerLugaresTuristicos()
+		{
+			return new ComandoObtenerLugaresTuristicos();
+		}
 
     }
 }

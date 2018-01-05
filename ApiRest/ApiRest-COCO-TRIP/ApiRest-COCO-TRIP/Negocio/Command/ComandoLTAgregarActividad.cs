@@ -27,7 +27,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		public override void Ejecutar()
 		{
 			try
-			{
+			{	
+			
 				for (int i = 0; i < _actividades.Count; i++)
 				{
 					_dao.Insertar(_actividades[i], _lugarTuristico);

@@ -35,38 +35,51 @@ namespace ApiRest_COCO_TRIP.Controllers
 		/// <summary>
 		/// Consulta la lista de lugares turisticos dentro del rango establecido
 		/// </summary>
-		/// <param name="desde">limite inferior</param>
-		/// <param name="hasta">limite superior</param>
 		/// <returns>Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
 		/// de cada lugar turistico. Formato JSON</returns>
 		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
 		[HttpGet]
-        public List<LugarTuristico> GetLista (int desde, int hasta)
+		[ResponseType(typeof(IDictionary))]
+		[ActionName("ListaLugaresTuristicos")]
+		public IDictionary GetLista ()
         {
-            peticion = new PeticionLugarTuristico();
+			response = new Dictionary<string, object>();
 
-            try
-            {
-              var listaLugar = peticion.ConsultarListaLugarTuristico(desde, hasta);
+			try
+			{
+				com = FabricaComando.CrearComandoObtenerLugaresTuristicos();
+				com.Ejecutar();
+				response.Add( data, ((ComandoObtenerLugaresTuristicos)com).RetornarLista() );
+				
+			}
+			catch (ReferenciaNulaExcepcion)
+			{
 
-              if(listaLugar.Count == (new List<LugarTuristico>() ).Count)
-              {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-              }
-              else
-              {
-                return listaLugar;
-              }
-            }
-            catch(BaseDeDatosExcepcion e)
-            {
-             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
+				response.Add(error, mensaje.ErrorInesperado);
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
 
-        }
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			return response;
+
+		}
 
         /// <summary>
         /// Consulta el detalle del lugar turistico y los nombres de las actividades asociadas
