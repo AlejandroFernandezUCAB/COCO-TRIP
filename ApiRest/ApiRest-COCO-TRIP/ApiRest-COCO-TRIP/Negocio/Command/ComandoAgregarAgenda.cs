@@ -8,11 +8,22 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoAgregarAgenda : Comando
+    /// <summary>
+    /// Clase encargda de llamar al dao para agrear un item a la agenda
+    /// </summary>
+    public class ComandoAgregarAgenda : Comando
   {
     private DAOAgenda dAOAgenda;
     private Agenda agenda;
-    public ComandoAgregarAgenda(string tipo,int idItinerario, int idItem, DateTime fechaInicio
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="tipo">Puede ser "Lugar Turistico","Evento" o "Actividad"</param>
+        /// <param name="fechaFin">Fecha fin del itinerario</param>
+        /// <param name="fechaInicio">Fecha inicio del itinerario</param>
+        /// <param name="idItem">idItem a insertar en agenda</param>
+        /// <param name="idItinerario">id del itinerario</param>
+        public ComandoAgregarAgenda(string tipo,int idItinerario, int idItem, DateTime fechaInicio
       , DateTime fechaFin)
     {
       agenda = FabricaEntidad.CrearEntidadAgenda();

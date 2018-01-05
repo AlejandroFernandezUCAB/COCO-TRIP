@@ -31,7 +31,7 @@ namespace BackOffice_COCO_TRIP.Comun
 
     public bool ValidarCaracteresEspeciales(String input)
     {
-      if (Regex.Match(input, @"^[a-zA-Z]+$").Success)
+      if (Regex.Match(input, @"^[a-zA-Z \,\.]+$").Success)
       {
         return true;
       }

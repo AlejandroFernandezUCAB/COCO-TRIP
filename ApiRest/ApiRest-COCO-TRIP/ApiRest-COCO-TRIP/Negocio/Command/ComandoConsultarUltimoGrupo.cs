@@ -37,11 +37,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         datos = FabricaDAO.CrearDAOGrupo();
         archivo = Archivo.ObtenerInstancia();
-        grupo = (Grupo)datos.ConsultarUltimoGrupo(usuario);
+        grupo = (Grupo) datos.ConsultarUltimoGrupo(usuario);
 
-        if (archivo.ExisteArchivo(Archivo.FotoGrupo + grupo.Id + Archivo.Extension))
+        if (grupo.RutaFoto != null)
         {
-          grupo.RutaFoto = Archivo.Ruta + Archivo.FotoGrupo + grupo.Id + Archivo.Extension;
+          grupo.RutaFoto = Archivo.Ruta + grupo.RutaFoto + Archivo.Extension;
         }
 
         log.Info("Id: " + usuario.Id);

@@ -31,6 +31,14 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         /// <summary>
         /// Metodo Constructor
         /// </summary>
+        public Excepcion()
+        {
+            fechaHora = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Metodo Constructor
+        /// </summary>
         /// <param name="_excepcion">Excepción generada del tipo "Exception"</param>
         public Excepcion(Exception _excepcion)
         {

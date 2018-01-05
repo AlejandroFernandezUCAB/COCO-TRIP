@@ -7,11 +7,20 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoModificarNotificacion : Comando
+    /// <summary>
+    /// Cmando que modifica una notificacion
+    /// </summary>
+    public class ComandoModificarNotificacion : Comando
   {
     Notificacion notificacion = FabricaEntidad.CrearEntidadNotificacion();
     DAONotificacion dAONotificacion = FabricaDAO.CrearDAONotifiacacion();
-    public ComandoModificarNotificacion(int idUsuario, Boolean push, Boolean correo)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="idUsuario">id del usuario</param>
+        /// <param name="correo">booleano</param>
+        /// <param name="push">para notificaciones push</param>
+        public ComandoModificarNotificacion(int idUsuario, Boolean push, Boolean correo)
     {
       notificacion.Correo = correo;
       notificacion.Push = push;

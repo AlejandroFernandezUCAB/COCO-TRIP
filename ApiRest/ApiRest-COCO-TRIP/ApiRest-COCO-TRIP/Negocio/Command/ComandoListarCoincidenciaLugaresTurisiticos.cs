@@ -8,12 +8,19 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoListarCoincidenciaLugaresTurisiticos : Comando
+    /// <summary>
+    /// Comando que busca las coinicidencias de lugares turisticos
+    /// </summary>
+    public class ComandoListarCoincidenciaLugaresTurisiticos : Comando
   {
     LugarTuristico lugarTuristico;
     DAOItinerario dAOItinerario;
     List<Entidad> list_lugares;
-    public ComandoListarCoincidenciaLugaresTurisiticos(string busqueda)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="busqueda">coincidencia a ser comparadaa</param>
+        public ComandoListarCoincidenciaLugaresTurisiticos(string busqueda)
     {
       lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
       lugarTuristico.Nombre = busqueda;

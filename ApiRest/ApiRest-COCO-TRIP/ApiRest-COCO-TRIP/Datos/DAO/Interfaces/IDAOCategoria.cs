@@ -5,6 +5,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
     interface IDAOCategoria
     {
-        List<Entidad> ConsultarLista(string id);
+        Entidad ConsultarPorId(Entidad objeto);
+        List<Entidad> ConsultarLista(Entidad objeto);
+        List<Entidad> ObtenerCategoriasHabilitadas();
+        List<Entidad> ObtenerCategoriaPorId(Entidad entidad);
+        List<Entidad> ObtenerTodasLasCategorias();
+        Entidad ObtenerIdCategoriaPorNombre(Entidad entidad);
+        List<Entidad> ObtenerCategorias(Entidad categoria);
     }
 }

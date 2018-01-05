@@ -8,14 +8,21 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoAgregarItinerario : Comando
+    /// <summary>
+    /// Clase que llama al dao para agregar un itinerario
+    /// </summary>
+    public class ComandoAgregarItinerario : Comando
   {
     private DAOItinerario DAOitinerario = FabricaDAO.CrearDAOItinerario();
     private Itinerario itinerario;
     private Usuario usuario;
     private List<Entidad> listaItinerarios;
-
-    public ComandoAgregarItinerario(int idUsuario,string nombreItinerario)
+        /// <summary>
+        /// Constructr de la clase
+        /// </summary>
+        /// <param name="idUsuario">id del usuario</param>
+        /// <param name="nombreItinerario">Nombre del nuevo itinerario</param>
+        public ComandoAgregarItinerario(int idUsuario,string nombreItinerario)
     {
       itinerario = FabricaEntidad.CrearEntidadItinerario();
       usuario = FabricaEntidad.CrearEntidadUsuario();

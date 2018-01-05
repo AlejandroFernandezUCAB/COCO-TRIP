@@ -13,7 +13,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     private Itinerario itinerario;
     private NpgsqlDataReader respuesta;
     private NpgsqlCommand comando;
-    public override void Actualizar(Entidad objeto)
+        /// <summary>
+        /// Metodo encargado de actualizar los datos de un itinerario
+        /// </summary>
+        /// <param name="objeto">Metodo que contiene el id del itinerario y los datos nuevos</param>
+        public override void Actualizar(Entidad objeto)
     {
       try
       {
@@ -29,7 +33,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         respuesta = comando.ExecuteReader();
         respuesta.Read();
         base.Desconectar();
-        //return itinerario;
       }
       catch (NpgsqlException e)
       {
@@ -47,8 +50,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         throw e;
       }
     }
-
-    public override List<Entidad> ConsultarLista(Entidad objeto)
+        /// <summary>
+        /// Metodo que retorna la lista de itinerarios de un usuario
+        /// </summary>
+        /// <param name="objeto">objeto con el id del usuario</param>
+        public override List<Entidad> ConsultarLista(Entidad objeto)
     {
       List<Entidad> itinerarios = new List<Entidad>(); // Lista de itinerarios de un usuario
       Usuario usuario = (Usuario)objeto;
@@ -180,8 +186,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       throw new NotImplementedException();
     }
-
-    public override void Eliminar(Entidad objeto)
+        /// <summary>
+        /// Elimina el itinerario con el id
+        /// </summary>
+        /// <param name="objeto">objeto con el id del itinerario</param>
+        public override void Eliminar(Entidad objeto)
     {
       try
       {
@@ -207,8 +216,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         throw e;
       }
     }
-
-    public override void Insertar(Entidad objeto)
+        /// <summary>
+        /// Objeto itinerario cn sus datos a inserta
+        /// </summary>
+        /// <param name="objeto">itinerario</param>
+        public override void Insertar(Entidad objeto)
     {
       try
       {
