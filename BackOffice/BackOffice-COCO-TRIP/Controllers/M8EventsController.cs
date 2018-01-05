@@ -15,6 +15,22 @@ namespace BackOffice_COCO_TRIP.Controllers
   /// </summary>
   public class M8EventsController : Controller
   {
+
+    /// <summary>
+    /// Controlador de la vista Index.
+    /// </summary>
+    /// <returns>Vista FilterEvent</returns>
+    [HttpGet]
+    public ActionResult Index()
+    {
+      ViewBag.Title = "Eventos por Categorias";
+      Comando comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      comando.Execute();
+      ViewBag.MyList = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
+      TempData["listaCategorias"] = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
+      return View((IList<Evento>)TempData["evento"]);
+    }
+
     /// <summary>
     /// Controlador de la vista Details.
     /// </summary>
@@ -30,17 +46,18 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// </summary>
     /// <returns>Vista CreateEvent</returns>
     [HttpGet]
-    public ActionResult Create(int id = -1)
+    public ActionResult Create()
     {
-
-      Comando comando = FabricaComando.GetComandoConsultarEventos();
-      comando.SetPropiedad(id);
+      Comando comando;
+      comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
       comando.Execute();
+      ViewBag.ListCategoria = ((JObject)comando.GetResult()[0])["data"].ToObject<List<Categoria>>();
 
-      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
-      ViewBag.ListLocalidades = comando.GetResult()[2];
-      ViewBag.ListCategoria = comando.GetResult()[0];
-      TempData["ListLocalidades"] = comando.GetResult()[2];
+      comando = FabricaComando.GetComandoConsultarLocalidades();
+      comando.Execute();
+      ViewBag.ListLocalidades = comando.GetResult()[0];
+
+      TempData["ListLocalidades"] = ViewBag.ListCategoria;
       TempData["ListCategoria"] = comando.GetResult()[0];
       return View();
     }
@@ -89,17 +106,20 @@ namespace BackOffice_COCO_TRIP.Controllers
     /// <returns>Vista Edit</returns>
     public ActionResult Edit(int id)
     {
-      Comando comand = FabricaComando.GetComandoConsultarEventos();
-      comand.SetPropiedad(id);
-      comand.Execute();
-      ViewBag.ListLocalidades = comand.GetResult()[2];
-      ViewBag.ListCategoria = comand.GetResult()[0];
-      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
-      TempData["ListCategoria"] = ViewBag.ListCategoria;
-      Comando comando = FabricaComando.GetComandoConsultarEvento();
+      Comando comando;
+      comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      comando.Execute();
+      ViewBag.ListCategoria = ((JObject)comando.GetResult()[0])["data"].ToObject<List<Categoria>>();
+
+      comando = FabricaComando.GetComandoConsultarLocalidades();
+      comando.Execute();
+      ViewBag.ListLocalidades = comando.GetResult()[0];
+      comando = FabricaComando.GetComandoConsultarEvento();
       comando.SetPropiedad(id);
       comando.Execute();
       TempData["fotovieja"] = ((Evento)comando.GetResult()[0]).Foto;
+      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
+      TempData["ListCategoria"] = ViewBag.ListCategoria;
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
       return View(comando.GetResult()[0]);
     }
@@ -130,13 +150,12 @@ namespace BackOffice_COCO_TRIP.Controllers
         comando.Execute();
         ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
       }
-      ViewBag.ListLocalidades=TempData["ListLocalidades"] ;
-      ViewBag.ListCategoria=TempData["ListCategoria"];
+      ViewBag.ListLocalidades = TempData["ListLocalidades"];
+      ViewBag.ListCategoria = TempData["ListCategoria"];
       TempData["ListLocalidades"] = ViewBag.ListLocalidades;
       TempData["ListCategoria"] = ViewBag.ListCategoria;
       return View(evento);
     }
-
 
     /// <summary>
     /// Controlador de la vista Delete.
@@ -152,21 +171,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
 
       return RedirectToAction("Index");
-    }
-
-    /// <summary>
-    /// Controlador de la vista Index.
-    /// </summary>
-    /// <returns>Vista FilterEvent</returns>
-    [HttpGet]
-    public ActionResult Index()
-    {
-      ViewBag.Title = "Eventos por Categorias";
-      Comando comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
-      comando.Execute();
-      ViewBag.MyList = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
-      TempData["listaCategorias"] = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
-      return View((IList<Evento>)TempData["evento"]);
     }
 
     /// <summary>

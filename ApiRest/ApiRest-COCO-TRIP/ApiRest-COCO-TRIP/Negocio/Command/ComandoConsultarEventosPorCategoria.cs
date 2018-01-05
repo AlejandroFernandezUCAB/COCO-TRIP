@@ -47,7 +47,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 List<Categoria> categorias = RetornarHijos(categoria);
                 foreach (Categoria cate in categorias)
                 {
-                    foreach (Evento ev in daoEvento.ConsultarLista(cate))
+                    foreach (Evento ev in daoEvento.ConsultarListaPorCategoria(cate))
                     {
                         eventos.Add(ev);
                     }

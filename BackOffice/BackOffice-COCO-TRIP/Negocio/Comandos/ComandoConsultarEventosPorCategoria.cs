@@ -8,14 +8,14 @@ using System.Collections.Generic;
 
 namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
-  public class ComandoFiltrarEventoPorCategoria : Comando
+  public class ComandoConsultarEventosPorCategoria : Comando
   {
     private int id;
     private ArrayList resultado = new ArrayList();
     public override void Execute()
     {
       IDAOEvento peticionEvento = FabricaDAO.GetDAOEvento();
-      JObject respuesta = peticionEvento.Get(id);
+      JObject respuesta = peticionEvento.GetEventoPorCategoria(id);
       if (respuesta.Property("dato") == null)
       {
         resultado.Add(new List < Evento > ());
