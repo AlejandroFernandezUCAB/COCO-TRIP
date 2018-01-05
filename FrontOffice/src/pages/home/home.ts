@@ -17,7 +17,7 @@ _itis : any;
 lts : any;
 eve: any;
 idUser: any;
-apiUrl = 'http://localhost:8091/Images/';
+apiUrl = 'http://localhost:8082/Images/';
 aux: string;
 
   constructor(public navCtrl: NavController,private storage: Storage,public navParams: NavParams,public menu: MenuController,public restapiService : RestapiService, public http: HttpCProvider,private modalCtrl: ModalController,public translateService: TranslateService) {
