@@ -14,8 +14,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 {
     public class ComandoLTActualizarInformacion : Comando
     {
-        Entidad _lugarTuristico;
-        IDAOLugarTuristico iDAOLugar;
+        private Entidad _lugarTuristico;
+        private IDAOLugarTuristico iDAOLugar;
         private static Logger log = LogManager.GetCurrentClassLogger();
 
         public ComandoLTActualizarInformacion(JObject data)

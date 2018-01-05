@@ -442,7 +442,7 @@ catch (ReferenciaNulaExcepcion)
             {
                 com = FabricaComando.CrearComandoLTActualizarInformacion(datos);
                 com.Ejecutar();
-                response.Add(data, mensaje.ExitoInsertar);
+                response.Add(data, mensaje.ExitoModificar);
             }
             catch (ReferenciaNulaExcepcion)
             {
