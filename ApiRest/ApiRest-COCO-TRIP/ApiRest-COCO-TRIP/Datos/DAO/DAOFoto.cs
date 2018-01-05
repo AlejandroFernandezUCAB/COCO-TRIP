@@ -15,7 +15,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 	{
         private Foto _foto;
         private List<Entidad> _listaFotos;
-        private NpgsqlCommand _comando;
         private NpgsqlDataReader _respuesta;
 		private static Logger log = LogManager.GetCurrentClassLogger();
 
@@ -52,11 +51,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				base.Conectar(); //Inicia una sesion con la base de datos
 
 
-				_comando = new NpgsqlCommand("ConsultarFotos", base.SqlConexion);
-				_comando.CommandType = CommandType.StoredProcedure;
+				Comando = new NpgsqlCommand("ConsultarFotos", base.SqlConexion);
+				Comando.CommandType = CommandType.StoredProcedure;
 				// Recordar que objeto es un lugar turistico
-				_comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, objeto.Id);
-				_respuesta = _comando.ExecuteReader();
+				Comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, objeto.Id);
+				_respuesta = Comando.ExecuteReader();
 				while (_respuesta.Read())
 				{
 					// Creo cada entidad Foto y la agrego a la lista
@@ -133,11 +132,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			try
 			{
 				Conectar(); //Inicia una sesion con la base de datos
-				 _comando = new NpgsqlCommand("EliminarFoto", SqlConexion);
-                _comando.CommandType = CommandType.StoredProcedure;
-                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, _foto.Id);
-                // El Store Procedure devuelve void
-			}
+				 Comando = new NpgsqlCommand("EliminarFoto", SqlConexion);
+                Comando.CommandType = CommandType.StoredProcedure;
+                Comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, _foto.Id);
+                // Ejecutar
+                Comando.ExecuteNonQuery();
+            }
 			catch (NullReferenceException e)
 			{
 
@@ -203,12 +203,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 base.Conectar(); //Inicia una sesion con la base de datos
 
 
-                _comando = new NpgsqlCommand("InsertarFoto", base.SqlConexion);
-                _comando.CommandType = CommandType.StoredProcedure;
-                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
-                _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lugar.Id);
-                // _respuesta = _comando.ExecuteReader();
-                // _respuesta.Read();
+                Comando = new NpgsqlCommand("InsertarFoto", base.SqlConexion);
+                Comando.CommandType = CommandType.StoredProcedure;
+                Comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
+                Comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lugar.Id);
+                _respuesta = Comando.ExecuteReader();
+                _respuesta.Read();
                 // Esto Devuelve un id de base de datos
                 // pero no hace falta utilizarlo aqui...
 

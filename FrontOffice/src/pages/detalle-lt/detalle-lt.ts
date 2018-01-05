@@ -18,7 +18,7 @@ import { Storage } from '@ionic/storage';
 })
 export class DetalleLtPage {
   lugares:any;
- // apiUrl = 'http://localhost:8091/';
+ // apiUrl = 'http://localhost:8082/';
     constructor(private storage: Storage,public navCtrl: NavController,public navParams: NavParams, private modalCtrl: ModalController,public translateService: TranslateService) {
      /* this.storage.get('id').then((val) => {
         if(val != null || val != undefined){

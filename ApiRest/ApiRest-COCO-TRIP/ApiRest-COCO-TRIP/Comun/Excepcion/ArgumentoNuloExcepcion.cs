@@ -61,7 +61,15 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         }
 
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor.
+        /// </summary>
+        public ArgumentoNuloExcepcion()
+        {
+            fechaHora = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Metodo Constructor.
         /// </summary>
         /// <param name="e">Excepcion generica</param>
         public ArgumentoNuloExcepcion(ArgumentException e)
@@ -72,7 +80,7 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         }
 
         /// <summary>
-        /// Constructor
+        /// Metodo Constructor.
         /// </summary>
         /// <param name="e">Excepcion generica</param>
         /// <param name="_mensaje">Mensaje asociado al error</param>

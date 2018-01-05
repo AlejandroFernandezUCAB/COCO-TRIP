@@ -8,6 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import 'rxjs/add/observable/throw';
 import { Storage } from '@ionic/storage';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { Itinerario } from '../../dataAccessLayer/domain/itinerario';
+import { FabricaDAO } from '../../businessLayer/factory/fabricaDao';
 
 
 @IonicPage()
@@ -134,7 +138,7 @@ export class ItinerarioPage {
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
-              this.presentLoading();
+              console.log("salio del comando");
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
                   if (data ==0 || data==-1){
@@ -215,7 +219,7 @@ export class ItinerarioPage {
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
-              this.presentLoading();
+              let itinerario: Itinerario;
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
                   if (data ==0 || data==-1){

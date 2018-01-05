@@ -8,11 +8,18 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoEliminarNotificacion : Comando
+    /// <summary>
+    /// Comando que elimina las notificaciones del usuario
+    /// </summary>
+    public class ComandoEliminarNotificacion : Comando
   {
     Notificacion notificacion = FabricaEntidad.CrearEntidadNotificacion();
     DAONotificacion dAONotificacion = FabricaDAO.CrearDAONotifiacacion();
-    public ComandoEliminarNotificacion(int idUsuario)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="idUsuario">Id del usuario</param>
+        public ComandoEliminarNotificacion(int idUsuario)
     {
       notificacion.IdUsuario = idUsuario;
     }

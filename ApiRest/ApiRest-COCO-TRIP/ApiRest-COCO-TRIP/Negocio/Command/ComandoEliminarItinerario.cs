@@ -8,10 +8,17 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoEliminarItinerario : Comando
+    /// <summary>
+    /// Comando que elimina un itinerario
+    /// </summary>
+    public class ComandoEliminarItinerario : Comando
   {
     private Itinerario itinerario;
-    public ComandoEliminarItinerario(int id)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="id">Id del itinerario</param>
+        public ComandoEliminarItinerario(int id)
     {
       itinerario = FabricaEntidad.CrearEntidadItinerario();
       itinerario.Id = id;

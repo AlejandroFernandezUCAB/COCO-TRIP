@@ -500,6 +500,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+----------------------------PROCEDIMIENTO MODIFICAR GRUPO----------------------------------
+CREATE OR REPLACE FUNCTION ModificarFotoGrupo
+(id_grupo integer)
+RETURNS VARCHAR
+AS $$
+BEGIN
+  UPDATE Grupo SET
+  gr_foto = CAST(nextval('SEQ_FotoGrupo') as VARCHAR)
+  WHERE gr_id = id_grupo;
+
+  RETURN CAST(currval('SEQ_FotoGrupo') as VARCHAR);
+END;
+$$ LANGUAGE plpgsql;
+
 -----------------------------PROCEDIMIENTO ELIMINAR INTEGRANTE--------------------------------
 CREATE OR REPLACE FUNCTION EliminarIntegrante
 (id_grupo integer, id_usuario integer)
@@ -2090,7 +2104,7 @@ $$ LANGUAGE plpgsql;
 -- Consulta eventos por id de categoria
 -- devuelve la informacion de los eventos en esa categoria
 
-CREATE OR REPLACE FUNCTION ConsultarEventoPorIdCategoria
+CREATE OR REPLACE FUNCTION ConsultarEventosPorIdCategoria
 (
   _id integer
 )
@@ -2154,25 +2168,24 @@ CREATE OR REPLACE FUNCTION ConsultarEventos
 )
 RETURNS TABLE
   (
-     id_evento integer,
+     id_evento int,
      nombreEvento varchar,
      descripcionEvento varchar,
-     precioEvento integer,
+     precioEvento double precision,
      fechaInicioEvento timestamp,
      fechaFinEvento timestamp,
      horaInicioEvento time,
      horaFinEvento time,
      fotoEvento varchar,
-     categoriaEvento integer,
-     localidadEvento integer
+     localidadEvento int,
+     categoriaEvento int
   )
 AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ca_id, lo_id
-    from evento, categoria, localidad
-    where ev_localidad = lo_id and ev_categoria = ca_id;
+    SELECT ev_id, ev_nombre, ev_descripcion, ev_precio, ev_fecha_inicio, ev_fecha_fin, ev_hora_inicio, ev_hora_fin, ev_foto, ev_localidad, ev_categoria
+    from evento;
 END;
 $$ LANGUAGE plpgsql;
 

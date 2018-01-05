@@ -1,6 +1,10 @@
 import { Grupo } from '../domain/grupo';
 import { Usuario } from '../domain/usuario';
+<<<<<<< HEAD
+import { Itinerario } from '../domain/itinerario';
+=======
 import { DateTime } from 'ionic-angular/components/datetime/datetime';
+>>>>>>> db80650b1d7fc020720012215d1353786e3d8271
 
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 3*************************************//
@@ -76,5 +80,12 @@ import { DateTime } from 'ionic-angular/components/datetime/datetime';
             usuario.setValido = valido;
         }
         return usuario;
+      }
+        /**
+      * Retorna la instancia de la entidad Itinerario
+      */
+      public static crearItinerario() : Itinerario
+      {
+          return new Itinerario();
       }
  }
