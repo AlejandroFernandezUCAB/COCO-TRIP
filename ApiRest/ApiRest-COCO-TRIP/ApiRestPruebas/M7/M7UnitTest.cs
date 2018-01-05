@@ -3,6 +3,8 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Npgsql;
@@ -26,6 +28,8 @@ namespace ApiRestPruebas.M7
 		IDAOLugarTuristico iDAOLugarTuristico;
 		DAOActividad daoActividad;
 		IDAOFoto iDAOFoto;
+        Comando _comandoA;
+        Comando _comandoB;
 		
 		//SetUp
 		#region 
@@ -127,6 +131,7 @@ namespace ApiRestPruebas.M7
             // Guardo la primera foto de la lista
             _foto = (Foto)_fotos[0];
 
+            _actividades = new List<Entidad>();
 
             _actividad = FabricaEntidad.CrearEntidadActividad();
 			_actividad.Id = 2;
@@ -136,7 +141,19 @@ namespace ApiRestPruebas.M7
 			_actividad.Descripcion = "TEST";
 			_actividad.Activar = true;
 
-		}
+            _actividades.Add(_actividad);
+
+            _actividad = FabricaEntidad.CrearEntidadActividad();
+            _actividad.Id = 3;
+            _actividad.Nombre = "TREMENDOTEST";
+            _actividad.Foto.Ruta = "CARACAS";
+            _actividad.Duracion = new TimeSpan(2, 0, 0);
+            _actividad.Descripcion = "THE GREATEST ACTIVITY";
+            _actividad.Activar = true;
+
+            _actividades.Add(_actividad);
+
+        }
 		#endregion
 
 		//Pruebas de DAO
@@ -339,7 +356,7 @@ namespace ApiRestPruebas.M7
             //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
             //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
-            daoActividad.Insertar( _actividad , _lugaresTuristicos[0]);
+            daoActividad.Insertar( _actividades[0] , _lugaresTuristicos[0]);
 			_actividades = daoActividad.ConsultarLista( _lugaresTuristicos[0]);
 
 			foreach (Actividad actividad  in _actividades)
@@ -365,10 +382,12 @@ namespace ApiRestPruebas.M7
         public void DAOConsultarActividades()
         {
             daoActividad = FabricaDAO.CrearDAOActividad();
-                //Descomentar las siguientes lineas al ejecutar la pu de forma individual
-           //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
-           // iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
-           // daoActividad.Insertar(_actividad, _lugaresTuristicos[0]);
+            //Descomentar las siguientes lineas al ejecutar la pu de forma individual
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            // iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            // daoActividad.Insertar(_actividades[0], _lugaresTuristicos[0]);
+
+            _actividad = (Actividad)_actividades[0];
 
             _actividades = daoActividad.ConsultarLista(_lugaresTuristicos[0]);
 
@@ -389,15 +408,16 @@ namespace ApiRestPruebas.M7
 
             daoActividad = FabricaDAO.CrearDAOActividad();
 
-            // Descomentar las siguientes lineas al ejecutar la pu de forma individual
-            iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
-            iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
-            daoActividad.Insertar(_actividad, _lugaresTuristicos[0]);
-            daoActividad.Insertar(_actividad, _lugaresTuristicos[0]);
+                // Descomentar las siguientes lineas al ejecutar la pu de forma individual
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            //daoActividad.Insertar(_actividades[0], _lugaresTuristicos[0]);
+            //daoActividad.Insertar(_actividades[1], _lugaresTuristicos[0]);
 
             _actividades = daoActividad.ConsultarLista(_lugaresTuristicos[0]);
             actividadesAntesDeBorrar = _actividades.Count;
 
+            _actividad = (Actividad)_actividades[0];
             daoActividad.Eliminar(_actividad);
 
             _actividades = daoActividad.ConsultarLista(_lugaresTuristicos[0]);
@@ -406,6 +426,36 @@ namespace ApiRestPruebas.M7
             Assert.Greater(actividadesAntesDeBorrar, actividadesDespuesDeBorrar);
 
             Assert.False(_actividades.Contains(_actividad));
+
+        }
+
+        [Test, Order(10)]
+        public void ComandoLTEAgregarActividad()
+        {
+            daoActividad = FabricaDAO.CrearDAOActividad();
+
+            ((LugarTuristico)_lugaresTuristicos[0]).Actividad.Add( (Actividad)_actividades[0] );
+            ((LugarTuristico)_lugaresTuristicos[0]).Actividad.Add((Actividad)_actividades[1]);
+
+            // Descomentar las siguientes lineas al ejecutar la pu de forma individual
+            iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+
+            _comandoA = FabricaComando.CrearComandoLTAgregarActividad(_lugaresTuristicos[0]);
+            _comandoA.Ejecutar();
+
+            //lista de lugares Actividades
+            _actividades = daoActividad.ConsultarLista(_lugaresTuristicos[0]);
+
+            Assert.True( _actividades.Contains( _actividades[0]) );
+            Assert.True( _actividades.Contains( _actividades[1]) );
+        }
+
+        [Test, Order(11)]
+        public void ComandoLTEliminarActividad()
+        {
+            _comandoA = FabricaComando.CrearComandoLTEliminarActividad();
+            //_comandoB = FabricaComando.CrearComandoLTAgregarActividad();
 
         }
         #endregion

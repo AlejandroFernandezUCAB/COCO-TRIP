@@ -8,6 +8,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 {
     public class ComandoLTEliminarActividad : Comando
     {
+
         public override void Ejecutar()
         {
             throw new NotImplementedException();

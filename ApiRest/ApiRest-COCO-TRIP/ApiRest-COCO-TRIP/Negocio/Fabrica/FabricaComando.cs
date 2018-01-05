@@ -608,11 +608,12 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
             return new ComandoLTEliminarActividad();
         }
 
-		/// <summary>
-		/// Retorna la instancia de ComandoLTAgregarActividad
-		/// </summary>
-		/// <returns></returns>
-		public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
+        /// <summary>
+        /// Retorna la instancia de ComandoLTAgregarActividad
+        /// </summary>
+        /// <param name="lugarTuristico">Lugar Turistico al que se le agrega la actividad</param>
+        /// <returns></returns>
+        public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
         {
             return new ComandoLTAgregarActividad(lugarTuristico);
         }
