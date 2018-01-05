@@ -8,6 +8,7 @@ using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using ApiRest_COCO_TRIP.Datos.Singleton;
 using NLog;
+using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -17,7 +18,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     public class ComandoConsultarEventosPorCategoria : Comando
     {
         private Entidad categoria;
-        private DAO daoEvento;
+        private IDAOEvento daoEvento;
         private DAO daoCategoria;
         private List<Entidad> eventos;
         private static Logger log;
@@ -42,7 +43,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         {
             try
             {
-                eventos = daoEvento.ConsultarLista(categoria);
+                eventos = daoEvento.ConsultarListaPorCategoria(categoria);
                 List<Categoria> categorias = RetornarHijos(categoria);
                 foreach (Categoria cate in categorias)
                 {
@@ -64,7 +65,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 log.Error(e.Message);
                 throw e;
             }
-            catch (OperacionInvalidaException e)
+               catch (OperacionInvalidaExcepcion e)
             {
                 log.Error(e.Message);
                 throw e;

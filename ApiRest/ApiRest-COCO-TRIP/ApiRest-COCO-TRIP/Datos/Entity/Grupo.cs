@@ -7,7 +7,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
   {
     private string nombre; //Nombre del grupo
     private string rutaFoto; //Ruta de la foto
-    private byte[] contenidoFoto; //Bytes de la foto
+    private string contenidoFoto; //Bytes de la foto
     private int lider; //ID del creador del grupo
     private int cantidadIntegrantes; //Cantidad de miembros del grupo
 
@@ -32,7 +32,7 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
     /// <summary>
     /// Getters y Setters del atributo ContenidoFoto
     /// </summary>
-    public byte[] ContenidoFoto
+    public string ContenidoFoto
     {
       get { return contenidoFoto;  }
       set { contenidoFoto = value; }

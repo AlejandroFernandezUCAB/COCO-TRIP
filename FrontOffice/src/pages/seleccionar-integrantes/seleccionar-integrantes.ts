@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController,LoadingController,ToastController, ActionSheetController } from 'ionic-angular';
 import { GruposPage } from '../amistades-grupos/grupos/grupos';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators, NgControl } from '@angular/forms';
@@ -9,6 +9,10 @@ import { ConfiguracionToast } from '../constantes/configToast';
 import { Texto } from '../constantes/texto';
 import { ComandoAgregarGrupo } from '../../businessLayer/commands/comandoAgregarGrupo';
 import { ComandoObtenerUltimoGrupo } from '../../businessLayer/commands/comandoObtenerUltimoGrupo';
+import { Grupo } from '../../dataAccessLayer/domain/grupo';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { ConfiguracionImages } from '../constantes/configImages';
+import { Camera, CameraOptions } from 'ionic-native';
 
 //****************************************************************************************************// 
 //***********************************PAGE DATOS DEL GRUPO MODULO 3************************************//
@@ -35,6 +39,7 @@ import { ComandoObtenerUltimoGrupo } from '../../businessLayer/commands/comandoO
 export class SeleccionarIntegrantesPage 
 {
   /*Texto de la vista*/
+  public grupo : Array<Grupo> //Almacena la ruta de la foto de la imagen
   public nombreGrupo: string;
   public requerido: string;
   public succesful: string;
@@ -43,6 +48,9 @@ export class SeleccionarIntegrantesPage
   public toast: any;
   public loader: any;
   public myForm : any;
+
+  private base64Imagen : string;
+  private camaraOpciones : any; //Opciones de la libreria Camera
 
   public constructor
   (
@@ -62,6 +70,24 @@ export class SeleccionarIntegrantesPage
     ({
       namegroup: ['', [Validators.required, Validators.maxLength(300)]]
     });
+
+    this.camaraOpciones = 
+    {
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: Camera.DestinationType.DATA_URL,
+      quality: 100,
+      targetWidth: 8000,
+      targetHeight: 8000,
+      encodingType: Camera.EncodingType.JPEG,      
+      correctOrientation: true
+    }
+
+    this.grupo = new Array<Grupo>();
+
+    let grupo : Grupo = FabricaEntidad.crearGrupo();
+    grupo.setRutaFoto = ConfiguracionImages.DEFAULT_GROUP_PATH;
+
+    this.grupo.push(grupo);
   }
 
   public loading = this.loadingCtrl.create({});
@@ -80,6 +106,23 @@ export class SeleccionarIntegrantesPage
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+/**
+ * Metodo que carga una foto desde la galeria de imagenes del celular
+ */
+  public agregarFoto()
+  {
+    Camera.getPicture(this.camaraOpciones)
+    .then
+    (
+      base64 => 
+      {
+        this.base64Imagen = base64;
+      }
+      , permisoDenegado => 
+      console.log('Acceso denegado')
+    )
   }
 
 /**
@@ -102,7 +145,8 @@ export class SeleccionarIntegrantesPage
       {
         this.comandoAgregarGrupo.Lider = idUsuario;
         this.comandoAgregarGrupo.Nombre = this.nombreGrupo;
-
+        this.comandoAgregarGrupo.ContenidoFoto = this.base64Imagen;
+        
         this.comandoAgregarGrupo.execute()
         .then((resultado) => 
         {

@@ -94,6 +94,10 @@ import { ComandoSalirGrupo } from '../businessLayer/commands/comandoSalirGrupo';
 import { ComandoVerificarLider } from '../businessLayer/commands/comandoVerificarLider';
 import { ComandoVerPerfilGrupo } from '../businessLayer/commands/comandoVerPerfilGrupo';
 import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { ComandoVerPerfil } from '../businessLayer/commands/comandoVerPerfil';
+import { ComandoEditarPerfil } from '../businessLayer/commands/comandoEditarPerfil';
+import { ComandoCambiarPassword } from '../businessLayer/commands/comandoCambiarPassword';
+import { ComandoBorrarCuenta } from '../businessLayer/commands/comandoBorrarCuenta';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -228,7 +232,12 @@ firebase.initializeApp(config);
     ComandoRechazarNotificacion,
     ComandoSalirGrupo,
     ComandoVerificarLider,
-    ComandoVerPerfilGrupo
+    ComandoVerPerfilGrupo,
+    ComandoVerPerfil,
+    ComandoEditarPerfil,
+    ComandoCambiarPassword,
+    ComandoBorrarCuenta
+    
   ]
 })
 export class AppModule {}

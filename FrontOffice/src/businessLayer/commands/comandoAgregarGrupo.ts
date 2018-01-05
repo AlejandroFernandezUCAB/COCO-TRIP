@@ -34,6 +34,11 @@ export class ComandoAgregarGrupo extends Comando
         this.grupo.setNombre = nombre;
     }
 
+    set ContenidoFoto(contenidoFoto : string)
+    {
+        this.grupo.setContenidoFoto = contenidoFoto;
+    }
+
     public constructor(private servicio : RestapiService)
     {
         super();

@@ -104,7 +104,28 @@ namespace ApiRest_COCO_TRIP.Controllers
             {
                 respuesta.Add("Error", e.Message);
             }
-            catch (OperacionInvalidaException e)
+            catch (OperacionInvalidaExcepcion e)
+            {
+                respuesta.Add("Error", e.Message);
+            }
+            return respuesta;
+        }
+
+        ///<summary>
+        ///Método encargado de consultar todos los eventos .
+        ///</summary>
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("ListarEventos")]
+        [HttpGet]
+        public IDictionary ListarEventos()
+        {
+            try
+            {
+                comando = FabricaComando.CrearComandoConsultarEventos();
+                comando.Ejecutar();
+                respuesta.Add("dato", comando.RetornarLista());
+            }
+            catch (BaseDeDatosExcepcion e)
             {
                 respuesta.Add("Error", e.Message);
             }
@@ -117,7 +138,7 @@ namespace ApiRest_COCO_TRIP.Controllers
         ///<param name="id"> id de la categoria para consultar una lista de eventos asociados
         ///a la categoría</param>
         [ResponseType(typeof(IDictionary))]
-        [ActionName("ListarEventos")]
+        [ActionName("ListarEventosPorCategoria")]
         [HttpGet]
         public IDictionary ListaEventosPorCategoria(int id)
         {

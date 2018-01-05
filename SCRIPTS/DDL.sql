@@ -9,7 +9,9 @@ Drop table Usuario;
 Drop SEQUENCE SEQ_Grupo;
 Drop SEQUENCE SEQ_Miembro;
 Drop SEQUENCE SEQ_Amigo;
-drop SEQUENCE SEQ_Usuario;
+Drop SEQUENCE SEQ_FotoGrupo;
+Drop SEQUENCE SEQ_Usuario;
+
 --Fin de modulo
 --Creates Tables
 
@@ -282,6 +284,7 @@ CREATE SEQUENCE SEQ_Usuario;
 CREATE SEQUENCE SEQ_Grupo;
 CREATE SEQUENCE SEQ_Miembro;
 CREATE SEQUENCE SEQ_Amigo;
+CREATE SEQUENCE SEQ_FotoGrupo;
 --Fin de modulo
 --Modulo 4
 --Fin de modulo

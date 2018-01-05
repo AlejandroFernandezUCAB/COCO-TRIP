@@ -93,8 +93,6 @@ export class CrearGrupoPage
 
     this.storage.get('id').then((idUsuario) => 
     {
-        console.log('El id del usuario es: ' + idUsuario);
-        
         this.comandoListaAmigos.Id = idUsuario;
 
         this.comandoListaAmigos.execute()

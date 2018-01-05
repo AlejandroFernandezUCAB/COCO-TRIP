@@ -43,7 +43,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         lider = (Usuario)datos.ConsultarLider(grupo);
 
         if (lider.Id == usuario.Id) //El usuario que quiere modificar el grupo es el lider?
-        {        
+        {
           if (grupo.Nombre != null)
           {
             datos.Actualizar(grupo);
@@ -51,7 +51,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
           if (grupo.ContenidoFoto != null)
           {
-            archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+            grupo = (Grupo) datos.ActualizarRutaFoto(grupo);
+            archivo.EscribirArchivo(Convert.FromBase64String(grupo.ContenidoFoto), grupo.RutaFoto + Archivo.Extension);
           }
 
           log.Info(JsonConvert.SerializeObject(grupo));
@@ -78,6 +79,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       {
         ReferenciaNulaExcepcion excepcion = new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos");
         log.Warn(excepcion.Mensaje);
+        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      }
+      catch (CasteoInvalidoExcepcion e)
+      {
+        log.Warn(e.Mensaje);
         throw new HttpResponseException(HttpStatusCode.BadRequest);
       }
     }

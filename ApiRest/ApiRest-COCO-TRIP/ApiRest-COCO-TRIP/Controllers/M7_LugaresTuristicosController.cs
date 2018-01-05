@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Web.Http.Cors;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Dato;
-using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.BaseDeDatos;
 using Newtonsoft.Json.Linq;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using System;
+using ApiRest_COCO_TRIP.Comun.Excepcion;
+using System.Web.Http.Description;
+using System.Collections;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 
 namespace ApiRest_COCO_TRIP.Controllers
 {
@@ -23,43 +26,60 @@ namespace ApiRest_COCO_TRIP.Controllers
         private PeticionLugarTuristico peticion; //Clase que interactua con la clase Conexion <-- Esto hay que borrarlo luego.
 												 //y que permite al controlador consultar/insertar/actualizar/eliminar datos en la base de datos
 		private Comando com;
-        //GET
+		private IDictionary response;
+		private MensajeResultadoOperacion mensaje = MensajeResultadoOperacion.ObtenerInstancia();
+		private const String data = "data";
+		private const String error = "error";
+		//GET
 
-        /// <summary>
-        /// Consulta la lista de lugares turisticos dentro del rango establecido
-        /// </summary>
-        /// <param name="desde">limite inferior</param>
-        /// <param name="hasta">limite superior</param>
-        /// <returns>Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
-        /// de cada lugar turistico. Formato JSON</returns>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpGet]
-        public List<LugarTuristico> GetLista (int desde, int hasta)
+		/// <summary>
+		/// Consulta la lista de lugares turisticos dentro del rango establecido
+		/// </summary>
+		/// <returns>Lista de lugares turisticos con ID, nombre, costo, descripcion y estado 
+		/// de cada lugar turistico. Formato JSON</returns>
+		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+		[HttpGet]
+		[ResponseType(typeof(IDictionary))]
+		[ActionName("ListaLugaresTuristicos")]
+		public IDictionary GetLista ()
         {
-            peticion = new PeticionLugarTuristico();
+			response = new Dictionary<string, object>();
 
-            try
-            {
-              var listaLugar = peticion.ConsultarListaLugarTuristico(desde, hasta);
+			try
+			{
+				com = FabricaComando.CrearComandoObtenerLugaresTuristicos();
+				com.Ejecutar();
+				response.Add( data, ((ComandoObtenerLugaresTuristicos)com).RetornarLista() );
+				
+			}
+			catch (ReferenciaNulaExcepcion)
+			{
 
-              if(listaLugar.Count == (new List<LugarTuristico>() ).Count)
-              {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-              }
-              else
-              {
-                return listaLugar;
-              }
-            }
-            catch(BaseDeDatosExcepcion e)
-            {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
+				response.Add(error, mensaje.ErrorInesperado);
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
 
-        }
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			return response;
+
+		}
 
         /// <summary>
         /// Consulta el detalle del lugar turistico y los nombres de las actividades asociadas
@@ -87,7 +107,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             }     
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -120,7 +140,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -153,7 +173,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -186,7 +206,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -218,7 +238,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -251,35 +271,109 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
           }
         }
 
-        //POST
-
-        /// <summary>
-        /// Inserta los datos del lugar turistico
-        /// </summary>
-        /// <param name="lugar">Objeto LugarTuristico</param>
-        /// <returns>ID del lugar turistico insertado</returns>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpPost]
-        public int PostLugar(JObject datos)
-        {
-            try
+    /// <summary>
+    /// Elimina la foto de un lugar turistico
+    /// </summary>
+    /// <param name="foto">Objeto Foto</param>
+    /// <returns>Mensaje de exito</returns>
+    /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+    [HttpDelete]
+    [ResponseType(typeof(IDictionary))]
+		[ActionName("EliminarFotoLugarTuristico")]
+    public IDictionary DeleteFoto(JObject datos)
+    {
+      response = new Dictionary<string, object>();
+      try
+      {
+          com = FabricaComando.CrearComandoLTEliminarFoto(datos);
+          com.Ejecutar();
+          response.Add(data, mensaje.ExitoEliminarFoto);
+      }
+catch (ReferenciaNulaExcepcion)
 			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			return response;
+    }
+
+
+		//POST
+
+		/// <summary>
+		/// Inserta los datos del lugar turistico
+		/// </summary>
+		/// <param name="lugar">Objeto LugarTuristico</param>
+		/// <returns>ID del lugar turistico insertado</returns>
+		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+		[HttpPost]
+		[ResponseType(typeof(IDictionary))]
+		[ActionName("AgregarLugarTuristico")]
+		public IDictionary PostLugar(JObject datos)
+        {
+			response = new Dictionary<string, object>();
+
+			try
+			{			
 
 				com = FabricaComando.CrearComandoLTAgregar(datos);
 				com.Ejecutar();
-				return 1;
+				response.Add(data, mensaje.ExitoInsertar);
 
-			}catch(Exception e)
-			{
-				return 0;
 			}
+			catch (ReferenciaNulaExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			return response;
 
 
 		}
@@ -302,31 +396,31 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
             catch (CasteoInvalidoExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             catch (ReferenciaNulaExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion)
-            {
+           // catch (ArchivoExcepcion)
+          //  {
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+           // }
         }
 
         /// <summary>
@@ -347,21 +441,21 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest); //ID de Lugar Turistico no existe
             }
             catch (CasteoInvalidoExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             catch (ReferenciaNulaExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -386,31 +480,31 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
             catch (CasteoInvalidoExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             catch (ReferenciaNulaExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion)
-            {
+           // catch (ArchivoExcepcion)
+           // {
               //RegistrarExcepcion(e); NLog
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+        //      throw new HttpResponseException(HttpStatusCode.InternalServerError);
+           // }
         }
 
         /// <summary>
@@ -430,7 +524,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+           // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.BadRequest); //ID de Lugar Turistico o Categoria no existen
@@ -455,31 +549,31 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             catch (BaseDeDatosExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
             catch (CasteoInvalidoExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             catch (ReferenciaNulaExcepcion e)
             {
-              e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
               //RegistrarExcepcion(e); NLog
 
               throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            catch (ArchivoExcepcion)
-            {
+          //  catch (ArchivoExcepcion)
+           // {
               //RegistrarExcepcion(e); NLog
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+          //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+           // }
         }
 
         /// <summary>
@@ -499,7 +593,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -523,7 +617,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+           // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -548,48 +642,20 @@ namespace ApiRest_COCO_TRIP.Controllers
               }
               catch (BaseDeDatosExcepcion e)
               {
-                e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+                //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
                 //RegistrarExcepcion(e); NLog
 
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
               }
-              catch (ArchivoExcepcion)
-              {
+              //catch (ArchivoExcepcion)
+             // {
                 //RegistrarExcepcion(e); NLog
 
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
-              }
+           //     throw new HttpResponseException(HttpStatusCode.InternalServerError);
+           //   }
         }
 
-        /// <summary>
-        /// Eliminar foto
-        /// </summary>
-        /// <param name="id">ID de la foto</param>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpDelete]
-        public void DeleteFoto (int id)
-        {
 
-          peticion = new PeticionLugarTuristico();
-
-          try
-          {
-            peticion.EliminarFoto(id);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-          catch (ArchivoExcepcion)
-          {
-            //RegistrarExcepcion(e); NLog
-
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-        }
 
         /// <summary>
         /// Eliminar horario
@@ -608,7 +674,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -632,7 +698,7 @@ namespace ApiRest_COCO_TRIP.Controllers
           }
           catch (BaseDeDatosExcepcion e)
           {
-            e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
             //RegistrarExcepcion(e); NLog
 
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -650,6 +716,41 @@ namespace ApiRest_COCO_TRIP.Controllers
         {
 
         }*/
+
+
+        // Codigo anterior
+
+        /// <summary>
+        /// Eliminar foto
+        /// </summary>
+        /// <param name="id">ID de la foto</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        // [HttpDelete]
+        // public void DeleteFoto (int id)
+        // {
+
+        //   peticion = new PeticionLugarTuristico();
+
+        //   try
+        //   {
+        //     peticion.EliminarFoto(id);
+        //   }
+        //   catch (BaseDeDatosExcepcion e)
+        //   {
+        //     //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        //     //RegistrarExcepcion(e); NLog
+
+        //     throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        //   }
+        // //  catch (ArchivoExcepcion)
+        // //  {
+        //     //RegistrarExcepcion(e); NLog
+
+        // //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        // //  }
+        // }
+
+        // Fin codigo anterior
     }
 
 }

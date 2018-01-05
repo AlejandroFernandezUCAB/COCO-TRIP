@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Web.Http;
 using System.Net;
 using NLog;
+using System;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
@@ -35,11 +36,13 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         archivo = Archivo.ObtenerInstancia();
         datos = FabricaDAO.CrearDAOGrupo();
 
-        grupo = (Grupo)datos.InsertarId(grupo);
+        grupo = (Grupo) datos.InsertarId(grupo);
 
         if (grupo.ContenidoFoto != null) //Valida si el grupo tiene foto
         {
-          archivo.EscribirArchivo(grupo.ContenidoFoto, Archivo.FotoGrupo + grupo.Id + Archivo.Extension);
+          grupo = (Grupo)datos.ActualizarRutaFoto(grupo);
+
+          archivo.EscribirArchivo(Convert.FromBase64String(grupo.ContenidoFoto), grupo.RutaFoto + Archivo.Extension);
         }
 
         log.Info(JsonConvert.SerializeObject(grupo));
@@ -78,4 +81,5 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
       throw new System.NotImplementedException();
     }
   }
+
 }

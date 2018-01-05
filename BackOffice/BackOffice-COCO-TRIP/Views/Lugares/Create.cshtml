@@ -7,7 +7,7 @@
     <form class="form-horizontal" method="post" action="Create">
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;genes del lugar</label>
-        <input class="col-sm-6" type="file" id="perfilphoto" name="fotoLugar">
+        <input class="col-sm-6" type="file" id="perfilphoto" name="fotoLugar" required>
         <p class="help-block col-sm-9">La foto seleccionada se ver&aacute; en el lugar tur&iacute;stico</p>
       </div>
 
@@ -18,7 +18,7 @@
           <div class="form-group">
             <label for="name" class="col-sm-2 control-label" style="margin-left: -3%; margin-right: 3%;">Nombre</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="name" placeholder="Nombre lugar tur&iacute;stico..." name="Nombre">
+              <input type="text" class="form-control" id="name" placeholder="Nombre lugar tur&iacute;stico..." name="Nombre" required>
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
           <div class="form-group">
             <label for="number" class="col-sm-2 control-label">Costo</label>
             <div class="col-sm-9">
-              <input type="number" class="form-control" id="costo" placeholder="ej. 120" name="Costo">
+              <input type="number" class="form-control" id="costo" placeholder="ej. 120" name="Costo" required>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
           <div class="form-group">
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
-              <select class="form-control" id="category" name="activar">
+              <select class="form-control" id="category" name="activar" required>
                 <option selected disabled>Elige una estado</option>
                 <option>Activo</option>
                 <option>Inactivo</option>
@@ -63,28 +63,77 @@
               <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                 <div class="panel-body">
 
-            @foreach (var categoria in ViewBag.Categoria)
-              {
-                  int contador = 0;
-
+            
                   <div class="row">
 
-                    <div class="col-md-5">
+                    <div class="col-md-5 center-block">
                       <div class="form-group ">
                         <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
                         <div class="col-sm-8">
-                          <select class="form-control" id="categoria" name="categoria_@(contador+1) ">
+                          <select class="form-control" id="categoria" name="categoria_0" required>
                             <option selected disabled>Elige una categor&iacute;a</option>
 
-                              <option>@categoria.Name</option>
-
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                                <option>@categoria.Name</option>
+                            }
 
                           </select>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-5 center-block">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria" name="categoria_1"required>
+                            <option selected disabled>Elige una categor&iacute;a</option>
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                              <option>@categoria.Name</option>
+                            }
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5 center-block">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria" name="categoria_2" required>
+                            <option selected disabled>Elige una categor&iacute;a</option>
+
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                                <option>@categoria.Name</option>
+                            }
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5 center-block">
+                      <div class="form-group ">
+                        <label for="categoria" class="col-sm-4 control-label">Categor&iacute;a</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" id="categoria" name="categoria_3" required>
+                            <option selected disabled>Elige una categor&iacute;a</option>
+
+                            @foreach (var categoria in ViewBag.Categoria)
+                            {
+                            <option>@categoria.Name</option>
+                            }
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    @*<div class="col-md-5">
                       <div class="form-group">
                         <label for="subcategoria" class="col-sm-4 control-laahgbel">Sub-Categor&iacute;a</label>
                         <div class="col-sm-8">
@@ -104,13 +153,13 @@
                           </select>
                         </div>
                       </div>
-                    </div>
+                    </div>*@
 
                   </div>
 
-              contador++;
+              
 
-            }
+            
 
                 </div>
               </div>
@@ -141,15 +190,8 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia" name="dia_1">
-                          <option selected disabled>Elige d&iacute;a</option>
+                        <select class="form-control" id="dia" name="dia_0">                          
                           <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -158,7 +200,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[0].HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[0].HoraApertura" required>
                         </div>
                       </div>
                     </div>
@@ -167,7 +209,37 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[0].HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[0].HoraCierre" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row row-horarios">
+
+                    <div class="col-md-3">
+                      <div class="form-group-horario-dia">
+                        <label for="name" class="control-label">D&iacute;a</label>
+                        <select class="form-control" id="dia" name="dia_1">
+                          <option>Martes</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="apertura" class="control-label">Horario Apertura</label>
+                        <div>
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[1].HoraApertura" required>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group form-group-horario">
+                        <label for="cierre" class="control-label">Horario Cierre</label>
+                        <div>
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[1].HoraCierre" required>
                         </div>
                       </div>
                     </div>
@@ -179,14 +251,7 @@
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
                         <select class="form-control" id="dia" name="dia_2">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
                           <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -195,7 +260,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[1].HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[2].HoraApertura" required>
                         </div>
                       </div>
                     </div>
@@ -204,7 +269,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[1].HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[2].HoraCierre" required>
                         </div>
                       </div>
                     </div>
@@ -216,14 +281,7 @@
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
                         <select class="form-control" id="dia" name="dia_3">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
                           <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -232,7 +290,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[2].HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[3].HoraApertura" required>
                         </div>
                       </div>
                     </div>
@@ -241,7 +299,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[2].HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[3].HoraCierre" required>
                         </div>
                       </div>
                     </div>
@@ -252,15 +310,8 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia" name="dia_4">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
+                        <select class="form-control" id="dia" name="dia_4">                       
                           <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -269,7 +320,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[3].HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[4].HoraApertura" required>
                         </div>
                       </div>
                     </div>
@@ -278,7 +329,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[3].HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[4].HoraCierre" required>
                         </div>
                       </div>
                     </div>
@@ -290,14 +341,7 @@
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
                         <select class="form-control" id="dia" name="dia_5">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
                           <option>Sabado</option>
-                          <option>Domingo</option>
                         </select>
                       </div>
                     </div>
@@ -306,7 +350,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[4].HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[5].HoraApertura" required>
                         </div>
                       </div>
                     </div>
@@ -315,7 +359,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[4].HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[5].HoraCierre" required>
                         </div>
                       </div>
                     </div>
@@ -327,13 +371,6 @@
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
                         <select class="form-control" id="dia" name="dia_6">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
                           <option>Domingo</option>
                         </select>
                       </div>
@@ -343,7 +380,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[5].HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[6].HoraApertura" required>
                         </div>
                       </div>
                     </div>
@@ -352,44 +389,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[5].HoraCierre">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row row-horarios">
-
-                    <div class="col-md-3">
-                      <div class="form-group-horario-dia">
-                        <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia" name="dia_7">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option>Lunes</option>
-                          <option>Martes</option>
-                          <option>Miercoles</option>
-                          <option>Jueves</option>
-                          <option>Viernes</option>
-                          <option>Sabado</option>
-                          <option>Domingo</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group form-group-horario">
-                        <label for="apertura" class="control-label">Horario Apertura</label>
-                        <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[6].HoraApertura">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group form-group-horario">
-                        <label for="cierre" class="control-label">Horario Cierre</label>
-                        <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[6].HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[6].HoraCierre" required>
                         </div>
                       </div>
                     </div>
@@ -429,7 +429,7 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto" name="fotoActividad_1">
+                          <input type="file" id="actividadphoto" name="fotoActividad_0">
                         </div>
                       </div>
 
@@ -469,7 +469,7 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto" name="fotoActividad_2">
+                          <input type="file" id="actividadphoto" name="fotoActividad_1">
                         </div>
                       </div>
 
@@ -508,7 +508,7 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto" name="fotoActividad_3">
+                          <input type="file" id="actividadphoto" name="fotoActividad_2">
                         </div>
                       </div>
 
@@ -547,7 +547,7 @@
                       <div class="col-md-6">
                         <div class="form-group form-group-actividad">
                           <label class="control-label" for="actividadphoto">Imagen Actividad</label>
-                          <input type="file" id="actividadphoto" name="fotoActividad_4">
+                          <input type="file" id="actividadphoto" name="fotoActividad_3">
                         </div>
                       </div>
 

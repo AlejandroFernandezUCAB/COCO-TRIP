@@ -1,17 +1,18 @@
 @using BackOffice_COCO_TRIP.Helpers
 @model BackOffice_COCO_TRIP.Datos.Entidades.Evento
 
+@{
+    ViewBag.Title = "Eventos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <h2>Modificar un Evento</h2>
 
-@using (Html.BeginForm("Edit", "M8Events", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit", "M8Events", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
   @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-  <hr />
-  <div><h4>Edite los datos:</h4></div>
-  <hr>
-
+  @Html.ValidationSummary(true, "", new { @class = "text-danger" })
   <div class="form-group row">
     @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-4">
@@ -38,14 +39,14 @@
     @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-8">
       @Html.TextBoxFor(model => model.FechaInicio,
-           new { @class = "form-control", @type = "date", @Value = Model.FechaInicio.ToString("yyyy-MM-dd"), @min = "2018-01-01", @max = "2020-12-31"})
+           new { @class = "form-control", @type = "date", @Value = Model.FechaInicio.ToString("yyyy-MM-dd"), @min = DateTime.Now.ToString("yyyy-MM-dd")})
     </div>
   </div>
   <div class="form-group row">
     @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-8">
       @Html.TextBoxFor(model => model.FechaFin,
-           new { @class = "form-control", @type = "date", @Value = Model.FechaFin.ToString("yyyy-MM-dd"), @min = "2018-01-01", @max = "2020-12-31" })
+           new { @class = "form-control", @type = "date", @Value = Model.FechaFin.ToString("yyyy-MM-dd"), @min = DateTime.Now.ToString("yyyy-MM-dd") })
     </div>
   </div>
 
@@ -66,7 +67,7 @@
   <div class="form-group row">
     @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-sm-5">
-      <input class="col-sm-6" type="file" multiple="" id="perfilphoto">
+      <input class="col-sm-12" type="file" name="file" accept=".jpg, .jpeg, .png" />
     </div>
   </div>
   <div class="form-group row">

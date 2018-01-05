@@ -9,6 +9,10 @@ import { ComandoCrearMensajeGrupo } from './../commands/comandoCrearMensajeGrupo
 import  { ComandoCrearMensaje } from '../commands/comandoCrearMensaje';
 import { ComandoEliminarMensaje } from '../commands/comandoEliminarMensaje';
 import { catService, catProd } from "../../logs/config";
+import { ComandoVerPerfil } from '../commands/comandoVerPerfil';
+import { Storage } from '@ionic/storage';
+import { Entidad } from '../../dataAccessLayer/domain/entidad';
+
 import { ComandoAgregarAmigo } from '../commands/comandoAgregarAmigo';
 import {ComandoAgregarItinerario} from "../commands/comandoAgregarItinerario";
 import { ComandoEliminarItinerario } from '../commands/comandoEliminarItinerario';
@@ -134,6 +138,7 @@ export class FabricaComando{
     catProd.info("Entrando en el metodo ComandoInformacionMensajeGrupo de fabricaComando");    
         return new ComandoInformacionMensajeGrupo();
     }
+
 
     /**
  * Descripcion del metodo:

@@ -61,6 +61,14 @@ namespace ApiRest_COCO_TRIP.Comun.Excepcion
         }
 
         /// <summary>
+        /// Constructor de la clase.
+        /// </summary>
+        public BaseDeDatosExcepcion()
+        {
+            fechaHora = DateTime.Now;
+        }
+
+        /// <summary>
         /// Constructor que recibe la excepcion, instacia los metodos y, registra la hora y fecha de la incidencia
         /// </summary>
         /// <param name="e">Excepcion de la base de datos</param>

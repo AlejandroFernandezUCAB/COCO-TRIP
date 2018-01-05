@@ -35,6 +35,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		/// <returns>Lista de lugares turisticos completa</returns>
 		public List<Entidad> ConsultarTodaLaLista()
 		{
+
 			List<Entidad> lugaresTuristicos = new List<Entidad>(); // Estos new me hacen ruido aqui.
 			 
 			try
@@ -59,23 +60,58 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				}
 
 				return lugaresTuristicos;
+
 			}
-			catch(NullReferenceException e)
+			catch (NullReferenceException e)
 			{
+
 				log.Error(e.Message);
 				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
 				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			catch (Exception e)
 			{
-				return null;
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
 			}
 			finally
 			{
-				base.Desconectar();
+				Desconectar();
 			}
 
-			
+
 		}
 
 		public override Entidad ConsultarPorId(Entidad objeto)
@@ -101,7 +137,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			{
 
 				StoredProcedure("insertarlugarturistico");
-				//Seteando los parametros al SP
+				// Seteando los parametros al SP
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
@@ -111,7 +147,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Latitud);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Longitud);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, _lugarTuristico.Activar);
-				//Ejecucion
+				// Ejecucion
 				success = Comando.ExecuteNonQuery();
 
 			}

@@ -1,17 +1,18 @@
 @Styles.Render("~/bundles/categoriesCSS")
 @model IEnumerable<BackOffice_COCO_TRIP.Datos.Entidades.Localidad>
+
+@{
+    ViewBag.Title = "Localidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css ">
-
-
-
+<h2>Lista de Localidades</h2>
 <div class="loader" id="loader"></div>
 <div class="fondo-opaco" id="fondo-opaco"></div>
 <div class="card">
   <div class="container-fluid pad-top">
-    <div class="color-texto"><h4>Localidad de Eventos</h4></div>
     <div>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</div>
-    <hr>
-    <table width="100%" class="table table-striped table-bordered" id="example" cellspacing="0">
+    <table width="100" class="table table-striped table-bordered" id="example" cellspacing="0">
       <thead>
         <tr>
           <th>Nombre</th>
