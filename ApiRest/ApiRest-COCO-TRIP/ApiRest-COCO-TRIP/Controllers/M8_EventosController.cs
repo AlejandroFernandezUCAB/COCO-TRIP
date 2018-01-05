@@ -119,7 +119,17 @@ namespace ApiRest_COCO_TRIP.Controllers
         [HttpGet]
         public IDictionary ListarEventos()
         {
-            return null;
+            try
+            {
+                comando = FabricaComando.CrearComandoConsultarEventos();
+                comando.Ejecutar();
+                respuesta.Add("dato", comando.RetornarLista());
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+                respuesta.Add("Error", e.Message);
+            }
+            return respuesta;
         }
 
         ///<summary>
