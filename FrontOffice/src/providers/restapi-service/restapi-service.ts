@@ -220,11 +220,12 @@ eveSegunPreferencias(idUser){
     });
    }
 
-   modificarDatosUsuario(usuario){
+   modificarDatosUsuario(entidad: Entidad){
+    let usuario = entidad as Usuario;
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' +
-      usuario.NombreUsuario + "&nombre=" + usuario.Nombre + "&apellido=" + usuario.Apellido +
-      "&fechaDeNacimiento=" + usuario.FechaNacimiento + "&genero=" + usuario.Genero ,"")
+      usuario.getNombreUsuario + "&nombre=" + usuario.getNombre + "&apellido=" + usuario.getApellido +
+      "&fechaDeNacimiento=" + usuario.getFechaNacimiento + "&genero=" + usuario.getGenero ,"")
       .map(res => res.json())
       .subscribe(data => {
 
@@ -263,10 +264,11 @@ eveSegunPreferencias(idUser){
      * @param passNueva contraseña nueva
      */
 
-   cambiarPass(username, passActual, passNueva){
-    return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + username
-       +"&passwordActual=" + passActual +"&passwordNuevo=" +passNueva ,"")
+   cambiarPass(entidad: Entidad, passActual: string){
+     let usuario = entidad as Usuario;
+    return new Promise( (resolve) => {
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/CambiarPass?username=' + usuario.getNombreUsuario
+       +"&passwordActual=" + passActual +"&passwordNuevo=" +usuario.getClave ,"")
       .map(res => res.json())
       .subscribe(data => {
 
@@ -274,7 +276,6 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
-
         resolve(0);
 
       });
@@ -288,10 +289,11 @@ eveSegunPreferencias(idUser){
      * @param passAct contraseña del usuario
      */
 
-   borrarUser(username, passwordAct){
+   borrarUser(entidad : Entidad){
+     let usuario = entidad as Usuario;
     return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + username
-       +"&password=" + passwordAct ,"")
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + usuario.getNombreUsuario
+       +"&password=" + usuario.getClave ,"")
       .map(res => res.json())
       .subscribe(data => {
 

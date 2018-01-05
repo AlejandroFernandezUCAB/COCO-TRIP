@@ -18,9 +18,9 @@
   
   <ion-title text-center><img alt="logo" src="assets/images/profile.png" class="imagen-perfil"></ion-title>
   <h2 class="titulo">
-    {{ usuario.Nombre }} {{ usuario.Apellido }}
+    {{ usuario.getNombre }} {{ usuario.getApellido }}
   </h2>
-  <p class="titulo">  <ion-icon name="ios-mail"></ion-icon> {{ usuario.Correo }} </p>
+  <p class="titulo">  <ion-icon name="ios-mail"></ion-icon> {{ usuario.getCorreo }} </p>
   <p class="titulo">  <ion-icon name="ios-pin"></ion-icon>  Venezuela</p>
   <br>
   <ion-list>
@@ -36,7 +36,7 @@
       <ion-icon name="md-settings"></ion-icon>
       {{ 'Configuración' | translate }}
     </button>
-    <button [navPush]="deleteAccount" [navParams]="usuario.NombreUsuario" ion-item>
+    <button [navPush]="deleteAccount" [navParams]="usuario" ion-item>
       <ion-icon name="md-trash"></ion-icon>
       {{ 'Borrar Cuenta' | translate }}
     </button>

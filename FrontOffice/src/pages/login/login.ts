@@ -68,7 +68,6 @@ export class LoginPage {
 
   login() {
     
-    
     if (this.myForm.get('password').errors || this.myForm.get('userName').errors)
       this.realizarToast('Por favor, rellene los campos');
     else {

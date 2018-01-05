@@ -4,6 +4,8 @@ import { IonicPage, NavController, NavParams, ToastController, Platform, ActionS
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ComandoCambiarPassword } from '../../businessLayer/commands/comandoCambiarPassword';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 /**
  * Generated class for the ChangepassPage page.
@@ -20,19 +22,17 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ChangepassPage {
 
   myForm: FormGroup;
-  NombreUsuario: string;
+  usuario: Usuario;
   passAct: string;
-  passNueva: string;
-  apiRestResponse: any;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, 
-    public fb: FormBuilder, public restapiService: RestapiService) 
+    public fb: FormBuilder, public restapiService: RestapiService, private comando: ComandoCambiarPassword) 
   {
     console.log(navParams);
-    this.NombreUsuario = navParams.data; //Este es el username, se lo asignamos a un string (NombreUsuario)
-    console.log(this.NombreUsuario);
+    this.usuario = navParams.data as Usuario;
+    console.log(this.usuario);
     this.myForm = this.fb.group( 
       {
         //Estas seran las validaciones para los campos de la vista.
@@ -47,22 +47,18 @@ export class ChangepassPage {
   //funcion que se ejecuta al hacer submit del formulario
   saveData(){
     //Inyectamos los datos que vienen del formulario.
-    this.passAct = this.myForm.value.contraActual;
-    this.passNueva = this.myForm.value.newpass;
+    this.comando.setContrasenaActual = this.myForm.value.contraActual;
+    this.usuario.setClave = this.myForm.value.newpass;
+    this.comando._entidad = this.usuario;
 
-    /*Aqui haremos el llamado al restapi llamado CambiarPass, aqui le enviaremos los datos suministrados
-     en el formulario.*/
-    this.restapiService.cambiarPass(this.NombreUsuario, this.passAct, this.passNueva).then(data =>{
-      if(data != 0){
-        this.apiRestResponse = data;
-        this.regresarAvistaAnterior(this.apiRestResponse);
-    }
-    else{
-      this.apiRestResponse = false;
-      this.regresarAvistaAnterior(this.apiRestResponse);
-    }
-  }
-  );
+    this.comando.execute().then(data => {
+      this.regresarAvistaAnterior(data);
+    }, error => {
+      this.regresarAvistaAnterior(false);
+    })
+
+    
+    
   }
 
   
