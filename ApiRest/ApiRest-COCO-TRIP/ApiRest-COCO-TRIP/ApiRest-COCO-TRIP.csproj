@@ -20,10 +20,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>
     </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
@@ -228,7 +226,7 @@
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
-    <Compile Include="Negocio\Command\ComandoAgregarLugarTuristico.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
@@ -282,6 +280,7 @@
     <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategoriasHabilitadas.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerLugaresTuristicos.cs" />
     <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoSalirGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoSetVisibleItinerario.cs" />
