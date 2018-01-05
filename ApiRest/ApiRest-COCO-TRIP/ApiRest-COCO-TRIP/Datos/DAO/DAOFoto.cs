@@ -207,8 +207,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 _comando.CommandType = CommandType.StoredProcedure;
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Varchar, _foto.Ruta);
                 _comando.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Integer, lugar.Id);
-                // _respuesta = _comando.ExecuteReader();
-                // _respuesta.Read();
+                _respuesta = _comando.ExecuteReader();
+                _respuesta.Read();
                 // Esto Devuelve un id de base de datos
                 // pero no hace falta utilizarlo aqui...
 

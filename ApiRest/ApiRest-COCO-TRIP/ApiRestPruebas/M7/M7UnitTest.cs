@@ -25,7 +25,7 @@ namespace ApiRestPruebas.M7
 		List<Entidad> _actividades;
 		IDAOLugarTuristico iDAOLugarTuristico;
 		DAOActividad daoActividad;
-		DAOFoto iDAOFoto;
+		IDAOFoto iDAOFoto;
 		
 		//SetUp
 		#region 
@@ -97,12 +97,12 @@ namespace ApiRestPruebas.M7
 
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
 			_lugarTuristico.Id = 3;
-			_lugarTuristico.Nombre = "Parque Venezuela";
+            _lugarTuristico.Nombre = "Parque Del este";
 			_lugarTuristico.Costo = 2000;
-			_lugarTuristico.Descripcion = "Parque creado en Venezuela";
-			_lugarTuristico.Direccion = "Av. Principal Venezuela";
-			_lugarTuristico.Correo = "venezuela@venezuela.com";
-			_lugarTuristico.Telefono = 04142792806;
+			_lugarTuristico.Descripcion = "Parque natural en Venezuela";
+			_lugarTuristico.Direccion = "En el este de caracas";
+			_lugarTuristico.Correo = "parque@deleste.com";
+			_lugarTuristico.Telefono = 04164444778;
 			_lugarTuristico.Latitud = 25;
 			_lugarTuristico.Longitud = 25;
 			_lugarTuristico.Activar = true;
@@ -117,9 +117,18 @@ namespace ApiRestPruebas.M7
 			_foto.Ruta = "TEST";
 
             _fotos.Add(_foto);
-			
 
-			_actividad = FabricaEntidad.CrearEntidadActividad();
+            _foto = FabricaEntidad.CrearEntidadFoto();
+            _foto.Id = 3;
+            _foto.Ruta = "TEST2";
+
+            _fotos.Add(_foto);
+
+            // Guardo la primera foto de la lista
+            _foto = (Foto)_fotos[0];
+
+
+            _actividad = FabricaEntidad.CrearEntidadActividad();
 			_actividad.Id = 2;
 			_actividad.Nombre = "TEST";
 			_actividad.Foto.Ruta = "TEST";
@@ -135,8 +144,17 @@ namespace ApiRestPruebas.M7
 		
 		//Lugar Turistico
 		#region
+
+        // Se le agrego un orden a las pruebas unitarias de manera de que puedan ser
+        // ejecutadas en conjunto para realizar todas las pruebas del modulo que necesiten
+        // tener uno o mas lugares turisticos insertados en la base de datos.
+        // Esto evita insertar lo mismo varias veces y las inserciones son acumulativas.
+        // En caso de necesitar correr una prueba unitaria especifica sera necesario
+        // quitar el comentario en las lineas de insercion del lugar turistico,
+        // si se presentara el caso.
+        
 		//Prueba de DAO de Lugar Turistico
-		[Test]
+		[Test, Order(1)]
 		public void DAOInsertarLugarTuristico()
 		{
 			LugarTuristico resultado = FabricaEntidad.CrearEntidadLugarTuristico();
@@ -152,7 +170,7 @@ namespace ApiRestPruebas.M7
 				resultado = lugar;
 			}
 
-			Assert.AreEqual( 4 , resultado.Id);
+			Assert.AreEqual( 2 , resultado.Id);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Nombre     , resultado.Nombre);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Costo      , resultado.Costo);
 			Assert.AreEqual( ((LugarTuristico)_lugaresTuristicos[0]).Descripcion, resultado.Descripcion);
@@ -165,13 +183,16 @@ namespace ApiRestPruebas.M7
 
 		}
 
-		[Test]
+		[Test, Order(2)]
 		public void DAOTodosLosLugaresTuristicos()
 		{
 			List<Entidad> resultado = new List<Entidad>();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
-			resultado = iDAOLugarTuristico.ConsultarTodaLaLista();
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            iDAOLugarTuristico.Insertar(_lugaresTuristicos[1]);
+
+            resultado = iDAOLugarTuristico.ConsultarTodaLaLista();
 
 			for (int i = 0; i < 2; i++)
 			{
@@ -224,13 +245,13 @@ namespace ApiRestPruebas.M7
 
 		//Foto
 		#region
-		[Test]
+		[Test, Order(4)]
 		public void DAOInsertarFoto()
 		{
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
-			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
+			//iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();		
 
-			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+			//iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
 			//Inserto la foto
 			iDAOFoto.Insertar( _foto ,_lugaresTuristicos[0]);
@@ -246,14 +267,14 @@ namespace ApiRestPruebas.M7
 
 		}
 
-		[Test]
+		[Test, Order(5)]
 		public void DAOBuscarListaFoto()
 		{
 
 			iDAOFoto = FabricaDAO.CrearDAOFoto();
 			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
-			iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+			//iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
 			//Inserto la foto
 			iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
@@ -269,25 +290,41 @@ namespace ApiRestPruebas.M7
 
 		}
 
-        //[Test]
-        //public void DAOEliminarFoto()
-        //{
-        //    iDAOFoto = FabricaDAO.CrearDAOFoto();
-        //    iDAOFoto.Insertar(_foto, _lugaresTuristicos[0]);
+        [Test, Order(6)]
+        public void DAOEliminarFoto()
+        {
+            int idFoto = 0;
 
-        //    Assert.IsNotNull(iDAOFoto);
-        //}
+            // Obtenemos los daos de la fabrica
+            iDAOFoto = FabricaDAO.CrearDAOFoto();
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+
+            // Los utilizamos para insertar
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            iDAOFoto.Insertar(_fotos[0], _lugaresTuristicos[0]);
+
+            Assert.IsNotNull(iDAOFoto);
+
+            idFoto = _fotos[0].Id;
+
+            //deberia ser la misma foto
+            _fotos = iDAOFoto.ConsultarLista(_lugaresTuristicos[0]);
+
+            Assert.AreEqual(idFoto, _fotos[0].Id);
+
+        }
         #endregion
 
         //Actividad
         #region
-        [Test]
+        [Test, Order(7)]
 		public void DAOInsertarActividad()
 		{
 			daoActividad = FabricaDAO.CrearDAOActividad();
-			iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+			//iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 
-			daoActividad.Insertar( _actividad , _lugaresTuristicos[0]);
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            daoActividad.Insertar( _actividad , _lugaresTuristicos[0]);
 			_actividades = daoActividad.ConsultarLista( _lugaresTuristicos[0]);
 
 			foreach (Actividad actividad  in _actividades)
@@ -371,6 +408,7 @@ namespace ApiRestPruebas.M7
 		[TearDown]
 		public void TearDown()
 		{
+
 			_lugarTuristico = null;
 			_lugaresTuristicos = null;
 		}
