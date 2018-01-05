@@ -112,12 +112,23 @@ namespace ApiRest_COCO_TRIP.Controllers
         }
 
         ///<summary>
+        ///Método encargado de consultar todos los eventos .
+        ///</summary>
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("ListarEventos")]
+        [HttpGet]
+        public IDictionary ListarEventos()
+        {
+            return null;
+        }
+
+        ///<summary>
         ///Método encargado de consultar una lista de eventos dado un id de categoría.
         ///</summary>
         ///<param name="id"> id de la categoria para consultar una lista de eventos asociados
         ///a la categoría</param>
         [ResponseType(typeof(IDictionary))]
-        [ActionName("ListarEventos")]
+        [ActionName("ListarEventosPorCategoria")]
         [HttpGet]
         public IDictionary ListaEventosPorCategoria(int id)
         {

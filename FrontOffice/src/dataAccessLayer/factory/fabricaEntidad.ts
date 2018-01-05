@@ -1,5 +1,6 @@
 import { Grupo } from '../domain/grupo';
 import { Usuario } from '../domain/usuario';
+import { DateTime } from 'ionic-angular/components/datetime/datetime';
 
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 3*************************************//
@@ -38,23 +39,42 @@ import { Usuario } from '../domain/usuario';
 
      /**
       * Retorna la instancia de la entidad Usuario con parametros
+     
+    private Foto: string;
+    private Genero: string;
+    private Clave: string;
+    private Valido: boolean;
+    
       */
-      public static crearUsuarioConParametros(
-          id : number, nombre : string, 
-          apellido : string, 
-          correo : string, 
-          nickname : string,
-          fechaNacimiento? ) : Usuario
-      {
-          let usuario = new Usuario();
-          usuario.setId = id;
-          usuario.setNombre = nombre;
-          usuario.setApellido = apellido;
-          usuario.setCorreo = correo;
-          usuario.setNombreUsuario = nickname;
-          if (fechaNacimiento) {
-              usuario.setFechaNacimiento = fechaNacimiento;
-          }
-          return usuario;
+    public static crearUsuarioConParametros(
+        id : number, nombre : string, 
+        apellido : string, correo : string, 
+        nickname : string, fechaNacimiento?: Date,
+        foto?: string, genero?: string,
+        clave?: string, valido?: boolean
+    ) : Usuario
+    {
+        let usuario = new Usuario();
+        usuario.setId = id;
+        usuario.setNombre = nombre;
+        usuario.setApellido = apellido;
+        usuario.setCorreo = correo;
+        usuario.setNombreUsuario = nickname;
+        if (fechaNacimiento) {
+            usuario.setFechaNacimiento = fechaNacimiento;
+        }
+        if (foto) {
+            usuario.setFoto = foto;
+        }
+        if (genero) {
+            usuario.setGenero = genero;
+        }
+        if (clave) {
+            usuario.setClave = clave;
+        }
+        if (valido) {
+            usuario.setValido = valido;
+        }
+        return usuario;
       }
  }

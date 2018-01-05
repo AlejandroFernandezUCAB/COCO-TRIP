@@ -160,6 +160,7 @@
     <Compile Include="Datos\DAO\DAOUsuario.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOActividad.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOCategoria.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOEvento.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOFoto.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOHorario.cs" />
     <Compile Include="Datos\DAO\Interfaces\IDAOLugarTuristico.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarItinerarios.cs" />
@@ -278,6 +280,7 @@
     <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategoriasHabilitadas.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerLugaresTuristicos.cs" />
     <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoSalirGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoSetVisibleItinerario.cs" />

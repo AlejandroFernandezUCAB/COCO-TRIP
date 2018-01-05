@@ -29,58 +29,49 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     public override void Execute()
     {
 
-      try
-      {
-        //Agregando la foto al objeto
-        ((Foto)foto).Contenido = ExtraerFoto(datosDeLaPresentacion[0]);
-        ((LugarTuristico)lugarTuristico).Foto.Add((Foto)foto);
+      //Agregando la foto al objeto
+      ((Foto)foto).Ruta = "No implementado";
+      ((Foto)foto).Contenido = ExtraerFoto(datosDeLaPresentacion[0]);
+      ((LugarTuristico)lugarTuristico).Foto.Add((Foto)foto);
 
-        //Agregando el nombre al objeto
-        ((LugarTuristico)lugarTuristico).Nombre = datosDeLaPresentacion[1].ToString();
+      //Agregando el nombre al objeto
+      ((LugarTuristico)lugarTuristico).Nombre = datosDeLaPresentacion[1].ToString();
 
-        //Agregando el costo al objeto
-        ((LugarTuristico)lugarTuristico).Costo = Double.Parse(datosDeLaPresentacion[2].ToString());
+      //Agregando el costo al objeto
+      ((LugarTuristico)lugarTuristico).Costo = Double.Parse(datosDeLaPresentacion[2].ToString());
 
-        //Agregando el status
-        ((LugarTuristico)lugarTuristico).Activar = ExtraerStatus(datosDeLaPresentacion[3]);
+      //Agregando el status
+      ((LugarTuristico)lugarTuristico).Activar = ExtraerStatus(datosDeLaPresentacion[3]);
 
-        //Agregando las categorias
-        ((LugarTuristico)lugarTuristico).Categoria = ExtraerCategorias();//i hasta 7
+      //Agregando las categorias
+      ((LugarTuristico)lugarTuristico).Categoria = ExtraerCategorias();//i hasta 7
 
-        //Agregando los horarios
-        ((LugarTuristico)lugarTuristico).Horario = ExtraerHorario();//i Hasta 28
+      //Agregando los horarios
+      ((LugarTuristico)lugarTuristico).Horario = ExtraerHorario();//i Hasta 28
 
-        //Agregando las actividades
-        ((LugarTuristico)lugarTuristico).Actividad = ExtraerActividad(); // i hasta 48
+      //Agregando las actividades
+      ((LugarTuristico)lugarTuristico).Actividad = ExtraerActividad(); // i hasta 48
 
-        //Agregando Direccion
-        ((LugarTuristico)lugarTuristico).Direccion = datosDeLaPresentacion[49].ToString();
+      //Agregando Direccion
+      ((LugarTuristico)lugarTuristico).Direccion = datosDeLaPresentacion[49].ToString();
 
-        //Agregando Correo
-        ((LugarTuristico)lugarTuristico).Correo = datosDeLaPresentacion[50].ToString();
+      //Agregando Correo
+      ((LugarTuristico)lugarTuristico).Correo = datosDeLaPresentacion[50].ToString();
 
-        //Agregando telefono
-        ((LugarTuristico)lugarTuristico).Telefono = long.Parse(datosDeLaPresentacion[51].ToString());
+      //Agregando telefono
+      ((LugarTuristico)lugarTuristico).Telefono = long.Parse(datosDeLaPresentacion[51].ToString());
 
-        //Agregando descripcion
-        ((LugarTuristico)lugarTuristico).Descripcion = datosDeLaPresentacion[52].ToString();
+      //Agregando descripcion
+      ((LugarTuristico)lugarTuristico).Descripcion = datosDeLaPresentacion[52].ToString();
 
-        //Agregando Latitud
-        ((LugarTuristico)lugarTuristico).Latitud = double.Parse(datosDeLaPresentacion[53].ToString());
+      //Agregando Latitud
+      ((LugarTuristico)lugarTuristico).Latitud = double.Parse(datosDeLaPresentacion[53].ToString());
 
-        //Agregando Longitud
-        ((LugarTuristico)lugarTuristico).Longitud = double.Parse( datosDeLaPresentacion[54].ToString());
+      //Agregando Longitud
+      ((LugarTuristico)lugarTuristico).Longitud = double.Parse( datosDeLaPresentacion[54].ToString());
 
-        //Llamando al DAO
-        respuesta = daoLugarTuristico.Post( lugarTuristico );
-        lugarTuristico = respuesta.ToObject<LugarTuristico>();
-        respuesta.Add(lugarTuristico);
-        
-      }
-      catch (Exception e)
-      {
-        
-      }
+      //Llamando al DAO
+      respuesta = daoLugarTuristico.Post( lugarTuristico );
 
     }
 
@@ -88,7 +79,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     {
       List<Actividad> actividades = new List<Actividad>();
       Actividad actividad;
-      String activar;
       int i = 29;
 
       while(i<=48)
@@ -97,6 +87,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
 
         if ( datosDeLaPresentacion[i] != null)
         {
+          actividad.Foto.Ruta = "No implementado";
           i++;
           actividad.Foto.Contenido = ExtraerFoto(datosDeLaPresentacion[i]);
           i++;
