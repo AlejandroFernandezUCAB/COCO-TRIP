@@ -22,7 +22,8 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -224,7 +225,7 @@
     <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
-    <Compile Include="Negocio\Command\ComandoAgregarLugarTuristico.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarNotificacion.cs" />
