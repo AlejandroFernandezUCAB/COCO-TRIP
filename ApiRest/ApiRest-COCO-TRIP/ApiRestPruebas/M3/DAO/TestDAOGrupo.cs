@@ -392,6 +392,14 @@ namespace ApiRestPruebas.M3.DAO
     {
       dao.Actualizar(null);
     }
-  }
 
+    [Category("Modulo 3")]
+    [Category("DAOGrupo")]
+    [Test]
+    public void TestActualizarRutaFoto()
+    {
+      Grupo grupo = (Grupo)dao.ActualizarRutaFoto(listaGrupo[0]);
+      Assert.AreEqual(true, grupo.RutaFoto != null);
+    }
+  }
 }

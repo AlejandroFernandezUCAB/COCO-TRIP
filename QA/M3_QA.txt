@@ -37,5 +37,5 @@ Modulo 3: Gestion de Amigos y Grupos de Amigos
 
   (5) Fotos (Opcional):
     Ver foto de grupo [estado] success
-    Agregar foto de grupo [estado] abandonado
-    Modificar foto de grupo [estado] abandonado
+    Agregar foto de grupo [estado] success
+    Modificar foto de grupo [estado] success

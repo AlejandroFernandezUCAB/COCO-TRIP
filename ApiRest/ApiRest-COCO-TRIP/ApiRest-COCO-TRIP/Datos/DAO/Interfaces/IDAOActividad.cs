@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
-    interface IDAOActividad
+    public interface IDAOActividad
     {
         List<Entidad> ConsultarLista(string id);
 

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Datos.Singleton;
@@ -19,7 +20,7 @@ using NpgsqlTypes;
 /// </summary>
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
-    public class DAOCategoria : DAO
+    public class DAOCategoria : DAO, IDAOCategoria
     {
         private NpgsqlParameter parametro;
         private NpgsqlDataReader leerDatos;
@@ -185,41 +186,18 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// Metodo Update, actualiza una categoria enviada por parametro.
         /// </summary>
         /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
-        /// <exception cref="NpgsqlException">Error al actualizar la categoria</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al actualizar la categoria</exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Error en duplicidad en el nombre de la categoria que intenta actualizar.</exception>
         /// <exception cref="HijoConDePendenciaExcepcion">La categoria que intenta actualizar tiene dependencias.</exception>
-        /// <exception cref="ArgumentNullException">Ocurre en el momento de utlizar el metodo .ToList()</exception>
+        /// <exception cref="ArgumentoNuloExcepcion">Error al utilizar el ToList, para convertir la lista a Categorias.</exception>
         /// <exception cref="Excepcion">Error inesperado.</exception>
         public override void Actualizar(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_ModificarCategoria");
-                DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
-                List<Entidad> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
-
-                if (((Categoria)Lcategoria.First<Entidad>()).Nivel == categoria.Nivel)
-                {
-                    ParametrosModificar(categoria);
-                }
-                else
-                {
-                    List<Entidad> Listacategoria = daoc.ObtenerTodasLasCategorias();
-                    List<Entidad> hijos = Listacategoria.Where(item => ((Categoria)item).CategoriaSuperior == categoria.Id).ToList();
-                    if (hijos.Count == 0)
-                    {
-                        ParametrosModificar(categoria);
-                    }
-                    else
-                    {
-                        Exception ex = new Exception("Dependencias asociadas.");
-                        mensaje = "Error de dependiencia en " + this.GetType().FullName + ". " +
-                            MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
-                            " y nombre: " + categoria.Nombre + " ya que tiene dependencia";
-                        throw new HijoConDePendenciaExcepcion(ex, mensaje);
-                    }
-                }
+                VerificarExistenciaCategoria();
                 if (categoria.CategoriaSuperior == 0)
                 {
                     base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, DBNull.Value);
@@ -228,7 +206,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 {
                     base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.CategoriaSuperior);
                 }
-                exitoso = base.Comando.ExecuteNonQuery();
+                base.Comando.ExecuteNonQuery();
             }
             catch (PostgresException ex)
             {
@@ -246,10 +224,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 throw new BaseDeDatosExcepcion(ex, mensaje);
 
             }
-            catch (ArgumentNullException ex) //Esto ocurre en el momento de utilizar el metodo .ToList().
+            catch (ArgumentNullException ex) 
             {
-                //TODO Mejorar ese mensaje de error, no tengo idea de que hace esa linea.
-                string mensaje = "Error creando las lista para las categorias " + " || " + ex.Message;
+                string mensaje = "Error interno creando las lista para las categorias " + " || " + ex.Message;
                 throw new ArgumentoNuloExcepcion(ex, mensaje);
             }
             catch (HijoConDePendenciaExcepcion ex)
@@ -274,17 +251,16 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <param name="objeto">Instancia tipo Categoria que se desea actualizar/modificar</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de actualizar la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado.</exception>
-        public void ActualizarEstado(Entidad objeto)
+        public virtual void ActualizarEstado(Entidad objeto)
         {
             categoria = (Categoria)objeto;
-            int exitoso = 0; //TODO: Creo que esto no hace falta, solo se usa mas abajo para ejecutar el SP, pero no se vuleve a utilizar el resultado
             try
             {
                 StoredProcedure("m9_actualizarEstatusCategoria");
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, categoria.Estatus);
                 base.Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, categoria.Id);
 
-                exitoso = base.Comando.ExecuteNonQuery();
+                base.Comando.ExecuteNonQuery();
             }
             catch (NpgsqlException ex)
             {
@@ -325,7 +301,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList de las categorias habilitadas</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al momento de realizar la consulta de las categorias</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public List<Entidad> ObtenerCategoriasHabilitadas()
+        public virtual List<Entidad> ObtenerCategoriasHabilitadas()
         {
             List<Entidad> listaCategorias;
             try
@@ -360,7 +336,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList con la categoria que se desea cuyo Id se encuentra en la instancia del parametro.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public List<Entidad> ObtenerCategoriaPorId(Entidad entidad)
+        public virtual List<Entidad> ObtenerCategoriaPorId(Entidad entidad)
         {
             categoria = (Categoria)entidad;
             List<Entidad> listaCategorias;
@@ -396,7 +372,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>IList con las Categorias.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Excepcion">Error inesperado</exception>
-        public List<Entidad> ObtenerTodasLasCategorias()
+        public virtual List<Entidad> ObtenerTodasLasCategorias()
         {
             List<Entidad> listaCategorias;
             try
@@ -431,7 +407,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns>Categoria asociada al nombre colocado en la instacia por parametro.</returns>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Exception">Error inesperado</exception>
-        public Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
+        public virtual Entidad ObtenerIdCategoriaPorNombre(Entidad entidad)
         {
             categoria = (Categoria)entidad;
             try
@@ -478,7 +454,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <param name="categoria">Instacia Categoria que contiene el Id por el cual se consultara.</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
         /// <exception cref="Exception">Error inesperado</exception>
-        public List<Entidad> ObtenerCategorias(Entidad categoria)
+        public virtual List<Entidad> ObtenerCategorias(Entidad categoria)
         {
             List<Entidad> listaCategorias = new List<Entidad>();
             try
@@ -518,5 +494,32 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 
         #endregion metodosEspecificos
+
+        private void VerificarExistenciaCategoria()
+        {
+            DAOCategoria daoc = FabricaDAO.CrearDAOCategoria();
+            List<Entidad> Lcategoria = daoc.ObtenerCategoriaPorId(categoria);
+            if (((Categoria)Lcategoria.First<Entidad>()).Nivel == categoria.Nivel)
+            {
+                ParametrosModificar(categoria);
+            }
+            else
+            {
+                List<Entidad> Listacategoria = daoc.ObtenerTodasLasCategorias();
+                List<Entidad> hijos = Listacategoria.Where(item => ((Categoria)item).CategoriaSuperior == categoria.Id).ToList();
+                if (hijos.Count == 0)
+                {
+                    ParametrosModificar(categoria);
+                }
+                else
+                {
+                    Exception ex = new Exception("Dependencias asociadas.");
+                    mensaje = "Error de dependiencia en " + this.GetType().FullName + ". " +
+                        MethodBase.GetCurrentMethod().Name + " donde id: " + categoria.Id +
+                        " y nombre: " + categoria.Nombre + " ya que tiene dependencia";
+                    throw new HijoConDePendenciaExcepcion(ex, mensaje);
+                }
+            }
+        }
     }
 }

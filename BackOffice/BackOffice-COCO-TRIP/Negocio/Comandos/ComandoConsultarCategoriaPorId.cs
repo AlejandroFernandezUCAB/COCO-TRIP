@@ -1,9 +1,8 @@
-using BackOffice_COCO_TRIP.Datos.Entidades;
+
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
-using BackOffice_COCO_TRIP.Datos.DAO;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Negocio.Comandos
@@ -23,7 +22,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       }
       catch (Exception e)
       {
-        //TERMINAR
         throw e;
       }
 

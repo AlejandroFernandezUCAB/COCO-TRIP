@@ -22,7 +22,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       }
       catch (Exception e)
       {
-        //TERMINAR
         throw e;
       }
     }
