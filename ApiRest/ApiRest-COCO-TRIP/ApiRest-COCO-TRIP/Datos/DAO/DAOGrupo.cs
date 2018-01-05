@@ -151,7 +151,12 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         if (leerDatos.Read())
         {
           grupo.Nombre = leerDatos.GetString(0);
-          //grupo.RutaFoto = leerDatos.GetString(1);
+
+          if(!leerDatos.IsDBNull(1))
+          {
+            grupo.RutaFoto = leerDatos.GetString(1);
+          }
+
           grupo.CantidadIntegrantes = leerDatos.GetInt32(2);
         }
 
@@ -198,7 +203,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
           fila.Id = leerDatos.GetInt32(0);
           fila.Nombre = leerDatos.GetString(1);
-          //fila.RutaFoto = leerDatos.GetString(2);
+
+          if(!leerDatos.IsDBNull(2))
+          {
+            fila.RutaFoto = leerDatos.GetString(2);
+          }
 
           lista.Add(fila);
         }
@@ -245,7 +254,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         {
           grupo.Id = leerDatos.GetInt32(0);
           grupo.Nombre = leerDatos.GetString(1);
-          //grupo.RutaFoto = leerDatos.GetString(2);
+
+          if(!leerDatos.IsDBNull(2))
+          {
+            grupo.RutaFoto = leerDatos.GetString(2);
+          }
         }
 
         leerDatos.Close(); //Cierra el Data Reader
@@ -623,7 +636,42 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
       }
     }
 
-    public override void Insertar (Entidad objeto)
+    public Entidad ActualizarRutaFoto (Entidad objeto)
+    {
+      try
+      {
+        grupo = (Grupo) objeto;
+
+        base.Conectar(); //Inicia una sesion con la base de datos
+
+        base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+        base.Comando.CommandText = "ModificarFotoGrupo";
+        base.Comando.CommandType = CommandType.StoredProcedure;
+
+        parametro = new NpgsqlParameter();
+        parametro.NpgsqlDbType = NpgsqlDbType.Integer; //Ingresa parametros de entrada
+        parametro.Value = grupo.Id;
+        base.Comando.Parameters.Add(parametro);
+
+        leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+        if(leerDatos.Read())
+        {
+          grupo.RutaFoto = leerDatos.GetString(0);
+        }
+
+        base.Desconectar(); //Culmina la sesion con la base de datos
+
+        return grupo;
+      }
+      catch (NpgsqlException e)
+      {
+        throw new BaseDeDatosExcepcion(e, "Error de logica de BD en "
+        + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+      }
+    }
+
+        public override void Insertar (Entidad objeto)
     {
       throw new System.NotImplementedException();
     }
