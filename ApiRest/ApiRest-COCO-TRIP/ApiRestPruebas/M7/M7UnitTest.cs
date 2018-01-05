@@ -399,6 +399,14 @@ namespace ApiRestPruebas.M7
 
         }
 
+        public void ResetActividadIndex()
+        {
+            DAO test = FabricaDAO.CrearDAOActividad();
+            test.Conectar();
+            test.Comando = new NpgsqlCommand("SELECT setval('seq_actividad', 1)", test.SqlConexion);
+            test.Comando.ExecuteNonQuery();
+            test.Desconectar();
+        }
 
         [Test, Order(9)]
         public void DAOEliminarActividad()
@@ -427,6 +435,8 @@ namespace ApiRestPruebas.M7
 
             Assert.False(_actividades.Contains(_actividad));
 
+            // Luego de borrar reseteamos el indice para evitar problemas
+            ResetActividadIndex();
         }
 
         [Test, Order(10)]
@@ -438,8 +448,8 @@ namespace ApiRestPruebas.M7
             ((LugarTuristico)_lugaresTuristicos[0]).Actividad.Add((Actividad)_actividades[1]);
 
             // Descomentar las siguientes lineas al ejecutar la pu de forma individual
-            iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
-            iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
 
             _comandoA = FabricaComando.CrearComandoLTAgregarActividad(_lugaresTuristicos[0]);
             _comandoA.Ejecutar();
@@ -454,9 +464,32 @@ namespace ApiRestPruebas.M7
         [Test, Order(11)]
         public void ComandoLTEliminarActividad()
         {
-            _comandoA = FabricaComando.CrearComandoLTEliminarActividad();
-            //_comandoB = FabricaComando.CrearComandoLTAgregarActividad();
 
+            daoActividad = FabricaDAO.CrearDAOActividad();
+
+                // Descomentar las siguientes lineas al ejecutar la pu de forma individual
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            //((LugarTuristico)_lugaresTuristicos[0]).Actividad.Add((Actividad)_actividades[0]);
+            //((LugarTuristico)_lugaresTuristicos[0]).Actividad.Add((Actividad)_actividades[1]);
+            //iDAOLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+            //iDAOLugarTuristico.Insertar(_lugaresTuristicos[0]);
+            //_comandoB = FabricaComando.CrearComandoLTAgregarActividad(_lugaresTuristicos[0]);
+            //_comandoB.Ejecutar();
+
+
+            int numeroActividadesPrevias = daoActividad.ConsultarLista(_lugaresTuristicos[0]).Count;
+            int actividadesEsperadas = numeroActividadesPrevias - 2;
+
+            for (int i = 0; i < 2; i++)
+            {
+                _comandoA = FabricaComando.CrearComandoLTEliminarActividad(_actividades[i]);
+                _comandoA.Ejecutar();
+            }
+
+            //lista de lugares Actividades
+            _actividades = daoActividad.ConsultarLista(_lugaresTuristicos[0]);
+
+            Assert.AreEqual(actividadesEsperadas, _actividades.Count);
         }
         #endregion
 
