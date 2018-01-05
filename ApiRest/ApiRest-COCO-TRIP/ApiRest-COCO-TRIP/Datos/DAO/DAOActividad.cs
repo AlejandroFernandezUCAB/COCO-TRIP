@@ -15,7 +15,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 {
 	public class DAOActividad : DAO , IDAOActividad
 	{
-		private List<Entidad> _actividad;
+        private Actividad _actividad;
+		private List<Entidad> _actividades;
 		private NpgsqlDataReader _respuesta;
 		private static Logger log = LogManager.GetCurrentClassLogger();
 
@@ -42,7 +43,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		/// <returns>Lugar turistico</returns>
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
-			_actividad = new List<Entidad>();
+			_actividades = new List<Entidad>();
 			//Recordemos que el objeto es de un lugar turistico
 			try
 			{
@@ -60,10 +61,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 					actividad.Duracion = _respuesta.GetTimeSpan(3);
 					actividad.Descripcion = _respuesta.GetString(4);
 					actividad.Activar = _respuesta.GetBoolean(5);
-					_actividad.Add(actividad);
+					_actividades.Add(actividad);
 				}
 
-				return _actividad;
+				return _actividades;
 
 			}
 			catch (NullReferenceException e)
@@ -121,9 +122,69 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
-		public override void Eliminar(Entidad objeto)
+        /// <summary>
+        /// Elimina una actividad de un lugar turistico dado
+        /// </summary>
+        /// <param name="objeto">Objeto: Actividad</param>
+		public override void Eliminar(Entidad actividad)
 		{
-			throw new NotImplementedException();
+            _actividad = (Actividad)actividad;
+            try
+            {
+                StoredProcedure("EliminarActividad");
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, _actividad.Id);
+                // Ejecutar
+                Comando.ExecuteNonQuery();
+            }
+            catch (NullReferenceException e)
+            {
+
+                log.Error(e.Message);
+                throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (InvalidCastException e)
+            {
+
+                log.Error("Casteo invalido en:"
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                log.Error("Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (SocketException e)
+            {
+
+                log.Error("Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (Exception e)
+            {
+
+                log.Error("Ocurrio un error desconocido: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new Excepcion(e, "Ocurrio un error desconocido en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            finally
+            {
+                // Cerramos la conexion...
+                Desconectar();
+            }
 		}
 
 		public override void Insertar(Entidad objeto)
@@ -214,5 +275,5 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			Comando.CommandType = CommandType.StoredProcedure;
 			Comando.CommandText = sp;
 		}
-	}
+    }
 }

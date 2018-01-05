@@ -6,6 +6,8 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { LoginPage } from '../login/login';
+import { ComandoBorrarCuenta } from '../../businessLayer/commands/comandoBorrarCuenta';
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
 
 @IonicPage()
 @Component({
@@ -15,17 +17,15 @@ import { LoginPage } from '../login/login';
 export class BorrarCuentaPage {
 
   myForm : FormGroup;
-  NombreUsuario: string;
-  password: string;
-  apiRestResponse: any;
+  usuario: Usuario;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, 
-    public fb: FormBuilder, public restapiService: RestapiService)
+    public fb: FormBuilder, private comando: ComandoBorrarCuenta)
     {
       console.log(navParams);
-      this.NombreUsuario = navParams.data; //Este es el username, se lo asignamos a un string (NombreUsuario)
-      console.log(this.NombreUsuario);
+      this.usuario = navParams.data as Usuario;
+      console.log(this.usuario);
       this.myForm = this.fb.group(
         {
           //Esta será las validación para el campos de la vista.
@@ -37,22 +37,16 @@ export class BorrarCuentaPage {
   //funcion que se ejecuta al hacer submit del formulario
   borrarData(){
     //Inyectamos los datos que vienen del formulario.
-    this.password = this.myForm.value.pass;
+    this.usuario.setClave = this.myForm.value.pass;
+    this.comando._entidad = this.usuario;
+    this.comando.execute().then(data => {
+      this.regresarAvistaAnterior(data);
+    }, error => {
+      this.regresarAvistaAnterior(false);
+    })
 
-    /*Aqui haremos el llamado al restapi llamado borrarUser, aqui le enviaremos los datos suministrados
-     en el formulario.*/
-    this.restapiService.borrarUser(this.NombreUsuario, this.password).then(data =>{
-      if(data != 0){
-        this.apiRestResponse = data;
-        this.regresarAvistaAnterior(this.apiRestResponse);
-    }
-    else{
-      this.apiRestResponse = false;
-      this.regresarAvistaAnterior(this.apiRestResponse);
-    }
   }
-  );
-  }
+  
 /*Aqui te regresa a la ventana de login (en caso de ser true) o a la ventana anterior de caso contrario*/ 
   regresarAvistaAnterior(apiRestResponse){
 

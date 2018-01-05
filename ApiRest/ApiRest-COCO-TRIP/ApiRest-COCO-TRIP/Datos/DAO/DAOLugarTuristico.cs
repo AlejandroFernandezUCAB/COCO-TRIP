@@ -35,6 +35,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		/// <returns>Lista de lugares turisticos completa</returns>
 		public List<Entidad> ConsultarTodaLaLista()
 		{
+
 			List<Entidad> lugaresTuristicos = new List<Entidad>(); // Estos new me hacen ruido aqui.
 			 
 			try
@@ -136,7 +137,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			{
 
 				StoredProcedure("insertarlugarturistico");
-				//Seteando los parametros al SP
+				// Seteando los parametros al SP
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
@@ -146,7 +147,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Latitud);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Longitud);
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, _lugarTuristico.Activar);
-				//Ejecucion
+				// Ejecucion
 				success = Comando.ExecuteNonQuery();
 
 			}

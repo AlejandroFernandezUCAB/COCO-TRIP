@@ -11,6 +11,7 @@ using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -344,46 +345,25 @@ namespace BackOffice_COCO_TRIP.Controllers
             }
         }
 
-        //Pantalla ver todos los lugares turisticos
+    //Pantalla ver todos los lugares turisticos
 
-        // GET:Lugares/ViewAll
-        /// <summary>
-        /// Metodo GET que se dispara al acceder a la pantalla de ver todos los lugares turisticos (ViewAll)
-        /// </summary>
-        /// <returns>View</returns>
-        public ActionResult ViewAll()
-        {
-            ViewBag.Title = "Lugares Turísticos";
+    // GET:Lugares/ViewAll
+    /// <summary>
+    /// Metodo GET que se dispara al acceder a la pantalla de ver todos los lugares turisticos (ViewAll)
+    /// </summary>
+    /// <returns>View</returns>
+    public ActionResult ViewAll()
+    {
+      JObject respuesta;
+      ViewBag.Title = "Lugares Turísticos";
+      com = FabricaComando.GetComandoConsultarLugaresTuristicos();
+      com.Execute();
+      respuesta = (JObject)com.GetResult()[0];
+      List<LugarTuristico> _lugaresTuristicos = respuesta["data"].ToObject<List<LugarTuristico>>();
+      return View(_lugaresTuristicos);
+    }
+     
 
-            peticion = new PeticionLugares();
-
-            try
-            {
-              var respuesta = peticion.GetLista(1, int.MaxValue);
-
-              if (respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown"); //Error del servicio web
-              }
-
-              var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
-
-              foreach (var lugar in listaLugarTuristico)
-              {
-                foreach (var foto in lugar.Foto)
-                {
-                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
-                }
-              }
-
-              return View(listaLugarTuristico);
-
-            }
-            catch (SocketException)
-            {
-                return RedirectToAction("PageDown");
-            }
-        }
 
         // PUT:Lugares/ViewAll?id={0}&activar={1}
         /// <summary>
@@ -464,20 +444,20 @@ namespace BackOffice_COCO_TRIP.Controllers
 
     public void LlenadoLugarTuristico()
     {
-      //Llenando la foto      
-      com.SetPropiedad (Encoding.ASCII.GetBytes (Request.Form["fotoLugar"]));
+      //Seteando la foto    
+      com.SetPropiedad (Request.Form["fotoLugar"]);
 
-      //Llenando el nombre
+      //Seteando el nombre
       com.SetPropiedad(Request.Form["Nombre"]);
 
-      //Llenando el costo
+      //Seteando el costo
       Double.TryParse(Request.Form["Costo"], out double costo);
       com.SetPropiedad(costo);
 
-      //Activar o desactivar lugar turistico
+      //Seteando el status
       com.SetPropiedad(Request.Form["activar"]);
       
-      //Llenando los objetos de categoria solo con el nombre, 
+      //Seteando las categorias
       for (int i=0; i <= 3; i++)
       {
 
@@ -485,7 +465,7 @@ namespace BackOffice_COCO_TRIP.Controllers
        
       }
 
-      //Llenando el objeto de lugar para pasarlo al Comando.
+      //Seteando los horarios
       for(int i = 0; i <= 6; i++)
       {
 
@@ -495,6 +475,24 @@ namespace BackOffice_COCO_TRIP.Controllers
         
       }
 
+      //Seteando las actividades
+      for (int i = 0; i <= 3; i++)
+      {
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Activar"]);
+        com.SetPropiedad(Request.Form["fotoActividad_" + i ]);
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Nombre"]);
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Descripcion"]);
+        com.SetPropiedad(Request.Form["Actividad[" + i + "].Duracion"]);
+      }
+
+      //Seteando los ultimos parametros
+
+      com.SetPropiedad(Request.Form["Direccion"]);
+      com.SetPropiedad(Request.Form["Correo"]);
+      com.SetPropiedad(Request.Form["Telefono"]);
+      com.SetPropiedad(Request.Form["Descripcion"]);
+      com.SetPropiedad(Request.Form["Latitud"]);
+      com.SetPropiedad(Request.Form["Longitud"]);
     }
 
 
