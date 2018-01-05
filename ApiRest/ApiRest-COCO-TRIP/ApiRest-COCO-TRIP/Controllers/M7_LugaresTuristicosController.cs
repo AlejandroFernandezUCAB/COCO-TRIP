@@ -656,6 +656,50 @@ catch (ReferenciaNulaExcepcion)
         }
 
 
+        /// <summary>
+        /// Elimina una actividad del sistema
+        /// </summary>
+        /// <param name="lugar">Objeto Actividad</param>
+        /// <returns>ID del lugar turistico insertado</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        [HttpPost]
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("EliminarActividad")]
+        public IDictionary DeleteActividad(JObject datos)
+        {
+            try
+            {
+
+            }
+            catch (ReferenciaNulaExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (CasteoInvalidoExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (BaseDeDatosExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (Excepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+
+            return response;
+        }
+
+
 
         /// <summary>
         /// Eliminar horario
@@ -718,8 +762,7 @@ catch (ReferenciaNulaExcepcion)
         }*/
 
 
-        // Codigo anterior
-
+        #region Codigo Anterior
         /// <summary>
         /// Eliminar foto
         /// </summary>
@@ -749,8 +792,8 @@ catch (ReferenciaNulaExcepcion)
         // //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
         // //  }
         // }
+        #endregion
 
-        // Fin codigo anterior
     }
 
 }
