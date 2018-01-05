@@ -137,10 +137,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         }
 
         /// <summary>
-        /// Método ConsultarLista, consulta todas los eventos filtrados por una categoria y 
-        /// los retorna en una lista.
+        /// Metodo ConsultarLista, consulta todos los eventos.
         /// </summary>
-        /// <param name="objeto"> Entidad(categoria) para filtrar la lista</param>
+        /// <param name="objeto"> Entidad para utilizar en la consulta</param>
+        /// <returns></returns>
         public override List<Entidad> ConsultarLista(Entidad objeto)
         {
             lista = new List<Entidad>();
@@ -212,6 +212,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             return lista;
         }
 
+        /// <summary>
+        /// Método ConsultarListaPorCategoria, consulta todos los eventos filtrados por una categoria y 
+        /// los retorna en una lista.
+        /// </summary>
+        /// <param name="objeto"> Entidad(categoria) para filtrar la lista</param>
         public List<Entidad> ConsultarListaPorCategoria(Entidad objeto)
         {
             lista = new List<Entidad>();
