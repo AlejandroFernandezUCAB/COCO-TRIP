@@ -603,9 +603,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 		/// Retorna la instancia de ComandoLTEliminarActividad
 		/// </summary>
 		/// <returns></returns>
-		public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad()
+		public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad(Entidad actividad)
         {
-            return new ComandoLTEliminarActividad();
+            return new ComandoLTEliminarActividad(actividad);
         }
 
         /// <summary>
