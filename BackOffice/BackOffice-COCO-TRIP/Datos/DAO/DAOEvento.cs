@@ -106,101 +106,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Método Get, consulta la lista de eventos dado un id de categoría.
-    /// </summary>
-    /// <param name="id">Identificador único de la categoría</param>
-    /// <returns>JSON de la respuesta del WS</returns>
-    public override JObject Get(int id)
-    {
-      try
-      {
-        using (HttpClient cliente = new HttpClient())
-        {
-          cliente.BaseAddress = new Uri(BaseUri);
-          cliente.DefaultRequestHeaders.Accept.Clear();
-          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/ListarEventosPorCategoria/{id}");
-
-
-          responseTask.Wait();
-          var response = responseTask.Result;
-          var readTask = response.Content.ReadAsAsync<JObject>();
-          readTask.Wait();
-          responseData = readTask.Result;
-        }
-      }
-      catch (HttpRequestException ex)
-      {
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-
-      catch (WebException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (SocketException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (AggregateException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonSerializationException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (JsonReaderException ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", ex.Message }
-
-          };
-      }
-      catch (Exception ex)
-      {
-
-        responseData = new JObject
-          {
-            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
-
-          };
-      }
-
-      return responseData;
-    }
-
-    /// <summary>
     /// Método GetEvento, consulta un evento.
     /// </summary>
     /// <param name="id">Identificador único del evento</param>
     /// <returns>JSON de la respuesta del WS</returns>
-    public JObject GetEvento(int id)
+    public override JObject Get(int id)
     {
 
       try
@@ -501,6 +411,183 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       }
 
       return responseData;
+    }
+
+    /// <summary>
+    /// Método Get, consulta la lista de eventos dado un id de categoría.
+    /// </summary>
+    /// <param name="id">Identificador único de la categoría</param>
+    /// <returns>JSON de la respuesta del WS</returns>
+    public JObject GetEventoPorCategoria(int id)
+    {
+      try
+      {
+        using (HttpClient cliente = new HttpClient())
+        {
+          cliente.BaseAddress = new Uri(BaseUri);
+          cliente.DefaultRequestHeaders.Accept.Clear();
+          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/ListarEventosPorCategoria/{id}");
+
+
+          responseTask.Wait();
+          var response = responseTask.Result;
+          var readTask = response.Content.ReadAsAsync<JObject>();
+          readTask.Wait();
+          responseData = readTask.Result;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+
+      catch (WebException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (SocketException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (AggregateException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonSerializationException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonReaderException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (Exception ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+
+          };
+      }
+
+      return responseData;
+    }
+
+    public JObject GetAll()
+    {
+
+      try
+      {
+        using (HttpClient cliente = new HttpClient())
+        {
+          cliente.BaseAddress = new Uri(BaseUri);
+          cliente.DefaultRequestHeaders.Accept.Clear();
+          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/ListarEventos");
+
+
+          responseTask.Wait();
+          var response = responseTask.Result;
+          var readTask = response.Content.ReadAsAsync<JObject>();
+          readTask.Wait();
+          responseData = readTask.Result;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+
+      catch (WebException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (SocketException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (AggregateException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonSerializationException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (JsonReaderException ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", ex.Message }
+
+          };
+      }
+      catch (Exception ex)
+      {
+
+        responseData = new JObject
+          {
+            { "error", $"Ocurrio un error inesperado: {ex.Message}" }
+
+          };
+      }
+
+      return responseData;
+
     }
   }
 }

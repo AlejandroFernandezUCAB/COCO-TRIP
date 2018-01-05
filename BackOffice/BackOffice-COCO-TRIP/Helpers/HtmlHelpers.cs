@@ -29,7 +29,7 @@ namespace BackOffice_COCO_TRIP.Helpers
       return MvcHtmlString.Create(dropdown.ToString(TagRenderMode.Normal));
     }
 
-    public static MvcHtmlString DropDownListCategoriesEvents(this HtmlHelper helper, string name, IList<Categoria> list, object htmlAttributes)
+    public static MvcHtmlString DropDownListCategoriesEvents(this HtmlHelper helper, string name, Evento evento, IList<Categoria> list, object htmlAttributes)
     {
       TagBuilder dropdown = new TagBuilder("select");
       dropdown.Attributes.Add("name", name);
@@ -37,14 +37,21 @@ namespace BackOffice_COCO_TRIP.Helpers
       StringBuilder options = new StringBuilder();
       foreach (var item in list)
       {
-        options = options.Append($"<option value='{item.Id}'> {item.Name} </option>");
+        if (evento != null && evento.IdCategoria == item.Id)
+        {
+          options = options.Append($"<option value='{item.Id}' selected> {item.Name} </option>");
+        }
+        else
+        {
+          options = options.Append($"<option value='{item.Id}'> {item.Name} </option>");
+        }
       }
       dropdown.InnerHtml = options.ToString();
       dropdown.MergeAttributes(new RouteValueDictionary(htmlAttributes));
       return MvcHtmlString.Create(dropdown.ToString(TagRenderMode.Normal));
     }
 
-    public static MvcHtmlString DropDownListLocalidadesEventos(this HtmlHelper helper, string name, IList<Localidad> list, object htmlAttributes)
+    public static MvcHtmlString DropDownListLocalidadesEventos(this HtmlHelper helper, string name, Evento evento, IList<Localidad> list, object htmlAttributes)
     {
       TagBuilder dropdown = new TagBuilder("select");
 
@@ -53,8 +60,17 @@ namespace BackOffice_COCO_TRIP.Helpers
       StringBuilder options = new StringBuilder();
       foreach (var item in list)
       {
-        options = options.Append($"<option value='{item.Id}'> {item.Nombre} </option>");
+        if (evento != null && evento.IdLocalidad == item.Id)
+        {
+          options = options.Append($"<option value='{item.Id}' selected> {item.Nombre} </option>");
+        }
+
+        else
+
+          options = options.Append($"<option value='{item.Id}'> {item.Nombre} </option>");
       }
+       
+      
       dropdown.InnerHtml = options.ToString();
       dropdown.MergeAttributes(new RouteValueDictionary(htmlAttributes));
       return MvcHtmlString.Create(dropdown.ToString(TagRenderMode.Normal));
