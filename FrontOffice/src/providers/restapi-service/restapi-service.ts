@@ -249,8 +249,15 @@ eveSegunPreferencias(idUser){
         resolve(this.data);
 
       }, error=>{
-        
-        reject(error);
+        let respuesta = {
+          id: 1,
+          Nombre: 'Jesus',
+          Apellido: 'Rivero',
+          Correo: 'pedro@perez.com',
+          Nickname: 'jaorr',
+          FechaNacimiento: new Date('1995-04-11T00:00:00.196Z').toISOString()
+        }
+        reject(respuesta);
 
       });
     });
