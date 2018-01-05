@@ -810,43 +810,43 @@ catch (ReferenciaNulaExcepcion)
         /// </summary>
         /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
         /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        //[HttpPut]
-        //public void PutLugar(LugarTuristico lugar)
-        //{
-        //    peticion = new PeticionLugarTuristico();
+        [HttpPut]
+        public void PutLugar(LugarTuristico lugar)
+        {
+            peticion = new PeticionLugarTuristico();
 
-        //    try
-        //    {
-        //        peticion.ActualizarLugarTuristico(lugar);
-        //    }
-        //    catch (BaseDeDatosExcepcion e)
-        //    {
-        //        //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        //        //RegistrarExcepcion(e); NLog
+            try
+            {
+                peticion.ActualizarLugarTuristico(lugar);
+            }
+            catch (BaseDeDatosExcepcion e)
+            {
+                //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+                //RegistrarExcepcion(e); NLog
 
-        //        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-        //    }
-        //    catch (CasteoInvalidoExcepcion e)
-        //    {
-        //        // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        //        //RegistrarExcepcion(e); NLog
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            catch (CasteoInvalidoExcepcion e)
+            {
+                // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+                //RegistrarExcepcion(e); NLog
 
-        //        throw new HttpResponseException(HttpStatusCode.BadRequest);
-        //    }
-        //    catch (ReferenciaNulaExcepcion e)
-        //    {
-        //        // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-        //        //RegistrarExcepcion(e); NLog
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            catch (ReferenciaNulaExcepcion e)
+            {
+                // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+                //RegistrarExcepcion(e); NLog
 
-        //        throw new HttpResponseException(HttpStatusCode.BadRequest);
-        //    }
-        //    //  catch (ArchivoExcepcion)
-        //    // {
-        //    //RegistrarExcepcion(e); NLog
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            //  catch (ArchivoExcepcion)
+            // {
+            //RegistrarExcepcion(e); NLog
 
-        //    //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
-        //    // }
-        //}
+            //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            // }
+        }
         #endregion
 
     }

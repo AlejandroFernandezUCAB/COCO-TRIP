@@ -573,15 +573,6 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
         }
 
 		/// <summary>
-		/// Retorna la instancia de ComandoLTModificarUbicacion
-		/// </summary>
-		/// <returns></returns>
-		public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
-        {
-            return new ComandoLTModificarUbicacion();
-        }
-
-		/// <summary>
 		/// Retorna la instancia de ComandoLTAgregarCategoria
 		/// </summary>
 		/// <returns></returns>
