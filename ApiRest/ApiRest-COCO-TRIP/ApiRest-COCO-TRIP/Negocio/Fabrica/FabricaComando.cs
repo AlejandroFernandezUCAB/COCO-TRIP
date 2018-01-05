@@ -567,9 +567,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
         /// Retorna la instancia de  ComandoLTActualizarInformacion
         /// </summary>
         /// <returns>ComandoObtenerCategoriasHabilitadas</returns>
-        public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion()
+        public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion(JObject data)
         {
-            return new ComandoLTActualizarInformacion();
+            return new ComandoLTActualizarInformacion(data);
         }
 
 		/// <summary>

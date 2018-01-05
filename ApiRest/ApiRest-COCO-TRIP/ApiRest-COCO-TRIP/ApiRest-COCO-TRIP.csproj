@@ -251,7 +251,6 @@
     <Compile Include="Negocio\Command\ComandoLTEliminarActividad.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarFoto.cs" />
-    <Compile Include="Negocio\Command\ComandoLTModificarUbicacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />

@@ -282,7 +282,7 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// Elimina la foto de un lugar turistico
     /// </summary>
     /// <param name="foto">Objeto Foto</param>
-    /// <returns>Mensaje de exito</returns>
+    /// <returns>Mensaje Con el resultado de la operacion</returns>
     /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
     [HttpDelete]
     [ResponseType(typeof(IDictionary))]
@@ -325,15 +325,15 @@ catch (ReferenciaNulaExcepcion)
     }
 
 
-		//POST
+        //POST
 
-		/// <summary>
-		/// Inserta los datos del lugar turistico
-		/// </summary>
-		/// <param name="lugar">Objeto LugarTuristico</param>
-		/// <returns>ID del lugar turistico insertado</returns>
-		/// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-		[HttpPost]
+        /// <summary>
+        /// Inserta los datos del lugar turistico
+        /// </summary>
+        /// <param name="lugar">Objeto LugarTuristico</param>
+        /// <returns>Mensaje Con el resultado de la operacion</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        [HttpPost]
 		[ResponseType(typeof(IDictionary))]
 		[ActionName("AgregarLugarTuristico")]
 		public IDictionary PostLugar(JObject datos)
@@ -377,6 +377,102 @@ catch (ReferenciaNulaExcepcion)
 
 
 		}
+
+
+        /// <summary>
+        /// Elimina una actividad del sistema
+        /// </summary>
+        /// <param name="lugar">Objeto Actividad</param>
+        /// <returns>Mensaje Con el resultado de la operacion</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        [HttpPost]
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("EliminarActividad")]
+        public IDictionary DeleteActividad(JObject datos)
+        {
+            response = new Dictionary<string, object>();
+            try
+            {
+                //com = FabricaComando.CrearComandoLTEliminarActividad(datos);
+                //com.Ejecutar();
+                //response.Add(data, mensaje.ExitoInsertar);
+            }
+            catch (ReferenciaNulaExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (CasteoInvalidoExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (BaseDeDatosExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (Excepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+
+            return response;
+        }
+
+
+        /// <summary>
+        /// Actualiza los datos de un lugar turistico
+        /// </summary>
+        /// <param name="lugar">Objeto LugarTuristico</param>
+        /// <returns>Mensaje Con el resultado de la operacion</returns>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        [HttpPut]
+        [ResponseType(typeof(IDictionary))]
+        [ActionName("ActualizarLugarTuristico")]
+        public IDictionary PutLugar(JObject datos)
+        {
+            response = new Dictionary<string, object>();
+            try
+            {
+                com = FabricaComando.CrearComandoLTActualizarInformacion(datos);
+                com.Ejecutar();
+                response.Add(data, mensaje.ExitoInsertar);
+            }
+            catch (ReferenciaNulaExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (CasteoInvalidoExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (BaseDeDatosExcepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+            catch (Excepcion)
+            {
+
+                response.Add(error, mensaje.ErrorInesperado);
+
+            }
+
+            return response;
+        }
+
+
 
         /// <summary>
         /// Inserta una actividad asociada a un lugar turistico
@@ -531,50 +627,7 @@ catch (ReferenciaNulaExcepcion)
           }
         }
 
-        //PUT
 
-        /// <summary>
-        /// Actualiza los datos del lugar turistico
-        /// </summary>
-        /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpPut]
-        public void PutLugar(LugarTuristico lugar)
-        {
-            peticion = new PeticionLugarTuristico();
-
-            try
-            {
-              peticion.ActualizarLugarTuristico(lugar);
-            }
-            catch (BaseDeDatosExcepcion e)
-            {
-              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
-
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
-            catch (CasteoInvalidoExcepcion e)
-            {
-             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
-
-              throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            catch (ReferenciaNulaExcepcion e)
-            {
-             // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
-
-              throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-          //  catch (ArchivoExcepcion)
-           // {
-              //RegistrarExcepcion(e); NLog
-
-          //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
-           // }
-        }
 
         /// <summary>
         /// Activa o desactiva el lugar turistico
@@ -656,48 +709,7 @@ catch (ReferenciaNulaExcepcion)
         }
 
 
-        /// <summary>
-        /// Elimina una actividad del sistema
-        /// </summary>
-        /// <param name="lugar">Objeto Actividad</param>
-        /// <returns>ID del lugar turistico insertado</returns>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpPost]
-        [ResponseType(typeof(IDictionary))]
-        [ActionName("EliminarActividad")]
-        public IDictionary DeleteActividad(JObject datos)
-        {
-            try
-            {
-
-            }
-            catch (ReferenciaNulaExcepcion)
-            {
-
-                response.Add(error, mensaje.ErrorInesperado);
-
-            }
-            catch (CasteoInvalidoExcepcion)
-            {
-
-                response.Add(error, mensaje.ErrorInesperado);
-
-            }
-            catch (BaseDeDatosExcepcion)
-            {
-
-                response.Add(error, mensaje.ErrorInesperado);
-
-            }
-            catch (Excepcion)
-            {
-
-                response.Add(error, mensaje.ErrorInesperado);
-
-            }
-
-            return response;
-        }
+       
 
 
 
@@ -792,6 +804,49 @@ catch (ReferenciaNulaExcepcion)
         // //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
         // //  }
         // }
+
+        /// <summary>
+        /// Actualiza los datos del lugar turistico
+        /// </summary>
+        /// <param name="lugarTuristico">Objeto Lugar Turistico</param>
+        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
+        //[HttpPut]
+        //public void PutLugar(LugarTuristico lugar)
+        //{
+        //    peticion = new PeticionLugarTuristico();
+
+        //    try
+        //    {
+        //        peticion.ActualizarLugarTuristico(lugar);
+        //    }
+        //    catch (BaseDeDatosExcepcion e)
+        //    {
+        //        //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        //        //RegistrarExcepcion(e); NLog
+
+        //        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        //    }
+        //    catch (CasteoInvalidoExcepcion e)
+        //    {
+        //        // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        //        //RegistrarExcepcion(e); NLog
+
+        //        throw new HttpResponseException(HttpStatusCode.BadRequest);
+        //    }
+        //    catch (ReferenciaNulaExcepcion e)
+        //    {
+        //        // e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
+        //        //RegistrarExcepcion(e); NLog
+
+        //        throw new HttpResponseException(HttpStatusCode.BadRequest);
+        //    }
+        //    //  catch (ArchivoExcepcion)
+        //    // {
+        //    //RegistrarExcepcion(e); NLog
+
+        //    //    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        //    // }
+        //}
         #endregion
 
     }
