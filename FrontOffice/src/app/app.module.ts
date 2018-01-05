@@ -97,6 +97,7 @@ import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsMod
 import { ComandoVerPerfil } from '../businessLayer/commands/comandoVerPerfil';
 import { ComandoEditarPerfil } from '../businessLayer/commands/comandoEditarPerfil';
 import { ComandoCambiarPassword } from '../businessLayer/commands/comandoCambiarPassword';
+import { ComandoBorrarCuenta } from '../businessLayer/commands/comandoBorrarCuenta';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -234,7 +235,8 @@ firebase.initializeApp(config);
     ComandoVerPerfilGrupo,
     ComandoVerPerfil,
     ComandoEditarPerfil,
-    ComandoCambiarPassword
+    ComandoCambiarPassword,
+    ComandoBorrarCuenta
     
   ]
 })

@@ -289,10 +289,11 @@ eveSegunPreferencias(idUser){
      * @param passAct contraseña del usuario
      */
 
-   borrarUser(username, passwordAct){
+   borrarUser(entidad : Entidad){
+     let usuario = entidad as Usuario;
     return new Promise( resolve => {
-      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + username
-       +"&password=" + passwordAct ,"")
+      this.http.post(this.apiUrl+'/M2_PerfilPreferencias/BorrarUsuario?username=' + usuario.getNombreUsuario
+       +"&password=" + usuario.getClave ,"")
       .map(res => res.json())
       .subscribe(data => {
 
