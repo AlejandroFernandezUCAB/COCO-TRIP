@@ -32,7 +32,7 @@ export class EditProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public platform: Platform,
     public actionsheetCtrl: ActionSheetController, private translateService: TranslateService, public fb: FormBuilder, 
-    public restapiService: RestapiService, private comando: ComandoEditarPerfil )
+    private comando: ComandoEditarPerfil )
   {
     // se obtiene el genero del usuario
     this.usuario = FabricaEntidad.crearUsuarioConParametros(
