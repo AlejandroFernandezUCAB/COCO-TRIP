@@ -11,6 +11,7 @@ using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
@@ -344,46 +345,25 @@ namespace BackOffice_COCO_TRIP.Controllers
             }
         }
 
-        //Pantalla ver todos los lugares turisticos
+    //Pantalla ver todos los lugares turisticos
 
-        // GET:Lugares/ViewAll
-        /// <summary>
-        /// Metodo GET que se dispara al acceder a la pantalla de ver todos los lugares turisticos (ViewAll)
-        /// </summary>
-        /// <returns>View</returns>
-        public ActionResult ViewAll()
-        {
-            ViewBag.Title = "Lugares Turísticos";
+    // GET:Lugares/ViewAll
+    /// <summary>
+    /// Metodo GET que se dispara al acceder a la pantalla de ver todos los lugares turisticos (ViewAll)
+    /// </summary>
+    /// <returns>View</returns>
+    public ActionResult ViewAll()
+    {
+      JObject respuesta;
+      ViewBag.Title = "Lugares Turísticos";
+      com = FabricaComando.GetComandoConsultarLugaresTuristicos();
+      com.Execute();
+      respuesta = (JObject)com.GetResult()[0];
+      List<LugarTuristico> _lugaresTuristicos = respuesta["data"].ToObject<List<LugarTuristico>>();
+      return View(_lugaresTuristicos);
+    }
+     
 
-            peticion = new PeticionLugares();
-
-            try
-            {
-              var respuesta = peticion.GetLista(1, int.MaxValue);
-
-              if (respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown"); //Error del servicio web
-              }
-
-              var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
-
-              foreach (var lugar in listaLugarTuristico)
-              {
-                foreach (var foto in lugar.Foto)
-                {
-                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
-                }
-              }
-
-              return View(listaLugarTuristico);
-
-            }
-            catch (SocketException)
-            {
-                return RedirectToAction("PageDown");
-            }
-        }
 
         // PUT:Lugares/ViewAll?id={0}&activar={1}
         /// <summary>
