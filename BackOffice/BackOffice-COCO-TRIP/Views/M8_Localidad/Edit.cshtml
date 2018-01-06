@@ -1,3 +1,5 @@
+@Styles.Render("~/bundles/lugares_addCSS")
+@Styles.Render("~/bundles/lugares_modifyCSS")
 @model BackOffice_COCO_TRIP.Datos.Entidades.Localidad
 
 @{
@@ -31,10 +33,10 @@
     <div class="form-group">
       @Html.LabelFor(model => model.Coordenadas, htmlAttributes: new { @class = "control-label col-md-2" })
       <div class="col-md-10">
-        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "disabledClass", @id = "coords" } })
         @Html.ValidationMessageFor(model => model.Coordenadas, "", new { @class = "text-danger" })
       </div>
-
+      <div id="map" class="text-center"></div>
     </div>
 
 
@@ -44,4 +46,10 @@
       </div>
     </div>
   </div>
+
+
+  @section scripts {
+    @Scripts.Render("~/bundles/Localidad_insert-coordsJS")
+    @Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")
+  }
 }

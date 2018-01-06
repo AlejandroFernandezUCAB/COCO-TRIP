@@ -12,11 +12,39 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   {
     protected static readonly string BaseUri = Negocio.Registro.ApiRestBaseUri;
 
-    // no se si los parametros de salida sea mejor entidad o dejarlo en T1. Creo que entidad. att lele
+    /// <summary>
+    /// Metodo Get, consulta dado el id de una entidad.
+    /// </summary>
+    /// <param name="id">Identificador unico de la entidad.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
     public abstract JObject Get(int id);
+
+    /// <summary>
+    /// Metodo Post, agrega una entidad.
+    /// </summary>
+    /// <param name="data">Entidad a agregar.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
     public abstract JObject Post(Entidad data);
+
+    /// <summary>
+    /// Metodo Put, actualiza/modifica una entidad.
+    /// </summary>
+    /// <param name="data">Entidad a actualizar/modificar.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
     public abstract JObject Put(Entidad data);
+
+    /// <summary>
+    /// Metodo Delete, elimina una entidad dado su id.
+    /// </summary>
+    /// <param name="id">Identificador unico de la entidad.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
     public abstract JObject Delete(int id);
+
+    /// <summary>
+    /// Metodo Patch.
+    /// </summary>
+    /// <param name="data">Entidad.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
     public abstract JObject Patch(Entidad data);
 
   }
