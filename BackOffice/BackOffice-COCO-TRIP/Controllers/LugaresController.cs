@@ -101,33 +101,13 @@ namespace BackOffice_COCO_TRIP.Controllers
         // GET:Lugares/Modify
         public ActionResult Modify(int id)
         {
-            ViewBag.Title = "Modificar Lugar Turístico";
-
-            peticion = new PeticionLugares();
-
-            try
-            {
-              var respuesta = peticion.GetLugarActividades(id);
-
-              if (respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown"); //Error del servicio web
-              }
-
-              var lugarTuristico = JsonConvert.DeserializeObject<LugarTuristico>(respuesta);
-
-              foreach (var foto in lugarTuristico.Foto)
-              {
-                foto.Ruta = peticion.DireccionBase + foto.Ruta;
-              }
-
-              return View(lugarTuristico);
-            }
-            catch (SocketException)
-            {
-              return RedirectToAction("PageDown");
-            }
-
+          JObject respuesta;
+          com = FabricaComando.GetComandoConsultarLugarTuristico();
+          com.SetPropiedad(id);
+          com.Execute();
+          respuesta = (JObject)com.GetResult()[0];
+          var lugarTuristico = respuesta["data"].ToObject<LugarTuristico>();
+          return View(lugarTuristico);
         }
 
         // POST:Lugares/Modify
