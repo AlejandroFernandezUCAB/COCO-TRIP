@@ -18,7 +18,7 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     }
 
     /// <summary>
-    /// Retorna la instancia de la entidad Usuario
+    /// Retorna la instancia de la entidad Usuario con id
     /// </summary>
     /// <returns>Grupo</returns>
     public static Usuario CrearEntidadUsuario()
@@ -26,11 +26,26 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
       return new Usuario();
     }
 
-    /// <summary>
-    /// Retorna la instancia de la entidad Foto
-    /// </summary>
-    /// <returns>Grupo</returns>
-    public static Foto CrearEntidadFoto()
+    public static Usuario CrearEntidadUsuario(int id)
+    {
+      return new Usuario(id);
+    }
+
+    public static Usuario CrearEntidadUsuario(string nombreUsuario, string clave)
+    {
+      return new Usuario(nombreUsuario, clave);
+    }
+
+    public static Usuario CrearEntidadUsuario( string nombre, string apellido, string nombreUsuario, string fechaDeNacimiento, string genero)
+    {
+      return new Usuario(nombre, apellido, nombreUsuario, fechaDeNacimiento, genero);
+    }
+
+        /// <summary>
+        /// Retorna la instancia de la entidad Foto
+        /// </summary>
+        /// <returns>Grupo</returns>
+        public static Foto CrearEntidadFoto()
     {
       return new Foto();
     }

@@ -58,7 +58,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\BackOffice\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql, Version=3.2.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.3.2.6\lib\net451\Npgsql.dll</HintPath>
@@ -228,6 +228,8 @@
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
+    <Compile Include="Negocio\Command\ComandoBorrarUsuario.cs" />
+    <Compile Include="Negocio\Command\ComandoCambiarPassword.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="Negocio\Command\ComandoLTEliminarActividad.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarFoto.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarDatosUsuario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
@@ -280,6 +283,7 @@
     <Compile Include="Negocio\Command\ComandoEnviarNotificacionCorreo.cs" />
     <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategoriasHabilitadas.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerDatosUsuario.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerLugaresTuristicos.cs" />
     <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
@@ -341,7 +345,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
-    <Error Condition="!Exists('..\..\..\BackOffice\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\BackOffice\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
