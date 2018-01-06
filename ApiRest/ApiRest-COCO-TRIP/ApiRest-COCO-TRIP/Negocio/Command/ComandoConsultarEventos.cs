@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
-using ApiRest_COCO_TRIP.Datos.DAO;
 using NLog;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
+    /// <summary>
+    /// Comando que permite consultar todos los eventos.
+    /// </summary>
     public class ComandoConsultarEventos : Comando
     {
         private IDAOEvento daoEvento;

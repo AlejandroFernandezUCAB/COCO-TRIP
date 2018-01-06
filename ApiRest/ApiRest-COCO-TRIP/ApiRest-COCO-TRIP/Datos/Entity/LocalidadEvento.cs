@@ -1,8 +1,4 @@
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ApiRest_COCO_TRIP.Datos.Entity
 {
@@ -51,7 +47,8 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
             this.coordenadas = coordenadas;
 
         }
-        public LocalidadEvento() {
+        public LocalidadEvento()
+        {
 
         }
 

@@ -13,6 +13,9 @@ using System.Collections.Generic;
 
 namespace ApiRestPruebas.M8
 {
+    /// <summary>
+    /// Clase que realiza las pruebas unitarias a todos los metodos referentes a los eventos
+    /// </summary>
     [TestFixture]
     class EventoUnitTest
     {
@@ -28,6 +31,9 @@ namespace ApiRestPruebas.M8
         private Dictionary<string, object> esperado = new Dictionary<string, object>();
         private Dictionary<string, object> respuesta = new Dictionary<string, object>();
 
+        /// <summary>
+        /// Metodo que inicializa las variables necesarias para correr las pruebas unitarias de eventos
+        /// </summary>
         [SetUp]
         public void SetUpEvento()
         {
@@ -79,6 +85,9 @@ namespace ApiRestPruebas.M8
             }
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el metodo insertar del DAOEvento
+        /// </summary>
         [Test]
         public void TestInsertarEvento()
         {
@@ -127,6 +136,9 @@ namespace ApiRestPruebas.M8
             });
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el metodo eliminar del DAOEvento
+        /// </summary>
         [Test]
         public void TestEliminarEvento()
         {
@@ -150,6 +162,9 @@ namespace ApiRestPruebas.M8
             evento.Id = id;
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el metodo consultar evento del DAOEvento
+        /// </summary>
         [Test]
         public void TestConsultarEvento()
         {
@@ -184,6 +199,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el metodo consultar eventos del DAOEvento
+        /// </summary>
         [Test]
         public void TestConsultarEventos()
         {
@@ -217,6 +235,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el metodo consultar eventos por id de categoria del DAOEvento
+        /// </summary>
         [Test]
         public void TestConsultarEventosPorIdCategoria()
         {
@@ -248,6 +269,9 @@ namespace ApiRestPruebas.M8
             }
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el metodo actualizar del DAOEvento
+        /// </summary>
         [Test]
         public void TestActualizarEvento()
         {
@@ -322,6 +346,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  AgregarEvento
+        /// </summary>
         [Test]
         public void TestComandoAgregarEvento()
         {
@@ -367,6 +394,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  ConsultarEvento
+        /// </summary>
         [Test]
         public void TestComandoConsultarEvento()
         {
@@ -410,6 +440,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  ConsultarEventosPorCategoria
+        /// </summary>
         [Test]
         public void TestComandoConsultarEventosPorCategoria()
         {
@@ -444,6 +477,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  ConsultarEventos
+        /// </summary>
         [Test]
         public void TestComandoConsultarEventos()
         {
@@ -477,6 +513,9 @@ namespace ApiRestPruebas.M8
             }
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  EliminarEvento
+        /// </summary>
         [Test]
         public void TestComandoEliminarEvento()
         {
@@ -503,6 +542,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  ActualizarEvento
+        /// </summary>
         [Test]
         public void TestComandoActualizarEvento()
         {
@@ -577,6 +619,9 @@ namespace ApiRestPruebas.M8
 
         }
 
+        /// <summary>
+        /// Metodo que realiza las pruebas unitarias sobre el comando  ConsultarEventos
+        /// </summary>
         [Test]
         public void ComandoConsultarEventos()
         {
@@ -611,6 +656,8 @@ namespace ApiRestPruebas.M8
 
         }
 
+        //COMO NO SON PRUEBAS UNITARIAS SE COMENTAN 
+        /*
         [Test]
         public void TestControladorAgregarEvento()
         {
@@ -904,7 +951,7 @@ namespace ApiRestPruebas.M8
             controlador = new M8_EventosController();
 
         }
-
+        */
         [TearDown]
         public void TearDownEvento()
         {
