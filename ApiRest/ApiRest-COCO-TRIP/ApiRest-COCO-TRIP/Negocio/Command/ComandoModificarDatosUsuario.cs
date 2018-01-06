@@ -12,6 +12,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
         private Entidad entidad;
         private DAO dao;
+        private static Logger log = LogManager.GetCurrentClassLogger();
 
         public ComandoModificarDatosUsuario(Entidad entidad)
         {
@@ -26,11 +27,13 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             if (entidad.Id <= 0)
             {
                 entidad = null;
+                log.Error("No se encontro el usuario ");
                 return;
             }
             else
             {
                 dao.Actualizar(entidad);
+                log.Info("Se pudo actualizar los datos del usuario");
             }
         }
 

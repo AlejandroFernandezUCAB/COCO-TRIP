@@ -12,7 +12,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
         private Entidad entidad;
         private DAO dao;
-
+        private static Logger log = LogManager.GetCurrentClassLogger();
         public ComandoBorrarUsuario(Entidad entidad)
         {
             this.entidad = entidad;
@@ -27,9 +27,11 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             if (!(passAct == ((Usuario)entidad).Clave) || entidad.Id == 0)
             {
                 entidad = null;
+                log.Error("No se encontro el usuario del Id"+entidad.Id.ToString());
                 return;
             }
             dao.Eliminar(entidad);
+            log.Info("Se eilimino el Usuario Correctamente ");
         }
 
         public override Entidad Retornar()

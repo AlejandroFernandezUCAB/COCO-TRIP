@@ -13,7 +13,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         private Entidad entidad;
         private DAO dao;
         private string claveNueva;
-
+        private static Logger log = LogManager.GetCurrentClassLogger();
         public ComandoCambiarPassword(Entidad entidad, string nueva)
         {
             this.entidad = entidad;
@@ -29,11 +29,13 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             if (!(passAct == ((Usuario)entidad).Clave) || entidad.Id == 0)
             {
                 entidad = null;
+                log.Error("No se encontro el usuario del Id" + entidad.Id.ToString());
                 return;
             }
 
             ((Usuario)entidad).Clave = claveNueva;
             ((DAOUsuario)dao).CambiarPassword(entidad);
+            log.Info("Se logro cambiar la contraseña");
 
         }
 
