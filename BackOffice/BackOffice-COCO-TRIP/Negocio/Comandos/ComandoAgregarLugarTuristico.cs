@@ -95,7 +95,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
           i++;
           actividad.Descripcion = datosDeLaPresentacion[i].ToString();
           i++;
-          actividad.Duracion = ExtraerTimeSpan(datosDeLaPresentacion[i].ToString());
+          actividad.Duracion = new TimeSpan(0, 10, 0);
           i++;
           actividades.Add(actividad);
         }
