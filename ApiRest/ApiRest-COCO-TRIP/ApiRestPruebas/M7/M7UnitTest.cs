@@ -22,12 +22,15 @@ namespace ApiRestPruebas.M7
 		LugarTuristico _lugarTuristico;
 		Foto _foto;
 		Actividad _actividad;
+		Categoria _categoria;
 		List<Entidad> _fotos;
 		List<Entidad> _lugaresTuristicos;
 		List<Entidad> _actividades;
+		List<Entidad> _categorias;
 		IDAOLugarTuristico iDAOLugarTuristico;
 		DAOActividad daoActividad;
 		IDAOFoto iDAOFoto;
+		IDAOLugarTuristicoCategoria iDAOCategoriaLugar;
         Comando _comandoA;
         Comando _comandoB;
 		
@@ -75,6 +78,16 @@ namespace ApiRestPruebas.M7
 
 			test.Conectar();
 			test.Comando = new NpgsqlCommand("Delete from lugar_turistico", test.SqlConexion);
+			test.Comando.ExecuteNonQuery();
+			test.Desconectar();
+
+			test.Conectar();
+			test.Comando = new NpgsqlCommand("Delete from lt_c", test.SqlConexion);
+			test.Comando.ExecuteNonQuery();
+			test.Desconectar();
+
+			test.Conectar();
+			test.Comando = new NpgsqlCommand("Delete from categoria", test.SqlConexion);
 			test.Comando.ExecuteNonQuery();
 			test.Desconectar();
 		}
@@ -152,6 +165,16 @@ namespace ApiRestPruebas.M7
             _actividad.Activar = true;
 
             _actividades.Add(_actividad);
+
+			_categoria = FabricaEntidad.CrearEntidadCategoria();
+			_categoria.Nombre = "Musica";
+			_categoria.Descripcion = "Categoria asociada con la musica";
+			_categoria.estatus = true;
+			_categoria.Nivel = 1;
+			_categoria.CategoriaSuperior = null;
+
+			_comandoA = FabricaComando.CrearComandoAgregarCategoria(_categoria);
+			_comandoA.Ejecutar();
 
         }
 		#endregion
@@ -495,6 +518,20 @@ namespace ApiRestPruebas.M7
 
         //Categoria
         #region
+		[Test]
+		public void ComandoLTAgregarCategoria(){
+			// Agregamos el objeto categoria en el objeto lugarturistico
+			((LugarTuristico)_lugaresTuristicos[0]).Categoria.Add( (Categoria)_categoria );
+
+			// Creamos el comando
+			_comandoA = FabricaComando.CrearComandoLTAgregarCategoria(_lugaresTuristicos[0]);
+			// Ejecutamos
+			_comandoA.Ejecutar();
+
+			_categorias = iDAOCategoriaLugar.ObtenerCategoriaPorId(_lugaresTuristicos[0]);
+			Assert.True( ((Categoria)_categorias).Contains( (Categoria)_categoria) );
+
+		}
         #endregion
 
         //Horario

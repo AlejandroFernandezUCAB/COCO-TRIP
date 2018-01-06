@@ -1,9 +1,6 @@
 using System;
 using System.Web.Http;
 using NUnit.Framework;
-using ApiRest_COCO_TRIP.Controllers;
-using ApiRest_COCO_TRIP.Models.Dato;
-using ApiRest_COCO_TRIP.Models;
 
 namespace ApiRestPruebas.M7
 {
