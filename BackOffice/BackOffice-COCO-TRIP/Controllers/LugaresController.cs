@@ -270,36 +270,19 @@ namespace BackOffice_COCO_TRIP.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult LugarDetail(int id)
-        {
-            ViewBag.Title = "Detalle de Lugar Turístico";
+    public ActionResult LugarDetail(int id)
+    {
 
-            peticion = new PeticionLugares();
+      JObject respuesta;
+      ViewBag.Title = "Detalle de Actividad";
+      com = FabricaComando.GetComandoConsultarLugarTuristico();
+      com.SetPropiedad(id);
+      com.Execute();
+      respuesta  = (JObject)com.GetResult()[0];
+      var lugarTuristico = respuesta["data"].ToObject<LugarTuristico>();
+      return View(lugarTuristico);
 
-            try
-            {
-              var respuesta = peticion.GetLugar(id);
-
-              if (respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown"); //Error del servicio web
-              }
-
-              var lugarTuristico = JsonConvert.DeserializeObject<LugarTuristico>(respuesta);
-
-              foreach (var foto in lugarTuristico.Foto)
-              {
-                foto.Ruta = peticion.DireccionBase + foto.Ruta;
-              }
-
-              return View(lugarTuristico);
-            }
-            catch (SocketException)
-            {
-              return RedirectToAction("PageDown");
-            }
-
-        }
+     }
 
         // GET:Lugares/DetailActivity
         /// <summary>
@@ -365,50 +348,30 @@ namespace BackOffice_COCO_TRIP.Controllers
      
 
 
-        // PUT:Lugares/ViewAll?id={0}&activar={1}
-        /// <summary>
-        /// Metodo PUT que se dispara al cambiar el estado de un lugar turistico
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult ViewAll(int id, bool activar)
-        {
-            peticion = new PeticionLugares();
+     // PUT:Lugares/ViewAll?id={0}&activar={1}
+     /// <summary>
+     /// Metodo PUT que se dispara al cambiar el estado de un lugar turistico
+     /// </summary>
+     /// <param name="id">Id del lugar turistico</param>
+     /// <param name="activar">Estado del lugar turistico</param>
+     /// <returns></returns>
+    [HttpPost]
+    public ActionResult ViewAll(int id, bool activar)
+    {
+      com = FabricaComando.GetComandoActualizarEstadoLugarTuristico();
+      com.SetPropiedad(id);
+      com.SetPropiedad(activar);
+      com.Execute();
 
-            try
-            {
+      JObject respuesta;
+      ViewBag.Title = "Lugares Turísticos";
+      com = FabricaComando.GetComandoConsultarLugaresTuristicos();
+      com.Execute();
+      respuesta = (JObject)com.GetResult()[0];
+      List<LugarTuristico> _lugaresTuristicos = respuesta["data"].ToObject<List<LugarTuristico>>();
+      return View(_lugaresTuristicos);
 
-              var respuesta = peticion.PutActivarLugar(id, !activar); //Actualiza el estado
-              if (respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown"); //Error del servicio web al realizar la actualizacion
-              }
-
-              respuesta = peticion.GetLista(1, int.MaxValue); //Nuev
-              if (respuesta == HttpStatusCode.InternalServerError.ToString())
-              {
-                return RedirectToAction("PageDown"); //Error del servicio web al solicitar la lista de lugares turisticos
-              }
-
-              var listaLugarTuristico = JsonConvert.DeserializeObject<List<LugarTuristico>>(respuesta);
-
-              foreach (var lugar in listaLugarTuristico)
-              {
-                foreach (var foto in lugar.Foto)
-                {
-                  foto.Ruta = peticion.DireccionBase + foto.Ruta;
-                }
-              }
-
-              return View(listaLugarTuristico);
-
-            }
-            catch (SocketException)
-            {
-              return RedirectToAction("PageDown");
-            }
-        }
+    }
 
         //
 

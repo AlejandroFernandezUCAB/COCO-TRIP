@@ -163,5 +163,14 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
       return new ComandoAgregarHorario();
     }
 
+    public static ComandoConsultarLugarTuristico GetComandoConsultarLugarTuristico()
+    {
+      return new ComandoConsultarLugarTuristico();
+    }
+
+    public static ComandoActualizarEstadoLugarTuristico GetComandoActualizarEstadoLugarTuristico()
+    {
+      return new ComandoActualizarEstadoLugarTuristico();
+    }
   }
 }

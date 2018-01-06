@@ -9,7 +9,9 @@ using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-    public class ComandoLTEliminarActividad : Comando
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
+	public class ComandoLTEliminarActividad : Comando
     {
         Actividad _actividad;
         IDAOActividad _iDAOActividad;

@@ -10,9 +10,11 @@ using System.Reflection;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
-{	
+{
 	/// <summary>
 	/// Comando que permite agregar el lugares turistico con su foto, actividad, horario y su categoria
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
 	/// </summary>
 	public class ComandoAgregarLT : Comando
 	{
