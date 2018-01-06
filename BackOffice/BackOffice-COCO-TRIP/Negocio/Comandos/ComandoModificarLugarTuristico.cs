@@ -28,15 +28,6 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       //Agregando el status
       ((LugarTuristico)lugarTuristico).Activar = ExtraerStatus(datosDeLaPresentacion[3]);
 
-      //Agregando las categorias
-      ((LugarTuristico)lugarTuristico).Categoria = ExtraerCategorias();//i hasta 7
-
-      //Agregando los horarios
-      ((LugarTuristico)lugarTuristico).Horario = ExtraerHorario();//i Hasta 28
-
-      //Agregando las actividades
-      ((LugarTuristico)lugarTuristico).Actividad = ExtraerActividad(); // i hasta 48
-
       //Agregando Direccion
       ((LugarTuristico)lugarTuristico).Direccion = datosDeLaPresentacion[49].ToString();
 
@@ -56,7 +47,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       ((LugarTuristico)lugarTuristico).Longitud = double.Parse(datosDeLaPresentacion[54].ToString());
 
       //Llamando al DAO
-      respuesta = daoLugarTuristico.Put(lugarTuristico);
+      respuesta = daoLugarTuristico.PutLugarActualizar(lugarTuristico);
     }
   }
 }
