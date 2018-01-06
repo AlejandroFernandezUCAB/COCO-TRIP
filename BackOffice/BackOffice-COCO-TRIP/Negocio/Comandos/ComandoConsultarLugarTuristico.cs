@@ -15,7 +15,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     public override void Execute()
     {
       daoLugarTuristico = FabricaDAO.GetDAOLugar_Turistico();
-      lugarTuristico = daoLugarTuristico.Post
+			lugarTuristico = daoLugarTuristico.Get(idLugarTuristico);
     }
 
     public override ArrayList GetResult()
