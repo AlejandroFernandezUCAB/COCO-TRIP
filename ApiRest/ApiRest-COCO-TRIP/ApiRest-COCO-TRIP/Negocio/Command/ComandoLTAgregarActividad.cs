@@ -21,6 +21,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
 			_dao = FabricaDAO.CrearDAOActividad();
 			_lugarTuristico = lugarTuristico;
+            // Extraemos las actividades del lugar turistico
 			_actividades = ((LugarTuristico)lugarTuristico).Actividad.ConvertAll(new Converter<Actividad, Entidad>(ConvertListActividad));
 
 		}
@@ -28,7 +29,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		{
 			try
 			{	
-			
+			    // Insertamos las actividades
 				for (int i = 0; i < _actividades.Count; i++)
 				{
 					_dao.Insertar(_actividades[i], _lugarTuristico);

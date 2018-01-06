@@ -123,7 +123,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		}
 
         /// <summary>
-        /// Elimina una actividad de un lugar turistico dado
+        /// Elimina una actividad en la base de datos
         /// </summary>
         /// <param name="objeto">Objeto: Actividad</param>
 		public override void Eliminar(Entidad actividad)

@@ -235,6 +235,7 @@
     <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarAgenda.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLugarTuristicoDetallado.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
@@ -251,7 +252,6 @@
     <Compile Include="Negocio\Command\ComandoLTEliminarActividad.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarFoto.cs" />
-    <Compile Include="Negocio\Command\ComandoLTModificarUbicacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />

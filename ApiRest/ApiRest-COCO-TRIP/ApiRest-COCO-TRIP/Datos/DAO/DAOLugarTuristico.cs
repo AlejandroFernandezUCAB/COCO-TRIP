@@ -19,10 +19,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 		private NpgsqlDataReader _datos;
 		private static Logger log = LogManager.GetCurrentClassLogger();
 
-		public override void Actualizar(Entidad objeto)
-		{
-			
-		}
 
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
@@ -116,7 +112,82 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 		public override Entidad ConsultarPorId(Entidad objeto)
 		{
-			throw new NotImplementedException();
+			LugarTuristico lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
+
+			try
+			{
+				StoredProcedure("ConsultarLugarTuristico");
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, objeto.Id);
+				_datos = Comando.ExecuteReader();
+				
+				while (_datos.Read())
+				{
+					lugarTuristico.Id = objeto.Id;
+					lugarTuristico.Nombre = _datos.GetString(0);
+					lugarTuristico.Costo = _datos.GetDouble(1);
+					lugarTuristico.Descripcion = _datos.GetString(2);
+					lugarTuristico.Direccion = _datos.GetString(3);
+					lugarTuristico.Correo = _datos.GetString(4);
+					lugarTuristico.Telefono = _datos.GetInt64(5);
+					lugarTuristico.Latitud = _datos.GetDouble(6);
+					lugarTuristico.Longitud = _datos.GetDouble(7);
+					lugarTuristico.Activar = _datos.GetBoolean(8);
+
+				}
+
+				log.Info("Lugar turistico:" + lugarTuristico);
+
+				return lugarTuristico;
+
+			}
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (Exception e)
+			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			finally
+			{
+				Desconectar();
+			}
 		}
 
 		public override void Eliminar(Entidad objeto)
@@ -201,11 +272,86 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			}
 		}
 
-		/// <summary>
-		/// Para hacer la conexion y crear el stored procedure
-		/// </summary>
-		/// <param name="sp"></param>
-		private void StoredProcedure(string sp)
+
+        /// <summary>
+        /// Actualiza la informacion de un lugar turistico
+        /// </summary>
+        /// <param name="lugar">Entidad lugar turistico</param>
+        /// <returns></returns>
+        public override void Actualizar(Entidad lugar)
+        {
+            _lugarTuristico = (LugarTuristico)lugar;
+            try
+            {
+                StoredProcedure("ActualizarLugarTuristico");
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, _lugarTuristico.Id);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Nombre);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Costo);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Descripcion);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Direccion);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Varchar, _lugarTuristico.Correo);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Bigint, _lugarTuristico.Telefono);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Latitud);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Numeric, _lugarTuristico.Longitud);
+                Comando.Parameters.AddWithValue(NpgsqlDbType.Boolean, _lugarTuristico.Activar);
+                // Ejecucion
+                Comando.ExecuteNonQuery();
+            }
+            catch (NullReferenceException e)
+            {
+
+                log.Error(e.Message);
+                throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (InvalidCastException e)
+            {
+
+                log.Error("Casteo invalido en:"
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                log.Error("Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (SocketException e)
+            {
+
+                log.Error("Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            catch (Exception e)
+            {
+
+                log.Error("Ocurrio un error desconocido: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                throw new Excepcion(e, "Ocurrio un error desconocido en: "
+                + GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
+        /// <summary>
+        /// Para hacer la conexion y crear el stored procedure
+        /// </summary>
+        /// <param name="sp"></param>
+        private void StoredProcedure(string sp)
 		{
 			Conectar();
 			Comando = SqlConexion.CreateCommand();
