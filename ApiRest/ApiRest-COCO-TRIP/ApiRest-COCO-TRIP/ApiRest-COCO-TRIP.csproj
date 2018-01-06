@@ -227,6 +227,8 @@
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
+    <Compile Include="Negocio\Command\ComandoBorrarUsuario.cs" />
+    <Compile Include="Negocio\Command\ComandoCambiarPassword.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="Negocio\Command\ComandoLTEliminarActividad.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarCategoria.cs" />
     <Compile Include="Negocio\Command\ComandoLTEliminarFoto.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarDatosUsuario.cs" />
     <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
@@ -279,6 +282,7 @@
     <Compile Include="Negocio\Command\ComandoEnviarNotificacionCorreo.cs" />
     <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerCategoriasHabilitadas.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerDatosUsuario.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
     <Compile Include="Negocio\Command\ComandoObtenerLugaresTuristicos.cs" />
     <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
