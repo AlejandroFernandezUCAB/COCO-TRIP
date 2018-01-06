@@ -175,5 +175,18 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       }
       
     }
+
+    public JObject PutLugarActualizar(Entidad data)
+    {
+      using (HttpClient cliente = new HttpClient())
+      {
+        cliente.BaseAddress = new Uri(BaseUri);
+        cliente.DefaultRequestHeaders.Accept.Clear();
+        mensajeAsincrono = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ActualizarLugarTuristico", (LugarTuristico)data);
+        mensajeAsincrono.Wait();
+
+        return null;
+      }
+    }
   }
 }

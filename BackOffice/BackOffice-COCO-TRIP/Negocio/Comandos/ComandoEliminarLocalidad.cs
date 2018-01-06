@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using BackOffice_COCO_TRIP.Models.Peticion;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
