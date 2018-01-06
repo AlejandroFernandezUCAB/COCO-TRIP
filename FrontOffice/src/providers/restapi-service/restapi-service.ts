@@ -17,6 +17,7 @@ import { Usuario } from '../../dataAccessLayer/domain/usuario';
 export class RestapiService 
 {
   public readonly apiUrl : string = 'http://localhost:8082/api';
+ //public readonly apiUrl : string = 'http://65857cbb.ngrok.io/api';
 
   private data : any;
   private userData: any;
@@ -225,7 +226,7 @@ eveSegunPreferencias(idUser){
     return new Promise( resolve => {
       this.http.post(this.apiUrl+'/M2_PerfilPreferencias/ModificarDatosUsuario?nombreUsuario=' +
       usuario.getNombreUsuario + "&nombre=" + usuario.getNombre + "&apellido=" + usuario.getApellido +
-      "&fechaDeNacimiento=" + usuario.getFechaNacimiento + "&genero=" + usuario.getGenero ,"")
+      "&fechaDeNacimiento=" + new Date(usuario.getFechaNacimiento).toISOString() + "&genero=" + usuario.getGenero ,"")
       .map(res => res.json())
       .subscribe(data => {
 
