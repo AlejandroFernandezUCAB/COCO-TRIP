@@ -26,7 +26,7 @@ export class ComandoVerPerfil extends Comando {
                 this._entidad.setId = val;
                 // hacemos la llamada al apirest con el id obtenido
                 this.restapiService.ObtenerDatosUsuario(this._entidad.getId).then(data => {
-                    this._entidad = FabricaEntidad.crearUsuarioConParametros(data.id, data.Nombre, data.Apellido, data.Correo, data.Nickname, data.FechaNacimiento);
+                    this._entidad = FabricaEntidad.crearUsuarioConParametros(data.id, data.Nombre, data.Apellido, data.Correo, data.NombreUsuario, data.FechaNacimiento);
                     // cargamos el idioma
                     this.storage.get(this._entidad.getId.toString()).then((val) => {
                         //verificamos que posee configuracion previa de idioma
@@ -38,14 +38,7 @@ export class ComandoVerPerfil extends Comando {
                     resolve();
                     
                 }, error => {
-                    this._entidad = FabricaEntidad.crearUsuarioConParametros(error.id, error.Nombre, error.Apellido, error.Correo, error.Nickname, error.FechaNacimiento);
-                    // cargamos el idioma
-                    this.storage.get(this._entidad.getId.toString()).then((val) => {
-                        //verificamos que posee configuracion previa de idioma
-                        if (val != null || val != undefined) {
-                            this.translateService.use(val);
-                        }
-                    });
+                   
                     console.log('falla en la carga de los datos');
                     resolve();
                 })

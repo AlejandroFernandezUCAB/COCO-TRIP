@@ -1,10 +1,7 @@
 import { Grupo } from '../domain/grupo';
 import { Usuario } from '../domain/usuario';
-<<<<<<< HEAD
 import { Itinerario } from '../domain/itinerario';
-=======
 import { DateTime } from 'ionic-angular/components/datetime/datetime';
->>>>>>> db80650b1d7fc020720012215d1353786e3d8271
 
 //****************************************************************************************************//
 //**********************************Fabrica Comando de MODULO 3*************************************//
