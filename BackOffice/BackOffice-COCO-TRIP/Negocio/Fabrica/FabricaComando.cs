@@ -44,77 +44,77 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     }
 
     public static ComandoAgregarEvento GetComandoAgregarEvento()
-        {
-            return new ComandoAgregarEvento();
-        }
+    {
+      return new ComandoAgregarEvento();
+    }
 
-        public static ComandoEliminarEvento GetComandoEliminarEvento()
-        {
-            return new ComandoEliminarEvento();
-        }
+    public static ComandoEliminarEvento GetComandoEliminarEvento()
+    {
+      return new ComandoEliminarEvento();
+    }
 
-        public static ComandoConsultarEventosPorCategoria GetComandoFiltrarEventoPorCategoria()
-        {
-            return new ComandoConsultarEventosPorCategoria();
-        }
+    public static ComandoConsultarEventosPorCategoria GetComandoFiltrarEventoPorCategoria()
+    {
+      return new ComandoConsultarEventosPorCategoria();
+    }
 
-        public static ComandoConsultarCategorias GetComandoConsultarCategorias()
-        {
-            return new ComandoConsultarCategorias();
-        }
+    public static ComandoConsultarCategorias GetComandoConsultarCategorias()
+    {
+      return new ComandoConsultarCategorias();
+    }
 
-        public static ComandoModificarCategoria GetComandoModificarCategoria()
-        {
-            return new ComandoModificarCategoria();
-        }
-        public static ComandoEstadoCategoria GetComandoEstadoCategoria()
-        {
-            return new ComandoEstadoCategoria();
-        }
-        public static ComandoConsultarCategoriaHabilitada GetComandoConsultarCategoriaHabilitada()
-        {
-            return new ComandoConsultarCategoriaHabilitada();
-        }
+    public static ComandoModificarCategoria GetComandoModificarCategoria()
+    {
+      return new ComandoModificarCategoria();
+    }
+    public static ComandoEstadoCategoria GetComandoEstadoCategoria()
+    {
+      return new ComandoEstadoCategoria();
+    }
+    public static ComandoConsultarCategoriaHabilitada GetComandoConsultarCategoriaHabilitada()
+    {
+      return new ComandoConsultarCategoriaHabilitada();
+    }
 
-        public static ComandoConsultarCategoriaSelect GetComandoConsultarCategoriaSelect()
-        {
-            return new ComandoConsultarCategoriaSelect();
-        }
+    public static ComandoConsultarCategoriaSelect GetComandoConsultarCategoriaSelect()
+    {
+      return new ComandoConsultarCategoriaSelect();
+    }
 
-        public static ComandoConsultarCategoriaPorId GetComandoConsultarCategoriaPorId()
-        {
-            return new ComandoConsultarCategoriaPorId();
-        }
+    public static ComandoConsultarCategoriaPorId GetComandoConsultarCategoriaPorId()
+    {
+      return new ComandoConsultarCategoriaPorId();
+    }
 
-        public static ComandoAgregarCategoria GetComandoAgregarCategoria()
-        {
-            return new ComandoAgregarCategoria();
-        }
+    public static ComandoAgregarCategoria GetComandoAgregarCategoria()
+    {
+      return new ComandoAgregarCategoria();
+    }
 
-        public static ComandoConsultarListaCategoria GetComandoConsultarListaCategoria()
-        {
-            return new ComandoConsultarListaCategoria();
-        }
+    public static ComandoConsultarListaCategoria GetComandoConsultarListaCategoria()
+    {
+      return new ComandoConsultarListaCategoria();
+    }
 
-        public static ComandoConsultarLugaresTuristicos GetComandoConsultarLugaresTuristicos()
-        {
-            return new ComandoConsultarLugaresTuristicos();
-        }
+    public static ComandoConsultarLugaresTuristicos GetComandoConsultarLugaresTuristicos()
+    {
+      return new ComandoConsultarLugaresTuristicos();
+    }
 
-        public static ComandoAgregarLugarTuristico GetComandoAgregarLugarTuristico()
-        {
-            return new ComandoAgregarLugarTuristico();
-        }
+    public static ComandoAgregarLugarTuristico GetComandoAgregarLugarTuristico()
+    {
+      return new ComandoAgregarLugarTuristico();
+    }
 
-        public static ComandoAgregarActividad GetComandoAgregarActividad()
-        {
-            return new ComandoAgregarActividad();
-        }
+    public static ComandoAgregarActividad GetComandoAgregarActividad()
+    {
+      return new ComandoAgregarActividad();
+    }
 
-        public static ComandoAgregarHorario GetComandoAgregarHorario()
-        {
-            return new ComandoAgregarHorario();
-        }
+    public static ComandoAgregarHorario GetComandoAgregarHorario()
+    {
+      return new ComandoAgregarHorario();
+    }
 
   }
 }

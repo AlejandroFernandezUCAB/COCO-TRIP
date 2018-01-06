@@ -503,6 +503,10 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
+    /// <summary>
+    /// Metodo GetAll, consulta todos los eventos
+    /// </summary>
+    /// <returns>JSON de la respuesta del WS</returns>
     public JObject GetAll()
     {
 
