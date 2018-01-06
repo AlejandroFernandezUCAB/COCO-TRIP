@@ -195,6 +195,7 @@
     <Compile Include="Negocio\Comandos\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarLugaresTuristicos.cs" />
+    <Compile Include="Negocio\Comandos\ComandoConsultarLugarTuristico.cs" />
     <Compile Include="Negocio\Comandos\ComandoModificarLugarTuristico.cs" />
     <Compile Include="Negocio\Comandos\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoEliminarEvento.cs" />

@@ -4,34 +4,6 @@
   <div class="col-md-10 col-md-offset-1">
     <div class="content-box-carrusel">
         
-        <div class="row">
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-
-              @foreach (var fotos in Model.Foto)
-              {
-                <div class="item @if (fotos == Model.Foto[0]) { <text>active</text> }">
-                  <img src="@fotos.Ruta" alt="">
-                  <div class="carousel-caption"></div>
-                </div>
-              }
-
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-
-
         <div class="content-info-detalle card">
           <div class="row">
             <div class="title-detalle">
@@ -62,24 +34,9 @@
                     <div class="panel-heading" role="tab" id="headingOne">
                       <h4 class="panel-title">
                         <a class="title-category-collapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                          <li>categoria.Nombre</li>
+                          <li>@categoria.Name</li>
                         </a>
                       </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                      <div class="panel-body">
-
-                        @foreach (var subCategoria in Model.SubCategoria)
-                        {
-                          if (subCategoria.CategoriaSuperior == categoria.Id)
-                          {
-                            <li class="list-subcategory">@subCategoria.Nombre</li>
-                          }
-
-                        }
-
-
-                      </div>
                     </div>
                   </div>
                 </div>
