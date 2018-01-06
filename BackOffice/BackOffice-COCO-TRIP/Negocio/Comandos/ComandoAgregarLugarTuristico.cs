@@ -14,14 +14,14 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
   public class ComandoAgregarLugarTuristico : Comando
   {
 
-    private Entidad lugarTuristico = FabricaEntidad.GetLugarTuristico();
-    private Entidad foto = FabricaEntidad.GetFoto();
-    private Entidad horario = FabricaEntidad.GetHorario();
-    private Entidad actividad = FabricaEntidad.GetActividad();
+    protected Entidad lugarTuristico = FabricaEntidad.GetLugarTuristico();
+    protected Entidad foto = FabricaEntidad.GetFoto();
+    protected Entidad horario = FabricaEntidad.GetHorario();
+    protected Entidad actividad = FabricaEntidad.GetActividad();
     IDAOLugar_Turistico daoLugarTuristico = FabricaDAO.GetDAOLugar_Turistico();
-    private ArrayList resultado = new ArrayList();
-    private ArrayList datosDeLaPresentacion = new ArrayList();
-    JObject respuesta;
+    protected ArrayList resultado = new ArrayList();
+    protected ArrayList datosDeLaPresentacion = new ArrayList();
+    protected JObject respuesta;
     
     /// <summary>
     /// Ejecucion del comando
@@ -75,7 +75,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
 
     }
 
-    private List<Actividad> ExtraerActividad()
+    protected List<Actividad> ExtraerActividad()
     {
       List<Actividad> actividades = new List<Actividad>();
       Actividad actividad;
@@ -112,7 +112,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     /// Metodo que extrae de datosDeLaPresentacion los horarios
     /// </summary>
     /// <returns>Lista de horarios</returns>
-    private List<Horario> ExtraerHorario()
+    protected List<Horario> ExtraerHorario()
     {
       List<Horario> horarios = new List<Horario>();
       Horario horario;
@@ -140,7 +140,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     /// Metodo para extraer las categorias de datosDeLaPresentacion
     /// </summary>
     /// <returns></returns>
-    private List<Categoria> ExtraerCategorias()
+    protected List<Categoria> ExtraerCategorias()
     {
       List<Categoria> categorias = new List<Categoria>();
       Categoria categoria;
@@ -156,7 +156,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
 
     }
 
-    private bool ExtraerStatus(object status)
+    protected bool ExtraerStatus(object status)
     {
       if( status.ToString() == "Activo")
       {
@@ -223,7 +223,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       return 0;
     }
 
-    private byte[] ExtraerFoto(object fotoEnObjeto)
+    protected byte[] ExtraerFoto(object fotoEnObjeto)
     {
       return Encoding.ASCII.GetBytes(fotoEnObjeto.ToString());
     }
