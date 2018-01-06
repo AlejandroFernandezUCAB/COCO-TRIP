@@ -480,7 +480,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// </summary>
         /// <param name="categoria">Instacia Categoria que contiene el Id por el cual se consultara.</param>
         /// <exception cref="BaseDeDatosExcepcion">Error al realizar al consulta de la categoria.</exception>
-        /// <exception cref="Exception">Error inesperado</exception>
+        /// <exception cref="Excepcion">Error inesperado</exception>
         public virtual List<Entidad> ObtenerCategorias(Entidad categoria)
         {
             List<Entidad> listaCategorias = new List<Entidad>();

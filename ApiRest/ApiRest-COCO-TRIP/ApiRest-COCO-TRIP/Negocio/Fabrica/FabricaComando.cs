@@ -673,5 +673,31 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
         {
             return new ComandoConsultarLugarTuristicoDetallado(lugarTuristico);
         }
+
+		public static ComandoActualizarEstadoLT CrearComandoActualizarEstadoLT(JObject lugarTuristico)
+		{
+			return new ComandoActualizarEstadoLT(lugarTuristico);
+		}
+
+        public static ComandoObtenerDatosUsuario CrearComandoObtenerDatosUsuario(Entidad entidad)
+        {
+            return new ComandoObtenerDatosUsuario(entidad);
+        }
+
+        public static ComandoCambiarPassword CrearComandoCambiarPassword(Entidad entidad, string nuevo)
+        {
+            return new ComandoCambiarPassword(entidad, nuevo);
+        }
+
+        public static ComandoModificarDatosUsuario CrearComandoModificarDatosUsuario(Entidad entidad)
+        {
+            return new ComandoModificarDatosUsuario(entidad);
+        }
+
+        public static ComandoBorrarUsuario CrearComandoBorrarUsuario(Entidad entidad)
+        {
+            return new ComandoBorrarUsuario(entidad);
+        }
+
     }
 }

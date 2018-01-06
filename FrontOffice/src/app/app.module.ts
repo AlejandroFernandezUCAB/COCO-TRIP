@@ -98,6 +98,7 @@ import { ComandoVerPerfil } from '../businessLayer/commands/comandoVerPerfil';
 import { ComandoEditarPerfil } from '../businessLayer/commands/comandoEditarPerfil';
 import { ComandoCambiarPassword } from '../businessLayer/commands/comandoCambiarPassword';
 import { ComandoBorrarCuenta } from '../businessLayer/commands/comandoBorrarCuenta';
+import { ComandoEditarFoto } from '../businessLayer/commands/comandoEditarFoto';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -236,7 +237,8 @@ firebase.initializeApp(config);
     ComandoVerPerfil,
     ComandoEditarPerfil,
     ComandoCambiarPassword,
-    ComandoBorrarCuenta
+    ComandoBorrarCuenta,
+    ComandoEditarFoto
     
   ]
 })

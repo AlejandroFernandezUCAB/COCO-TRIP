@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
-using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
@@ -18,7 +17,6 @@ namespace ApiRestPruebas.M9
     {
         private Entidad _categoria;
         private Comando _com;
-        private M9_CategoriasController controller;
         private Dictionary<string, object> esperado = new Dictionary<string, object>();
         private Dictionary<string, object> respuesta = new Dictionary<string, object>();
         private DAO dao;
@@ -27,14 +25,20 @@ namespace ApiRestPruebas.M9
 
         ////////////////////////////////////////    SETUPS    ////////////////////////////////////////
         #region SetUp
+
+        /// <summary>
+        /// Metodo OTSU, inicializando valores.
+        /// </summary>
         [OneTimeSetUp]
         protected void OTSU()
         {
-            controller = new M9_CategoriasController();
             _categoria = FabricaEntidad.CrearEntidadCategoria();
             dao = FabricaDAO.CrearDAOCategoria();
         }
 
+        /// <summary>
+        /// Metodo SetUp, inicializando valores de prueba.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
@@ -55,9 +59,12 @@ namespace ApiRestPruebas.M9
 
         ////////////////////////////////////////    PRUEBAS COMANDOS     /////////////////////////////
         #region comandos
-        
+
         #region Modificar
 
+        /// <summary>
+        /// Prueba para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoModificarCategoria()
         {
@@ -74,18 +81,27 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de dependencia asociadas para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionDependenciaComandoModificarCategoria()
         {
             Assert.Catch<HijoConDePendenciaExcepcion>(PruebaExcepcionDependenciaComandoModificarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de nombre duplicado para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionDuplicadoComandoModificarCategoria()
         {
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoComandoModificarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando modificar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoModificarCategoria()
         {
@@ -101,12 +117,18 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoModificarCategoria.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion de parametros nulo para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionParametrosNuloComandoModificarCategoria()
         {
             Assert.Catch<ParametrosInvalidosExcepcion>(PruebaExcepcionParametrosNuloComandoModificarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de argumento nulo para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionArgumentoNuloComandoModificarCategoria()
         {
@@ -122,6 +144,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<ArgumentoNuloExcepcion>(() => _mockComandoModificarCategoria.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoModificarCategoria()
         {
@@ -141,6 +166,9 @@ namespace ApiRestPruebas.M9
 
         #region Estado
 
+        /// <summary>
+        /// Prueba para el comando estado categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoEstadoCategoria()
         {
@@ -154,6 +182,9 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando estado categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoEstadoCategoria()
         {
@@ -166,6 +197,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoEstadoCategoria.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando modificar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoEstadoCategoria()
         {
@@ -182,6 +216,9 @@ namespace ApiRestPruebas.M9
 
         #region Insertar
 
+        /// <summary>
+        /// Prueba para el comando agregar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoInsertarCategoria()
         {
@@ -198,12 +235,18 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de nombre duplicado para el comando agregar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionNombreDuplicadoComandoAgregarCategoria()
         {
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoComandoAgregarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando agregar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoAgregarCategoria()
         {
@@ -218,12 +261,18 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoAgregarCategoria.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion de argumento nulo para el comando agregar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionParametrosInvalidosComandoAgregarCategoria()
         {
             Assert.Catch<ParametrosInvalidosExcepcion>(PruebaExcepcionParametrosInvalidosComandoAgregarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando agregar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoAgregarCategoria()
         {
@@ -242,6 +291,9 @@ namespace ApiRestPruebas.M9
 
         #region ObtenerPorId
 
+        /// <summary>
+        /// Prueba para el comando obtener categoria por id.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoObtenerPorId()
         {
@@ -252,6 +304,9 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).Id);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando obtener categoria por id.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoObtenerCategoriasPorId()
         {
@@ -263,6 +318,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoObtenerCategoriasPorId.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando obtener categoria por id.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoObtenerCategoriasPorId()
         {
@@ -278,6 +336,9 @@ namespace ApiRestPruebas.M9
 
         #region ObtenerPorNombre
 
+        /// <summary>
+        /// Prueba para el comando obtener categoria por nombre.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoObtenerPorNombre()
         {
@@ -288,6 +349,9 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando obtener categoria por nombre.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoObtenerCategoriasPorNombre()
         {
@@ -299,6 +363,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoObtenerCategoriasPorNombre.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando obtener categoria por nombre.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoObtenerCategoriasPorNombre()
         {
@@ -314,6 +381,9 @@ namespace ApiRestPruebas.M9
 
         #region Obtener
 
+        /// <summary>
+        /// Prueba para el comando obtener categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoObtenerCategorias()
         {
@@ -324,6 +394,9 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Id, ((Categoria)_resp).CategoriaSuperior);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando obtener categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoObtenerCategorias()
         {
@@ -335,6 +408,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoObtenerCategorias.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando obtener categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoObtenerCategorias()
         {
@@ -350,6 +426,9 @@ namespace ApiRestPruebas.M9
 
         #region ObtenerHabilitadas
 
+        /// <summary>
+        /// Prueba para el comando obtener categorias Habilitadas.
+        /// </summary>
         [Test]
         public void M9_PruebaComandoObtenerCategoriasHabilitadas()
         {
@@ -376,6 +455,9 @@ namespace ApiRestPruebas.M9
 
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el comando obtener categorias Habilitadas.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosComandoObtenerCategoriasHabilitadas()
         {
@@ -385,6 +467,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockComandoObtenerCategoriasHabilitadas.Object.Ejecutar());
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el comando obtener categorias Habilitadas.
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralComandoObtenerCategoriasHabilitadas()
         {
@@ -403,6 +488,9 @@ namespace ApiRestPruebas.M9
 
         #region Actualizar
 
+        /// <summary>
+        /// Prueba para el DAO Actualizar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaDAOActualizarCategoria()
         {
@@ -416,18 +504,27 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de nombre duplicado para el DAO Actualizar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionNombreDuplicadoDAOActualizar()
         {
             Assert.Catch<NombreDuplicadoExcepcion>(PruebaExcepcionDuplicadoDAOModificarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de dependencias asociadas para el DAO Actualizar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionHijoConDePendenciaExcepcionDAOActualizar()
         {
             Assert.Catch<HijoConDePendenciaExcepcion>(PruebaExcepcionDependenciaDAOModificarCategoria);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el DAO Actualizar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoActualizar()
         {
@@ -442,6 +539,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.Actualizar(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion de argumento nulo para el DAO Actualizar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionArgumentoNuloDaoActualizar()
         {
@@ -456,6 +556,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.Actualizar(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el DAO Actualizar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoActualizar()
         {
@@ -474,6 +577,9 @@ namespace ApiRestPruebas.M9
 
         #region Estado
 
+        /// <summary>
+        /// Prueba para el DAO estado categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaDAOEstadoCategoria()
         {
@@ -484,6 +590,9 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Estatus, ((Categoria)_resp).Estatus);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el DAO estado categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoEstadoCategoria()
         {            
@@ -496,6 +605,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ActualizarEstado(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el DAO estado categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoEstadoCategoria()
         {
@@ -512,6 +624,9 @@ namespace ApiRestPruebas.M9
 
         #region Insertar
 
+        /// <summary>
+        /// Prueba para el DAO insertar categoria.
+        /// </summary>
         [Test]
         public void M9_PruebaDAOInsertarCategoria()
         {
@@ -525,6 +640,9 @@ namespace ApiRestPruebas.M9
             Assert.AreEqual(((Categoria)_categoria).Nombre, ((Categoria)_resp).Nombre);
         }
 
+        /// <summary>
+        /// Prueba de excepcion de base de datos para el DAO insertar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoInsertar()
         {
@@ -539,6 +657,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.Insertar(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion general para el DAO insertar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoInsertar()
         {
@@ -553,6 +674,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<Excepcion>(() => _mockDaoCategoria.Object.Insertar(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion de nombre duplicado para el DAO insertar categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionDuplicadoDAOInsertar()
         {
@@ -563,6 +687,9 @@ namespace ApiRestPruebas.M9
 
         #region ObtenerHabilitadas
 
+        /// <summary>
+        /// Prueba de excepcion base de datos para el DAO obtener categoria Habilitadas. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasHabilitadas()
         {
@@ -572,6 +699,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriasHabilitadas());
         }
 
+        /// <summary>
+        /// Prueba de excepcion General para el DAO obtener categoria Habilitadas. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoObtenerCategoriasHabilitadas()
         {
@@ -585,6 +715,9 @@ namespace ApiRestPruebas.M9
 
         #region ObtenerPorId
 
+        /// <summary>
+        /// Prueba de excepcion base de datos para el DAO obtener categoria por id. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasPorId()
         {
@@ -596,6 +729,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerCategoriaPorId(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion General para el DAO obtener categoria por id. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoObtenerCategoriasPorId()
         {
@@ -611,6 +747,9 @@ namespace ApiRestPruebas.M9
 
         #region ObtenerPorNombre
 
+        /// <summary>
+        /// Prueba de excepcion base de datos para el DAO obtener categoria por nombre. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategoriasPorNombre()
         {
@@ -622,6 +761,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerIdCategoriaPorNombre(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion General para el DAO obtener categoria por por nombre. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoObtenerCategoriasPorNombre()
         {
@@ -636,6 +778,10 @@ namespace ApiRestPruebas.M9
         #endregion ObtenerPorNombre
 
         #region Obtener
+
+        /// <summary>
+        /// Prueba de excepcion base de datos para el DAO obtener categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionBaseDeDatosDaoObtenerCategorias()
         {
@@ -647,6 +793,9 @@ namespace ApiRestPruebas.M9
             Assert.Throws<BaseDeDatosExcepcion>(() => _mockDaoCategoria.Object.ObtenerCategorias(_categoria));
         }
 
+        /// <summary>
+        /// Prueba de excepcion base de datos para el DAO obtener categoria. 
+        /// </summary>
         [Test]
         public void M9_PruebaExcepcionGeneralDaoObtenerCategorias()
         {

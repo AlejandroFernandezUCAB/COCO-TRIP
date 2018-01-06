@@ -185,6 +185,7 @@
     <Compile Include="Datos\Entidades\Foto.cs" />
     <Compile Include="Datos\Entidades\Horario.cs" />
     <Compile Include="Datos\Entidades\LugarTuristico.cs" />
+    <Compile Include="Negocio\Comandos\ComandoActualizarEstadoLugarTuristico.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarActividad.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarCategoria.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarHorario.cs" />
@@ -195,6 +196,8 @@
     <Compile Include="Negocio\Comandos\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarEventos.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarLugaresTuristicos.cs" />
+    <Compile Include="Negocio\Comandos\ComandoConsultarLugarTuristico.cs" />
+    <Compile Include="Negocio\Comandos\ComandoModificarLugarTuristico.cs" />
     <Compile Include="Negocio\Comandos\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoEstadoCategoria.cs" />
@@ -211,8 +214,6 @@
     <Compile Include="Datos\Entidades\Localidad.cs" />
     <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Datos\DAO\DAOLocalidad.cs" />
-    <Compile Include="Models\Peticion\BasePeticion.cs" />
-    <Compile Include="Models\Peticion\PeticionLugares.cs" />
     <Compile Include="Datos\Entidades\Entidad.cs" />
     <Compile Include="Negocio\Comandos\Comando.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarLocalidades.cs" />

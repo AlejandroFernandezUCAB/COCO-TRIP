@@ -12,6 +12,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO.Interfaces
     JObject Delete(int id);
     JObject Patch(Entidad data);
     JObject GetAll();
+    JObject PutLugarActualizar(Entidad data);
 
   }
 }

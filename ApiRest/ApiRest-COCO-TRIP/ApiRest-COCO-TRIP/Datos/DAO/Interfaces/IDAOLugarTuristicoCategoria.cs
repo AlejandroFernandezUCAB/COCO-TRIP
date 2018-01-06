@@ -3,9 +3,16 @@ using System.Collections.Generic;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 {
-	interface IDAOLugarTuristicoCategoria
+	public interface IDAOLugarTuristicoCategoria
 	{
 		void Insertar(Entidad categoria, Entidad lugarTuristico);
+		        
+		/// <summary>
+        /// Metodo que obtiene las categorias de un lugar turistico.
+        /// </summary>
+        /// <param name="entidad">Objeto: LugarTuristico.</param>
+        /// <returns>Lista de categorias</returns>
+        List<Entidad> ObtenerCategoriaPorId(Entidad entidad);
 
 		List<Entidad> ConsultarLista(string id);
 

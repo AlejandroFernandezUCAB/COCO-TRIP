@@ -11,11 +11,11 @@ namespace ApiRest_COCO_TRIP.Comun.Validaciones
     public class ValidacionWS
     {
         /// <summary>
-        /// 
+        /// Metodo que valida que no contenga parametros nulos.
         /// </summary>
         /// <param name="parametros"></param>
         /// <param name="obligatorios"></param>
-        /// <exception cref = "ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones.</exception>
+        /// <exception cref="ParametrosNullExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria.</exception>
         public static void ValidarParametrosNotNull(JObject parametros, IList<string> obligatorios)
         {
             foreach (string item in obligatorios)
@@ -28,10 +28,10 @@ namespace ApiRest_COCO_TRIP.Comun.Validaciones
         }
 
         /// <summary>
-        /// 
+        /// Metodo que valida que una instancia del tipo categoria no contenga parametros nulos.
         /// </summary>
-        /// <param name="categoria"></param>
-        /// <exception cref="ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria</exception>
+        /// <param name="categoria">Instacia del tipo categoria.</param>
+        /// <exception cref="ParametrosNullExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria, id igual a cero.</exception>
         public static void ValidarParametrosNotNullCategoria(Entidad categoria)
         {
                 if(((Categoria)categoria).Id==0)

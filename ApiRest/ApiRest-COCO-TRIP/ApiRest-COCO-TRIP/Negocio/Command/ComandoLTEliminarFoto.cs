@@ -10,10 +10,12 @@ using System.Reflection;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-    /// <summary>
-    /// Comando para eliminar la foto de un lugar turistico
-    /// </summary>
-    public class ComandoLTEliminarFoto : Comando
+	/// <summary>
+	/// Comando para eliminar la foto de un lugar turistico
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
+	/// </summary>
+	public class ComandoLTEliminarFoto : Comando
     {
         private IDAOFoto iDAOFoto;
         private Entidad _foto;
