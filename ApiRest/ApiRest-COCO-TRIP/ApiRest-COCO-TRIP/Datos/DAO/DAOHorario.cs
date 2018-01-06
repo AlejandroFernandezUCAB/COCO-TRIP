@@ -9,6 +9,7 @@ using System.Reflection;
 using Npgsql;
 using System.Net.Sockets;
 using NLog;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -16,6 +17,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 	{
 
 		private static Logger log = LogManager.GetCurrentClassLogger();
+		private NpgsqlDataReader _respuesta;
 
 		public override void Actualizar(Entidad objeto)
 		{
@@ -24,7 +26,77 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
-			throw new NotImplementedException();
+			List<Entidad> horarios = new List<Entidad>();
+			try
+			{
+				StoredProcedure("consultarhorarios");
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, objeto.Id);
+				_respuesta = Comando.ExecuteReader();
+
+				while (_respuesta.Read())
+				{
+					Horario horario;
+					horario = FabricaEntidad.CrearEntidadHorario();
+					horario.Id = _respuesta.GetInt32(0);
+					horario.DiaSemana = _respuesta.GetInt32(1);
+					horario.HoraApertura = _respuesta.GetTimeSpan(2);
+					horario.HoraCierre = _respuesta.GetTimeSpan(3);
+
+					horarios.Add(horario);
+				}
+
+				return horarios;
+
+			}
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (Exception e)
+			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			finally
+			{
+				Desconectar();
+			}
+			return horarios;
 		}
 
         /// <summary>
@@ -34,8 +106,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         /// <returns></returns>
         public List<Entidad> ConsultarLista(string id)
         {
-            throw new NotImplementedException();
-        }
+			throw new NotImplementedException();
+		}
 
         public override Entidad ConsultarPorId(Entidad objeto)
 		{

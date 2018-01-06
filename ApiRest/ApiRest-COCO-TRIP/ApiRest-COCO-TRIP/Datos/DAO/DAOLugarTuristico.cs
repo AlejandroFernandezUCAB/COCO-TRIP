@@ -112,7 +112,83 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 		public override Entidad ConsultarPorId(Entidad objeto)
 		{
-			throw new NotImplementedException();
+			LugarTuristico lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
+
+			try
+			{
+				StoredProcedure("ConsultarLugarTuristico");
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, _lugarTuristico.Id);
+				_datos = Comando.ExecuteReader();
+				
+				while (_datos.Read())
+				{
+
+					lugarTuristico.Id = _datos.GetInt32(0);
+					lugarTuristico.Nombre = _datos.GetString(1);
+					lugarTuristico.Costo = _datos.GetDouble(2);
+					lugarTuristico.Descripcion = _datos.GetString(3);
+					lugarTuristico.Direccion = _datos.GetString(4);
+					lugarTuristico.Correo = _datos.GetString(5);
+					lugarTuristico.Telefono = _datos.GetInt64(6);
+					lugarTuristico.Latitud = _datos.GetDouble(7);
+					lugarTuristico.Longitud = _datos.GetDouble(8);
+					lugarTuristico.Activar = _datos.GetBoolean(9);
+
+				}
+
+				log.Info("Lugar turistico:" + lugarTuristico);
+
+				return lugarTuristico;
+
+			}
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (Exception e)
+			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			finally
+			{
+				Desconectar();
+			}
 		}
 
 		public override void Eliminar(Entidad objeto)

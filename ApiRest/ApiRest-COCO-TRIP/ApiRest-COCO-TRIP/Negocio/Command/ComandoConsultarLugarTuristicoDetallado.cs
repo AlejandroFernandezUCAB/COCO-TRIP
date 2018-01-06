@@ -9,7 +9,8 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 {
 	public class ComandoConsultarLugarTuristicoDetallado : Comando
 	{
-		
+		private List<Entidad> _actividades;
+		private List<Entidad> _horarios;
 		private JObject _lugarTuristicoObject;
 		private Entidad _lugarTuristico;
 		private IDAOFoto iDAOFoto;
@@ -21,19 +22,32 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 		{
 
 			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
-			_lugarTuristico = lugarTuristico.ToObject<LugarTuristico>(); 
+			_lugarTuristico = lugarTuristico.ToObject<LugarTuristico>();
+			_actividades = new List<Entidad>();
+			_horarios = new List<Entidad>();
 
 		}
 
 		public override void Ejecutar()
 		{
-			//TODO hacer el metodo para traer el lugar turistico
-			throw new NotImplementedException();
+			
+			//Traer lugar turistico detallado
+			_lugarTuristico = iDAOLugarTuristico.ConsultarPorId(_lugarTuristico);
+
+			//Traer actividades del lugar turistico
+			_actividades = iDAOActividad.ConsultarLista(_lugarTuristico);
+			foreach(Actividad actividad in _actividades)
+			{
+				((LugarTuristico)_lugarTuristico).Actividad.Add(actividad);
+			}
+
+
+
 		}
 
 		public override Entidad Retornar()
 		{
-			throw new NotImplementedException();
+			return _lugarTuristico;
 		}
 
 		public override List<Entidad> RetornarLista()
