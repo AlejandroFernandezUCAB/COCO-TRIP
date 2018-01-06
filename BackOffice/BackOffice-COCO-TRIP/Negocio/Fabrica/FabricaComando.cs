@@ -1,48 +1,47 @@
 using BackOffice_COCO_TRIP.Negocio.Comandos;
 
-
 namespace BackOffice_COCO_TRIP.Negocio.Fabrica
 {
-    public static class FabricaComando
+  public static class FabricaComando
+  {
+    public static ComandoConsultarLocalidad GetComandoConsultarLocalidad()
     {
-        public static ComandoConsultarLocalidad GetComandoConsultarLocalidad()
-        {          
-            return new ComandoConsultarLocalidad();
-        }
+      return new ComandoConsultarLocalidad();
+    }
 
-        public static ComandoConsultarLocalidades GetComandoConsultarLocalidades()
-        {
-            return new ComandoConsultarLocalidades();
-        }
+    public static ComandoConsultarLocalidades GetComandoConsultarLocalidades()
+    {
+      return new ComandoConsultarLocalidades();
+    }
 
-        public static ComandoModificarLocalidad GetComandoModificarLocalidad()
-        {
-            return new ComandoModificarLocalidad();
-        }
+    public static ComandoModificarLocalidad GetComandoModificarLocalidad()
+    {
+      return new ComandoModificarLocalidad();
+    }
 
-        public static ComandoModificarEvento GetComandoModificarEvento()
-        {
-            return new ComandoModificarEvento();
-        }
+    public static ComandoModificarEvento GetComandoModificarEvento()
+    {
+      return new ComandoModificarEvento();
+    }
 
     public static ComandoEliminarLocalidad GetComandoEliminarLocalidad()
-        {
-            return new ComandoEliminarLocalidad();
-        }
+    {
+      return new ComandoEliminarLocalidad();
+    }
 
-        public static ComandoAgregarLocalidad GetComandoAgregarLocalidad()
-        {
-            return new ComandoAgregarLocalidad();
-        }
-        public static ComandoConsultarEventos GetComandoConsultarEventos()
-        {
-            return new ComandoConsultarEventos();
-        }
+    public static ComandoAgregarLocalidad GetComandoAgregarLocalidad()
+    {
+      return new ComandoAgregarLocalidad();
+    }
+    public static ComandoConsultarEventos GetComandoConsultarEventos()
+    {
+      return new ComandoConsultarEventos();
+    }
 
-        public static ComandoConsultarEvento GetComandoConsultarEvento()
-        {
-            return new ComandoConsultarEvento();
-        }
+    public static ComandoConsultarEvento GetComandoConsultarEvento()
+    {
+      return new ComandoConsultarEvento();
+    }
 
     public static ComandoAgregarEvento GetComandoAgregarEvento()
         {
