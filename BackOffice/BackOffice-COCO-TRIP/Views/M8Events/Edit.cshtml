@@ -11,85 +11,85 @@
 {
   @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-  @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-  <div class="form-group row">
-    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-4">
-      @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+  <div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-4">
+        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-10">
-      @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-10">
+        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-2">
-      @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control", @type = "number", @Min = "0", @Max = "32000" } })
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-2">
+        @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control", @type = "number", @Min = "0", @Max = "999999999999" } })
 
-      @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-8">
-      @Html.TextBoxFor(model => model.FechaInicio,
-           new { @class = "form-control", @type = "date", @Value = Model.FechaInicio.ToString("yyyy-MM-dd"), @min = Model.FechaInicio.ToString("yyyy-MM-dd")})
+    <div class="form-group row">
+      @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-8">
+        @Html.TextBoxFor(model => model.FechaInicio,
+           new { @class = "form-control", @type = "date", @Value = Model.FechaInicio.ToString("yyyy-MM-dd"), @min = Model.FechaInicio.ToString("yyyy-MM-dd") })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-8">
-      @Html.TextBoxFor(model => model.FechaFin,
+    <div class="form-group row">
+      @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-8">
+        @Html.TextBoxFor(model => model.FechaFin,
            new { @class = "form-control", @type = "date", @Value = Model.FechaFin.ToString("yyyy-MM-dd"), @min = Model.FechaFin.ToString("yyyy-MM-dd") })
+      </div>
     </div>
-  </div>
 
-  <div class="form-group row">
-    @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-2">
-      @Html.TextBoxFor(model => model.HoraInicio,
+    <div class="form-group row">
+      @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-2">
+        @Html.TextBoxFor(model => model.HoraInicio,
            new { @class = "form-control", @type = "time", @Value = Model.HoraInicio.ToString("HH:mm"), @Min = "01:00", @Max = "23:59" })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-2">
-      @Html.TextBoxFor(model => model.HoraFin,
+    <div class="form-group row">
+      @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-2">
+        @Html.TextBoxFor(model => model.HoraFin,
           new { @class = "form-control", @type = "time", @Value = Model.HoraFin.ToString("HH:mm"), @Min = "01:00", @Max = "23:59" })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-sm-5">
-      <input class="col-sm-12" type="file" name="file" accept=".jpg, .jpeg, .png" />
+    <div class="form-group row">
+      @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-sm-5">
+        <input class="col-sm-12" type="file" name="file" accept=".jpg, .jpeg, .png" />
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.Label("Categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
-    <div class="col-sm-10">
-      @Html.DropDownListCategoriesEvents("Categoria",Model, ViewBag.ListCategoria as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria>, htmlAttributes: new { @class = "form-control" })
+    <div class="form-group row">
+      @Html.Label("Categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
+      <div class="col-sm-10">
+        @Html.DropDownListCategoriesEvents("Categoria", Model, ViewBag.ListCategoria as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria>, htmlAttributes: new { @class = "form-control" })
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    @Html.Label("Localidad", htmlAttributes: new { @class = "col-sm-2 control-label" })
-    <div class="col-sm-10">
-      @Html.DropDownListLocalidadesEventos("Localidades", Model, ViewBag.ListLocalidades as IList<BackOffice_COCO_TRIP.Datos.Entidades.Localidad>, htmlAttributes: new { @class = "form-control" })
+    <div class="form-group row">
+      @Html.Label("Localidad", htmlAttributes: new { @class = "col-sm-2 control-label" })
+      <div class="col-sm-10">
+        @Html.DropDownListLocalidadesEventos("Localidades", Model, ViewBag.ListLocalidades as IList<BackOffice_COCO_TRIP.Datos.Entidades.Localidad>, htmlAttributes: new { @class = "form-control" })
+      </div>
     </div>
-  </div>
 
-  <br>
+    <br>
 
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <input type="submit" value="Update" class="btn btn-default" />
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Update" class="btn btn-default" />
+      </div>
     </div>
-  </div>
 
-</div>
+  </div>
 }
