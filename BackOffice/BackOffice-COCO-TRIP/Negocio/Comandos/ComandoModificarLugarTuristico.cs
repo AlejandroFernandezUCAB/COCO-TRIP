@@ -46,6 +46,8 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
       //Agregando Longitud
       ((LugarTuristico)lugarTuristico).Longitud = double.Parse(datosDeLaPresentacion[54].ToString());
 
+      //Agregando Id
+      ((LugarTuristico)lugarTuristico).Id = Int32.Parse(datosDeLaPresentacion[55].ToString());
       //Llamando al DAO
       respuesta = daoLugarTuristico.PutLugarActualizar(lugarTuristico);
     }

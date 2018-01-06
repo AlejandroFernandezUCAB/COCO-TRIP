@@ -94,6 +94,7 @@ namespace BackOffice_COCO_TRIP.Controllers
     {
       com = FabricaComando.GetComandoModificarLugarTuristico();
       LlenadoLugarTuristico();
+      com.SetPropiedad(Request.Form["Id"]);
       com.Execute();
       return RedirectToAction("ViewAll");
     }
@@ -101,6 +102,7 @@ namespace BackOffice_COCO_TRIP.Controllers
         // GET:Lugares/Modify
         public ActionResult Modify(int id)
         {
+      ViewBag.Title = "Modificar Lugar Turistico";
           JObject respuesta;
           com = FabricaComando.GetComandoConsultarLugarTuristico();
           com.SetPropiedad(id);
@@ -446,7 +448,7 @@ namespace BackOffice_COCO_TRIP.Controllers
       com.SetPropiedad(Request.Form["Latitud"]);
       com.SetPropiedad(Request.Form["Longitud"]);
 
-      com.SetPropiedad(Request.Form["Id"]);
+      
     }
 
 

@@ -4,8 +4,9 @@
 <div class="row">
   <div class="content-form card">
     <br><br>
-    <label stle="visibility:hidden"; class="Id" name="Id" value="@Model.Id"></label>
+    
     <form class="form-horizontal" method="post" action="Modify">
+      <input style="visibility:hidden" type="text" class="form-control" id="name" placeholder="Nombre lugar turístico..." value="@Model.Id" name="Id">
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;gen del lugar</label>
         <input class="col-sm-6" type="file" id="perfilphoto" name="fotoLugar" required>
