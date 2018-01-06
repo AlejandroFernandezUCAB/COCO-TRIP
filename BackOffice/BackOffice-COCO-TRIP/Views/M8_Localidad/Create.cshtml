@@ -34,7 +34,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.Coordenadas, htmlAttributes: new { @class = "control-label col-md-2" })
       <div class="col-md-5">
-        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "disabledClass", @id = "coords" }})
+        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "disabledClass", @id = "coords" } })
         @Html.ValidationMessageFor(model => model.Coordenadas, null, new { @class = "label label-danger" })
       </div>
       <div id="map" class="text-center"></div>
