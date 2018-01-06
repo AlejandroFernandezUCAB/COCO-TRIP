@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using Newtonsoft.Json;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
@@ -13,6 +14,8 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   {
     private const string ControllerUri = "M7_LugaresTuristicos";
     private JObject responseData;
+
+    public object Fabrica { get; internal set; }
 
     public override JObject Delete(int id)
     {
@@ -26,22 +29,23 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     /// <returns>JObject</returns>
     public override JObject Get(int cantidad)
     {
+      LugarTuristico lugarTuristico = FabricaEntidad.GetLugarTuristico();
+      lugarTuristico.Id = cantidad;
+
       try
       {
         using (HttpClient cliente = new HttpClient())
         {
           cliente.BaseAddress = new Uri(BaseUri);
           cliente.DefaultRequestHeaders.Accept.Clear();
-          //necesito un metodo del api rest que me traiga las fotos de un lugar.
-          // 'ConsultarFotos' aun no existe.
-          // store procedure que me ayudara: ConsultarFotos
-
-          var responseTask = cliente.GetAsync($"{BaseUri}/{ControllerUri}/GetLista?desde=1&hasta={cantidad}");
+          var responseTask = cliente.PostAsJsonAsync($"{BaseUri}/{ControllerUri}/ListaLugaresTuristicosDetallados", lugarTuristico);
           responseTask.Wait();
           var response = responseTask.Result;
           var readTask = response.Content.ReadAsAsync<JObject>();
           readTask.Wait();
+
           responseData = readTask.Result;
+          return responseData;
         }
       }
       catch (HttpRequestException ex)
