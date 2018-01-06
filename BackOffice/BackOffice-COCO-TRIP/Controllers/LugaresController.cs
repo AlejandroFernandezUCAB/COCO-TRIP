@@ -445,6 +445,8 @@ namespace BackOffice_COCO_TRIP.Controllers
       com.SetPropiedad(Request.Form["Descripcion"]);
       com.SetPropiedad(Request.Form["Latitud"]);
       com.SetPropiedad(Request.Form["Longitud"]);
+
+      com.SetPropiedad(Request.Form["Id"]);
     }
 
 
