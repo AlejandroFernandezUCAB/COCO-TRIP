@@ -45,3 +45,7 @@
     </div>
   </div>
 }
+@section scripts {
+  @Scripts.Render("~/bundles/Localidad_insert-coordsJS")
+  @Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")
+}

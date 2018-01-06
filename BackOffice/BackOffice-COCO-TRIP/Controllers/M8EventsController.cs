@@ -57,8 +57,8 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.Execute();
       ViewBag.ListLocalidades = comando.GetResult()[0];
 
-      TempData["ListLocalidades"] = ViewBag.ListCategoria;
-      TempData["ListCategoria"] = comando.GetResult()[0];
+      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
+      TempData["ListCategoria"] = ViewBag.ListCategoria;
       return View();
     }
 
@@ -84,14 +84,20 @@ namespace BackOffice_COCO_TRIP.Controllers
           ruta = "";
         evento.Foto = ruta;
 
-        evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
+        if (Request["Localidades"] != null && Request["Categoria"] != null)
+        { 
+          evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
         evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
 
         Comando comando = FabricaComando.GetComandoAgregarEvento();
         comando.SetPropiedad(evento);
         comando.Execute();
-
         ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+      }
+      else
+      {
+        ModelState.AddModelError(string.Empty, "Seleccione una categoria o localidad valida");
+      }
       }
       TempData["ListLocalidades"] = ViewBag.ListLocalidades;
       TempData["ListCategoria"] = ViewBag.ListCategoria;

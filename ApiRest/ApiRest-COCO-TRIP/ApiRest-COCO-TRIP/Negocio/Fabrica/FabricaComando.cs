@@ -394,51 +394,61 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
             return new ComandoEliminarLocalidad(id);
         }
 
+        /// <summary>
+        /// Retorna la instancia de CrearComandoAgregarEvento
+        /// </summary>
+        /// <param name="evento">Evento a agregar</param>
+        /// <returns>ComandoAgregarEvento</returns>
         public static ComandoAgregarEvento CrearComandoAgregarEvento(Entidad evento)
         {
             return new ComandoAgregarEvento(evento);
         }
 
         /// <summary>
-        /// Retorna la instancia de ComandoConsultarLocalidad
+        /// Retorna la instancia de ComandoConsultarEvento
         /// </summary>
-        /// <returns>ComandoConsultarLocalidad</returns>
+        /// <param name="id">Id del evento a consultar</param>
+        /// <returns>ComandoConsultarEvento</returns>
         public static ComandoConsultarEvento CrearComandoConsultarEvento(int id)
         {
             return new ComandoConsultarEvento(id);
         }
 
+        /// <summary>
+        /// Retorna la instancia de CrearComandoConsultarEventos
+        /// </summary>
+        /// <returns>ComandoConsultarEventos</returns>
         public static ComandoConsultarEventos CrearComandoConsultarEventos() {
             return new ComandoConsultarEventos();
         }
 
         /// <summary>
-        /// Retorna la instancia de ComandoConsultarLocalidades
+        /// Retorna la instancia de CrearComandoConsultarEventosPorCategoria
         /// </summary>
-        /// <returns>ComandoConsultarLocalidades</returns>
+        /// <param name="id">Id de la categoria</param>
+        /// <returns>ComandoConsultarEventosPorCategoria</returns>
         public static ComandoConsultarEventosPorCategoria CrearComandoConsultarEventosPorCategoria(int id)
         {
             return new ComandoConsultarEventosPorCategoria(id);
         }
 
         /// <summary>
-        /// Retorna la instancia de ComandoModificarLocalidad
+        /// Retorna la instancia de ComandoModificarEvento
         /// </summary>
-        /// <returns>ComandoModificarLocalidad</returns>
+        /// <returns>ComandoModificarEvento</returns>
         public static ComandoModificarEvento CrearComandoModificarEvento(Entidad evento)
         {
             return new ComandoModificarEvento(evento);
         }
 
         /// <summary>
-        /// Retorna la instancia de ComandoEliminarLocalidad
+        /// Retorna la instancia de ComandoEliminarEvento
         /// </summary>
-        /// <returns>ComandoEliminarLocalidad</returns>
+        /// <returns>ComandoEliminarEvento</returns>
         public static ComandoEliminarEvento CrearComandoEliminarEvento(int id)
         {
             return new ComandoEliminarEvento(id);
         }
-
 
         /// <summary>
         /// Retorna la instancia de ComandoAgregarAgenda

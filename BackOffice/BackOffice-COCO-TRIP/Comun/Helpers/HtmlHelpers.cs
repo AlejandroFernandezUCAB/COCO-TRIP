@@ -31,6 +31,7 @@ namespace BackOffice_COCO_TRIP.Comun.Helpers
       dropdown.Attributes.Add("name", name);
       dropdown.Attributes.Add("id", name);
       StringBuilder options = new StringBuilder();
+      if(list!=null)
       foreach (var item in list)
       {
         if (evento != null && evento.IdCategoria == item.Id)
@@ -54,6 +55,7 @@ namespace BackOffice_COCO_TRIP.Comun.Helpers
       dropdown.Attributes.Add("name", name);
       dropdown.Attributes.Add("id", name);
       StringBuilder options = new StringBuilder();
+      if(list!=null)
       foreach (var item in list)
       {
         if (evento != null && evento.IdLocalidad == item.Id)
