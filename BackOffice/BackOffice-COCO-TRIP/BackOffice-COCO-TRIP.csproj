@@ -206,7 +206,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\HtmlHelpers.cs" />
+    <Compile Include="Comun\Helpers\HtmlHelpers.cs" />
     <Compile Include="Datos\Entidades\Evento.cs" />
     <Compile Include="Datos\Entidades\Localidad.cs" />
     <Compile Include="Datos\DAO\DAOEvento.cs" />

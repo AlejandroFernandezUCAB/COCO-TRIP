@@ -1,14 +1,10 @@
-using BackOffice_COCO_TRIP.Models;
 using BackOffice_COCO_TRIP.Datos.Entidades;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace BackOffice_COCO_TRIP.Helpers
+namespace BackOffice_COCO_TRIP.Comun.Helpers
 {
   public static class HtmlHelpers
   {
