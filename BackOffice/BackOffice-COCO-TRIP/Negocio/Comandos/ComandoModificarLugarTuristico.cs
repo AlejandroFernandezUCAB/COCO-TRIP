@@ -16,15 +16,15 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     
     public override void Execute()
     {
-      try
-      {
-        JObject respuesta = dao.Put(categoria);
-        resultado.Add(respuesta);
-      }
-      catch (Exception e)
-      {
-        throw e;
-      }
+      //try
+      //{
+      //  JObject respuesta = dao.Put(categoria);
+      //  resultado.Add(respuesta);
+      //}
+      //catch (Exception e)
+      //{
+      //  throw e;
+      //}
 
 
     }
@@ -36,7 +36,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
 
     public override void SetPropiedad(object propiedad)
     {
-      categoria = (Categoria)propiedad;
+      //categoria = (Categoria)propiedad;
     }
   }
 }
