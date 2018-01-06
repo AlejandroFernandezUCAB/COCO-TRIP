@@ -9,8 +9,12 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
-{	
-
+{
+	/// <summary>
+	/// Comando para actualizar el estado de un lugar turistico
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
+	/// </summary>
 	public class ComandoActualizarEstadoLT : Comando
 	{
 		private Entidad _lugarTuristico;
