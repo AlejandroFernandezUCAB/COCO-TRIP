@@ -189,7 +189,7 @@ namespace ApiRestPruebas.M2
     [Category("Usuario")]
     public void ObtenerDatosUsuario(int idUsuario, string nombre, string apellido)
     {
-      usuario = apiRest.ObtenerDatosUsuario(idUsuario);
+      //usuario = apiRest.ObtenerDatosUsuario(idUsuario);
       Assert.AreEqual(nombre, usuario.Nombre);
       Assert.AreEqual(apellido, usuario.Apellido);
     }
