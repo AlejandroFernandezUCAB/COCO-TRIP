@@ -200,11 +200,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			{
 				StoredProcedure("ConsultarCategoriaLugarTuristico");
 				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, lugarTuristico.Id);
-				_datos = Comando.ExecuteReader();
-				while (_datos.Read())
+				_respuesta = Comando.ExecuteReader();
+				while (_respuesta.Read())
 				{
 					Categoria categoria = FabricaEntidad.CrearEntidadCategoria();
-					categoria.Id = _datos.GetInt32(0);
+					categoria.Id = _respuesta.GetInt32(0);
 					iDAOCategoria = FabricaDAO.CrearDAOCategoria();
 
 					categoria = iDAOCategoria.ObtenerCategoriaPorId(categoria);
