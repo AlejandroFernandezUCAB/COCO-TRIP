@@ -1,3 +1,4 @@
+using System;
 using BackOffice_COCO_TRIP.Negocio.Comandos;
 
 namespace BackOffice_COCO_TRIP.Negocio.Fabrica
@@ -67,6 +68,11 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
     public static ComandoConsultarEventos GetComandoConsultarEventos()
     {
       return new ComandoConsultarEventos();
+    }
+
+    internal static Comando GetComandoModificarLugarTuristico()
+    {
+      return new ComandoModificarLugarTuristico();
     }
 
     /// <summary>
@@ -163,5 +169,14 @@ namespace BackOffice_COCO_TRIP.Negocio.Fabrica
       return new ComandoAgregarHorario();
     }
 
+    public static ComandoConsultarLugarTuristico GetComandoConsultarLugarTuristico()
+    {
+      return new ComandoConsultarLugarTuristico();
+    }
+
+    public static ComandoActualizarEstadoLugarTuristico GetComandoActualizarEstadoLugarTuristico()
+    {
+      return new ComandoActualizarEstadoLugarTuristico();
+    }
   }
 }

@@ -1,31 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Datos.Fabrica;
+using NLog;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
-using NLog;
+using Newtonsoft.Json.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
 	/// <summary>
-	/// Comando para obtener todos los lugares turisticos
+	/// Comando para actualizar el estado de un lugar turistico
 	/// Integrantes : Pedro Fernandez
 	///				GianFranco Verrocchi
 	/// </summary>
-	public class ComandoObtenerLugaresTuristicos : Comando
+	public class ComandoActualizarEstadoLT : Comando
 	{
-		IDAOLugarTuristico _dao = FabricaDAO.CrearDAOLugarTuristico();
-		List<Entidad> _lugaresTuristicos = new List<Entidad>();
+		private Entidad _lugarTuristico;
+		private IDAOLugarTuristico _daoLugarTuristico;
 		private static Logger log = LogManager.GetCurrentClassLogger();
+		
+		public ComandoActualizarEstadoLT(JObject datos)
+		{
+			_lugarTuristico = FabricaEntidad.CrearEntidadLugarTuristico();
+			_lugarTuristico =  datos.ToObject<LugarTuristico>(); ;
+			_daoLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
+		} 
 
+		/// <summary>
+		/// Se ejecuta el comando para actualizar el estado de un lugar turistico
+		/// </summary>
 		public override void Ejecutar()
 		{
 			try
-			{
-				_lugaresTuristicos = _dao.ConsultarTodaLaLista();
-				log.Info("Lugares Turisticos:"+ _lugaresTuristicos);
+			{	
+				//Con este if cambio a la condicion nueva. 
+				if( ((LugarTuristico)_lugarTuristico).Activar == true )
+				{
+					((LugarTuristico)_lugarTuristico).Activar = false;
+				}
+				else
+				{
+					((LugarTuristico)_lugarTuristico).Activar = true;
+				}
+
+				_daoLugarTuristico.ActualizarEstado(_lugarTuristico);
+
 			}
 			catch (ReferenciaNulaExcepcion e)
 			{
@@ -69,7 +90,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
 		public override List<Entidad> RetornarLista()
 		{
-			return _lugaresTuristicos;
+			throw new NotImplementedException();
 		}
 	}
 }
