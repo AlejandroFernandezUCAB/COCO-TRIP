@@ -6,6 +6,7 @@ using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using System;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -63,9 +64,10 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException e)
             {
+                log.Error("Ocurrio un error en la Base de Datos ");
                 throw new BaseDeDatosExcepcion(e, "Error de logica de BD en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
-                log.Error("Ocurrio un error en la Base de Datos ");
+                
             }
             catch (NullReferenceException e)
             {
@@ -115,24 +117,25 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 return usuario;
             }
             catch (NpgsqlException e)
-            {   
+            {
+                log.Error("Opss Error en base de datos ");
                 throw new BaseDeDatosExcepcion(e, "Error de logica de BD en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
-                log.Error("Opss Error en base de datos ");
+               
             }
             catch (NullReferenceException e)
             {
-                
+                log.Error("Opss Parametros nulos ");
                 throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
-                log.Error("Opss Parametros nulos ");
+                
             }
             catch (InvalidCastException e)
             {
-                
+                log.Error("Opss Nombre del usuario nulo ");
                 throw new CasteoInvalidoExcepcion(e, "El nombre del usuario es nulo en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
-                log.Error("Opss Nombre del usuario nulo ");
+               
             }
         }
 
@@ -183,9 +186,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (Exception e)
             {
-
-                throw e;
                 log.Error("No se pudo eliminar el usuario ");
+                throw e;
+                
 
             }
             finally
@@ -258,9 +261,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (Exception e)
             {
-
-                throw e;
                 log.Error("No se pudo modificar el usuario ");
+                throw e;
+                
 
             }
             finally
@@ -316,8 +319,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (Exception e)
             {
-                throw e;
                 log.Error("No se pudo obtener la contraseña del usuario ");
+                throw e;
+                
             }
 
         }
@@ -356,9 +360,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (NpgsqlException e)
             {
-
-                throw new BaseDeDatosExcepcion(e);
                 log.Error("No se pudo modificar la contraseña del usuario ");
+                throw new BaseDeDatosExcepcion(e);
+                
 
             }
            

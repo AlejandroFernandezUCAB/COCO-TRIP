@@ -5,7 +5,7 @@ using System.Web;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-
+using NLog;
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
     public class ComandoObtenerDatosUsuario : Comando
