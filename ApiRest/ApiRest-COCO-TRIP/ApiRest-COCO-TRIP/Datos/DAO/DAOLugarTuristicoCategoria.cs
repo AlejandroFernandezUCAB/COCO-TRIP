@@ -199,7 +199,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			try
 			{
 				StoredProcedure("ConsultarCategoriaLugarTuristico");
-				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, lugarTuristico.Id);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, objeto.Id);
 				_respuesta = Comando.ExecuteReader();
 				while (_respuesta.Read())
 				{
@@ -207,7 +207,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 					categoria.Id = _respuesta.GetInt32(0);
 					iDAOCategoria = FabricaDAO.CrearDAOCategoria();
 
-					categoria = iDAOCategoria.ObtenerCategoriaPorId(categoria);
+					categoria = (Categoria)iDAOCategoria.ObtenerCategoriaPorId(categoria)[0];
 					_categorias.Add(categoria);
 				}
 			}

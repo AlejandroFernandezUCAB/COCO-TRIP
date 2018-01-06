@@ -169,9 +169,9 @@ namespace ApiRestPruebas.M7
 			_categoria = FabricaEntidad.CrearEntidadCategoria();
 			_categoria.Nombre = "Musica";
 			_categoria.Descripcion = "Categoria asociada con la musica";
-			_categoria.estatus = true;
+			_categoria.Estatus = true;
 			_categoria.Nivel = 1;
-			_categoria.CategoriaSuperior = null;
+			_categoria.CategoriaSuperior = 0;
 
 			_comandoA = FabricaComando.CrearComandoAgregarCategoria(_categoria);
 			_comandoA.Ejecutar();
