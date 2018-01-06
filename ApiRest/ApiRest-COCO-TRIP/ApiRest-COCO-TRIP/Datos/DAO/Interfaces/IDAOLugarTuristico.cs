@@ -17,5 +17,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 		void Insertar(Entidad objeto);
 
 		List<Entidad> ConsultarTodaLaLista();
+
+		void ActualizarEstado(Entidad objeto);
 	}
 }

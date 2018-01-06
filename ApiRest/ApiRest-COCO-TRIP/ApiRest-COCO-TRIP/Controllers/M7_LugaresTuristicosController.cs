@@ -648,22 +648,46 @@ catch (ReferenciaNulaExcepcion)
         /// <param name="activar">true para activar, false para desactivar</param>
         /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         [HttpPut]
-        public void PutActivarLugar(int id, bool activar)
+		[ResponseType(typeof(IDictionary))]
+		[ActionName("ActualizarEstadoLugarTuristico")]
+		public void PutActivarLugar(JObject datos)
         {
-          peticion = new PeticionLugarTuristico();
 
-          try
-          {
-            peticion.ActivarLugarTuristico(id, activar);
-          }
-          catch (BaseDeDatosExcepcion e)
-          {
-            //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //RegistrarExcepcion(e); NLog
+			response = new Dictionary<string, object>();
+			try
+			{
+				com = FabricaComando.CrearComandoActualizarEstadoLT(datos);
+				com.Ejecutar();
+				response.Add(data, mensaje.ExitoModificar);
 
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-          }
-        }
+			}
+			catch (ReferenciaNulaExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			
+		}
 
         /// <summary>
         /// Activa o desactiva la actividad
