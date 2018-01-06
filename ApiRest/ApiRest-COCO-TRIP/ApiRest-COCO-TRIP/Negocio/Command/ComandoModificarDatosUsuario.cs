@@ -30,7 +30,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             }
             else
             {
-                ((DAOUsuario)dao).ModificarDatos(entidad);
+                dao.Actualizar(entidad);
             }
         }
 

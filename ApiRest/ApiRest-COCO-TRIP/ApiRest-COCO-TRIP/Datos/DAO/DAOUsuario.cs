@@ -132,19 +132,132 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Se borra al usuario de la base de datos
+        /// </summary>
+        /// <param name="objeto">Entidad como instancia de usuario</param>
         public override void Eliminar(Entidad objeto)
         {
-            throw new System.NotImplementedException();
+            usuario = (Usuario)objeto;
+
+            try
+            {
+
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "BorrarUsuario";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Varchar,
+                    Value = usuario.Clave
+                });
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+
+
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                throw new BaseDeDatosExcepcion(e);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+            finally
+            {
+
+                base.Desconectar(); //Culmina la sesion con la base de datos
+
+            }
+
         }
+    
 
         public override void Insertar(Entidad objeto)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Se modifican los datos del usuario en la base de datos
+        /// </summary>
+        /// <param name="objeto">Entidad como instancia de usuario</param>
         public override void Actualizar(Entidad objeto)
         {
-            throw new System.NotImplementedException();
+            usuario = (Usuario)objeto;
+
+            try
+            {
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "ModificarDatosUsuario";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Varchar,
+                    Value = usuario.Nombre
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Varchar,
+                    Value = usuario.Apellido
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Date,
+                    Value = usuario.FechaNacimiento
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Char,
+                    Value = usuario.Genero[0]
+                });
+
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                throw new BaseDeDatosExcepcion(e);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+            finally
+            {
+
+                base.Desconectar(); //Culmina la sesion con la base de datos
+
+            }
         }
 
 
@@ -240,132 +353,6 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             {
                 base.Desconectar(); //Culmina la sesion con la base de datos
             }
-        }
-
-
-        /// <summary>
-        /// Se modifican los datos del usuario en la base de datos
-        /// </summary>
-        /// <param name="entidad">Entidad como instancia de usuario</param>
-        public void ModificarDatos(Entidad entidad)
-        {
-
-            usuario = (Usuario)entidad;
-
-            try
-            {
-                base.Conectar();
-
-                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-                base.Comando.CommandText = "ModificarDatosUsuario";
-                base.Comando.CommandType = CommandType.StoredProcedure;
-
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Integer,
-                    Value = usuario.Id
-                });
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Varchar,
-                    Value = usuario.Nombre
-                });
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Varchar,
-                    Value = usuario.Apellido
-                });
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Date,
-                    Value = usuario.FechaNacimiento
-                });
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Char,
-                    Value = usuario.Genero[0]
-                });
-
-
-                base.Comando.ExecuteReader(); //Ejecuta el comando
-
-                
-            }
-            catch (NpgsqlException e)
-            {
-
-                throw new BaseDeDatosExcepcion(e);
-
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-
-            }
-            finally
-            {
-
-                base.Desconectar(); //Culmina la sesion con la base de datos
-
-            }
-
-        }
-
-        /// <summary>
-        /// Se borra al usuario de la base de datos
-        /// </summary>
-        /// <param name="entidad">Entidad como instancia de usuario</param>
-        public void BorrarUsuario(Entidad entidad)
-        {
-
-            usuario = (Usuario)entidad;
-
-            try
-            {
-
-                base.Conectar();
-
-                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-                base.Comando.CommandText = "BorrarUsuario";
-                base.Comando.CommandType = CommandType.StoredProcedure;
-
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Integer,
-                    Value = usuario.Id
-                });
-                base.Comando.Parameters.Add(new NpgsqlParameter
-                {
-                    NpgsqlDbType = NpgsqlDbType.Varchar,
-                    Value = usuario.Clave
-                });
-
-                base.Comando.ExecuteReader(); //Ejecuta el comando
-
-
-             
-
-            }
-            catch (NpgsqlException e)
-            {
-
-                throw new BaseDeDatosExcepcion(e);
-
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-
-            }
-            finally
-            {
-
-                base.Desconectar(); //Culmina la sesion con la base de datos
-
-            }
-
         }
 
     }

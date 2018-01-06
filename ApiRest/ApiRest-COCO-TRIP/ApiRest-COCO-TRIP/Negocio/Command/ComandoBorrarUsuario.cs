@@ -29,7 +29,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 entidad = null;
                 return;
             }
-            ((DAOUsuario)dao).BorrarUsuario(entidad);
+            dao.Eliminar(entidad);
         }
 
         public override Entidad Retornar()
