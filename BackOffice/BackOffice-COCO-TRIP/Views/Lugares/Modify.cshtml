@@ -8,7 +8,7 @@
     <form class="form-horizontal" method="post" action="Modify">
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;gen del lugar</label>
-        <input class="col-sm-6" type="file" id="perfilphoto" name="lugarFoto">
+        <input class="col-sm-6" type="file" id="perfilphoto" name="fotoLugar" required>
         <p class="help-block col-sm-9">La foto seleccionada se ver&aacute; en el lugar tur&iacute;stico</p>
       </div>
       
@@ -149,7 +149,7 @@
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia_@(contador + 1) ">
+                        <select class="form-control" id="dia" name="dia_@(contador) ">
                           <option selected disabled>Elige d&iacute;a</option>
                           <option @if (horario.DiaSemana == 1)
                           { <text>selected="true"</text> }>Lunes</option>
@@ -173,7 +173,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraApertura" value="@horario.HoraApertura">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraApertura" value="@horario.HoraApertura.ToString("hh\\:mm")">
                         </div>
                       </div>
                     </div>
@@ -182,7 +182,7 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraCierre" value="@horario.HoraCierre">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraCierre" value="@horario.HoraCierre.ToString("hh\\:mm")">
                         </div>
                       </div>
                     </div>
