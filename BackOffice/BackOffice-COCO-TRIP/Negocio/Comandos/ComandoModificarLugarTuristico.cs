@@ -8,35 +8,55 @@ using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 
 namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
-  public class ComandoModificarLugarTuristico : Comando
+  public class ComandoModificarLugarTuristico : ComandoAgregarLugarTuristico
   {
-    private Entidad lugarTuristico = FabricaEntidad.GetLugarTuristico();
-    private ArrayList resultado = new ArrayList();
-    IDAOCategoria dao = FabricaDAO.GetDAOCategoria();
-    
+    IDAOLugar_Turistico daoLugarTuristico = FabricaDAO.GetDAOLugar_Turistico();
+
     public override void Execute()
     {
-      //try
-      //{
-      //  JObject respuesta = dao.Put(categoria);
-      //  resultado.Add(respuesta);
-      //}
-      //catch (Exception e)
-      //{
-      //  throw e;
-      //}
+      //Agregando la foto al objeto
+      ((Foto)foto).Ruta = "No implementado";
+      ((Foto)foto).Contenido = ExtraerFoto(datosDeLaPresentacion[0]);
+      ((LugarTuristico)lugarTuristico).Foto.Add((Foto)foto);
 
+      //Agregando el nombre al objeto
+      ((LugarTuristico)lugarTuristico).Nombre = datosDeLaPresentacion[1].ToString();
 
-    }
-    public override ArrayList GetResult()
-    {
-      return resultado;
-    }
-   
+      //Agregando el costo al objeto
+      ((LugarTuristico)lugarTuristico).Costo = Double.Parse(datosDeLaPresentacion[2].ToString());
 
-    public override void SetPropiedad(object propiedad)
-    {
-      //categoria = (Categoria)propiedad;
+      //Agregando el status
+      ((LugarTuristico)lugarTuristico).Activar = ExtraerStatus(datosDeLaPresentacion[3]);
+
+      //Agregando las categorias
+      ((LugarTuristico)lugarTuristico).Categoria = ExtraerCategorias();//i hasta 7
+
+      //Agregando los horarios
+      ((LugarTuristico)lugarTuristico).Horario = ExtraerHorario();//i Hasta 28
+
+      //Agregando las actividades
+      ((LugarTuristico)lugarTuristico).Actividad = ExtraerActividad(); // i hasta 48
+
+      //Agregando Direccion
+      ((LugarTuristico)lugarTuristico).Direccion = datosDeLaPresentacion[49].ToString();
+
+      //Agregando Correo
+      ((LugarTuristico)lugarTuristico).Correo = datosDeLaPresentacion[50].ToString();
+
+      //Agregando telefono
+      ((LugarTuristico)lugarTuristico).Telefono = long.Parse(datosDeLaPresentacion[51].ToString());
+
+      //Agregando descripcion
+      ((LugarTuristico)lugarTuristico).Descripcion = datosDeLaPresentacion[52].ToString();
+
+      //Agregando Latitud
+      ((LugarTuristico)lugarTuristico).Latitud = double.Parse(datosDeLaPresentacion[53].ToString());
+
+      //Agregando Longitud
+      ((LugarTuristico)lugarTuristico).Longitud = double.Parse(datosDeLaPresentacion[54].ToString());
+
+      //Llamando al DAO
+      respuesta = daoLugarTuristico.Put(lugarTuristico);
     }
   }
 }
