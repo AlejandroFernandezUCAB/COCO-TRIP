@@ -4,8 +4,9 @@
 <div class="row">
   <div class="content-form card">
     <br><br>
-
+    
     <form class="form-horizontal" method="post" action="Modify">
+      <input style="visibility:hidden" type="text" class="form-control" id="name" placeholder="Nombre lugar turístico..." value="@Model.Id" name="Id">
       <div class="form-group form-group-imagen-lugar">
         <label class="col-sm-2 control-label" for="perfilphoto">Im&aacute;gen del lugar</label>
         <input class="col-sm-6" type="file" id="perfilphoto" name="fotoLugar" required>
@@ -36,7 +37,7 @@
           <div class="form-group">
             <label for="category" class="col-sm-4 control-label">Estado</label>
             <div class="col-sm-8">
-              <select class="form-control" id="category" name="activar">
+              <select class="form-control" id="category" name="activar" required>
                 <option selected disabled>Elige una estado</option>
                 <option>Activo</option>
                 <option>Inactivo</option>
@@ -133,38 +134,20 @@
                     <i class="fa fa-calendar icon-horario-actividad" aria-hidden="true"></i>
                   </div>
 
-                </h4>
-              </div>
-              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
 
-            @if (Model.Horario != null)
-            {
-               foreach (var horario in Model.Horario)
-               {
-                 int contador = 0;
 
-                  <div class="row row-horarios">
+                  @foreach (var horario in Model.Horario)
+                  {
+                    int contador = 0;
+                    <div class="row row-horarios">
 
                     <div class="col-md-3">
                       <div class="form-group-horario-dia">
                         <label for="name" class="control-label">D&iacute;a</label>
-                        <select class="form-control" id="dia" name="dia_@(contador) ">
-                          <option selected disabled>Elige d&iacute;a</option>
-                          <option @if (horario.DiaSemana == 1)
-                          { <text>selected="true"</text> }>Lunes</option>
-                          <option @if (horario.DiaSemana == 2)
-                          { <text>selected="true"</text> }>Martes</option>
-                          <option @if (horario.DiaSemana == 3)
-                          { <text>selected="true"</text> }>Miercoles</option>
-                          <option @if (horario.DiaSemana == 4)
-                          { <text>selected="true"</text> }>Jueves</option>
-                          <option @if (horario.DiaSemana == 5)
-                          { <text>selected="true"</text> }>Viernes</option>
-                          <option @if (horario.DiaSemana == 6)
-                          { <text>selected="true"</text> }>Sabado</option>
-                          <option @if (horario.DiaSemana == 0)
-                          { <text>selected="true"</text> }>Domingo</option>
+                        <select class="form-control" id="dia" name="dia_@horario.DiaSemana">                          
+                          <option>Lunes</option>
                         </select>
                       </div>
                     </div>
@@ -173,7 +156,7 @@
                       <div class="form-group form-group-horario">
                         <label for="apertura" class="control-label">Horario Apertura</label>
                         <div>
-                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraApertura" value="@horario.HoraApertura.ToString("hh\\:mm")">
+                          <input type="time" class="form-control" id="apertura" placeholder="horario del lugar turístico..." name="Horario[0].HoraApertura" value="@horario.HoraApertura.ToString("hh\\:mm")" required>
                         </div>
                       </div>
                     </div>
@@ -182,15 +165,18 @@
                       <div class="form-group form-group-horario">
                         <label for="cierre" class="control-label">Horario Cierre</label>
                         <div>
-                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[@contador].HoraCierre" value="@horario.HoraCierre.ToString("hh\\:mm")">
+                          <input type="time" class="form-control" id="cierre" placeholder="horario del lugar turístico..." name="Horario[0].HoraCierre" value="@horario.HoraCierre.ToString("hh\\:mm")" required>
                         </div>
                       </div>
                     </div>
                   </div>
+                  contador++;
+                  }
 
-                 contador++;
-               }
-            }
+                  
+                  
+
+
 
 
                 </div>

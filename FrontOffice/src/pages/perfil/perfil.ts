@@ -40,13 +40,7 @@ export class PerfilPage {
 
   // valores por defecto para el usuario
   usuario : Usuario = FabricaEntidad.crearUsuarioConParametros(0, 'Nombre', 'Apellido', 'Correo', 'default');
-  //parametros para la pagina de configuracion
-  /*
-  configParams: any = {
-    idUsuario: 0,
-    NombreUsuario: 'default'
-  };
-  */
+  
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private comando : ComandoVerPerfil) {
   
