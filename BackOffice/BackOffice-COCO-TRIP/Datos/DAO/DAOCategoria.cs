@@ -26,15 +26,24 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     private HttpResponseMessage response;
     private Task<JObject> readTask;
 
-
+    /// <summary>
+    /// Metodo Delete, elimina una Categoria dado su id.
+    /// </summary>
+    /// <param name="id">Identificador unico de la Categoria.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="NotImplementedException">Metodo no implementado</exception>
     public override JObject Delete(int id)
     {
       throw new NotImplementedException();
     }
 
     /// <summary>
-    /// Metodo para solicitar la lista de las categorias existentes
+    /// Metodo Get, lista las subcategorias existentes dado el id superior,
+    /// de no dar un id, lista todas las categorias superiores. 
     /// </summary>
+    /// <param name="id">Identificador unico de la entidad.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="Exception">Error al listar las categorias.</exception>
     public override JObject Get(int id)
     {
       try
@@ -59,16 +68,22 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase abstracta base para realizar peticiones al servicio web
+    /// Metodo Patch.
     /// </summary>
+    /// <param name="data">Entidad</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="NotImplementedException">Metodo no implementado</exception>
     public override JObject Patch(Entidad data)
     {
       throw new NotImplementedException();
     }
 
     /// <summary>
-    /// Clase que permite agregar una nueva categoria mediante peticiones al servicio web 
+    /// Metodo Post, agrega una nueva categoria mediante peticiones al servicio web.
     /// </summary>
+    /// <param name="data">Categoria a agregar</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="Exception">Error al agregar la categorias.</exception>
     public override JObject Post(Entidad data)
     {
       try
@@ -99,10 +114,12 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
       return responseData;
     }
 
-
     /// <summary>
-    /// Clase Para modificar una categoria mediante peticiones al servicio web
+    /// Metodo Put, modificar una categoria mediante peticiones al servicio web.
     /// </summary>
+    /// <param name="data">Categoria a modificar</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="Exception">Error al modificar la categoria.</exception>
     public override JObject Put(Entidad data)
     {
       try
@@ -135,8 +152,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase Para Modificar el estado de una categoria mediante peticiones al servicio web 
+    /// Metodo Put, modifica el estado de una categoria mediante peticiones al servicio web.
     /// </summary>
+    /// <param name="data">Categoria a modificar dado el id y estado.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="Exception">Error al actualizar el estado de la categoria.</exception>
     public JObject PutEditarEstado(Entidad data)
     {
       try
@@ -166,8 +186,10 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase que permite obtener las categorias que estan Habilitadas mediante peticiones al servicio web 
+    /// Metodo Get, permite obtener las categorias que estan Habilitadas mediante peticiones al servicio web.
     /// </summary>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="Exception">Error al obtener las categorias Habilitadas.</exception>
     public JObject GetCategoriasHabilitadas()
     {
       try
@@ -193,8 +215,11 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
     }
 
     /// <summary>
-    /// Clase que permite poder obtener las categorias mediante un Id a traves de  peticiones al servicio web 
+    /// Metodo Get, permite obtener las categorias mediante un Id a traves de peticiones al servicio web.
     /// </summary>
+    /// <param name="id">Identificador unico de la categoria.</param>
+    /// <returns>Json respuesta del servicio web.</returns>
+    /// <exception cref="Exception">Error al obtener la categoria.</exception>
     public JObject GetPorId(int id)
     {
 
