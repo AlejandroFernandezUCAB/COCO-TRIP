@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using Newtonsoft.Json;
 using BackOffice_COCO_TRIP.Datos.DAO.Interfaces;
 using BackOffice_COCO_TRIP.Negocio.Fabrica;
+using System.Threading.Tasks;
 
 namespace BackOffice_COCO_TRIP.Datos.DAO
 {
@@ -14,6 +15,7 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
   {
     private const string ControllerUri = "M7_LugaresTuristicos";
     private JObject responseData;
+    private Task<HttpResponseMessage> mensajeAsincrono;
 
     public object Fabrica { get; internal set; }
 
@@ -162,7 +164,16 @@ namespace BackOffice_COCO_TRIP.Datos.DAO
 
     public override JObject Put(Entidad data)
     {
-      throw new NotImplementedException();
+      using (HttpClient cliente = new HttpClient())
+      {
+        cliente.BaseAddress = new Uri(BaseUri);
+        cliente.DefaultRequestHeaders.Accept.Clear();
+        mensajeAsincrono = cliente.PutAsJsonAsync($"{BaseUri}/{ControllerUri}/ActualizarEstadoLugarTuristico", (LugarTuristico)data);
+        mensajeAsincrono.Wait();
+
+        return null;
+      }
+      
     }
   }
 }

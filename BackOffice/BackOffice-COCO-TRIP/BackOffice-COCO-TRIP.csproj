@@ -185,6 +185,7 @@
     <Compile Include="Datos\Entidades\Foto.cs" />
     <Compile Include="Datos\Entidades\Horario.cs" />
     <Compile Include="Datos\Entidades\LugarTuristico.cs" />
+    <Compile Include="Negocio\Comandos\ComandoActualizarEstadoLugarTuristico.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarActividad.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarCategoria.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarHorario.cs" />

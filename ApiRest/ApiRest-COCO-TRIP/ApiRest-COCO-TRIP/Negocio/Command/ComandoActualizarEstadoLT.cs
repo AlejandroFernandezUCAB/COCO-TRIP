@@ -9,7 +9,8 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
-{
+{	
+
 	public class ComandoActualizarEstadoLT : Comando
 	{
 		private Entidad _lugarTuristico;
@@ -23,6 +24,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			_daoLugarTuristico = FabricaDAO.CrearDAOLugarTuristico();
 		} 
 
+		/// <summary>
+		/// Se ejecuta el comando para actualizar el estado de un lugar turistico
+		/// </summary>
 		public override void Ejecutar()
 		{
 			try
