@@ -8,11 +8,18 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoAgregarNotificacion : Comando
+    /// <summary>
+    /// Clase que llama al dao para agregar una notificacion
+    /// </summary>
+    public class ComandoAgregarNotificacion : Comando
   {
     private Notificacion notificacion;
     private DAONotificacion dAONotificacion = FabricaDAO.CrearDAONotifiacacion();
-    public ComandoAgregarNotificacion(int idUsuario)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="idUsuario">id del usuario</param>
+        public ComandoAgregarNotificacion(int idUsuario)
     {
       notificacion = FabricaEntidad.CrearEntidadNotificacion();
       notificacion.IdUsuario = idUsuario;

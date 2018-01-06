@@ -28,8 +28,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
     {
       throw new NotImplementedException();
     }
-
-    public override void Eliminar(Entidad objeto)
+        /// <summary>
+        /// Elimina un item en a agenda dado su id
+        /// </summary>
+        /// <param name="objeto">objeto que contiene el id del item</param>
+        public override void Eliminar(Entidad objeto)
     {
       try
       {
@@ -78,8 +81,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         throw e;
       }
     }
-
-    public override void Insertar(Entidad objeto)
+        /// <summary>
+        /// Agrega un item al agenda
+        /// </summary>
+        /// <param name="objeto">objeto a insertar</param>
+        public override void Insertar(Entidad objeto)
     {
       try
       {

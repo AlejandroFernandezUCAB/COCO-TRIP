@@ -8,12 +8,22 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoListarCoincidenciaEventos : Comando
+    /// <summary>
+    /// Comando que busca las coincidencia de enventos
+    /// </summary>
+    
+    public class ComandoListarCoincidenciaEventos : Comando
   {
     Evento evento;
     DAOItinerario dAOItinerario;
     List<Entidad> list_eventos;
-    public ComandoListarCoincidenciaEventos(string busqueda,DateTime fechaInicio
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="busqueda">coincidencia a ser comparada de evento</param>
+        /// <param name="fechaFin">fecha fin</param>
+        /// <param name="fechaInicio">fecha inicio</param>
+        public ComandoListarCoincidenciaEventos(string busqueda,DateTime fechaInicio
       ,DateTime fechaFin)
     {
       evento = FabricaEntidad.CrearEntidadEvento();

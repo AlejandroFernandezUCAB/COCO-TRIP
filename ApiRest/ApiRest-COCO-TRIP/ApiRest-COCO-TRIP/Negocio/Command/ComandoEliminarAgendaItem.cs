@@ -8,11 +8,20 @@ using ApiRest_COCO_TRIP.Datos.DAO;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-  public class ComandoEliminarAgendaItem : Comando
+    /// <summary>
+    /// Clase que que elimina un item de la agenda
+    /// </summary>
+    public class ComandoEliminarAgendaItem : Comando
   {
     private Agenda agenda;
     private DAOAgenda dAOAgenda;
-    public ComandoEliminarAgendaItem(string tipo,int idItem, int idItinerario)
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="tipo">"Lugar Turistico", "Actividad" o "Evento"</param>
+        /// <param name="idItem">Id del item</param>
+        /// <param name="idItinerario">id del itinerario</param>
+        public ComandoEliminarAgendaItem(string tipo,int idItem, int idItinerario)
     {
       agenda = FabricaEntidad.CrearEntidadAgenda();
       agenda.IdItinerario = idItinerario;
