@@ -2,6 +2,7 @@
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ namespace ApiRestPruebas.M2
             usuario = null;
             dao = null;
             comando = null;
+            respuesta = null;
         }
 
         [Test]
@@ -103,6 +105,87 @@ namespace ApiRestPruebas.M2
             respuesta = ((DAOUsuario)dao).ObtenerPassword(usuario);
             Assert.AreEqual(((Usuario)usuario).Clave, ((Usuario)respuesta).Clave);
 
+
+        }
+
+
+
+
+       
+
+
+        [Test]
+        public void ProbarComandoBorrarUsuario()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario("usuario1T", "123456");
+            comando = FabricaComando.CrearComandoBorrarUsuario(usuario);
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.IsNotNull(respuesta);
+        }
+
+        [Test]
+        public void ProbarComandoBorrarUsuarioPassWordIncorrecta()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario("usuario1T", "1234567");
+            comando = FabricaComando.CrearComandoBorrarUsuario(usuario);
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.IsNull(respuesta);
+        }
+
+        [Test]
+        public void ProbarComandoModificarDatosUsuario()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario("usuario1C", "prueba1C", "usuario1T", "12-12-2012", "M");
+            comando = FabricaComando.CrearComandoModificarDatosUsuario(usuario);
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.IsNotNull(respuesta);
+            
+        }
+
+        [Test]
+        public void ProbarComandoModificarDatosUsuarioNotFound()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario("usuario1C", "prueba1C", "usuario2T", "12-12-2012", "M");
+            comando = FabricaComando.CrearComandoModificarDatosUsuario(usuario);
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.IsNull(respuesta);
+
+        }
+
+        [Test]
+        public void ProbarComandoCambiarPassword()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario("usuario1T", "123456"); //usuario con la contrasena actual
+            comando = FabricaComando.CrearComandoCambiarPassword(usuario, "1234567"); //paso el usuario y la nueva contrasena
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.AreEqual(((Usuario)usuario).Clave, ((Usuario)respuesta).Clave);
+
+        }
+
+        [Test]
+        public void ProbarComandoObtenerDatosUsuario()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario(500);
+            comando = FabricaComando.CrearComandoObtenerDatosUsuario(usuario);
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.AreEqual(usuario.Id, respuesta.Id);
+        
+        }
+
+        [Test]
+        public void ProbarComandoObtenerDatosUsuarioNotFound()
+        {
+            usuario = FabricaEntidad.CrearEntidadUsuario(5001);//id no existe
+            comando = FabricaComando.CrearComandoObtenerDatosUsuario(usuario);
+            comando.Ejecutar();
+            respuesta = comando.Retornar();
+            Assert.IsNull(respuesta);
 
         }
 

@@ -25,6 +25,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             {
                 dao = FabricaDAO.CrearDAOUsuario();
                 entidad = dao.ConsultarPorId(entidad);
+                if (((Usuario)entidad).NombreUsuario == null)
+                {
+                    entidad = null;
+                }
 
 
             }

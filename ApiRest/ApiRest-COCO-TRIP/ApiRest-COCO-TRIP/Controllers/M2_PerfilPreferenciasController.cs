@@ -153,7 +153,6 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// Metodo Post para borrar al usuario. hará dos llamdas a base de datos, una para buscar id de usuario
         /// y otra para borrar al usuario con el parametro usado
         /// </summary>
-        /// <param name="idUsuario">Id del usuario </param>
         /// <param name="username">Username del usuario</param>
         /// <param name="password">Contraseña del usuario </param>
         /// <returns>bool</returns>
@@ -196,7 +195,15 @@ namespace ApiRest_COCO_TRIP.Controllers
             comando = FabricaComando.CrearComandoObtenerDatosUsuario(usuario2);
             comando.Ejecutar();
             usuario2 = comando.Retornar();
-            return (Datos.Entity.Usuario)usuario2;
+            if (usuario2 != null)
+            {
+                return (Datos.Entity.Usuario)usuario2;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         /// <summary>
