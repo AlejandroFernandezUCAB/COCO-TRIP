@@ -9,6 +9,11 @@ using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
+	/// <summary>
+	/// Comando para obtener todos los lugares turisticos
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
+	/// </summary>
 	public class ComandoObtenerLugaresTuristicos : Comando
 	{
 		IDAOLugarTuristico _dao = FabricaDAO.CrearDAOLugarTuristico();

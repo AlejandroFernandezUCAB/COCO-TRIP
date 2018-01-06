@@ -101,7 +101,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			{
 				Desconectar();
 			}
-			return horarios;
+			
 		}
 
 

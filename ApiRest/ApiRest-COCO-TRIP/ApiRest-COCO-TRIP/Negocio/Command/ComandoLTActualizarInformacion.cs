@@ -12,7 +12,12 @@ using NLog;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-    public class ComandoLTActualizarInformacion : Comando
+	/// <summary>
+	/// COmando para actualizar un lugar turistico
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
+	/// </summary>
+	public class ComandoLTActualizarInformacion : Comando
     {
         private Entidad _lugarTuristico;
         private IDAOLugarTuristico iDAOLugar;
