@@ -9,19 +9,100 @@ using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using Npgsql;
 using System.Net.Sockets;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
 	public class DAOLugarTuristicoCategoria : DAO, IDAOLugarTuristicoCategoria
 	{
 		private static Logger log = LogManager.GetCurrentClassLogger();
+		private NpgsqlDataReader _respuesta;
 
 		public override void Actualizar(Entidad objeto)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Consulta lista de Categorias con un lugar turistico
+		/// </summary>
+		/// <param name="objeto"></param>
+		/// <returns></returns>
 		public override List<Entidad> ConsultarLista(Entidad objeto)
+		{
+			List<Entidad> categorias = new List<Entidad>();
+			try
+			{
+				StoredProcedure("consultarcategorialugarturistico");
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, objeto.Id);
+				_respuesta = Comando.ExecuteReader();
+
+				while (_respuesta.Read())
+				{
+					Categoria categoria;
+					categoria = FabricaEntidad.CrearEntidadCategoria();
+					categoria.Id = _respuesta.GetInt32(0);
+					categoria.CategoriaSuperior = _respuesta.GetInt32(1);
+					categoria.Nombre = _respuesta.GetString(2);
+
+					categorias.Add(categoria);
+				}
+
+				return categorias;
+
+			}
+			catch (NullReferenceException e)
+			{
+
+				log.Error(e.Message);
+				throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (InvalidCastException e)
+			{
+
+				log.Error("Casteo invalido en:"
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new CasteoInvalidoExcepcion(e, "Ocurrio un casteo invalido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (NpgsqlException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new BaseDeDatosExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (SocketException e)
+			{
+
+				log.Error("Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new SocketExcepcion(e, "Ocurrio un error en la base de datos en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			catch (Exception e)
+			{
+
+				log.Error("Ocurrio un error desconocido: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+				throw new Excepcion(e, "Ocurrio un error desconocido en: "
+				+ GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+
+			}
+			finally
+			{
+				Desconectar();
+			}
+
+		}
+
+		public List<Entidad> ConsultarLista(string id)
 		{
 			throw new NotImplementedException();
 		}

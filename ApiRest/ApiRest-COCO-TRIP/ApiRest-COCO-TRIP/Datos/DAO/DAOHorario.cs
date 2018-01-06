@@ -24,6 +24,11 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Devuelve la lista de Horarios de un lugar turistico especifico
+		/// </summary>
+		/// <param name="objeto">Lugar turistico</param>
+		/// <returns></returns>
 		public override List<Entidad> ConsultarLista(Entidad objeto)
 		{
 			List<Entidad> horarios = new List<Entidad>();
@@ -99,11 +104,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			return horarios;
 		}
 
-        /// <summary>
-        /// Devuelve la lista de Horarios de un lugar turistico especifico
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+
         public List<Entidad> ConsultarLista(string id)
         {
 			throw new NotImplementedException();

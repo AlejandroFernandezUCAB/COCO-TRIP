@@ -117,22 +117,21 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 			try
 			{
 				StoredProcedure("ConsultarLugarTuristico");
-				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, _lugarTuristico.Id);
+				Comando.Parameters.AddWithValue(NpgsqlDbType.Integer, objeto.Id);
 				_datos = Comando.ExecuteReader();
 				
 				while (_datos.Read())
 				{
-
-					lugarTuristico.Id = _datos.GetInt32(0);
-					lugarTuristico.Nombre = _datos.GetString(1);
-					lugarTuristico.Costo = _datos.GetDouble(2);
-					lugarTuristico.Descripcion = _datos.GetString(3);
-					lugarTuristico.Direccion = _datos.GetString(4);
-					lugarTuristico.Correo = _datos.GetString(5);
-					lugarTuristico.Telefono = _datos.GetInt64(6);
-					lugarTuristico.Latitud = _datos.GetDouble(7);
-					lugarTuristico.Longitud = _datos.GetDouble(8);
-					lugarTuristico.Activar = _datos.GetBoolean(9);
+					lugarTuristico.Id = objeto.Id;
+					lugarTuristico.Nombre = _datos.GetString(0);
+					lugarTuristico.Costo = _datos.GetDouble(1);
+					lugarTuristico.Descripcion = _datos.GetString(2);
+					lugarTuristico.Direccion = _datos.GetString(3);
+					lugarTuristico.Correo = _datos.GetString(4);
+					lugarTuristico.Telefono = _datos.GetInt64(5);
+					lugarTuristico.Latitud = _datos.GetDouble(6);
+					lugarTuristico.Longitud = _datos.GetDouble(7);
+					lugarTuristico.Activar = _datos.GetBoolean(8);
 
 				}
 

@@ -84,18 +84,19 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <summary>
         /// Consulta el detalle del lugar turistico y los nombres de las actividades asociadas
         /// </summary>
-        /// <param name="id">ID del lugar turistico</param>
+        /// <param name="datos">JSON de Lugar turistico</param>
         /// <returns>Datos del lugar turistico y nombre de las actividades. Formato JSON</returns>
-        /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
-        [HttpGet]
-        public IDictionary GetLugar (JObject datos)
+        [HttpPost]
+		[ResponseType(typeof(IDictionary))]
+		[ActionName("ListaLugaresTuristicosDetallados")]
+		public IDictionary GetLugar (JObject datos)
         {
 			response = new Dictionary<string, object>();
 			try
 			{
 				com = FabricaComando.CrearComandoConsultarLugarTuristicoDetallado(datos);
 				com.Ejecutar();
-				response.Add(error, com.Retornar() );
+				response.Add(data, com.Retornar() );
 			}
 			catch (ReferenciaNulaExcepcion)
 			{
