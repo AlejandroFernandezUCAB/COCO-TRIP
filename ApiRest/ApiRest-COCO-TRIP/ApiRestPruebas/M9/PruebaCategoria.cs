@@ -9,7 +9,6 @@ using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace ApiRestPruebas.M9
@@ -24,7 +23,6 @@ namespace ApiRestPruebas.M9
         private Dictionary<string, object> respuesta = new Dictionary<string, object>();
         private DAO dao;
         private MensajeResultadoOperacion mensaje = MensajeResultadoOperacion.ObtenerInstancia();
-        private JObject data;
         private Entidad _resp;
 
         ////////////////////////////////////////    SETUPS    ////////////////////////////////////////
@@ -54,121 +52,6 @@ namespace ApiRestPruebas.M9
             dao.Desconectar();
         }
         #endregion SetUp
-
-        ////////////////////////////////////////    PRUEBAS CONTROLADOR    ///////////////////////////
-        /*#region controlador
-        [Test]
-        public void M9_PruebaModificarCategoria()
-        {
-
-            data = new JObject
-          {
-            { "id", 1000 },
-            { "nombre", "MODIFICAR" },
-            { "descripcion", "MODIFICAR" },
-            { "categoriaSuperior", 0 },
-            { "nivel", 1 }
-          };
-            respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
-            esperado.Add("data", mensaje.ExitoModificar);
-            var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
-            var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
-            Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        }
-
-        [Test]
-        public void M9_PruebaNullModificarCategoria()
-        {
-
-            data = new JObject
-          {
-            { "id", 1000 },
-            { "nombre", null },
-            { "descripcion", "MODIFICAR" },
-            { "categoriaSuperior", 0 },
-            { "nivel", 1 }
-          };
-            respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
-            ParametrosNullException ex = new ParametrosNullException("nombre");
-            esperado.Add("error", ex.Mensaje);
-            var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
-            var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
-            Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        }
-
-        [Test]
-        public void M9_PruebaNombreDuplicadoModificarCategoria()
-        {
-
-            data = new JObject
-          {
-            { "id", 1001 },
-            { "nombre", "prueba" },
-            { "descripcion", "MODIFICAR" },
-            { "categoriaSuperior", 1000 },
-            { "nivel", 2 }
-          };
-            respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
-            NombreDuplicadoException ex = new NombreDuplicadoException("Esta Categoria id:1001 No se puede agregar con el nombre:prueba Porque este nombre ya existe");
-            esperado.Add("error", ex.Mensaje);
-            esperado.Add("MensajeError", "Este nombre de categoria ya existe");
-            var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
-            var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
-            Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        }
-
-        /*[Test]
-        public void M9_PruebaDependenciaModificarCategoria()
-        {
-
-            data = new JObject
-          {
-            { "id", 1001 },
-            { "nombre", "prueba2" },
-            { "descripcion", "MODIFICAR" },
-            { "categoriaSuperior", 0 },
-            { "nivel", 1 }
-          };
-            respuesta = (Dictionary<string, object>)controller.ModificarCategorias(data);
-            HijoConDePendenciaException ex = new HijoConDePendenciaException("Esta categoria id:1001 nombre:prueba2 tiene hijos");
-            esperado.Add("error", ex.Mensaje);
-            esperado.Add("MensajeError", mensaje.ErrorCategoriaAsociada);
-            var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
-            var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
-            Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        } 
-
-        [Test]
-        public void M9_PruebaModificarEstadoCategoria()
-        {
-            data = new JObject
-          {
-            { "id", 1000},
-            { "estatus", false },
-          };
-            respuesta = (Dictionary<string, object>)controller.ActualizarEstatusCategoria(data);
-            esperado.Add("data", mensaje.ExitoModificar);
-            var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
-            var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
-            Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        }
-
-        [Test]
-        public void M9_PruebaNullModificarEstadoCategoria()
-        {
-            data = new JObject
-          {
-            { "id", null},
-            { "estatus", false },
-          };
-            respuesta = (Dictionary<string, object>)controller.ActualizarEstatusCategoria(data);
-            ParametrosNullException ex = new ParametrosNullException("id");
-            esperado.Add("error", ex.Mensaje);
-            var sortedDictionary1 = new SortedDictionary<string, object>(respuesta);
-            var sortedDictionary2 = new SortedDictionary<string, object>(esperado);
-            Assert.IsTrue(sortedDictionary1.SequenceEqual(sortedDictionary2));
-        }
-        #endregion controlador */
 
         ////////////////////////////////////////    PRUEBAS COMANDOS     /////////////////////////////
         #region comandos

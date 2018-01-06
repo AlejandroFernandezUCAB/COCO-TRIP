@@ -12,52 +12,33 @@ using System.Collections.Generic;
 namespace BackOffice_COCO_TRIP.Negocio.Comandos
 {
   /// <summary>
-  /// Comando que realiza la lógica de negocio para consultar todos los eventos dado una categoría.
+  /// Comando que realiza la lógica de negocio para consultar todos los eventos.
   /// </summary>
   public class ComandoConsultarEventos : Comando
   {
     private int id;
     private ArrayList resultado = new ArrayList();
+    private IDAOEvento dao;
 
     /// <summary>
     /// Método Execute, ejecuta el comando.
     /// </summary>
     public override void Execute()
     {
-      try
+
+      dao = FabricaDAO.GetDAOEvento();
+      dao.GetAll();
+      JObject respuesta = dao.GetAll();
+      if (respuesta.Property("dato") == null)
       {
-        DAO<JObject, Categoria> peticionCategoria = FabricaDAO.GetDAOCategoria();
+        resultado.Add(new List<Evento>());
+        resultado.Add("Ocurrio un error durante la comunicacion, revise su conexion a internet");
 
-        IDAOLocalidad peticionLocalidad = FabricaDAO.GetDAOLocalidad();
-        JObject respuestaCategoria = ((DAOCategoria)peticionCategoria).GetCategoriasHabilitadas();
-        JObject respuestaLocalidad = peticionLocalidad.GetAll();
-        if (respuestaCategoria.Property("data") != null)
-        {
-          resultado.Add(respuestaCategoria["data"].ToObject<List<Categoria>>());
-          resultado.Add("");
-        }
-
-        else
-        {
-          resultado.Add(new List<Categoria>());
-          resultado.Add("Error en la comunicacion o No existen Categorias");
-        }
-
-        if (respuestaLocalidad.Property("dato") != null)
-        {
-          resultado.Add(respuestaLocalidad["dato"].ToObject<List<Localidad>>());
-          resultado.Add("");
-        }
-
-        else
-        {
-          resultado.Add(new List<Localidad>());
-          resultado.Add(" Error en la comunicacion o No existen localidades");
-        }
       }
-      catch (Exception e)
+      else
       {
-        throw e;
+        resultado.Add(respuesta["dato"].ToObject<List<Evento>>());
+        resultado.Add("Se hizo con exito");
       }
     }
 
