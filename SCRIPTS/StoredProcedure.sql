@@ -1414,7 +1414,7 @@ BEGIN
 	RETURN QUERY SELECT lu_id,lu_nombre, lu_costo,
 	lu_descripcion, lu_direccion,
 	lu_correo, lu_telefono, lu_latitud, lu_longitud, lu_activar
-  FROM lugar_turistico;
+  FROM lugar_turistico ORDER BY lu_id;
 END;
 $$ LANGUAGE plpgsql;
 

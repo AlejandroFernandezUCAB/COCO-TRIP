@@ -62,11 +62,25 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
 				_lugarTuristico.Id = UltimoIdLugarTuristico( _daoLugarTuristico.ConsultarTodaLaLista() ); 
 
-				_comandoAgregarFoto.Ejecutar();
-				_comandoAgregarActividad.Ejecutar();
-				_comandoAgregarHorario.Ejecutar();
-				_comandoAgregarCategoria.Ejecutar();
+				if (((LugarTuristico)_lugarTuristico).Foto.Count != 0)
+				{
+					_comandoAgregarFoto.Ejecutar();
+				}
 
+				if (((LugarTuristico)_lugarTuristico).Actividad.Count != 0)
+				{
+					_comandoAgregarActividad.Ejecutar();
+				}
+
+				if (((LugarTuristico)_lugarTuristico).Horario.Count != 0)
+				{
+					_comandoAgregarHorario.Ejecutar();
+				}
+
+				if (((LugarTuristico)_lugarTuristico).Categoria.Count != 0)
+				{
+					_comandoAgregarCategoria.Ejecutar();
+				}
 
 			}
 
