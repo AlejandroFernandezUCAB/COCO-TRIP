@@ -51,7 +51,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 log.Error(e.Message);
                 throw e;
             }
-                catch (OperacionInvalidaExcepcion e)
+            catch (OperacionInvalidaExcepcion e)
             {
                 log.Error(e.Message);
                 throw e;

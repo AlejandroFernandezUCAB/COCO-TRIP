@@ -35,9 +35,9 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     }
 
     /// <summary>
-    /// Método GetResult, Obtiene una lista de resultados derivados de la ejecución del comando.
+    /// Método GetResult, obtiene una lista de resultados derivados de la ejecución del comando.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>ArrayList con los resultados</returns>
     public override ArrayList GetResult()
     {
       return resultado;

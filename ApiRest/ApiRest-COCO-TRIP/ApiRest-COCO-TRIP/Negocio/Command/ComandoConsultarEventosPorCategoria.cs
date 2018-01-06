@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
-using ApiRest_COCO_TRIP.Datos.Singleton;
 using NLog;
 using ApiRest_COCO_TRIP.Datos.DAO.Interfaces;
 
@@ -65,7 +62,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 log.Error(e.Message);
                 throw e;
             }
-               catch (OperacionInvalidaExcepcion e)
+            catch (OperacionInvalidaExcepcion e)
             {
                 log.Error(e.Message);
                 throw e;

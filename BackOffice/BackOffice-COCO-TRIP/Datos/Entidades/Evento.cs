@@ -13,16 +13,16 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
   /// </summary>
   public class Evento : Entidad
   {
-    private string nombre;
-    private string descripcion;
-    private double precio;
-    private DateTime fechaInicio;
-    private DateTime fechaFin;
-    private DateTime horaInicio;
-    private DateTime horaFin;
-    private string foto;
-    private int idLocalidad;
-    private int idCategoria;
+    private string nombre; // Nombre del evento
+    private string descripcion; // Descripcion del evento
+    private double precio; // Precio del evento
+    private DateTime fechaInicio; // Fecha de inicio del evento
+    private DateTime fechaFin; // Fecha de culminacion del evento
+    private DateTime horaInicio; // Hora de inicio del evento
+    private DateTime horaFin; // Hora de culminacion del Evento
+    private string foto; // Nombre de la foto del evento
+    private int idLocalidad; // Identificador unico de la localidada asociada al evento
+    private int idCategoria; // Identificador unico de la categoria asociada al evento
 
 
     // Getters y Setters de la clase Evento.
@@ -31,8 +31,7 @@ namespace BackOffice_COCO_TRIP.Datos.Entidades
     public string Nombre { get => nombre; set => nombre = value; }
 
     [Required(ErrorMessage = "Ingrese una descripcion")]
-    [StringLength(200, MinimumLength = 5, ErrorMessage = "La descripcion debe ser mayor a 4 caracteres" +
-" y menor a 200")]
+    [StringLength(200, MinimumLength = 5, ErrorMessage = "La descripcion debe ser mayor a 4 caracteres y menor a 200")]
 
     public string Descripcion { get => descripcion; set => descripcion = value; }
     [Required(ErrorMessage = "Ingrese un precio valido")]

@@ -219,6 +219,7 @@
     <Compile Include="Datos\Entity\Usuario.cs" />
     <Compile Include="Models\PeticionCategoria.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Negocio\Command\ComandoActualizarEstadoLT.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
     <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarCategoria.cs" />

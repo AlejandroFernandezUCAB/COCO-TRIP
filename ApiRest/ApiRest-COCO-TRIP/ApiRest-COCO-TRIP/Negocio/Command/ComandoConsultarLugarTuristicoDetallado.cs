@@ -10,6 +10,11 @@ using System.Reflection;
 
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
+	/// <summary>
+	/// Comando para obtener todos los elementos de un solo lugar turistico
+	/// Integrantes : Pedro Fernandez
+	///				GianFranco Verrocchi
+	/// </summary>
 	public class ComandoConsultarLugarTuristicoDetallado : Comando
 	{
 		private List<Entidad> _actividades;
@@ -48,6 +53,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
 				foreach(Actividad actividad in _actividades)
 				{
+					log.Info("Actividad de lugar turistico:" + actividad);
 					((LugarTuristico)_lugarTuristico).Actividad.Add(actividad);
 				}
 
@@ -56,6 +62,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 
 				foreach (Horario horario in _horarios)
 				{
+					log.Info("Actividad de lugar turistico:" + horario);
 					((LugarTuristico)_lugarTuristico).Horario.Add(horario);
 				}
 
@@ -64,6 +71,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
 			
 				foreach (Categoria categoria in _categorias)
 				{
+					log.Info("Actividad de lugar turistico:" + categoria);
 					((LugarTuristico)_lugarTuristico).Categoria.Add(categoria);
 				}
 
