@@ -198,7 +198,7 @@
     <Compile Include="Negocio\Comandos\ComandoModificarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoEliminarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoEstadoCategoria.cs" />
-    <Compile Include="Negocio\Comandos\ComandoFiltrarEventoPorCategoria.cs" />
+    <Compile Include="Negocio\Comandos\ComandoConsultarEventosPorCategoria.cs" />
     <Compile Include="Negocio\Comandos\ComandoAgregarEvento.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarCategoriaSelect.cs" />
     <Compile Include="Negocio\Comandos\ComandoConsultarListaCategoria.cs" />

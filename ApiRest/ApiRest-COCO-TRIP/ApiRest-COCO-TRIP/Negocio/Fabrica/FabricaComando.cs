@@ -567,18 +567,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
         /// Retorna la instancia de  ComandoLTActualizarInformacion
         /// </summary>
         /// <returns>ComandoObtenerCategoriasHabilitadas</returns>
-        public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion()
+        public static ComandoLTActualizarInformacion CrearComandoLTActualizarInformacion(JObject data)
         {
-            return new ComandoLTActualizarInformacion();
-        }
-
-		/// <summary>
-		/// Retorna la instancia de ComandoLTModificarUbicacion
-		/// </summary>
-		/// <returns></returns>
-		public static ComandoLTModificarUbicacion CrearComandoLTModificarUbicacion()
-        {
-            return new ComandoLTModificarUbicacion();
+            return new ComandoLTActualizarInformacion(data);
         }
 
 		/// <summary>
@@ -603,16 +594,17 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
 		/// Retorna la instancia de ComandoLTEliminarActividad
 		/// </summary>
 		/// <returns></returns>
-		public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad()
+		public static ComandoLTEliminarActividad CrearComandoLTEliminarActividad(Entidad actividad)
         {
-            return new ComandoLTEliminarActividad();
+            return new ComandoLTEliminarActividad(actividad);
         }
 
-		/// <summary>
-		/// Retorna la instancia de ComandoLTAgregarActividad
-		/// </summary>
-		/// <returns></returns>
-		public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
+        /// <summary>
+        /// Retorna la instancia de ComandoLTAgregarActividad
+        /// </summary>
+        /// <param name="lugarTuristico">Lugar Turistico al que se le agrega la actividad</param>
+        /// <returns></returns>
+        public static ComandoLTAgregarActividad CrearComandoLTAgregarActividad(Entidad lugarTuristico)
         {
             return new ComandoLTAgregarActividad(lugarTuristico);
         }
@@ -653,10 +645,22 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
             return new ComandoLTAgregarHorario(lugarTuristico);
         }
 
+		/// <summary>
+		/// Retorna la instancia de  ComandoObtenerLugaresTuristicos
+		/// </summary>
+		/// <returns></returns>
 		public static ComandoObtenerLugaresTuristicos CrearComandoObtenerLugaresTuristicos()
 		{
 			return new ComandoObtenerLugaresTuristicos();
 		}
 
+		/// <summary>
+		/// Retorna la instancia de ComandoConsultarLugarTuristicoDetallado
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoConsultarLugarTuristicoDetallado CrearComandoConsultarLugarTuristicoDetallado(JObject lugarTuristico)
+		{
+			return new ComandoConsultarLugarTuristicoDetallado(lugarTuristico);
+		}
     }
 }

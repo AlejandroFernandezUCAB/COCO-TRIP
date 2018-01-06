@@ -6,7 +6,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO.Interfaces
 	public interface IDAOLugarTuristico
 	{
 
-		void Actualizar(Entidad objeto);
+        void Actualizar(Entidad objeto);
 
 		List<Entidad> ConsultarLista(Entidad objeto);
 

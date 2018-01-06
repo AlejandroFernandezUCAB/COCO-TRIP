@@ -126,6 +126,7 @@ namespace ApiRestPruebas.M8
                 daoEvento.Insertar(evento);
             });
         }
+
         [Test]
         public void TestEliminarEvento()
         {
@@ -444,6 +445,39 @@ namespace ApiRestPruebas.M8
         }
 
         [Test]
+        public void TestComandoConsultarEventos()
+        {
+            Entidad prueba = evento;
+            comando = FabricaComando.CrearComandoConsultarEventos();
+            Assert.DoesNotThrow(() =>
+            {
+                comando.Ejecutar();
+            });
+            foreach (Entidad entidad in comando.RetornarLista())
+            {
+                if (entidad.Id == localidad.Id)
+                {
+                    Assert.AreEqual(entidad.Id, evento.Id);
+                    Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);
+                    Assert.AreEqual(((Evento)evento).Descripcion, ((Evento)entidad).Descripcion);
+                    Assert.AreEqual(((Evento)evento).FechaInicio.Date, ((Evento)entidad).FechaInicio.Date);
+                    Assert.AreEqual(((Evento)evento).FechaFin.Date, ((Evento)entidad).FechaFin.Date);
+                    Assert.AreEqual(((Evento)evento).Foto, ((Evento)entidad).Foto);
+                    Assert.AreEqual(((Evento)evento).HoraInicio.Hour, ((Evento)entidad).HoraInicio.Hour);
+                    Assert.AreEqual(((Evento)evento).HoraInicio.Minute, ((Evento)entidad).HoraInicio.Minute);
+                    Assert.AreEqual(((Evento)evento).HoraInicio.Second, ((Evento)entidad).HoraInicio.Second);
+                    Assert.AreEqual(((Evento)evento).HoraFin.Hour, ((Evento)entidad).HoraFin.Hour);
+                    Assert.AreEqual(((Evento)evento).HoraFin.Minute, ((Evento)entidad).HoraFin.Minute);
+                    Assert.AreEqual(((Evento)evento).HoraFin.Second, ((Evento)entidad).HoraFin.Second);
+                    Assert.AreEqual(((Evento)evento).Precio, ((Evento)entidad).Precio);
+                    Assert.AreEqual(((Evento)evento).IdCategoria, ((Evento)entidad).IdCategoria);
+                    Assert.AreEqual(((Evento)evento).IdLocalidad, ((Evento)entidad).IdLocalidad);
+                }
+
+            }
+        }
+
+        [Test]
         public void TestComandoEliminarEvento()
         {
 
@@ -544,7 +578,8 @@ namespace ApiRestPruebas.M8
         }
 
         [Test]
-        public void ComandoConsultarEventos() {
+        public void ComandoConsultarEventos()
+        {
             Entidad prueba = evento;
             comando = FabricaComando.CrearComandoConsultarEventos();
             Assert.DoesNotThrow(() =>
@@ -575,6 +610,7 @@ namespace ApiRestPruebas.M8
             }
 
         }
+
         [Test]
         public void TestControladorAgregarEvento()
         {
@@ -691,6 +727,40 @@ namespace ApiRestPruebas.M8
         }
 
         [Test]
+        public void TestControladorConsultarEventos()
+        {
+            Object prueba;
+            List<Entidad> entidades;
+            controlador = new M8_EventosController();
+            respuesta = (Dictionary<string, object>)controlador.ListarEventos();
+            respuesta.TryGetValue("dato", out prueba);
+            entidades = (List<Entidad>)prueba;
+            foreach (Entidad entidad in entidades)
+            {
+                if (entidad.Id == evento.Id)
+                {
+                    Assert.AreEqual(entidad.Id, evento.Id);
+                    Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);
+                    Assert.AreEqual(((Evento)evento).Descripcion, ((Evento)entidad).Descripcion);
+                    Assert.AreEqual(((Evento)evento).FechaInicio.Date, ((Evento)entidad).FechaInicio.Date);
+                    Assert.AreEqual(((Evento)evento).FechaFin.Date, ((Evento)entidad).FechaFin.Date);
+                    Assert.AreEqual(((Evento)evento).Foto, ((Evento)entidad).Foto);
+                    Assert.AreEqual(((Evento)evento).HoraInicio.Hour, ((Evento)entidad).HoraInicio.Hour);
+                    Assert.AreEqual(((Evento)evento).HoraInicio.Minute, ((Evento)entidad).HoraInicio.Minute);
+                    Assert.AreEqual(((Evento)evento).HoraInicio.Second, ((Evento)entidad).HoraInicio.Second);
+                    Assert.AreEqual(((Evento)evento).HoraFin.Hour, ((Evento)entidad).HoraFin.Hour);
+                    Assert.AreEqual(((Evento)evento).HoraFin.Minute, ((Evento)entidad).HoraFin.Minute);
+                    Assert.AreEqual(((Evento)evento).HoraFin.Second, ((Evento)entidad).HoraFin.Second);
+                    Assert.AreEqual(((Evento)evento).Precio, ((Evento)entidad).Precio);
+                    Assert.AreEqual(((Evento)evento).IdCategoria, ((Evento)entidad).IdCategoria);
+                    Assert.AreEqual(((Evento)evento).IdLocalidad, ((Evento)entidad).IdLocalidad);
+                }
+
+            }
+
+
+        }
+        [Test]
         public void TestControladorConsultarEventosPorCategoria()
         {
             Object prueba;
@@ -701,7 +771,7 @@ namespace ApiRestPruebas.M8
             entidades = (List<Entidad>)prueba;
             foreach (Entidad entidad in entidades)
             {
-                if (entidad.Id == localidad.Id)
+                if (entidad.Id == evento.Id)
                 {
                     Assert.AreEqual(entidad.Id, evento.Id);
                     Assert.AreEqual(((Evento)evento).Nombre, ((Evento)entidad).Nombre);

@@ -23,7 +23,7 @@ namespace BackOffice_COCO_TRIP.Negocio.Comandos
     public override void Execute()
     {
       IDAOEvento peticion = FabricaDAO.GetDAOEvento();
-      JObject respuesta = peticion.GetEvento(id);
+      JObject respuesta = peticion.Get(id);
 
       if (respuesta.Property("dato") == null)
       {
