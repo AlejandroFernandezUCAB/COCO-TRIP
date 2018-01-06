@@ -1,18 +1,17 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
+using ApiRest_COCO_TRIP.Comun.Validaciones;
+using ApiRest_COCO_TRIP.Datos.Entity;
+using ApiRest_COCO_TRIP.Datos.Fabrica;
+using ApiRest_COCO_TRIP.Datos.Singleton;
 using ApiRest_COCO_TRIP.Negocio.Command;
 using ApiRest_COCO_TRIP.Negocio.Fabrica;
-using ApiRest_COCO_TRIP.Datos.Entity;
-using ApiRest_COCO_TRIP.Comun.Validaciones;
-using ApiRest_COCO_TRIP.Datos.Singleton;
-using ApiRest_COCO_TRIP.Datos.Fabrica;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 /// <summary>
 /// Autores - MODULO 9:
@@ -22,6 +21,9 @@ using Newtonsoft.Json;
 /// </summary>
 namespace ApiRest_COCO_TRIP.Controllers
 {
+    /// <summary>
+    /// Controlador del Modulo 9, Categorias.
+    /// </summary>
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class M9_CategoriasController : ApiController
     {
@@ -36,12 +38,10 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// EndPoint para actualizar el estatus de una categoria a aprtir de el Id
         /// </summary>
         /// <param name="data">JObject de tipo categoria cuyo status se quiere actualizar.</param>
-        /// <returns>TODO: no tengo idea de focas devuelve.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="ParametrosNullExcepcion"></exception>
-        /// <exception cref="BaseDeDatosExcepcion">Error al realizar operacion cion la base de datos.</exception>
+        /// <returns>Json respuesta a la solicitud de la peticion.</returns>
+        /// <exception cref="JsonSerializationException">Error al Serializar el Json.</exception>
+        /// <exception cref="ParametrosNullExcepcion">Error al intentar actualizar, existe algun parametro nulo.</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al realizar operacion a la base de datos.</exception>
         /// <exception cref="Excepcion">Error inesperado.</exception>
         [ResponseType(typeof(IDictionary))]
         [ActionName("actualizarEstatus")]
@@ -80,13 +80,17 @@ namespace ApiRest_COCO_TRIP.Controllers
             return response;
         }
 
-
         /// <summary>
         /// EndPoint para obtener las categorias hijas a partir de una categoria padre dado un ID,
         /// si el id no viene en la peticion se devuelve las categorias padres absolutas
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Identificador unico de la categoria a la cual se requiere saber la subcategoria</param>
+        /// <returns>Json respuesta a la solicitud de la peticion.</returns>
+        /// <exception cref="System.ArgumentNullException">Error al generar la respuesta, argumento nulo.</exception>
+        /// <exception cref="System.ArgumentException">Error al generar la respuesta, argumento invalido.</exception>
+        /// <exception cref="System.NotSupportedException">Error al generar la respuesta, parametro no soportado.</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al obtener las categorias.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         [ResponseType(typeof(IDictionary))]
         [ActionName("listarCategorias")]
         [HttpGet]
@@ -99,20 +103,44 @@ namespace ApiRest_COCO_TRIP.Controllers
                 com.Ejecutar();
                 response.Add(Response_Data, ((ComandoObtenerCategorias)com).RetornarLista());
             }
-            catch (BaseDeDatosExcepcion ex)
+            catch (System.ArgumentNullException ex)
             {
                 response.Add(Response_Error, ex.Message);
             }
-            catch (Excepcion)
+            catch (System.ArgumentException ex)
             {
-                response.Add(Response_Error, mensaje.ErrorInesperado);
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (System.NotSupportedException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInternoServidor);
+            }
+            catch (Excepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInesperado);
             }
             return response;
         }
 
-        ///<summary>
-        ///EndPoint para modificar los datos de la categoria
-        ///</summary>
+        /// <summary>
+        /// EndPoint para modificar los datos de la categoria.
+        /// </summary>
+        /// <param name="data">JObject de tipo categoria el cual se quiere modificar.</param>
+        /// <returns>Json respuesta a la solicitud de la peticion.</returns>
+        /// <exception cref="ParametrosNullExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria.</exception>
+        /// <exception cref="JsonSerializationException">Error al Serializar el Json.</exception>        
+        /// <exception cref="ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al modificar la categoria.</exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Error en duplicidad en el nombre de la categoria que intenta actualizar.</exception>
+        /// <exception cref="HijoConDePendenciaExcepcion">La categoria que intenta actualizar tiene dependencias.</exception>
+        /// <exception cref="ArgumentoNuloExcepcion">Error al utilizar el ToList, para convertir la lista a Categorias.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         [ResponseType(typeof(IDictionary))]
         [ActionName("ModificarCategoria")]
         [HttpPut]
@@ -129,6 +157,11 @@ namespace ApiRest_COCO_TRIP.Controllers
                 response.Add(Response_Data, mensaje.ExitoModificar);
             }
             catch (ParametrosNullExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorParametrosNull);
+            }
+            catch (ArgumentoNuloExcepcion ex)
             {
                 response.Add(Response_Error, ex.Mensaje);
                 response.Add("MensajeError", mensaje.ErrorParametrosNull);
@@ -166,13 +199,15 @@ namespace ApiRest_COCO_TRIP.Controllers
 
         }
 
-
         /// <summary>
-        /// EndPoint para obtener las categorias hijas a partir de una categoria padre dado un ID,
-        /// si el id no viene en la peticion se devuelve las categorias padres absolutas
+        /// EndPoint para obtener todas las categorias Habilitadas.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Json respuesta a la solicitud de la peticion.</returns>
+        /// <exception cref="System.ArgumentNullException">Error al generar la respuesta, argumento nulo.</exception>
+        /// <exception cref="System.ArgumentException">Error al generar la respuesta, argumento invalido.</exception>
+        /// <exception cref="System.NotSupportedException">Error al generar la respuesta, parametro no soportado.</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al obtener las categorias.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         [ResponseType(typeof(IDictionary))]
         [ActionName("CategoriasHabilitadas")]
         [HttpGet]
@@ -184,23 +219,42 @@ namespace ApiRest_COCO_TRIP.Controllers
                 com.Ejecutar();
                 response.Add(Response_Data, ((ComandoObtenerCategoriasHabilitadas)com).RetornarLista());
             }
-            catch (BaseDeDatosExcepcion ex)
+            catch (System.ArgumentNullException ex)
             {
                 response.Add(Response_Error, ex.Message);
             }
-            catch (Excepcion)
+            catch (System.ArgumentException ex)
             {
-                response.Add(Response_Error, mensaje.ErrorInesperado);
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (System.NotSupportedException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (BaseDeDatosExcepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInternoServidor);
+            }
+            catch (Excepcion ex)
+            {
+                response.Add(Response_Error, ex.Mensaje);
+                response.Add("MensajeError", mensaje.ErrorInesperado);
             }
             return response;
         }
 
-
         /// <summary>
-        /// EndPoint para agregar categorias 
+        /// EndPoint para agregar categorias.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="data">JObject de tipo categoria el cual se quiere agregar.</param>
+        /// <returns>Json respuesta a la solicitud de la peticion.</returns>
+        /// <exception cref="JsonSerializationException">Error al Serializar el Json.</exception>
+        /// <exception cref="ParametrosNullExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria.</exception>
+        /// <exception cref="ParametrosInvalidosExcepcion">Los parametros de la instancia no cumple con las condiciones para la informacion de una categoria</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al agregar la categoria</exception>
+        /// <exception cref="NombreDuplicadoExcepcion">Error en duplicidad en el nombre de la categoria que intenta actualizar.</exception>        
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         [ResponseType(typeof(IDictionary))]
         [ActionName("AgregarCategoria")]
         [HttpPost]
@@ -209,7 +263,7 @@ namespace ApiRest_COCO_TRIP.Controllers
             try
             {
                 ValidacionWS.ValidarParametrosNotNull(data, new List<string> {
-           "nombre","descripcion","categoriaSuperior","nivel"});
+                    "nombre","descripcion","categoriaSuperior","nivel"});
                 categoria = data.ToObject<Categoria>();
                 ValidacionString.ValidarCategoria(categoria);
                 com = FabricaComando.CrearComandoAgregarCategoria(categoria);
@@ -248,12 +302,16 @@ namespace ApiRest_COCO_TRIP.Controllers
             return response;
         }
 
-
         /// <summary>
         /// EndPoint para consultar una categoria por ID
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Identificar unico de la categoria que se requiere consultar.</param>
+        /// <returns>Json respuesta a la solicitud de la peticion.</returns>
+        /// <exception cref="System.ArgumentNullException">Error al generar la respuesta, argumento nulo.</exception>
+        /// <exception cref="System.ArgumentException">Error al generar la respuesta, argumento invalido.</exception>
+        /// <exception cref="System.NotSupportedException">Error al generar la respuesta, parametro no soportado.</exception>
+        /// <exception cref="BaseDeDatosExcepcion">Error al obtener la categoria.</exception>
+        /// <exception cref="Excepcion">Error inesperado.</exception>
         [ResponseType(typeof(IDictionary))]
         [HttpGet]
         [ActionName("obtenerCategoriasPorId")]
@@ -265,6 +323,18 @@ namespace ApiRest_COCO_TRIP.Controllers
                 com = FabricaComando.CrearComandoObtenerCategoriaPorId(categoria);
                 com.Ejecutar();
                 response.Add(Response_Data, ((ComandoObtenerCategoriaPorId)com).RetornarLista());
+            }
+            catch (System.ArgumentNullException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (System.ArgumentException ex)
+            {
+                response.Add(Response_Error, ex.Message);
+            }
+            catch (System.NotSupportedException ex)
+            {
+                response.Add(Response_Error, ex.Message);
             }
             catch (BaseDeDatosExcepcion ex)
             {
@@ -278,8 +348,6 @@ namespace ApiRest_COCO_TRIP.Controllers
             }
             return response;
         }
-
-
     }
 
 }
