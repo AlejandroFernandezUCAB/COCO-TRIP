@@ -28,7 +28,13 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.Execute();
       ViewBag.MyList = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
       TempData["listaCategorias"] = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
-      return View((IList<Evento>)TempData["evento"]);
+
+      comando = FabricaComando.GetComandoConsultarEventos();
+      comando.Execute();
+
+      if (TempData["evento"] == null)
+        TempData["evento"] = (List<Evento>)comando.GetResult()[0];
+      return View(TempData["evento"]);
     }
 
     /// <summary>
@@ -85,19 +91,19 @@ namespace BackOffice_COCO_TRIP.Controllers
         evento.Foto = ruta;
 
         if (Request["Localidades"] != null && Request["Categoria"] != null)
-        { 
+        {
           evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
-        evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
+          evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
 
-        Comando comando = FabricaComando.GetComandoAgregarEvento();
-        comando.SetPropiedad(evento);
-        comando.Execute();
-        ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
-      }
-      else
-      {
-        ModelState.AddModelError(string.Empty, "Seleccione una categoria o localidad valida");
-      }
+          Comando comando = FabricaComando.GetComandoAgregarEvento();
+          comando.SetPropiedad(evento);
+          comando.Execute();
+          ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+        }
+        else
+        {
+          ModelState.AddModelError(string.Empty, "Seleccione una categoria o localidad valida");
+        }
       }
       TempData["ListLocalidades"] = ViewBag.ListLocalidades;
       TempData["ListCategoria"] = ViewBag.ListCategoria;
@@ -192,8 +198,6 @@ namespace BackOffice_COCO_TRIP.Controllers
       comando.Execute();
       TempData["evento"] = comando.GetResult()[0];
       ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
-      if (comando.GetResult()[0] == null)
-        return RedirectToAction("Index");
       return RedirectToAction("Index", "M8Events", comando.GetResult()[0]);
     }
 
