@@ -88,30 +88,41 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>Datos del lugar turistico y nombre de las actividades. Formato JSON</returns>
         /// <exception cref="HttpResponseException">Excepcion HTTP con su respectivo Status Code</exception>
         [HttpGet]
-        public LugarTuristico GetLugar (int id)
+        public IDictionary GetLugar (JObject datos)
         {
-            peticion = new PeticionLugarTuristico();
+			response = new Dictionary<string, object>();
+			try
+			{
+				com = FabricaComando.CrearComandoConsultarLugarTuristicoDetallado(datos);
+				com.Ejecutar();
+				response.Add(error, com.Retornar() );
+			}
+			catch (ReferenciaNulaExcepcion)
+			{
 
-            try
-            {
-              var lugar = peticion.ConsultarLugarTuristico(id);
+				response.Add(error, mensaje.ErrorParametrosNull);
 
-              if (lugar.Equals(new LugarTuristico() ) )
-              {
-                  throw new HttpResponseException(HttpStatusCode.NotFound);
-              }
-              else
-              {
-                  return lugar;
-              }
-            }     
-            catch (BaseDeDatosExcepcion e)
-            {
-              //e.NombreMetodos.Add(this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name);
-              //RegistrarExcepcion(e); NLog
+			}
+			catch (CasteoInvalidoExcepcion)
+			{
 
-              throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (BaseDeDatosExcepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+			catch (Excepcion)
+			{
+
+				response.Add(error, mensaje.ErrorInesperado);
+
+			}
+
+			return response;
         }
 
         /// <summary>

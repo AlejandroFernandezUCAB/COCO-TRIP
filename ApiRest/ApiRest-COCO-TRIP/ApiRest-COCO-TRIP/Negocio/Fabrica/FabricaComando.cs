@@ -645,10 +645,22 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
             return new ComandoLTAgregarHorario(lugarTuristico);
         }
 
+		/// <summary>
+		/// Retorna la instancia de  ComandoObtenerLugaresTuristicos
+		/// </summary>
+		/// <returns></returns>
 		public static ComandoObtenerLugaresTuristicos CrearComandoObtenerLugaresTuristicos()
 		{
 			return new ComandoObtenerLugaresTuristicos();
 		}
 
+		/// <summary>
+		/// Retorna la instancia de ComandoConsultarLugarTuristicoDetallado
+		/// </summary>
+		/// <returns></returns>
+		public static ComandoConsultarLugarTuristicoDetallado CrearComandoConsultarLugarTuristicoDetallado(JObject lugarTuristico)
+		{
+			return new ComandoConsultarLugarTuristicoDetallado(lugarTuristico);
+		}
     }
 }
