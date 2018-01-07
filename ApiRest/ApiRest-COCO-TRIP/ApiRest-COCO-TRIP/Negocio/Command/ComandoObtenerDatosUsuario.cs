@@ -5,7 +5,7 @@ using System.Web;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-
+using NLog;
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
     public class ComandoObtenerDatosUsuario : Comando
@@ -13,6 +13,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
     {
         private Entidad entidad;
         private DAO dao;
+        private static Logger log = LogManager.GetCurrentClassLogger();
 
         public ComandoObtenerDatosUsuario(Entidad entidad)
         {
@@ -28,6 +29,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
                 if (((Usuario)entidad).NombreUsuario == null)
                 {
                     entidad = null;
+                    log.Error("No se encontro el usuario ");
                 }
 
 
@@ -39,7 +41,9 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         }
 
         public override Entidad Retornar()
+
         {
+            log.Error("Se encontraron los datos del usuairo ");
             return entidad;
         }
 
