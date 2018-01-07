@@ -21,8 +21,10 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
         public override void Ejecutar()
         {
             dao = FabricaDAO.CrearDAOUsuario();
+            Entidad usuario = FabricaEntidad.CrearEntidadUsuario(((Usuario)entidad).Nombre, ((Usuario)entidad).Apellido, ((Usuario)entidad).NombreUsuario, ((Usuario)entidad).FechaNacimiento, ((Usuario)entidad).Genero);
             entidad.Id = ((DAOUsuario)dao).ConsultarPorNombre(entidad).Id;
 
+            usuario.Id = entidad.Id;
             if (entidad.Id <= 0)
             {
                 entidad = null;
@@ -30,7 +32,7 @@ namespace ApiRest_COCO_TRIP.Negocio.Command
             }
             else
             {
-                dao.Actualizar(entidad);
+                dao.Actualizar(usuario);
             }
         }
 

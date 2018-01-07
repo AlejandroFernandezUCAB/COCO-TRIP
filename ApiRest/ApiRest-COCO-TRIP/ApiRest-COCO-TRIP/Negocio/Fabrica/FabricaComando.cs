@@ -699,5 +699,26 @@ namespace ApiRest_COCO_TRIP.Negocio.Fabrica
             return new ComandoBorrarUsuario(entidad);
         }
 
+        public static ComandoAgregarPreferencia CrearComandoAgregarPreferencia(Entidad usuario, Entidad categoria)
+        {
+            return new ComandoAgregarPreferencia(usuario, categoria);
+        }
+
+        public static ComandoBuscarPreferencias CrearComandoBuscarPreferencias(Entidad usuario)
+        {
+            return new ComandoBuscarPreferencias(usuario);
+        }
+
+        public static ComandoBuscarCategorias CrearComandoBuscarCategorias(Entidad usuario, string preferencia)
+        {
+            return new ComandoBuscarCategorias(usuario, preferencia);
+        }
+
+        public static ComandoEliminarPreferencia CrearComandoEliminarPreferencia(Entidad usuario, Entidad categoria)
+        {
+            return new ComandoEliminarPreferencia(usuario, categoria);
+        }
+
+        
     }
 }

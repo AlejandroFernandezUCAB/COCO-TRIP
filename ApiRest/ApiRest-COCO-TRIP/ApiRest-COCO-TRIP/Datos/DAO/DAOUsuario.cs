@@ -355,6 +355,262 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
         }
 
+        /// <summary>
+        /// Se agrega la preferencia a la base de datos
+        /// </summary>
+        /// <param name="entidad">Entidad con el id del usuario </param>
+        /// <param name="idCategoria">Id de la categoria</param>
+        /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+        /// <exception cref="Excepcion">Error desconocido</exception>
+        public void AgregarPreferencia(Entidad entidad, int idCategoria)
+        {
+            usuario = (Usuario)entidad;
+
+            try
+            {
+
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "InsertarPreferencia";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = idCategoria
+                });
+
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+                
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                throw new BaseDeDatosExcepcion(e);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+
+            }
+            finally
+            {
+
+                base.Desconectar(); //Culmina la sesion con la base de datos
+
+            }
+
+        }
+
+
+        /// <summary>
+        /// Metodoque devuelve la lista de preferencias de un usuario
+        /// </summary>
+        /// <param name="usuario">usuario</param>
+        /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+        /// <exception cref="Excepcion">Error desconocido</exception>
+        /// <returns>Lista de preferencias del usuario</returns>
+        public List<Categoria> BuscarPreferencias(Entidad _usuario)
+        {
+
+            List<Categoria> categoria = new List<Categoria>();
+            usuario = (Usuario)_usuario;
+
+            try
+            {
+               
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "BuscarPreferencias";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+
+
+                leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+                while (leerDatos.Read())
+                {
+
+                    categoria.Add(new Categoria{
+                    Id = leerDatos.GetInt32(0),
+                    Nombre = leerDatos.GetString(1),
+                    Descripcion = leerDatos.GetString(2),
+                    Estatus = leerDatos.GetBoolean(3),
+                    });
+
+                }
+
+                return categoria;
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+            finally
+            {
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+
+        }
+
+        /// <summary>
+        /// Se obtienen las preferencias del usuario segun lo que haya en preferencia, puede
+        /// o no estar completo ya que el hace una busqueda por palabra o similar
+        /// </summary>
+        /// <param name="usuario">Id del usuario</param>
+        /// <param name="preferencia">Preferencia a buscar(Puede ser la palabra completa o no)</param>
+        /// <returns>Lista de categorias encontradas segun la preferencia dada</returns>
+        /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+        /// <exception cref="Excepcion">Error desconocido</exception>
+        public List<Categoria> ObtenerCategorias(Entidad _usuario, string preferencia)
+        {
+
+            List<Categoria> categoria = new List<Categoria>();
+            usuario = (Usuario)_usuario;
+
+            
+            
+
+            try
+            {
+                
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "BuscarListaPreferenciasPorCategoria";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Varchar,
+                    Value = preferencia
+                });
+
+                leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+                while (leerDatos.Read())
+                {
+
+                    categoria.Add(new Categoria
+                    {
+                        Id = leerDatos.GetInt32(0),
+                        Nombre = leerDatos.GetString(1)
+                    });
+
+                }
+
+
+                return categoria;
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+            finally
+            {
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+        }
+
+        /// <summary>
+        /// Metodo para eliminar la preferencia que haya seleccionado el usuario
+        /// </summary>
+        /// <param name="idUsuario">Id del usuario</param>
+        /// <param name="idCategoria">Id de la categoria</param>
+        /// <exception cref="NpgsqlException">Ocurrio un error al buscar en la base de datos</exception>
+        /// <exception cref="Exception">Se desconoce la excepcion</exception>
+        public void EliminarPreferencia(Entidad entidad, int idCategoria)
+        {
+
+            usuario = (Usuario)entidad;
+
+            try
+            {
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "EliminarPreferencia";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = idCategoria
+                });
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                throw new BaseDeDatosExcepcion(e);
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("Se desconoce la excepcion");
+
+            }
+            finally
+            {
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+        }
+
     }
 
+    
 }

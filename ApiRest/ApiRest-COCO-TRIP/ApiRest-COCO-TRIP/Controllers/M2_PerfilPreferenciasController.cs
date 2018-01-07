@@ -30,14 +30,17 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <returns>Lista de preferencias del usuario</returns>
         // POST api/<controller>/<action>/prefencia
         [HttpPost]
-        public List<Models.Categoria> AgregarPreferencias(int idUsuario, int idCategoria)
+        public List<Datos.Entity.Categoria> AgregarPreferencias(int idUsuario, int idCategoria)
         {
 
-
-            List<Models.Categoria> preferencias;
-            peticion = new PeticionPerfil();
-            peticion.AgregarPreferencia(idUsuario, idCategoria);
-            preferencias = peticion.BuscarPreferencias(idUsuario);
+            usuario2 = FabricaEntidad.CrearEntidadUsuario(idUsuario);
+            Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
+            categoria.Id = idCategoria;
+            comando = FabricaComando.CrearComandoAgregarPreferencia(usuario2, categoria);
+            comando.Ejecutar();
+           
+            List<Datos.Entity.Categoria> preferencias = ((ComandoAgregarPreferencia)comando).RetornarListaCategoria();
+            
             return preferencias; //Retorna una lista de de categorias
 
         }
@@ -49,13 +52,17 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="idCategoria">idCategoria</param>
         /// <returns>Retorna  una lista de  categorias</returns>
         [HttpPost]
-        public List<Models.Categoria> EliminarPreferencias(int idUsuario, int idCategoria)
+        public List<Datos.Entity.Categoria> EliminarPreferencias(int idUsuario, int idCategoria)
         {
+            
+            usuario2 = FabricaEntidad.CrearEntidadUsuario(idUsuario);
+            Entidad categoria = FabricaEntidad.CrearEntidadCategoria();
+            categoria.Id = idCategoria;
+            comando = FabricaComando.CrearComandoEliminarPreferencia(usuario2, categoria);
+            comando.Ejecutar();
 
-            List<Models.Categoria> preferencias;
-            peticion = new PeticionPerfil();
-            peticion.EliminarPreferencia(idUsuario, idCategoria);
-            preferencias = peticion.BuscarPreferencias(idUsuario);
+            List<Datos.Entity.Categoria> preferencias = ((ComandoEliminarPreferencia)comando).RetornarListaCategoria();
+
             return preferencias; //Retorna una lista de de categorias
         }
 
@@ -66,12 +73,13 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="idUsuario">Id del usuario</param>
         /// <returns>Lista de preferencias</returns>
         [HttpGet]
-        public List<Models.Categoria> BuscarPreferencias(int idUsuario)
+        public List<Datos.Entity.Categoria> BuscarPreferencias(int idUsuario)
         {
 
-            List<Models.Categoria> preferencias;
-            peticion = new PeticionPerfil();
-            preferencias = peticion.BuscarPreferencias(idUsuario);
+            usuario2 = FabricaEntidad.CrearEntidadUsuario(idUsuario);
+            comando = FabricaComando.CrearComandoBuscarPreferencias(usuario2);
+            comando.Ejecutar();
+            List<Datos.Entity.Categoria> preferencias = ((ComandoBuscarPreferencias)comando).RetornarListaCategoria();
             return preferencias;
 
         }
@@ -214,14 +222,15 @@ namespace ApiRest_COCO_TRIP.Controllers
         /// <param name="preferencia"> String de preferencia del usuario</param>
         /// <returns>Lista de categorias que hacen match con preferencia</returns>
         [HttpPost]
-        public List<Models.Categoria> BuscarCategorias(int idUsuario, string preferencia)
+        public List<Datos.Entity.Categoria> BuscarCategorias(int idUsuario, string preferencia)
         {
 
-            List<Models.Categoria> preferencias = new List<Models.Categoria>();
-            peticion = new PeticionPerfil();
-            preferencias = peticion.ObtenerCategorias(idUsuario, preferencia);
+            usuario2 = FabricaEntidad.CrearEntidadUsuario(idUsuario);
+            comando = FabricaComando.CrearComandoBuscarCategorias(usuario2, preferencia);
+            comando.Ejecutar();
+            List<Datos.Entity.Categoria> preferencias = ((ComandoBuscarCategorias)comando).RetornarListaCategoria();
             return preferencias;
-
+            
         }
 
     }
