@@ -228,7 +228,10 @@
     <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
     <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarPreferencia.cs" />
     <Compile Include="Negocio\Command\ComandoBorrarUsuario.cs" />
+    <Compile Include="Negocio\Command\ComandoBuscarCategorias.cs" />
+    <Compile Include="Negocio\Command\ComandoBuscarPreferencias.cs" />
     <Compile Include="Negocio\Command\ComandoCambiarPassword.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
     <Compile Include="Negocio\Command\ComandoConsultarEventos.cs" />
@@ -243,6 +246,7 @@
     <Compile Include="Negocio\Command\ComandoConsultarNotificacion.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
     <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarPreferencia.cs" />
     <Compile Include="Negocio\Command\ComandoEnviarCorreoItinerario.cs" />
     <Compile Include="Negocio\Command\ComandoListarCoincidenciaActividades.cs" />
     <Compile Include="Negocio\Command\ComandoListarCoincidenciaEventos.cs" />

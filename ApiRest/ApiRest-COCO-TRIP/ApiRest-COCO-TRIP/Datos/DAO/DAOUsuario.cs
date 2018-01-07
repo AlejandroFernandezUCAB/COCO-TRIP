@@ -6,6 +6,7 @@ using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Comun.Excepcion;
 using System.Reflection;
 using System;
+using NLog;
 
 namespace ApiRest_COCO_TRIP.Datos.DAO
 {
@@ -18,6 +19,7 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
         private NpgsqlDataReader leerDatos;
 
         private Usuario usuario;
+        private static Logger log = LogManager.GetCurrentClassLogger();
 
         public DAOUsuario()
         {
@@ -57,18 +59,22 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 leerDatos.Close(); //Cierra el Data Reader
 
                 base.Desconectar(); //Culmina la sesion con la base de datos
-
+                log.Info("Se regresa el usuario"+usuario.Id.ToString());
                 return usuario;
             }
             catch (NpgsqlException e)
             {
+                log.Error("Ocurrio un error en la Base de Datos ");
                 throw new BaseDeDatosExcepcion(e, "Error de logica de BD en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                
             }
             catch (NullReferenceException e)
             {
+                log.Error("Opss Parametros nulos ");
                 throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+               
             }
         }
 
@@ -107,23 +113,29 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 leerDatos.Close(); //Cierra el Data Reader
 
                 base.Desconectar(); //Culmina la sesion con la base de datos
-
+                log.Info("Se logro consultar el usuario");
                 return usuario;
             }
             catch (NpgsqlException e)
             {
+                log.Error("Opss Error en base de datos ");
                 throw new BaseDeDatosExcepcion(e, "Error de logica de BD en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+               
             }
             catch (NullReferenceException e)
             {
+                log.Error("Opss Parametros nulos ");
                 throw new ReferenciaNulaExcepcion(e, "Parametros de entrada nulos en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+                
             }
             catch (InvalidCastException e)
             {
+                log.Error("Opss Nombre del usuario nulo ");
                 throw new CasteoInvalidoExcepcion(e, "El nombre del usuario es nulo en "
                 + this.GetType().FullName + "." + MethodBase.GetCurrentMethod().Name + ". " + e.Message);
+               
             }
         }
 
@@ -132,88 +144,23 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Se borra al usuario de la base de datos
+        /// </summary>
+        /// <param name="objeto">Entidad como instancia de usuario</param>
         public override void Eliminar(Entidad objeto)
         {
-            throw new System.NotImplementedException();
-        }
+            usuario = (Usuario)objeto;
 
-        public override void Insertar(Entidad objeto)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Actualizar(Entidad objeto)
-        {
-            throw new System.NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// Se obtiene de la base de datos el password actual del usuario
-        /// </summary>
-        /// <param name="entidad">Entidad como instancia de usuario</param>
-        public Entidad ObtenerPassword(Entidad entidad)
-        {
-
-            try
-            {
-                usuario = (Usuario)entidad;
-                base.Conectar();
-
-                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-                base.Comando.CommandText = "ConsultarContrasena";
-                base.Comando.CommandType = CommandType.StoredProcedure;
-
-                parametro = new NpgsqlParameter();
-                parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
-                parametro.Value = usuario.NombreUsuario;
-                base.Comando.Parameters.Add(parametro);
-
-                leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
-
-                if (leerDatos.Read())
-                {
-                    usuario.Clave = leerDatos.GetString(0);
-                }
-
-                leerDatos.Close(); //Cierra el Data Reader
-
-                base.Desconectar(); //Culmina la sesion con la base de datos
-
-
-                return usuario;
-
-            }
-            catch (NpgsqlException e)
-            {
-
-                throw new BaseDeDatosExcepcion(e);
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-
-
-
-        /// <summary>
-        /// Se modifica la contraseña del usuario en la base de datos
-        /// </summary>
-        /// <param name="entidad">Entidad como instancia de usuario</param>
-        public void CambiarPassword(Entidad entidad)
-        {
-            usuario = (Usuario)entidad;
             try
             {
 
                 base.Conectar();
 
                 base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-                base.Comando.CommandText = "ModificarPass";
+                base.Comando.CommandText = "BorrarUsuario";
                 base.Comando.CommandType = CommandType.StoredProcedure;
+
                 base.Comando.Parameters.Add(new NpgsqlParameter
                 {
                     NpgsqlDbType = NpgsqlDbType.Integer,
@@ -226,7 +173,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 });
 
                 base.Comando.ExecuteReader(); //Ejecuta el comando
-                
+
+                log.Info("Se logro eliminar el usuario");
+
 
             }
             catch (NpgsqlException e)
@@ -235,22 +184,35 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 throw new BaseDeDatosExcepcion(e);
 
             }
-           
+            catch (Exception e)
+            {
+                log.Error("No se pudo eliminar el usuario ");
+                throw e;
+                
+
+            }
             finally
             {
-                base.Desconectar(); //Culmina la sesion con la base de datos
-            }
-        }
 
+                base.Desconectar(); //Culmina la sesion con la base de datos
+
+            }
+
+        }
+    
+
+        public override void Insertar(Entidad objeto)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// Se modifican los datos del usuario en la base de datos
         /// </summary>
-        /// <param name="entidad">Entidad como instancia de usuario</param>
-        public void ModificarDatos(Entidad entidad)
+        /// <param name="objeto">Entidad como instancia de usuario</param>
+        public override void Actualizar(Entidad objeto)
         {
-
-            usuario = (Usuario)entidad;
+            usuario = (Usuario)objeto;
 
             try
             {
@@ -288,8 +250,8 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
 
                 base.Comando.ExecuteReader(); //Ejecuta el comando
+                log.Info("Se logro modificar el usuario");
 
-                
             }
             catch (NpgsqlException e)
             {
@@ -299,8 +261,9 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
             }
             catch (Exception e)
             {
-
+                log.Error("No se pudo modificar el usuario ");
                 throw e;
+                
 
             }
             finally
@@ -309,27 +272,77 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 base.Desconectar(); //Culmina la sesion con la base de datos
 
             }
+        }
+
+
+        /// <summary>
+        /// Se obtiene de la base de datos el password actual del usuario
+        /// </summary>
+        /// <param name="entidad">Entidad como instancia de usuario</param>
+        public Entidad ObtenerPassword(Entidad entidad)
+        {
+
+            try
+            {
+                usuario = (Usuario)entidad;
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "ConsultarContrasena";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                parametro = new NpgsqlParameter();
+                parametro.NpgsqlDbType = NpgsqlDbType.Varchar; //Ingresa parametros de entrada
+                parametro.Value = usuario.NombreUsuario;
+                base.Comando.Parameters.Add(parametro);
+
+                leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+                if (leerDatos.Read())
+                {
+                    usuario.Clave = leerDatos.GetString(0);
+                }
+
+                leerDatos.Close(); //Cierra el Data Reader
+
+                base.Desconectar(); //Culmina la sesion con la base de datos
+
+                log.Info("Se pudo consultar la contraseña del usuario");
+                return usuario;
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                throw new BaseDeDatosExcepcion(e);
+
+            }
+            catch (Exception e)
+            {
+                log.Error("No se pudo obtener la contraseña del usuario ");
+                throw e;
+                
+            }
 
         }
 
+
+
         /// <summary>
-        /// Se borra al usuario de la base de datos
+        /// Se modifica la contraseña del usuario en la base de datos
         /// </summary>
         /// <param name="entidad">Entidad como instancia de usuario</param>
-        public void BorrarUsuario(Entidad entidad)
+        public void CambiarPassword(Entidad entidad)
         {
-
             usuario = (Usuario)entidad;
-
             try
             {
 
                 base.Conectar();
 
                 base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
-                base.Comando.CommandText = "BorrarUsuario";
+                base.Comando.CommandText = "ModificarPass";
                 base.Comando.CommandType = CommandType.StoredProcedure;
-
                 base.Comando.Parameters.Add(new NpgsqlParameter
                 {
                     NpgsqlDbType = NpgsqlDbType.Integer,
@@ -342,9 +355,58 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
                 });
 
                 base.Comando.ExecuteReader(); //Ejecuta el comando
+                log.Info("Se logro modificar la contraseña del usuario");
+
+            }
+            catch (NpgsqlException e)
+            {
+                log.Error("No se pudo modificar la contraseña del usuario ");
+                throw new BaseDeDatosExcepcion(e);
+                
+
+            }
+           
+            finally
+            {
+                base.Desconectar(); //Culmina la sesion con la base de datos
+            }
+        }
+
+        /// <summary>
+        /// Se agrega la preferencia a la base de datos
+        /// </summary>
+        /// <param name="entidad">Entidad con el id del usuario </param>
+        /// <param name="idCategoria">Id de la categoria</param>
+        /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+        /// <exception cref="Excepcion">Error desconocido</exception>
+        public void AgregarPreferencia(Entidad entidad, int idCategoria)
+        {
+            usuario = (Usuario)entidad;
+
+            try
+            {
+
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "InsertarPreferencia";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = idCategoria
+                });
 
 
-             
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+                
 
             }
             catch (NpgsqlException e)
@@ -368,6 +430,204 @@ namespace ApiRest_COCO_TRIP.Datos.DAO
 
         }
 
+
+        /// <summary>
+        /// Metodoque devuelve la lista de preferencias de un usuario
+        /// </summary>
+        /// <param name="usuario">usuario</param>
+        /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+        /// <exception cref="Excepcion">Error desconocido</exception>
+        /// <returns>Lista de preferencias del usuario</returns>
+        public List<Categoria> BuscarPreferencias(Entidad _usuario)
+        {
+
+            List<Categoria> categoria = new List<Categoria>();
+            usuario = (Usuario)_usuario;
+
+            try
+            {
+               
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "BuscarPreferencias";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+
+
+                leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+                while (leerDatos.Read())
+                {
+
+                    categoria.Add(new Categoria{
+                    Id = leerDatos.GetInt32(0),
+                    Nombre = leerDatos.GetString(1),
+                    Descripcion = leerDatos.GetString(2),
+                    Estatus = leerDatos.GetBoolean(3),
+                    });
+
+                }
+
+                return categoria;
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+            finally
+            {
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+
+        }
+
+        /// <summary>
+        /// Se obtienen las preferencias del usuario segun lo que haya en preferencia, puede
+        /// o no estar completo ya que el hace una busqueda por palabra o similar
+        /// </summary>
+        /// <param name="usuario">Id del usuario</param>
+        /// <param name="preferencia">Preferencia a buscar(Puede ser la palabra completa o no)</param>
+        /// <returns>Lista de categorias encontradas segun la preferencia dada</returns>
+        /// <exception cref="NpgsqlException">Error al insertar el query en la  BDD</exception>
+        /// <exception cref="Excepcion">Error desconocido</exception>
+        public List<Categoria> ObtenerCategorias(Entidad _usuario, string preferencia)
+        {
+
+            List<Categoria> categoria = new List<Categoria>();
+            usuario = (Usuario)_usuario;
+
+            
+            
+
+            try
+            {
+                
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "BuscarListaPreferenciasPorCategoria";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Varchar,
+                    Value = preferencia
+                });
+
+                leerDatos = base.Comando.ExecuteReader(); //Ejecuta el comando
+
+                while (leerDatos.Read())
+                {
+
+                    categoria.Add(new Categoria
+                    {
+                        Id = leerDatos.GetInt32(0),
+                        Nombre = leerDatos.GetString(1)
+                    });
+
+                }
+
+
+                return categoria;
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+            finally
+            {
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+        }
+
+        /// <summary>
+        /// Metodo para eliminar la preferencia que haya seleccionado el usuario
+        /// </summary>
+        /// <param name="idUsuario">Id del usuario</param>
+        /// <param name="idCategoria">Id de la categoria</param>
+        /// <exception cref="NpgsqlException">Ocurrio un error al buscar en la base de datos</exception>
+        /// <exception cref="Exception">Se desconoce la excepcion</exception>
+        public void EliminarPreferencia(Entidad entidad, int idCategoria)
+        {
+
+            usuario = (Usuario)entidad;
+
+            try
+            {
+                base.Conectar();
+
+                base.Comando = base.SqlConexion.CreateCommand(); //Crea el comando
+                base.Comando.CommandText = "EliminarPreferencia";
+                base.Comando.CommandType = CommandType.StoredProcedure;
+
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = usuario.Id
+                });
+                base.Comando.Parameters.Add(new NpgsqlParameter
+                {
+                    NpgsqlDbType = NpgsqlDbType.Integer,
+                    Value = idCategoria
+                });
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+            catch (NpgsqlException e)
+            {
+
+                throw new BaseDeDatosExcepcion(e);
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("Se desconoce la excepcion");
+
+            }
+            finally
+            {
+
+                base.Comando.ExecuteReader(); //Ejecuta el comando
+
+            }
+        }
+
     }
 
+    
 }

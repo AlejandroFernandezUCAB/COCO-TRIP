@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
 import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 
+
 @Injectable()
 export class ComandoVerPerfil extends Comando {
     
@@ -34,11 +35,11 @@ export class ComandoVerPerfil extends Comando {
                             this.translateService.use(val);
                         }
                     });
-                    
+                    catProd.info("Se pudo obtener y visualizar los datos del perfil usuario  ");
                     resolve();
                     
                 }, error => {
-                   
+                    catProd.info("Ocurrio un error visualizando los datos del usuario");
                     console.log('falla en la carga de los datos');
                     resolve();
                 })

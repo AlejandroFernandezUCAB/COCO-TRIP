@@ -4,6 +4,7 @@ import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
 import { Entidad } from '../../dataAccessLayer/domain/entidad';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import { Storage } from '@ionic/storage';
+import {catService,catProd} from "../../logs/config"
 
 @Injectable()
 export class ComandoEditarPerfil extends Comando {
@@ -20,6 +21,7 @@ export class ComandoEditarPerfil extends Comando {
         return new Promise((resolve,reject) => {
             this.restapiService.modificarDatosUsuario(this._entidad).then(data =>{
                 if(data != 0) {
+                    catProd.info("Se modificaron los datos del Usuario  "+data);
                     resolve(data);
                 }
                 else {
@@ -27,6 +29,7 @@ export class ComandoEditarPerfil extends Comando {
                     
                 }
             }, error => {
+                catProd.info("Ocurrio un error cambiando los datos del usuario");
                 console.log('error en comando editar')
                 reject();
             }
