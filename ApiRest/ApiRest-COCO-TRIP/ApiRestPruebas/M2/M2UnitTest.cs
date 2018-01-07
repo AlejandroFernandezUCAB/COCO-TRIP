@@ -111,7 +111,7 @@ namespace ApiRestPruebas.M2
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
-      lista = apiRest.AgregarPreferencias(1, 1);
+      //lista = apiRest.AgregarPreferencias(1, 1);
       conexion.Conectar();
       NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
                     "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
@@ -134,7 +134,7 @@ namespace ApiRestPruebas.M2
       ConexionBase conexion = new ConexionBase();
       List<Categoria> lista = new List<Categoria>();
 
-      lista = apiRest.EliminarPreferencias( 1 , 1);
+      //lista = apiRest.EliminarPreferencias( 1 , 1);
       conexion.Conectar();
       NpgsqlCommand command = new NpgsqlCommand("SELECT COUNT(*) cantidad " +
                     "FROM preferencia where pr_usuario = 1 and pr_categoria = 1", conexion.SqlConexion);
@@ -180,7 +180,7 @@ namespace ApiRestPruebas.M2
 
       List<Categoria> preferencias = new List<Categoria>();
 
-      preferencias = apiRest.BuscarPreferencias(1);
+      //preferencias = apiRest.BuscarPreferencias(1);
       Assert.AreEqual(categoria.Nombre, preferencias[0].Nombre);
 
     }
@@ -217,7 +217,7 @@ namespace ApiRestPruebas.M2
       consulta = "turis";
       consultaCompleta = "Turismo";
 
-      lista = apiRest.BuscarCategorias( 1, consulta);
+      //lista = apiRest.BuscarCategorias( 1, consulta);
       Assert.AreEqual(consultaCompleta, lista[0].Nombre);
 
     }
