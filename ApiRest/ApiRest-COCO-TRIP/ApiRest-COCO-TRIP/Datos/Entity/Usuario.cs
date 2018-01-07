@@ -58,6 +58,19 @@ namespace ApiRest_COCO_TRIP.Datos.Entity
 
         }
 
+        public Usuario(string nombre, string apellido, string nombreUsuario, DateTime fechaDeNacimiento, string genero)
+        {
+
+            this.Nombre = nombre;
+            this.Apellido = apellido;
+            this.NombreUsuario = nombreUsuario;
+            this.genero = genero;
+            this.FechaNacimiento = fechaDeNacimiento;
+
+            //preferencias = new List<Categoria>();
+
+        }
+
         public string Correo { get => correo; set => correo = value; }
         public string Nombre { get => nombre; set => nombre = value; }
         public string Apellido { get => apellido; set => apellido = value; }
