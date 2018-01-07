@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController , ToastController, LoadingController} from 'ionic-angular';
+import { NavController , ToastController, LoadingController, Platform, ActionSheetController, AlertController} from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
-import { RestapiService } from '../../../providers/restapi-service/restapi-service';
+import { Texto } from '../../constantes/texto';
+import { ConfiguracionToast } from '../../constantes/configToast';
+import { ComandoListaNotificaciones } from '../../../businessLayer/commands/comandoListaNotificaciones';
+import { ComandoAceptarNotificacion } from '../../../businessLayer/commands/comandoAceptarNotificacion';
+import { ComandoRechazarNotificacion } from '../../../businessLayer/commands/comandoRechazarNotificacion';
 
 //****************************************************************************************************// 
 //***********************************PAGE DE SOLICITUDES MODULO 3*************************************//
@@ -10,46 +14,64 @@ import { RestapiService } from '../../../providers/restapi-service/restapi-servi
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
  * Descripcion de la clase:
  * Carga la lista de solicitudes de amistad
  */
-@Component({
+@Component
+({
   selector: 'page-notificaciones',
   templateUrl: 'notificaciones.html'
 })
-export class NotificacionesPage {
-  
-  toast: any;
-  mensajeToast: any;
-  loader: any;
+
+export class NotificacionesPage 
+{
+  /*Atributos que almacenan datos*/
+  public notificaciones : any; //Arreglo de usuarios
+
+  /*Elementos de la vista*/
+  public toast: any;
+  public loader: any;
+
+  public constructor
+  (
+    public navCtrl : NavController,
+    public loadingCtrl : LoadingController,
+    public toastCtrl : ToastController,
+    private storage : Storage,
+    private translateService : TranslateService,
+    private comandoListaNotificaciones : ComandoListaNotificaciones,
+    private comandoAceptarNotificacion : ComandoAceptarNotificacion,
+    private comandoRechazarNotificacion : ComandoRechazarNotificacion,
+  ) { }
+
   public loading = this.loadingCtrl.create({});
 
-  notificaciones : any;
-  constructor(public navCtrl: NavController, public restapiService: RestapiService,  
-              private storage: Storage, public toastCtrl: ToastController,
-              private translateService: TranslateService, public loadingCtrl: LoadingController) {
-   
-  }
-
-  onLink(url: string) {
+  public onLink(url: string) 
+  {
     window.open(url);
-}
+  }
 
 /**
  * Metodo que despliega un toast
  * @param mensaje Texto del toast
  */
-realizarToast(mensaje) {
-  this.toast = this.toastCtrl.create({
-    message: mensaje,
-    duration: 3000,
-    position: 'top'
+public realizarToast(mensaje : string) 
+{
+  let mensajeTraducido;
+
+  this.translateService.get(mensaje).subscribe(value => {mensajeTraducido = value;})
+
+  this.toast = this.toastCtrl.create(
+  {
+    message: mensajeTraducido,
+    duration: ConfiguracionToast.DURACION,
+    position: ConfiguracionToast.POSICION
   });
   this.toast.present();
 }
@@ -59,116 +81,112 @@ realizarToast(mensaje) {
  * la lista de amigos
  * (Por favor espere/ please wait)
  */
-cargando(){
-  this.translateService.get('Por Favor Espere').subscribe(value => {this.loader = value;})
-  this.loading = this.loadingCtrl.create({
-    content: this.loader,
-    dismissOnPageChange: true
-  });
-  this.loading.present();
-}
+  public cargando()
+  {
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.loader = value;})
+    this.loading = this.loadingCtrl.create
+    ({
+      content: this.loader,
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
 
 /**
  * Metodo que carga la lista de solicitudes automaticamente
  */
-ionViewWillEnter() {
-  this.cargando();
-  this.storage.get('id').then((val) => {
-    this.restapiService.listaNotificaciones(val)
-      .then(data => {
-      if (data == 0 || data == -1) {
-        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-        this.loading.dismiss();
-      }
-      else {
-        this.notificaciones = data;
-        this.loading.dismiss();
-      }
+  public ionViewWillEnter() 
+  {
+    this.cargando();
+    this.storage.get('id').then((idUsuario) => 
+    {
+      this.comandoListaNotificaciones.Id = idUsuario;
+
+      this.comandoListaNotificaciones.execute()
+      .then((resultado) => 
+      {
+        if(resultado)
+        {
+          this.notificaciones = this.comandoListaNotificaciones.return();
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
+
+      this.loading.dismiss();
     });
-   });
-}
+  }
 
 /**
  * Metodo para aceptar la solicitud de un amigo
  * @param nombreUsuarioAceptado Nombre del usuario que fue aceptado
  * @param index Posicion de la lista
  */
-aceptarAmigo(nombreUsuarioAceptado,index){
-  this.storage.get('id').then((val) => {
-    this.restapiService.aceptarNotificacion(nombreUsuarioAceptado , val)
-      .then(data => {
-      if (data == 0 || data == -1) {
-       
-      }
-      else {
-        if(data == 1){
-          this.translateService.get('Mensaje agregar').subscribe(
-            value => {
-               this.mensajeToast = value;
-            }
-          )
-          this.realizarToast(this.mensajeToast);
-          
+  public aceptarAmigo(nombreUsuarioAceptado, index)
+  {
+    this.storage.get('id').then((idUsuario) => 
+    {
+      this.comandoAceptarNotificacion.NombreUsuario = nombreUsuarioAceptado; 
+      this.comandoAceptarNotificacion.Id = idUsuario;
+
+      this.comandoAceptarNotificacion.execute()
+      .then((resultado) => 
+      {
+        if(resultado)
+        {
+          this.realizarToast(Texto.ACEPTAR_PETICION);
           this.eliminarNotificacionVisual(nombreUsuarioAceptado, index);
-        }else {
-          this.translateService.get('Algo ha salido mal').subscribe(
-            value => {
-               this.mensajeToast = value;
-            }
-          )
-          this.realizarToast('Algo ha salido mal');
         }
-      }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
     });
-   });
-}
+  }
 
 /**
  * Metodo para rechazar una solicitud
  * @param nombreUsuarioRechazado Nombre del usuario que fue rechazado
  * @param index Posicion en la lista
  */
-rechazarAmigo(nombreUsuarioRechazado, index){
-  this.storage.get('id').then((val) => {
-    this.restapiService.rechazarNotificacion(nombreUsuarioRechazado , val)
-      .then(data => {
-      if (data == 0 || data == -1) {
-        console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-      }
-      else {
-        
-        if(data == 1){
-          this.translateService.get('Peticion eliminada').subscribe(
-            value => {
-               this.mensajeToast = value;
-            }
-          )
-          this.realizarToast(this.mensajeToast);
+  public rechazarAmigo(nombreUsuarioRechazado, index)
+  {
+    this.storage.get('id').then((idUsuario) => 
+    {
+      this.comandoRechazarNotificacion.NombreUsuario = nombreUsuarioRechazado;
+      this.comandoRechazarNotificacion.Id = idUsuario;
+
+      this.comandoRechazarNotificacion.execute()
+      .then((resultado) =>
+      {
+        if(resultado)
+        {
+          this.realizarToast(Texto.RECHAZAR_PETICION);
           this.eliminarNotificacionVisual(nombreUsuarioRechazado, index);
-        }else {
-          this.translateService.get('Algo ha salido mal').subscribe(
-            value => {
-               this.mensajeToast = value;
-            }
-          )
-          this.realizarToast('Algo ha salido mal');
         }
-      }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
     });
-   });
-}
+  }
 
 /**
  * Metodo para borrar desde pantalla
  * @param nombreUsuario nombre del usuario a quitar de la lista de notificaciones
  * @param index posicion en la lista
  */
-eliminarNotificacionVisual(nombreUsuario, index){
-  let eliminado = this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
-  var removed_elements = this.notificaciones.splice(index, 1);
+  public eliminarNotificacionVisual(nombreUsuario, index)
+  {
+    //this.notificaciones.filter(item => item.NombreUsuario === nombreUsuario)[8];
+    this.notificaciones.splice(index, 1);
+  }
+  
 }
-
-
-}
-
-

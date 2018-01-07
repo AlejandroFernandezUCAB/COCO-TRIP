@@ -13,9 +13,9 @@
         <ion-list-header>
           {{'Mis Amigos' | translate}}
         </ion-list-header>
-      <ion-item *ngFor="let item of amigo ; let i = index"  (tap)="agregarIntegrantes($event,item.NombreUsuario)">
+      <ion-item *ngFor="let item of amigo ; let i = index"  (tap)="agregarIntegrantes($event,item.NombreUsuario,i)">
               <ion-avatar item-left>
-                  <img src="assets/images/profile.png">
+                  <img src={{item.Foto}}>
             </ion-avatar>
             <h2>{{item.Nombre}} {{item.Apellido}}</h2>
             <h3>{{item.NombreUsuario}}</h3>

@@ -9,7 +9,9 @@ Drop table Usuario;
 Drop SEQUENCE SEQ_Grupo;
 Drop SEQUENCE SEQ_Miembro;
 Drop SEQUENCE SEQ_Amigo;
-drop SEQUENCE SEQ_Usuario;
+Drop SEQUENCE SEQ_FotoGrupo;
+Drop SEQUENCE SEQ_Usuario;
+
 --Fin de modulo
 --Creates Tables
 
@@ -54,38 +56,53 @@ CREATE TABLE Preferencia(
 );
 --Fin de modulo
 --Modulo 3
-Create Table Grupo
+/**
+Tablas del Modulo (3) de Gestion de Amigos
+  y Grupos de Amigos
+
+Autores antiguos:
+  Mariangel Perez
+  Oswaldo Lopez
+  Aquiles Pulido
+
+Autores:
+  Camacho Joaquin
+  Herrera Jose
+  Quiroga Sabina
+**/
+
+CREATE TABLE Grupo
 (
-gr_id int NOT NULL,
-gr_nombre varchar(100) NOT NULL,
-gr_foto varchar,
-fk_usuario int NOT NULL,
+gr_id integer NOT NULL,
+gr_nombre varchar(320) NOT NULL,
+gr_foto varchar (320),
+fk_usuario integer NOT NULL,
 
 CONSTRAINT pk_grupo PRIMARY KEY (gr_id),
-CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
+CONSTRAINT fk_grupo_usuario FOREIGN KEY (fk_usuario) REFERENCES Usuario(us_id)
 );
 
-Create Table Miembro
+CREATE TABLE Miembro
 (
-mi_id int NOT NULL,
-fk_grupo int NOT NULL,
-fk_usuario int NOT NULL,
+mi_id integer NOT NULL,
+fk_grupo integer NOT NULL,
+fk_usuario integer NOT NULL,
 
 CONSTRAINT pk_miembro PRIMARY KEY (mi_id),
-CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) References Grupo(gr_id) on delete cascade,
-CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) References Usuario(us_id) on delete cascade
+CONSTRAINT fk_miembro_grupo FOREIGN KEY (fk_grupo) REFERENCES Grupo(gr_id),
+CONSTRAINT fk_miembro_usuario FOREIGN KEY (fk_usuario) REFERENCES Usuario(us_id)
 );
 
 Create Table Amigo
 (
-am_id int NOT NULL,
-am_aceptado boolean NOT NULL,
-fk_usuario_conoce int NOT NULL,
-fk_usuario_posee int NOT NULL,
+am_id integer NOT NULL,
+am_aceptado boolean DEFAULT false NOT NULL,
+fk_usuario_conoce integer NOT NULL,
+fk_usuario_posee integer NOT NULL,
 
 CONSTRAINT pk_amigo PRIMARY KEY (am_id),
-CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) References Usuario(us_id) on delete cascade,
-CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) References Usuario(us_id) on delete cascade
+CONSTRAINT fk_amigo_usuario_conoce FOREIGN KEY (fk_usuario_conoce) REFERENCES Usuario(us_id),
+CONSTRAINT fk_amigo_usuario_posee FOREIGN KEY (fk_usuario_posee) REFERENCES Usuario(us_id)
 );
 --Fin de modulo
 --Modulo 4
@@ -207,7 +224,7 @@ create table evento
 	ev_id int primary key,
 	ev_nombre varchar(100) not null,
 	ev_descripcion varchar(500),
-	ev_precio int,
+	ev_precio double precision,
 	ev_fecha_inicio timestamp,
 	ev_fecha_fin timestamp,
 	ev_hora_inicio time,
@@ -217,10 +234,11 @@ create table evento
 	ev_categoria int
 );
 create table localidad(
-	lo_id int primary key,
-	lo_nombre varchar(200),
-	lo_descripcion varchar(500),
-	lo_coordenada varchar(50)
+	lo_id integer NOT NULL,
+  lo_nombre character varying(200) NOT NULL,
+  lo_descripcion character varying(500),
+  lo_coordenada character varying(50) NOT NULL,
+  CONSTRAINT localidad_pkey PRIMARY KEY (lo_id)
 );
 --Fin de modulo
 --Modulo 9
@@ -266,6 +284,7 @@ CREATE SEQUENCE SEQ_Usuario;
 CREATE SEQUENCE SEQ_Grupo;
 CREATE SEQUENCE SEQ_Miembro;
 CREATE SEQUENCE SEQ_Amigo;
+CREATE SEQUENCE SEQ_FotoGrupo;
 --Fin de modulo
 --Modulo 4
 --Fin de modulo

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -33,15 +34,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>Library\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ApiRest-COCO-TRIP\Library\Npgsql.dll</HintPath>
+    <Reference Include="Npgsql, Version=3.2.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.2.6\lib\net451\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,13 +59,37 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="M1\PruebasLogin.cs" />
     <Compile Include="M2\M2UnitTest.cs" />
-    <Compile Include="M3\M3UnitTest.cs" />
+    <Compile Include="M2\PruebasM2.cs" />
+    <Compile Include="M3\Command\TestComandoAceptarNotificacion.cs" />
+    <Compile Include="M3\Command\TestComandoAgregarAmigo.cs" />
+    <Compile Include="M3\Command\TestComandoAgregarGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoAgregarIntegrante.cs" />
+    <Compile Include="M3\Command\TestComandoBuscarAmigos.cs" />
+    <Compile Include="M3\Command\TestComandoConsultarLider.cs" />
+    <Compile Include="M3\Command\TestComandoConsultarMiembroGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoConsultarMiembroSinLider.cs" />
+    <Compile Include="M3\Command\TestComandoConsultarPerfilGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoConsultarUltimoGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoEliminarAmigo.cs" />
+    <Compile Include="M3\Command\TestComandoEliminarGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoEliminarIntegrante.cs" />
+    <Compile Include="M3\Command\TestComandoModificarGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoObtenerListaNotificaciones.cs" />
+    <Compile Include="M3\Command\TestComandoRechazarNotificacion.cs" />
+    <Compile Include="M3\Command\TestComandoSalirGrupo.cs" />
+    <Compile Include="M3\Command\TestComandoVerificarLider.cs" />
+    <Compile Include="M3\Command\TestComandoVisualizarListaAmigos.cs" />
+    <Compile Include="M3\Command\TestComandoVisualizarPerfilAmigo.cs" />
+    <Compile Include="M3\Command\TestComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="M3\Command\TestComandoConsultarListaGrupos.cs" />
+    <Compile Include="M3\Command\TestConsultarMiembroSinGrupo.cs" />
+    <Compile Include="M3\DAO\TestDAOAmigo.cs" />
+    <Compile Include="M3\DAO\TestDAOGrupo.cs" />
     <Compile Include="M5\M5UnitTests.cs" />
     <Compile Include="M7\Base\PruebaConexion.cs" />
     <Compile Include="M7\Base\PruebaPeticion.cs" />
@@ -69,16 +97,20 @@
     <Compile Include="M7\Dato\PruebaFoto.cs" />
     <Compile Include="M7\Dato\PruebaHorario.cs" />
     <Compile Include="M7\Dato\PruebaLugarTuristico.cs" />
+    <Compile Include="M7\M7UnitTest.cs" />
     <Compile Include="M7\PruebaController.cs" />
-    <Compile Include="M8\M8EventsUnitTests.cs" />
-    <Compile Include="M8\M8UnitTests.cs" />
-    <Compile Include="M9\PruebaPeticionCategoria.cs" />
+    <Compile Include="M8\EventoUnitTest.cs" />
+    <Compile Include="M8\LocalidadUnitTest.cs" />
+    <Compile Include="M9\PruebaCategoria.cs" />
+    <Compile Include="M9\PruebaValidacionString.cs" />
     <Compile Include="M9\PruebaValidacionWS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Scripts\jquery-3.2.1.min.map" />
+    <None Include="Scripts\jquery-3.2.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -87,6 +119,7 @@
     <Folder Include="Library\" />
     <Folder Include="M4\" />
     <Folder Include="M6\" />
+    <Folder Include="M7\Command\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ApiRest-COCO-TRIP\ApiRest-COCO-TRIP.csproj">
@@ -94,11 +127,19 @@
       <Name>ApiRest-COCO-TRIP</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
 </Project>

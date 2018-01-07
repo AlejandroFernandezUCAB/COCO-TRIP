@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController , LoadingController, NavParams } from 'ionic-angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { Texto } from '../constantes/texto';
+import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comandoObtenerPerfilPublico';
 
 //****************************************************************************************************// 
 //********************************PAGE DE VISUALIZAR PERFIL MODULO 3**********************************//
@@ -9,42 +10,54 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
  * Descripcion de la clase:
  * Carga el perfil de un amigo
  */
-@Component({
+@Component
+({
   selector: 'page-visualizarperfil',
-  templateUrl: 'visualizarperfil.html'
+  templateUrl: 'VisualizarPerfil.html'
 })
-export class VisualizarPerfilPage {
 
-  nombreUsuario : any;
-  amigo : any;
-  mensajeCargando:any;
-  public loading = this.loadingCtrl.create({
+export class VisualizarPerfilPage 
+{
+  /*Atributo que almacena datos*/
+  public amigo : any; //Usuario
+
+  /*Texto en la vista*/
+  public mensajeCargando : string;
+
+  public constructor
+  (
+    public navCtrl : NavController,
+    public alerCtrl : AlertController,
+    public loadingCtrl : LoadingController, 
+    private navParams : NavParams,
+    private translateService : TranslateService,
+    private comandoObtenerPerfilPublico : ComandoObtenerPerfilPublico
+  ) {}
+
+  public loading = this.loadingCtrl.create
+  ({
     content: 'Please wait...'
   });
-
-  constructor(public navCtrl: NavController, public alerCtrl: AlertController, 
-      public restapiService: RestapiService, public loadingCtrl: LoadingController, 
-      private navParams: NavParams, public translateService : TranslateService) {
-
-  }
 
 /**
  * Metodo que carga un loading controller al iniciar 
  * la lista de amigos
  * (Por favor espere/ please wait)
  */
-  cargando(){
-    this.translateService.get('Por favor, espere').subscribe(value => {this.mensajeCargando = value;})
-    this.loading = this.loadingCtrl.create({
+  public cargando()
+  {
+    this.translateService.get(Texto.CARGANDO).subscribe(value => {this.mensajeCargando = value;})
+    this.loading = this.loadingCtrl.create
+    ({
       content: this.mensajeCargando,
       dismissOnPageChange: true
     });
@@ -54,20 +67,15 @@ export class VisualizarPerfilPage {
 /**
  * Metodo que carga los datos de un amigo para visualizar su perfil
  */
-  ionViewWillEnter() {
-    this.nombreUsuario = this.navParams.get('nombreUsuario');
+  public ionViewWillEnter() 
+  {
     this.cargando();
-     this.restapiService.obtenerPerfilPublico(this.nombreUsuario)
-       .then(data => {
-         if (data == 0 || data == -1) {
-           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+    
+    this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
 
-         }
-         else {
-           this.amigo = data;
-           this.loading.dismiss();
-         }
- 
-       });
-   }
+    this.comandoObtenerPerfilPublico.execute()
+    .then(() => this.amigo = this.comandoObtenerPerfilPublico.return());
+
+    this.loading.dismiss();
+   }   
 }

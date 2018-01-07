@@ -1,5 +1,5 @@
-@using BackOffice_COCO_TRIP.Helpers
-@model BackOffice_COCO_TRIP.Models.Categories
+@using BackOffice_COCO_TRIP.Comun.Helpers
+@model BackOffice_COCO_TRIP.Datos.Entidades.Categoria
 <div class="card color-texto">
     <div class="container-fluid pad-top">
         <h4>Ingrese los datos:</h4>
@@ -28,7 +28,7 @@
         <div class="form-group row">
           @Html.Label("Mover a la categoria", htmlAttributes: new { @class = "col-sm-2 control-label" })
           <div class="col-sm-10">
-            @Html.DropDownList("Mover a la categoria", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Models.Categories> , htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("Mover a la categoria", ViewBag.MyList as IList<BackOffice_COCO_TRIP.Datos.Entidades.Categoria> , htmlAttributes: new { @class = "form-control" })
           </div>
         </div>
 

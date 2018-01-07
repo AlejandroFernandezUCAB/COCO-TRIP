@@ -1,224 +1,223 @@
-using BackOffice_COCO_TRIP.Models;
-using BackOffice_COCO_TRIP.Models.Peticion;
-using Newtonsoft.Json.Linq;
+using BackOffice_COCO_TRIP.Datos.Entidades;
+using BackOffice_COCO_TRIP.Negocio.Fabrica;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using BackOffice_COCO_TRIP.Negocio.Comandos;
+using Newtonsoft.Json.Linq;
+using System.Web;
+using System.IO;
 
 namespace BackOffice_COCO_TRIP.Controllers
 {
+  /// <summary>
+  /// Clase encargada de la lógica de la interfaz de Eventos.
+  /// </summary>
   public class M8EventsController : Controller
   {
-    private PeticionCategoria peticionCategoria = new PeticionCategoria();
-    private PeticionM8_Localidad peticionLocalidad = new PeticionM8_Localidad();
-    private PeticionEvento peticionEvento = new PeticionEvento();
-    // GET: M8Events
+
+    /// <summary>
+    /// Controlador de la vista Index.
+    /// </summary>
+    /// <returns>Vista FilterEvent</returns>
+    [HttpGet]
     public ActionResult Index()
     {
-      return View();
+      ViewBag.Title = "Eventos por Categorias";
+      Comando comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      comando.Execute();
+      ViewBag.MyList = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
+      TempData["listaCategorias"] = ((JObject)comando.GetResult()[0])["data"].ToObject<IList<Categoria>>();
+
+      comando = FabricaComando.GetComandoConsultarEventos();
+      comando.Execute();
+
+      if (TempData["evento"] == null)
+        TempData["evento"] = (List<Evento>)comando.GetResult()[0];
+      return View(TempData["evento"]);
     }
 
-    // GET: M8Events/Details/5
+    /// <summary>
+    /// Controlador de la vista Details.
+    /// </summary>
+    /// <param name="id"> id del evento a detallar</param>
+    /// <returns>Vista del evento a detallar</returns>
     public ActionResult Details(int id)
     {
       return View();
     }
+
+    /// <summary>
+    /// Controlador para cargar la vista CreateEvent.
+    /// </summary>
+    /// <returns>Vista CreateEvent</returns>
     [HttpGet]
-    // GET: M8Events/Create
-    public ActionResult CreateEvent(int id = -1)
+    public ActionResult Create()
     {
-      ViewBag.Title = "Categorías";
-      IList<Categories> listaCategorias = null;
-      IList<LocalidadEvento> listaLocalidades = null;
-      try
-      {
-        JObject respuestaCategoria = peticionCategoria.Get(id);
-        JObject respuestaLocalidad = peticionLocalidad.GetAll();
-        if (respuestaCategoria.Property("data") != null)
-        {
-          listaCategorias = respuestaCategoria["data"].ToObject<List<Categories>>();
-        }
+      Comando comando;
+      comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      comando.Execute();
+      ViewBag.ListCategoria = ((JObject)comando.GetResult()[0])["data"].ToObject<List<Categoria>>();
 
-        else
-        {
-          listaCategorias = new List<Categories>();
-          ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen Categorias");
-        }
+      comando = FabricaComando.GetComandoConsultarLocalidades();
+      comando.Execute();
+      ViewBag.ListLocalidades = comando.GetResult()[0];
 
-        if (respuestaLocalidad.Property("dato") != null)
-        {
-          listaLocalidades = respuestaLocalidad["dato"].ToObject<List<LocalidadEvento>>();
-        }
-
-        else
-        {
-          listaLocalidades = new List<LocalidadEvento>();
-          ModelState.AddModelError(string.Empty, "Error en la comunicacion o No existen localidades");
-        }
-      }
-      catch (Exception e)
-      {
-
-        throw e;
-      }
-      ViewBag.ListCategoria = listaCategorias;
-      ViewBag.ListLocalidades = listaLocalidades;
+      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
+      TempData["ListCategoria"] = ViewBag.ListCategoria;
       return View();
     }
 
-    // POST: M8Events/Create
+    /// <summary>
+    /// Controlador de la vista CreateEvent al momento de realizar un submit dentro de la misma.
+    /// </summary>
+    /// <param name="evento"> evento a crear</param>
+    /// <param name="file">foto del evento</param>
+    /// <returns>Vista CreateEvent</returns>
     [HttpPost]
-    public ActionResult CreateEvent(Evento evento)
+    public ActionResult Create(Evento evento, HttpPostedFileBase file)
     {
-      try
+      ViewBag.ListLocalidades = TempData["ListLocalidades"];
+      ViewBag.ListCategoria = TempData["ListCategoria"];
+      if (ModelState.IsValid)
       {
-         //var idLocalidad = Request["Localidades"].ToString();
-        //evento.IdLocalidad = Int32.Parse(idLocalidad);
-        evento.IdLocalidad = 1;
-        evento.Foto = "jorge";
-        System.Console.Write("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        /*evento.FechaInicio = new DateTime(12, 12, 12);
-        evento.FechaFin = new DateTime(12, 12, 12);
-        evento.HoraInicio.AddHours(12);
-        evento.HoraInicio.AddMinutes(12);
-        evento.HoraFin.AddHours(12);
-        evento.HoraFin.AddMinutes(12);*/
-
-        var idCategoria = Request["Categoria"].ToString();
-        evento.IdCategoria = Int32.Parse(idCategoria);
-
-
-        JObject respuesta = peticionEvento.Post(evento);
-        if (respuesta.Property("dato") == null)
+        String ruta;
+        if (file != null && file.ContentLength > 0)
         {
+          ruta = Path.GetFileName(evento.Nombre + file.FileName);
+        }
+        else
+          ruta = "";
+        evento.Foto = ruta;
 
-          
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
+        if (Request["Localidades"] != null && Request["Categoria"] != null)
+        {
+          evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
+          evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
 
+          Comando comando = FabricaComando.GetComandoAgregarEvento();
+          comando.SetPropiedad(evento);
+          comando.Execute();
+          ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
         }
         else
         {
-          
-          ModelState.AddModelError(string.Empty, "Se hizo con exito");
-          return RedirectToAction("FilterEvent");
+          ModelState.AddModelError(string.Empty, "Seleccione una categoria o localidad valida");
         }
       }
-      catch (NullReferenceException e)
-      {
+      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
+      TempData["ListCategoria"] = ViewBag.ListCategoria;
+      return View();  // TERMINAR
 
-        throw e;
-      }
-
-
-      return RedirectToAction("FilterEvent");
     }
 
-    // GET: M8Events/Edit/5
+    /// <summary>
+    /// Controlador que carga la vista Edit.
+    /// </summary>
+    /// <param name="id">Identificador único del evento a editar</param>
+    /// <returns>Vista Edit</returns>
     public ActionResult Edit(int id)
     {
-      return View();
+      Comando comando;
+      comando = FabricaComando.GetComandoConsultarCategoriaHabilitada();
+      comando.Execute();
+      ViewBag.ListCategoria = ((JObject)comando.GetResult()[0])["data"].ToObject<List<Categoria>>();
+
+      comando = FabricaComando.GetComandoConsultarLocalidades();
+      comando.Execute();
+      ViewBag.ListLocalidades = comando.GetResult()[0];
+      comando = FabricaComando.GetComandoConsultarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      TempData["fotovieja"] = ((Evento)comando.GetResult()[0]).Foto;
+      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
+      TempData["ListCategoria"] = ViewBag.ListCategoria;
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      return View(comando.GetResult()[0]);
     }
 
-    // POST: M8Events/Edit/5
+    /// <summary>
+    /// Controlador da vista Edit una vez realizado un submit dentro de la misma.
+    /// </summary>
+    /// <param name="localidad">evento a editar</param>
+    /// <returns> Vista Index</returns>
     [HttpPost]
-    public ActionResult Edit(int id, FormCollection collection)
+    public ActionResult Edit(Evento evento, HttpPostedFileBase file)
     {
-      try
+      if (ModelState.IsValid)
       {
-        // TODO: Add update logic here
-
-        return RedirectToAction("Index");
+        evento.IdLocalidad = Int32.Parse(Request["Localidades"].ToString());
+        evento.IdCategoria = Int32.Parse(Request["Categoria"].ToString());
+        String foto = (String)TempData["fotovieja"];
+        String ruta;
+        if (file != null && file.ContentLength > 0)
+        {
+          ruta = Path.GetFileName(evento.Nombre + file.FileName);
+        }
+        else
+          ruta = "";
+        evento.Foto = ruta;
+        Comando comando = FabricaComando.GetComandoModificarEvento();
+        comando.SetPropiedad(evento);
+        comando.Execute();
+        ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
       }
-      catch
-      {
-        return View();
-      }
+      ViewBag.ListLocalidades = TempData["ListLocalidades"];
+      ViewBag.ListCategoria = TempData["ListCategoria"];
+      TempData["ListLocalidades"] = ViewBag.ListLocalidades;
+      TempData["ListCategoria"] = ViewBag.ListCategoria;
+      return View(evento);
     }
 
-    // GET: M8Events/Delete/5
+    /// <summary>
+    /// Controlador de la vista Delete.
+    /// </summary>
+    /// <param name="id">Identificador único del evento</param>
+    /// <param name="collection"> Colección del formulario</param>
+    /// <returns>Vista Index</returns>
     public ActionResult Delete(int id)
     {
-      return View();
+      Comando comando = FabricaComando.GetComandoEliminarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[0]);
+
+      return RedirectToAction("Index");
     }
 
-    // POST: M8Events/Delete/5
-    [HttpPost]
-    public ActionResult Delete(int id, FormCollection collection)
-    {
-      try
-      {
-        // TODO: Add delete logic here
-
-        return RedirectToAction("Index");
-      }
-      catch
-      {
-        return View();
-      }
-    }
-
-    // GET: M8Events
-    [HttpGet]
-    public ActionResult FilterEvent()
-    {
-
-     
-      ViewBag.Title = "Eventos por Categorias";
-      IList<Categories> MyList = null;
-      try
-      {
-        JObject respuesta = peticionCategoria.Get(-1);
-        if (respuesta.Property("data") != null)
-        {
-          MyList = respuesta["data"].ToObject<List<Categories>>();
-        }
-
-        else
-        {
-          MyList = new List<Categories>();
-          ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-        }
-
-        TempData["listaCategorias"] = MyList;
-      }
-      catch (Exception e)
-      {
-
-        throw e;
-      }
-      ViewBag.MyList = MyList;
-      return View();
-    }
-
+    /// <summary>
+    /// Controlador de la vista FilterEvent al momento de realizar un submit dentro de la misma.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public ActionResult enviarFilterEvent()
     {
-     var IdCategoria = Request["Mover a la categoria"].ToString();
-     int Id= Int32.Parse(IdCategoria);
+      int id = Int32.Parse(Request["Mover a la categoria"].ToString());
+      Comando comando = FabricaComando.GetComandoFiltrarEventoPorCategoria();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      TempData["evento"] = comando.GetResult()[0];
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[1]);
+      return RedirectToAction("Index", "M8Events", comando.GetResult()[0]);
+    }
 
-      JObject respuesta = peticionEvento.Get(Id);
-      IList<Evento> evento = null;
-      if (respuesta.Property("dato") == null)
-      {
+    /// <summary>
+    /// Controlador de la vista Select.
+    /// </summary>
+    /// <param name="id">Identificador único de la Localidad a consultar</param>
+    /// <returns>Vista Select</returns>
+    public ActionResult Select(int id)
+    {
+      ViewBag.Title = "Consultar Evento";
+      Comando comando = FabricaComando.GetComandoConsultarEvento();
+      comando.SetPropiedad(id);
+      comando.Execute();
+      ViewData["ncategoria"] = (String)comando.GetResult()[3];
+      ViewData["nlocalidad"] = comando.GetResult()[2];
 
+      ModelState.AddModelError(string.Empty, (String)comando.GetResult()[2]);
+      return View(comando.GetResult()[0]);
 
-        ModelState.AddModelError(string.Empty, "Ocurrio un error durante la comunicacion, revise su conexion a internet");
-
-
-      }
-      else
-      {
-        ModelState.AddModelError(string.Empty, "Se hizo con exito");
-
-        evento = respuesta["dato"].ToObject<List<Evento>>();
-
-        TempData["evento"] = evento;
-        return RedirectToAction("FilterEvent", "M8Events", evento);
-      }
-
-      return RedirectToAction("FilterEvent");
     }
 
   }

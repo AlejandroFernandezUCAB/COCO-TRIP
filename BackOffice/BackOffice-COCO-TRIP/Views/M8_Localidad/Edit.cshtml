@@ -1,14 +1,18 @@
-@model BackOffice_COCO_TRIP.Models.LocalidadEvento
+@Styles.Render("~/bundles/lugares_addCSS")
+@Styles.Render("~/bundles/lugares_modifyCSS")
+@model BackOffice_COCO_TRIP.Datos.Entidades.Localidad
 
-
-<h2>Create Localidad para un Evento</h2>
+@{
+    ViewBag.Title = "Localidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Modificar Localidad</h2>
 
 @using (Html.BeginForm("Edit", "M8_Localidad", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
 {
   @Html.AntiForgeryToken()
 
   <div class="form-horizontal">
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
       @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -29,10 +33,10 @@
     <div class="form-group">
       @Html.LabelFor(model => model.Coordenadas, htmlAttributes: new { @class = "control-label col-md-2" })
       <div class="col-md-10">
-        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "disabledClass", @id = "coords" } })
         @Html.ValidationMessageFor(model => model.Coordenadas, "", new { @class = "text-danger" })
       </div>
-
+      <div id="map" class="text-center"></div>
     </div>
 
 
@@ -42,4 +46,10 @@
       </div>
     </div>
   </div>
+
+
+  @section scripts {
+    @Scripts.Render("~/bundles/Localidad_insert-coordsJS")
+    @Scripts.Render("https://maps.googleapis.com/maps/api/js?key=AIzaSyBLZJfuHODaUCPcVW8GwMW6nCXcm3SldgY&callback=initMap")
+  }
 }

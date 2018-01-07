@@ -1,14 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 
-namespace ApiRest_COCO_TRIP.Models.Dato
+namespace ApiRest_COCO_TRIP.Datos.Entity
 {
   /// <summary>
   /// Clase que contiene los datos de lugar turistico
   /// </summary>
-  public class LugarTuristico
+  public class LugarTuristico : Entidad
   {
-    private int id; //Identificador unico del lugar turistico
     private string nombre; //Nombre del lugar turistico
     private double costo; //Costo del lugar turistico
     private string descripcion; //Descripcion del lugar turistico
@@ -38,15 +36,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
       subCategoria = new List<Categoria>();
     }
 
-    /// <summary>
-    /// Getters y Setters del atributo ID
-    /// </summary>
-    public int Id
-    {
-      get { return id; }
-      set { id = value; }
-    }
-
+  
     /// <summary>
     /// Getters y Setters del atributo Nombre
     /// </summary>
@@ -176,36 +166,7 @@ namespace ApiRest_COCO_TRIP.Models.Dato
 
     }
 
-    /// <summary>
-    /// Compara si dos objetos de tipo LugarTuristico son iguales
-    /// </summary>
-    /// <param name="obj">LugarTuristico</param>
-    /// <returns>(bool) Si son iguales retorna true</returns>
-    public override bool Equals(object obj)
-    {
-      if (obj != null && obj is LugarTuristico)
-      {
-        var objeto = obj as LugarTuristico;
 
-        if (id != objeto.id || nombre != objeto.nombre || costo != objeto.costo || descripcion != objeto.descripcion
-            || direccion != objeto.direccion || correo != objeto.correo || telefono != objeto.telefono || latitud != objeto.latitud
-            || longitud != objeto.longitud || activar != objeto.activar || !foto.SequenceEqual<Foto>(objeto.foto)
-            || !horario.SequenceEqual<Horario>(objeto.horario) || !actividad.SequenceEqual<Actividad>(objeto.actividad)
-          /*|| !categoria.SequenceEqual<Categoria>(objeto.Categoria) || !subCategoria.SequenceEqual<Categoria>(objeto.SubCategoria)*/)
-        {
-
-          return (false);
-        }
-        else
-        {
-          return (true);
-        }
-      }
-      else
-      {
-        return (false);
-      }
-    }
 
     /// <summary>
     /// Sobreescritura recomendada del metodo GetHashCode

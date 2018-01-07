@@ -1,12 +1,11 @@
 using System;
-using System.Net;
-using System.Web.Http;
-using ApiRest_COCO_TRIP.Models.Dato;
-using ApiRest_COCO_TRIP.Models;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
 using ApiRest_COCO_TRIP.Controllers;
 using NUnit.Framework;
-using Npgsql;
 using System.Collections.Generic;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Datos.Entity;
+using System.Web.Http;
 
 namespace ApiRestPruebas
 {
@@ -21,7 +20,9 @@ namespace ApiRestPruebas
     private DateTime fechaini;
     private DateTime fechafin;
     private int id_usuario;
-    private List<Itinerario> itinerarios_usuario;
+    private List<ApiRest_COCO_TRIP.Datos.Entity.Entidad> lista;
+    private Comando comando;
+    private Notificacion notificacion;
     [OneTimeSetUp]
     protected void OTSU()
     {
@@ -35,10 +36,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarItinerario()
     {
-      itinerario = new Itinerario("Michel", 2);
-      it = controller.AgregarItinerario(itinerario);
-      Assert.AreEqual(57, it.Id);//siempre poner el numero del id que se va a agregar para esta prueba
-      Assert.AreEqual("Michel", it.Nombre);
+      string nombre = "Pirulin30";
+      Comando comando = FabricaComando.CrearComandoAgregarItinerario(2,nombre);
+      comando.Ejecutar();
+      Itinerario itNew =(Itinerario) comando.Retornar();
+      Assert.AreEqual(nombre,itNew.Nombre);
+      Assert.AreEqual(30,itNew.Id);
     }
 
     /// <summary>
@@ -47,18 +50,11 @@ namespace ApiRestPruebas
     [Test]
     public void FalloAgregarItinerario()
     {
-      Assert.Catch<HttpResponseException>(Excepcion_Agregar);
+      
       Assert.Catch<HttpResponseException>(Excepcion_Agregar2);
     }
 
-    /// <summary>
-    /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
-    /// </summary>
-    public void Excepcion_Agregar()
-    {
-      itinerario = null;
-      controller.AgregarItinerario(itinerario);
-    }
+  
 
     /// <summary>
     /// Metodo utilizados para casos borde(excepciones) de AgregarItinerario
@@ -66,8 +62,9 @@ namespace ApiRestPruebas
     public void Excepcion_Agregar2()
     {
       itinerario = new Itinerario("Michel", 0);
-      controller.AgregarItinerario(itinerario);
-    }
+            Comando comando = FabricaComando.CrearComandoAgregarItinerario(itinerario.Id, itinerario.Nombre);
+            comando.Ejecutar();
+        }
 
     /// <summary>
     /// Prueba de caso exitoso en EliminaItinerario
@@ -75,8 +72,18 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarItinerario()
     {
-      x = controller.EliminarItinerario(47);
-      Assert.True(x);
+            int id = 15;
+            Boolean x = false;
+      Comando comando = FabricaComando.CrearComandoEliminarItinerario(id);
+      comando.Ejecutar();
+            comando = FabricaComando.CrearComandoConsultarItinerarios(1);
+            comando.Ejecutar();
+            foreach (Entidad item in comando.RetornarLista())
+            {
+                Itinerario itinerarioNew = (Itinerario)item;
+                if (item.Id == id) x = true;
+            }
+            Assert.False(x);
     }
 
     /// <summary>
@@ -95,13 +102,13 @@ namespace ApiRestPruebas
     [Test]
     public void PUModificarItinerario()
     {
-      DateTime fechaini = new DateTime(2022, 05, 28);
-      DateTime fechafin = new DateTime(2030, 05, 28);
-      Itinerario itinerario = new Itinerario(4, "Epco", fechaini, fechafin, 2);
-      it = controller.ModificarItinerario(itinerario);
-      Assert.AreEqual("Epco", it.Nombre);
-      Assert.AreEqual(fechaini,it.FechaInicio);
-      Assert.AreEqual(fechafin, it.FechaFin);
+      string nombre = "truman";
+      DateTime fechaini = new DateTime(2040, 12, 12);
+      DateTime fechafin = new DateTime(2044, 12, 12);
+      comando = FabricaComando.CrearComandoModificarItinerario(28, nombre, fechaini, fechafin, 2);
+      comando.Ejecutar();
+      Itinerario itNew = (Itinerario)comando.Retornar();
+      Assert.AreEqual(nombre, itNew.Nombre);
     }
 
     /// <summary>
@@ -110,21 +117,20 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarEvento_It()
     {
-      Itinerario itinerario = new Itinerario(1);
-      Evento ev = new Evento
-      {
-        Id = 1
-      };
+      Itinerario itinerario = new Itinerario(19);
+      int idEvento = 1;
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarItem_It("Evento",itinerario.Id, ev.Id,fechaini, fechafin);
-      Assert.True(x);
+      comando = FabricaComando.CrearComandoAgregarAgenda("Evento",itinerario.Id,
+        idEvento,fechaini,fechafin);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
     /// Prueba de caso borde(fallo) en AgregarEvento_It
     /// </summary>
-    [Test]
+    /*[Test]
     public void FalloAgregarEvento_It()
    {
      Itinerario itinerario = new Itinerario(6);
@@ -136,7 +142,7 @@ namespace ApiRestPruebas
      fechafin = new DateTime(2017, 11, 18);
      x = controller.AgregarItem_It("Eventos",itinerario.Id, ev.Id,fechaini, fechafin);
      Assert.False(x);
-   }
+   }*/
 
     /// <summary>
     /// Prueba de caso exitoso en AgregarActividad_It
@@ -144,15 +150,14 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarActividad_It()
     {
-      itinerario = new Itinerario(2);
-      Actividad ac = new Actividad()
-      {
-        Id = 4
-      };
+      Itinerario itinerario = new Itinerario(19);
+      int idActividad = 4;
       fechaini = new DateTime(2017, 11, 15);
       fechafin = new DateTime(2017, 11, 18);
-      x = controller.AgregarItem_It("Actividad",itinerario.Id,ac.Id,fechaini, fechafin);
-      Assert.True(x);
+      comando = FabricaComando.CrearComandoAgregarAgenda("Actividad", itinerario.Id,
+        idActividad, fechaini, fechafin);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -178,15 +183,14 @@ namespace ApiRestPruebas
     [Test]
     public void PUAgregarLugar_It()
     {
-      itinerario = new Itinerario(1);
-      LugarTuristico lt = new LugarTuristico()
-      {
-        Id = 2
-      };
-      fechaini = new DateTime(2017,11,15);
-      fechafin = new DateTime(2017,11,18);
-      x = controller.AgregarItem_It("Lugar Turistico",itinerario.Id, lt.Id,fechaini,fechafin);
-      Assert.True(x);
+      Itinerario itinerario = new Itinerario(21);
+      int id = 2;
+      fechaini = new DateTime(2017, 11, 15);
+      fechafin = new DateTime(2017, 11, 18);
+      comando = FabricaComando.CrearComandoAgregarAgenda("Lugar Turistico", itinerario.Id,
+        id, fechaini, fechafin);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -213,13 +217,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarLugar_It()
     {
-      itinerario = new Itinerario(1);
-      LugarTuristico lt = new LugarTuristico()
-      {
-        Id = 2
-      };
-      x = controller.EliminarItem_It("Lugar Turistico",itinerario.Id,lt.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(21);
+      int idLugar = 2;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Lugar Turistico", itinerario.Id,
+        idLugar);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -243,13 +246,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarActividad_It()
     {
-      itinerario = new Itinerario(2);
-      Actividad ac = new Actividad()
-      {
-        Id = 4
-      };
-      x = controller.EliminarItem_It("Actividad", itinerario.Id, ac.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(19);
+      int idActividad = 4;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Actividad",itinerario.Id,
+        idActividad);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -273,13 +275,12 @@ namespace ApiRestPruebas
     [Test]
     public void PUEliminarEvento_It()
     {
-      itinerario = new Itinerario(1);
-      Evento ev = new Evento()
-      {
-        Id = 1
-      };
-      x = controller.EliminarItem_It("Evento", itinerario.Id, ev.Id);
-      Assert.True(x);
+      itinerario = new Itinerario(19);
+      int idEvento = 1;
+      comando = FabricaComando.CrearComandoEliminarAgendaItem("Evento", itinerario.Id,
+        idEvento);
+      comando.Ejecutar();
+      Assert.True(true);
     }
 
     /// <summary>
@@ -297,12 +298,16 @@ namespace ApiRestPruebas
       Assert.False(x);
     }
 
-    /* [Test]
-    public void PruebaConsultarItinerarios()
+     [Test]
+    public void PUConsultarItinerarios()
     {
-      Assert.Catch<NpgsqlException>(ExcepcionItinerarioNull);
+      Comando comando = FabricaComando.CrearComandoConsultarItinerarios(1);
+      comando.Ejecutar();
+      lista =  comando.RetornarLista();
+            Itinerario itinerario = (Itinerario)lista[0];
+      Assert.AreEqual(itinerario.Id, lista[0].Id);
     }
-
+    /*
     public void ExcepcionItinerarioNull()
     {
       id_usuario = null;
@@ -314,21 +319,129 @@ namespace ApiRestPruebas
     {
       //id de usuario que no existe
       id_usuario = 50;
-      Assert.IsEmpty(controller.ConsultarItinerarios(id_usuario));
+      comando = FabricaComando.CrearComandoConsultarItinerarios(id_usuario);
+      comando.Ejecutar();
+      Assert.IsEmpty(comando.RetornarLista());
     }
-   
+    /// <summary>
+    /// Prueba de caso exitoso en Cambiar visibilidad a FALSO
+    /// </summary>
     [Test]
-    public void Prueba_EliminarLugarIt()
+    public void PUSetVisibleFalse()
     {
-      //x = controller.EliminarItem_It(4,12);
-      //Assert.True(x);
+      Boolean visible = false;
+      id_usuario = 1;
+      int idItinerario = 19;
+      comando = FabricaComando.CrearComandoSetVisibleItinerario(visible,id_usuario,
+        idItinerario);
+      comando.Ejecutar();
+    }
+
+    /// <summary>
+    /// Prueba de caso exitoso en Cambiar visibilidad a TRUE
+    /// </summary>
+    [Test]
+    public void PUSetVisibleTrue()
+    {
+      Boolean visible = true;
+      id_usuario = 1;
+      int idItinerario = 19;
+      comando = FabricaComando.CrearComandoSetVisibleItinerario(visible, id_usuario,
+        idItinerario);
+      comando.Ejecutar();
     }
 
     [Test]
-    public void Prueba_EliminarActividad()
+    public void PU_AgregarNotificacion()
     {
-      x = controller.EliminarItem_It("Actividad", 4, 1);
-      Assert.True(x);
+      comando = FabricaComando.CrearComandoAgregarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+    
+    [Test]
+    public void PU_EliminarNotificacion()
+    {
+      comando = FabricaComando.CrearComandoEliminarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.False(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_ModificarNotificacionCorreo()
+    {
+      comando = FabricaComando.CrearComandoModificarNotificacion(1,false,true);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Push);
+    }
+
+    [Test]
+    public void PU_ConsultarNotificacion()
+    {
+      comando = FabricaComando.CrearComandoConsultarNotificacion(1);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.True(notificacion.Correo);
+    }
+
+    [Test]
+    public void PU_ConsultarNotificacionUsuarioNoExiste()
+    {
+      comando = FabricaComando.CrearComandoConsultarNotificacion(2);
+      comando.Ejecutar();
+      notificacion = (Notificacion)comando.Retornar();
+      Assert.False(notificacion.Correo);
+    }
+
+    [Test]
+    public void PU_EnviarCorreo()
+    {
+      int idUsuario = 1;
+      comando = FabricaComando.CrearComandoEnviarCorreoItinerario(idUsuario);
+      comando.Ejecutar();
+    
+      Assert.True(true);
+    }
+
+    [Test]
+    public void PU_ConsultarEventos()
+    {
+      string busqueda = "jorge";
+      fechaini = new DateTime(2017, 12, 30);
+      fechafin = new DateTime(2017, 12, 30);
+      comando = FabricaComando.CrearComandoListarCoincidenciaEventos(busqueda,fechaini,fechafin);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      Evento evento = (Evento)lista[0];
+      Assert.AreEqual(busqueda, evento.Nombre);
+      Assert.AreEqual(1, evento.Id);
+    }
+
+    [Test]
+    public void PU_ConsultarLugares()
+    {
+      string busqueda = "Parque Generalisimo de Miranda";
+      comando = FabricaComando.CrearComandoListarCoincidenciaLugaresTurisiticos(busqueda);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      LugarTuristico lugarTuristico = (LugarTuristico)lista[0];
+      Assert.AreEqual(busqueda, lugarTuristico.Nombre);
+      Assert.AreEqual(2, lugarTuristico.Id);
+    }
+
+    [Test]
+    public void PU_ConsultarActividades()
+    {
+      string busqueda = "Parque Generalisimo de Miranda";
+      comando = FabricaComando.CrearComandoListarCoincidenciaActividades(busqueda);
+      comando.Ejecutar();
+      lista = comando.RetornarLista();
+      Actividad actividad = (Actividad)lista[0];
+      Assert.AreEqual(busqueda, actividad.Nombre);
+      Assert.AreEqual(1, actividad.Id);
     }
   }
 }

@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
 import { EditProfilePage } from '../edit-profile/edit-profile';
 import { ConfigPage } from '../config/config';
 import { BorrarCuentaPage } from '../borrar-cuenta/borrar-cuenta';
 import { PreferenciasPage } from '../preferencias/preferencias';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { Comando } from '../../businessLayer/commands/comando';
+import { TranslateService } from '@ngx-translate/core';
+
 // usos del @ionic/storage:
 // para acceder a las variables que guarde en la vista de 'Configuracion'
 // para acceder a la variable id alamcenada durante el login
 import { Storage } from '@ionic/storage'; 
+import { Usuario } from '../../dataAccessLayer/domain/usuario';
+import { ComandoVerPerfil } from '../../businessLayer/commands/comandoVerPerfil';
 
 /**
  * Generated class for the PerfilPage page.
@@ -30,23 +36,13 @@ export class PerfilPage {
   configureProfile = ConfigPage;
   deleteAccount = BorrarCuentaPage;
   editarPreferences = PreferenciasPage;
+  
 
   // valores por defecto para el usuario
-  usuario: any = {
-    Id: 0,
-    Nombre: 'Nombre',
-    Apellido: 'Apellido',
-    Correo: 'Correo',
-  };
-  idUsuario = 0;
+  usuario : Usuario = FabricaEntidad.crearUsuarioConParametros(0, 'Nombre', 'Apellido', 'Correo', 'default');
+  
 
-  //parametros para la pagina de configuracion
-  configParams: any = {
-    idUsuario: 0,
-    NombreUsuario: 'default'
-  };
-
-  constructor(public navCtrl: NavController, public navParams: NavParams,public restapiService: RestapiService, private storage: Storage, private translateService: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private comando : ComandoVerPerfil) {
   
   }
 
@@ -62,32 +58,14 @@ export class PerfilPage {
   // ademas obtiene el lenguaje previamente seleccionado de la memoria del
   // dispositivo
   cargarUsuario(){
-    // obtenemos el id ya almacenado desde el login
-    this.storage.get('id').then((val) => { 
-
-      this.idUsuario = val;
-      // hacemos la llamada al apirest con el id obtenido
-      this.restapiService.ObtenerDatosUsuario(this.idUsuario).then(data => {
-        if(data != 0)
-        {  
-          this.usuario = data;
-          this.usuario.id = this.idUsuario; 
-
-              // cargamos el idioma
-              this.storage.get(this.usuario.id.toString()).then((val) => {
-                //verificamos que posee configuracion previa de idioma
-                if(val != null || val != undefined){
-                  this.translateService.use(val);
-                }
-              });
-
-              // cargamos los datos para la vista de configuracion
-              this.configParams.idUsuario = this.idUsuario;
-              this.configParams.NombreUsuario = this.usuario.NombreUsuario;
-        }
-      });
-
-    });
+    
+    this.comando._entidad = this.usuario;
+    console.log(this.usuario);
+    this.comando.execute().then( () => 
+      this.usuario = this.comando.return() as Usuario,
+      error => console.log('ocurrio un error cargando los datos')
+    );
+  
   }
 
 }

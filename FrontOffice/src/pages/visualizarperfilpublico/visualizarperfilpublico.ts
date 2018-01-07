@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateModule , TranslateService  } from '@ngx-translate/core'
-import { RestapiService } from '../../providers/restapi-service/restapi-service';
+import { ConfiguracionToast } from '../constantes/configToast';
+import { Texto } from '../constantes/texto';
+import { ComandoObtenerPerfilPublico } from '../../businessLayer/commands/comandoObtenerPerfilPublico';
+import { ComandoAgregarAmigo } from '../../businessLayer/commands/comandoAgregarAmigo';
+import { ComandoEnviarCorreo } from '../../businessLayer/commands/comandoEnviarCorreo';
 
 //****************************************************************************************************// 
 //***************************PAGE DE VISUALIZAR PERFIL PUBLICO MODULO 3*******************************//
@@ -10,9 +14,9 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
 
 /**
  * Autores:
- * Mariangel Perez
- * Oswaldo Lopez
- * Aquiles Pulido
+ * Joaquin Camacho
+ * Jose Herrera
+ * Sabina Quiroga
  */
 
 /**
@@ -20,46 +24,62 @@ import { RestapiService } from '../../providers/restapi-service/restapi-service'
  * Carga el perfil publico de un usuario
  */
 
-@Component({
+@Component
+({
   selector: 'page-visualizarperfilpublico',
   templateUrl: 'visualizarperfilpublico.html',
 })
-export class VisualizarPerfilPublicoPage {
 
-  tituloAlert:any;
-  siAlert : any;
-  mensajeAlert : any;
-  toast: any;
-  mensajeCargando: any;
-  nombreUsuario : string;
-  amigo : any;
-  public mensajeToast : any;
-  public loading = this.loadingCtrl.create({
+export class VisualizarPerfilPublicoPage 
+{
+  /*Atributos que almacenan datos*/
+  public amigo : any; //Datos del usuario
+
+  /*Texto en la vista*/
+  public tituloAlert : string;
+  public siAlert : string;
+  public mensajeAlert : string;
+  public mensajeCargando : string;
+  public mensajeToast : string;
+
+  /*Elementos de la vista*/
+  public toast: any;
+  
+  public constructor
+  ( 
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alerCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController, 
+    private storage: Storage,
+    private translate : TranslateModule,
+    private translateService : TranslateService,
+    private comandoObtenerPerfilPublico : ComandoObtenerPerfilPublico,
+    private comandoAgregarAmigo : ComandoAgregarAmigo,
+    private comandoEnviarCorreo : ComandoEnviarCorreo
+  ) { }
+
+  public loading = this.loadingCtrl.create
+  ({
     content: 'Please wait...'
   });
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alerCtrl: AlertController,
-              public restapiService: RestapiService, public loadingCtrl: LoadingController,
-              public toastCtrl: ToastController, private storage: Storage , translate : TranslateModule,
-              public translateService : TranslateService ) {
-               
-                
-  }
-
-  /**
+/**
  * Metodo que despliega un toast
  * @param mensaje Texto para el toast
  */
-  realizarToast() {
-    this.translateService.get('Mensaje agregar').subscribe(
-      value => {
-         this.mensajeToast = value;
-      }
-    )
-    this.toast = this.toastCtrl.create({
-      message: this.mensajeToast,
-      duration: 3000,
-      position: 'top'
+  public realizarToast(mensaje : string) 
+  {
+    let mensajeTraducido;
+
+    this.translateService.get(mensaje).subscribe(value => {mensajeTraducido = value;})
+
+    this.toast = this.toastCtrl.create(
+    {
+      message: mensajeTraducido,
+      duration: ConfiguracionToast.DURACION,
+      position: ConfiguracionToast.POSICION
     });
     this.toast.present();
   }
@@ -69,15 +89,19 @@ export class VisualizarPerfilPublicoPage {
  * la lista de amigos
  * (Por favor espere/ please wait)
  */
-  cargando(){
-    this.translateService.get('Por favor, espere').subscribe(
-      value => {
-        // value is our translated string
+  public cargando()
+  {
+    this.translateService.get(Texto.CARGANDO).subscribe
+    (
+      value => 
+      {
+        // value es nuestro texto traducido
          this.mensajeCargando = value;
       }
     )
 
-    this.loading = this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create
+    ({
       content: this.mensajeCargando,
       dismissOnPageChange: true
     });
@@ -87,81 +111,113 @@ export class VisualizarPerfilPublicoPage {
   /**
    * Metodo para cargar la lista de amigos
    */
-  ionViewWillEnter() {
-    this.nombreUsuario = this.navParams.get('nombreUsuario');
+  public ionViewWillEnter() 
+  {
     this.cargando();
-     this.restapiService.obtenerPerfilPublico(this.nombreUsuario)
-       .then(data => {
-         if (data == 0 || data == -1) {
-           console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-         }
-         else {
-           this.amigo = data;
-           this.loading.dismiss();
-         }
- 
-       });
-   }
+    
+    this.comandoObtenerPerfilPublico.NombreUsuario = this.navParams.get('nombreUsuario');
+
+    this.comandoObtenerPerfilPublico.execute()
+    .then((resultado) => 
+    {
+      if(resultado)
+      {
+        this.amigo = this.comandoObtenerPerfilPublico.return();
+      }
+      else
+      {
+        this.realizarToast(Texto.ERROR);
+      }
+    })
+    .catch(() => this.realizarToast(Texto.ERROR));
+
+    this.loading.dismiss();
+  }
 
 /**
- * Metodo que carga los datos de un amigo para visualizar su perfil
+ * Metodo que genera una solicitud de peticion de amistad y el envio de un correo
+ * notificando al usuario que recibe la peticion
+ * @param item Datos del usuario a agregar
  */
-   agregarAmigo(item){
-      this.cargando();
-      this.storage.get('id').then((val) => {
-        
-      this.restapiService.agregarAmigo(val,item.NombreUsuario)
-        .then(data => {
-          if (data == 0 || data == -1) {
-            console.log("DIO ERROR PORQUE ENTRO EN EL IF");
-          }
-          else {
-            this.loading.dismiss();
-            this.realizarToast();
-            this.navCtrl.pop();
-          }
-        });
-      });
+  public agregarAmigo (item) 
+  {
+    this.cargando();
 
-      this.storage.get('id').then((val) => {
-        this.restapiService.enviarCorreo(val,item.Nombre,item.Correo)
-          .then(data => {
-            if (data == 0 || data == -1) {
-              console.log("DIO ERROR PORQUE ENTRO EN EL IF");
+    this.storage.get('id').then((idUsuario) => 
+    {
+      this.comandoAgregarAmigo.Id = idUsuario;
+      this.comandoAgregarAmigo.NombreUsuario = item.NombreUsuario;
+
+      this.comandoAgregarAmigo.execute()
+      .then((resultado) => 
+      {
+        if(resultado)
+        {
+          this.realizarToast(Texto.EXITO_CONFIRMAR);
+
+          this.comandoEnviarCorreo.IdUsuario = idUsuario;
+          this.comandoEnviarCorreo.NombreUsuario = item.NombreUsuario;
+          this.comandoEnviarCorreo.Correo = item.Correo;
+    
+          this.comandoEnviarCorreo.execute()
+          .then((resultado) => 
+          {
+            if(resultado)
+            {
+              this.realizarToast(Texto.EXITO_CORREO);
             }
-          });
-        });
+            else
+            {
+              this.realizarToast(Texto.ERROR);
+            }
+          })
+          .catch(() => this.realizarToast(Texto.ERROR));
+        }
+        else
+        {
+          this.realizarToast(Texto.ERROR);
+        }
+      })
+      .catch(() => this.realizarToast(Texto.ERROR));
 
-   }
+      this.loading.dismiss();
+      this.navCtrl.pop();
+    });
+  }
 
 /**
  * Metodo para agregar un usuario
- * @param item Nombre del usuario a agregar
+ * @param item Datos del usuario a agregar
  */
-doConfirm(item) {
-  this.translateService.get('Agregar?').subscribe(value => {this.tituloAlert = value;})
-  this.translateService.get('Desea agregar a esta persona como amigo?').subscribe(value => {this.mensajeAlert = value;})
-  this.translateService.get('Si').subscribe(value => {this.siAlert = value;})
-    let confirm = this.alerCtrl.create({
-      title: this.tituloAlert,
-      message: this.mensajeAlert,
-      buttons: [
-        {
-            text: 'No',
-            handler: () => {
-            console.log('No clicked');
-          }
-        },
-        {
-          text: this.siAlert,
-          handler: () => {
-            this.agregarAmigo(item);
-            console.log('Si clicked');
-          }
-        }
-      ]
-    });
-    confirm.present()
-  }
+  public doConfirm (item) 
+  {
+    this.translateService.get(Texto.TITULO_CONFIRMAR).subscribe(value => {this.tituloAlert = value;})
+    this.translateService.get(Texto.MENSJAE_CONFIRMAR).subscribe(value => {this.mensajeAlert = value;})
+    this.translateService.get(Texto.SI_CONFIRMAR).subscribe(value => {this.siAlert = value;})
 
+    let confirm = this.alerCtrl.create
+    ({
+        title: this.tituloAlert,
+        message: this.mensajeAlert,
+        buttons: 
+        [
+          {
+            text: 'No',
+            handler: () => 
+            {
+              console.log('No');
+            }
+          },
+          {
+            text: this.siAlert,
+            handler: () => 
+            {
+              this.agregarAmigo(item);
+              console.log('Si');
+            }
+          }
+        ]
+      });
+      confirm.present()
+  }
 }

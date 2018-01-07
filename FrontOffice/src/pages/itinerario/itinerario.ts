@@ -8,6 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { RestapiService } from '../../providers/restapi-service/restapi-service';
 import 'rxjs/add/observable/throw';
 import { Storage } from '@ionic/storage';
+import { FabricaComando } from '../../businessLayer/factory/fabricaComando';
+import { FabricaEntidad } from '../../dataAccessLayer/factory/fabricaEntidad';
+import { Itinerario } from '../../dataAccessLayer/domain/itinerario';
+import { FabricaDAO } from '../../businessLayer/factory/fabricaDao';
 
 
 @IonicPage()
@@ -134,7 +138,7 @@ export class ItinerarioPage {
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
-              this.presentLoading();
+              console.log("salio del comando");
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
                   if (data ==0 || data==-1){
@@ -215,7 +219,7 @@ export class ItinerarioPage {
               if (this.its == undefined) this.its=Array();
               let name = data.Nombre;
               let newitinerario ={ Nombre:data.Nombre, IdUsuario: this.IdUsuario }
-              this.presentLoading();
+              let itinerario: Itinerario;
               this.httpc.agregarItinerario(newitinerario).then(
                 data =>{
                   if (data ==0 || data==-1){
@@ -278,6 +282,7 @@ export class ItinerarioPage {
             }else{
               this.loading.dismiss();
               this.delete= !this.delete;
+              console.log(idit);
               this.eliminarItinerario(idit, index);
             }
           });
@@ -350,12 +355,17 @@ export class ItinerarioPage {
       text: 'Aceptar',
       handler: () => {
         this.presentLoading();
+        console.log(evento.Tipo);
+        console.log(id_itinerario);
+        console.log(evento.Id);
         this.httpc.eliminarItem(evento.Tipo,id_itinerario, evento.Id).then(data=>{
           if (data==0 || data==-1){
             this.loading.dismiss();
             console.log("ERROR:: no se pudo eliminar el item");
           }else {
             this.loading.dismiss();
+            console.log("data");
+            console.log(data);
             this.eliminarItem(id_itinerario, evento.Id, index);
           }
         });
@@ -488,6 +498,7 @@ export class ItinerarioPage {
    **/
   public done()
   {
+    console.log("Entro a done");
     this.delete=false;
     if (this.translateService.currentLang == 'es'){
     for(var i = 0;i< this.its.length;i++) {
@@ -499,16 +510,19 @@ export class ItinerarioPage {
       }
       else
       {
+        console.log(this.its[i].Nombre);
         this.edit = false;
-        let moditinerario ={Id:this.its[i].Id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
+        let moditinerario ={Id:this.its[i].id, Nombre:this.its[i].Nombre,FechaInicio:this.its[i].FechaInicio,FechaFin:this.its[i].FechaFin,IdUsuario:this.IdUsuario}
         this.httpc.modificarItinerario(moditinerario).then(data=>{
+          console.log("data: ");
+          console.log(data);
         })
       }
     }
   }
   else
   {
-    for(var i = 0;i< this.its.length;i++) {
+    for( i = 0;i< this.its.length;i++) {
       this.its[i].edit = this.its[i].Nombre;
       if (this.its[i].FechaInicio > this.its[i].FechaFin)
       {
@@ -565,7 +579,7 @@ ionview
          });
        }
     }else{
-      for(var i = 0;i< this.its.length;i++) {
+      for(i = 0;i< this.its.length;i++) {
         this.its[i].Items_agenda.sort(function(a,b){
              return new Date(a.FechaInicio).getTime() - new Date(b.FechaInicio).getTime();
           });
@@ -663,7 +677,7 @@ ionview
     if (this.delete == false){
       let evento1;
       this.presentLoading();
-      this.httpc.verItem(evento.Id,evento.Tipo).then(data =>{
+      this.httpc.verItem(evento.id,evento.Tipo).then(data =>{
         if (data== 0 || data == -1){
           this.loading.dismiss();
           if (this.translateService.currentLang == 'es'){
@@ -773,6 +787,9 @@ ionview
       }
       }else{
         this.its = data;
+       // console.log(data); 
+        console.log(this.its);
+       
         this.loading.dismiss();
         if (this.its.length == 0){
           this.noIts = true;

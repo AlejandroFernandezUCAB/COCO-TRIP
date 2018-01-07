@@ -1,0 +1,41 @@
+Modulo 3: Gestion de Amigos y Grupos de Amigos
+-- Version aprobada para entrar a QS
+-- Version aprobada para entrar a master
+
+  (1) Amigos:
+    Ver lista de amigos [estado] success
+    Buscar amigos (y enviar correo) [estado] success
+    Agregar amigo [estado] success
+    Eliminar amigo [estado] success
+
+  (2) Notificaciones:
+    Ver lista de notificaciones [estado] success
+    Aceptar notificacion [estado] success
+    Rechazar notificacion [estado] success
+
+  (3) Grupo:
+    Ver lista de Grupos [estado] success
+    Crear Grupo sin miembros [estado] success
+    crear Grupo con miembros [estado] success
+
+    (3.1) Como Lider:
+      Eliminar Grupo (Salir del grupo sin miembros) [estado] success
+      Eliminar Grupo (Salir del grupo con miembros) [estado] success
+      Modificar Grupo (Nombre) [estado] success
+      Modificar Grupo (Agregar miembro) [estado] success
+      Modificar Grupo (Eliminar miembro) [estado] success
+    (3.2) Como Miembro:
+      Abandonar el grupo (sin eliminar el grupo) [estado] success
+      Modificar datos del grupo sin exito [estado] success
+      Agregar miembro al grupo sin exito [estado] success (en 1er lugar ni siquiera puedo acceder al modificar)
+      Eliminar miembro del grupo sin exito [estado] success (en 1er lugar ni siquiera puedo acceder al modificar)
+
+  (4) Perfil:
+    Ver perfil de amigo (sin agregar) [estado] success
+    Ver perfil de amigo (agregado) [estado] success
+    Ver perfil de grupo [estado] success
+
+  (5) Fotos (Opcional):
+    Ver foto de grupo [estado] success
+    Agregar foto de grupo [estado] success
+    Modificar foto de grupo [estado] success

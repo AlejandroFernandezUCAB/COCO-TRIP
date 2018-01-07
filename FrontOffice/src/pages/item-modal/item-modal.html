@@ -38,7 +38,7 @@
   <ion-searchbar *ngIf="this.searchForm.valid" [(ngModel)]="searchTerm" (ionInput)="getItems($event)"></ion-searchbar>
 
   <ion-list>
-        <ion-item *ngFor="let item of items" (click)="agregarItem(item.Id)">
+        <ion-item *ngFor="let item of items" (click)="agregarItem(item.id,item)">
           <ion-avatar item-start>
             <img *ngIf="item.Foto" [src]="item.Foto">
           </ion-avatar>

@@ -16,20 +16,29 @@
               
 <ion-content padding class="card-background-page"> 
     <ion-card *ngFor="let item of grupo" class ="item-borderless"  >
-        <img src="assets/images/grupo.png" class="imagen-perfil"/>
-        <ion-input item-start placeholder={{item.Nombre}} 
-        [(ngModel)]="nombreGrupo" class="card-title" ></ion-input>
+        <img src={{item.RutaFoto}} class="imagen-perfil"/>
     </ion-card>
-
-
     
+     <form [formGroup]="myForm">
+         <ion-list>
+            <ion-list-header>
+            {{'Nombre del Grupo' | translate}}
+            </ion-list-header>
+            <ion-item *ngFor="let item of grupo">
+                <ion-input type="text"
+                [(ngModel)]="nombreGrupo" formControlName="namegroup" required>
+                </ion-input>
+            </ion-item>
+         </ion-list>
+     </form>
+
     <ion-list >
             <ion-list-header>
-              {{'Lider Del Grupo' | translate}}
-             </ion-list-header>
+            {{'Lider del Grupo' | translate}}
+            </ion-list-header>
                 <ion-item *ngFor="let item of lider">
                   <ion-avatar item-left>
-                      <img src="assets/images/profile.png" >
+                      <img src={{item.Foto}} >
                   </ion-avatar>
                   <h2>{{item.Nombre}} {{item.Apellido}}</h2>
                   <h3>{{item.NombreUsuario}}</h3>
@@ -46,7 +55,7 @@
         <h2>{{item.Nombre}} {{item.Apellido}}</h2>
         <h3>{{item.NombreUsuario}}</h3>
         <ion-avatar item-left>
-            <img src="assets/images/profile.png">
+            <img src={{item.Foto}}>
         </ion-avatar>
         </ion-item>
         
@@ -58,6 +67,10 @@
         </ion-item-options>   
         </ion-item-sliding>
         </ion-list>
+
+    <button ion-button type="submit" block
+    (click)="agregarFoto()">{{ 'Foto del Grupo' | translate }}
+    </button>
 
     <button ion-button type="submit" block
     (click)="modificarNombre($event)">{{ 'Guardar Cambios' | translate }}</button>

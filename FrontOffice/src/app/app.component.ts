@@ -12,14 +12,13 @@ import { PerfilPage } from '../pages/perfil/perfil';
 import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos';
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
-import { ChatPage } from '../pages/chat/chat';
 import { RegisterPage } from '../pages/register/register';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { PreferenciasPage } from '../pages/preferencias/preferencias';
 import { ConfigPage } from '../pages/config/config';
 import { BorrarCuentaPage } from '../pages/borrar-cuenta/borrar-cuenta';
 import { ChangepassPage } from '../pages/changepass/changepass';
-import {CalendarioPage } from '../pages/calendario/calendario';
+import { CalendarioPage } from '../pages/calendario/calendario';
 
 @Component({
   templateUrl: 'app.html'
@@ -42,7 +41,6 @@ export class CocoTrip {
       { title: 'Eventos y Actividades', component: EventosActividadesPage },
       { title: 'Itinerario', component: ItinerarioPage },
       { title: 'Amistades y Grupos', component: AmistadesGruposPage },
-      { title: 'Chat', component: ChatPage },
       {title: 'Salir',component: LoginPage}
     ];
 

@@ -13,14 +13,22 @@
       <ion-list>
           <ion-item *ngFor="let item of grupo; let i= index">
             <ion-avatar item-start>
-              <img src="assets/images/grupo.png">
+              <img src={{item.RutaFoto}}>
             </ion-avatar>
             <h2>{{item.Nombre}}</h2>
-            <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.Id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">{{ 'Eliminar Grupo' | translate }}</p>
+            <button ion-button small icon-only clear *ngIf="delete" style="width:auto; display: flex; margin-top: 0px;" (click)="eliminarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="danger"></ion-icon><p style="color: red; font-size: smaller;">{{ 'Eliminar Grupo' | translate }}</p>
             </button>
-            <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="modificarGrupo(item.Id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">{{ 'Modificar Grupo' | translate }}</p>
+            <button ion-button small icon-only clear *ngIf="chat"
+            style="width:auto; display: flex; margin-top: 0px;"
+            (click)="chatGrupo(item.id,item.Nombre)">
+            <ion-icon name="remove" style="width:100%" color="blue">
+            </ion-icon>
+            <p style="color: blue; font-size: smaller;">
+              {{ 'Chat Grupo' | translate }}</p>
             </button>
-            <button ion-button small icon-only clear *ngIf="detail" style="width:auto; display: flex; margin-top: 0px;" (click)="verDetalleGrupo(item.Id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">{{ 'Ver Detalle Del Grupo' | translate}}</p>
+            <button ion-button small icon-only clear *ngIf="edit" style="width:auto; display: flex; margin-top: 0px;" (click)="modificarGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">{{ 'Modificar Grupo' | translate }}</p>
+            </button>
+            <button ion-button small icon-only clear *ngIf="detail" style="width:auto; display: flex; margin-top: 0px;" (click)="verDetalleGrupo(item.id, i)"> <ion-icon name="remove" style="width:100%" color="blue"></ion-icon><p style="color: blue; font-size: smaller;">{{ 'Ver Detalle Del Grupo' | translate}}</p>
             </button>
           </ion-item>
         </ion-list>
@@ -42,6 +50,9 @@
             </button>
             <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="eliminar()">
               <ion-icon name="trash"></ion-icon>
+            </button>
+            <button ion-fab class="fab fab-ios fab-in-list fab-ios-in-list" color="ss" style="color: white" (click)="verChat()">
+              <ion-icon name="chatbubbles"></ion-icon>
             </button>
           </ion-fab-list>
         </ion-fab>

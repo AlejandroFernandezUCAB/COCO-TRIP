@@ -1,13 +1,12 @@
 @Styles.Render("~/bundles/lugares_addCSS")
-@using BackOffice_COCO_TRIP.Helpers
+@model BackOffice_COCO_TRIP.Datos.Entidades.Localidad
 
-@model BackOffice_COCO_TRIP.Models.LocalidadEvento
 @{
-    ViewBag.Title = "Crear Localidad Evento";
+    ViewBag.Title = "Localidades";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create Localidad para un Evento</h2>
+<h2>Crear Localidad </h2>
 
 @using (Html.BeginForm("Create", "M8_Localidad", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
 {
@@ -35,7 +34,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.Coordenadas, htmlAttributes: new { @class = "control-label col-md-2" })
       <div class="col-md-5">
-        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "disabledClass", @id = "coords" }})
+        @Html.EditorFor(model => model.Coordenadas, new { htmlAttributes = new { @class = "disabledClass", @id = "coords" } })
         @Html.ValidationMessageFor(model => model.Coordenadas, null, new { @class = "label label-danger" })
       </div>
       <div id="map" class="text-center"></div>
@@ -44,7 +43,7 @@
 
     <div class="form-group">
       <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="CreateEvent" class="btn btn-default" />
+        <input type="submit" value="Crear Localidad" class="btn btn-default" />
       </div>
     </div>
   </div>

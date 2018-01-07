@@ -1,4 +1,3 @@
-using ApiRest_COCO_TRIP.Controllers;
 using ApiRest_COCO_TRIP.Models;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using Npgsql;
@@ -7,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
-using System.Web.Http;
 
 namespace ApiRest_COCO_TRIP
 {
@@ -87,7 +84,7 @@ namespace ApiRest_COCO_TRIP
         /// <param name="categoria"></param>
         /// <exception cref="BaseDeDatosExcepcion"></exception>
 
-        public IList<Categoria> ObtenerCategorias(Categoria categoria)
+     public IList<Categoria> ObtenerCategorias(Categoria categoria)
     {
       IList<Categoria> listaCategorias = new List<Categoria>();
       try
@@ -217,7 +214,7 @@ namespace ApiRest_COCO_TRIP
         ///Lee los datos de la categoria
         /// </summary>
        
-        private IList<Categoria> SetListaCategoria()
+        public IList<Categoria> SetListaCategoria()
     {
 
       IList<Categoria> listaCategorias = new List<Categoria>();
@@ -329,7 +326,7 @@ namespace ApiRest_COCO_TRIP
         /// </summary>  
         /// <exception cref="BaseDeDatosExcepcion"></exception>
       
-        public IList<Categoria> ObtenerCategoriasHabilitadas()
+     public IList<Categoria> ObtenerCategoriasHabilitadas()
     {
       IList<Categoria> listaCategorias;
       try

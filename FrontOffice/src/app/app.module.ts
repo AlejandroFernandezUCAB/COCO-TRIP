@@ -14,8 +14,10 @@ import { PerfilPage } from '../pages/perfil/perfil';
 import { AmistadesGruposPage } from '../pages/amistades-grupos/amistades-grupos';
 import { EventosActividadesPage } from '../pages/eventos-actividades/eventos-actividades';
 import { ItinerarioPage } from '../pages/itinerario/itinerario';
-import { ChatPage } from '../pages/chat/chat';
 import { ConversacionPage } from '../pages/chat/conversacion/conversacion';
+
+import { InformacionMensajePage } from '../pages/chat/informacion-mensaje/informacion-mensaje';
+import { ConversacionGrupoPage } from '../pages/chat/conversacion-grupo/conversacion-grupo';
 import { RegisterPage } from '../pages/register/register';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { PreferenciasPage } from "../pages/preferencias/preferencias";
@@ -55,9 +57,9 @@ import { NotificacionesPage } from '../pages/amistades-grupos/notificaciones/not
 
 import { VisualizarPerfilPage } from '../pages/VisualizarPerfil/VisualizarPerfil';
 import { VisualizarPerfilPublicoPage } from '../pages/visualizarperfilpublico/visualizarperfilpublico';
+import { InformacionMensajeGrupoPage } from '../pages/chat/informacion-mensaje-grupo/informacion-mensaje-grupo';
 
 import { CrearGrupoPage } from '../pages/crear-grupo/crear-grupo';
-
 import { SeleccionarIntegrantesPage } from '../pages/seleccionar-integrantes/seleccionar-integrantes';
 import { DetalleGrupoPage } from '../pages/detalle-grupo/detalle-grupo';
 import { CalendarModule } from "ion2-calendar";
@@ -69,6 +71,34 @@ import { Firebase } from '@ionic-native/firebase';
 import * as firebase from 'firebase';
 import { RestapiService } from '../providers/restapi-service/restapi-service';
 import { HttpCProvider } from '../providers/http-c/http-c';
+import { ComandoAceptarNotificacion } from '../businessLayer/commands/comandoAceptarNotificacion';
+import { ComandoAgregarAmigo } from '../businessLayer/commands/comandoAgregarAmigo';
+import { ComandoAgregarGrupo } from '../businessLayer/commands/comandoAgregarGrupo';
+import { ComandoAgregarIntegrante } from '../businessLayer/commands/comandoAgregarIntegrante';
+import { ComandoBuscarAmigo } from '../businessLayer/commands/comandoBuscarAmigo';
+import { ComandoEliminarAmigo } from '../businessLayer/commands/comandoEliminarAmigo';
+import { ComandoEliminarIntegrante } from '../businessLayer/commands/comandoEliminarIntegrante';
+import { ComandoEnviarCorreo } from '../businessLayer/commands/comandoEnviarCorreo';
+import { ComandoListaAmigos } from '../businessLayer/commands/comandoListaAmigos';
+import { ComandoListaGrupos } from '../businessLayer/commands/comandoListaGrupos';
+import { ComandoListaMiembroGrupo } from '../businessLayer/commands/comandoListaMiembroGrupo';
+import { ComandoListaNotificaciones } from '../businessLayer/commands/comandoListaNotificaciones';
+import { ComandoModificarGrupo } from '../businessLayer/commands/comandoModificarGrupo';
+import { ComandoObtenerLider } from '../businessLayer/commands/comandoObtenerLider';
+import { ComandoObtenerMiembrosSinGrupo } from '../businessLayer/commands/comandoObtenerMiembrosSinGrupo';
+import { ComandoObtenerPerfilPublico } from '../businessLayer/commands/comandoObtenerPerfilPublico';
+import { ComandoObtenerSinLider } from '../businessLayer/commands/comandoObtenerSinLider';
+import { ComandoObtenerUltimoGrupo } from '../businessLayer/commands/comandoObtenerUltimoGrupo';
+import { ComandoRechazarNotificacion } from '../businessLayer/commands/comandoRechazarNotificacion';
+import { ComandoSalirGrupo } from '../businessLayer/commands/comandoSalirGrupo';
+import { ComandoVerificarLider } from '../businessLayer/commands/comandoVerificarLider';
+import { ComandoVerPerfilGrupo } from '../businessLayer/commands/comandoVerPerfilGrupo';
+import { FormsModule, FormControlDirective, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { ComandoVerPerfil } from '../businessLayer/commands/comandoVerPerfil';
+import { ComandoEditarPerfil } from '../businessLayer/commands/comandoEditarPerfil';
+import { ComandoCambiarPassword } from '../businessLayer/commands/comandoCambiarPassword';
+import { ComandoBorrarCuenta } from '../businessLayer/commands/comandoBorrarCuenta';
+import { ComandoEditarFoto } from '../businessLayer/commands/comandoEditarFoto';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -86,8 +116,8 @@ firebase.initializeApp(config);
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage,
     ConversacionPage,
+    ConversacionGrupoPage,
     AmigosPage,
     GruposPage,
     NotificacionesPage,
@@ -98,7 +128,6 @@ firebase.initializeApp(config);
     DetalleGrupoPage,
     BuscarAmigoPage,
     RegisterPage,
-    ChatPage,
     EditProfilePage,
     ChangepassPage,
     ConfigPage,
@@ -106,11 +135,15 @@ firebase.initializeApp(config);
     PreferenciasPage,
     CalendarioPage,
     ModificarGrupoPage,
-    NuevosIntegrantesPage
+    NuevosIntegrantesPage,
+    InformacionMensajePage,
+    InformacionMensajeGrupoPage
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(CocoTrip),
     TranslateModule.forRoot({
       loader: {
@@ -139,8 +172,8 @@ firebase.initializeApp(config);
     AmistadesGruposPage,
     EventosActividadesPage,
     ItinerarioPage,
-    ChatPage,
     ConversacionPage,
+    ConversacionGrupoPage,
     AmigosPage,
     GruposPage,
     NotificacionesPage,
@@ -158,9 +191,13 @@ firebase.initializeApp(config);
     PreferenciasPage,
     CalendarioPage,
     ModificarGrupoPage,
-    NuevosIntegrantesPage
+    NuevosIntegrantesPage,
+    InformacionMensajePage,
+    InformacionMensajeGrupoPage
   ],
   providers: [
+    FormControlDirective, 
+    FormGroupDirective,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -175,6 +212,34 @@ firebase.initializeApp(config);
     FilePath,
     ChatProvider,
     AngularFireAuth,
+    ComandoAceptarNotificacion,
+    ComandoAgregarAmigo,
+    ComandoAgregarGrupo,
+    ComandoAgregarIntegrante,
+    ComandoBuscarAmigo,
+    ComandoEliminarAmigo,
+    ComandoEliminarIntegrante,
+    ComandoEnviarCorreo,
+    ComandoListaAmigos,
+    ComandoListaGrupos,
+    ComandoListaMiembroGrupo,
+    ComandoListaNotificaciones,
+    ComandoModificarGrupo,
+    ComandoObtenerLider,
+    ComandoObtenerMiembrosSinGrupo,
+    ComandoObtenerPerfilPublico,
+    ComandoObtenerSinLider,
+    ComandoObtenerUltimoGrupo,
+    ComandoRechazarNotificacion,
+    ComandoSalirGrupo,
+    ComandoVerificarLider,
+    ComandoVerPerfilGrupo,
+    ComandoVerPerfil,
+    ComandoEditarPerfil,
+    ComandoCambiarPassword,
+    ComandoBorrarCuenta,
+    ComandoEditarFoto
+    
   ]
 })
 export class AppModule {}

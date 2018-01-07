@@ -1,0 +1,2 @@
+{"Nombre":"DS1718A Modulo 3: Gestion de Amigos y Grupos de Amigos","RutaFoto":null,"ContenidoFoto":null,"Lider":1,"CantidadIntegrantes":1,"Id":1}
+{"Nombre":"Escuela de Ingenieria Informatica UCAB Sede Montalban","RutaFoto":null,"ContenidoFoto":null,"Lider":2,"CantidadIntegrantes":1,"Id":2}

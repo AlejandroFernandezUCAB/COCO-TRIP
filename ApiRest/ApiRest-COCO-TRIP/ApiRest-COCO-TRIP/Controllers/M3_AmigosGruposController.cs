@@ -1,152 +1,57 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using ApiRest_COCO_TRIP.Models;
-using Npgsql;
-using System.Data;
-using Newtonsoft.Json;
-using System.Net.Mail;
-using System.Net;
 using System.Web.Http.Cors;
+using System.Collections.Generic;
+using ApiRest_COCO_TRIP.Negocio.Fabrica;
+using ApiRest_COCO_TRIP.Negocio.Command;
+using ApiRest_COCO_TRIP.Datos.Entity;
 
 /// <summary>
 /// Clase controladora del MODULO 3
-/// Se encarga de generar las peticiones http
+/// Se encarga de recibir las peticiones HTTP
 /// </summary>
 namespace ApiRest_COCO_TRIP.Controllers
 {
   [EnableCors(origins: "*", headers: "*", methods: "*")]
   public class M3_AmigosGruposController : ApiController
   {
-    Usuario usuario;
-    PeticionAmigoGrupo peticion;
-
-    
+    private Comando comando;
 
     /// <summary>
-    /// Metodo para agregar amigos en la base de datos
+    /// Agrega una peticion de amistad
     /// </summary>
-    /// <param name="idUsuario1">ID del usuario que esta usando la aplicacion y desea agregar un amigo</param>
-    /// <param name="idUsuario2">ID del usuario que sera agregado</param>
-    /// <returns></returns>
-    [HttpPut]
-    public HttpStatusCode AgregarAmigo(String idUsuario1, String nombreUsuario2)
+    /// <param name="id">ID del usuario que desea agregar un amigo</param>
+    /// <param name="nombre">Nombre de usuario que recibira la notificacion</param>
+    [HttpPost]
+    public void AgregarAmigo(int id, string nombre) //READY
     {
-      try
-      {
-
-        peticion = new PeticionAmigoGrupo();
-        if (peticion.ExisteSolicitud( Convert.ToInt32(idUsuario1), nombreUsuario2) == -1 )
-        {
-          peticion.AgregarAmigosBD(Convert.ToInt32(idUsuario1), nombreUsuario2);
-        }
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return HttpStatusCode.OK;
-      
+      comando = FabricaComando.CrearComandoAgregarAmigo(id, nombre);
+      comando.Ejecutar();
     }
-
+    
     /// <summary>
     /// Metodo que solicita a la base de datos informacion del usuario que se desea visualizar
     /// </summary>
-    /// <param name="nombreUsuario">nombre del usuario que se quiere visualizar perfil</param>
+    /// <param name="nombre">Nombre del usuario que se quiere visualizar perfil</param>
     /// <returns>Retorna los datos del usuario para generar el perfil del amigo</returns>
     [HttpGet]
-    public List<Usuario> VisualizarPerfilAmigo(String nombreUsuario)
+    public Entidad VisualizarPerfilAmigo (string nombre) //READY
     {
-      List<Usuario> lista = new List<Usuario>();
-      Usuario usuario;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        usuario = peticion.VisualizarPerfilAmigoBD(nombreUsuario);
-        lista.Add(usuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return lista;
+      comando = FabricaComando.CrearComandoVisualizarPerfilAmigo(nombre);
+      comando.Ejecutar();
+      return comando.Retornar();
     }
 
     /// <summary>
-    /// Metodo para enviar correo que recomnda la aplicacion
+    /// Metodo para enviar un correo recomendando la aplicacion a un usuario
     /// </summary>
-    /// <param name="correoElectronico">correo electronico de la persona a la que se le va a recomendar
-    ///  la app</param>
-    /// <returns></returns>
-    ///
-    [HttpPut]
-    public int EnviarNotificacionCorreo( string nombreUsuarioRecibe, string correoElectronico, string idUsuarioEnvia)
+    /// <param name="correo">Correo electronico de la persona a la que se le va a recomendar la aplicacion</param>
+    /// <param name="id">ID del usuario que envia la notificacion</param>
+    /// <param name="nombre">Nombre de usuario al que va destinada la notificacion</param>
+    [HttpPost]
+    public void EnviarNotificacionCorreo(string correo, int id, string nombre) //READY
     {
-      int respuesta = 0;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        
-        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-        var mail = new MailMessage();
-        mail.From = new MailAddress("cocotrip17@gmail.com");
-        mail.To.Add(correoElectronico);
-        mail.Subject = "Hola "+ nombreUsuarioRecibe + " alguien quiere agregarte como amigo!";
-        mail.IsBodyHtml = false;
-        mail.Body = peticion.ConsultarUsuario(Convert.ToInt32(idUsuarioEnvia)) +
-          " desea agregarte como amigo, puedes aceptarl@ desde la app de COCO-Trip ";
-        SmtpServer.Port = 587;
-        SmtpServer.UseDefaultCredentials = false;
-        SmtpServer.Credentials = new System.Net.NetworkCredential("cocotrip17", "arepascocotrip");
-        SmtpServer.EnableSsl = true;
-        SmtpServer.Send(mail);
-        respuesta = 1;
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return respuesta;
-
+      comando = FabricaComando.CrearComandoEnviarNotificacionCorreo(correo, id, nombre);
+      comando.Ejecutar();
     }
 
     /// <summary>
@@ -156,260 +61,77 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar o salir del grupo</param>
     /// <returns></returns>
     [HttpDelete]
-    public int EliminarSalirGrupo(string idGrupo, string idUsuario)
+    public void SalirGrupo (int idGrupo, int idUsuario) //READY
     {
-
-      int respuesta = 0;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        if (peticion.VerificarLider(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario)))
-        {
-          respuesta = 1;
-          respuesta = peticion.EliminarGrupoBD(Convert.ToInt32(idUsuario), Convert.ToInt32(idGrupo));
-        }
-        else
-        {
-          respuesta = 2;
-          respuesta = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
-        }
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
-      return respuesta;
-    }
-
-    /// <summary>
-    /// Metedo que se encarga de sacar del grupo al usuario, eliminando en la bd el registro de la tabla miembro
-    /// </summary>
-    /// <param name="idGrupo">ID de bd del grupo del que se deseea salir</param>
-    /// <param name="idUsuario">id del usuario que desea salir del grupo</param>
-    /// <returns>true si sale exitossamente, false en caso contrario</returns>
-    [HttpDelete]
-    public int SalirGrupo(string idGrupo, string idUsuario)
-    {
-      int salio = 0;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        salio = peticion.SalirGrupoBD(Convert.ToInt32(idGrupo), Convert.ToInt32(idUsuario));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException e)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return salio;
-
+      comando = FabricaComando.CrearComandoSalirGrupo(idGrupo, idUsuario);
+      comando.Ejecutar();
     }
 
     /// <summary>
     /// Metodo que se encarga de obtener la lista de notificaciones pendientes de un usuario
     /// </summary>
-    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <param name="id">Identificador del usuario</param>
     /// <returns>Retorna la lista de notificaciones</returns>
     [HttpGet]
-    public List<Usuario> ObtenerListaNotificaciones(string idUsuario)
+    public List<Entidad> ObtenerListaNotificaciones(int id)
     {
-      List<Usuario> respuesta = null;
-      peticion = new PeticionAmigoGrupo();
-      try
-      {
-        respuesta = peticion.ObtenerListaNotificacionesBD(Convert.ToInt32(idUsuario));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return respuesta;
+      comando = FabricaComando.CrearComandoObtenerListaNotificaciones(id);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
 
     /// <summary>
-    /// Metodo para rechazar la notificacion 
+    /// Metodo para rechazar la solicitud de amistad
     /// </summary>
-    /// <param name="nombreUsuarioRechazado">Nombre del usuario rechazado</param>
     /// <param name="idUsuario">Identificador del usuario que esta rechazando la notificacion</param>
+    /// <param name="nombreUsuarioRechazado">Nombre del usuario rechazado</param>
     /// <returns></returns>
-  
-    [HttpDelete]
-    public int RechazarNotificacion(string nombreUsuarioRechazado, string idUsuario)
-    {
-      int respuesta = 0;
-      peticion = new PeticionAmigoGrupo();
 
-      try
-      {
-        respuesta = peticion.RechazarNotificacionBD(nombreUsuarioRechazado, Convert.ToInt32(idUsuario));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return respuesta;
+    [HttpDelete]
+    public void RechazarNotificacion (int idUsuario, string nombreUsuarioRechazado) //READY
+    {
+      comando = FabricaComando.CrearComandoRechazarNotificacion(idUsuario, nombreUsuarioRechazado);
+      comando.Ejecutar();
     }
 
     /// <summary>
-    /// Metodo para aceptar la solicitud de un usuario
+    /// Metodo para aceptar la solicitud de amistad de un usuario
     /// </summary>
-    /// <param name="nombreUsuarioAceptado">Nombre del usuario aceptado</param>
     /// <param name="idUsuario">Identificador del usuario que acepto la solicitud</param>
+    /// <param name="nombreUsuarioAceptado">Nombre del usuario aceptado</param>
     /// <returns></returns>
-    [HttpPost]
-    public int AceptarNotificacion(string nombreUsuarioAceptado, string idUsuario)
+    [HttpPut]
+    public void AceptarNotificacion (int idUsuario, string nombreUsuarioAceptado)
     {
-      int respuesta = 0;
-      peticion = new PeticionAmigoGrupo();
-
-      try
-      {
-        respuesta = peticion.AceptarNotificacionBD(nombreUsuarioAceptado, Convert.ToInt32(idUsuario));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return respuesta;
+      comando = FabricaComando.CrearComandoAceptarNotificacion(idUsuario, nombreUsuarioAceptado);
+      comando.Ejecutar();
     }
 
     /// <summary>
     /// Buscar amigo en la aplicacion
     /// </summary>
-    /// <param name="nombre">nombre del amigo a buscar</param>
-    /// <param name="idUsuario">Identificador del usuario que esta buscando (Para que no aparezca
-    /// en la lista del buscador)</param>
+    /// <param name="id">Identificador del usuario que esta buscando (Para que no aparezca en la lista del buscador)</param>
+    /// <param name="nombre">Nombre del amigo a buscar</param>
     /// <returns></returns>
     [HttpGet]
-    public List<Usuario> BuscarAmigo(string nombre, string idUsuario)
+    public List<Entidad> BuscarAmigos (int id, string nombre)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.BuscarAmigo(nombre, Convert.ToInt32(idUsuario));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
+      comando = FabricaComando.CrearComandoBuscarAmigos(id, nombre);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
 
     /// <summary>
     /// Procedimiento para agregar un grupo
     /// </summary>
-    /// <param name="nombre">Nombre del grupo</param>
-    /// <param name="foto">Foto del grupo</param>
-    /// <param name="idusuario">Lider del grupo(creador)</param>
+    /// <param name="grupo">Datos del grupo a agregar</param>
     /// <returns></returns>
-    [HttpPut]
-    public int AgregarGrupo(String nombre, String foto, String idusuario)
+    [HttpPost]
+    public void AgregarGrupo (Grupo grupo)  /*String nombre, String foto, String idusuario*/ //READY
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-
-        if (foto != "")
-
-        {
-          return peticion.AgregarGrupoBD(nombre, foto, Convert.ToInt32(idusuario));
-        }
-
-        else
-        {
-          return peticion.AgregarGrupoBD(nombre, Convert.ToInt32(idusuario));
-        }
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
+      comando = FabricaComando.CrearComandoAgregarGrupo(grupo);
+      comando.Ejecutar();
     }
-
 
     /// <summary>
     /// Procedimiento que se encarga de recoger los datos de
@@ -418,66 +140,25 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>La lista de amigos de un usuario</returns>
     [HttpGet]
-    public List<Usuario> VisualizarListaAmigos(int idUsuario)
+    public List<Entidad> VisualizarListaAmigos(int idUsuario) //READY
     {
-      List<Usuario> lista;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        lista = peticion.VisualizarListaAmigoBD(idUsuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return lista;
+      comando = FabricaComando.CrearComandoVisualizarListaAmigos(idUsuario);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
 
     /// <summary>
     /// Procemiento que se encarga de hacer la peticion para
     /// eliminar un amigo de la base de datos
     /// </summary>
-    /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
     /// <param name="idUsuario">Identificador del usuario que quiere eliminar</param>
+    /// <param name="nombreAmigo">Nombre de usuario del amigo a eliminar</param>
     /// <returns></returns>
     [HttpDelete]
-    public int EliminarAmigo(string nombreAmigo, int idUsuario)
+    public void EliminarAmigo(int idUsuario, string nombreAmigo) //READY
     {
-      int resultado;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        resultado = peticion.EliminarAmigoBD(nombreAmigo, idUsuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return resultado;
+      comando = FabricaComando.CrearComandoEliminarAmigo(idUsuario, nombreAmigo);
+      comando.Ejecutar();
     }
 
     /// <summary>
@@ -488,164 +169,63 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo a ser eliminado</param>
     /// <returns></returns>
     [HttpDelete]
-    public int EliminarGrupo(int idUsuario, int idGrupo)
+    public void EliminarGrupo(int idUsuario, int idGrupo)
     {
-      int resultado;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        resultado = peticion.EliminarGrupoBD(idUsuario, idGrupo);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return resultado;
+      comando = FabricaComando.CrearComandoEliminarGrupo(idUsuario, idGrupo);
+      comando.Ejecutar();
     }
+
     /// <summary>
     /// Procedimiento que se encarga de hacer la peticion para
     /// modificar los datos de un grupo
     /// </summary>
-    /// <param name="nombreGrupo">Nombre del grupo</param>
-    /// <param name="idUsuario">Identificador del usuario que esta modificando</param>
-    /// <param name="foto">Foto del grupo</param>
-    /// <param name="idGrupo">El identificador del grupo</param>
+    /// <param name="grupo">Datos del grupo</param>
+    /// <param name="id">Identificador del usuario que modifica los datos del grupo</param>
     /// <returns></returns>
-    [HttpPost]
-    public int ModificarGrupo(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
+    [HttpPut]
+    public void ModificarGrupo (Grupo grupo, int id) //(string nombreGrupo, int idUsuario, /*byte foto,*/ int idGrupo)
     {
-      int resultado;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        resultado = peticion.ModificarGrupoBD(nombreGrupo, idUsuario, /*foto, */idGrupo);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return resultado;
+      comando = FabricaComando.CrearComandoModificarGrupo(grupo, id);
+      comando.Ejecutar();
     }
 
     /// <summary>
     /// Consultar lista de grupo del usuario
     /// </summary>
-    /// <param name="idUsuario">nombre usuario logeado en la app</param>
+    /// <param name="idUsuario">ID del usuario logeado en la aplicacion</param>
     /// <returns>La lista de grupos de un usuario</returns>
     [HttpGet]
-    public List<Grupo> ConsultarListaGrupos(int idUsuario)
+    public List<Entidad> ConsultarListaGrupos(int idUsuario)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.Listagrupo(idUsuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
+      comando = FabricaComando.CrearComandoConsultarListaGrupos(idUsuario);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
+
     /// <summary>
-    /// Metodo que devulve los integrantes de un grupo
+    /// Metodo que devuelve los integrantes de un grupo
     /// </summary>
-    /// <param name="idgrupo">id del grupo por el cual se devuelven sus integrantes</param>
+    /// <param name="idGrupo">ID del grupo por el cual se devuelven sus integrantes</param>
     /// <returns>Retorna la lista de integrantes de un grupo</returns>
     [HttpGet]
-    public List<Usuario> ConsultarMiembroGrupo(string idgrupo)
+    public List<Entidad> ConsultarMiembroGrupo(int idGrupo)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.Listamiembro(Convert.ToInt32(idgrupo));
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
+      comando = FabricaComando.CrearComandoConsultarMiembroGrupo(idGrupo);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
-
 
     /// <summary>
     /// Procedimiento para visualizar el perfil del grupo
     /// </summary>
-    /// <param name="id">Es el de id del grupo por el cual se buscara</param>
+    /// <param name="id">ID del grupo a buscar</param>
     /// <returns>Retorna los datos del grupo para armar el perfil del grupo</returns>
     [HttpGet]
-    public List<Grupo> ConsultarPerfilGrupos(int id)
+    public Entidad ConsultarPerfilGrupo (int id)
     {
-
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.ConsultarPerfilGrupo(id);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-
+      comando = FabricaComando.CrearComandoConsultarPerfilGrupo(id);
+      comando.Ejecutar();
+      return comando.Retornar();
     }
 
     /// <summary>
@@ -654,235 +234,90 @@ namespace ApiRest_COCO_TRIP.Controllers
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="nombreUsuario">Nombre del usuario a agregar</param>
     /// <returns></returns>
-    [HttpPut]
-    public int AgregarIntegranteModificar(int idGrupo, string nombreUsuario)
+    [HttpPost]
+    public void AgregarIntegrante (int idGrupo, string nombreUsuario)
     {
-      int resultado;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        resultado = peticion.AgregarIntegranteModificarBD(idGrupo, nombreUsuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return resultado;
+      comando = FabricaComando.CrearComandoAgregarIntegrante(idGrupo, nombreUsuario);
+      comando.Ejecutar();
     }
 
     /// <summary>
     /// Procedimiento para eliminar un integrante del grupo al modificar
     /// </summary>
-    /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
     /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="nombreUsuario">Nombre del usuario a ser eliminado del grupo</param>
     /// <returns></returns>
     [HttpDelete]
-    public int EliminarIntegranteModificar(string nombreUsuario, int idGrupo)
+    public void EliminarIntegrante (int idGrupo, string nombreUsuario)
     {
-      int resultado;
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        resultado = peticion.EliminarIntegranteModificarBD(nombreUsuario, idGrupo);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return resultado;
+      comando = FabricaComando.CrearComandoEliminarIntegrante(idGrupo, nombreUsuario);
+      comando.Ejecutar();
     }
 
     /// <summary>
-    /// Metodo que verifica si un usuario es lider de un grupo o solo un integrante
+    /// Metodo que verifica si un usuario es lider de un grupo o solo un integrante. Si no es lider retorna una excepcion
     /// </summary>
     /// <param name="idGrupo">Identificador del grupo</param>
     /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns></returns>
     [HttpGet]
-    public int VerificarLider(int idGrupo, int idUsuario)
+    public void VerificarLider(int idGrupo, int idUsuario)
     {
-      bool respuesta = false;
-      int resultado = 0;
-      peticion = new PeticionAmigoGrupo();
-      try
-      {
-        respuesta = peticion.VerificarLider(idGrupo, idUsuario);
-        if (respuesta == true)
-        {
-          resultado = 1;
-        }
-
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      return resultado;
+      comando = FabricaComando.CrearComandoVerificarLider(idGrupo, idUsuario);
+      comando.Ejecutar();
     }
 
     /// <summary>
     /// Metodo para obtener el usuario lider
     /// </summary>
     /// <param name="idGrupo">Identificador del grupo</param>
-    /// <param name="idUsuario">Identificador del usuario</param>
     /// <returns>Los datos del usuario lider</returns>
     [HttpGet]
-    public List<Usuario> ConsultarLider(int idGrupo, int idUsuario)
+    public Entidad ConsultarLider(int idGrupo)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.ObtenerLider(idGrupo, idUsuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
+      comando = FabricaComando.CrearComandoConsultarLider(idGrupo);
+      comando.Ejecutar();
+      return comando.Retornar();
     }
 
-
     /// <summary>
-    /// metodo para obtener la lista de integrantes de un grupo sin el integrante lider
+    /// Metodo que devuelve los integrantes de un grupo sin el integrante lider
     /// </summary>
-    /// <param name="idGrupo">identificador del grupo</param>
+    /// <param name="idGrupo">Identificador del grupo</param>
     /// <returns>La lista de integrantes sin el lider</returns>
     [HttpGet]
-    public List<Usuario> ConsultarMiembrosSinLider(int idGrupo)
+    public List<Entidad> ConsultarMiembroSinLider(int idGrupo)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.ObtenerSinLider(idGrupo);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
+      comando = FabricaComando.CrearComandoConsultarMiembroSinLider(idGrupo);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
 
     /// <summary>
     /// Metodo para obtener la lista de amigos que no estan agregados al grupo
     /// </summary>
-    /// <param name="idUsuario">Identificador del usuario lider</param>
     /// <param name="idGrupo">Identificador del grupo</param>
+    /// <param name="idUsuario">Identificador del usuario lider</param>
     /// <returns>La lista de usuarios que no estan agregados en el grupo</returns>
     [HttpGet]
-    public List<Usuario> ConsultarMiembrosSinGrupo(int idUsuario, int idGrupo)
+    public List<Entidad> ConsultarMiembroSinGrupo(int idGrupo, int idUsuario)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.ObtenerMiembrosSinGrupo(idUsuario, idGrupo);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
+      comando = FabricaComando.CrearComandoConsultarMiembroSinGrupo(idGrupo, idUsuario);
+      comando.Ejecutar();
+      return comando.RetornarLista();
     }
 
-/// <summary>
-/// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
-/// </summary>
-/// <param name="idUsuario">Identificador del usuario</param>
-/// <returns>Ultimo grupo agregado de un usuario</returns>
-[HttpGet]
-    public int ConsultarultimoGrupo(int idUsuario)
+    /// <summary>
+    /// Metodo para obtener el identificador del ultimo grupo agregado de un usuario
+    /// </summary>
+    /// <param name="idUsuario">Identificador del usuario</param>
+    /// <returns>Ultimo grupo agregado de un usuario</returns>
+    [HttpGet]
+    public Entidad ConsultarUltimoGrupo (int idUsuario)
     {
-      try
-      {
-        peticion = new PeticionAmigoGrupo();
-        return peticion.ObtenerultimoGrupo(idUsuario);
-      }
-      catch (NpgsqlException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
-      catch (ArgumentNullException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (InvalidCastException)
-      {
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
-      }
-      catch (HttpResponseException)
-      {
-        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-      }
+      comando = FabricaComando.CrearComandoConsultarUltimoGrupo(idUsuario);
+      comando.Ejecutar();
+      return comando.Retornar();
     }
-
-
   }
-  }
+}

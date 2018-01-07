@@ -1,7 +1,8 @@
 ﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\..\..\BackOffice\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\BackOffice\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -21,10 +22,12 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,28 +47,23 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Moq">
-      <HintPath>Library\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Library\Npgsql.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="Npgsql, Version=3.2.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.2.6\lib\net451\Npgsql.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -77,19 +76,17 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -106,38 +103,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\COCOTRIP.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-3.2.1.js" />
-    <Content Include="Scripts\jquery-3.2.1.min.js" />
-    <Content Include="Scripts\jquery-3.2.1.slim.js" />
-    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Comun\Excepcion\DirectorioNoEncontradoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\HijoConDePendenciaExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\LectorJsonExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\NombreDuplicadoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ParametrosInvalidosExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ParametrosNullExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SerializacionJsonExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ArgumentoNuloExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\BaseDeDatosExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\CasteoInvalidoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ItemNoEncontradoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\IOExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\AgregadoExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SocketExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\Excepcion.cs" />
+    <Compile Include="Comun\Excepcion\WebExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\PeticionHttpExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\ReferenciaNulaExcepcion.cs" />
+    <Compile Include="Comun\Excepcion\SmtpExcepcion.cs" />
+    <Compile Include="Comun\Validaciones\ValidacionString.cs" />
     <Compile Include="Controllers\M1_LoginController.cs" />
     <Compile Include="Controllers\M2_PerfilPreferenciasController.cs" />
     <Compile Include="Controllers\M3_AmigosGruposController.cs" />
@@ -146,6 +145,40 @@
     <Compile Include="Controllers\M8_EventosController.cs" />
     <Compile Include="Controllers\M8_LocalidadEventoController.cs" />
     <Compile Include="Controllers\M9_CategoriasController.cs" />
+    <Compile Include="Datos\DAO\DAO.cs" />
+    <Compile Include="Datos\DAO\DAOActividad.cs" />
+    <Compile Include="Datos\DAO\DAOAgenda.cs" />
+    <Compile Include="Datos\DAO\DAOAmigo.cs" />
+    <Compile Include="Datos\DAO\DAOCategoria.cs" />
+    <Compile Include="Datos\DAO\DAOFoto.cs" />
+    <Compile Include="Datos\DAO\DAOGrupo.cs" />
+    <Compile Include="Datos\DAO\DAOHorario.cs" />
+    <Compile Include="Datos\DAO\DAOItinerario.cs" />
+    <Compile Include="Datos\DAO\DAOLugarTuristico.cs" />
+    <Compile Include="Datos\DAO\DAOLugarTuristicoCategoria.cs" />
+    <Compile Include="Datos\DAO\DAONotificacion.cs" />
+    <Compile Include="Datos\DAO\DAOUsuario.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOActividad.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOCategoria.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOEvento.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOFoto.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOHorario.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOLugarTuristico.cs" />
+    <Compile Include="Datos\DAO\Interfaces\IDAOLugarTuristicoCategoria.cs" />
+    <Compile Include="Datos\Entity\Actividad.cs" />
+    <Compile Include="Datos\Entity\Agenda.cs" />
+    <Compile Include="Datos\Entity\Amigo.cs" />
+    <Compile Include="Datos\Entity\Categoria.cs" />
+    <Compile Include="Datos\Entity\Entidad.cs" />
+    <Compile Include="Datos\Entity\Horario.cs" />
+    <Compile Include="Datos\Entity\Itinerario.cs" />
+    <Compile Include="Datos\Entity\LugarTuristico.cs" />
+    <Compile Include="Datos\Entity\Notificacion.cs" />
+    <Compile Include="Datos\Fabrica\FabricaDAO.cs" />
+    <Compile Include="Datos\Fabrica\FabricaEntidad.cs" />
+    <Compile Include="Datos\Singleton\Archivo.cs" />
+    <Compile Include="Datos\Singleton\Correo.cs" />
+    <Compile Include="Datos\Singleton\MensajeResultadoOperacion.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,44 +186,128 @@
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\ConexionBase.cs" />
+    <Compile Include="Datos\Entity\Evento.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\EventoPreferencia.cs" />
+    <Compile Include="Datos\Entity\Grupo.cs" />
+    <Compile Include="Models\Dato\Foto.cs" />
     <Compile Include="Models\Excepcion\ArchivoExcepcion.cs" />
     <Compile Include="Models\Excepcion\BaseDeDatosExcepcion.cs" />
     <Compile Include="Models\Excepcion\CasteoInvalidoExcepcion.cs" />
     <Compile Include="Models\Excepcion\HijoConDePendenciaException.cs" />
     <Compile Include="Models\Excepcion\ItemNoEncontradoException.cs" />
     <Compile Include="Models\Excepcion\NombreDuplicadoException.cs" />
+    <Compile Include="Comun\Excepcion\OperacionInvalidaExcepcion.cs" />
     <Compile Include="Models\Excepcion\ParametrosNullException.cs" />
     <Compile Include="Models\Excepcion\ReferenciaNulaExcepcion.cs" />
-    <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\Itinerario.cs" />
     <Compile Include="Models\BaseDeDatos\ConexionLugarTuristico.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionLugarTuristico.cs" />
     <Compile Include="Models\Dato\Actividad.cs" />
-    <Compile Include="Models\Dato\Foto.cs" />
+    <Compile Include="Datos\Entity\Foto.cs" />
     <Compile Include="Models\Dato\Horario.cs" />
     <Compile Include="Models\Dato\LugarTuristico.cs" />
-    <Compile Include="Models\LocalidadEvento.cs" />
+    <Compile Include="Datos\Entity\LocalidadEvento.cs" />
     <Compile Include="Models\LugarTuristicoPreferencia.cs" />
-    <Compile Include="Models\BaseDeDatos\PeticionAmigoGrupo.cs" />
-    <Compile Include="Models\PeticionEvento.cs" />
+    <Compile Include="Datos\DAO\DAOEvento.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionItinerario.cs" />
+    <Compile Include="Datos\DAO\DAOLocalidadEvento.cs" />
+    <Compile Include="Models\PeticionEvento.cs" />
     <Compile Include="Models\PeticionLocalidadEvento.cs" />
     <Compile Include="Models\PeticionLogin.cs" />
     <Compile Include="Models\BaseDeDatos\PeticionPerfil.cs" />
-    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Datos\Entity\Usuario.cs" />
     <Compile Include="Models\PeticionCategoria.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Negocio\Command\ComandoActualizarEstadoLT.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarAmigo.cs" />
+    <Compile Include="Negocio\Command\ComandoAceptarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarLT.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarPreferencia.cs" />
+    <Compile Include="Negocio\Command\ComandoBorrarUsuario.cs" />
+    <Compile Include="Negocio\Command\ComandoBuscarCategorias.cs" />
+    <Compile Include="Negocio\Command\ComandoBuscarPreferencias.cs" />
+    <Compile Include="Negocio\Command\ComandoCambiarPassword.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarEventos.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarEventosPorCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarItinerarios.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLocalidades.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarAgenda.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLugarTuristicoDetallado.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarAgendaItem.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarPreferencia.cs" />
+    <Compile Include="Negocio\Command\ComandoEnviarCorreoItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaActividades.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaEventos.cs" />
+    <Compile Include="Negocio\Command\ComandoListarCoincidenciaLugaresTurisiticos.cs" />
+    <Compile Include="Negocio\Command\ComandoLTActualizarInformacion.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarActividad.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarFoto.cs" />
+    <Compile Include="Negocio\Command\ComandoLTAgregarHorario.cs" />
+    <Compile Include="Negocio\Command\ComandoLTEliminarActividad.cs" />
+    <Compile Include="Negocio\Command\ComandoLTEliminarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoLTEliminarFoto.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarDatosUsuario.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarEvento.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarLocalidad.cs" />
+    <Compile Include="Negocio\Command\ComandoEstadoCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarCategoria.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategoriaPorId.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategoriaPorNombre.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategorias.cs" />
+    <Compile Include="Negocio\Command\Comando.cs" />
+    <Compile Include="Negocio\Command\ComandoAgregarIntegrante.cs" />
+    <Compile Include="Negocio\Command\ComandoBuscarAmigos.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarLider.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarListaGrupos.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarMiembroGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarMiembroSinGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarMiembroSinLider.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarPerfilGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoConsultarUltimoGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarAmigo.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoEliminarIntegrante.cs" />
+    <Compile Include="Negocio\Command\ComandoEnviarNotificacionCorreo.cs" />
+    <Compile Include="Negocio\Command\ComandoModificarGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerCategoriasHabilitadas.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerDatosUsuario.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerListaNotificaciones.cs" />
+    <Compile Include="Negocio\Command\ComandoObtenerLugaresTuristicos.cs" />
+    <Compile Include="Negocio\Command\ComandoRechazarNotificacion.cs" />
+    <Compile Include="Negocio\Command\ComandoSalirGrupo.cs" />
+    <Compile Include="Negocio\Command\ComandoSetVisibleItinerario.cs" />
+    <Compile Include="Negocio\Command\ComandoVerificarLider.cs" />
+    <Compile Include="Negocio\Command\ComandoVisualizarListaAmigos.cs" />
+    <Compile Include="Negocio\Command\ComandoVisualizarPerfilAmigo.cs" />
+    <Compile Include="Negocio\Fabrica\FabricaComando.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validaciones\ValidacionWS.cs" />
+    <Compile Include="Comun\Validaciones\ValidacionWS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -200,7 +317,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -231,11 +347,12 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

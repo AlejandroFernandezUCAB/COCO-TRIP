@@ -7,6 +7,7 @@ using NpgsqlTypes;
 using ApiRest_COCO_TRIP.Models.Excepcion;
 using ApiRest_COCO_TRIP.Models.Dato;
 
+
 namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
 {
   /// <summary>
@@ -905,7 +906,7 @@ namespace ApiRest_COCO_TRIP.Models.BaseDeDatos
     public List<LugarTuristico> ConsultarListaLugarTuristico(int desde, int hasta)
     {
       var listaLugarTuristico = new List<LugarTuristico>();
-
+			
       try
       {
         comando = conexion.SqlConexion.CreateCommand();
