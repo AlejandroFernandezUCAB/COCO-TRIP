@@ -131,7 +131,7 @@ namespace ApiRestPruebas.M8
                 dao.ConsultarPorId(localidad);
             });
 
-
+            localidad.Id = prueba.Id;
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace ApiRestPruebas.M8
             {
                 comando.Ejecutar();
             });
-
+            localidad.Id = prueba.Id;
         }
 
         /// <summary>
