@@ -5,51 +5,50 @@ using System.Web;
 using ApiRest_COCO_TRIP.Datos.DAO;
 using ApiRest_COCO_TRIP.Datos.Entity;
 using ApiRest_COCO_TRIP.Datos.Fabrica;
-using NLog;
+
 namespace ApiRest_COCO_TRIP.Negocio.Command
 {
-    public class ComandoObtenerDatosUsuario : Comando
 
+    public class ComandoBuscarCategorias : Comando
     {
-        private Entidad entidad;
+
+        private Entidad usuario;
+        private List<Categoria> listaCategoria;
+        private string preferencia;
         private DAO dao;
-        private static Logger log = LogManager.GetCurrentClassLogger();
 
-        public ComandoObtenerDatosUsuario(Entidad entidad)
+        public ComandoBuscarCategorias(Entidad usuario, string preferencia)
         {
-            this.entidad = entidad;
+            this.usuario = usuario;
+            this.preferencia = preferencia;
         }
-
         public override void Ejecutar()
         {
+            
             try
             {
                 dao = FabricaDAO.CrearDAOUsuario();
-                entidad = dao.ConsultarPorId(entidad);
-                if (((Usuario)entidad).NombreUsuario == null)
-                {
-                    entidad = null;
-                    log.Error("No se encontro el usuario ");
-                }
-
-
+                listaCategoria = ((DAOUsuario)dao).ObtenerCategorias(usuario, preferencia);
             }
-            catch(Exception e)
+            catch
             {
-                entidad = null;
+                listaCategoria = null;
             }
         }
 
         public override Entidad Retornar()
-
         {
-            log.Error("Se encontraron los datos del usuairo ");
-            return entidad;
+            throw new NotImplementedException();
         }
 
         public override List<Entidad> RetornarLista()
         {
             throw new NotImplementedException();
+        }
+
+        public List<Categoria> RetornarListaCategoria()
+        {
+            return listaCategoria;
         }
     }
 }

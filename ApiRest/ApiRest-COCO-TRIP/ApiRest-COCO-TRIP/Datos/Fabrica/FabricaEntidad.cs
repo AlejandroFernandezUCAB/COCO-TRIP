@@ -40,6 +40,10 @@ namespace ApiRest_COCO_TRIP.Datos.Fabrica
     {
       return new Usuario(nombre, apellido, nombreUsuario, fechaDeNacimiento, genero);
     }
+    public static Usuario CrearEntidadUsuario(string nombre, string apellido, string nombreUsuario, DateTime fechaDeNacimiento, string genero)
+    {
+      return new Usuario(nombre, apellido, nombreUsuario, fechaDeNacimiento, genero);
+    }
 
         /// <summary>
         /// Retorna la instancia de la entidad Foto
